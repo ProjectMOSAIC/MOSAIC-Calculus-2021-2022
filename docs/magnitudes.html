@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 14 Magnitudes | CalcZ Student Notes</title>
+<meta name="author" content="Daniel Kaplan">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+    for (let popover of popovers){
+      const div = document.createElement('div');
+      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+      div.innerHTML = popover.getAttribute('data-content');
+      
+      // Will this work with TeX on its own line?
+      var has_math = div.querySelector("span.math");
+      if (has_math) {
+        document.body.appendChild(div);
+      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+      	MathJax.Hub.Queue(function(){
+          popover.setAttribute('data-content', div.innerHTML);
+      	})
+      }
+    }
+    </script>
+</head>
+<body>
+<span class="math inline">
+    \(\newcommand{\line}{\text{line}}
+    \newcommand{\hump}{\text{hump}}
+    \newcommand{\sigmoid}{\text{sigmoid}}
+    \newcommand{\recip}{\text{recip}}
+    \newcommand{\diff}[1]{{\cal D}_#1}
+    \newcommand{\pnorm}{\text{pnorm}}
+    \newcommand{\dnorm}{\text{dnorm}}\)
+    </span>
+
+    <!-- see https://www.homepages.ucl.ac.uk/~ucahmto/elearning/2019/09/14/bookdown.html-->
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">CalcZ Student Notes</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
+<li><a class="" href="outline-of-block-1.html">Outline of Block 1</a></li>
+<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
+<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
+<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
+<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
+<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
+<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
+<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
+<li><a class="" href="fun-slopes.html"><span class="header-section-number">8</span> Slope function</a></li>
+<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">9</span> Function inverses and “solving”</a></li>
+<li><a class="" href="fun-assembling.html"><span class="header-section-number">10</span> Assembling functions</a></li>
+<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">11</span> Functions with multiple inputs</a></li>
+<li><a class="" href="fun-piecewise.html"><span class="header-section-number">12</span> Piecewise functions</a></li>
+<li><a class="" href="modeling-cycle.html"><span class="header-section-number">13</span> Modeling cycle</a></li>
+<li><a class="active" href="magnitudes.html"><span class="header-section-number">14</span> Magnitudes</a></li>
+<li><a class="" href="dimensions.html"><span class="header-section-number">15</span> Dimensions</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/dtkaplan/CalcZ-notes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="magnitudes" class="section level1" number="14">
+<h1>
+<span class="header-section-number">14</span> Magnitudes<a class="anchor" aria-label="anchor" href="#magnitudes"><i class="fas fa-link"></i></a>
+</h1>
+<p>Undoubtedly you are comfortable with the standard way of writing numbers, for instance 33 or 512 or 1051. Elementary school students master the comparison of such numbers. Which is greater: 512 or 33? Which is less, 1051 or 512? You can answer such questions at a glance; the comparison can be accomplished simply by counting the number of digits. 1051 has four digits, so it is larger than the three-digit number 512. There are two digits in 33, so it smaller than 512. When two numerals have the same number of digits—say, 337 and 512—you can’t answer the “greater than” question by simple counting. Instead, you proceed from left to right and compare the number in each place. So, for 512 and 337, you compare 5 to 3 and … since 5 is greater than 3, 512 is greater than 337. If the two leading digits are the same, go on to the next digit and so on for all the digits in turn. <span style="float: right; padding-left: 50px;"><a name="1600" href="#1600"><img src="www/icons8-signpost.png" title="Location: 1600" width="12px"></a><span style="color: red; font-size: 6pt;">1600</span></span></p>
+<p>Things were not always this simple. Our number system that uses <em>place</em> and <em>Arabic</em> numerals is a human invention. An example of an earlier number system is Roman numerals. Here, comparison is hard. For instance, which of these three numbers is bigger?</p>
+<p><span class="math display">\[\mbox{MLI or CXII or XXXIII}\]</span>
+The typographically shorter number is the largest, and vice versa. Even when two Roman numerals have the same length, it’s not trivial to compare them on a place-by-place basis. For instance, IC is about fifteen times bigger than VI, even though I is much smaller than V.</p>
+<div id="counting-digits" class="section level2" number="14.1">
+<h2>
+<span class="header-section-number">14.1</span> Counting digits<a class="anchor" aria-label="anchor" href="#counting-digits"><i class="fas fa-link"></i></a>
+</h2>
+<p>Digit counting provides an easy, fast way to perform many calculations, at least approximately. What is <span class="math inline">\(\sqrt{10000}\)</span>? There are five digits, and the square root of a number will have “half the number of digits.” So, <span class="math inline">\(\sqrt{10000} = 100\)</span>. What is <span class="math inline">\(10 \times 34\)</span>? Easy: 340. Just append the one zero from 10 to the end of 34. What is <span class="math inline">\(1000 \times 13\)</span>? Just as easy: 13,000. We even punctuate written numbers with commas and a period in order to facilitate counting digits.</p>
+<p>Imagine having a digit counting function called digit(). It takes a number as input and produces a number as output. We don’t have a <strong><em>formula</em></strong> for digit(), but for some inputs the output can be calculated just be counting. For example:</p>
+<ul>
+<li>digit(10) <span class="math inline">\(\equiv\)</span> 1</li>
+<li>digit(100) <span class="math inline">\(\equiv\)</span> 2</li>
+<li>digit(1000) <span class="math inline">\(\equiv\)</span> 3</li>
+<li>… and so on …</li>
+<li>digit(1,000,000) <span class="math inline">\(\equiv\)</span> 6</li>
+<li>… and on.</li>
+</ul>
+<p>The digit() function easily can be applied to the product of two numbers. For instance:</p>
+<ul>
+<li>digit(1000 <span class="math inline">\(\times\)</span> 100) = digit(1000) + digit(100) = 3 + 2 = 5.</li>
+</ul>
+<p>Similarly, applying digit() to a ratio gives the difference of the digits of the numerator and denominator, like this:</p>
+<ul>
+<li>digit(1,000,000 <span class="math inline">\(\div\)</span> 100) = digit(1,000,000) - digit(100) = 6 - 2 = 4</li>
+</ul>
+</div>
+<div id="using-digit-to-understand-magnitude" class="section level2" number="14.2">
+<h2>
+<span class="header-section-number">14.2</span> Using digit() to understand magnitude<a class="anchor" aria-label="anchor" href="#using-digit-to-understand-magnitude"><i class="fas fa-link"></i></a>
+</h2>
+<p>We haven’t shown you the digit() function for anything but the handful of discrete inputs listed above. It was a heroic task to produce the continuous version of digit(). The method is sketched out in <a href="magnitudes.html#fractional-digits">14.7</a>.</p>
+<p>In practice, digit() is so useful that it could well have been one of our basic modeling functions:
+<span class="math display">\[\text{digit(x)} = 2.302585 \ln(x)\]</span> or, in R, <code><a href="https://rdrr.io/r/base/Log.html">log10()</a></code>. We elected <span class="math inline">\(\ln()\)</span> rather than digit() for reasons that will be seen when we study <strong><em>differentiation</em></strong>.</p>
+</div>
+<div id="quantity-and-magnitude" class="section level2" number="14.3">
+<h2>
+<span class="header-section-number">14.3</span> Quantity and magnitude<a class="anchor" aria-label="anchor" href="#quantity-and-magnitude"><i class="fas fa-link"></i></a>
+</h2>
+<p>The familiar quantity 60 miles-per-hour is written as a number (60 here) followed by units. The quantity is neither the number nor the units: it is the combination of the two. For instance, 100 is obviously not the same as 60. And miles-per-hour is not the same as kilometers-per-hour. Yet, 60 miles-per-hour is almost exactly the same quantity as 100 kilometers-per hour.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;95.69 km/hr is exactly 60 mph.&lt;/p&gt;"><sup>17</sup></a> <span style="float: right; padding-left: 50px;"><a name="1610" href="#1610"><img src="www/icons8-signpost.png" title="Location: 1610" width="12px"></a><span style="color: red; font-size: 6pt;">1610</span></span></p>
+<p>6, 60, 600, and 6000 miles-per-hour are quantities that differ in size by <strong><em>orders of magnitude</em></strong>. Such differences often point to a substantial change in context. A jog is 6 mph, a car on a highway goes 60 mpg, a cruising commercial jet goes 600 mph, a rocket passes through 6000 mph on its way to orbital velocity.</p>
+<p>In everyday speech, the difference between 60 and 6 is 54; just subtract. Modelers and scientists routinely mean something else: the difference between 60 and 6 is “one order of magnitude.” Similarly, 60 and 6000 are different by “two orders of magnitude,” and 6 and 6000 by three orders of magnitude.</p>
+<p>In everyday English, we have phrases like “a completely different situation” or “different in kind” or “qua<strong>l</strong>itatively different” (note the <strong>l</strong>) to indicate substantial differences. “Different orders of magnitude” expresses the same kind of idea but with specific reference to quantity.</p>
+<p>The use of factors of 10 in counting orders of magnitude is arbitrary. A person walking and a person jogging are on the edge of being qualitatively different, although their speeds differ by a factor of only 2. Aircraft that cruise at 600 mph and 1200 mph are qualitatively different in design, although the speeds are only a factor of 2 apart. A professional basketball player (height 2 meters or more) is qualitatively different from a third grader (height about 1 meter).</p>
+<p>Modelers develop an intuitive sense for when to think about difference in terms of a subtractive difference (e.g. 60 - 6 = 54) and when to look at orders of magnitude (e.g. 60-to-6 is one order of magnitude). This seems to be a skill based in experience and judgment, as opposed to a mechanical process.</p>
+<p>One clue that thinking in terms of orders of magnitude is appropriate is when you are working with a set of objects whose range of sizes spans one or many factors of 2. Comparing baseball and basketball players? Probably no need for orders of magnitudes. Comparing infants, children, and adults in terms of height or weight? Orders of magnitude may be useful. Comparing bicycles? Mostly they fit within a range of 2 in terms of size, weight, and speed (but not expense!). Comparing cars, SUVs, and trucks? Differences by a factor of 2 are routine, so thinking in terms of order of magnitude is likely to be appropriate.</p>
+<p>Another clue is whether “zero” means “nothing.” Daily temperatures in the winter are often near “zero” on the Fahrenheit or Celcius scales, but that in no way means there is a complete absence of heat. Those scales are arbitrary. Another way to think about this clue is whether <strong><em>negative values</em></strong> are meaningful. If so, thinking in terms of orders of magnitude is not likely to be useful.</p>
+<p>You may have guessed that <code>digits()</code> is handy for computing differences in terms of orders of magnitude. Here’s how: <span style="float: right; padding-left: 50px;"><a name="1620" href="#1620"><img src="www/icons8-signpost.png" title="Location: 1620" width="12px"></a><span style="color: red; font-size: 6pt;">1620</span></span></p>
+<ol style="list-style-type: decimal">
+<li>Make sure that the quantities are expressed in the same <strong><em>units</em></strong>.</li>
+<li>Calculate the difference between the <code>digits()</code> of the numerical part of the quantity.</li>
+</ol>
+<div class="workedexample">
+<p>What is the order-of-magnitude difference in velocity between a snail and a walking human. A snail slides at about 1 mm/sec, a human walks at about 5 km per hour. Putting human speed in the same units as snail speed:
+<span class="math display">\[5 \frac{km}{hr} = \left[\frac{1}{3600} \frac{hr}{sec}\right] 5 \frac{km}{hr} = \left[10^6 \frac{mm}{km}\right] \left[\frac{1}{3600} \frac{hr}{sec}\right] 5 \frac{km}{hr} = 1390 \frac{mm}{sec} \]</span>
+Calculating the difference in <code>digits()</code> between 1 and 1390:</p>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">1390</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 3.143015</code></pre>
+<p>So, about 3 orders of magnitude difference in speed. To a snail, we walking humans must seem like rockets on their way to orbit!</p>
+</div>
+<div class="intheworld">
+<p>Animals, including humans, go about the world in varying states of illumination, from the bright sunlight of high noon to the dim shadows of a half moon. To be able to see in such diverse conditions, the eye needs to respond to light intensity across many orders of magnitude.</p>
+<p>The <strong><em>lux</em></strong> is the unit of illuminance in the Système international. This table<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Source: &lt;a href="https://en.wikipedia.org/wiki/Daylight" class="uri"&gt;https://en.wikipedia.org/wiki/Daylight&lt;/a&gt;&lt;/p&gt;'><sup>18</sup></a> shows the illumination in a range of familiar outdoor settings:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>Illuminance</th>
+<th>Condition</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>110,000 lux</td>
+<td>Bright sunlight</td>
+</tr>
+<tr class="even">
+<td>20,000 lux</td>
+<td>Shade illuminated by entire clear blue sky, midday</td>
+</tr>
+<tr class="odd">
+<td>1,000 lux</td>
+<td>Typical overcast day, midday</td>
+</tr>
+<tr class="even">
+<td>400 lux</td>
+<td>Sunrise or sunset on a clear day (ambient illumination)</td>
+</tr>
+<tr class="odd">
+<td>0.25 lux</td>
+<td>A full Moon, clear night sky</td>
+</tr>
+<tr class="even">
+<td>0.01 lux</td>
+<td>A quarter Moon, clear night sky</td>
+</tr>
+</tbody>
+</table></div>
+<p>For a creature active both night and day, they eye needs to be sensitive over 7 orders of magnitude of illumination. To accomplish this, eyes use several mechanisms: contraction or dilation of the pupil accounts for about 1 order of magnitude, photopic (color, cones) versus scotopic (black-and-white, rods, nighttime) covers about 3 orders of magnitude, adaptation over minutes (1 order), squinting (1 order).</p>
+</div>
+</div>
+<div id="composing-ln" class="section level2" number="14.4">
+<h2>
+<span class="header-section-number">14.4</span> Composing <span class="math inline">\(\ln()\)</span><a class="anchor" aria-label="anchor" href="#composing-ln"><i class="fas fa-link"></i></a>
+</h2>
+<p>The logarithm is the inverse of the exponential function. In other words, <span class="math display">\[\ln(e^x) = x\ \ \text{and}\ \ e^{\ln(x)} = x\]</span></p>
+<p>Think about this in terms of the kinds of quantities that are the input and output to each function. <span style="float: right; padding-left: 50px;"><a name="1630" href="#1630"><img src="www/icons8-signpost.png" title="Location: 1630" width="12px"></a><span style="color: red; font-size: 6pt;">1630</span></span></p>
+<ul>
+<li>Logarithm: The input is a quantity, the output is the magnitude of that quantity.</li>
+<li>Exponential: The input is a magnitude, the output is the quantity with that magnitude.</li>
+</ul>
+<details><summary><strong>Exercise 14.3</strong>: <span><a name="File:%20Exercises/Fun/cat-lend-futon.Rmd" href="#ILESX"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/cat-lend-futon.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ILESX</span>
+</span></summary><p><strong>Question A</strong> A) True or false: <span class="math inline">\(2^x\)</span> is a power-law function.</p>
+<p>    TRUE<span class="mcanswer"> ︎✘ In a power-law function, the input is the base. In <span class="math inline">\(2^x\)</span>, the input is the exponent. So it’s an exponential function. </span>       FALSE<span class="mcanswer"> ✔︎ </span></p>
+<p><strong>Question B</strong> B) True or false: <span class="math inline">\(3/x^2\)</span> is a power-law function.</p>
+<p>    TRUE<span class="mcanswer"> ✔︎ </span>       FALSE<span class="mcanswer"> ︎✘ This is the same as <span class="math inline">\(3 x^{-2}\)</span>. You can see that <span class="math inline">\(x\)</span> is the base, so this is a power-law function. </span></p>
+<p><strong>Question C</strong> C) True or false: <span class="math inline">\(5\sqrt{x}\)</span> is a power-law function.</p>
+<p>    TRUE<span class="mcanswer"> ✔︎ </span>       FALSE<span class="mcanswer"> ︎✘ This is the same as <span class="math inline">\(5 x^{1/2}\)</span>. The input <span class="math inline">\(x\)</span> is the base, so this is a power-law function. </span></p>
+<p><strong>Question D</strong> D) The gravitational force, F, between two bodies is inversely proportional to the square of the distance <span class="math inline">\(d\)</span> between them. Then …</p>
+<ol style="list-style-type: lower-roman">
+<li>Inversely proportional to the square would be <span class="math inline">\(d^{-2}\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(F = kd^{-2}\)</span><span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>This is a square-root relationship.<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>This is inversely proportional to the square root.<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol></details><details><summary><strong>Exercise 14.7</strong>: <span><a name="File:%20Exercises/Dimension/Boyles-data.Rmd" href="#RWESX"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/Boyles-data.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">RWESX</span>
+</span></summary><p>Robert Boyle (1627-1691) was a founder of modern chemistry and of the scientific method in general. As any chemistry student already knows, Boyle sought to understand the properties of gasses. His results are summarized in <em>Boyle’s Law</em>.</p>
+<p>We going to examine some data from Boyle’s lab notebooks. (They are preserved at the Royal Society in London. The data have been copied from <a href="https://chem.libretexts.org/Courses/University_of_California_Davis/UCD_Chem_002A/UCD_Chem_2A/Text/Unit_III%3A_Physical_Properties_of_Gases/06.03_Relationships_among_Pressure%2C_Temperature%2C_Volume%2C_and_Amount">this source</a>.) The data are available to you as the data frame <code>Boyle</code>. The units of pressure are mmHg and the units of volume are cubic inches.</p>
+<p>Open a sandbox to carry out some calculations with Boyle’s data. To see how the data frame is organized, use the <code><a href="https://rdrr.io/r/utils/head.html">head(Boyle)</a></code> and <code><a href="https://rdrr.io/r/base/names.html">names(Boyle)</a></code> commands.</p>
+<div class="scaffolding">
+<p>The scaffolding here contains a command for plotting out Boyle’s data. It also includes a command, <code>gf_lm()</code> that will add a graph of the best straight-line model to the plotted points. Recall that the <code>#</code> symbol turns what follows on the line into a <em>comment</em>, which is ignored by R. By removing the <code>#</code> selectively you can turn on the display of log axes.</p>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">pressure</span> <span class="op">~</span> <span class="va">volume</span>, data <span class="op">=</span> <span class="va">Boyle</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_refine</span><span class="op">(</span>
+     <span class="co"># scale_x_log10(),</span>
+     <span class="co"># scale_y_log10()</span>
+  <span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_lm</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-183-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<p><strong>Question A</strong> <strong>(A)</strong> In the sandbox, plot pressure versus volume using linear, semi-log, and log-log axes. Based on the plot, and the straight-line function drawn, which of these is a good model of the relationship between pressure and volume?</p>
+<p>    linear<span class="mcanswer"> ︎✘ This would look like a straight line on linear axes. </span>       exponential<span class="mcanswer"> ︎✘ This would look like a straight line on semi-log axes. </span>       power-law<span class="mcanswer"> ✔︎ </span></p>
+<div class="scaffolding">
+<p>We want to find the slope and intercept of the straight-line model. This can be hard to read off a graph with log scales, so you will use a special purpose function to find the formula for the straight-line function that fits the data. Here’s an example of how to use it.</p>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">fitModel</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pressure</span><span class="op">)</span> <span class="op">~</span> <span class="va">a</span> <span class="op">+</span> <span class="va">b</span><span class="op">*</span><span class="va">volume</span>, data <span class="op">=</span> <span class="va">Boyle</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Notice that we use <code><a href="https://rdrr.io/r/base/Log.html">log(pressure)</a></code> in the formula in the scaffolding. This would be appropriate if you think the data fall on a straight-line on semi-log axes. To use log-log axes, you would want to use <code><a href="https://rdrr.io/r/base/Log.html">log(volume)</a></code> on the right side of the tilde expression. Or, if you’re using linear axes, leave out the logs altogether.</p>
+</div>
+<p><strong>Question B</strong> <strong>(B)</strong> What is the slope produced by <code>fitModel()</code> when fitting the correct model type from part (1)?</p>
+<ol style="list-style-type: lower-roman">
+<li>Roughly -1<span class="mcanswer"> ︎✘ You must be a very precise person! </span><br>
+</li>
+<li>Almost exactly -1<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>About -1.5<span class="mcanswer"> ︎✘ I’m not sure how you arrived at this answer. </span><br>
+</li>
+<li>Slope <span class="math inline">\(&gt; 0\)</span><span class="mcanswer"> ︎✘ You should be able to see from the graph you made in part (1) that the slope is negative. </span>
+</li>
+</ol>
+<p>According to the appropriate model that you found in (A) and (B), interpret the function you found relating pressure and volume.</p>
+<p><strong>Question C</strong> <strong>(C)</strong> As the volume becomes very large, what happens to the pressure?</p>
+<ol style="list-style-type: lower-roman">
+<li>Pressure becomes very small.<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>Pressure stays constant<span class="mcanswer"> ︎✘ You can see from the graph in part (A) that pressure does change with volume. </span><br>
+</li>
+<li>Pressure also becomes large.<span class="mcanswer"> ︎✘ You can see from the graph in part (A) that pressure goes down as volume goes up. </span><br>
+</li>
+<li>None of the above<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p>Return to your use of <code>fitModel()</code> to find the slope of the straight-line fit to the appropriately log-transformed model. When you carried out the log transformation, you could have used the so-called “natural logarithm” with expressions like <code><a href="https://rdrr.io/r/base/Log.html">log(pressure)</a></code>. Alternatively, you could have used the log base-10 or the log base-2, with expressions like <code><a href="https://rdrr.io/r/base/Log.html">log(pressure, base = 10)</a></code> or <code><a href="https://rdrr.io/r/base/Log.html">log(volume, base = 2)</a></code>. Whichever you use, you should use the same base for all the logarithmic transformations when finding the straight-line parameters.</p>
+<p><strong>Question D</strong> <strong>(D)</strong> Does the <strong>slope</strong> of the straight line found by <code>fitModel()</code> depend on which base is used?</p>
+<p>    No<span class="mcanswer"> ✔︎ </span>       Yes<span class="mcanswer"> ︎✘ Did you use the same base for both logarithms in your <code>fitModel()</code> expression? </span>       There’s no way to tell.<span class="mcanswer"> ︎✘ Yes, there is. Try using <code>fitModel()</code> with the different bases of log. </span></p>
+<p><strong>Question E</strong> <strong>(E)</strong> Does the <strong>intercept</strong> of the straight line found by <code>fitModel()</code> depend on which base is used?</p>
+    Yes<span class="mcanswer"> ✔︎ Good. But this will come out in the wash when you calculate the parameter <span class="math inline">\(C\)</span> in <span class="math inline">\(C x^b\)</span>, since <span class="math inline">\(C\)</span> will be either <span class="math inline">\(2^\mbox{intercept}\)</span> or <span class="math inline">\(10^\mbox{intercept}\)</span> or <span class="math inline">\(e^\mbox{intercept}\)</span> depending on the base log you use. </span>       No<span class="mcanswer"> ︎✘ Are you sure you tried different bases? </span>
+</details>
+</div>
+<div id="magnitude-graphics" class="section level2" number="14.5">
+<h2>
+<span class="header-section-number">14.5</span> Magnitude graphics<a class="anchor" aria-label="anchor" href="#magnitude-graphics"><i class="fas fa-link"></i></a>
+</h2>
+<details><summary><strong>Exercise 14.1</strong>: <span><a name="File:%20Exercises/Fun/mag-blue.Rmd" href="#ILXEG"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/mag-blue.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ILXEG</span>
+</span></summary><div class="scaffolding">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span>, <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-186-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<p>Based on the log-log plot of horsepower (<code>BHP</code>) versus engine displacement, answer these questions.</p>
+<p><strong>Question A</strong> How many engines have a displacement of 1 liter or less?</p>
+<p>    none<span class="mcanswer"> ︎✘ Perhaps you recognized that the left-most tick mark corresponds to a value of 1, and that no data points are 1 or smaller. But one liter corresponds to 1000 cc. </span>       7<span class="mcanswer"> ︎✘ This is the number of engines with displacement of 10 cc or smaller. But one liter corresponds to 1000 cc. </span>       14<span class="mcanswer"> ✔︎ Right. It’s the <span class="math inline">\(10^3\)</span> tick that marks 1 liter, since 1 liter is 1000 cc. </span>       25<span class="mcanswer"> ︎✘ That would be true if the cut-off were 10 liters. But it’s not. </span>       randomAnswerOrder<span class="mcanswer"> ︎✘ FALSE </span></p>
+<p><strong>Question B</strong> Using the log-log plot, how many decades of BHP are spanned by the data?</p>
+    4<span class="mcanswer"> ︎✘ Not a bad answer, but not the best one either. Notice that the smallest engine is about half a decade below 1 BPM, and the largest is about half a decade above 10,000 BPH </span>       5<span class="mcanswer"> ✔︎ </span>       100<span class="mcanswer"> ︎✘ The number <span class="math inline">\(10^{100}\)</span> is called a <em>googol</em> and is roughly how many particles (including photons, neutrinos, etc.) are in the universe. Imagine, quite contrary to fact, that 1 BHP could be generated by burning one molecule of fuel per second. Then as many fuel molecules as there are particles in the universe would have to be burned each second to power an engine at the high end of a span of 100 decades. </span>
+</details><div class="todo">
+<p>Derive straight-line form of power-law function</p>
+<p>Suppose <span class="math inline">\(f(x) = A x^p\)</span>. The <span class="math inline">\(\ln(f(x)) = p \ln(x) + \ln(A)\)</span>.</p>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">A</span>  <span class="op">*</span> <span class="va">x</span><span class="op">^</span><span class="va">p</span> <span class="op">~</span> <span class="va">x</span>, A<span class="op">=</span><span class="fl">1</span>, p<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span>
+<span class="va">Pts</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">50</span>, length<span class="op">=</span><span class="fl">10</span><span class="op">)</span>,
+  y <span class="op">=</span> <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,
+  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="va">P</span> <span class="op">&lt;-</span> <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_point</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="op">~</span><span class="va">color</span>, data <span class="op">=</span> <span class="va">Pts</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_color_identity</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="va">P</span></code></pre></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-81-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">P</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span>, <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-81-2.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<details><summary><strong>Exercise 14.15</strong>: <span><a name="File:%20Exercises/Fun/engine-magnitude-new.Rmd" href="#EWLCI"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/engine-magnitude-new.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">EWLCI</span>
+</span></summary><p>Here is a plot of the power output (BHP) versus displacement (in cc) of 39 internal combustion engines.</p>
+<div class="scaffolding">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_lims</span><span class="op">(</span>y  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30000</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-188-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<p><strong>Question A</strong> Your study partner claims that the smallest engine in the data has a displacement of 2000 cc (that is, 2.0 liters) and 100 horsepower. Based only on the graph, is this claim plausible?</p>
+<ol style="list-style-type: lower-roman">
+<li>Yes, because 2000 cc and 100 hp would look like (0, 0) on the scale of this graph.<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>Yes, because that size engine is typical for a small car.<span class="mcanswer"> ︎✘ That may be, but certainly you’ve encountered lawn mower engines that are much smaller. </span><br>
+</li>
+<li>No, the smallest engine is close to 0 cc.<span class="mcanswer"> ︎✘ Would you be able to distinguish visually an engine of 1 cc from an engine of 1000cc on this graph? Both these values would lie on the same horizontal pixel in the graph. </span><br>
+</li>
+<li>No, my study partner is always wrong.<span class="mcanswer"> ︎✘ Be that as it may, we’re looking for a principled answer, not an <em>ad hominem</em> one. </span>
+</li>
+</ol>
+<p><strong>Semi-log scales</strong></p>
+<p>The next command will make a graph of the same engine data as before, but with a log scale on the horizontal axis. The vertical axis is still linear.</p>
+<div class="scaffolding">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-189-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<p><strong>Question B</strong> Using just the graph, answer this question: The engines range over how many decades of displacement? (Remember, a decade is a factor of 10.)</p>
+<ol style="list-style-type: lower-roman">
+<li>7 decades<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>Can’t tell<span class="mcanswer"> ︎✘ Yes, you can. Figure out what one decade corresponds to in terms of distance on the log axes. </span><br>
+</li>
+<li>
+<span class="math inline">\(10^7\)</span> decades<span class="mcanswer"> ︎✘ The estimated volume of the entire universe is about <span class="math inline">\(4 \times 10^{86}\)</span> cc. The volume of a neutron is about <span class="math inline">\(6 \times 10^{-81}\)</span> cc. The range between a neutron and the universe is therefore about <span class="math inline">\(86 - -81 = 167\)</span> decades. Do you think it likely that there is an internal combustion engine smaller than a neutron or larger than the universe? </span><br>
+</li>
+<li>About 3.5 decades<span class="mcanswer"> ︎✘ Perhaps you’re treating the distance between axis labels as one decade. Look carefully and you see that it’s actually a factor of 100, that is, two decades. </span>
+</li>
+</ol>
+<p><strong>Log-log scales</strong></p>
+<p>In order to make a graph with log-log scales, we refine the graph with both <code>scale_y_log10()</code> and <code>scale_x_log10()</code>, as in the following …</p>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span>, <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-190-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Based on the log-log plot, answer these questions.</p>
+<p><strong>Question C</strong> How many engines have a displacement of 1 liter or less?</p>
+<p>    none<span class="mcanswer"> ︎✘ Perhaps you recognized that the left-most tick mark corresponds to a value of 1, and that no data points are 1 or smaller. But one liter corresponds to 1000 cc. </span>       7<span class="mcanswer"> ︎✘ This is the number of engines with displacement of 10 cc or smaller. But one liter corresponds to 1000 cc. </span>       14<span class="mcanswer"> ✔︎ Right. It’s the <span class="math inline">\(10^3\)</span> tick that marks 1 liter, since 1 liter is 1000 cc. </span>       25<span class="mcanswer"> ︎✘ That would be true if the cut-off were 10 liters. But it’s not. </span>       randomAnswerOrder<span class="mcanswer"> ︎✘ FALSE </span></p>
+<p><strong>Question D</strong> Using the log-log plot, how many decades of BHP are spanned by the data?</p>
+<p>    4<span class="mcanswer"> ︎✘ Not a bad answer, but not the best one either. Notice that the smallest engine is about half a decade below 1 BPM, and the largest is about half a decade above 10,000 BPH </span>       5<span class="mcanswer"> ✔︎ </span>       100<span class="mcanswer"> ︎✘ The number <span class="math inline">\(10^{100}\)</span> is called a <em>googol</em> and is roughly how many particles (including photons, neutrinos, etc.) are in the universe. Imagine, quite contrary to fact, that 1 BHP could be generated by burning one molecule of fuel per second. Then as many fuel molecules as there are particles in the universe would have to be burned each second to power an engine at the high end of a span of 100 decades. </span></p>
+</details>
+</div>
+<div id="magnitude-scales" class="section level2" number="14.6">
+<h2>
+<span class="header-section-number">14.6</span> Magnitude scales<a class="anchor" aria-label="anchor" href="#magnitude-scales"><i class="fas fa-link"></i></a>
+</h2>
+<p>Plotting the logarithm of a quantity gives a visual display of the magnitude of the quantity and labels the axis as that magnitude. A useful graphical technique is to label the axis with the original quantity, letting the position on the axis show the magnitude. <span style="float: right; padding-left: 50px;"><a name="1640" href="#1640"><img src="www/icons8-signpost.png" title="Location: 1640" width="12px"></a><span style="color: red; font-size: 6pt;">1640</span></span></p>
+<p>To illustrate, Figure <a href="#fig:mag-scales-1"><strong>??</strong></a>(left) is a log-log graph of horsepower versus displacement for the internal combustion engines reported in the <code>Engines</code> data frame. The points are admirably evenly spaced, but it is hard to translate the scales to the physical quantity. The right panel in Figure <a href="#fig:mag-scales"><strong>??</strong></a> shows <em>exactly the same data points</em>, but now the scales are labeled using the original quantity.</p>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">BHP</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">displacement</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span>
+<span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span>, <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/mag-scales-1-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/mag-scales-1-2.png" width="50%" style="display: block; margin: auto;"></p>
+<p>The tick marks on the vertical axis in the left pane are labeled for 0, 2.5, 5.0, 7.5, and 10. That doesn’t refer to the horsepower itself, but to the logarithm of the horsepower. The right pane has tick labels that are in horsepower at positions marked 1, 10, 100, 1000, 10000.</p>
+<p>Such even splits of a 0-100 scale are not appropriate for logarithmic scales. One reason is that 0 cannot be on a logarithmic scale in the first place since <span class="math inline">\(\log(0) = -\infty\)</span>.</p>
+<p>Another reason is that 1, 3, and 10 are pretty close to an even split of a logarithmic scale running from 1 to 10. It’s something like this:</p>
+<pre><code>1              2            3          5            10     x
+|----------------------------------------------------|
+0               1/3         1/2        7/10          1     log(x)</code></pre>
+<p>It’s nice to have the labels show round numbers. It’s also nice for them to be evenly spaced along the axis. The 1-2-3-5-10 convention is a good compromise; almost evenly separated in space yet showing simple round numbers.</p>
+<details><summary><strong>Exercise 14.19</strong>: <span><a name="File:%20Exercises/Fun/fish-walk-green.Rmd" href="#TLEXE"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fish-walk-green.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">TLEXE</span>
+</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-192-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p><strong>Question A</strong> Consider the axis scales shown above. Which kind of scale is the horizontal axis?</p>
+<ol style="list-style-type: lower-roman">
+<li>linear<span class="mcanswer"> ✔︎ You can see this because a given length along the axis corresponds to the same arithmetic difference regardless of where you are on the axis. the distance between 0 and 50 is exactly the same as the difference between 50 and 100, or the distance between 150 and 200. </span><br>
+</li>
+<li>logarithmic<span class="mcanswer"> ︎✘ A clue that an axis is <strong>not</strong> logarithmic is that there is a zero marked. The log of zero is <span class="math inline">\(-\infty\)</span>, which can’t appear on any actual graph. Another key is whether the scale shows doubling behavior. The distance between 50 and 100 represents one doubling: 100 is twice 50. If the scale were logarithmic, moving forward that same distance from 100 would bring you to 200. But that’s not what happens here. </span><br>
+</li>
+<li>semi-logarithmic<span class="mcanswer"> ︎✘ “Semi-logarithmic” is not about a single axis but about two axes: horizontal and vertical. It means that one axis is linear while the other is logarithmic. </span><br>
+</li>
+<li>log-log<span class="mcanswer"> ︎✘ “Log-log” is not about a single axis but about two axes. It means that both the horizontal and vertical axes are logarithmic. </span>
+</li>
+</ol>
+<p><strong>Question B</strong> Which kind of scale is the vertical axis?</p>
+<ol style="list-style-type: lower-roman">
+<li>linear<span class="mcanswer"> ︎✘ Measure the distance from 30 to 50. If the scale were linear, then moving that same distance from 50 would bring you to 70, and moving that distance again would bring you to 90. But you can see that instead of reaching 90, you’d reach something greater than 100 on the scale. So the scale is not linear. </span><br>
+</li>
+<li>logarithmic<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>semi-logarithmic<span class="mcanswer"> ︎✘ “Semi-logarithmic” is not about a single axis but about two axes: horizontal and vertical. It means that one axis is linear while the other is logarithmic. </span><br>
+</li>
+<li>log-log<span class="mcanswer"> ︎✘ “Log-log” is not about a single axis but about two axes. It means that both the horizontal and vertical axes are logarithmic. </span>
+</li>
+</ol>
+<p><strong>Question C</strong> Given your answers to the previous two questions, what kind of plot would be made in the frame being displayed at the top of this question?</p>
+    semi-log<span class="mcanswer"> ✔︎ </span>       log-log<span class="mcanswer"> ︎✘ A log-log plot has log scales for both axes. The horizontal axis here is linear. </span>       linear-linear<span class="mcanswer"> ︎✘ No, the vertical axis is logarithmic. </span>
+</details><details><summary><strong>Exercise 14.23</strong>: <span><a name="File:%20Exercises/Dimension/tiger-have-fork.Rmd" href="#SELIX"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/tiger-have-fork.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">SELIX</span>
+</span></summary><p>The data frame <code>SSA_2007</code> comes from the [US Social Security Administration(<a href="https://www.ssa.gov/oact/STATS/table4c6.html" class="uri">https://www.ssa.gov/oact/STATS/table4c6.html</a>) and contains mortality in the US as a function of age and sex. (“Mortality” refers to the probability of dying in the next year.)</p>
+<div class="scaffolding">
+<p>Open a sandbox and copy in the following scaffolding to see the organization of the data.</p>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">SSA_2007</span><span class="op">)</span>
+<span class="va">SSA_2007</span></code></pre></div>
+</div>
+<p>Once you understand the data organization, delete the old scaffolding and insert this:
+::: {scaffolding}</p>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">SSA_2007</span><span class="op">)</span>
+<span class="fu">gf_point</span><span class="op">(</span><span class="va">mortality</span> <span class="op">~</span> <span class="va">age</span>, color <span class="op">=</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">SSA_2007</span><span class="op">)</span></code></pre></div>
+<p>There is a <em>slight</em> mistake in the way the command is written,
+so and error message will be generated. To figure out what’s wrong, read the error message, check the variable names, and so on until you successfully make the plot.
+:::</p>
+<p><strong>Question A</strong> A) What was the mistake in the plotting command in the above code box?</p>
+<ol style="list-style-type: lower-roman">
+<li>Variable names didn’t match the ones in the data.<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>The <em>tilde</em> in the argument <code>color = ~ sex</code><span class="mcanswer"> ︎✘ The <code>color =</code> argument is right. The value being used, <code>~ sex</code>, is a one-sided formula and is used for things like color, shape, transparency, …. </span><br>
+</li>
+<li>The data frame name is spelled wrong.<span class="mcanswer"> ︎✘ No. </span><br>
+</li>
+<li>There is no function <code>gf_point()</code>.<span class="mcanswer"> ︎✘ No. <code>gf_point()</code> is one of the more commonly used plotting functions </span>
+</li>
+</ol>
+<p><strong>Essay question tmp-10</strong>: B) What’s the obvious (simple) message of the above plot?</p>
+<p>Now you are going to use semi-log and log-log scales to look at the mortality data again. To do this, you will use the <code>gf_refine()</code> function.</p>
+<div class="scaffolding">
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="magnitudes.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>( __and_so_on__) <span class="sc">%&gt;%</span></span>
+<span id="cb126-2"><a href="magnitudes.html#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_refine</span>(</span>
+<span id="cb126-3"><a href="magnitudes.html#cb126-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(),</span>
+<span id="cb126-4"><a href="magnitudes.html#cb126-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_log10</span>()</span>
+<span id="cb126-5"><a href="magnitudes.html#cb126-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Fill in the <code>__and_so_on__</code> details correctly and run the command in your sandbox.</p>
+<p>As written, both vertical and horizontal axes will be on log scales. This may not be what you want in the end.</p>
+</div>
+<p>Arrange the plotting command to make a semi-log plot of mortality versus age. Interpret the plot to answer the following questions. Note that labels such as those along the vertical axis are often called “decade labels.”</p>
+<p><strong>Question B</strong> The level of mortality in year 0 of life is how much greater than in year 1 and after?</p>
+<ol style="list-style-type: lower-roman">
+<li>About twice as large.<span class="mcanswer"> ︎✘ C) Hint: How much is the change between successive labels on the y axis? </span><br>
+</li>
+<li>About five times as large<span class="mcanswer"> ︎✘ C) Hint: How much is the change between successive labels on the y axis? </span><br>
+</li>
+<li>About 10 times as large<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>About 100 times as large<span class="mcanswer"> ︎✘ C) Hint: How much is the change between successive labels on the y axis? </span>
+</li>
+</ol>
+<p><strong>Question C</strong> D) Near age 20, the mortality of males is how much compared to females?</p>
+<ol style="list-style-type: lower-roman">
+<li>Less than twice as large.<span class="mcanswer"> ︎✘ Hint: Due to the nature of logs, a difference of half a decade corresponds to a change of <span class="math inline">\(\sqrt{10}\)</span>. </span><br>
+</li>
+<li>A bit more than three times as large<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>About 8 times as large<span class="mcanswer"> ︎✘ Hint: Due to the nature of logs, a difference of half a decade corresponds to a change of <span class="math inline">\(\sqrt{10}\)</span>. </span><br>
+</li>
+<li>About 12 times as large<span class="mcanswer"> ︎✘ Hint: Due to the nature of logs, a difference of half a decade corresponds to a change of <span class="math inline">\(\sqrt{10}\)</span>. </span>
+</li>
+</ol>
+<p><strong>Question D</strong> E) Between the ages of about 40 and 80, how does mortality change with age?</p>
+<ol style="list-style-type: lower-roman">
+<li>It stays about the same.<span class="mcanswer"> ︎✘ But the curve is sloping up, isn’t it? </span><br>
+</li>
+<li>It increases as a straight line.<span class="mcanswer"> ︎✘ It would be fair to say this about the logarithm of mortality. But a straight line in log mortality means that mortality itself is increasing exponentially. </span><br>
+</li>
+<li>It increases exponentially.<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>It increases, then decreases, then increases again.<span class="mcanswer"> ︎✘ Interesting that you would say this when the function in clearly monotonically increasing above age 30. </span>
+</li>
+</ol>
+<p>Remake the plot of mortality vs age once again, but this time put it on log-log axes. The sign of a power-law relationship is that it shows up as a straight line on log-log axes.</p>
+<p><strong>Question E</strong> F) Between the ages of about 40 and 80 is the increase in mortality better modeled by an exponential or a power-law process?</p>
+<ol style="list-style-type: lower-roman">
+<li>Power-law<span class="mcanswer"> ︎✘ But it’s hard to find any straight line on the log-log plot. </span><br>
+</li>
+<li>Exponential<span class="mcanswer"> ✔︎ Right. The graph is much closer to a straight line on semi-log scales than on log-log scales. </span><br>
+</li>
+<li>No reason to prefer one or the other.<span class="mcanswer"> ︎✘ One is much closer to a straight line than the other. </span>
+</li>
+</ol></details>
+</div>
+<div id="fractional-digits" class="section level2" number="14.7">
+<h2>
+<span class="header-section-number">14.7</span> Fractional digits (optional)<a class="anchor" aria-label="anchor" href="#fractional-digits"><i class="fas fa-link"></i></a>
+</h2>
+<p>So far, we have the digit() function in a tabular form: <span style="float: right; padding-left: 50px;"><a name="1650" href="#1650"><img src="www/icons8-signpost.png" title="Location: 1650" width="12px"></a><span style="color: red; font-size: 6pt;">1650</span></span></p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>input</th>
+<th>output</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+</tr>
+<tr class="even">
+<td>0.01</td>
+<td>-2</td>
+</tr>
+<tr class="odd">
+<td>0.1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>1000</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>10,000</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>100,000</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>1,000,000</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>Here’s the point-plot presentation of the table:</p>
+<div class="figure" style="text-align: center">
+<span id="fig:log-1st-try"></span>
+<img src="CalcZ-notes_files/figure-html/log-1st-try-1.png" alt="Connecting the data points for the digit function to make a continuous function." width="90%"><p class="caption">
+Figure 14.1: Connecting the data points for the digit function to make a continuous function.
+</p>
+</div>
+<p>We’ve imagined digits() to be a continuous function so we’ve connected the gaps with a straight line. Now we have a function that has an output for any input between 0.01 and 1,000,000, for instance, 500,000.</p>
+<p>The angles between consecutive line segments give the function plotted in Figure <a href="magnitudes.html#fig:log-1st-try">14.1</a> an unnatural look. Still, it is a continuous function with an output for any input even if that input is not listed in the table.</p>
+<p>Starting around 1600, two (now famous) mathematicians, <a href="https://en.wikipedia.org/wiki/Henry_Briggs_(mathematician)">John Napier</a> (1550-1617) and <a href="https://en.wikipedia.org/wiki/Henry_Briggs_(mathematician)">Henry Briggs</a> (1561-1630) had an idea for filling in gaps in the table. They saw the pattern that for any of the numbers <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in the input column of the table
+<span class="math display">\[ \text{digit}(a \times b) = \text{digit}(a) + \text{digit}(b)\]</span>
+This is true even when <span class="math inline">\(a=b\)</span>. For instance, digit(10)=1 and digit(10<span class="math inline">\(\times\)</span> 10) = 2.</p>
+<p>Consider the question what is digit(316.2278)? That seems a odd question unless you realize that <span class="math inline">\(316.2278 \times 316.2278 = 100,000\)</span>. Since digit(100000) = 5, it must be that digit(316.2278) = 5/2.</p>
+<p>Another question: what is digit(17.7828)? This seems crazy, until you notice that <span class="math inline">\(17.7828^2 = 316.2278\)</span>. So digit(17.78279) = 5/4.</p>
+<p>It happens that for a couple of thousand years mathematicians have known how to compute the square root of any number to a high precision. By taking square roots and dividing by two, it’s easy to fill in more rows in the digit()-function table. You get even more rows by noticing other simple patterns like <span class="math display">\[\text{digit}(a/10) = \text{digit}(a) -1  \ \ \and \ \ \ \text{digit}(10 a) = \text{digit}(a) + 1\]</span></p>
+<p>Here are some additional rows in the table</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>input</th>
+<th>output</th>
+<th>Why?</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>316.2278</td>
+<td>2.5</td>
+<td>From <span class="math inline">\(\sqrt{\strut100,000}\)</span>
+</td>
+</tr>
+<tr class="even">
+<td>17.17828</td>
+<td>1.25</td>
+<td>From <span class="math inline">\(\sqrt{\strut 316.2278}\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td>4.21696</td>
+<td>0.625</td>
+<td>From <span class="math inline">\(\sqrt{\strut 17.17828}\)</span>
+</td>
+</tr>
+<tr class="even">
+<td>31.62278</td>
+<td>1.5</td>
+<td>From 316.2278/10</td>
+</tr>
+<tr class="odd">
+<td>3.162279</td>
+<td>0.5</td>
+<td>From 31.62278/10</td>
+</tr>
+</tbody>
+</table></div>
+<p>You can play this game for weeks. We asked the computer to play the game for about half a second and expanded the original digit() table to 7975 rows.</p>
+<p>Figure <a href="#fig:expanded-log"><strong>??</strong></a> plots the expanded digits() function table.</p>
+<div class="inline-figure">
+<img src="CalcZ-notes_files/figure-html/expanded-log-1.png" width="90%" style="display: block; margin: auto;">
+Now we have a smooth function that plays by the digit rules of multiplication.</div>
+<p>Henry Briggs and his assistants did a similar calculation by hand. Their work was published in 1617 as a table.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:briggs-first-page"></span>
+<img src="www/Briggs-starttable.png" alt="Part of the first page of Henry Briggs table of logarithms" width="100%"><p class="caption">
+Figure 14.2: Part of the first page of Henry Briggs table of logarithms
+</p>
+</div>
+<p>The table was called the <em>Chilias prima</em>, Latin for “First group of one thousand.” True to its name, the table gives the output of digits() for the inputs 1, 2, 3, …, 998, 999, 1000. For instance, as you can see from the top row of the right-most column, digits(67) = 1.82607480270082.</p>
+<p>In everyday speech, 67 has two digits. The authors of <em>Chilias prima</em> sensibly didn’t use the name “digit()” for the function. They chose something more abstract: “logarithm().” Nowadays, this function is named <span class="math inline">\(\log_{10}()\)</span>. In R, the function is called <code><a href="https://rdrr.io/r/base/Log.html">log10()</a></code>. <span style="float: right; padding-left: 50px;"><a name="1660" href="#1660"><img src="www/icons8-signpost.png" title="Location: 1660" width="12px"></a><span style="color: red; font-size: 6pt;">1660</span></span></p>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="fl">67</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 1.826075</code></pre>
+<p>Our main use for <span class="math inline">\(\log_{10}()\)</span>/<code><a href="https://rdrr.io/r/base/Log.html">log10()</a></code> will be to count digits in order to quickly compare the magnitude of numbers. The difference digits(<span class="math inline">\(x\)</span>) - digits(<span class="math inline">\(y\)</span>) tells how many factors of 10 separate the magnitude of the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<p>Another important logarithmic/digit-counting function is <span class="math inline">\(\log_2()\)</span>, written <code><a href="https://rdrr.io/r/base/Log.html">log2()</a></code> in R. This counts how many *<strong>binary digits</strong> are in a number. For us, <span class="math inline">\(\log_2(x)\)</span> tells how many times we need to double, starting at 1, in order to reach <span class="math inline">\(x\)</span>. For instance, <span class="math inline">\(\log_2(67) = 6.06609\)</span>, which indicates that <span class="math inline">\(67 = 2\times 2 \times 2 \times 2 \times 2 \times 2 \times 2^{0.06609}\)</span></p>
+<p><span class="math inline">\(\log_2(x)\)</span> and <span class="math inline">\(\log_{10}(x)\)</span> are proportional to one another. One way to think of this is that they both count “digits” but report the results in different units, much as you might report a temperature in either Celsius or Fahrenheit. For <span class="math inline">\(\log_2(x)\)</span> the units of output are in <strong><em>bits</em></strong>. For <span class="math inline">\(\log_{10}(x)\)</span> the output is in <strong><em>decades</em></strong>.</p>
+<p>A third version of the logarithm function is called the <strong><em>natural logarithm</em></strong> and is denoted <span class="math inline">\(\ln()\)</span> in math notation and simply <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> in R. We’ll need additional calculus concepts before we can understand what justifies calling <span class="math inline">\(\ln()\)</span> “natural.”</p>
+<details><summary><strong>Exercise 14.27</strong>: <span><a name="File:%20Exercises/Dimension/count-the-digits.Rmd" href="#TLCIX"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/count-the-digits.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">TLCIX</span>
+</span></summary><p>EXERCISE: Compute <span class="math inline">\(10^y\)</span> to convert a “number of digits” into the number whose digits are being counted. For instance, <span class="math inline">\(10^2.5\)</span> is 316.228.</p>
+<p>EXERCISE: How many binary digits in 64? in 127?</p>
+EXERCISE: <span class="math inline">\(\log_{10}(x)\)</span> and <span class="math inline">\(\log_2(x)\)</span> are proportional to one another. What’s the constant of proportionality?
+</details><details><summary><strong>Exercise 14.29</strong>: <span><a name="File:%20Exercises/Fun/deer-blow-bulb.Rmd" href="#XzZn2N"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/deer-blow-bulb.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">XzZn2N</span>
+</span></summary>
+DRAFT; Austin’s idea about subtracting off the nonzero baseline <strong>before</strong> taking the logs.
+</details>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="modeling-cycle.html"><span class="header-section-number">13</span> Modeling cycle</a></div>
+<div class="next"><a href="dimensions.html"><span class="header-section-number">15</span> Dimensions</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#magnitudes"><span class="header-section-number">14</span> Magnitudes</a></li>
+<li><a class="nav-link" href="#counting-digits"><span class="header-section-number">14.1</span> Counting digits</a></li>
+<li><a class="nav-link" href="#using-digit-to-understand-magnitude"><span class="header-section-number">14.2</span> Using digit() to understand magnitude</a></li>
+<li><a class="nav-link" href="#quantity-and-magnitude"><span class="header-section-number">14.3</span> Quantity and magnitude</a></li>
+<li><a class="nav-link" href="#composing-ln"><span class="header-section-number">14.4</span> Composing \(\ln()\)</a></li>
+<li><a class="nav-link" href="#magnitude-graphics"><span class="header-section-number">14.5</span> Magnitude graphics</a></li>
+<li><a class="nav-link" href="#magnitude-scales"><span class="header-section-number">14.6</span> Magnitude scales</a></li>
+<li><a class="nav-link" href="#fractional-digits"><span class="header-section-number">14.7</span> Fractional digits (optional)</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/dtkaplan/CalcZ-notes/blob/master/Magnitudes.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/dtkaplan/CalcZ-notes/edit/master/Magnitudes.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-02.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

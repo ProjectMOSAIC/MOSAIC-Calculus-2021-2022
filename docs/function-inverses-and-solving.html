@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 9 Function inverses and “solving” | CalcZ Student Notes</title>
+<meta name="author" content="Daniel Kaplan">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+    for (let popover of popovers){
+      const div = document.createElement('div');
+      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+      div.innerHTML = popover.getAttribute('data-content');
+      
+      // Will this work with TeX on its own line?
+      var has_math = div.querySelector("span.math");
+      if (has_math) {
+        document.body.appendChild(div);
+      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+      	MathJax.Hub.Queue(function(){
+          popover.setAttribute('data-content', div.innerHTML);
+      	})
+      }
+    }
+    </script>
+</head>
+<body>
+<span class="math inline">
+    \(\newcommand{\line}{\text{line}}
+    \newcommand{\hump}{\text{hump}}
+    \newcommand{\sigmoid}{\text{sigmoid}}
+    \newcommand{\recip}{\text{recip}}
+    \newcommand{\diff}[1]{{\cal D}_#1}
+    \newcommand{\pnorm}{\text{pnorm}}
+    \newcommand{\dnorm}{\text{dnorm}}\)
+    </span>
+
+    <!-- see https://www.homepages.ucl.ac.uk/~ucahmto/elearning/2019/09/14/bookdown.html-->
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">CalcZ Student Notes</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
+<li><a class="" href="outline-of-block-1.html">Outline of Block 1</a></li>
+<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
+<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
+<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
+<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
+<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
+<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
+<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
+<li><a class="" href="fun-slopes.html"><span class="header-section-number">8</span> Slope function</a></li>
+<li><a class="active" href="function-inverses-and-solving.html"><span class="header-section-number">9</span> Function inverses and “solving”</a></li>
+<li><a class="" href="fun-assembling.html"><span class="header-section-number">10</span> Assembling functions</a></li>
+<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">11</span> Functions with multiple inputs</a></li>
+<li><a class="" href="fun-piecewise.html"><span class="header-section-number">12</span> Piecewise functions</a></li>
+<li><a class="" href="modeling-cycle.html"><span class="header-section-number">13</span> Modeling cycle</a></li>
+<li><a class="" href="magnitudes.html"><span class="header-section-number">14</span> Magnitudes</a></li>
+<li><a class="" href="dimensions.html"><span class="header-section-number">15</span> Dimensions</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/dtkaplan/CalcZ-notes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="function-inverses-and-solving" class="section level1" number="9">
+<h1>
+<span class="header-section-number">9</span> Function inverses and “solving”<a class="anchor" aria-label="anchor" href="#function-inverses-and-solving"><i class="fas fa-link"></i></a>
+</h1>
+<div class="objectives">
+<ol>
+<li>
+<strong>[Fun-inverse]</strong> <em>Understand the operation of “solving” a function and be able to translate this into “zero-finding.”</em>
+</li>
+</ol>
+</div>
+<p>Very much in the spirit of naming common tasks, the process of turning an output from a function into the corresponding input using a computer program is called <strong><em>zero finding</em></strong>. As is often the case, computer programming often involves reformatting things to fit in a standard format. Here, the standard format is to find the input that corresponds to an output of <em>zero</em>. In reality, as in our snowplow problem, you might not care about an output zero. (The facilities manager in charge of zero miles of road is likely to be out of a job pretty soon!) <span style="float: right; padding-left: 50px;"><a name="1200" href="#1200"><img src="www/icons8-signpost.png" title="Location: 1200" width="12px"></a><span style="color: red; font-size: 6pt;">1200</span></span></p>
+<p>But output zero is just a format. You can easily re-write any function to create a new one where the output you want turns out to be zero. For instance, in our snowplow problem, instead of applying zero-finding to the function <span class="math inline">\(g(x) = 168 x\)</span>, we would construct another, related function <span class="math inline">\(h(x) \equiv g(x) - 400\)</span>. Finding a zero of <span class="math inline">\(h()\)</span> gives us directly an input for <span class="math inline">\(g()\)</span> corresponding to an output of 400.</p>
+<div id="function-inverses" class="section level2" number="9.1">
+<h2>
+<span class="header-section-number">9.1</span> Function inverses<a class="anchor" aria-label="anchor" href="#function-inverses"><i class="fas fa-link"></i></a>
+</h2>
+<div class="objectives">
+<ol>
+<li>
+<strong>[Fun-3a2]</strong> <em>Determine whether a function has an inverse. Know that exponential and logarithmic functions are inverses and that the inverse of a power-law function is another power-law function.</em>
+</li>
+</ol>
+</div>
+<p>This may sound like a familiar word problem from your high-school algebra course:</p>
+<blockquote>
+<p>You are a facilities manager for a small town. The town contains
+approximately 400 miles of road that must be plowed following a significant snowfall. How many plows must be used in order to complete the job in one day if the plows can travel at approximately 7 miles per hour when engaged? — <a href="https://www.ams.org/notices/201005/rtx100500608p.pdf">Source</a></p>
+</blockquote>
+<p>The task of answering such a question is often called <strong><em>solving</em></strong> a <strong><em>word problem</em></strong>.</p>
+<p>You don’t need calculus to solve this problem, but insofar as the format is familiar to you, it might help to depict how it would be addressed as a modeling task and how to use the model created to guide the mathematical work of getting a numerical answer to the problem.</p>
+<p><strong>Modeling Phase</strong>: The objective is to create a function that represents snow plowing and that will let us answer the question about how much plowing activity is needed. Here’s a function that takes as input <span class="math inline">\(x\)</span> a number of plows and provides as output the number of miles that can be serviced in a day.
+<span class="math display">\[\mbox{miles_plowed}(x) \equiv 7 \times 24 \times x\]</span>
+In reality, “miles plowed” depends on the amount of snow, the safe speed limit of the plows, the number of rest breaks needed by the drivers, how far the snowplow terminus is from the road system, how many cars are parked on the road and the available number of tow trucks, and the day of the week and the time of day. (Remember, there might be other traffic on the road. Plowing at rush hour is bound to be small! And slow down at night!) It seems that textbook “word problems” never mention such issues, having been written in a world where plowing snow is exactly the same as doing simple arithmetic.</p>
+<p>Likely, we’re going to have to use the <strong><em>modeling cycle</em></strong> to end up with a genuinely useful model. Still, we have to start somewhere, so let’s start with <span class="math inline">\(7 \times 24 \times x\)</span>.</p>
+<p>We can use this function to solve the problem: How many plows are needed to get the 400-miles of road serviced in 1 day? It’s a matter of choosing a suitable method for applying the function to guide us to the answer. <span style="float: right; padding-left: 50px;"><a name="1210" href="#1210"><img src="www/icons8-signpost.png" title="Location: 1210" width="12px"></a><span style="color: red; font-size: 6pt;">1210</span></span></p>
+<p>One simple method, which sometimes is called <strong><em>guess and check</em></strong> is to propose some answers and see what happens. Being experts in snow plowing, we know that you can’t have negative or fractional plows, so our guesses for <span class="math inline">\(x\)</span> will be integers. Let’s do this systematically:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>Number of plows <span class="math inline">\(x\)</span>
+</th>
+<th>Miles plowed in a day</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="math inline">\(7 \times 24 \times 1 = 168\)</span></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><span class="math inline">\(7 \times 24 \times 2 = 336\)</span></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><span class="math inline">\(7 \times 24 \times 3 = 504\)</span></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><span class="math inline">\(7 \times 24 \times 4 = 672\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td>… and so on.</td>
+</tr>
+</tbody>
+</table></div>
+<p>We really don’t need all the scratch work crowding up the table, so let’s streamline it, keeping the essentials:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>input <span class="math inline">\(x\)</span>
+</th>
+<th>output <span class="math inline">\(\mbox{miles_plowed}(x)\)</span>
+</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>168</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>336</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>504</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>672</td>
+</tr>
+</tbody>
+</table></div>
+<p>The domain of the miles_plowed() function is <span class="math inline">\(x = 0, 1, 2, 3, \ldots\)</span>, so our table covers only a bit of the domain.</p>
+<p>Miles_plowed() might be a genius function, but in using it we have to keep in mind that we don’t actually know the input. What we do know is something in the form of the output: 400 miles. The mathematical operation of <strong><em>solving</em></strong> consists of looking up what we do know in the <strong>output</strong> column of the table, then reading off the corresponding <strong>input</strong> as our answer. Since 400 doesn’t appear in the output column, we’ll look for an interval that includes 400. Of course, that’s the interval from 336 to 504. So the answer will be something bigger than <span class="math inline">\(x=2\)</span> but doesn’t need to be any larger than <span class="math inline">\(x=3\)</span>. You’ve been in the facilities management business for many years, so you know to choose the answer <span class="math inline">\(x=3\)</span>.</p>
+<p>If you have a graph of a function, it can be easy to calculate what the input should be for a given output. Just reverse the finger action, looking up the output on the vertical axis, tracing horizontally to the function graph, then reading off the result from the input axis.</p>
+<p>Now let’s write the problem using math notation rather than a table. We’re looking for a value of <span class="math inline">\(x\)</span> such that <span class="math display">\[\mbox{miles_plowed}(x) = 400\]</span> This is an <strong><em>equation</em></strong> as opposed to a <strong><em>function definition</em></strong> which we write with <span class="math inline">\(\equiv\)</span> rather than <span class="math inline">\(=\)</span>. The point of writing equations is often to signal to us that the task is to “solve for <span class="math inline">\(x\)</span>.”</p>
+<p>An algebraic solution relies on replacing miles_plowed(<span class="math inline">\(x\)</span>) with the function’s formula and then re-arranging numbers and possibly other symbols until we have an equation of the form <span class="math inline">\(x = \ldots\)</span>. Here, that’s easy:</p>
+<p><span class="math display">\[7 \times 24 \times x = 400\ \ \implies\ \ x = 400/(7\times 24)\]</span></p>
+<p>Do some arithmetic and we find <span class="math inline">\(x = 2.381\)</span>. Apply some common sense and we translate this into “three plows.”</p>
+<p>An industrious facilities manager might go further. “Today there is 400 miles of road. But next year there will be more, although I don’t yet know the exact number. While I’m doing all this math work, I’ll write up a memo so that next year, when I know how much road there will be, I can just to some arithmetic.” This is a good idea, although a mathematician might prefer the word “function” to “memo [to guide] arithmetic.” <span style="float: right; padding-left: 50px;"><a name="1220" href="#1220"><img src="www/icons8-signpost.png" title="Location: 1220" width="12px"></a><span style="color: red; font-size: 6pt;">1220</span></span></p>
+<p>You likely learned how to set up and solve this memo-writing function. The key is to replace 400 with a symbol standing for the number of miles of road. We’ll use <span class="math inline">\(M\)</span>. Then you do the re-arrangement with <span class="math inline">\(M\)</span> in place of 400.</p>
+<p><span class="math display">\[168 x = M\ \ \implies\ \ x = M/168\]</span></p>
+<p>All that remains is to give a more informative name in place of <span class="math inline">\(x\)</span> and to write it as a proper function: <span class="math inline">\(n_{plows}(M) \equiv M/168\)</span>.</p>
+<p>This process of starting with a function like <span class="math inline">\(\mbox{miles_plowed(x)}\)</span> and transforming it into a function in a more convenient format for the task at hand <span class="math inline">\(n_{plows}(M)\)</span> is called <strong><em>inverting the function</em></strong>.</p>
+<p>High-school algebra emphasizes techniques for inverting functions by moving symbols around. This is great when it can be done, but it’s often impossible in real science and engineering problems. In such cases we use a very powerful, general-purpose method, that is, <strong><em>guess and check</em></strong>.</p>
+<p>Another common strategy for inverting functions that are beyond our reach algebraically is to rely on a specialist to develop the inverse function, give it a name, write it down a formula in mathematical notation or, sometimes more usefully, write a computer program that implements the inverse function’s algorithm. With this strategy, all that’s needed to invert a function is to know the name or formula of the function’s inverse. Here’s a table of such names and formulas, most of which is likely familiar to you.</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>function</th>
+<th>inverse function</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Exponential: <span class="math inline">\(e^x\)</span>
+</td>
+<td>Logarithm: <span class="math inline">\(\ln(x)\)</span>
+</td>
+</tr>
+<tr class="even">
+<td>Exponential: <span class="math inline">\(2^x\)</span>
+</td>
+<td>Log base 2: <span class="math inline">\(\log_2(x)\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td>Exponential: <span class="math inline">\(10^x\)</span>
+</td>
+<td>Log base 10: <span class="math inline">\(\log_{10}(x)\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Power law: <span class="math inline">\(x^2\)</span>
+</td>
+<td>Square root: <span class="math inline">\(\sqrt{x}\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td>Power law: <span class="math inline">\(x^{-1}\)</span>
+</td>
+<td>Power law: <span class="math inline">\(x^{-1}\)</span>
+</td>
+</tr>
+<tr class="even">
+<td>Trig: <span class="math inline">\(\sin(x)\)</span>
+</td>
+<td>Trig: <span class="math inline">\(\arcsin(x)\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td>Trig: <span class="math inline">\(\tan(x)\)</span>
+</td>
+<td>Trig: <span class="math inline">\(\arctan(x)\)</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>You can of course read this table either from left to right or from right to left. For instance, the inverse of <span class="math inline">\(\ln(x)\)</span> is <span class="math inline">\(e^x\)</span>.</p>
+<p>As you know, for a function <span class="math inline">\(g(x)\)</span>, the set of valid values of <span class="math inline">\(x\)</span> is called the <strong><em>domain</em></strong> of the function. The set of possible outputs from the function is called the <strong><em>range</em></strong> of the function. The inverse function to <span class="math inline">\(g()\)</span> has a domain which is the range of <span class="math inline">\(g()\)</span> and a range which is the domain of <span class="math inline">\(g()\)</span>.</p>
+<p>Sometimes the notation <span class="math inline">\(g^{-1}(x)\)</span> is used for "the inverse function of <span class="math inline">\(g()\)</span>. This is potentially confusing, since <span class="math inline">\(g^{-1}(x)\)</span> might reasonable be interpretted as <span class="math inline">\(1/g(x)\)</span> and, in general, those two things are not equal.</p>
+<p>Straight-line (with non-zero slope), exponential (<span class="math inline">\(e^{kt}\)</span> where <span class="math inline">\(k\neq 0\)</span>), and logarithm functions aways have inverse functions. For power-law and sinusoid functions, there can be several (or many) different inverse functions. We’ll get to this when we need to. <span style="float: right; padding-left: 50px;"><a name="1230" href="#1230"><img src="www/icons8-signpost.png" title="Location: 1230" width="12px"></a><span style="color: red; font-size: 6pt;">1230</span></span></p>
+<p>There’s an easy graphical test for whether there is a unique inverse function or not. Draw the graph, then see if any horizontal line touches the graph of the function in more than one place. If so, there is no unique inverse function.</p>
+<p><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-1.png" width="33%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-2.png" width="33%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-3.png" width="33%" style="display: block; margin: auto;"></p>
+<hr>
+<!-- the "What 3 words?" problem from Fall 2020
+<details>
+<summary>**Exercise 10.2**: <span><a name="File: Exercises/Fun/invertible.Rmd" href="#KELXI"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/invertible.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">KELXI</red></span></summary>
+
+
+
+
+
+
+
+
+In this class  we will almost exclusively be dealing with functions that take *quantities* as inputs and produce a single *quantity* as an output. (In Block 2, we'll start to  look at inputs and outputs that are *vectors*, that is, collections of quantities.)
+
+But functions can take as inputs and produce as outputs things that are not quantities. For instance, words or labels (which, in statistics  are called *levels* of a  categorical variable).
+
+Open up a new tab in your web browser and navigate to this web site:  `https://what3words.com/butterfly.fortune.clings`
+(We ask you to  open a new tab so that you  don't lose your place in  the Daily Digital document.)
+
+You reasonably think of this  as a URL, an address on  the web. But  actually, the web server is set  up  differently. The function name  is `https://what3words.com`. When you navigate there,  the function is being evaluated  for three inputs,  each of which is a word. In  our notation, we would write:
+
+$$\mbox{what3words.com}(\mbox{"butterfly"}, \mbox{"fortune"}, \mbox{"clings"}) $$
+
+The output of the function is a location, displayed on a map because that's convenient for human users who  are trying to find a location  specified  in the three-word system. (You might have to zoom out to  make sense of the location.  It happens to  be  the location  of Dr. Brilleslyper's  and Dr. Kaplan's offices,  which are adjacent. The three-word system doesn't have a mechanism for specifying  altitude.  Those offices are on  the 6th floor of the building.)
+
+For using the system, you need to be able to calculate the *inverse function*, that is, turning location into the corresponding three input words.
+
+
+**Essay question tmp-4**: Is there an inverse function? Explain in everyday terms whether the web site provides a way to calculate an inverse.
+
+**Question A**  Does the order of the inputs make a difference? That is, is the output of the function different when the arguments are changed in order. 
+
+    TRUE<span class='mcanswer'> ✔︎  </span>       FALSE<span class='mcanswer'> ︎✘  </span>
+
+
+**Essay question tmp-5**: Try various orders for the three inputs "butterfly", "fortune", "clings". Give a description of the output for those different combinations.
+
+An important concept (that we have not yet encountered in this course) is *continuity*. Continuity means that a small change in the input produces a small change in the output.
+
+
+**Question B**  True or false: The forward function is continuous.  That is, a small change in the inputs (that is, the words) produces a small change in the location output 
+
+    TRUE<span class='mcanswer'> ︎✘  </span>       FALSE<span class='mcanswer'> ✔︎  </span>
+
+**Question C**  True or false: The inverse function is continuous.  That is, a small change in location leads to a small change in the three words. 
+
+    TRUE<span class='mcanswer'> ︎✘  </span>       FALSE<span class='mcanswer'> ✔︎  </span>
+
+
+
+In the class lesson, we point out that a function with two or more quantities as inputs and a quantity as an output does not have an inverse. That is, each output cannot be associated with a *unique* input.
+
+Yet the `what3words.com` system, to be useful in communicating location over a noisy channel such as a telephone, needs to have an  inverse. The next question is hard, and involves some  math  you  have not  studied, but give it your  best try:
+
+
+**Essay question tmp-6**: What is it about  the  `what3words.com` function that enables it to have an inverse even though it  is  a  function of three inputs?
+
+Finally, a note about discontinuity. The location `year.nibbles.glasses` is in USAFA. The location `year.nibble.glasses` is in Baja California. So even if the words are easier to transmit than the many digits of latitude and longitude, the system still leaves plenty of space for mischief and error. `what3words.com` would have been well advised to add a fourth word to their system, which would enable them to implement error correction.</details>
+--><details><summary><strong>Exercise 10.2</strong>: <span><a name="File:%20Exercises/Fun/inverse-flip-1.Rmd" href="#IWLDN1"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/inverse-flip-1.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">IWLDN1</span>
+</span></summary><p>The graphs of functions and their inverses are related by a flip around the <strong><em>line of identity</em></strong>, shown in green in the following graph.</p>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
+## replace the existing scale.</code></pre>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/if1-1-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>The black curve is the graph of <span class="math inline">\(e^x\)</span>.</p>
+<p><strong>Question A</strong> Is the red curve the graph of a function? (Hint: Does it pass the vertical line test?)</p>
+<p>    Yes<span class="mcanswer"> ✔︎ </span>       No<span class="mcanswer"> ︎✘ The red curve has a vertical asymptote at <span class="math inline">\(x=0\)</span>, but since it never reaches that asymptote, it passes the vertical line test. </span></p>
+<p><strong>Question B</strong> Which of these functions is graphed in red?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(1/x\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(\log(x)\)</span><span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>
+<span class="math inline">\(\sqrt{x}\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(e^{-x}\)</span><span class="mcanswer"> ︎✘ Sorry, but this would be the reflection of the black curve around the vertical line at <span class="math inline">\(x=0\)</span> </span><br>
+</li>
+<li>
+<span class="math inline">\(-e^{x}\)</span><span class="mcanswer"> ︎✘ No. This would be the reflection of the black curve around the horizontal line at output <span class="math inline">\(f(x)=0\)</span> </span>
+</li>
+</ol></details><hr>
+<details><summary><strong>Exercise 10.3</strong>: <span><a name="File:%20Exercises/Fun/exponentials.Rmd" href="#RDWKW"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/exponentials.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">RDWKW</span>
+</span></summary><p>Some years ago, you learned to calculate the slope of a straight-line function. If you had a graph, you would mark out a <strong>run</strong> and the corresponding <strong>rise</strong>, then compute rise/run. If you had a formula definition, e.g. <span class="math inline">\(f(x) \equiv 3 - 4 x\)</span>, you would simply read the slope off as the <strong>coefficient</strong> on the function input. Here, the input is named <span class="math inline">\(x\)</span> and its coefficient in the formula is <span class="math inline">\(-4\)</span>.</p>
+<p>In this question, we ask you to estimate the slope from a graph of the function. But the function is <strong>exponential</strong>, so not a straight line.</p>
+<p>A fundamental idea in calculus is that even a function with a curved graph, if you zoom in closely around a given point, will look like a straight line. And you know how to calculate the slope of a straight line.</p>
+<p>When the graph is curved, the slope will be different at different points along the graph. So there’s not a single slope for the function. Still, we can talk about the “slope at a point.”</p>
+<p>One way to specify a point on a function’s graph is to give the horizontal coordinate: the <strong>input</strong> to the function. But here we’re going to give you the <strong>output</strong> of the function.</p>
+<p>Estimate the slope of the exponential function <span class="math inline">\(g(x) \equiv e^x\)</span> at several inputs, which we’ll call <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_3\)</span> and <span class="math inline">\(x_4\)</span>. We won’t give you numerical values for the <span class="math inline">\(x_i\)</span> points, but we will tell you the output of the function at each of those inputs. the values of <span class="math inline">\(x\)</span> where:</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(g(x_1) = 1\)</span></li>
+<li><span class="math inline">\(g(x_2) = 5\)</span></li>
+<li><span class="math inline">\(g(x_3) = 10\)</span></li>
+<li><span class="math inline">\(g(x_4) = 0.1\)</span></li>
+</ol>
+<p>The code sandbox below already contains an R command to plot out the mathematical exponential function over the domain <span class="math inline">\(-3 \leq x \leq 3\)</span>. For each of (a)-(d), modify the command to zoom in on the domain around around the appropriate value of <span class="math inline">\(x_i\)</span>. Then calculate the slope of the curve at that <span class="math inline">\(x_i\)</span>.</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/daily-digital-02-sandbox1-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p><strong>Question A</strong> Using your answers for the slope at the points given in (a)-(d), choose the best answer to this question: What is the pattern in the slope as <span class="math inline">\(x\)</span> varies?</p>
+<ol style="list-style-type: lower-roman">
+<li>The slope at each value <span class="math inline">\(x_i\)</span> is the same as <span class="math inline">\(e^{x_i}\)</span>.<span class="mcanswer"> ✔︎ This property of the exponential function becomes important when describing a wide range of phenomena, from nuclear isotope decay to population growth. </span><br>
+</li>
+<li>The slope at each value <span class="math inline">\(x_i\)</span> is the same as <span class="math inline">\(x_i\)</span>.<span class="mcanswer"> ︎✘ That would being saying the slope at <span class="math inline">\(x_3\)</span> is <span class="math inline">\(\approx 2.30\)</span>. Is that what you got? </span><br>
+</li>
+<li>The slope at each value of <span class="math inline">\(x_i\)</span> is the same as <span class="math inline">\(x_i^2\)</span>.<span class="mcanswer"> ︎✘ That would being saying the slope at the <span class="math inline">\(x_3\)</span> is <span class="math inline">\(\approx 5.30\)</span>. Is that what you got? </span><br>
+</li>
+<li>The slope at each value of <span class="math inline">\(x\)</span> is the same as <span class="math inline">\(\sqrt{x}.\)</span><span class="mcanswer"> ︎✘ That would being saying the slope at the <span class="math inline">\(x_i\)</span> is <span class="math inline">\(\approx 1.52\)</span>. Is that what you got? </span>
+</li>
+</ol>
+<p>Now that you’ve found the answer and seen how to specify the domain on a slice plot, here’s a technique that can make your work a bit easier. Add this to the command that plots <span class="math inline">\(e^x\)</span> on the domain <span class="math inline">\(-3 \leq x \leq 3\)</span></p>
+<pre><code>%&gt;% plotly::ggplotly()</code></pre>
+<p>Make sure the <code>%&gt;%</code> is on the <em>same line</em> as the <code>slice_plot()</code> expression itself. Run the amended command then hover the cursor over the graph.</p>
+<p>Reflection: One goal of this problem is to introduce you to a way of writing about functions that is somewhat different than you may have seen before.</p>
+<ol style="list-style-type: decimal">
+<li>Instead of using the letter <span class="math inline">\(y\)</span>—as in <span class="math inline">\(y = mx + b\)</span>, we give each function a name and, in the parentheses after the name, list the inputs to the function. For instance, we use <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> in this problem.</li>
+<li>We are not using the equal sign (<span class="math inline">\(=\)</span>) to give a name to the function; we use <span class="math inline">\(\equiv\)</span>. As you know, <span class="math inline">\(=\)</span> means “equality.” But <span class="math inline">\(h(x) \equiv x^2\)</span> describes a <strong>definition</strong>: “we define <span class="math inline">\(h\)</span> to be the name of a function of <span class="math inline">\(x\)</span> with the formula <span class="math inline">\(x^2\)</span>.” Definitions are different from <strong>equations</strong>. Equations have an important role in mathematics, so it’s worth not confusing them with definitions.</li>
+<li>We will often use letters from the end of the alphabet—<span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span>, <span class="math inline">\(t\)</span>, <span class="math inline">\(u\)</span>, <span class="math inline">\(v\)</span>, <span class="math inline">\(w\)</span>—as the <strong>names</strong> of inputs to functions. It will be important for us to give names to inputs because we will often deal with functions with <strong>more than one input</strong> and we’ll need to keep straight which one stands for what.</li>
+<li>A function is a kind of machine that takes inputs and produces outputs. Similarly, a printer is a machine that takes several inputs—paper, ink, electricity, PDF file—and produces the familiar kind of output. Printers are designed to have different places for the different inputs, so you can’t mistake one for the other. With mathematical functions, all we have for this purpose is the different <strong>names</strong> for the inputs.</li>
+<li>The input slot on a printer is often called the “paper tray.” You would never confuse the paper tray with paper itself. Inputs to function are like the paper tray. When we put a particular value into the input slot <span class="math inline">\(x\)</span> of a function, we will often call the particular value something like <span class="math inline">\(x_0\)</span> or <span class="math inline">\(x^\star\)</span>, or <span class="math inline">\(x_3\)</span>. When you see something like <span class="math inline">\(x_0\)</span>, remember that it is a particular piece of paper, not the input tray for paper. We’ll even sometimes give you the output from the function—as we did here with the exponential function—and ask you to figure out the particular input that corresponds to that output. This is like asking, “Find a piece of paper that, once it’s printed on, the ink won’t show through to the other side.”</li>
+</ol>
+There are good reasons why to start to make simple distinctions that might have been ignored or glossed over in high-school math.
+</details>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="fun-slopes.html"><span class="header-section-number">8</span> Slope function</a></div>
+<div class="next"><a href="fun-assembling.html"><span class="header-section-number">10</span> Assembling functions</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#function-inverses-and-solving"><span class="header-section-number">9</span> Function inverses and “solving”</a></li>
+<li><a class="nav-link" href="#function-inverses"><span class="header-section-number">9.1</span> Function inverses</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/dtkaplan/CalcZ-notes/blob/master/Fun-inverse.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/dtkaplan/CalcZ-notes/edit/master/Fun-inverse.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-02.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

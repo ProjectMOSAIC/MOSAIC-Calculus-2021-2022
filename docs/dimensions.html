@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 15 Dimensions | CalcZ Student Notes</title>
+<meta name="author" content="Daniel Kaplan">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+    for (let popover of popovers){
+      const div = document.createElement('div');
+      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+      div.innerHTML = popover.getAttribute('data-content');
+      
+      // Will this work with TeX on its own line?
+      var has_math = div.querySelector("span.math");
+      if (has_math) {
+        document.body.appendChild(div);
+      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+      	MathJax.Hub.Queue(function(){
+          popover.setAttribute('data-content', div.innerHTML);
+      	})
+      }
+    }
+    </script>
+</head>
+<body>
+<span class="math inline">
+    \(\newcommand{\line}{\text{line}}
+    \newcommand{\hump}{\text{hump}}
+    \newcommand{\sigmoid}{\text{sigmoid}}
+    \newcommand{\recip}{\text{recip}}
+    \newcommand{\diff}[1]{{\cal D}_#1}
+    \newcommand{\pnorm}{\text{pnorm}}
+    \newcommand{\dnorm}{\text{dnorm}}\)
+    </span>
+
+    <!-- see https://www.homepages.ucl.ac.uk/~ucahmto/elearning/2019/09/14/bookdown.html-->
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">CalcZ Student Notes</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
+<li><a class="" href="outline-of-block-1.html">Outline of Block 1</a></li>
+<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
+<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
+<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
+<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
+<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
+<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
+<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
+<li><a class="" href="fun-slopes.html"><span class="header-section-number">8</span> Slope function</a></li>
+<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">9</span> Function inverses and “solving”</a></li>
+<li><a class="" href="fun-assembling.html"><span class="header-section-number">10</span> Assembling functions</a></li>
+<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">11</span> Functions with multiple inputs</a></li>
+<li><a class="" href="fun-piecewise.html"><span class="header-section-number">12</span> Piecewise functions</a></li>
+<li><a class="" href="modeling-cycle.html"><span class="header-section-number">13</span> Modeling cycle</a></li>
+<li><a class="" href="magnitudes.html"><span class="header-section-number">14</span> Magnitudes</a></li>
+<li><a class="active" href="dimensions.html"><span class="header-section-number">15</span> Dimensions</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/dtkaplan/CalcZ-notes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="dimensions" class="section level1" number="15">
+<h1>
+<span class="header-section-number">15</span> Dimensions<a class="anchor" aria-label="anchor" href="#dimensions"><i class="fas fa-link"></i></a>
+</h1>
+<p>Next time you’re at a family gathering with your 10-year old cousin, give her the following math quiz. <span style="float: right; padding-left: 50px;"><a name="1700" href="#1700"><img src="www/icons8-signpost.png" title="Location: 1700" width="12px"></a><span style="color: red; font-size: 6pt;">1700</span></span></p>
+<ol style="list-style-type: decimal">
+<li>What’s 3 + 2?</li>
+<li>What’s 7 - 3?</li>
+<li>What’s 3 miles + 2 miles?</li>
+<li>What’s 3 miles + 2 kilometers?</li>
+<li>What’s 3 miles + 2 kilograms?</li>
+</ol>
+<p>I don’t know your cousin, but I suspect she will have an easy time answering (1) and (2) correctly. As for (3), she might give the correct answer, “5 miles,” or just say “5.” If so, you’ll follow up with “5 what?” at which point she’ll definitely say “miles.”</p>
+<ol start="4" style="list-style-type: decimal">
+<li>is a bit harder. You might need to prompt her with the information that 1 kilometer is about 0.6 miles. Then, if she’s pretty smart, she’ll answer “4.2 miles.”</li>
+</ol>
+<p>10-year olds are pretty creative, so I’m not sure how she’ll answer (5). But if you ask your Ph.D. aunt, she’ll answer along the lines of “silly question,” or “there’s no such thing.” That’s true.</p>
+<p>Consider these everyday quantities:</p>
+<ol style="list-style-type: lower-roman">
+<li>60 miles per hour: a typical <em>speed</em> for driving on a highway</li>
+<li>2106 square feet: the in-bounds <em>area</em> for a court used for singles tennis.</li>
+<li>375 cubic centimeters: the <em>volume</em> in a canned beverage (in the US).</li>
+<li>2.5 gallons per minute: the US mandated maximum <em>flow rate</em> for water through a shower head.</li>
+<li>35 miles per gallon: a typical fuel economy for a small car in the US.</li>
+<li>Your body mass index: measure your mass then divide by the square of your height.</li>
+</ol>
+<p>Consider how you would measure such things:</p>
+<ol style="list-style-type: lower-roman">
+<li>We ordinarily use a speedometer to measure instantaneous car speed and police use a radar gun. But fundamentally, you measure the distance traveled and the time used and divide distance by time.</li>
+<li>Most people would rely on the internet for this information, but you would check your local court by measuring the width (27 feet is the standard) and the length of the course (78). Multiply the two.</li>
+<li>Pour the beverage into a measuring cup and read off the volume. But more fundamentally, you could measure the circumference of the can (<span class="math inline">\(2 \pi r\)</span>), square it (<span class="math inline">\(4 \pi^2 r^2\)</span>) and divide by <span class="math inline">\(4 \pi\)</span> to get the cross section area of the can. Then multiply that by the height of the can.</li>
+<li>We don’t usually monitor water use by a shower. But if you need to, get a 5-gallon pail (the standard volume of the plastic pails used for so many purposes in construction), put it under the shower head, and measure the time it takes to fill the pail. Divide volume by the time.</li>
+<li>Record the mileage on the car’s odometer when you fill up the car with gas. Drive. When you next get gas, measure the new odometer reading and the volume of gas you purchased. Divide the change in odometer reading by the gas volume. (In Europe, you would divide the gas volume by the change in odometer reading.)</li>
+<li>Weigh yourself. The scale is usually graduated in both pounds and kilograms: take your choice. Measure your height; the ruler-in-the-doorway method works well. Then divide your weight by the square of your height.</li>
+</ol>
+<p>Evidently, it makes sense to <em>multiply</em> and <em>divide</em> different types of quantities: feet, gallons, kilometers, kilograms, pounds, hours, …. But you won’t ever see a quantity constructed by <em>adding</em> or <em>subtracting</em> miles and hours or gallons and and square feet. You can square feet and cube centimeters, but can you take the square root of a gallon? Does it make sense to raise 2 to the power of 3 yards? <span style="float: right; padding-left: 50px;"><a name="1710" href="#1710"><img src="www/icons8-signpost.png" title="Location: 1710" width="12px"></a><span style="color: red; font-size: 6pt;">1710</span></span></p>
+<p>This section is about the mathematical structure of combining quantities; which kinds of mathematical operations are legitimate and which are not.</p>
+<div id="mathematics-of-quantity" class="section level2" number="15.1">
+<h2>
+<span class="header-section-number">15.1</span> Mathematics of quantity<a class="anchor" aria-label="anchor" href="#mathematics-of-quantity"><i class="fas fa-link"></i></a>
+</h2>
+<div class="objectives">
+<ol>
+<li>
+<strong>[Fun-10a]</strong> <em>Know the definition of a fundamental dimension and the notation for the most common ones (definition page 241-242)</em>
+</li>
+<li>
+<strong>[Fun-10b]</strong> <em>Understand how derived dimensions are formed from fundamental dimensions (definition page 241-242)</em>
+</li>
+<li>
+<strong>[Fun-10c]</strong> <em>Know that units are ways of measuring dimensions and derived dimensions.</em>
+</li>
+</ol>
+</div>
+<p>The first step in understanding the mathematics of quantity is to make an absolute distinction between two concepts that, in everyday life, are used interchangeably: <strong><em>dimension</em></strong> and <strong><em>unit</em></strong>.</p>
+<p><strong><em>Length</em></strong> is a dimension. Meters is a unit of length. We also measure length in microns, mm, cm, inches, feet, yards, kilometers, and miles, to say nothing of furlongs, fathoms, astronomical units (AU), and parsecs.</p>
+<p><strong><em>Time</em></strong> is a dimension. Seconds is a unit of time. We also measure time in micro-seconds, milli-seconds, minutes, hours, days, weeks, months, years, decades, centuries, millenia.</p>
+<p><strong><em>Mass</em></strong> is a dimension. Kilograms is a unit of mass.</p>
+<p>Length, time, and mass are called <strong><em>fundamental dimensions</em></strong>. This is not because length is more important than area or volume. It’s because you can construct area and volume by multiplying lengths together. This is evident when you consider units of area like square-inches or cubic centimeters, but obscured in the names of units like acre, liter, gallon.</p>
+<p>We’ll use the notation L, T, and M to refer to the fundamental dimensions. (Electrical charge Q is also a fundamental dimension, but we won’t have much use for it in our examples.)</p>
+</div>
+<div id="compound-dimensions" class="section level2" number="15.2">
+<h2>
+<span class="header-section-number">15.2</span> Compound dimensions<a class="anchor" aria-label="anchor" href="#compound-dimensions"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are other dimensions: volume, force, pressure, energy, torque, velocity, acceleration, and such. These are called <strong><em>compound dimensions</em></strong> because we represent them as combinations of the fundamental dimensions, L, T, and M. The notation for these combinations involves multiplication and division. For instance:</p>
+<ul>
+<li>Volume is L <span class="math inline">\(\times\)</span> L <span class="math inline">\(\times\)</span> L <span class="math inline">\(=\)</span> L<span class="math inline">\(^3\)</span>, as in “cubic centimeters”</li>
+<li>Velocity is L/T, as in “miles per hour”</li>
+<li>Force is M L/T<span class="math inline">\(^2\)</span>, which is obscure unless you remember Newton’s Second Law that <span class="math inline">\(\text{F} = \text{m}\,\text{a}\)</span>: “force equals mass times acceleration.” In terms of dimension, mass is M, acceleration is L/T<span class="math inline">\(^2\)</span>. Multiply the two together and you get the dimension “force.”</li>
+</ul>
+<p>Multiplication and division are used to construct a compound dimension from the fundamental dimensions L, T, and M.</p>
+<p>Addition and subtraction are <strong>never</strong> used to form a compound dimension.</p>
+<p>Much of the work in understanding dimensions involves overcoming the looseness of everyday speech. Remember the weight scale graduated in pounds <em>and</em> kilograms. The unit kilograms is a way of measuring M, but the unit of pounds is a way of measuring <em>force</em>: M L/T<span class="math inline">\(^2\)</span>.</p>
+<p>Weight is not the same as mass. This makes no sense to most people and doesn’t really matter in everyday life. It’s only when you venture off the surface of the Earth that the difference shows up. A person in orbit is “weightless” but that person continues to have mass. The weight of a woman on Mars is different from her weight on Earth but her martian mass is exactly the same as her earthly mass. <span style="float: right; padding-left: 50px;"><a name="1720" href="#1720"><img src="www/icons8-signpost.png" title="Location: 1720" width="12px"></a><span style="color: red; font-size: 6pt;">1720</span></span></p>
+<p>Another source of confusion carried over from everyday life is that sometimes we measure the same quantity using different dimensions. You can measure a volume by <em>weighing</em> water; a gallon of water weighs 8 pounds, a liter of water has a mass of 1 kg. Serious bakers measure flour by weight; a casual baker uses a measuring cup. We can measure water volume with length because water has a (more-or-less) constant mass density. But 8 pounds of gasoline is considerably more than a gallon. It turns out that the density of flour varies substantially depending on how it’s packed, on humidity, etc. This is why it matters whether you weigh flour for baking or measure it by volume. You can measure time by the swing of a pendulum. To measure the same time successfully with different pendula they need to have the same length, not the same mass.</p>
+<p>A <strong><em>unit</em></strong> is a conventional amount of a quantity of a given dimension. All lengths are the same dimensionally, but they can be measured with different conventions: inches, hards, meters, … Units for the same dimension can all be converted unambiguously one into the other. A meter is exactly the same quantity of length as 39.3701 inches, a mile is the same length as 1609.34 meters. Liters and gallons are both units of volume (L<span class="math inline">\(^3\)</span>): a gallon is the same as 3.78541 liters.</p>
+<p>You will hear it said that a kilogram is 2.2 pounds. That’s not strictly true. A kilogram has dimension M and a pound has dimension ML/T<span class="math inline">\(^2\)</span>. Quantities with different dimensions cannot be “equal” or even legitimately compared to one another. Unless you bring something else into the game that physically changes the situation, for instance gravity (dimension of acceleration due to gravity (dimension <span class="math inline">\(\text{L}/\text{T}^2\)</span>). The <em>weight</em> of a kilogram on the surface of the Earth is is 2.2 pounds because gravitational acceleration is (almost) the same everywhere on the surface of the Earth.</p>
+<p>It’s also potentially confusing that sometimes different dimensions are used to get at the same idea. For instance, the same car that gets 35 miles / gallon in the US (dimension <span class="math inline">\(\text{L}/\text{L}^3 = 1/\text{L}^2\)</span>) will use 6.7 liters per 100 kilometers (<span class="math inline">\(\text{L}^3 / L = \text{L}^2\)</span>) in Europe. Same car. Same fuel. Different conventions using different dimensions. <span style="float: right; padding-left: 50px;"><a name="1730" href="#1730"><img src="www/icons8-signpost.png" title="Location: 1730" width="12px"></a><span style="color: red; font-size: 6pt;">1730</span></span></p>
+<div class="objectives">
+<ol>
+<li>
+<strong>[Fun-10d]</strong> <em>Understand the bracket notation and how it works with dimensional arithmetic.</em>
+</li>
+</ol>
+</div>
+<p>Keeping track of the various compound dimensions can be tricky. For many people, it’s easier to keep track of the physical relationships involved and use that knowledge to put together the dimensions appropriately. Often, the relationship can be described using specific calculus operations, so knowing dimensions and units helps you use calculus successfully.</p>
+<p>We’ll use a specific bracket notation to translate between words for the concept and the dimension. For instance, [length] = L, [mass] = M, [time] = T, [inches] = L, …</p>
+<p>Easy compound dimensions that you likely already know:</p>
+<ol style="list-style-type: lower-roman">
+<li>[<strong><em>Area</em></strong>] <span class="math inline">\(= \text{L}^2\)</span>. Some corresponding units to remind you: “square feet,” “square miles,” “square centimeters.”</li>
+<li>[<strong><em>Volume</em></strong>] <span class="math inline">\(= \text{L}^3\)</span>. Units to remind you: “cubic centimeters,” “cubic feet,” “cubic yards.” (What landscapers informally call a “yard,” for instance “10 yards of topsoil” should properly be called “10 cubic-yards of topsoil.”)</li>
+<li>[<strong><em>Velocity</em></strong>] <span class="math inline">\(= \text{L}/\text{T}\)</span>. Units: “miles per hour,” “inches per second.”</li>
+<li>[<strong><em>Momentum</em></strong>] <span class="math inline">\(= \text{M}\text{L}/\text{T}\)</span>. Units: “kilogram meters per second.”</li>
+</ol>
+<p>Anticipating that you will return to this section for reference, we’ve also added some dimensions that can be understood through the relevant calculus operations.</p>
+<ul>
+<li>acceleration: [Calculus: derivative of velocity with respect to time, 2nd derivative of position with respect to time]</li>
+<li>force: [Calculus: Derivative of momentum with respect to time]</li>
+<li>energy: [Calculus: Integral of force with respect to length]</li>
+<li>power: [Calculus: Derivative of energy with respect to time]</li>
+</ul>
+<div class="intheworld">
+<p><strong><em>Density</em></strong> sounds like a specific concept, but there are many different kinds of densities. These have in common that they are a ratio of a physical amount to a geometric extent: <span style="float: right; padding-left: 50px;"><a name="1740" href="#1740"><img src="www/icons8-signpost.png" title="Location: 1740" width="12px"></a><span style="color: red; font-size: 6pt;">1740</span></span></p>
+<ol style="list-style-type: lower-roman">
+<li>a physical amount: which might be mass, charge, people, etc.</li>
+<li>a geometric extent: which might be length, area, or volume.</li>
+</ol>
+<p>Some examples:</p>
+<ul>
+<li>“paper weight” is the mass per area, typically grams-per-square-meter</li>
+<li>“charge density” is the amount of electrical charge, usually per area or volume</li>
+<li>“lineal density of red blood cells” is the number of cells in a capillary divided by the length of the capillary. (Capillaries are narrow. Red blood cells go through one after the other.)</li>
+<li>“population density” is people per area of ground.</li>
+</ul>
+</div>
+<div class="intheworld">
+<p>The theory of dimensions and units was developed for the physical sciences. Consequently the fundamental dimensions are those of physics: length, mass, time, electrical current, luminous intensity.</p>
+<p>Since proper use of units is important even outside the physical sciences, it’s helpful to recognize several other kinds of quantity as dimensions.</p>
+<p>“people”/“passengers”/“customers”/“patients”/“children”/“students”/“professors” — these are different dimensions and not really units: no fixed translation between them as you would have with units.
+“money”: Units are dollars (in many varieties: US, Canadian, Australian, New Zealand), euros, yuan (synonym: renminbi), yen, pounds (many varieties: UK, Egypt, Syria, Lebanon, Sudan and South Sudan), pesos (many varieties), dinar, franc (Swiss, CFA), rand, riyal, rupee, won, and many others. Conversion rates depend on situation and national policy.</p>
+<p>Examples: Passenger-miles is a standard unit of transport. Passenger-miles-per-dollar is an appropriate unit of the economic efficiency of transport. Passenger-deaths per million passenger-mile is one way to describe the risk of transport.</p>
+</div>
+</div>
+<div id="arithmetic-with-dimensions" class="section level2" number="15.3">
+<h2>
+<span class="header-section-number">15.3</span> Arithmetic with dimensions<a class="anchor" aria-label="anchor" href="#arithmetic-with-dimensions"><i class="fas fa-link"></i></a>
+</h2>
+<p>Recall the rules for arithmetic dimensioned quantities. We restate them briefly with the square-bracket notation for “the dimension of.” For instance, “the dimension of <span class="math inline">\(b\)</span>” is written <span class="math inline">\([b]\)</span>. We also write <span class="math inline">\([1]\)</span> to stand for the dimension of a pure number, that is, a quantity without dimension.</p>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="21%">
+<col width="17%">
+<col width="41%">
+<col width="19%">
+</colgroup>
+<thead><tr class="header">
+<th>Operation</th>
+<th>Result</th>
+<th>Only if satisfies</th>
+<th>Metaphor</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Multiplication</td>
+<td><span class="math inline">\([a \times b] = [a] \times [b]\)</span></td>
+<td>anything goes</td>
+<td>promiscuous</td>
+</tr>
+<tr class="even">
+<td>Division</td>
+<td><span class="math inline">\([a \div b] = [a] \div [b]\)</span></td>
+<td>anything goes</td>
+<td>promiscuous</td>
+</tr>
+<tr class="odd">
+<td>Addition</td>
+<td><span class="math inline">\([a + b] = [a]\)</span></td>
+<td><span class="math inline">\([a] = [b]\)</span></td>
+<td>monogomous</td>
+</tr>
+<tr class="even">
+<td>Subtraction</td>
+<td><span class="math inline">\([a - b] = [a]\)</span></td>
+<td><span class="math inline">\([a] = [b]\)</span></td>
+<td>monogomous</td>
+</tr>
+<tr class="odd">
+<td>Trigonometric</td>
+<td><span class="math inline">\([\sin(a)] = [1]\)</span></td>
+<td><span class="math inline">\([a] = [1]\)</span></td>
+<td>celibate</td>
+</tr>
+<tr class="even">
+<td>Exponential</td>
+<td><span class="math inline">\([e^a] = [1]\)</span></td>
+<td>
+<span class="math inline">\([a] = [1]\)</span> (of course, <span class="math inline">\([e] = [1]\)</span>)</td>
+<td>celibate</td>
+</tr>
+<tr class="odd">
+<td>Power-law</td>
+<td><span class="math inline">\([b ^ a] = \underbrace{[b]\times[b]\times ...\times [b]}_{a\ \ \mbox{times}}\)</span></td>
+<td>
+<span class="math inline">\([a] = [1]\)</span> with <span class="math inline">\(a\)</span> an integer</td>
+<td>exponent celibate</td>
+</tr>
+<tr class="even">
+<td>Square root</td>
+<td><span class="math inline">\([\sqrt{b}] = [c]\)</span></td>
+<td><span class="math inline">\([b] = [c\times c]\)</span></td>
+<td>idiosyncratic</td>
+</tr>
+<tr class="odd">
+<td>Cube root</td>
+<td><span class="math inline">\([\sqrt[3]{b}] = [c]\)</span></td>
+<td><span class="math inline">\([b] = [c \times c \times c]\)</span></td>
+<td>idiosyncratic</td>
+</tr>
+<tr class="even">
+<td>Hump</td>
+<td><span class="math inline">\([\mbox{hump}(a)] = [1]\)</span></td>
+<td><span class="math inline">\([a] = [1]\)</span></td>
+<td>celibate</td>
+</tr>
+<tr class="odd">
+<td>Sigmoidal</td>
+<td><span class="math inline">\([\mbox{sigmoid}(a)] = [1]\)</span></td>
+<td><span class="math inline">\([a] = [1]\)</span></td>
+<td>celibate</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="example-dimensional-analysis" class="section level2" number="15.4">
+<h2>
+<span class="header-section-number">15.4</span> Example: Dimensional analysis<a class="anchor" aria-label="anchor" href="#example-dimensional-analysis"><i class="fas fa-link"></i></a>
+</h2>
+<p>We want to relate the <strong>period</strong> (in T) of a pendulum to it’s <strong>length</strong> and <strong>mass</strong>. <strong>Gravity</strong> also plays a role. For simplicity, we’ll assume that the pendulum cable or rod is massless. <span style="float: right; padding-left: 50px;"><a name="1750" href="#1750"><img src="www/icons8-signpost.png" title="Location: 1750" width="12px"></a><span style="color: red; font-size: 6pt;">1750</span></span></p>
+<p>The analysis strategy is to combine the four quantities we think play a role into one total quantity that is <strong>dimensionless</strong>. Since it is dimensionless, it can be constant regardless of the mass, length, period, gravity of each individual situation.</p>
+<p><span class="math display">\[\mbox{[Period]}^a \cdot \mbox{[Mass]}^b \cdot \mbox{[Length]}^c \cdot \mbox{[Gravity]}^d = T^a \cdot M^b \cdot L^c \cdot L^d \cdot T^{-2d}\]</span>
+To be dimensionless …</p>
+<ul>
+<li>
+<span class="math inline">\(c = -d\)</span>, cancel out the L</li>
+<li>
+<span class="math inline">\(a = -2d\)</span>, cancel out the T</li>
+<li>
+<span class="math inline">\(b=0\)</span>, there’s no other mass term, and we need to cancel out the M</li>
+</ul>
+<p>Let <span class="math inline">\(d=1\)</span> and see what happens.</p>
+<p><span class="math display">\[ \frac{\mbox{Gravity}}{\mbox{Length}\cdot \mbox{Period}^2} \equiv c\]</span>
+Consequently</p>
+<p><span class="math display">\[\text{Period} = \sqrt{\frac{\mbox{Gravity}}{\mbox{Length}} }\]</span>
+::: {.forinstructors}
+Test via experiment</p>
+<p>String knotted into 4 equal segments (about 1 foot each) with a bolt at the end</p>
+<p><code>o-------o-------o-------o-------Bolt</code></p>
+<ol style="list-style-type: decimal">
+<li>Hang the string from the first knot: length L=4
+<ul>
+<li>Time 10 oscillations and record result</li>
+</ul>
+</li>
+<li>Hang the string from the second knot: length L=3
+<ul>
+<li>Time 10 oscillations and record result
+… and so on</li>
+</ul>
+</li>
+</ol>
+<p>Calculate the dimensionless quantity <span class="math inline">\(c\)</span> in each case. They should all be approximately the same.
+:::</p>
+<details><summary><strong>Exercise 15.3</strong>: <span><a name="File:%20Exercises/Dimension/satellite-dimensions.Rmd" href="#RDTTKW"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/satellite-dimensions.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">RDTTKW</span>
+</span></summary><p>This activity will apply some of the concepts and techniques you’re learning to answer the following question:</p>
+<blockquote>
+<p>How fast does a satellite move along its orbit?</p>
+</blockquote>
+<p>As you can imagine, the answer is already known and you could look it up. The point of our reconstructing what is already known is to see the totality of a modeling project, even if it is a very simple one.</p>
+<p>In textbooks and in-class demonstrations, students are often shown complete, flawless models. In reality, model construction is a matter of trial and error. Whoops! We’re supposed to say “modeling cycle.” That phrase doesn’t suggest anything about “error.” But in reality, modelers make mistakes, operate under misconceptions, collect erroneous data, misunderstand the purpose of building a model, and make all sorts of mistakes. To cope with this unhappy situation, good modelers are constantly checking and testing their models for inconsistencies.</p>
+<p>To start, you should have</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>A good idea of what the eventual answer will be</strong>. Often, that idea comes from somewhat vague and imprecise knowledge. For example, you may have heard that it takes a satellite in low orbit about 90 minutes to complete one circuit of the Earth. You may also know that the length of the equator is roughly 40,000 kilometers. (This is actually the original definition of the meter.) A velocity is distance traveled over time, so a satellite in low orbit has a velocity of roughly <span class="math inline">\(40000 / 90\)</span> km/minute, which comes out to 7400 meters/second.</p></li>
+<li><p>A <strong>theory</strong> that relates what you want to know to what you already know. For our purposes, that theory comes directly from Isaac Newton in the 1680s: his laws of motion and his theory of universal gravitation.</p></li>
+</ol>
+<p><strong>The theory</strong></p>
+<p>We won’t assume that you have anything more than a vague understanding of Newton’s laws and theory of gravitation. The diagram shows the situation schematically.</p>
+<div class="inline-figure"><img src="Exercises/Dimension/www/orbit-force.png" width="90%" style="display: block; margin: auto;"></div>
+<p>The satellite is traveling clockwise along a curved trajectory encircling the Earth. The position of the satellite is shown at several times by the numbered blue dots. Let’s focus on the satellite at time 1.</p>
+<p>The satellite is an object in motion. Newton’s First Law (“Lex I”) is stated in his 1687 book, <em>Philosophiae Naturis Principia Mathematica</em> (Mathematical principles of natural philosophy) on p.12</p>
+<div class="inline-figure"><img src="Exercises/Dimension/www/principia.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Translating into English, this is</p>
+<blockquote>
+<p>Law I: <em>Every body persists in its state of rest or uniform motion in a straight line, unless compelled to change that motion by forces impressed upon it.</em></p>
+</blockquote>
+<p>The dashed line connecting the points labeled 1 and 2’ shows the path that the satellite would follow <em>if there were no forces impressed upon it</em>.</p>
+<p>Yet there is a force impressed on the satellite: the gravitational attraction between the Earth and the satellite. This force accelerates the satellite perpendicular to its orbit (toward the center of the Earth) causing the satellite to follow a curved path rather than a straight path off into deep space. The acceleration of the satellite traveling at constant speed in orbit depends on both the velocity <span class="math inline">\(v\)</span> of the satellite and the radius <span class="math inline">\(r\)</span> of its orbit.</p>
+<p><strong>Task #1:</strong> Let <span class="math inline">\(A_1\)</span> be the acceleration needed to keep the satellite in a circular orbit. Find a plausible relationship between <span class="math inline">\(A_1\)</span>, <span class="math inline">\(r\)</span>, and <span class="math inline">\(v\)</span>. One possibility is that the relationship is a general product of the form <span class="math display">\[A_1 = v^n\ r^m .\]</span> Use dimensional analysis to find <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span>. Recall that acceleration has dimension L/T<span class="math inline">\(^{2}\)</span>, velocity has dimension <span class="math inline">\(L/T\)</span> and radius has dimension L.</p>
+<p>Once you determine <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span>, write down the relationship <span class="math inline">\(A_1\)</span> as a function of <span class="math inline">\(r\)</span> and <span class="math inline">\(v\)</span>.</p>
+<hr>
+<p>As we all know, gravity pulls all objects toward the center of the Earth. The acceleration <span class="math inline">\(A_2\)</span> due to gravity on an object a distance <span class="math inline">\(r\)</span> from the enter of the Earth is proportional to the mass of the Earth and is known to be <span class="math display">\[A_2  = G\ M_e/r^2\]</span>
+where <span class="math inline">\(G\)</span> is a constant of proportionality and <span class="math inline">\(M_e\)</span> is the mass of Earth.</p>
+<p>In order for the satellite to stay in orbit, the two accelerations <span class="math inline">\(A_1\)</span> (what’s needed to stay in orbit) and <span class="math inline">\(A_2\)</span> (what the Earth’s gravity provides) must be equal.</p>
+<p><strong>Task #2:</strong> Set your expression for <span class="math inline">\(A_1\)</span> equal to the expression for <span class="math inline">\(A_2\)</span> and solve for the velocity <span class="math inline">\(v\)</span> of the satellite (our original objective for this exercise). Your answer will involve <span class="math inline">\(G\)</span>, <span class="math inline">\(M_e\)</span>, and <span class="math inline">\(r\)</span>.</p>
+<p>Use the known numerical values for <span class="math inline">\(G\)</span> and <span class="math inline">\(M_e\)</span> given in the next section to check that your answer makes sense.</p>
+<p><strong>The data</strong></p>
+<p>The data here come from scientific observations made over centuries that give us numerical values (with units) of <span class="math inline">\(M_e\)</span> and <span class="math inline">\(G\)</span> in the theory.</p>
+<p><span class="math inline">\(G\)</span> is a universal constant (according to Newton’s theory of gravitation). The quantity is given by several sources as</p>
+<p><span class="math display">\[G = 6.67 \times 10^{−11} m^3 /(s^2 kg).\]</span></p>
+<p>Similarly, the mass of the Earth is given as</p>
+<p><span class="math display">\[M_e  = 5.972 × 10^{24} kg\]</span></p>
+<p>These reported facts seem plausible, but it’s a good practice to check. Toward that end, check</p>
+<ol style="list-style-type: decimal">
+<li>The dimension and units of <span class="math inline">\(A_2(v, r)\)</span> are consistent.</li>
+<li>The value of <span class="math inline">\(A_2\)</span> at the Earth’s surface is consistent with the famous value 9.8 m/s<span class="math inline">\(^2\)</span>.</li>
+</ol>
+<p><strong>Task #3:</strong> Finishing up.</p>
+<p>Use the formula you derived for <span class="math inline">\(v\)</span> as a function of <span class="math inline">\(r\)</span>, <span class="math inline">\(G\)</span>, and <span class="math inline">\(M_e\)</span> to find <span class="math inline">\(v\)</span> for a satellite in low orbit around the Earth. (You’ll have to decide what “low” means.)</p>
+<p>As always, you want to do the calculation in a way that helps you to spot possible errors. Here are two good practices:</p>
+<ol style="list-style-type: decimal">
+<li>You have already confirmed (or should have) that your formula for <span class="math inline">\(v\)</span> as a function of <span class="math inline">\(r\)</span>, <span class="math inline">\(G\)</span>, and <span class="math inline">\(M_e\)</span> is dimensionally consistent. As you plug in numerical values for <span class="math inline">\(r\)</span>, <span class="math inline">\(G\)</span>, and <span class="math inline">\(M_e\)</span>, make sure to keep track of the <em>units</em> explicitly and that the result you get has proper units for velocity.</li>
+<li>Compare your result to the rough estimate of <span class="math inline">\(v\)</span> for satellites in low orbit that you made at the beginning of this activity. If there is a discrepancy, review both your initial rough estimate as well as your gravity-based derivation of <span class="math inline">\(v\)</span> to figure out where the inconsistency comes from. Then fix it.</li>
+</ol></details>
+</div>
+<div id="conversion-flavors-of-1" class="section level2" number="15.5">
+<h2>
+<span class="header-section-number">15.5</span> Conversion: Flavors of 1<a class="anchor" aria-label="anchor" href="#conversion-flavors-of-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Numbers are dimensionless but not necessarily unitless. Failure to accept this distinction is one of the prime reasons people have trouble figuring out to to convert from one unit to another. <span style="float: right; padding-left: 50px;"><a name="1760" href="#1760"><img src="www/icons8-signpost.png" title="Location: 1760" width="12px"></a><span style="color: red; font-size: 6pt;">1760</span></span></p>
+<p>1 is a favorite of elementary school students because its multiplication and division tables are completely simple. Anything times one, or anything divided by one, is simply that thing. Addition and subtraction are pretty simple, too, but that’s not my concern here.</p>
+<p>When it comes to <strong><em>quantities</em></strong>, there’s not just one one but many. And often they look nothing like the numeral 1. Some examples of 1 as a quantity:</p>
+<ul>
+<li><p><span class="math inline">\(\frac{180}{\pi} \frac{\text{degrees}}{\text{radians}}\)</span></p></li>
+<li><p><span class="math inline">\(0.621371 \frac{\text{mile}}{\text{kilometer}}\)</span></p></li>
+<li><p><span class="math inline">\(3.78541 \frac{\text{liter}}{\text{gallon}}\)</span></p></li>
+<li><p><span class="math inline">\(\frac{9}{5} \frac{^\circ F}{^\circ C}\)</span></p></li>
+<li><p><span class="math inline">\(\frac{1}{12} \frac{\text{dozen}}{\text{item}}\)</span></p></li>
+</ul>
+<p>I like to call these and others different <strong><em>flavors of one</em></strong>.</p>
+<p>In every example, the dimension of the numerator matches the dimension of the denominator. [feet / meter] is L/L = 1. [cups / pint] is L<sup>3/L</sup>3 = 1. [miles/hour / ft per sec] = L/T / L/T = 1. Each of these quantities has <em>units</em> but it has no <em>dimension</em>.</p>
+<p>It’s helpful to think about conversion between units as a matter of multiplying by the appropriate flavor of 1. Such conversion will not change the dimension of the quantity but will render it in new units.</p>
+<div class="workedexample">
+<p>Example: Convert 100 feet-per-second into miles-per-hour. First, write the quantity to be converted as a fraction and along side it, write the desired units after the conversion. In this case that will be <span class="math display">\[100 \frac{\text{feet}}{\text{second}} \ \ \ \text{into} \ \ \ \frac{\text{miles}}{\text{hour}}\]</span></p>
+<p>First, we’ll change feet into miles. This can be accomplished by multiplying by the flavor of one that has units miles-per-foot. What number will give a flavor of one? One mile is 5280 feet, so <span class="math display">\[\frac{1}{5280} \frac{\text{miles}}{\text{foot}}\]</span> is a flavor of one.</p>
+<p>Next, we need a flavor of one that will turn <span class="math inline">\(\frac{1}{\text{second}}\)</span> into <span class="math inline">\(\frac{\text{1}}{\text{hour}}\)</span>. This will have the form <span class="math inline">\(\frac{\text{second}}{\text{hour}}\)</span>. What number will give a flavor of one with these units. One hour is 3600 seconds, so <span class="math display">\[3600 \frac{\text{second}}{\text{hour}}\]</span> is a flavor of one.</p>
+<p>Multiplying our carefully selected flavors of one by the initial quantity, we get <span class="math display">\[
+\frac{1}{5280} \frac{\text{miles}}{\text{foot}} \times 3600 \frac{\text{second}}{\text{hour}}\times 100 \frac{\text{feet}}{\text{second}} = 100 \frac{3600}{5280} \frac{\text{miles}}{\text{hour}} = 68.18 \frac{\text{miles}}{\text{hour}}\]</span></p>
+</div>
+</div>
+<div id="dimensions-and-linear-combinations" class="section level2" number="15.6">
+<h2>
+<span class="header-section-number">15.6</span> Dimensions and linear combinations<a class="anchor" aria-label="anchor" href="#dimensions-and-linear-combinations"><i class="fas fa-link"></i></a>
+</h2>
+<p>Low-order polynomials are a useful way of constructing model functions. And a polynomial is a linear combination of monomials. For instance, suppose we want a model of the yield of corn in a field per inch of rain over the growing season, will call it corn(rain). The output will have units of bushels (of corn). The input will have units of inches (of rain). A second-order polynomial will be appropriate for reasons to be discussed in Chapter <a href="#optimization1"><strong>??</strong></a>. <span style="float: right; padding-left: 50px;"><a name="1770" href="#1770"><img src="www/icons8-signpost.png" title="Location: 1770" width="12px"></a><span style="color: red; font-size: 6pt;">1770</span></span></p>
+<p><span class="math display">\[\text{corn(rain)} \equiv a_0 + a_1\, \text{rain} + \frac{1}{2} a_2\, \text{rain}^2\]</span>
+Of course, the addition in the linear combination will only make sense if all three terms <span class="math inline">\(a_0\)</span>, <span class="math inline">\(a_1\,\text{rain}\)</span>, and <span class="math inline">\(a_2\, \text{rain}^2/2\)</span> have the same dimension. But clearly <span class="math inline">\([\text{rain}] \neq [\text{rain}^2]\)</span>. In order for things to work out, the <strong>scalars must themselves have dimension</strong>. We know the output of the function will have dimension <span class="math inline">\([\text{volume}] = \text{L}^3\)</span>. Thus, <span class="math inline">\([a_0] = \text{L}^3\)</span>.</p>
+<p><span class="math inline">\([a_1]\)</span> must be different, because it has to cancel out the <span class="math inline">\([\text{rain}] = \text{L}\)</span> and produce <span class="math inline">\(\text{L}^3\)</span>. Thus, <span class="math inline">\([a_1] = \text{L}^2\)</span>.</p>
+<p>Finally, <span class="math inline">\([a_2] = \text{L}\)</span>. Multiplying that by <span class="math inline">\([\text{rain}]^2\)</span> will give the required <span class="math inline">\(\text{L}^3\)</span></p>
+<!--
+## Stress and strain
+
+For the civil engineers, introduce the words stress and strain and talk about the units: [stress] = ML/T2 and [strain] = L).
+
+-->
+<div class="intheworld">
+<p>In everyday communication as well as in most domains such as construction, geography, navigation, and astronomy we measure angles in <strong><em>degrees</em></strong>. 90 degrees is a right angle. But in mathematics, the unit of angle is <strong><em>radians</em></strong> where a right angle is 1.5708 radians. (1.5708 is the decimal version of <span class="math inline">\(\pi/2\)</span>.) The conversion function, which we’ll call raddeg(), is <span class="math display">\[\mbox{raddeg}(r) \equiv \frac{180}{\pi} r\]</span> The function that converts degrees to radians, which we’ll call degrad() is very similar: <span class="math display">\[\mbox{degrad}(d) \equiv \frac{\pi}{180} d\]</span>
+(Incidentally, <span class="math inline">\(\frac{180}{\pi} = 57.296\)</span> while <span class="math inline">\(\frac{\pi}{180} = 0.017453\)</span>.)</p>
+<p>In traditional notation, the trigonometric functions such as <span class="math inline">\(\sin()\)</span> and <span class="math inline">\(\tan()\)</span> can be written with an argument either in degrees or radians. For instance, <span class="math inline">\(\sin(90^\circ) = \sin\left(\frac{\pi}{2}\right)\)</span>. Similarly, for the inverse functions like <span class="math inline">\(\arccos()\)</span> the units of the output are not specified. This works because there is always a human to intervene between the written expression and the eventual computation. With the computer, there is no valid expression like <code>sin(90 deg)</code> (although it would be good if there were!). The angles are always given in radians. Such consistency is admirable, but people are not always so consistent. It is a common source of computer bugs that angles in degrees are handed off to functions like <span class="math inline">\(\sin()\)</span> and that the output of <span class="math inline">\(\arccos()\)</span> is (wrongly) interpreted as degrees rather than radians. <span style="float: right; padding-left: 50px;"><a name="1780" href="#1780"><img src="www/icons8-signpost.png" title="Location: 1780" width="12px"></a><span style="color: red; font-size: 6pt;">1780</span></span></p>
+<p>Function composition to the rescue!</p>
+<p>Consider this function given in the <a href="https://en.wikipedia.org/wiki/Position_of_the_Sun">Wikipedia article on the position of the sun</a> as seen from Earth.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Article accessed on May 30, 2021&lt;/p&gt;"><sup>19</sup></a>
+<span class="math display">\[\delta_\odot(n) \equiv - 23.44^\circ \cdot \cos \left [ \frac{360^\circ}{365} \cdot \left ( n + 10 \right ) \right ]\]</span>
+Where <span class="math inline">\(n\)</span> is zero at the midnight marking New Years and increases by 1 per day. (The <span class="math inline">\(n+10\)</span> translates New Years back 10 days, to the day of the winter solstice.) <span class="math inline">\(\delta_\odot()\)</span> gives the declination of the sun: the latitude pieced by an imagined line connecting the centers of the earth and the sun.</p>
+<p>The Wikipedia formula is well written in that it uses some familiar numbers to help the reader see where the formula comes from. 365 is recognizably the length of the year in days. <span class="math inline">\(360^\circ\)</span> is the angle traversed when making a full cycle around a circle. <span class="math inline">\(23.44^\circ\)</span> is less familiar, but the student of geography might recognize it as the latitude of the Tropic of Cancer, the latitude farthest north where the sun is directly overhead at noon (on the day of the summer solstice).</p>
+<p>But there’s a world of trouble for programmer who implements the formula as</p>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dec_sun</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span><span class="fl">360</span><span class="op">/</span><span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">-</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span></code></pre></div>
+</div>
+<details><summary><strong>Exercise 15.3</strong>: <span><a name="File:%20Exercises/Dimension/dim-formulas.Rmd" href="#UGDKY"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/dim-formulas.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">UGDKY</span>
+</span></summary><p>For each mathematical operation, identify the operation as valid or invalid according to the rules of dimensional arithmetic.</p>
+<p><strong>Question A</strong> In this formula <span class="math display">\[\frac{8 \text{m} - 2.5 \text{km}}{2 \text{min} - 32 \text{s}}}\]</span> choose which rule (if any) is violated.</p>
+<ol style="list-style-type: lower-roman">
+<li>Addition or Subtraction rule<span class="mcanswer"> ︎✘ Both the numerator and denominator are valid subtractions, with dimension L and T respectively. </span><br>
+</li>
+<li>Multiplication or Division rule<span class="mcanswer"> ︎✘ There are no restrictions for multiplication and division, so a formula can hardly violate them! </span><br>
+</li>
+<li>Exponential<span class="mcanswer"> ︎✘ There’s no exponent here. </span><br>
+</li>
+<li>It’s valid. No rules are violated.<span class="mcanswer"> ✔︎ </span>
+</li>
+</ol>
+<p><strong>Question B</strong> In this formula <span class="math display">\[\frac{3 \text{g} \times 2 \text{m}}{3 \text{km}^2}\]</span> choose which rule (if any) is violated.</p>
+<ol style="list-style-type: lower-roman">
+<li>Addition or Subtraction rule<span class="mcanswer"> ︎✘ No addition or subtraction here. </span><br>
+</li>
+<li>Multiplication or Division rule<span class="mcanswer"> ︎✘ There are no restrictions for multiplication and division, so a formula can hardly violate them! </span><br>
+</li>
+<li>Exponential<span class="mcanswer"> ︎✘ There’s no exponent here. </span><br>
+</li>
+<li>It’s valid. No rules are violated.<span class="mcanswer"> ✔︎ </span>
+</li>
+</ol>
+<p><strong>Question C</strong> For this formula <span class="math display">\[10^{\frac{4 \text{hr}}{3 \text{g}}}\]</span> choose which rule (if any) is violated.</p>
+<ol style="list-style-type: lower-roman">
+<li>Addition or Subtraction rule<span class="mcanswer"> ︎✘ No addition in this formula. </span><br>
+</li>
+<li>Multiplication or Division rule<span class="mcanswer"> ︎✘ There are no restrictions for multiplication and division, so a formula can hardly violate them! </span><br>
+</li>
+<li>Exponential<span class="mcanswer"> ✔︎ The exponent is 4 ft / 3 g, which has dimension L / M. Exponents must <em>always</em> have dimension [1]. </span><br>
+</li>
+<li>It’s valid. No rules are violated.<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question D</strong> In this formula <span class="math display">\[6^{\frac{2 \text{hr}}{3 \text{min}}}\]</span>choose which rule (if any) is violated.</p>
+<ol style="list-style-type: lower-roman">
+<li>Addition or Subtraction rule<span class="mcanswer"> ︎✘ No addition or subtraction in this formula. </span><br>
+</li>
+<li>Multiplication or Division rule<span class="mcanswer"> ︎✘ There are no restrictions for multiplication and division, so a formula can hardly violate them! </span><br>
+</li>
+<li>Exponential<span class="mcanswer"> ︎✘ The exponent is 4 hr/3 min, which has dimension T/T = [1]. So the rule is satisfied. </span><br>
+</li>
+<li>It’s valid. No rules are violated.<span class="mcanswer"> ✔︎ </span>
+</li>
+</ol>
+<p><strong>Question E</strong> In this formula <span class="math display">\[5 \text{g} \times 3 \text{kg} - 7 \text{lbs}\]</span> choose which rule (if any) is violated.</p>
+<ol style="list-style-type: lower-roman">
+<li>Addition or Subtraction rule<span class="mcanswer"> ✔︎ You can’t subtract M from M<span class="math inline">\(^2\)</span>. (Strictly speaking, lbs has dimension of force, <span class="math inline">\(M L^2 / T^2\)</span>, but you can’t subtract force from M<span class="math inline">\(^2\)</span> either. </span><br>
+</li>
+<li>Multiplication or Division rule<span class="mcanswer"> ︎✘ There are no restrictions for multiplication and division, so a formula can hardly violate them! </span><br>
+</li>
+<li>Exponential<span class="mcanswer"> ︎✘ There’s no exponent here. </span><br>
+</li>
+<li>It’s valid. No rules are violated.<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question F</strong> In this formula <span class="math display">\[\sqrt[3]{8 m^3 + 27 \text{ft}^2}\]</span> choose which rule (if any) is violated.</p>
+<ol style="list-style-type: lower-roman">
+<li>Addition or Subtraction rule<span class="mcanswer"> ✔︎ You can’t add L<span class="math inline">\(^3\)</span> to L<span class="math inline">\(^2\)</span>. </span><br>
+</li>
+<li>Multiplication or Division rule<span class="mcanswer"> ︎✘ There are no restrictions for multiplication and division, so a formula can hardly violate them! </span><br>
+</li>
+<li>Exponential<span class="mcanswer"> ︎✘ Maybe you’re thinking that the cube-root rule is violated, but since the quantity in the cube root is invalid, the root doesn’t do anything additionally wrong. </span><br>
+</li>
+<li>It’s valid. No rules are violated.<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol></details><details><summary><strong>Exercise 15.7</strong>: <span><a name="File:%20Exercises/Dimension/dim-params.Rmd" href="#DVGKY"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/dim-params.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">DVGKY</span>
+</span></summary><p><strong>Question A</strong> A) The dimension of <span class="math inline">\(t\)</span> is T, that is, <span class="math inline">\([t] = T\)</span>. What must the dimension of <span class="math inline">\(k\)</span> for the arithmetic operation to make sense?</p>
+<p>    [1]<span class="mcanswer"> ︎✘ Then $[kt] = <span class="math inline">\(T, which would violate the exponential rule. &lt;/span&gt;       T\)</span>^{ -1}$<span class="mcanswer"> ✔︎ Right, [k] needs to cancel out [t] so that the exponention is valid. </span>       T<span class="mcanswer"> ︎✘ Then $[kt] = <span class="math inline">\(T\)</span>^2$, which would violate the exponential rule. </span>       None of the above<span class="mcanswer"> ︎✘ </span></span></p>
+<p><strong>Question B</strong> B) What must the dimension of <span class="math inline">\(c\)</span> for the arithmetic operation <span class="math inline">\(1 + c \cdot 2^{kt}\)</span> to make sense?</p>
+<ol style="list-style-type: lower-roman">
+<li>[1]<span class="mcanswer"> ✔︎ Right. You’re going to have to add <span class="math inline">\(c \cdot 2^{kt}\)</span> to 1. Since <span class="math inline">\([kt] = [1]\)</span>, <span class="math inline">\(c\)</span> also needs to be dimensionless. </span><br>
+</li>
+<li>T<span class="math inline">\(^{-1}\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>T<span class="mcanswer"> ︎✘ Then $[kt] = <span class="math inline">\(T^2\)</span>, which would violate the exponential rule. </span><br>
+</li>
+<li>Depends on the dimension of <span class="math inline">\(2^{kt}\)</span><span class="mcanswer"> ︎✘ We already determined that <span class="math inline">\([kt] = [1]\)</span>, so <span class="math inline">\([2^{kt}] = [1]\)</span>. </span>
+</li>
+</ol></details><details><summary><strong>Exercise 15.11</strong>: <span><a name="File:%20Exercises/Dimension/crow-mean-dress.Rmd" href="#KGYKY"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/crow-mean-dress.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">KGYKY</span>
+</span></summary><p>The surface area <span class="math inline">\(S\)</span> of a mammal is reasonably well approximated by the function <span class="math display">\[S(M) \equiv k M ^{2/3}\]</span> where <span class="math inline">\(M\)</span> is the body mass (in kg) and the constant <span class="math inline">\(k\)</span> depends on the particular species under consideration.</p>
+<p><em>Note that <span class="math inline">\(M^{2/3}\)</span> is not an allowed arithmetic operation. <span class="math inline">\([M] = \mbox{mass}\)</span>, and mass cannot be raised to a non-integer power. More properly, the expression should be written <span class="math display">\[\left(\frac{M}{1\  kg}\right)^{2/3}\]</span> The division by “1 kg” renders dimensionless the quantity in the parentheses: <span class="math display">\[\left[\frac{M}{1\  kg}\right] = 1\]</span>
+In order to render the quantity both dimensionless and </em>unitless<em>, <span class="math inline">\(M\)</span> should be specified in kg. The usual practice is to skip the “1 kg” business and simply say, “Where <span class="math inline">\(M\)</span> is in kg.” You will see such notation frequently in your career and should take care to use the indicated units.</em></p>
+<p>You’ll need to open a computing sandbox to do the calculations.</p>
+<p><strong>Question A</strong> A) Consider a baby and an adult. The adult’s mass is <span class="math inline">\(8\)</span> times greater than the baby’s. Then the adult’s surface area is …?</p>
+<ol style="list-style-type: lower-roman">
+<li>The same as the baby’s<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1.5 times of the baby’s<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>4 times the baby’s<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>8 times the baby’s<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question B</strong> B) Consider a human of body mass 70 kg with a skin surface area of 18,600 cm<sup>2</sup>. Which of the following units for the constant of proportionality <span class="math inline">\(k\)</span> is correct?</p>
+<ol style="list-style-type: lower-roman">
+<li>cm<span class="math inline">\(^2\)</span> kg<span class="math inline">\(^{-2/3}\)</span><span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>cm<span class="math inline">\(^2\)</span><span class="mcanswer"> ︎✘ What about the units of mass? What takes care of them? </span><br>
+</li>
+<li>cm<span class="math inline">\(^2\)</span> kg<span class="math inline">\(^{2/3}\)</span><span class="mcanswer"> ︎✘ When you multiply 70 kg by <span class="math inline">\(k\)</span>, you need to get a result in <span class="math inline">\(cm^2\)</span>. </span><br>
+</li>
+<li>kg<span class="math inline">\(^{-1}\)</span><span class="mcanswer"> ︎✘ Would this cancel out the units of mass and produce <span class="math inline">\(cm^2\)</span> for the result? </span>
+</li>
+</ol>
+<p><strong>Question C</strong> C) In the units of part (B), which value is <span class="math inline">\(k\)</span> closest to?</p>
+<p>    1<span class="mcanswer"> ︎✘ </span>       10<span class="mcanswer"> ︎✘ </span>       100<span class="mcanswer"> ︎✘ </span>       1000<span class="mcanswer"> ✔︎ </span></p>
+<p>The numerical value of the constant <span class="math inline">\(k\)</span> changes depending on what units you want to express it in. The value you found in part (C) works for masses stated in kg and skin areas in cm<span class="math inline">\(^2\)</span>. Suppose you want to present <span class="math inline">\(k\)</span> in units that will make sense to people who are used to talking about skin area in square inches and mass in pounds. 1 inch <span class="math inline">\(\approx\)</span> 2.6 cm. In the rough-and-ready way everyday people express themselves, 1 kg <span class="math inline">\(\approx\)</span> 2.2 lbs. (Of course, pounds is a measure of force, not mass. But people use it as if it were mass. A mass of 70 kg corresponds to about 4.8 slugs. In Earth’s gravity, 4.8 slugs produces a force of 154 pounds.)</p>
+<p><strong>Question D</strong> Optional challenge) What is the rough numerical value of the conversion factor which would produce a constant of proportionality that would be suitable for converting body mass in pounds to skin area in square-inches?</p>
+<p>    0.03<span class="mcanswer"> ︎✘ </span>       0.3<span class="mcanswer"> ✔︎ <span class="math inline">\(k\)</span> is about 1000 cm<span class="math inline">\(^2\)</span> kg<span class="math inline">\(^{-2/3}\)</span>. To convert the cm to inches, we need to multiply by (1 in/2.6 cm)<span class="math inline">\(^2\)</span>. To convert the kg to pounds, we need to multiply by (2.2 pounds/ 1 kg)<span class="math inline">\(^{-2/3}\)</span>. </span>       3<span class="mcanswer"> ︎✘ </span>       30<span class="mcanswer"> ︎✘ </span>       300<span class="mcanswer"> ︎✘ </span></p>
+</details><details><summary><strong>Exercise 15.11</strong>: <span><a name="File:%20Exercises/Dimension/Boyd-1.Rmd" href="#JELCI"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/Boyd-1.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">JELCI</span>
+</span></summary><p>The “Energy-maneuverability Theory” of aircraft performance was developed by renowned fighter pilot Col John Boyd and mathematician Thomas Christie in the 1960s. The theory posits that the available maneuverability of an aircraft is closely related to its <em>specific energy</em>, that is, the kinetic plus potential energy of the aircraft divided by aircraft weight.</p>
+<p>An important formula in E-M Theory is <span class="math display">\[P_s = \frac{T - D}{W} V\]</span> where <span class="math inline">\(T\)</span> is aircraft thrust, <span class="math inline">\(D\)</span> is drag, <span class="math inline">\(W\)</span> is weight, and <span class="math inline">\(V\)</span> is velocity. <span class="math inline">\((T-D)\)</span>, thrust minus drag, is the net forward force on the aircraft.</p>
+<p>Recall these facts about the dimension of physical quantities:</p>
+<ul>
+<li><p>Velocity has dimension <span class="math inline">\(L^1 T^{-1}\)</span> (e.g. meters per second)</p></li>
+<li><p>Acceleration has dimension <span class="math inline">\(L^1 T^{-2} =\)</span> [Velocity] <span class="math inline">\(\times\  T^{-1}\)</span> (e.g. meters per second-squared)</p></li>
+<li><p>Force has dimension <span class="math inline">\(M \times\ \)</span> [Acceleration]</p></li>
+<li><p>Energy has dimension [Force] <span class="math inline">\(\times\  L\)</span></p></li>
+<li><p>Power has dimension [Energy] <span class="math inline">\(\times\  T^{-1}\)</span></p></li>
+</ul>
+<p><strong>Question A</strong> What is the dimension of <span class="math inline">\(P_s\)</span> in E-M Theory?</p>
+<ol style="list-style-type: lower-roman">
+<li>[Power] <span class="math inline">\(\times\ M^{-1}\)</span><span class="mcanswer"> ✔︎ In other words, specific power </span><br>
+</li>
+<li>[Force] <span class="math inline">\(\times\)</span> [Acceleration]<span class="mcanswer"> ︎✘ Just so you know, such a dimension is rarely, if ever, encountered in practice. </span><br>
+</li>
+<li>[Force] <span class="math inline">\(\times\)</span> [Velocity]<span class="mcanswer"> ︎✘ You’re leaving out the division by <span class="math inline">\(W\)</span> in the E-M Theory formula. </span><br>
+</li>
+<li>[Power]<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p>If you multiply <span class="math inline">\(P_s\)</span> (specific power) times the duration of a flight segment, the result has dimension [Energy]<span class="math inline">\(\times M^{-1}\)</span> which is energy per mass: so-called “specific energy.” In practice, all of the quantities in the E-M Theory formula change with time, often very quickly in a fighter aircraft. In order to know the aircraft specific energy at any instant, we need to accumulate the changing specific power over time. This amounts to finding the anti-derivative of specific power with respect to time: <span class="math display">\[\mbox{specific energy} \equiv \int P_s(t) dt\]</span> You can think of the <span class="math inline">\(dt\)</span> as a short interval of time. <span class="math inline">\(P_s(t) dt\)</span> is multiplying specific power at instant <span class="math inline">\(t\)</span> by the duration of that short interval of time which produces a small amount of specific energy at instant <span class="math inline">\(t\)</span>. The <span class="math inline">\(\int\)</span> means “accumulate” these small bits of specific energy from each instant in time over a longer time interval.</p>
+<p><strong>Question B</strong> What is the dimension of <span class="math inline">\(dt\)</span> within the context of this problem?</p>
+    [dt] = T<span class="mcanswer"> ✔︎ Correct </span>       [dt] = M<span class="mcanswer"> ︎✘ Think about what you are accumulating over. </span>       [dt] = L<span class="mcanswer"> ︎✘ Think about what you are accumulating over. </span>       [dt] = 1/T<span class="mcanswer"> ︎✘ Reconsider the units of specific energy. </span>
+</details><details><summary><strong>Exercise XX.XX</strong>: <span><a name="File:%20Exercises/Fun/snake-leave-candy.Rmd" href="#aNEcW1"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/snake-leave-candy.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">aNEcW1</span>
+</span></summary><p>Newton’s law of universal gravitation—also known as the inverse square law—is generally written <span class="math display">\[F = G \frac{m_1\ m_2}{r^2} .\]</span>
+<span class="math inline">\(m_1\)</span> and <span class="math inline">\(m_2\)</span> are the masses of the two objects (say, Earth and Sun). <span class="math inline">\(r\)</span> is the distance between the two objects (about 150,000,000 km). <span class="math inline">\(F\)</span> is the gravitational force and <span class="math inline">\(G\)</span> is a fixed quantity called the “gravitational constant.”</p>
+<p>Of course, you already know the dimension of force, mass, and distance.</p>
+<p><strong>Question A</strong> What is the dimension of the gravitational constant, <span class="math inline">\(G\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(L^3 M^{-1} T^{-2}\)</span><span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>
+<span class="math inline">\(L^2 M^{-2}\)</span><span class="mcanswer"> ︎✘ Remember, <span class="math inline">\(G m_1 m_2 / r^2\)</span> has to have the same dimensions as force. </span><br>
+</li>
+<li>
+<span class="math inline">\(L^2 M^{2} T^{-2}\)</span><span class="mcanswer"> ︎✘ Check your signs! </span><br>
+</li>
+<li>$L^2 M^{-2} T^{-2}<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question B</strong> The quantity <span class="math inline">\(G\)</span> is <span class="math inline">\(6.674 \times 10^{−11}\)</span> when <span class="math inline">\(L\)</span> is in meters, <span class="math inline">\(M\)</span> is in kilograms, and <span class="math inline">\(T\)</span> in seconds. What is the gravitational force between Earth (mass <span class="math inline">\(6 \times 10^{24}\)</span> kg) and Sun (mass <span class="math inline">\(2 imes 10^{30}\)</span> kg) ?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(3.6 \times 10^{28}\)</span> Newtons<span class="mcanswer"> ✔︎ </span><br>
+</li>
+<li>
+<span class="math inline">\(3.6 \times 10^{31}\)</span> meters<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(3.6 \times 10^{28}\)</span> meters per second-squared<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(3.6 \times 10^{31}\)</span> meter seconds per kg<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol></details>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="magnitudes.html"><span class="header-section-number">14</span> Magnitudes</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#dimensions"><span class="header-section-number">15</span> Dimensions</a></li>
+<li><a class="nav-link" href="#mathematics-of-quantity"><span class="header-section-number">15.1</span> Mathematics of quantity</a></li>
+<li><a class="nav-link" href="#compound-dimensions"><span class="header-section-number">15.2</span> Compound dimensions</a></li>
+<li><a class="nav-link" href="#arithmetic-with-dimensions"><span class="header-section-number">15.3</span> Arithmetic with dimensions</a></li>
+<li><a class="nav-link" href="#example-dimensional-analysis"><span class="header-section-number">15.4</span> Example: Dimensional analysis</a></li>
+<li><a class="nav-link" href="#conversion-flavors-of-1"><span class="header-section-number">15.5</span> Conversion: Flavors of 1</a></li>
+<li><a class="nav-link" href="#dimensions-and-linear-combinations"><span class="header-section-number">15.6</span> Dimensions and linear combinations</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/dtkaplan/CalcZ-notes/blob/master/Dimensions.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/dtkaplan/CalcZ-notes/edit/master/Dimensions.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-02.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>
