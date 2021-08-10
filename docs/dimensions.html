@@ -413,22 +413,22 @@ For the civil engineers, introduce the words stress and strain and talk about th
 Where <span class="math inline">\(n\)</span> is zero at the midnight marking New Years and increases by 1 per day. (The <span class="math inline">\(n+10\)</span> has units of days and translates New Years back 10 days, to the day of the winter solstice.) <span class="math inline">\(\delta_\odot()\)</span> gives the declination of the sun: the latitude pieced by an imagined line connecting the centers of the earth and the sun.</p>
 <p>The Wikipedia formula is well written in that it uses some familiar numbers to help the reader see where the formula comes from. 365 is recognizably the length of the year in days. <span class="math inline">\(360^\circ\)</span> is the angle traversed when making a full cycle around a circle. <span class="math inline">\(23.44^\circ\)</span> is less familiar, but the student of geography might recognize it as the latitude of the Tropic of Cancer, the latitude farthest north where the sun is directly overhead at noon (on the day of the summer solstice).</p>
 <p>But there’s a world of trouble for programmer who implements the formula as</p>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dec_sun</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span><span class="fl">360</span><span class="op">/</span><span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">+</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span></code></pre></div>
 <p>For instance, the equinoxes are around March 21 (n=81) and Sept 21 (n=264). On an equinox, the delination of the sun is zero degrees. But let’s plug <span class="math inline">\(n=81\)</span> and <span class="math inline">\(n=264\)</span> into the formula and see what we get.</p>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun</span><span class="op">(</span><span class="fl">81</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 5.070321</code></pre>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun</span><span class="op">(</span><span class="fl">264</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -23.38324</code></pre>
 <p>The equinoxes aren’t even equal! And they are not close to zero. Does this mean astronomy is wrong?</p>
 <p>The Wikipedia formula should have been programmed this way, using 2 <span class="math inline">\(\pi\)</span> radians instead of 360 degrees:</p>
-<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dec_sun_right</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span> <span class="op">/</span> <span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">+</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span>
 <span class="fu">dec_sun_right</span><span class="op">(</span><span class="fl">81</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun_right</span><span class="op">(</span><span class="fl">264</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
 <p>The deviation of one-tenth of a degree reflects rounding off the time of the equinox to the nearest day.</p>
@@ -683,7 +683,7 @@ You can’t take (pounds)<span class="math inline">\(^{2/3}\)</span> or (kg)<spa
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-09.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

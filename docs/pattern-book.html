@@ -285,7 +285,7 @@ and like this in computer notation:</p>
 <p>Copy and paste the R/mosaic command below into a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>. The command shows a simple way to graph a function, in this case <code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code>. Press “Run code” to execute the command and draw the graph.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-88-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-84-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>In this exercise, you’ll be modifying the sandbox code to draw different functions, so you can examine their shapes.</p>
 </div>
 <p>Your task is to read and interpret the graphs of the basic modeling functions. Here, you will be looking for <strong><em>zero-crossings</em></strong>: the neighborhood of a point in the function’s domain where the <strong>output</strong> of the function is negative for inputs on one side and positive for inputs on the other side. If zero is touched but not crossed, we’ll call that “touched zero.”</p>
@@ -366,8 +366,8 @@ On a piece of paper, sketch from memory a graph of each of the nine pattern-book
 <p><strong>Question A</strong> What is the exact output of the pattern-book <strong>exponential</strong> function when the input is <span class="math inline">\(x=0\)</span>?</p>
 <p>    0<span class="mcanswer"> ︎✘ </span>       0.3989423<span class="mcanswer"> ︎✘ </span>       1/2<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Excellent! </span></p>
 <p><strong>Question B</strong> What is the exact output of the pattern-book <strong>sine</strong> function when the input is <span class="math inline">\(x=0\)</span>?</p>
-<p>    0<span class="mcanswer"> Good. </span>       0.3989423<span class="mcanswer"> ︎✘ </span>       1/2<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>
-<strong>Question C</strong> What is the exact input to the pattern-book <strong>logarithm</strong> function where the output is 0?</p>
+<p>    0<span class="mcanswer"> Good. </span>       0.3989423<span class="mcanswer"> ︎✘ </span>       1/2<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question C</strong> What is the exact input to the pattern-book <strong>logarithm</strong> function where the output is 0?</p>
 <p>    0<span class="mcanswer"> ︎✘ </span>       0.3989423<span class="mcanswer"> ︎✘ </span>       1/2<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Right-oh! </span></p>
 <p><strong>Question D</strong> What is the exact output of the pattern-book <strong>sigmoid</strong> function when the input is <span class="math inline">\(x=0\)</span>?</p>
 <p>    0<span class="mcanswer"> ︎✘ </span>       0.3989423<span class="mcanswer"> ︎✘ </span>       1/2<span class="mcanswer"> Right! </span>       1<span class="mcanswer"> ︎✘ </span></p>
@@ -397,37 +397,6 @@ On a piece of paper, sketch from memory a graph of each of the nine pattern-book
     0.1<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> Right! </span>       16<span class="mcanswer"> ︎✘ </span>       256<span class="mcanswer"> ︎✘ </span>
 </details>
 </div>
-<div id="instructor-notes" class="section level2" number="2.5">
-<h2>
-<span class="header-section-number">2.5</span> Instructor notes<a class="anchor" aria-label="anchor" href="#instructor-notes"><i class="fas fa-link"></i></a>
-</h2>
-<p>It would be a huge coincidence if one of the pattern-book functions was a match for a particular relationship, such as one shown in data. We’ll need to tailor the pattern-book functions and combine them in various ways to capture a real-world relationship. <span style="float: right; padding-left: 50px;"><a name="295" href="#295"><img src="www/icons8-signpost.png" title="Location: 295" width="12px"></a><span style="color: red; font-size: 6pt;">295</span></span></p>
-<p>A helpful demonstration for students can be to display some real-world data, ask which pattern-book function seems the best of the lot, and then ask students how they would shift or shrink that function to correspond better to the data.</p>
-<p>To start, here are the data relating pressure and volume of a gas at constant temperature s collected by Robert Boyle (1627-1691) that led him to formulate “Boyle’s Law.” The correct pattern-book function for these data is <span class="math inline">\(\recip(x) \equiv 1/x\)</span>. This is plotted but it doesn’t match the data. (Try scaling the function from <span class="math inline">\(1/x\)</span> to <span class="math inline">\(1000/x\)</span>. Then home in on the correct value.)</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">pressure</span> <span class="op">~</span> <span class="va">volume</span>, data <span class="op">=</span> <span class="va">Boyle</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">slice_plot</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">volume</span> <span class="op">~</span> <span class="va">volume</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;"></div>
-<p>To illustrate, here’s a graph of month-to-month utility data from a house in Minnesota plotted along with the pattern-book function <span class="math inline">\(x\)</span>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">kwh</span> <span class="op">~</span> <span class="va">elecbill</span>, data <span class="op">=</span> <span class="va">Utilities</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">slice_plot</span><span class="op">(</span><span class="va">x</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">140</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;"></div>
-<p>Ask students why a straight-line pattern is appropriate for modeling these data and why <span class="math inline">\(x\)</span> isn’t, on its own, a good model.</p>
-<p>Here is monthly use of natural gas (mainly for heating) versus average outdoor temperature for the month. We’ll plot it next to an exponential function.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">ccf</span> <span class="op">~</span> <span class="va">temp</span>, data <span class="op">=</span> <span class="va">Home_utilities</span><span class="op">)</span> 
-<span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="op">~</span> <span class="va">temp</span>, <span class="fu">domain</span><span class="op">(</span>temp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">80</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-14-2.png" width="50%" style="display: block; margin: auto;">
-Flipping the exponential left for right and scaling it would help:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">ccf</span> <span class="op">~</span> <span class="va">temp</span>, data <span class="op">=</span> <span class="va">Home_utilities</span><span class="op">)</span> <span class="op">%&gt;%</span>
-<span class="fu">slice_plot</span><span class="op">(</span><span class="fl">300</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">temp</span><span class="op">/</span><span class="fl">20</span><span class="op">)</span> <span class="op">~</span> <span class="va">temp</span>, <span class="fu">domain</span><span class="op">(</span>temp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">80</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure">
-<img src="CalcZ-notes_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;">
-Do the data suggest a function that has a horizontal asymptote for large temperature? If so, where is it and why? The “why” should include both a descriptions of the mathematical signs that there is or is not a horizontal asymptote, but also a description of what this corresponds to in terms of real-world relationships, e.g. how much heating is needed when the outdoor temperature is high.</div>
-
-</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="change.html"><span class="header-section-number">1</span> Change</a></div>
@@ -440,7 +409,6 @@ Do the data suggest a function that has a horizontal asymptote for large tempera
 <li><a class="nav-link" href="#the-power-law-family"><span class="header-section-number">2.2</span> The power-law family</a></li>
 <li><a class="nav-link" href="#constructing-functions"><span class="header-section-number">2.3</span> Constructing functions</a></li>
 <li><a class="nav-link" href="#function-shapes"><span class="header-section-number">2.4</span> Function shapes</a></li>
-<li><a class="nav-link" href="#instructor-notes"><span class="header-section-number">2.5</span> Instructor notes</a></li>
 </ul>
 
       <div class="book-extra">
@@ -458,7 +426,7 @@ Do the data suggest a function that has a horizontal asymptote for large tempera
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-09.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

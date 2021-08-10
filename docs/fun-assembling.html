@@ -124,9 +124,9 @@ Each of the functions is being scaled by a quantity—3, 5, and -2 in this examp
 <p>Even better, there is an automatic, reliable, and fast algorithm for finding the scalars for a set of functions that are to be combined to match data as closely as possible. So the modeler just has to select the functions to be used, the computer can find the coefficients. (We’ll explore the mathematics and methods of linear combinations, usually called <strong><em>linear algebra</em></strong>, in Block 5.)</p>
 <details><summary><strong>Exercise 11.1</strong>: <span><a name="File:%20Exercises/Fun/combining-hump-funs.Rmd" href="#JWUVA"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/combining-hump-funs.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">JWUVA</span>
 </span></summary><p>The graph shows two gaussian functions, <span class="math inline">\(g_1(t)\)</span> and <span class="math inline">\(g_2(t)\)</span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-138-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-134-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>A linear combination of the gaussian functions is shown in Graph (A).</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-139-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-135-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> What is the linear combination of <span class="math inline">\(g_1(t)\)</span> and <span class="math inline">\(g_2(t)\)</span> shown in Graph (A)?</p>
 <ol style="list-style-type: lower-roman">
 <li>0.5*g_1(t) + g_2(t)<span class="mcanswer"> Correct. </span><br>
@@ -136,7 +136,7 @@ Each of the functions is being scaled by a quantity—3, 5, and -2 in this examp
 <li>g_1(t) + 2<em>g_2(t)<span class="mcanswer"> ︎✘ Since g_2(t) has a maximum value of 20, 2</span></em>g_2(t) would reach a value of 40. That isn’t what’s shown in the graph. </li>
 </ol>
 <p>Another linear combination of the gaussian functions is shown in Graph (B).</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-140-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-136-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question B</strong> Which linear combination of <span class="math inline">\(g_1(t)\)</span> and <span class="math inline">\(g_2(t)\)</span> is shown in Graph (B)?</p>
 <ol style="list-style-type: lower-roman">
 <li>
@@ -205,15 +205,15 @@ Each of the functions is being scaled by a quantity—3, 5, and -2 in this examp
 </span></summary><p>According to data from the US National Health and Nutrition Evaluation Survey, the average height of adult females is 157 cm vs 167 for adult males. The standard deviations are 17 cm and 22 cm respectively. A good model for the person-to-person variation for females is <code><a href="https://rdrr.io/r/stats/Normal.html">dnorm(height, mean = 157, sd = 17)</a></code> and similarly for males.</p>
 <p>To see the overall distribution of adult height, regardless of sex, make a linear combination of the distribution for females and for males, giving each a scalar of one-half (since the population is roughly 50-50 female/male).</p>
 <p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and construct the linear combination function for the overall distribution. Use the scaffolding to plot out the distributions for the individual sexes and the overall distribution.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="fun-assembling.html#cb53-1" aria-hidden="true" tabindex="-1"></a>female <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">dnorm</span>(height, <span class="at">mean =</span> <span class="dv">157</span>, <span class="at">sd=</span><span class="dv">17</span>) <span class="sc">~</span> height)</span>
-<span id="cb53-2"><a href="fun-assembling.html#cb53-2" aria-hidden="true" tabindex="-1"></a>male   <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">dnorm</span>(height, <span class="at">mean =</span> <span class="dv">167</span>, <span class="at">sd=</span><span class="dv">22</span>) <span class="sc">~</span> height)</span>
-<span id="cb53-3"><a href="fun-assembling.html#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-4"><a href="fun-assembling.html#cb53-4" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( __your_linear_combination_here__)</span>
-<span id="cb53-5"><a href="fun-assembling.html#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-6"><a href="fun-assembling.html#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">female</span>(height) <span class="sc">~</span> height, <span class="fu">domain</span>(<span class="at">height=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">220</span>)), <span class="at">color=</span><span class="st">"orange3"</span>,</span>
-<span id="cb53-7"><a href="fun-assembling.html#cb53-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">label_x=</span>.<span class="dv">5</span>, <span class="at">label_text=</span><span class="st">"F"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb53-8"><a href="fun-assembling.html#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">male</span>(height) <span class="sc">~</span> height, <span class="at">color=</span><span class="st">"dodgerblue"</span>, <span class="at">label_text=</span><span class="st">"M"</span>, <span class="at">label_x=</span>.<span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb53-9"><a href="fun-assembling.html#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">overall</span>(height) <span class="sc">~</span> height, <span class="at">color=</span><span class="st">"black"</span>, <span class="at">size=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="fun-assembling.html#cb49-1" aria-hidden="true" tabindex="-1"></a>female <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">dnorm</span>(height, <span class="at">mean =</span> <span class="dv">157</span>, <span class="at">sd=</span><span class="dv">17</span>) <span class="sc">~</span> height)</span>
+<span id="cb49-2"><a href="fun-assembling.html#cb49-2" aria-hidden="true" tabindex="-1"></a>male   <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">dnorm</span>(height, <span class="at">mean =</span> <span class="dv">167</span>, <span class="at">sd=</span><span class="dv">22</span>) <span class="sc">~</span> height)</span>
+<span id="cb49-3"><a href="fun-assembling.html#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="fun-assembling.html#cb49-4" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( __your_linear_combination_here__)</span>
+<span id="cb49-5"><a href="fun-assembling.html#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="fun-assembling.html#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">female</span>(height) <span class="sc">~</span> height, <span class="fu">domain</span>(<span class="at">height=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">220</span>)), <span class="at">color=</span><span class="st">"orange3"</span>,</span>
+<span id="cb49-7"><a href="fun-assembling.html#cb49-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">label_x=</span>.<span class="dv">5</span>, <span class="at">label_text=</span><span class="st">"F"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb49-8"><a href="fun-assembling.html#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">male</span>(height) <span class="sc">~</span> height, <span class="at">color=</span><span class="st">"dodgerblue"</span>, <span class="at">label_text=</span><span class="st">"M"</span>, <span class="at">label_x=</span>.<span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb49-9"><a href="fun-assembling.html#cb49-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">overall</span>(height) <span class="sc">~</span> height, <span class="at">color=</span><span class="st">"black"</span>, <span class="at">size=</span><span class="dv">2</span>)</span></code></pre></div>
 <!--
 overall <- makeFun(female(height)/2 + male(height)/2 ~ height)
 -->
@@ -242,7 +242,7 @@ It’s important to distinguish the above time <span class="math inline">\(\righ
 The declination angle is the latitude of the point on the earth’s surface pierced by an imagined line connecting the centers of the earth and the sun. On the summer solstice, it is <span class="math inline">\(23.44^\circ\)</span>, the longest day of the year.</p>
 <p>A computer implement must look different, since <span class="math inline">\(L\)</span> and <span class="math inline">\(\delta\)</span> are typically provided in degrees while the <code><a href="https://rdrr.io/r/base/Trig.html">tan()</a></code> and other trigonometric functions in most computer languages expect units of radians. The conversion is easy: <span class="math inline">\(\text{deg2rad}(d) \equiv \frac{\pi}{180} d\)</span>. The conversion the other way is <span class="math inline">\(\text{rad2deg}(r) \equiv \frac{180}{\pi} r\)</span>.</p>
 <p>In order to get the day-length formula to work in a computer, we have to compose the <span class="math inline">\(\tan()\)</span> function with <code>deg2rad()</code>. The output of <code><a href="https://rdrr.io/r/base/Trig.html">acos()</a></code> is in radians, so we have to convert it back to degrees. Like this:</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">day_length</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span>
   <span class="op">(</span><span class="fl">2</span><span class="op">/</span><span class="fl">15</span><span class="op">)</span><span class="op">*</span><span class="fu">rad2deg</span><span class="op">(</span>
     <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">acos</a></span><span class="op">(</span>
@@ -262,15 +262,15 @@ The declination angle is the latitude of the point on the earth’s surface pier
 </li>
 </ol></details><p>Now to make a plot of day length as a function of day of the year. Of course, <code>day_length(L, d)</code> does not take day of the year into account. What’s missing is to know the declination of the sun as a function of calendar day.</p>
 <p>We’ll represent calendar day as a number <span class="math inline">\(n\)</span> that runs from 0 at the start of January 1st to 365 at the end of December 31. Given this convention, the declination of the sun is</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">delta_sun</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">/</span><span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">+</span><span class="fl">10</span><span class="op">)</span> <span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span></code></pre></div>
 <p>Composing <code>day_length()</code> with <code>delta_sun()</code> (on the <code>d</code> argument only) we get a function of day of year <code>n</code>:</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span>
   <span class="fu">day_length</span><span class="op">(</span><span class="fl">39</span>, <span class="fu">delta_sun</span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span>, 
   <span class="fu">domain</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">365</span><span class="op">)</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-56-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-52-1.png" width="90%" style="display: block; margin: auto;"></div>
 <details><summary><strong>Exercise 11.5</strong>: <span><a name="File:%20Exercises/Fun/horse-read-sofa.Rmd" href="#fmwTFj"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/horse-read-sofa.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">fmwTFj</span>
 </span></summary><p><strong>Question tmp-4</strong>: How long is the day on April Fools (<span class="math inline">\(n=90\)</span>) at Latitude 39N? (Use a sandbox for the calculation.)</p>
 <ol>
@@ -343,7 +343,7 @@ Here are some functions that meet the requirements:</p>
 </li>
 </ul>
 <p>Notice that each of these functions has just one parameter. It seems implausible that the workings of a complex society can be summarized with just one number. We can use the curve-polishing techniques introduced in Section <a href="modeling-cycle.html#modeling-cycle">14</a> to find the “best” parameter value to match the data. Then we can see if “best” is good enough. <span style="float: right; padding-left: 50px;"><a name="1340" href="#1340"><img src="www/icons8-signpost.png" title="Location: 1340" width="12px"></a><span style="color: red; font-size: 6pt;">1340</span></span></p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Lb</span> <span class="op">&lt;-</span> <span class="fu">fitModel</span><span class="op">(</span><span class="va">income</span> <span class="op">~</span> <span class="va">pop</span><span class="op">^</span><span class="va">b</span>, data <span class="op">=</span> <span class="va">Income</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>b<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span><span class="op">)</span>
 <span class="va">Lq</span> <span class="op">&lt;-</span> <span class="fu">fitModel</span><span class="op">(</span><span class="va">income</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">pop</span><span class="op">)</span><span class="op">^</span><span class="va">q</span>, data <span class="op">=</span> <span class="va">Income</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>q<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 Figure <a href="fun-assembling.html#fig:lorenz-1-fun">11.2</a> compares the polished functions to the data.
@@ -409,7 +409,7 @@ Figure 11.4: The two components of the wave packet in Figure <a href="fun-assemb
 <p>But not every social media firm succeeds and you may need two or more characters to express the drama: the rising young firm and the rapid fall in popularity when competition provides a better alternative.</p>
 <p>For instance, the initial rise in popularity of the social media platform <a href="https://en.wikipedia.org/wiki/Yik_Yak">Yik Yak</a> was exponential. Then popularity leveled off, promising a steady, if static, business into the future. But, the internet being what it is, popularity collapsed to near zero and the company closed.</p>
 <p>On way to model this pattern is by multiplying a sigmoid by an exponential.(See Figure <a href="fun-assembling.html#fig:yikyak">11.5</a>.)</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">yikyak</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">year</span>, mean<span class="op">=</span><span class="fl">2014.5</span>, sd<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span> <span class="op">(</span><span class="va">year</span><span class="op">-</span><span class="fl">2014</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">year</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">yikyak</span><span class="op">(</span><span class="va">year</span><span class="op">)</span> <span class="op">~</span> <span class="va">year</span>, <span class="fu">domain</span><span class="op">(</span>year<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2018</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -421,7 +421,7 @@ Figure 11.5: Subscriptions to the web messaging service Yik Yak grew exponential
 </div>
 <details><summary><strong>Exercise 11.6</strong>: <span><a name="File:%20Exercises/Fun/maple-pitch-jacket.Rmd" href="#LPhyTb"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/maple-pitch-jacket.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">LPhyTb</span>
 </span></summary><p>The graph shows (in black) a function constructed as the product of two basic modeling functions. The graph also shows a pair of blue curves that encompass the black function. These are called the <strong><em>envelope</em></strong> of the black function.</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-139-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> What are the two basic modeling functions being multiplied?</p>
 <ol style="list-style-type: lower-roman">
 <li>A sinusoid and another sinusoid with a faster period.<span class="mcanswer"> Excellent! </span><br>
@@ -446,19 +446,19 @@ The 2/15 is scaling the output of <span class="math inline">\(\arccos()\)</span>
 <hr>
 <details><summary><strong>Exercise 11.7</strong>: <span><a name="File:%20Exercises/Fun/arith-with-funs.Rmd" href="#LDKKVA"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/arith-with-funs.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">LDKKVA</span>
 </span></summary><p>Being able to add or multiply functions can enable us to tell a somewhat complicated story. For example, the graph shows a simple model of the hourly temperature in from June through September</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">20</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">*</span><span class="op">(</span><span class="va">t</span><span class="op">-</span><span class="fl">120</span><span class="op">)</span><span class="op">/</span><span class="fl">365</span><span class="op">)</span> <span class="op">+</span> 
                   <span class="fl">10</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">*</span><span class="va">t</span><span class="op">/</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fl">50</span> <span class="op">~</span> <span class="va">t</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">temp</span><span class="op">(</span><span class="va">day</span><span class="op">)</span> <span class="op">~</span> <span class="va">day</span>, <span class="fu">domain</span><span class="op">(</span>day<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">90</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span>,  npt<span class="op">=</span><span class="fl">1000</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_labs</span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Temperature  (F)"</span>, x <span class="op">=</span> <span class="st">"Day of year"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-145-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-141-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>You can see in the graph the slow seasonal change in temperature represented by a sine function with a period of 365 days, as well as the relatively rapid hour-by-hour variation over the course of 24 hours. There are two different mechanisms at work, 1) the annual orbit of the Earth around the Sun which creates the seasons, 2) the daily rotation of the Earth around its axis. Each mechanism is approximated by a simple function. The overall pattern can be represented by a sum of functions.</p>
 <p>We are going to use this strategy of modeling complex phenomena as a sum of two or more simple functions.</p>
 <p><strong>Problem 1</strong> Epidemics are often modeled as a series of “waves.” Each wave involves different people. Let’s imagine two epidemic waves, one passing through the “dodgerblue” population and a smaller one through the “orange3” population, like this:</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-146-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-142-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> Assuming that there were no way to distinguish between red and blue cases, the epidemic would look like just one curve. Which of the following curves would the overall epidemic look like? (The colors are just to help you distinguish the different functions)</p>
 <p>    A<span class="mcanswer"> ︎✘ The cumulative number of cases can’t possibly go down! </span>       B<span class="mcanswer"> ︎✘ The cumulative number of cases can’t possibly go down! </span>       C<span class="mcanswer"> ︎✘ You can’t see the separate waves in (C) even though the rise in the blue wave is clearly distinct in time from the rise in the red wave. </span>       D<span class="mcanswer"> Right-oh! Yes. Each wave adds another layer to the cumulative number of cases </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-147-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>Each of the functions shown in the above graph is a “linear combination” of the red function and the blue function. The real total cumulative cases is “wave1(t)” plus “wave2(t).” The other functions are made up and are irrelevant to the real epidemic. Still, we can ask what arithmetic combination of “wave1(t)” and “wave2(t)” was used to create the made-up function.</p>
 <p><strong>Question B</strong> For made-up function (A) in the graph, what was the linear combination?</p>
 <ol style="list-style-type: lower-roman">
@@ -471,15 +471,15 @@ The 2/15 is scaling the output of <span class="math inline">\(\arccos()\)</span>
 </ol></details><details><summary><strong>Exercise 11.8</strong>: <span><a name="File:%20Exercises/Fun/multiplying-functions.Rmd" href="#MWDKVA"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/multiplying-functions.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">MWDKVA</span>
 </span></summary><p>It’s very common in communications systems to have a signal that is a sine-wave <em>carrier</em> that is <em>modulated</em> by another function. That is, the carrier is <em>multiplied</em> by the other function: <code>waveform(t) = modulator(t)</code> <span class="math inline">\(\times\)</span> <code>carrier(t)</code>.</p>
 <p>Here are four examples in each of which a sine with a period of about 2 units is modulated by another function. In each case, that other function is one of the modeling functions we have studied.</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-149-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-145-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> (A) Of what sort is the function that is modulating the carrier?</p>
 <p>    exponential<span class="mcanswer"> Good. </span>       gaussian<span class="mcanswer"> ︎✘ </span>       sigmoid<span class="mcanswer"> ︎✘ </span>       sine<span class="mcanswer"> ︎✘ </span></p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-150-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> (B) Of what sort is the function that is modulating the carrier?</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-146-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> (B) Of what sort is the function that is modulating the carrier?</p>
 <p>    exponential<span class="mcanswer"> ︎✘ </span>       gaussian<span class="mcanswer"> Right! </span>       sigmoid<span class="mcanswer"> ︎✘ </span>       sine<span class="mcanswer"> ︎✘ </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-151-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-147-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question C</strong> (C) Of what sort is the function that is modulating the carrier?</p>
 <p>    exponential<span class="mcanswer"> ︎✘ </span>       gaussian<span class="mcanswer"> ︎✘ </span>       sigmoid<span class="mcanswer"> Right-oh! </span>       sine<span class="mcanswer"> ︎✘ </span></p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-152-1.png" width="90%" style="display: block; margin: auto;"><strong>Question D</strong> (D) Of what sort is the function that is modulating the carrier?</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-148-1.png" width="90%" style="display: block; margin: auto;"><strong>Question D</strong> (D) Of what sort is the function that is modulating the carrier?</p>
     exponential<span class="mcanswer"> ︎✘ </span>       gaussian<span class="mcanswer"> ︎✘ </span>       sigmoid<span class="mcanswer"> ︎✘ </span>       sine<span class="mcanswer"> Good. </span>
 </details><details><summary><strong>Exercise 11.9</strong>: <span><a name="File:%20Exercises/Fun/compose-1.Rmd" href="#AMBXI"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/compose-1.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">AMBXI</span>
 </span></summary><p>Use a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> to answer the following questions:</p>
@@ -608,7 +608,7 @@ Use the `mosaicData::Births_CDC` data and find a segment with a linear secular t
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-09.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

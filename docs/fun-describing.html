@@ -100,9 +100,9 @@
 <li>Mathematical notation</li>
 </ul>
 <p>In this chapter, we’ll illustrate these five different modes using the pattern-book functions. It’s important to become proficient at all five.</p>
-<div id="computer-commands-slice-plot-intro" class="section level2" number="4.1">
+<div id="slice-plot-intro" class="section level2" number="4.1">
 <h2>
-<span class="header-section-number">4.1</span> Computer commands {# slice-plot-intro}<a class="anchor" aria-label="anchor" href="#computer-commands-slice-plot-intro"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1</span> Computer commands<a class="anchor" aria-label="anchor" href="#slice-plot-intro"><i class="fas fa-link"></i></a>
 </h2>
 <p>Since we’ve already introduced the pattern-book functions, this is a good time to show you how to draw a graph of them. After this short introduction, we’ll discuss graphics more generally and look at graphics of functions that have <em>two</em> inputs.</p>
 <p>All the pattern-book functions have just a single input. You can draw graphs of single-input functions using the <code>slice_plot()</code> R/mosaic operator. You need to specify two pieces of information to <code>slice_plot()</code>:</p>
@@ -119,18 +119,18 @@
 <p>R uses the <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> function to <em>collect</em> together the two numbers that define the left and right borders of the domain. In traditional notation, we write an interval in formats like <span class="math inline">\((-5, 5)\)</span> or <span class="math inline">\([-5, 5]\)</span> or <span class="math inline">\(-5 \leq x \leq 5\)</span>. None of these will work with the R language. For instance, the fragment <code>(-5, 5)</code> is not a complete expression in R; the opening parenthesis needs to be preceded by a function name. The <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> function was invented for this purpose. It can combine any number of arguments, but two is enough for our purpose here: to specify an interval on the number line.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Some other computer languages, like MATLAB and Python, do allow use of the concise notation &lt;code&gt;[-5, 5]&lt;/code&gt;. R doesn’t, so you will see an awful lot of the &lt;code&gt;c()&lt;/code&gt; function.&lt;/p&gt;"><sup>3</sup></a></p>
 </div>
 <p>The tilde expression and the graphics domain specifier are the two arguments to <code>slice_plot()</code>. All of these are correct commands for drawing a graph:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">~</span> <span class="va">t</span>, <span class="fu">domain</span><span class="op">(</span>t<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-22-2.png" width="90%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-2.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span>, <span class="fu">domain</span><span class="op">(</span>z<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-22-3.png" width="90%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-3.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="va">t</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">t</span>, <span class="fu">domain</span><span class="op">(</span>t<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-22-4.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-4.png" width="90%" style="display: block; margin: auto;"></div>
 </div>
 <div id="tables-of-inputs-and-outputs" class="section level2" number="4.2">
 <h2>
@@ -240,7 +240,7 @@ Figure 4.1: Three of the pattern-book functions: (a) exponential, (b) sinusoid, 
 </ol>
 <p>When a function switches between positive concavity and negative concavity, as does the sinusoid as well as the gaussian and sigmoid functions, there is an input value where the switch occurs and the function has zero concavity. (Continuous functions that pass from negative to positive or <em>vice versa</em> must always cross zero.) Such in-between points of zero concavity are called <strong><em>inflection points</em></strong>. A function can have zero, one, or many inflection points. For instance, the sinusoid has inflection points at <span class="math inline">\(x = \ldots, -\pi, 0, \pi, 2\pi, \ldots\)</span>, the cubic power function <span class="math inline">\(f(x)\equiv x^3\)</span> has one, and the exponential has none.</p>
 <div class="figure" style="text-align: center">
-<span id="fig:unnamed-chunk-24"></span>
+<span id="fig:unnamed-chunk-20"></span>
 <img src="www/Concavity-diagram.png" alt="A diagram showing a cubic function which is concave up until a point of inflection and concave down thereafter." width="70%"><p class="caption">
 Figure 4.2: A diagram showing a cubic function which is concave up until a point of inflection and concave down thereafter.
 </p>
@@ -291,9 +291,9 @@ Figure 4.2: A diagram showing a cubic function which is concave up until a point
 </ol>
 <div class="scaffolding">
 <p>Copy and paste the R/mosaic command below in a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> to draw a function graph. Remember to press “Run code.”</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-94-1.png" width="90%" style="display: block; margin: auto;">
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-90-1.png" width="90%" style="display: block; margin: auto;">
 To modify the command to draw another function, replace the <code><a href="https://rdrr.io/r/base/Log.html">exp(x)</a></code> with another formula, for instance <code>1/x</code>.</p>
 </div>
 <p>Make a list of the pattern-book functions. For each function in the list, say whether the function crosses zero, touches zero but doesn’t cross, or doesn’t touch at all in the part of the domain shown in the graphic: <span class="math inline">\(-3 \leq x \leq 3\)</span>. Also note if the value of the function appears to be reaching a horizontal asymptote at zero for very negative <span class="math inline">\(x\)</span>, for very positive <span class="math inline">\(x\)</span>, for both, or neither.</p>
@@ -450,7 +450,7 @@ later in the course you will encounter power-law functions where the exponent is
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#fun-describing"><span class="header-section-number">4</span> Describing functions</a></li>
-<li><a class="nav-link" href="#computer-commands-slice-plot-intro"><span class="header-section-number">4.1</span> Computer commands {# slice-plot-intro}</a></li>
+<li><a class="nav-link" href="#slice-plot-intro"><span class="header-section-number">4.1</span> Computer commands</a></li>
 <li><a class="nav-link" href="#tables-of-inputs-and-outputs"><span class="header-section-number">4.2</span> Tables of inputs and outputs</a></li>
 <li>
 <a class="nav-link" href="#word-descriptions"><span class="header-section-number">4.3</span> Word descriptions</a><ul class="nav navbar-nav">
@@ -481,7 +481,7 @@ later in the course you will encounter power-law functions where the exponent is
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-09.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
