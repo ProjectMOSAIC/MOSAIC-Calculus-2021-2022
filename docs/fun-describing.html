@@ -12,13 +12,16 @@
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
     const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
     for (let popover of popovers){
       const div = document.createElement('div');
       div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
       div.innerHTML = popover.getAttribute('data-content');
-      
+
       // Will this work with TeX on its own line?
       var has_math = div.querySelector("span.math");
       if (has_math) {
@@ -39,7 +42,12 @@
     \newcommand{\recip}{\text{recip}}
     \newcommand{\diff}[1]{{\cal D}_#1}
     \newcommand{\pnorm}{\text{pnorm}}
-    \newcommand{\dnorm}{\text{dnorm}}\)
+    \newcommand{\dnorm}{\text{dnorm}}
+    \newcommand{\CC}[1]{\color{#648fff}{#1}}
+    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
+    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
+    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
+    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
     </span>
 
     <!-- see https://www.homepages.ucl.ac.uk/~ucahmto/elearning/2019/09/14/bookdown.html-->
@@ -80,6 +88,16 @@
 <li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
 <li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
+<li class="book-part">Block 2: Differentiation</li>
+<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 </ul>
 
         <div class="book-extra">
@@ -102,7 +120,7 @@
 <p>In this chapter, we’ll illustrate these five different modes using the pattern-book functions. It’s important to become proficient at all five.</p>
 <div id="slice-plot-intro" class="section level2" number="4.1">
 <h2>
-<span class="header-section-number">4.1</span> Computer commands<a class="anchor" aria-label="anchor" href="#slice-plot-intro"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1</span> Graphing a function<a class="anchor" aria-label="anchor" href="#slice-plot-intro"><i class="fas fa-link"></i></a>
 </h2>
 <p>Since we’ve already introduced the pattern-book functions, this is a good time to show you how to draw a graph of them. After this short introduction, we’ll discuss graphics more generally and look at graphics of functions that have <em>two</em> inputs.</p>
 <p>All the pattern-book functions have just a single input. You can draw graphs of single-input functions using the <code>slice_plot()</code> R/mosaic operator. You need to specify two pieces of information to <code>slice_plot()</code>:</p>
@@ -110,7 +128,7 @@
 <li>Which function to graph. In R/mosaic, You state this with what’s called a <strong><em>tilde expression</em></strong>. A couple of examples will suffice for the moment.
 <ol style="list-style-type: lower-alpha">
 <li>When the function has a name, like <code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code> or <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code> or <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code>, the tilde expression looks like <code>exp(x) ~ x</code>. On the left side of the tilde you put the name of the function you want to graph with the input name in parentheses. You can choose any input name you like: here we are using <code>x</code>, but we are not limited to using <code>x</code> or any other letter. Sometimes we even use named inputs (e.g. <code><a href="https://rdrr.io/r/base/Log.html">exp(time)</a></code>). On the right side of the tilde, place the input name again. We’ll explain why the name appears in two places later.</li>
-<li>When the function is being written as a formula, for instance <code>1/z</code> or <code>t^2</code>, put the formula on the left side of the tilde and the input name on the right side, like <code>1/z ~ z</code> or <code>1/t ~ t</code>.</li>
+<li>When the function is being written as a formula, for instance <code>1/z</code> or <code>t^2</code>, put the formula on the left side of the tilde and the input name on the right side, like <code>1/z ~ z</code> or <code>t^2 ~ t</code>.</li>
 </ol>
 </li>
 <li>The <strong><em>graphics domain</em></strong>. As you know, the <strong><em>domain</em></strong> of a function is the collection of all possible legitimate inputs. For most of the pattern-book functions, the domain is <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span>. As you might expect, it’s impractical to have a graphical axis that is infinitely long. So you have to choose some finite interval of the function domain to use. This finite interval is called the “graphics domain.” You specify the domain with a statement like <code>domain(x = c(-5,5))</code>, which is setting the graphics domain to <span class="math inline">\(-5 \leq x \leq 5\)</span>. Note that the input name used in <code>domain()</code> must match the input name you selected in the tilde expression.</li>
@@ -119,18 +137,18 @@
 <p>R uses the <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> function to <em>collect</em> together the two numbers that define the left and right borders of the domain. In traditional notation, we write an interval in formats like <span class="math inline">\((-5, 5)\)</span> or <span class="math inline">\([-5, 5]\)</span> or <span class="math inline">\(-5 \leq x \leq 5\)</span>. None of these will work with the R language. For instance, the fragment <code>(-5, 5)</code> is not a complete expression in R; the opening parenthesis needs to be preceded by a function name. The <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> function was invented for this purpose. It can combine any number of arguments, but two is enough for our purpose here: to specify an interval on the number line.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Some other computer languages, like MATLAB and Python, do allow use of the concise notation &lt;code&gt;[-5, 5]&lt;/code&gt;. R doesn’t, so you will see an awful lot of the &lt;code&gt;c()&lt;/code&gt; function.&lt;/p&gt;"><sup>3</sup></a></p>
 </div>
 <p>The tilde expression and the graphics domain specifier are the two arguments to <code>slice_plot()</code>. All of these are correct commands for drawing a graph:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">~</span> <span class="va">t</span>, <span class="fu">domain</span><span class="op">(</span>t<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-2.png" width="90%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-21-2.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span>, <span class="fu">domain</span><span class="op">(</span>z<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-3.png" width="90%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-21-3.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="va">t</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">t</span>, <span class="fu">domain</span><span class="op">(</span>t<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-18-4.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-21-4.png" width="90%" style="display: block; margin: auto;"></div>
 </div>
 <div id="tables-of-inputs-and-outputs" class="section level2" number="4.2">
 <h2>
@@ -231,8 +249,8 @@ Figure 4.1: Three of the pattern-book functions: (a) exponential, (b) sinusoid, 
 <span class="header-section-number">4.3.1</span> Concavity<a class="anchor" aria-label="anchor" href="#concavity"><i class="fas fa-link"></i></a>
 </h3>
 <p>The slope of a function at a given input tells how fast the function <strong>output</strong> is increasing or decreasing as the input changes slightly. <strong><em>Concavity</em></strong> is not directly about how the function output changes, but about how the function’s <em>slope</em> changes. For instance, a function might be growing slowly in some region of the domain and then gradually shift to larger growth in an adjacent region. Or, a function might be decaying steeply and then gradually shift to a slower decay. Both of these are instances of <strong><em>positive concavity</em></strong>. The opposite pattern of change in slope is called <strong><em>negative concavity</em></strong>. If the slope doesn’t change at all—only straight-line functions are this way— the concavity is zero.</p>
-<p>Concavity has a very clear appearance in a function graph. If a function is positive concave in a region, the graph looks like a smile. Negative concavity looks like a frown. Zero concavity is a straight line. <span style="float: right; padding-left: 50px;"><a name="432" href="#432"><img src="www/icons8-signpost.png" title="Location: 432" width="12px"></a><span style="color: red; font-size: 6pt;">432</span></span></p>
-<p>Referring to the three function examples in Figure <a href="fun-describing.html#fig:for-words">4.1</a> …</p>
+<p>Concavity has a very clear appearance in a function graph. If a function is positive concave in a region, the graph looks like a smile or cup. Negative concavity looks like a frown. Zero concavity is a straight line. <span style="float: right; padding-left: 50px;"><a name="432" href="#432"><img src="www/icons8-signpost.png" title="Location: 432" width="12px"></a><span style="color: red; font-size: 6pt;">432</span></span></p>
+<p>Referring to the three function examples in Figure <a href="fun-describing.html#fig:for-words">4.1</a>, we’ll use the traditional terms <strong><em>concave up</em></strong> and <strong><em>concave down</em></strong> to refer to positive and negative concavity respectively.</p>
 <ol style="list-style-type: lower-alpha">
 <li>The exponential is <strong><em>concave up</em></strong> everywhere in its domain.</li>
 <li>The sinusoid alternates back and forth between <strong><em>concave up</em></strong> and <strong><em>concave down</em></strong>.</li>
@@ -240,9 +258,9 @@ Figure 4.1: Three of the pattern-book functions: (a) exponential, (b) sinusoid, 
 </ol>
 <p>When a function switches between positive concavity and negative concavity, as does the sinusoid as well as the gaussian and sigmoid functions, there is an input value where the switch occurs and the function has zero concavity. (Continuous functions that pass from negative to positive or <em>vice versa</em> must always cross zero.) Such in-between points of zero concavity are called <strong><em>inflection points</em></strong>. A function can have zero, one, or many inflection points. For instance, the sinusoid has inflection points at <span class="math inline">\(x = \ldots, -\pi, 0, \pi, 2\pi, \ldots\)</span>, the cubic power function <span class="math inline">\(f(x)\equiv x^3\)</span> has one, and the exponential has none.</p>
 <div class="figure" style="text-align: center">
-<span id="fig:unnamed-chunk-20"></span>
-<img src="www/Concavity-diagram.png" alt="A diagram showing a cubic function which is concave up until a point of inflection and concave down thereafter." width="70%"><p class="caption">
-Figure 4.2: A diagram showing a cubic function which is concave up until a point of inflection and concave down thereafter.
+<span id="fig:unnamed-chunk-23"></span>
+<img src="www/Concavity-diagram.png" alt="A diagram showing a cubic function which is concave up until a point of inflection and concave down thereafter. [Source: Maj. Austin Davis]" width="70%"><p class="caption">
+Figure 4.2: A diagram showing a cubic function which is concave up until a point of inflection and concave down thereafter. [Source: Maj. Austin Davis]
 </p>
 </div>
 <p>“Inflection point” appears in news stories, so it is important to know what it means in context. The mathematical definition is about the change in the direction of curvature of a graph. In business, however, it generally means something less esoteric, “a time of significant change in a situation” or “a turning point.”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Google dictionary, provided by Oxford Languages&lt;/p&gt;"><sup>4</sup></a> The business sense effectively means that the function—say profits as a function of time, or unemployment as a function of time—has a non-zero concavity, up or down. It’s about the <em>existence</em> of concavity rather than about the change in the sign of concavity.</p>
@@ -291,19 +309,20 @@ Figure 4.2: A diagram showing a cubic function which is concave up until a point
 </ol>
 <div class="scaffolding">
 <p>Copy and paste the R/mosaic command below in a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> to draw a function graph. Remember to press “Run code.”</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-90-1.png" width="90%" style="display: block; margin: auto;">
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-128-1.png" width="90%" style="display: block; margin: auto;">
 To modify the command to draw another function, replace the <code><a href="https://rdrr.io/r/base/Log.html">exp(x)</a></code> with another formula, for instance <code>1/x</code>.</p>
 </div>
-<p>Make a list of the pattern-book functions. For each function in the list, say whether the function crosses zero, touches zero but doesn’t cross, or doesn’t touch at all in the part of the domain shown in the graphic: <span class="math inline">\(-3 \leq x \leq 3\)</span>. Also note if the value of the function appears to be reaching a horizontal asymptote at zero for very negative <span class="math inline">\(x\)</span>, for very positive <span class="math inline">\(x\)</span>, for both, or neither.</p>
-<p>We’ll show you the answers for the exponential function. You’ll have to modify the computer command to graph the other pattern-book functions.</p>
+<p>Make a list of the pattern-book functions. For each function in the list, write down the R expression for the function, say whether the function has a consistently positive or negative slope, whether it is consistently concave up or down, and if the value of the function appears to be reaching a horizontal asymptote at zero for very negative <span class="math inline">\(x\)</span>, for very positive <span class="math inline">\(x\)</span>, for both, or neither.</p>
+<p>We’ll show you the answers for the exponential and sinusoid functions. You’ll have to modify the computer command to graph the other pattern-book functions.</p>
 <table class="table table-sm">
 <thead><tr class="header">
 <th>function name</th>
 <th>R formula</th>
 <th>slope</th>
 <th>concavity</th>
+<th>horiz. asymptote</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -311,9 +330,11 @@ To modify the command to draw another function, replace the <code><a href="https
 <td><code><a href="https://rdrr.io/r/base/Log.html">exp(x)</a></code></td>
 <td>positive</td>
 <td>concave up</td>
+<td><span class="math inline">\(x \rightarrow -\infty\)</span></td>
 </tr>
 <tr class="even">
 <td>logarithm</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -323,9 +344,11 @@ To modify the command to draw another function, replace the <code><a href="https
 <td><code><a href="https://rdrr.io/r/base/Trig.html">sin(x)</a></code></td>
 <td>both</td>
 <td>both</td>
+<td>neither</td>
 </tr>
 <tr class="even">
 <td>square</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -335,9 +358,11 @@ To modify the command to draw another function, replace the <code><a href="https
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>constant</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -347,9 +372,11 @@ To modify the command to draw another function, replace the <code><a href="https
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 <tr class="even">
-<td>hump</td>
+<td>gaussian</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -359,15 +386,16 @@ To modify the command to draw another function, replace the <code><a href="https
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table></details>
 </div>
-<div id="continuity" class="section level3" number="4.3.2">
+<div id="continuity-intro" class="section level3" number="4.3.2">
 <h3>
-<span class="header-section-number">4.3.2</span> Continuity<a class="anchor" aria-label="anchor" href="#continuity"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.3.2</span> Continuity<a class="anchor" aria-label="anchor" href="#continuity-intro"><i class="fas fa-link"></i></a>
 </h3>
-<p>A function is <strong><em>continuous</em></strong> if you can trace out the graph of the function without lifting pencil from the page. A function is <strong><em>continuous on an interval (a,b)</em></strong> if you can trace the function over that whole interval. All of the pattern-book functions are continuous over any interval in their domain except for the logarithm and power-law functions with negative exponents. (This includes the reciprocal since it is a power-law with a negative exponent: <span class="math inline">\(1/x = x^{-1}\)</span>.) Those exceptions are not defined at <span class="math inline">\(x=0\)</span>.</p>
+<p>A function is <strong><em>continuous</em></strong> if you can trace out the graph of the function without lifting pencil from the page. A function is <strong><em>continuous on an interval (a,b)</em></strong> if you can trace the function over that whole interval. All of the pattern-book functions are continuous over any interval in their domain except for power-law functions with negative exponents. (This includes the reciprocal since it is a power-law with a negative exponent: <span class="math inline">\(1/x = x^{-1}\)</span>.) Those exceptions are not defined at <span class="math inline">\(x=0\)</span>.</p>
 <p>To illustrate, consider the power-law function graphed in Figure <a href="fun-describing.html#fig:for-words">4.1</a>. On any interval (a,b) that does <strong>not include 0</strong>, the function is continuous. For inputs <span class="math inline">\(x &lt; 0\)</span>, the function is negative. For inputs <span class="math inline">\(0 &lt; x\)</span>, the function is positive. So, on an interval that includes <span class="math inline">\(x=0\)</span> the function jumps discontinuously from negative to positive. <span style="float: right; padding-left: 50px;"><a name="433" href="#433"><img src="www/icons8-signpost.png" title="Location: 433" width="12px"></a><span style="color: red; font-size: 6pt;">433</span></span></p>
 </div>
 <div id="monotonicity" class="section level3" number="4.3.3">
@@ -375,8 +403,8 @@ To modify the command to draw another function, replace the <code><a href="https
 <span class="header-section-number">4.3.3</span> Monotonicity<a class="anchor" aria-label="anchor" href="#monotonicity"><i class="fas fa-link"></i></a>
 </h3>
 <p>A function is <strong><em>monotonic</em></strong> on a domain when the <em>sign</em> of the slope never changes on that domain. Monotonic functions either steadily <strong>increase</strong> in value or, alternatively, steadily <strong>decrease</strong> in value.</p>
-<p>Another way of thinking about monotonicity is to consider the order of inputs and outputs compared to a number line. If a function is monotonically increasing then it will preserve the order of inputs along the number line when it maps inputs to outputs, whereas a monotonically decreasing function will reverse the order. For instance, if the input <span class="math inline">\(x\)</span> comes before and input <span class="math inline">\(y\)</span> (i.e., <span class="math inline">\(x&lt;y\)</span>), then <span class="math inline">\(f(x)&lt;f(y)\)</span> for monotonically <em>increasing</em> functions (the order is preserved), but <span class="math inline">\(f(y)&lt;f(x)\)</span> for monotonically <em>decreasing</em> functions (the order of outputs is reversed).</p>
-<p>Of the pattern-book functions in Figure <a href="fun-describing.html#fig:for-words">4.1</a>: both the exponential and the power-law function are monotonic: the exponential grows monotonically and the power-law <span class="math inline">\(x^{-1}\)</span> decreases monotonically. The sinusoid is not monotonic over any domain longer than half a cycle: the function switchs between positive slope and negative slope in different parts of the cycle. <span style="float: right; padding-left: 50px;"><a name="434" href="#434"><img src="www/icons8-signpost.png" title="Location: 434" width="12px"></a><span style="color: red; font-size: 6pt;">434</span></span></p>
+<p>Another way of thinking about monotonicity is to consider the order of inputs and outputs compared to a number line. If a function is monotonically increasing then it will preserve the order of inputs along the number line when it maps inputs to outputs, whereas a monotonically decreasing function will reverse the order. For instance, if the input <span class="math inline">\(x\)</span> comes before an input <span class="math inline">\(y\)</span> (i.e., <span class="math inline">\(x&lt;y\)</span>), then <span class="math inline">\(f(x)&lt;f(y)\)</span> for monotonically <em>increasing</em> functions (the order is preserved), but <span class="math inline">\(f(y)&lt;f(x)\)</span> for monotonically <em>decreasing</em> functions (the order of outputs is reversed).</p>
+<p>Of the pattern-book functions in Figure <a href="fun-describing.html#fig:for-words">4.1</a>: both the exponential and the logarithm function are monotonic: the exponential grows monotonically as does the logarithm. The sinusoid is not monotonic over any domain longer than half a cycle: the function switchs between positive slope and negative slope in different parts of the cycle. <span style="float: right; padding-left: 50px;"><a name="434" href="#434"><img src="www/icons8-signpost.png" title="Location: 434" width="12px"></a><span style="color: red; font-size: 6pt;">434</span></span></p>
 </div>
 <div id="periodicity" class="section level3" number="4.3.4">
 <h3>
@@ -397,7 +425,7 @@ Of the pattern-book functions, only the sinusoid is periodic. And it is exactly 
 </ol>
 <p>An example in Figure <a href="fun-describing.html#fig:for-words">4.1</a> is the exponential function. As <span class="math inline">\(x \rightarrow -\infty\)</span>, that is, as <span class="math inline">\(x\)</span> goes more and more to the left of the domain, the output tends asymptotically to zero.</p>
 <ol start="2" style="list-style-type: decimal">
-<li>When the <strong>output</strong> of a function gets bigger and bigger in size, going to <span class="math inline">\(\infty\)</span> or <span class="math inline">\(-\infty\)</span> without the input doing likewise. The visual appearance on a graph is like a sky-rocket: the output changes tremendously fast even though the input changes only a little. The vertical line that the skyrocket approaches called a <strong><em>vertical asymptote</em></strong>. The power-law function <span class="math inline">\(x^{-1}\)</span> has a <strong><em>vertical asymptote</em></strong> at <span class="math inline">\(x=0\)</span>. If you were to consider inputs closer and closer to <span class="math inline">\(x=0\)</span>, the outputs would grow larger and larger is magnitude, tending toward <span class="math inline">\(\infty\)</span> or <span class="math inline">\(-\infty\)</span>.</li>
+<li>When the <strong>output</strong> of a function gets bigger and bigger in size, going to <span class="math inline">\(\infty\)</span> or <span class="math inline">\(-\infty\)</span> without the input doing likewise. The visual appearance on a graph is like a sky-rocket: the output changes tremendously fast even though the input changes only a little. The vertical line that the skyrocket approaches is called a <strong><em>vertical asymptote</em></strong>. The power-law function <span class="math inline">\(x^{-1}\)</span> has a <strong><em>vertical asymptote</em></strong> at <span class="math inline">\(x=0\)</span>. If you were to consider inputs closer and closer to <span class="math inline">\(x=0\)</span>, the outputs would grow larger and larger is magnitude, tending toward <span class="math inline">\(\infty\)</span> or <span class="math inline">\(-\infty\)</span>.</li>
 </ol>
 <p>Several of the pattern-book functions have horizontal or vertical asymptotes or both. For instance, the function <span class="math inline">\(x^{-1}\)</span> has a horizontal asymptote of zero for both <span class="math inline">\(x \rightarrow \infty\)</span> and <span class="math inline">\(x \rightarrow -\infty\)</span>. <span style="float: right; padding-left: 50px;"><a name="436" href="#436"><img src="www/icons8-signpost.png" title="Location: 436" width="12px"></a><span style="color: red; font-size: 6pt;">436</span></span></p>
 <p>The sinusoid has neither a vertical nor a horizontal asymptote. As input <span class="math inline">\(x\)</span> increases either to <span class="math inline">\(-\infty\)</span> or <span class="math inline">\(\infty\)</span>, the output of the sinusoid continues to oscillate, never settling down to a single value. And, of course, the output of the sinusoid is everywhere <span class="math inline">\(-1 \leq \sin(x) \leq 1\)</span>, so there is no possibility for a vertical asymptote.</p>
@@ -430,13 +458,13 @@ later in the course you will encounter power-law functions where the exponent is
 <h2>
 <span class="header-section-number">4.5</span> Mathematical notation<a class="anchor" aria-label="anchor" href="#mathematical-notation"><i class="fas fa-link"></i></a>
 </h2>
-<p>You have grown up with traditional mathematical notation and have are likely familiar with the notation for several of the pattern-book functions: <span class="math inline">\(\ln x\)</span>, <span class="math inline">\(\sin x\)</span>, <span class="math inline">\(e^x\)</span>, <span class="math inline">\(x^p\)</span> (as in <span class="math inline">\(x^2\)</span> where <span class="math inline">\(p=2\)</span> or <span class="math inline">\(\sqrt{x}\)</span> where <span class="math inline">\(p=1/2\)</span>). <span style="float: right; padding-left: 50px;"><a name="450" href="#450"><img src="www/icons8-signpost.png" title="Location: 450" width="12px"></a><span style="color: red; font-size: 6pt;">450</span></span></p>
+<p>You have grown up with traditional mathematical notation and are likely familiar with the notation for several of the pattern-book functions: <span class="math inline">\(\ln x\)</span>, <span class="math inline">\(\sin x\)</span>, <span class="math inline">\(e^x\)</span>, <span class="math inline">\(x^p\)</span> (as in <span class="math inline">\(x^2\)</span> where <span class="math inline">\(p=2\)</span> or <span class="math inline">\(\sqrt{x}\)</span> where <span class="math inline">\(p=1/2\)</span>). <span style="float: right; padding-left: 50px;"><a name="450" href="#450"><img src="www/icons8-signpost.png" title="Location: 450" width="12px"></a><span style="color: red; font-size: 6pt;">450</span></span></p>
 <p>Traditional notation mixes up several things that computer notation sensibly keeps separate. From the computer programmer’s point of view, traditional notation is idiosyncratic rather than systematic.</p>
 <p>If you are interested in these things, three concepts from computing may help you appreciate the the differences:</p>
 <ul>
 <li><p><strong><em>Functional notation</em></strong> In computing, the notation in which a function <strong>name</strong> is followed by parentheses<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Or sometimes square braces or curly braces or another token, depending on the language.&lt;/p&gt;"><sup>6</sup></a> with the inputs <strong>inside</strong> the parentheses is called “functional notation.” For instance, <code><a href="https://rdrr.io/r/base/Log.html">exp(x)</a></code> is functional notation, since the input <code>x</code> is between parentheses. Traditional mathematical notation sometimes leaves out the parentheses, as in <span class="math inline">\(\sin \frac{\pi}{2}\)</span> or <span class="math inline">\(\ln 10\)</span>. But in this course I always include the parentheses, which are abolutely required in the computer notation, in the traditional notation as well, i.e. <span class="math inline">\(\sin\left(\frac{\pi}{2}\right)\)</span>.</p></li>
 <li><p><strong><em>Infix notation</em></strong> For functions with two inputs, computing languages often support a different arrangement of the function name and the inputs where the name comes inbetween the arguments. You’ve seen this “infix” notation in parts of traditional arithmetic notation, for instance, <span class="math inline">\(3 + 5\)</span> or <span class="math inline">\(8/2\)</span>. In R, power-law functions are often written in infix notation, e.g. <code>3^2</code> or <code>x^3</code>. When you see a traditional notation like <span class="math inline">\(e^x\)</span>, you will be tempted at first to write this as <code>e^x</code>. But in R, the exponential function is written in functional notation: <code><a href="https://rdrr.io/r/base/Log.html">exp(x)</a></code>.</p></li>
-<li><p><strong><em>Markup notation</em></strong> You are undoubtedly familar with word processing and, particularly, a style of word processing called What-you-see-is-what-you-get (WYSIWYG). In WYSIWYG, you can enter plain text just using the keyboard, but if you want to make something <strong>boldface</strong> or <strong>italics</strong>, you use the mouse to select the text involved and select a style from a menu. Typically, WYSIWYG mathematical content involves a similar mouse-based process. In contrast, in mainstream computer languages, the mouse is not needed at all. The computer commands are constructed from plain, linear sequences of letters and other characters.</p></li>
+<li><p><strong><em>Markup notation</em></strong> You are undoubtedly familar with word processing and, particularly, a style of word processing called What-you-see-is-what-you-get (WYSIWYG). In WYSIWYG, you can enter plain text just using the keyboard, but if you want to make something <strong>boldface</strong> or <em>italics</em>, you use the mouse to select the text involved and select a style from a menu. Typically, WYSIWYG mathematical content involves a similar mouse-based process. In contrast, in mainstream computer languages, the mouse is not needed at all. The computer commands are constructed from plain, linear sequences of letters and other characters.</p></li>
 </ul>
 <p>Traditional mathematical notation includes features such as superscripts and special symbols that are easily written out with pencil in hand. Often this notation is beautiful and aesthetically cherished by mathematicians. But computer commands in most computer languages are straight sequences of characters using function or infix notation.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Some computer languages use notation where the name of the function is contained inside the parentheses as in &lt;code&gt;(+ 2 3)&lt;/code&gt;.&lt;/p&gt;"><sup>7</sup></a></p>
 
@@ -450,12 +478,12 @@ later in the course you will encounter power-law functions where the exponent is
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#fun-describing"><span class="header-section-number">4</span> Describing functions</a></li>
-<li><a class="nav-link" href="#slice-plot-intro"><span class="header-section-number">4.1</span> Computer commands</a></li>
+<li><a class="nav-link" href="#slice-plot-intro"><span class="header-section-number">4.1</span> Graphing a function</a></li>
 <li><a class="nav-link" href="#tables-of-inputs-and-outputs"><span class="header-section-number">4.2</span> Tables of inputs and outputs</a></li>
 <li>
 <a class="nav-link" href="#word-descriptions"><span class="header-section-number">4.3</span> Word descriptions</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#concavity"><span class="header-section-number">4.3.1</span> Concavity</a></li>
-<li><a class="nav-link" href="#continuity"><span class="header-section-number">4.3.2</span> Continuity</a></li>
+<li><a class="nav-link" href="#continuity-intro"><span class="header-section-number">4.3.2</span> Continuity</a></li>
 <li><a class="nav-link" href="#monotonicity"><span class="header-section-number">4.3.3</span> Monotonicity</a></li>
 <li><a class="nav-link" href="#periodicity"><span class="header-section-number">4.3.4</span> Periodicity</a></li>
 <li><a class="nav-link" href="#asymptotic-behavior"><span class="header-section-number">4.3.5</span> Asymptotic behavior</a></li>
@@ -481,7 +509,7 @@ later in the course you will encounter power-law functions where the exponent is
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-10.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-20.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

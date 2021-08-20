@@ -12,13 +12,16 @@
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
     const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
     for (let popover of popovers){
       const div = document.createElement('div');
       div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
       div.innerHTML = popover.getAttribute('data-content');
-      
+
       // Will this work with TeX on its own line?
       var has_math = div.querySelector("span.math");
       if (has_math) {
@@ -39,7 +42,12 @@
     \newcommand{\recip}{\text{recip}}
     \newcommand{\diff}[1]{{\cal D}_#1}
     \newcommand{\pnorm}{\text{pnorm}}
-    \newcommand{\dnorm}{\text{dnorm}}\)
+    \newcommand{\dnorm}{\text{dnorm}}
+    \newcommand{\CC}[1]{\color{#648fff}{#1}}
+    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
+    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
+    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
+    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
     </span>
 
     <!-- see https://www.homepages.ucl.ac.uk/~ucahmto/elearning/2019/09/14/bookdown.html-->
@@ -80,6 +88,16 @@
 <li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
 <li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
 <li><a class="active" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
+<li class="book-part">Block 2: Differentiation</li>
+<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 </ul>
 
         <div class="book-extra">
@@ -408,27 +426,27 @@ For the civil engineers, introduce the words stress and strain and talk about th
 <p>In traditional notation, the trigonometric functions such as <span class="math inline">\(\sin()\)</span> and <span class="math inline">\(\tan()\)</span> can be written with an argument either in degrees or radians. For instance, <span class="math inline">\(\sin(90^\circ) = \sin\left(\frac{\pi}{2}\right)\)</span>. Similarly, for the inverse functions like <span class="math inline">\(\arccos()\)</span> the units of the output are not specified. This works because there is always a human to intervene between the written expression and the eventual computation.</p>
 <p>In R, as in many other computer languages like Python or spreadsheet packages, there is no valid expression like <code>sin(90 deg)</code>. In these languages, <code>90 deg</code> is not a valid expression (although it might be good if there were valid!). In these and many other languages, angles are always given in radians. Such consistency is admirable, but people are not always so consistent. It is a common source of computer bugs that angles in degrees are handed off to functions like <span class="math inline">\(\sin()\)</span> and that the output of <span class="math inline">\(\arccos()\)</span> is (wrongly) interpreted as degrees rather than radians. <span style="float: right; padding-left: 50px;"><a name="1780" href="#1780"><img src="www/icons8-signpost.png" title="Location: 1780" width="12px"></a><span style="color: red; font-size: 6pt;">1780</span></span></p>
 <p>Function composition to the rescue!</p>
-<p>Consider this function given in the <a href="https://en.wikipedia.org/wiki/Position_of_the_Sun">Wikipedia article on the position of the sun</a> as seen from Earth.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Article accessed on May 30, 2021&lt;/p&gt;"><sup>20</sup></a>
+<p>Consider this function given in the <a href="https://en.wikipedia.org/wiki/Position_of_the_Sun">Wikipedia article on the position of the sun</a> as seen from Earth.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Article accessed on May 30, 2021&lt;/p&gt;"><sup>21</sup></a>
 <span class="math display">\[\delta_\odot(n) \equiv - 23.44^\circ \cdot \cos \left [ \frac{360^\circ}{365\, \text{days}} \cdot \left ( n + 10 \right ) \right ]\]</span>
 Where <span class="math inline">\(n\)</span> is zero at the midnight marking New Years and increases by 1 per day. (The <span class="math inline">\(n+10\)</span> has units of days and translates New Years back 10 days, to the day of the winter solstice.) <span class="math inline">\(\delta_\odot()\)</span> gives the declination of the sun: the latitude pieced by an imagined line connecting the centers of the earth and the sun.</p>
 <p>The Wikipedia formula is well written in that it uses some familiar numbers to help the reader see where the formula comes from. 365 is recognizably the length of the year in days. <span class="math inline">\(360^\circ\)</span> is the angle traversed when making a full cycle around a circle. <span class="math inline">\(23.44^\circ\)</span> is less familiar, but the student of geography might recognize it as the latitude of the Tropic of Cancer, the latitude farthest north where the sun is directly overhead at noon (on the day of the summer solstice).</p>
 <p>But there’s a world of trouble for programmer who implements the formula as</p>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dec_sun</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span><span class="fl">360</span><span class="op">/</span><span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">+</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span></code></pre></div>
 <p>For instance, the equinoxes are around March 21 (n=81) and Sept 21 (n=264). On an equinox, the delination of the sun is zero degrees. But let’s plug <span class="math inline">\(n=81\)</span> and <span class="math inline">\(n=264\)</span> into the formula and see what we get.</p>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun</span><span class="op">(</span><span class="fl">81</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 5.070321</code></pre>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun</span><span class="op">(</span><span class="fl">264</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -23.38324</code></pre>
 <p>The equinoxes aren’t even equal! And they are not close to zero. Does this mean astronomy is wrong?</p>
 <p>The Wikipedia formula should have been programmed this way, using 2 <span class="math inline">\(\pi\)</span> radians instead of 360 degrees:</p>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dec_sun_right</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span> <span class="op">/</span> <span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">+</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span>
 <span class="fu">dec_sun_right</span><span class="op">(</span><span class="fl">81</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun_right</span><span class="op">(</span><span class="fl">264</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
 <p>The deviation of one-tenth of a degree reflects rounding off the time of the equinox to the nearest day.</p>
@@ -546,7 +564,7 @@ In order to render the quantity both dimensionless and <em>unitless</em>, <span 
 <p>The numerical value of the constant <span class="math inline">\(k\)</span> changes depending on what units you want to express it in. The value you found in part (C) works for masses stated in kg and skin areas in cm<span class="math inline">\(^2\)</span>.</p>
 <p>Suppose you want to figure out a value of <span class="math inline">\(k'\)</span> that you can use in the formula for people who are used to talking about skin area in square inches and mass in pounds. The units of <span class="math inline">\(k\)</span> are cm<span class="math inline">\(^2\)</span>, and we want the units of <span class="math inline">\(k'\)</span> to be in<span class="math inline">\(^2\)</span>. That part is easy: just multiply <span class="math inline">\(k\)</span> by two flavors of one to change the units from cm to inches, like this:</p>
 <p><span class="math display">\[k' = k\ \underbrace{\frac{\text{in}}{2.6 \text{cm}}}_\text{flavor of 1}\  \underbrace{\frac{\text{in}}{2.6 \text{cm}}}_\text{flavor of 1} = \frac{k}{2.6^2}\]</span> where the flavor of 1 reflects that 1 inch is 2.6 cm.</p>
-<p><strong>But this is not the whole story</strong>. We have to be very careful in dealing with the <span class="math inline">\(\left(\frac{M}{1 kg}\right)^{2/3}\)</span>. Translated to pounds, <span class="math inline">\(M = 70\ \text{kg} = 154\ \text{lbs}\)</span>, since, in the rough-and-ready way everyday people express themselves, 1 kg <span class="math inline">\(\approx\)</span> 2.2 lbs.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Of course, pounds is a measure of force, not mass. But people use it as if it were mass. A mass of 70 kg corresponds to about 4.8 slugs. In Earth’s gravity, the mass 4.8 slugs produces a force of 154 pounds.&lt;/p&gt;"><sup>21</sup></a></p>
+<p><strong>But this is not the whole story</strong>. We have to be very careful in dealing with the <span class="math inline">\(\left(\frac{M}{1 kg}\right)^{2/3}\)</span>. Translated to pounds, <span class="math inline">\(M = 70\ \text{kg} = 154\ \text{lbs}\)</span>, since, in the rough-and-ready way everyday people express themselves, 1 kg <span class="math inline">\(\approx\)</span> 2.2 lbs.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Of course, pounds is a measure of force, not mass. But people use it as if it were mass. A mass of 70 kg corresponds to about 4.8 slugs. In Earth’s gravity, the mass 4.8 slugs produces a force of 154 pounds.&lt;/p&gt;"><sup>22</sup></a></p>
 <p>Plugging in <span class="math inline">\(M=154\)</span> lbs makes the power-law part of the formula for skin area
 <span class="math display">\[\left(\frac{154\ \text{lbs}}{1\ \text{kg}}\right)^{2/3}\]</span>
 You can’t take (pounds)<span class="math inline">\(^{2/3}\)</span> or (kg)<span class="math inline">\(^{2/3}\)</span>; you won’t get a sensible unit in either case. But [pounds/kg] = [1], so taking the two-thirds power of the ratio is perfectly legitimate.</p>
@@ -619,43 +637,21 @@ You can’t take (pounds)<span class="math inline">\(^{2/3}\)</span> or (kg)<spa
 <li>
 <span class="math inline">\(3.6 \times 10^{31}\)</span> meter seconds per kg<span class="mcanswer"> ︎✘ </span>
 </li>
-</ol></details><!-- Block 1 project
+</ol></details><!-- `rrr insert_calcZ_exercise("XX.XX", "3dkse", "Exercises/Dimension/rooster-blue.Rmd")` --><!-- Block 1 project
 
 `rrr insert_calcZ_exercise(15.4, "RDTTKW", "Exercises/Dimension/satellite-dimensions.Rmd")`
 
+--><!--
+You could equally well say that the $\sin()$ function has a characteristic scale of 360 ***degrees***, which is the same amount as $2 \pi$ ***radians***. Most people find it easiest to interpret angles as measured in degrees, but the usual practice in mathematics and computing is that the argument to $\sin()$ (and other trigonometric functions is interpreted) in radians. You might think the choice between using degrees and using radians is arbitrary. In Chapter \@ref(taylor-polynomial) you'll see a surprising reason why radians are the "natural" way to measure angles.
 -->
 </div>
 </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="chapter-nav">
+<div class="chapter-nav">
 <div class="prev"><a href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></div>
-<div class="empty"></div>
+<div class="next"><a href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -676,14 +672,19 @@ You can’t take (pounds)<span class="math inline">\(^{2/3}\)</span> or (kg)<spa
 </div>
     </nav>
 </div>
+</div>
+
+  
+
+  
 
 </div>
-</div> <!-- .container -->
+ <!-- .container -->
 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-10.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-20.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
