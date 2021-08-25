@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 21 Evanescent h | CalcZ Student Notes</title>
+<meta name="author" content="Daniel Kaplan">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
+    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+    for (let popover of popovers){
+      const div = document.createElement('div');
+      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+      div.innerHTML = popover.getAttribute('data-content');
+
+      // Will this work with TeX on its own line?
+      var has_math = div.querySelector("span.math");
+      if (has_math) {
+        document.body.appendChild(div);
+      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+      	MathJax.Hub.Queue(function(){
+          popover.setAttribute('data-content', div.innerHTML);
+      	})
+      }
+    }
+    </script>
+</head>
+<body>
+<span class="math inline">
+    \(\newcommand{\line}{\text{line}}
+    \newcommand{\hump}{\text{hump}}
+    \newcommand{\sigmoid}{\text{sigmoid}}
+    \newcommand{\recip}{\text{recip}}
+    \newcommand{\diff}[1]{{\cal D}_#1}
+    \newcommand{\pnorm}{\text{pnorm}}
+    \newcommand{\dnorm}{\text{dnorm}}
+    \newcommand{\CC}[1]{\color{#648fff}{#1}}
+    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
+    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
+    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
+    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+    </span>
+
+    <!-- see https://www.homepages.ucl.ac.uk/~ucahmto/elearning/2019/09/14/bookdown.html-->
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">CalcZ Student Notes</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
+<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
+<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
+<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
+<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
+<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
+<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
+<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
+<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Process of modeling</a></li>
+<li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
+<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
+<li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
+<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">12</span> Functions with multiple inputs</a></li>
+<li><a class="" href="fun-piecewise.html"><span class="header-section-number">13</span> Piecewise functions</a></li>
+<li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
+<li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
+<li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
+<li class="book-part">Block 2: Differentiation</li>
+<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
+<li><a class="active" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="Not%20available">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="evanescent-h" class="section level1" number="21">
+<h1>
+<span class="header-section-number">21</span> Evanescent h<a class="anchor" aria-label="anchor" href="#evanescent-h"><i class="fas fa-link"></i></a>
+</h1>
+<p>Our goal in this chapter is to motivate the differentiation rules presented in Chapter <a href="computing-derivs.html#computing-derivs">18</a> for the pattern-book functions. Recall that the slope-function operator can be written as a ratio of rise-over-run:
+<span class="math display">\[{\cal D}_t f(t) \equiv \frac{f(t+h) - f(t)}{h}\]</span> where <span class="math inline">\(h\)</span> is the length of the “run.” The idea of the <strong><em>instantaneous slope function</em></strong> is to make <span class="math inline">\(h\)</span> as small as possible.</p>
+<p>In the very early days of calculus, the vanishing <span class="math inline">\(h\)</span> was described as “evanescent.” (Dictionary definition: “tending to vanish like vapor.”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://www.merriam-webster.com/dictionary/evanescent"&gt;Source&lt;/a&gt;&lt;/p&gt;'><sup>29</sup></a>) Another good image of <span class="math inline">\(h\)</span> becoming as small as possible comes from the same University of Oxford mathematician whose poem <em>The Jabberwocky</em> we considered earlier. In <em>Alice in Wonderland</em>, Dodgson introduced the character of the Cheshire Cat. <span style="float: right; padding-left: 50px;"><a name="2370" href="#2370"><img src="www/icons8-signpost.png" title="Location: 2370" width="12px"></a><span style="color: red; font-size: 6pt;">2370</span></span></p>
+<div class="figure" style="text-align: center">
+<span id="fig:cheshire-cat"></span>
+<img src="images/cheshire-cat.jpeg" alt="Vanishing $h$ in the form of the Chesire Cat from *Alice in Wonderland*." width="90%"><p class="caption">
+Figure 21.1: Vanishing <span class="math inline">\(h\)</span> in the form of the Chesire Cat from <em>Alice in Wonderland</em>.
+</p>
+</div>
+<blockquote>
+<p><em>“All right,” said the Cat; and this time it vanished quite slowly, beginning with the end of the tail, and ending with the grin, which remained some time after the rest of it had gone.</em></p>
+</blockquote>
+<blockquote>
+<p><em>“Well! I’ve often seen a cat without a grin,” thought Alice; “but a grin without a cat! It’s the most curious thing I ever saw in my life!”</em></p>
+</blockquote>
+<p>Start our story with two of the basic modeling functions that, like the characters from <em>Alice in Wonderland</em>, have considerable “personality”: the sinusoid (<code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code>) and the sigmoid (<code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code>).</p>
+<div class="figure" style="text-align: center">
+<span id="fig:sign-sig"></span>
+<img src="CalcZ-notes_files/figure-html/sign-sig-1.png" alt="The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input $t=0$" width="50%"><img src="CalcZ-notes_files/figure-html/sign-sig-2.png" alt="The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input $t=0$" width="50%"><p class="caption">
+Figure 21.2: The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input <span class="math inline">\(t=0\)</span>
+</p>
+</div>
+<p>The computer can easily construct the slope functions for the sinusoid and sigmoid, which we’ll call <code>Dsin()</code> and <code>Dsigma()</code> respectively.</p>
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Dsin</span>   <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span>  <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">+</span><span class="va">h</span><span class="op">)</span> <span class="op">-</span>   <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">t</span>, h<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>
+<span class="va">Dsigma</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">t</span><span class="op">+</span><span class="va">h</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">t</span>, h<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></code></pre></div>
+<p>In the tilde expression handed to <code>makeFun()</code>, we’ve identified <code>t</code> as the name of the input and given a “small” default value to the <code>h</code> parameter. But R recognizes that both <code>Dsin()</code> and <code>Dsigma()</code> are functions with two inputs, <code>t</code> and <code>h</code>, as you can see in the parenthesized argument list for the functions.</p>
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Dsin</span></code></pre></div>
+<pre><code>## function (t, h = 0.1) 
+## (sin(t + h) - sin(t))/h</code></pre>
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Dsigma</span></code></pre></div>
+<pre><code>## function (t, h = 0.1) 
+## (pnorm(t + h) - pnorm(t))/h</code></pre>
+<p>This is a nuisance, since when using the slope functions we will need always to think about <code>h</code>, a number that we’d like to describe simply as “small,” but for which we always need to provide a numerical value. A surprisingly important question in the development of calculus is, “What can we do to avoid the nuisance?” To find out, let’s look at <code>Dsin()</code> and <code>Dsigma()</code> for a range of values of <code>h</code>, as in Figure <a href="evanescent-h.html#fig:sin-sig-many-h">21.3</a>. <span style="float: right; padding-left: 50px;"><a name="2372" href="#2372"><img src="www/icons8-signpost.png" title="Location: 2372" width="12px"></a><span style="color: red; font-size: 6pt;">2372</span></span></p>
+<div class="figure" style="text-align: center">
+<span id="fig:sin-sig-many-h"></span>
+<img src="CalcZ-notes_files/figure-html/sin-sig-many-h-1.png" alt="The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of `h`. Both panels show $h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001$." width="90%"><img src="CalcZ-notes_files/figure-html/sin-sig-many-h-2.png" alt="The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of `h`. Both panels show $h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001$." width="90%"><p class="caption">
+Figure 21.3: The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of <code>h</code>. Both panels show <span class="math inline">\(h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001\)</span>.
+</p>
+</div>
+<p>Some observations from this numerical experiment:</p>
+<ol style="list-style-type: decimal">
+<li>
+<p>As <span class="math inline">\(h\)</span> gets very small, the slope function doesn’t depend on the exact value of <span class="math inline">\(h\)</span>. As you can see in Figure <a href="evanescent-h.html#fig:sin-sig-many-h">21.3</a>, the graphs of the functions with the smallest <span class="math inline">\(h\)</span> (green, with labels near the top of the graph) lie on top of one another.</p>
+<p>This will provide a way for us, eventually, to discard <span class="math inline">\(h\)</span> so that the slope function will not need an <span class="math inline">\(h\)</span> argument.</p>
+</li>
+<li><p>For small <span class="math inline">\(h\)</span>, we have <span class="math inline">\({\cal D}_t \sin(t) = \sin(t + \pi/2) = \cos(t)\)</span>. That is, taking the slope function of a sinusoid gives another sinusoid, shifted left by <span class="math inline">\(\pi/2\)</span> from the original. Or, in plain words, for small <span class="math inline">\(h\)</span> the cosine is the slope function of the sine.</p></li>
+<li><p>For small <span class="math inline">\(h\)</span>, we have <span class="math inline">\({\cal D}_t \pnorm(t) = \dnorm(t)\)</span>. That is, for small <span class="math inline">\(h\)</span> the gaussian function is the slope function of the sigmoid <span class="math inline">\(\dnorm()\)</span> function.</p></li>
+</ol>
+<p>You can confirm these last two statements by comparison with the original functions, especially the alignment of the peaks of the slope functions with respect to the peak of the sinusoid and the half-way point of the sigmoid. <span style="float: right; padding-left: 50px;"><a name="2374" href="#2374"><img src="www/icons8-signpost.png" title="Location: 2374" width="12px"></a><span style="color: red; font-size: 6pt;">2374</span></span></p>
+<div class="why">
+<p>Here you use <span class="math inline">\(t\)</span> as the name of the input and <span class="math inline">\(\partial_t\)</span> as the notation for differentiation. Previously in this block you used <span class="math inline">\(x\)</span> as the input name and <span class="math inline">\(\partial_x\)</span> for differentiation. Are they the same? <span style="float: right; padding-left: 50px;"><a name="2376" href="#2376"><img src="www/icons8-signpost.png" title="Location: 2376" width="12px"></a><span style="color: red; font-size: 6pt;">2376</span></span></p>
+<p>Mathematically, the name of the input makes no difference whatsoever. We could call it <span class="math inline">\(x\)</span> or <span class="math inline">\(t\)</span> or <span class="math inline">\(y\)</span> or Josephina. What’s important is that the name be used consistently on the left and right sides of <span class="math inline">\(\equiv\)</span>, and that the derivative symbol <span class="math inline">\(\partial\)</span> has a subscript that identifies <strong><em>the with-respect-to</em></strong> input. All these are the same statement mathematically: <span style="float: right; padding-left: 50px;"><a name="2378" href="#2378"><img src="www/icons8-signpost.png" title="Location: 2378" width="12px"></a><span style="color: red; font-size: 6pt;">2378</span></span></p>
+<p><span class="math display">\[\partial_x\, x = 1\ \ \ \ \partial_t\, t = 1\ \ \ \ \partial_y\, y = 1\ \ \ \ \partial_\text{Josephina} \text{Josephina} = 1\]</span>
+Admittedly, the last one is hard to read.</p>
+<p>When we look at derivatives of functions of multiple variables we will need to be thoughtful about our choice of the with-respect-to input. But we want you to get used to seeing different input names used for differentiation. <span style="float: right; padding-left: 50px;"><a name="2380" href="#2380"><img src="www/icons8-signpost.png" title="Location: 2380" width="12px"></a><span style="color: red; font-size: 6pt;">2380</span></span></p>
+</div>
+<p>Now consider the slope functions of the logarithm and exponential functions.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:log-exp-many-h"></span>
+<img src="CalcZ-notes_files/figure-html/log-exp-many-h-1.png" alt="The slope functions of the logarithm and exponential." width="90%"><img src="CalcZ-notes_files/figure-html/log-exp-many-h-2.png" alt="The slope functions of the logarithm and exponential." width="90%"><p class="caption">
+Figure 21.4: The slope functions of the logarithm and exponential.
+</p>
+</div>
+<p>These numerical experiments with the logarithm and exponential functions are more evidence that, as <span class="math inline">\(h\)</span> gets small, the slope function doesn’t depend on <span class="math inline">\(h\)</span>. And, we find that:</p>
+<ul>
+<li>For small <span class="math inline">\(h\)</span>, the slope function of the logarithm is a power-law function: <span class="math inline">\({\cal D}_t \ln(t) = \frac{1}{t}\)</span>.</li>
+<li>For small <span class="math inline">\(h\)</span>, the slope function of the exponential is the exponential itself: <span class="math inline">\({\cal D}_t e^x = e^x\)</span>.</li>
+</ul>
+<p>You can confirm these by evaluating the slope function of the exponential at <span class="math inline">\(t=0\)</span> and <span class="math inline">\(t=1\)</span>, and the slope function of the logarithm at <span class="math inline">\(t= 2, 1, 1/2, 1/4, 1/8.\)</span></p>
+<div id="role-of-h" class="section level2" number="21.1">
+<h2>
+<span class="header-section-number">21.1</span> Role of h<a class="anchor" aria-label="anchor" href="#role-of-h"><i class="fas fa-link"></i></a>
+</h2>
+<p>In motivating differentiation of the pattern-book functions, we introduced a quantity <span class="math inline">\(h\)</span> and then ignored it, saying that it doesn’t really matter so long as it is “small.” A reasonable person might wonder what “small” really means, and why we needed to introduce <span class="math inline">\(h\)</span> in the first place if we were eventually going to ignore it. <span style="float: right; padding-left: 50px;"><a name="2382" href="#2382"><img src="www/icons8-signpost.png" title="Location: 2382" width="12px"></a><span style="color: red; font-size: 6pt;">2382</span></span></p>
+<p>One reason is that “small” and “zero,” although related, are different. For example, refering to the slope functions <code>Dsin()</code> and <code>Dsigma()</code> that we created in an early example in this chapter, we see that setting <span class="math inline">\(h\)</span> to zero does not get us where we need to be: <span style="float: right; padding-left: 50px;"><a name="2384" href="#2384"><img src="www/icons8-signpost.png" title="Location: 2384" width="12px"></a><span style="color: red; font-size: 6pt;">2384</span></span></p>
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">Dsin</span><span class="op">(</span>t<span class="op">=</span><span class="fl">1</span>, h<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
+<span class="fu">Dsigma</span><span class="op">(</span>t<span class="op">=</span><span class="fl">0</span>, h<span class="op">=</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+<p>In <code>NaN</code>, you can hear the echo of your fourth-grade teacher reminding you that it is illegal to divide by zero.</p>
+<p>Think of evanescent <span class="math inline">\(h\)</span> as the vapor in the definition of “evanescent”: “tending to vanish like vapor.” This vapor is the solvent in paint. You don’t want the solvent once the paint is on the wall; wet paint is a nuisance. But getting the paint from the container to the wall absolutely needs the solvent. <span style="float: right; padding-left: 50px;"><a name="2386" href="#2386"><img src="www/icons8-signpost.png" title="Location: 2386" width="12px"></a><span style="color: red; font-size: 6pt;">2386</span></span></p>
+<p>We used the solvent <span class="math inline">\(h\)</span> earlier in the chapter in the numerical experiments that led us to the derivatives of the pattern-book functions, for instance <span class="math inline">\(\partial_x e^x = e^x\)</span> or <span class="math inline">\(\partial_x \sin(x) = \cos(x)\)</span>. Eventually, we’ll construct an <span class="math inline">\(h\)</span>-free theory of differentiation, reducing the process to a set of algebraic rules in which <span class="math inline">\(h\)</span> never appears. With this as our goal, let’s continue using <span class="math inline">\(h\)</span> for a while to find some additional useful facts about derivatives. <span style="float: right; padding-left: 50px;"><a name="2388" href="#2388"><img src="www/icons8-signpost.png" title="Location: 2388" width="12px"></a><span style="color: red; font-size: 6pt;">2388</span></span></p>
+</div>
+<div id="derivatives-of-linear-combinations" class="section level2" number="21.2">
+<h2>
+<span class="header-section-number">21.2</span> Derivatives of linear combinations<a class="anchor" aria-label="anchor" href="#derivatives-of-linear-combinations"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong><em>Linear combination</em></strong> is one of the ways in which we make new functions from existing functions. As you recall, linear combination involves <strong><em>scaling</em></strong> functions and then <strong><em>adding</em></strong> the scaled functions. We can easily use <span class="math inline">\(h\)</span> to show what is the result of differentiating a linear combination of functions. We’ll use <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> as the names that could stand for any function whatsoever. And we’ll let <span class="math inline">\(b\)</span> be the name of a scalar. First, let’s figure out what is <span class="math inline">\(\partial_x\, b f(x)\)</span>, Going back to writing <span class="math inline">\(\partial_x\)</span> in terms of a slope function:
+<span class="math display">\[\partial_x\, b\,f(x) = \frac{b\, f(x + h) - b\,f(x)}{h}\\
+\ \\
+= b \frac{f(x+h) - f(x)}{h} = b\, \partial_x f(x)\]</span>
+In other words, if we know the derivative <span class="math inline">\(\partial_x\, f(x)\)</span>, we can easily find the derivative of any scaled version of <span class="math inline">\(f()\)</span>. Notice that even though <span class="math inline">\(h\)</span> was used in the derivation, it appears nowhere in the result <span class="math inline">\(\partial_x\, b\,f(x) = b\, \partial_x\, f(x)\)</span>. The <span class="math inline">\(h\)</span> is solvent to get the paint on the wall and evaporates once its job is done.</p>
+<p>Now consider the derivative of the sum of two functions, <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span>:
+<span class="math display">\[\partial_x\, \left[f(x) + g(x)\right] =\\
+\ \\
+=\frac{\left[f(x + h) + g(x + h)\right] - \left[f(x) + g(x)\right]}{h} = \\
+\ \\
+= \frac{\left[f(x+h) -f(x)\right] + \left[g(x+h) - g(x)\right]}{h}\\
+\ \\
+= \frac{\left[f(x+h) -f(x)\right]}{h} + \frac{\left[g(x+h) - g(x)\right]}{h}\\
+\ \\
+= \partial_x\, f(x) + \partial_x\, g(x)\]</span></p>
+<p>Using these two rules together, we can differentiate any linear combination of functions in terms of the differentiated functions themselves:</p>
+<p><span class="math display">\[\partial_x\ \left[\strut a_1 g_1(x) + a_2 g_2(x) + a_3 g_3(x) + \cdots\right] =\ \ \ \ \ \ \ \ \ \ \\
+\ \\
+\ \ \ \ \ \ \ \ \ a_1 \partial_x\, g_1(x) + a_2 \partial_x\, g_2(x) + a_3 \partial_x\, g_3(x) + \cdots\]</span></p>
+<p>Because of the way that <span class="math inline">\(\partial_x\)</span> can be “passed through” a linear combination, mathematicians say that differentiation is a <strong><em>linear operator</em></strong>. Consider this new fact about differentiation as a down payment on what will eventually become a complete theory telling us how to differentiate a <strong><em>product of two functions</em></strong> or the <strong><em>composition of two functions</em></strong>. We’ll lay out the <span class="math inline">\(h\)</span>-based algebra of this in the next two sections. <span style="float: right; padding-left: 50px;"><a name="2390" href="#2390"><img src="www/icons8-signpost.png" title="Location: 2390" width="12px"></a><span style="color: red; font-size: 6pt;">2390</span></span></p>
+</div>
+<div id="derivatives-of-products" class="section level2" number="21.3">
+<h2>
+<span class="header-section-number">21.3</span> Derivatives of products<a class="anchor" aria-label="anchor" href="#derivatives-of-products"><i class="fas fa-link"></i></a>
+</h2>
+<p>The question at hand is how to compute the derivative <span class="math inline">\(\partial_x f(x) g(x)\)</span>. Needless to say, <span class="math inline">\(f(x) g(x)\)</span> is just a function so it’s perfectly appropriate to use numerical methods in exactly the same way you would for any other function. So let’s make the question more specific by asking how to compute the derivative <span class="math inline">\(\partial_x f(x) g(x)\)</span> <strong>if you already know</strong> <span class="math inline">\(\partial_x f(x)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span>.</p>
+<p>This situation arises particularly when <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> are pattern-book functions for which you already have memorized <span class="math inline">\(\partial_x f(x)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span> or are basic modeling functions whose derivatives you will memorize in Chapter <a href="prod-comp-rules.html#prod-comp-rules">22</a>.</p>
+<p>The purpose of this section is to <strong>derive</strong> the formula for <span class="math inline">\(\partial_x f(x) g(x)\)</span> in terms of <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(g(x)\)</span>, <span class="math inline">\(\partial_x f(x)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span>. This formula is called the <strong><em>product rule</em></strong>. The point of showing a derivation of the product rule is to let you see how the logic of evanescent <span class="math inline">\(h\)</span> plays a role. In practice, everyone simply memorizes the rule, which has a beautiful, symmetric form:</p>
+<p><span class="math display">\[\text{Product rule:}\ \ \ \ \partial_x \left[\strut f(x)g(x)\right] = \left[\strut \partial_x f(x)\right]\, g(x) + f(x)\, \left[\strut\partial_x g(x)\right]\]</span> and is even prettier in Lagrange notation (where <span class="math inline">\(\partial_x f(x)\)</span> is written <span class="math inline">\(f'\)</span>): <span class="math display">\[ \left[\strut f g\right]' = f' g + f g'\]</span></p>
+<p>As with all derivatives, the product rule is based on the instantaneous rate of change <span class="math display">\[\partial_x h(x) \equiv \lim_{h\rightarrow 0} \frac{h(x+h) - h(x)}{h}\]</span></p>
+<p>We also need two other statements about <span class="math inline">\(h\)</span> and functions:</p>
+<ol style="list-style-type: decimal">
+<li>The derivative is the slope of the function, so <span class="math inline">\(f(x+h) = f(x) + h f'(x)\)</span>.</li>
+<li>Any result of the form <span class="math inline">\(h f(x)\)</span>, where <span class="math inline">\(f(x)\)</span> is finite, gives 0. More precisely, <span class="math inline">\(\lim_{h\rightarrow 0} h f(x) = 0\)</span>
+</li>
+</ol>
+<p>For simplicity, we’ll leave out the <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> until the last step; you can imagine that it’s being written in every step. We do some algebraic manipulation of the instantaneous rate of change:</p>
+<p><span class="math display">\[\partial_x \left[\strut f(x) g(x) \right] \equiv \frac{f(x+h) g(x+h) - f(x) g(x)}{h} = \\
+\,\\
+= \frac{f(x+h) \left[\strut g(x) + h g'(x) \right] - f(x) g(x)}{h} =\\
+=\frac{\left[\strut f(x+ h) - f(x)\right]  g(x) + f(x+h) h\, g'(x)}{h} =\\
+\,\\
+=\left[\strut \frac{f(x+h) - f(x)}{h}\right] g(x) + \frac{\left[\strut f(x) + h f'(x)\right]h\,g'(x)}{h} =\\
+\,\\
+= f'(x) g(x) + \frac{f(x) h g'(x)}{h} + \frac{h f'(x) h g'(x)}{h} = \\
+\,\\
+= f'(x) g(x) + f(x) g'(x) + \cancelto{0}{h f'(x) g'(x)} = \\
+\\\,\\
+=f'(x) g(x) + f(x) g'(x)
+\]</span></p>
+<p>The last step relies on statement (2) above.</p>
+</div>
+<div id="derivatives-of-compositions" class="section level2" number="21.4">
+<h2>
+<span class="header-section-number">21.4</span> Derivatives of compositions<a class="anchor" aria-label="anchor" href="#derivatives-of-compositions"><i class="fas fa-link"></i></a>
+</h2>
+<p>The formula for the derivative of the composition <span class="math inline">\(\partial_x \left[\strut f(g(x))\right]\)</span> in terms of <span class="math inline">\(f(y)\)</span>, <span class="math inline">\(g(x)\)</span>, <span class="math inline">\(f'(y)\)</span> and <span class="math inline">\(g'(x)\)</span> is usually called the <strong><em>chain rule</em></strong> rather than the “composition rule.” It is:
+<span class="math display">\[\partial_x \left[\strut f(g(x))\right] = \left[\strut f(g(x))\right]' = f'(g(x)) g'(x)\]</span>
+The derivation relies on two closely related statements:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(g(x + h) = g(x) + h g'(x)\)</span></li>
+<li><span class="math inline">\(f\left[\strut(g(x + h)\right) = f\left[\strut g(x) + hg'(x)\right] = f(g(x)) + f'(g(x)) h g'(x)\)</span></li>
+</ol>
+<p>Apply these statements to the instantaneous rate of change of <span class="math inline">\(f(x)g(x)\)</span>:</p>
+<p><span class="math display">\[\partial_x f(x) g(x) \equiv \frac{f(g(x+h)) - f(g(x))}{x} =\\
+\,\\
+= \frac{\cancel{f(g(x))} + f'(g(x))h g'(x) - \cancel{f(g(x))}}{h} =\\
+\,\\
+= f'(g(x) g'(x)\]</span></p>
+<p>Again, in practice, models have memorized the chain rule; they don’t derive it each time they use it!</p>
+<div class="intheworld">
+<p>In 1734, famous philosopher <a href="https://en.wikipedia.org/wiki/George_Berkeley">George Berkeley</a> (1685-1753) published a long-titled book: <em>The Analyst: A Discourse Addressed to an Infidel Mathematician: Wherein It Is Examined Whether the Object, Principles, and Inferences of the Modern Analysis Are More Distinctly Conceived, or More Evidently Deduced, Than Religious Mysteries and Points of Faith</em>. In <em>The Analyst</em>, Berkeley took issue with the arguments of that time that it is legitimate to divide by <span class="math inline">\(h\)</span> when, ultimately, <span class="math inline">\(h\)</span> will be replaced by zero. Calling <span class="math inline">\(h\)</span> an “evanescent increment,” he asked, <span style="float: right; padding-left: 50px;"><a name="2392" href="#2392"><img src="www/icons8-signpost.png" title="Location: 2392" width="12px"></a><span style="color: red; font-size: 6pt;">2392</span></span></p>
+<blockquote>
+<p><em>“And what are these same evanescent Increments? They are neither finite Quantities nor Quantities infinitely small, nor yet nothing. May we not call them the ghosts of departed quantities?”</em></p>
+</blockquote>
+<p>Interesting, Berkeley believed that the ghost of <span class="math inline">\(h\)</span> yielded correct results. His objection was that the framers of calculus had made two, canceling errors.</p>
+<blockquote>
+<p><em>“[B]y virtue of a two fold mistake you arrive, though not at science, yet truth.”</em></p>
+</blockquote>
+<p>Berkeley was saying that calculus had not yet been put on a solid logical foundation. It was to be more than a century after Berkeley’s death until this work was accomplished. Once accomplished, the results that had been claimed true all along were confirmed. <span style="float: right; padding-left: 50px;"><a name="2394" href="#2394"><img src="www/icons8-signpost.png" title="Location: 2394" width="12px"></a><span style="color: red; font-size: 6pt;">2394</span></span></p>
+</div>
+<details><summary><strong>Exercise 21.1</strong>: <span><a name="File:%20Exercises/Diff/giraffe-sit-piano.Rmd" href="#qyOuQF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/giraffe-sit-piano.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">qyOuQF</span>
+</span></summary><p>DRAFT</p>
+<p>Put this in Chapter <a href="evanescent-h.html#evanescent-h">21</a>.</p>
+An exercise given a function <span class="math inline">\(g(x)\)</span> for which 0.1 isn’t good enough. Vary <span class="math inline">\(h\)</span> by factors of 10 until a change by 10 doesn’t make any discernable difference.
+</details><details><summary><strong>Exercise 21.2</strong>: <span><a name="File:%20Exercises/Diff/ant-bite-bed.Rmd" href="#yT2BkB"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/ant-bite-bed.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">yT2BkB</span>
+</span></summary><p>DRAFT</p>
+See tree harvesting in <code>Diffs/tree-harvest.Rmd</code>
+</details><details><summary><strong>Exercise 21.3</strong>: <span><a name="File:%20Exercises/Diff/goat-pay-pantry.Rmd" href="#Z7MY4I"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/goat-pay-pantry.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">Z7MY4I</span>
+</span></summary><p>DRAFT</p>
+Show that the derivative of <code><a href="https://rdrr.io/r/stats/Normal.html">dnorm(x)</a></code> is <code>- x *dnorm(x)</code> by using the differencing operator with small <span class="math inline">\(h\)</span>.
+</details>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></div>
+<div class="next"><a href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#evanescent-h"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="nav-link" href="#role-of-h"><span class="header-section-number">21.1</span> Role of h</a></li>
+<li><a class="nav-link" href="#derivatives-of-linear-combinations"><span class="header-section-number">21.2</span> Derivatives of linear combinations</a></li>
+<li><a class="nav-link" href="#derivatives-of-products"><span class="header-section-number">21.3</span> Derivatives of products</a></li>
+<li><a class="nav-link" href="#derivatives-of-compositions"><span class="header-section-number">21.4</span> Derivatives of compositions</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="Not%20available/blob/master/Diff-evanescent-h.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="Not%20available/edit/master/Diff-evanescent-h.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

@@ -12,7 +12,10 @@
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
     const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
     for (let popover of popovers){
       const div = document.createElement('div');
@@ -87,6 +90,14 @@
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
 <li class="book-part">Block 2: Differentiation</li>
 <li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 </ul>
 
         <div class="book-extra">
@@ -98,8 +109,8 @@
 <h1>
 <span class="header-section-number">7</span> Parameters for functions<a class="anchor" aria-label="anchor" href="#params-intro"><i class="fas fa-link"></i></a>
 </h1>
-<p>The pattern-book functions provide the modeler with a collection of shapes. They are not yet fully suited to represent real-world phenomena. To illustrate, consider Figure <a href="params-intro.html#fig:covid-exp">7.1</a> which shows the number of officially confirmed cases in March 2020. <span style="float: right; padding-left: 50px;"><a name="800" href="#800"><img src="www/icons8-signpost.png" title="Location: 800" width="12px"></a><span style="color: red; font-size: 6pt;">800</span></span></p>
-<p>The outbreak was widely described as “exponential,” so alongside the data Figure <a href="params-intro.html#fig:covid-exp">7.1</a> shows the function <span class="math inline">\(e^x\)</span>.</p>
+<p>The pattern-book functions provide the modeler with a collection of shapes. They are not yet fully suited to represent real-world phenomena. To illustrate, consider Figure <a href="params-intro.html#fig:covid-exp">7.1</a> which shows the number of officially confirmed COVID-19 cases in the US in March 2020. <span style="float: right; padding-left: 50px;"><a name="800" href="#800"><img src="www/icons8-signpost.png" title="Location: 800" width="12px"></a><span style="color: red; font-size: 6pt;">800</span></span></p>
+<p>The COVID pandemic was widely and appropriately described as “exponential,” so alongside the data Figure <a href="params-intro.html#fig:covid-exp">7.1</a> shows the function <span class="math inline">\(e^x\)</span>.</p>
 <div class="figure" style="text-align: center">
 <span id="fig:covid-exp"></span>
 <img src="CalcZ-notes_files/figure-html/covid-exp-1.png" alt="Cumulative officially confirmed COVID-19 cases during the month of March, 2020. The red curve is $e^x$" width="90%"><p class="caption">
@@ -116,16 +127,16 @@ Figure 7.2: COVID-19 data compared to the exponential functions <span class="mat
 </p>
 </div>
 <p>The multiplier <span class="math inline">\(k\)</span> in <span class="math inline">\(e^{kx}\)</span> is called a <strong><em>parameter</em></strong> of the function: a number that we can use to set the <strong><em>scale</em></strong> of the input. To use the exponential function to model COVID, we’ve had to stretch out the red curve in Figure <a href="params-intro.html#fig:covid-exp">7.1</a> by tailoring pattern-book <span class="math inline">\(x\)</span> as <span class="math inline">\(k x\)</span>. Perhaps it’s a matter of personal choice which size of <span class="math inline">\(k\)</span> will be best suited to model the data.</p>
-<p>My personal choice is <span class="math inline">\(k=0.30\)</span>. My reasoning? The <span class="math inline">\(k=0.30\)</span> curve roughly parallels the COVID data. The flaw with <span class="math inline">\(k=0.30\)</span> is that the curve lags the data by several days. But we can fix this by pulling the <span class="math inline">\(k=0.30\)</span> curve to the left. Mathematically this can be accomplished by subtracting a few days from <span class="math inline">\(x\)</span> before multiplying by <span class="math inline">\(k\)</span>, that is, using the function <span class="math display">\[f(x) \equiv e^{k(x-s)}\]</span> where <span class="math inline">\(s\)</span> stands for the shift.</p>
-<p>Figure <a href="params-intro.html#fig:covid-exp3">7.3</a> shows the <span class="math inline">\(k=0.30\)</span> curve after pulling it 10 days to the left. It’s now a pretty good match to the data.</p>
+<p>My personal choice is <span class="math inline">\(k=0.30\)</span>. My reasoning? The <span class="math inline">\(k=0.30\)</span> curve roughly parallels the COVID data. The flaw with <span class="math inline">\(k=0.30\)</span> is that the curve lags the data by several days. But we can fix this by pulling the <span class="math inline">\(k=0.30\)</span> curve to the left. Mathematically this can be accomplished by subtracting a few days from <span class="math inline">\(x\)</span> before multiplying by <span class="math inline">\(k\)</span>, that is, using the function <span class="math display">\[f(x) \equiv e^{k(x-x_0)}\]</span> where <span class="math inline">\(x_0\)</span> stands for the shift. (A positive value for <span class="math inline">\(x_0\)</span> is a shift to the right, a negative value is a shift to the left.)</p>
+<p>Figure <a href="params-intro.html#fig:covid-exp3">7.3</a> shows (in red) the <span class="math inline">\(k=0.30\)</span> curve after pulling it 10 days to the left. It’s now a pretty good match to the data.</p>
 <div class="figure" style="text-align: center">
 <span id="fig:covid-exp3"></span>
-<img src="CalcZ-notes_files/figure-html/covid-exp3-1.png" alt="COVID-19 data compared to the exponential functions $e^{k(t-s)}$." width="90%"><p class="caption">
-Figure 7.3: COVID-19 data compared to the exponential functions <span class="math inline">\(e^{k(t-s)}\)</span>.
+<img src="CalcZ-notes_files/figure-html/covid-exp3-1.png" alt="COVID-19 data compared to the exponential functions $e^{k(t-x_0)}$. Here, $x_0$ is negative because the shift is to the left." width="90%"><p class="caption">
+Figure 7.3: COVID-19 data compared to the exponential functions <span class="math inline">\(e^{k(t-x_0)}\)</span>. Here, <span class="math inline">\(x_0\)</span> is negative because the shift is to the left.
 </p>
 </div>
-<p>Note that once we’ve aligned the orange curve horizontally, it seems to curve too much. The green curve does much better. It has a much gentler curve, <span class="math inline">\(k=0.19\)</span> and is pulled about a little more than a month to the left. <span style="float: right; padding-left: 50px;"><a name="820" href="#820"><img src="www/icons8-signpost.png" title="Location: 820" width="12px"></a><span style="color: red; font-size: 6pt;">820</span></span></p>
-<p>By parameterizing the exponential function as <span class="math inline">\(e^{k(x-s)}\)</span> and finding suitable values for <span class="math inline">\(k\)</span> and <span class="math inline">\(s\)</span>, we get a good match to the March data. But models can sometimes tell us more. For the green curve in Figure <a href="params-intro.html#fig:covid-exp3">7.3</a> the value of <span class="math inline">\(s\)</span> is -32 days. 32 days before March 1 is in late January. And even though we didn’t have any January or February data to base the green curve on, late January 2020 is regarded as the very beginning of the outbreak.</p>
+<p>Note that once we’ve aligned the red curve horizontally, it seems to curve too much. The green curve does much better. It has a much gentler curve, <span class="math inline">\(k=0.19\)</span> and is pulled about a little more than a month to the left. <span style="float: right; padding-left: 50px;"><a name="820" href="#820"><img src="www/icons8-signpost.png" title="Location: 820" width="12px"></a><span style="color: red; font-size: 6pt;">820</span></span></p>
+<p>By parameterizing the exponential function as <span class="math inline">\(e^{k(x-x_0)}\)</span> and finding suitable values for <span class="math inline">\(k\)</span> and <span class="math inline">\(x_0\)</span>, we get a good match to the March data. But models can sometimes tell us more. For the green curve in Figure <a href="params-intro.html#fig:covid-exp3">7.3</a> the value of <span class="math inline">\(x_0\)</span> is -32 days. 32 days before March 1 is late January. We know from other sources of information, the outbreak began in late January. It’s remarkable that even though the curve was constructed without any data from January or even February, the data from March, translated through the curve-fitting process, pointed to the start of the outbreak.</p>
 <div id="parallel-scales" class="section level2" number="7.1">
 <h2>
 <span class="header-section-number">7.1</span> Parallel scales<a class="anchor" aria-label="anchor" href="#parallel-scales"><i class="fas fa-link"></i></a>
@@ -134,12 +145,12 @@ Figure 7.3: COVID-19 data compared to the exponential functions <span class="mat
 <p><img src="www/thermometer.png">     <img src="www/ruler.jpeg"></p>
 <p>Each object presents a read-out of what’s being measured—temperature or length—on two different scales. At the same time, the objects provide a way to convert one scale to another.</p>
 <p>A function gives the output for any given input. We represent the input value as a position on a number line—which we call an “axis”—and the output as a position on another output line, almost always drawn perpendicular to one another. But the two number lines can just as well be parallel to one another. To evaluate the function, find the input value on the input scale and read off the corresponding output. The <strong><em>inverse function</em></strong> can be evaluated just as easily: switch the roles of the input and output scales. <span style="float: right; padding-left: 50px;"><a name="830" href="#830"><img src="www/icons8-signpost.png" title="Location: 830" width="12px"></a><span style="color: red; font-size: 6pt;">830</span></span></p>
-<p>Taking the traditional unit scale as the input and the metric scale as the output, the two functions implemented on the objects are:
+<p>Taking the traditional (“imperial”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Called “imperial” because it was codified in an 1825 Act of the British parliament. Inches are imperial, but temperature isn’t part of the Act.&lt;/p&gt;"><sup>9</sup></a>) unit scale as the input and the metric scale as the output, the two functions implemented on the objects are:
 <span class="math display">\[\underbrace{C(F) = \frac{5}{9}(F-32)}_\mbox{Fahrenheit to Celcius}\ \ \ \text{and}\ \ \ \ \underbrace{\text{cm(inches)} = 2.54 \times (\text{inches}-0}_\mbox{inches to cm})\]</span>
 These are very simple, straight-line functions, but they play an important role in modeling.</p>
-<p>Each conversion function can be written in the form <span class="math inline">\(\line(x) \equiv m (x - x_0)\)</span>. Of course, if you multiply the <span class="math inline">\(m\)</span> through both terms in parentheses, you get <span class="math inline">\(\line(x) = m x - m x_0\)</span> which can be written even more simply as <span class="math inline">\(mx + b\)</span> by setting <span class="math inline">\(b\equiv m x_0\)</span>. So the conversion function is simply the straight-line function.</p>
-<p><span class="math inline">\(m\)</span> and <span class="math inline">\(x_0\)</span> are the <strong><em>parameters</em></strong> of the straight-line function. In terms of the graph of a straight-line function, they are the slope and x-intercept respectively.</p>
-<p>Often, functions can be parameterized in other ways. For instance, you likely learned the parameterization <span class="math inline">\(m x + b\)</span>, in which <span class="math inline">\(m\)</span> is (still) the slope of the graph but <span class="math inline">\(b\)</span> is now a y-intercept.</p>
+<p>Each conversion function can be written in the form <span class="math inline">\(\line(x) \equiv m (x - x_0)\)</span>. Of course, if you multiply the <span class="math inline">\(m\)</span> through both terms in parentheses, you get <span class="math inline">\(\line(x) = m x - m x_0\)</span> which can be written even more simply as <span class="math inline">\(mx + b\)</span> by setting <span class="math inline">\(b\equiv m x_0\)</span>. so the conversion function does conform to the straight-line formula we’re used to.</p>
+<p><span class="math inline">\(m\)</span> and <span class="math inline">\(x_0\)</span> are the <strong><em>parameters</em></strong> of the straight-line function. In terms of the graph of a straight-line function, <span class="math inline">\(m\)</span> is the slope and <span class="math inline">\(x_0\)</span> is the <strong>x</strong>-intercept respectively.</p>
+<p>Often, functions can be parameterized in other ways. For instance, you likely learned the parameterization <span class="math inline">\(m x + b\)</span>, in which <span class="math inline">\(m\)</span> is (still) the slope of the graph but <span class="math inline">\(b\)</span> is the <strong>y</strong>-intercept. (Expanding out <span class="math inline">\(m(x-x_0)\)</span> and comparing to <span class="math inline">\(m x + b\)</span>, you can see that <span class="math inline">\(b = m x_0\)</span>.)</p>
 <div class="takenote">
 <p>We can call <span class="math inline">\(m(x - x_0)\)</span> the “x-intercept parameterization” and <span class="math inline">\(m x + b\)</span> the "y-intercept parameterization. They are equivalent and equally good ways of parameterizing the straight line. There are still other ways of parameterizing, each style reflecting its own format for specifying the two points that make up a line.</p>
 </div>
@@ -149,20 +160,19 @@ These are very simple, straight-line functions, but they play an important role 
 <span class="header-section-number">7.2</span> Scaling the input<a class="anchor" aria-label="anchor" href="#scaling-the-input"><i class="fas fa-link"></i></a>
 </h2>
 <p>To turn a pattern-book function into a <strong><em>basic modeling function</em></strong> all we do is use <span class="math inline">\(\line()\)</span> to convert the input <em>before</em> applying the pattern-book function. <span style="float: right; padding-left: 50px;"><a name="840" href="#840"><img src="www/icons8-signpost.png" title="Location: 840" width="12px"></a><span style="color: red; font-size: 6pt;">840</span></span></p>
-<p>To illustrate the link between basic modeling functions and their pattern-book progenitors, Figure <a href="params-intro.html#fig:covid-scale">7.4</a> shows the model we fit to the COVID-19 data:</p>
+<p>To illustrate the link between basic modeling functions and their pattern-book prototypes, Figure <a href="params-intro.html#fig:covid-scale">7.4</a> shows the model we fit to the COVID-19 data for the cumulative number of confirmed cases for each day in March: <span class="math inline">\(\text{cases(day)} = e^{0.19(\text{day}- -32)}\)</span></p>
 <div class="figure" style="text-align: center">
 <span id="fig:covid-scale"></span>
-<img src="CalcZ-notes_files/figure-html/covid-scale-1.png" alt="A graph of the pattern-book exponential with an additional scale displayed (red) to match it to the COVID-19 data" width="90%"><p class="caption">
-Figure 7.4: A graph of the pattern-book exponential with an additional scale displayed (red) to match it to the COVID-19 data
+<img src="CalcZ-notes_files/figure-html/covid-scale-1.png" alt="A graph of the pattern-book exponential with an additional scale displayed (blue) to match it to the COVID-19 data" width="90%"><p class="caption">
+Figure 7.4: A graph of the pattern-book exponential with an additional scale displayed (blue) to match it to the COVID-19 data
 </p>
 </div>
-<p>The function being drawn is simply <span class="math inline">\(e^x\)</span>: a function from the pattern book. The black horizontal scale shows <span class="math inline">\(x\)</span>. To match the function to the data, that is, to show the basic modeling function, we simply add a new scale that translates <span class="math inline">\(x\)</span> to “day in March.” That’s the red scale. So, on March 22, there were about 25,000 COVID cases to date.</p>
-<p>The pattern-book function does not give a good model of the COVID case numbers. But if we scale the input before applying the pattern-book function, we are effectively laying a new axis, stretched and shifted from the original, that let’s us read off the number of cases.</p>
-<p>Input scaling empowers the pattern-book functions to model a huge variety of phenomena. There’s just one exponential function and it always looks exactly the same. But there is a huge variety of ways to scale the input. With input scaling, the pattern-book function is tailored to become one of our basic modeling functions.
+<p>The function being drawn is simply <span class="math inline">\(e^x\)</span>: a function from the pattern book. The black horizontal scale shows <span class="math inline">\(x\)</span>, the input to the pattern-book function. Where does that value of <span class="math inline">\(x\)</span> come from? It’s <span class="math inline">\(0.19(\text{day} - -32)\)</span>, where day is the number of the day in March. For instance, on March 20, day<span class="math inline">\(=10\)</span> and <span class="math inline">\(0.19*(\text{day}- -32) = 9.88\)</span>. You can see that 20 on the blue scale matches 10 on the black scale. The model says that on day 20 (blue scale) the input to the pattern-book function will be 9.88 (black scale). Plugging the input 9.88 into the pattern-book exponential gives <span class="math inline">\(e^{9.88} = 19536 \approx 20,000\)</span> cases.</p>
+<p>The pattern-book function does not give a good model of the COVID case numbers. But if we scale the input before applying the pattern-book function, we are effectively laying a new axis, the blue one in Figure <a href="params-intro.html#fig:covid-scale">7.4</a>, that is stretched and shifted from the pattern-book input (blackscale). Using the blue axis lets us read off the number of cases as a function of the day in March.</p>
+<p>Input scaling empowers the pattern-book functions to model a huge variety of phenomena. There’s just one exponential function and it always looks exactly the same. But there is a huge variety of ways to draw a blue axis, that is, to scale the input. With input scaling, the pattern-book function is tailored to become one of our basic modeling functions.
 <span class="math display">\[\underbrace{e^x}_\mbox{pattern-book function}\  \text{versus}\  \underbrace{e^{k(x-x_0)}}_\mbox{basic modeling function}\]</span>
-The straight-line function <span class="math inline">\(\line()\)</span> is being written here as <span class="math inline">\(k(x-x_0)\)</span> rather than <span class="math inline">\(m(x-x_0)\)</span>. It’s traditional to to write some of the basic modeling functions
-You may have noticed that the above uses <span class="math inline">\(k\)</span> instead of <span class="math inline">\(m\)</span> as the multiplier in the straight-line function in the exponent. Of course, you can use whatever name you wish for a parameter. The idiom of mathematical notation has several conventions. Knowing these will help you read mathematics more fluently. <span style="float: right; padding-left: 50px;"><a name="850" href="#850"><img src="www/icons8-signpost.png" title="Location: 850" width="12px"></a><span style="color: red; font-size: 6pt;">850</span></span></p>
-<p>The table shows a few of them. Often, there are multiple parameterizations.</p>
+The straight-line function <span class="math inline">\(\line()\)</span> is being written here as <span class="math inline">\(k(x-x_0)\)</span> rather than <span class="math inline">\(m(x-x_0)\)</span>. It’s traditional when writing exponential functions to use the letter <span class="math inline">\(k\)</span> as the multiplier, but you can use whatever name you wish for a parameter. Knowing and using the idiom of mathematical notation will help you read and write mathematics more fluently. <span style="float: right; padding-left: 50px;"><a name="850" href="#850"><img src="www/icons8-signpost.png" title="Location: 850" width="12px"></a><span style="color: red; font-size: 6pt;">850</span></span></p>
+<p>The table shows a of the mathematical idioms used in parameterizing the pattern-book functions.</p>
 <div class="inline-table"><table class="table table-sm">
 <colgroup>
 <col width="23%">
@@ -181,7 +191,7 @@ You may have noticed that the above uses <span class="math inline">\(k\)</span> 
 <td>Exponential</td>
 <td><span class="math inline">\(e^{kt}\)</span></td>
 <td>
-<span class="math inline">\(k\)</span> “exponential constant”<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>
+<span class="math inline">\(k\)</span> “exponential constant”<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>
 </td>
 <td>Not used</td>
 </tr>
@@ -189,7 +199,7 @@ You may have noticed that the above uses <span class="math inline">\(k\)</span> 
 <td>Exponential</td>
 <td><span class="math inline">\(e^{t/\tau}\)</span></td>
 <td>
-<span class="math inline">\(\tau\)</span> “time constant”<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>
+<span class="math inline">\(\tau\)</span> “time constant”<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>
 </td>
 <td>Not used</td>
 </tr>
@@ -197,7 +207,7 @@ You may have noticed that the above uses <span class="math inline">\(k\)</span> 
 <td>Exponential</td>
 <td><span class="math inline">\(2^{t/\tau_2}\)</span></td>
 <td>
-<span class="math inline">\(\tau_2\)</span> “doubling time”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(-\tau_2\)&lt;/span&gt; is sometimes called the “half life.”&lt;/p&gt;'><sup>11</sup></a>
+<span class="math inline">\(\tau_2\)</span> “doubling time”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(-\tau_2\)&lt;/span&gt; is sometimes called the “half life.”&lt;/p&gt;'><sup>12</sup></a>
 </td>
 <td>Not used</td>
 </tr>
@@ -205,8 +215,8 @@ You may have noticed that the above uses <span class="math inline">\(k\)</span> 
 <td>Power-law</td>
 <td><span class="math inline">\([x - x_0]^p\)</span></td>
 <td>
-<span class="math inline">\(x_0\)</span> “center”</td>
-<td>Not used</td>
+<span class="math inline">\(x_0\)</span> x-intercept</td>
+<td>exponent</td>
 </tr>
 <tr class="odd">
 <td>Sinusoid</td>
@@ -317,22 +327,22 @@ Figure 7.7: The baseline for the exponential is the horizontal asymptote. There 
 </div>
 </div>
 <hr>
-<details><summary><strong>Exercise 7.11</strong>: <span><a name="File:%20Exercises/Fun/fiducial-point.Rmd" href="#MWLCS"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fiducial-point.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">MWLCS</span>
+<details><summary><strong>Exercise 7.1</strong>: <span><a name="File:%20Exercises/Fun/fiducial-point.Rmd" href="#MWLCS"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fiducial-point.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">MWLCS</span>
 </span></summary><p>Recall that each <strong><em>basic modeling functions</em></strong> are constructed from the corresponding pattern-book functions by scaling the input.</p>
 <p><span class="math display">\[\text{pattern-book function}\ \ \underset{x\rightarrow a(x-x_0)}{\overset{\text{input scaling}}{\Large\Longrightarrow}} \ \ \text{basic modeling function}\]</span></p>
 <p>Recognizing the axis crossings (y is blue, x is red) and asymptotes (orange) for the pattern-book functions can help you figure out the parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(x_0\)</span> in the input scaling <span class="math inline">\(a(x-x_0)\)</span> for the basic modeling functions. Here’s a reference:</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-99-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-99-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-99-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-99-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-99-5.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-99-6.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-99-7.png" width="50%" style="display: block; margin: auto;"></p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-5.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-6.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-7.png" width="50%" style="display: block; margin: auto;"></p>
 <p>Each of the following plots shows a basic modeling function whose input scaling has the form <span class="math inline">\(x - x_0\)</span>. Your job is to figure out from the graph what is the numerical value of <span class="math inline">\(x_0\)</span>. (Hint: For simplicity, <span class="math inline">\(x_0\)</span> in the questions will always be an integer.)</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-100-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-133-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> In plot (A), what is <span class="math inline">\(x_0\)</span>?</p>
 <p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> Right! Right. Look for the input that generates the peak output value. </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-101-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-134-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question B</strong> In plot (B), what is <span class="math inline">\(x_0\)</span>?</p>
-<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> Right! Good. Look for an input that generates a positive going zero crossing. </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-102-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> Right! The fiducial piont is a positive-going zero crossing. </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-135-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question C</strong> In plot (C), what is <span class="math inline">\(x_0\)</span>?</p>
-<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> Right! Right. The location of the vertical asymptote is the clue. </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-103-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Right! The location of the vertical asymptote is the clue. </span>       2<span class="mcanswer"> ︎✘ </span></p>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-136-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question D</strong> In plot (D), what is <span class="math inline">\(x_0\)</span>?</p>
 <ol style="list-style-type: lower-roman">
 <li>-2<span class="mcanswer"> ︎✘ </span><br>
@@ -341,14 +351,14 @@ Figure 7.7: The baseline for the exponential is the horizontal asymptote. There 
 </li>
 <li>0<span class="mcanswer"> ︎✘ </span><br>
 </li>
-<li>1<span class="mcanswer"> Right-oh! The input where the output is half way between the two horizontal asymptotes </span><br>
+<li>1<span class="mcanswer"> Nice! The input where the output is half way between the two horizontal asymptotes </span><br>
 </li>
 <li>2<span class="mcanswer"> ︎✘ </span>
 </li>
 </ol>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-104-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-137-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question E</strong> In plot (E), what is <span class="math inline">\(x_0\)</span>?</p>
-<p>    -2<span class="mcanswer"> Right-oh! Right. The location of the vertical asymtote is the clue. </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
+<p>    -2<span class="mcanswer"> Nice! Right. The location of the vertical asymtote is the clue. </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
 </details><hr>
 <!--
 `rr insert_calcZ_exercise("XX.XX", "VcUetN", "Exercises/Fun/pig-make-table.Rmd")`
@@ -368,11 +378,11 @@ DRAFT
 Similar to MWLCS and VcUetN but with input scaling of the form $a(x-x_0)$. Keep it simple.
 </details>
 This is being moved to drill.
---><details><summary><strong>Exercise 7.1</strong>: <span><a name="File:%20Exercises/Fun/scale-input-1.Rmd" href="#uKCIE"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/scale-input-1.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">uKCIE</span>
+--><details><summary><strong>Exercise 7.2</strong>: <span><a name="File:%20Exercises/Fun/scale-input-1.Rmd" href="#uKCIE"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/scale-input-1.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">uKCIE</span>
 </span></summary><p>Each of the graphs shows two horizontal scales and one of the basic modeling functions. Which horizontal scale (black or blue) corresponds to the pattern-book function?</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-106-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> For graph (A), which scale corresponds to the pattern-book function?</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-139-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> For graph (A), which scale corresponds to the pattern-book function?</p>
 <ol style="list-style-type: lower-roman">
-<li>black<span class="mcanswer"> Right-oh! </span><br>
+<li>black<span class="mcanswer"> Nice! </span><br>
 </li>
 <li>blue<span class="mcanswer"> ︎✘ </span><br>
 </li>
@@ -381,7 +391,7 @@ This is being moved to drill.
 <li>both<span class="mcanswer"> ︎✘ It can’t be both. There’s only one pattern-book function. When you scale the input, it becomes a “basic modeling function.” </span>
 </li>
 </ol>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-107-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-140-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question B</strong> For graph (B), which scale corresponds to the pattern-book function?</p>
 <ol style="list-style-type: lower-roman">
 <li>black<span class="mcanswer"> ︎✘ </span><br>
@@ -393,7 +403,7 @@ This is being moved to drill.
 <li>both<span class="mcanswer"> ︎✘ It can’t be both. There’s only one pattern-book function. When you scale the input, it becomes a “basic modeling function.” </span>
 </li>
 </ol>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-108-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-141-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question C</strong> For graph (C), which scale corresponds to the pattern-book function?</p>
 <ol style="list-style-type: lower-roman">
 <li>black<span class="mcanswer"> ︎✘ </span><br>
@@ -405,14 +415,14 @@ This is being moved to drill.
 <li>both<span class="mcanswer"> ︎✘ It can’t be both. There’s only one pattern-book function. When you scale the input, it becomes a “basic modeling function.” </span>
 </li>
 </ol></details><hr>
-<details><summary><strong>Exercise 7.2</strong>: <span><a name="File:%20Exercises/Fun/scale-input-2.Rmd" href="#BLECL"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/scale-input-2.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BLECL</span>
+<details><summary><strong>Exercise 7.3</strong>: <span><a name="File:%20Exercises/Fun/scale-input-2.Rmd" href="#BLECL"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/scale-input-2.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BLECL</span>
 </span></summary><p>Find the straight-line function that will give the value on the black scale for each point <span class="math inline">\(x\)</span> on the blue scale. The function will take the blue-scale reading as input and produce the black-scale reading as output, that is:
 <span class="math display">\[\text{black}(x) \equiv a (x - x_0)\]</span></p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-110-1.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-110-2.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-110-3.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-110-4.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-1.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-2.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-3.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-4.png" width="90%" style="display: block; margin: auto;"></p>
 <p><strong>Question A</strong> For Graph A, which function maps blue <span class="math inline">\(x\)</span> to the value on the black scale?</p>
 <ol style="list-style-type: lower-roman">
 <li>
-<span class="math inline">\(black(x) \equiv x/3\)</span><span class="mcanswer"> Right-oh! </span><br>
+<span class="math inline">\(black(x) \equiv x/3\)</span><span class="mcanswer"> Nice! </span><br>
 </li>
 <li>
 <span class="math inline">\(black(x) \equiv 3\, x\)</span><span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span><br>
@@ -492,7 +502,7 @@ A_3 \sin\left(\frac{2 \pi}{P_3}t\right) + \cdots\]</span></p>
 <p>Linear combination of functions provides a powerful and flexible general-purpose modeling technique in part because many physical systems seem to work this way and in part because the methods for finding the scalars—<span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span>, and so on—have an extremely strong theory and fast computer implementations that automatically solve the problem once the modeler has selected the functions she wants to combine. In Block 4, we use the name <strong><em>target problem</em></strong> to refer the problem of finding scalars to match as well as possible a linear combination to data.</p>
 <p>An expression like <span class="math inline">\(A e^{kx} + C\)</span> combines the exponential (obviously!) and a second function that isn’t immediately obvious: the constant function <span class="math inline">\(\text{constant}(x) \equiv 1\)</span>. It might be overkill to re-write the expression as <span class="math inline">\(A e^{kx} + C\, \text{constant}(x)\)</span> but get in the habit of seeing the constant function as a constant presence in linear combinations!</p>
 <p>Polynomials are an important example of linear combinations. Something like <span class="math inline">\(p(x) \equiv a + b t + c t^2\)</span> is a linear combination of the constant function, the proportionality function, and the square function.</p>
-<details><summary><strong>Exercise 7.25</strong>: <span><a name="File:%20Exercises/Fun/two-sines.Rmd" href="#FKLEU"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/two-sines.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">FKLEU</span>
+<details><summary><strong>Exercise 7.4</strong>: <span><a name="File:%20Exercises/Fun/two-sines.Rmd" href="#FKLEU"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/two-sines.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">FKLEU</span>
 </span></summary><p>The graph shows a linear combination of two sinusoids, one of period 0.6 and the other of period 2. There is also a baseline shift. That is, the graph shows the function:</p>
 <p><span class="math display">\[a_1 \sin\left(\frac{2\pi}{2}t\right) + a_2 \sin\left(\frac{2\pi}{0.6} (t-.3)\right) + a_3\]</span></p>
 <div class="inline-figure"><img src="CalcZ-notes_files/figure-html/two-sines-1-1.png" width="90%" style="display: block; margin: auto;"></div>
@@ -500,7 +510,7 @@ A_3 \sin\left(\frac{2 \pi}{P_3}t\right) + \cdots\]</span></p>
 <p>    -4<span class="mcanswer"> Good. </span>       -2<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question B</strong> What is <span class="math inline">\(a_1\)</span>?</p>
 <p>    0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> Correct. </span>       3.5<span class="mcanswer"> ︎✘ </span></p>
-<p><strong>Question C</strong> What is <span class="math inline">\(a_1\)</span>?</p>
+<p><strong>Question C</strong> What is <span class="math inline">\(a_2\)</span>?</p>
     0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Excellent! </span>       2<span class="mcanswer"> ︎✘ </span>       3.5<span class="mcanswer"> ︎✘ </span>
 </details>
 </div>
@@ -534,7 +544,7 @@ A_3 \sin\left(\frac{2 \pi}{P_3}t\right) + \cdots\]</span></p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-24.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

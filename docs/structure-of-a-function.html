@@ -12,7 +12,10 @@
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
     const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
     for (let popover of popovers){
       const div = document.createElement('div');
@@ -87,6 +90,14 @@
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
 <li class="book-part">Block 2: Differentiation</li>
 <li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 </ul>
 
         <div class="book-extra">
@@ -350,7 +361,7 @@ Cooper-Bessemer V-250
 <p>The <strong><em>range</em></strong> of a function is the set of all the <em>outputs</em> that can be produced. Since at this stage we’re working only with functions that return a single number as output, it’s common to describe the range as all or part of the number line. For instance, some functions only have positive outputs. Other functions’ outputs are always in the interval 0 to 1. (This is the case, for instance, when the function returns a probability as the output.)</p>
 <details><summary><strong>Exercise 3.1</strong>: <span><a name="File:%20Exercises/Fun/range-domain.Rmd" href="#RLUCX"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/range-domain.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">RLUCX</span>
 </span></summary><p>Consider this graph of a function <span class="math inline">\(g(x)\)</span>:</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-92-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-126-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> What is the <strong>domain</strong> of <span class="math inline">\(g(x)\)</span>?</p>
 <ol style="list-style-type: lower-roman">
 <li>
@@ -427,7 +438,7 @@ Which pattern-book function has just a single value missing from its domain?
 </span></summary><p>A function’s <strong><em>domain</em></strong> is the set of possible inputs to the function. A function’s <strong><em>range</em></strong> is the set of possible outputs. For each of the pattern-book functions, specify what is the range.</p>
 <p><strong>Question A</strong> What is the range of the pattern-book <strong>exponential</strong> function?</p>
 <ol style="list-style-type: lower-roman">
-<li>All positive outputs<span class="mcanswer"> Right-oh! </span><br>
+<li>All positive outputs<span class="mcanswer"> Nice! </span><br>
 </li>
 <li>All negative outputs<span class="mcanswer"> ︎✘ </span><br>
 </li>
@@ -464,7 +475,7 @@ Which pattern-book function has just a single value missing from its domain?
 <ol style="list-style-type: lower-roman">
 <li>All positive outputs<span class="mcanswer"> ︎✘ Close. Zero is one of the possible outputs. We can say, equivalently, that the range is all the <strong>positive outputs plus 0</strong> or all the <strong>non-negative</strong> outputs. </span><br>
 </li>
-<li>All non-negative outputs<span class="mcanswer"> Right-oh! </span><br>
+<li>All non-negative outputs<span class="mcanswer"> Nice! </span><br>
 </li>
 <li>All negative outputs<span class="mcanswer"> ︎✘ </span><br>
 </li>
@@ -495,51 +506,19 @@ Which pattern-book function has just a single value missing from its domain?
 <li>A closed, finite interval of possibilities<span class="mcanswer"> Correct. Right. The pattern-book sigmoid function has an output that is always in the interval <span class="math inline">\(0 \leq \pnorm(x) \leq 1 .\)</span> </span>
 </li>
 </ol></details><hr>
-<details><summary><strong>Exercise 3.5</strong>: <span><a name="File:%20Exercises/Fun/fish-sees-tree.Rmd" href="#BXCA4"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fish-sees-tree.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BXCA4</span>
-</span></summary><p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>. (Just click on that link, although you may eventually be given other ways to open a sandbox.)</p>
-<div class="scaffolding">
-<p>When you see a breakout box like this, it means that we’re providing some computer code that you can paste into a sandbox and run. For this exercise, that code is</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">2</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
-<p>Paste those two lines into the sandbox and press “Run code.” Verify that you get this as a result:</p>
-<p><code>[1] 1.285941</code></p>
 </div>
-<p>Each line that you pasted in the sandbox is a <strong><em>command</em></strong>. The first command gives a value to <span class="math inline">\(x\)</span>. The second command uses that value for <span class="math inline">\(x\)</span> to calculate a function output. The function is <span class="math inline">\(g(x)\equiv \sin(x) \times \sqrt{\strut x}\)</span>.</p>
-<div class="why">
-<p>Why not simplify the above code to the single line <code>sin(2)*sqrt(2)</code>? This would produce the same output but would introduce an ambiguity to the human reader. We want to make it clear to the reader (and the computer) that whatever <span class="math inline">\(x\)</span> might be, it should be used as the input to <strong>both</strong> the <span class="math inline">\(\sin()\)</span> and the <span class="math inline">\(\sqrt{\strut\ \ \ }\)</span> functions.</p>
-</div>
-<p>In the following questions, numbers have been rounded to two or three significant digits. Select the answer <em>closest</em> to the computer output.</p>
-<p><strong>Question A</strong> Change <span class="math inline">\(x\)</span> to 1. What’s the output of <span class="math inline">\(\sin(x) \ \sqrt{\strut x}\)</span></p>
-<p>    -1.51<span class="mcanswer"> ︎✘ </span>       0.244<span class="mcanswer"> ︎✘ </span>       0.84<span class="mcanswer"> Good. </span>       0.99<span class="mcanswer"> ︎✘ </span>       2.14<span class="mcanswer"> ︎✘ </span>       <code>NaN</code><span class="mcanswer"> ︎✘ </span></p>
-<p><strong>Question B</strong> Change <span class="math inline">\(x\)</span> to 3. What’s the output of <span class="math inline">\(\sin(x) \  \sqrt{\strut x}\)</span></p>
-<p>    -1.51<span class="mcanswer"> ︎✘ </span>       0.244<span class="mcanswer"> Right-oh! </span>       0.84<span class="mcanswer"> ︎✘ </span>       0.99<span class="mcanswer"> ︎✘ </span>       2.14<span class="mcanswer"> ︎✘ </span>       <code>NaN</code><span class="mcanswer"> ︎✘ </span></p>
-<p><strong>Question C</strong> Change <span class="math inline">\(x\)</span> to <span class="math inline">\(-5\)</span>. What’s the output of <span class="math inline">\(\sin(x) \  \sqrt{\strut x}\)</span></p>
-<ol style="list-style-type: lower-roman">
-<li>-1.51<span class="mcanswer"> ︎✘ </span><br>
-</li>
-<li>0.244<span class="mcanswer"> ︎✘ </span><br>
-</li>
-<li>0.84<span class="mcanswer"> ︎✘ </span><br>
-</li>
-<li>0.99<span class="mcanswer"> ︎✘ </span><br>
-</li>
-<li>2.14<span class="mcanswer"> ︎✘ </span><br>
-</li>
-<li>
-<code>NaN</code><span class="mcanswer"> Excellent! This stands for Not-a-Number, which is what you get when you calculate the square root of a negative input. </span>
-</li>
-</ol>
-<p>In the sandbox, change the <strong>function</strong> to be <span class="math inline">\(\sqrt{\strut\pnorm(x)}\)</span>.</p>
-<p><strong>Question D</strong> For <span class="math inline">\(x=2\)</span>, what’s the output of <span class="math inline">\(\sqrt{\strut\pnorm(x)}\)</span>?</p>
-    -1.51<span class="mcanswer"> ︎✘ </span>       0.244<span class="mcanswer"> ︎✘ </span>       0.84<span class="mcanswer"> ︎✘ </span>       0.99<span class="mcanswer"> Correct. </span>       2.14<span class="mcanswer"> ︎✘ </span>       <code>NaN</code><span class="mcanswer"> ︎✘ </span>
-</details><hr>
-<details><summary><strong>Exercise 3.6</strong>: <span><a name="File:%20Exercises/Fun/chicken-chew-screen.Rmd" href="#3KEgLM"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/chicken-chew-screen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">3KEgLM</span>
-</span></summary><p>In this activity, you will start getting familiar with the structure of R computer commands. Particularly when mathematical formulas are involved, commands are similar across many computer languages, so what you learn will be applicable to any other languages such as Python or MATLAB.</p>
+<div id="formulas-in-r" class="section level2" number="3.5">
+<h2>
+<span class="header-section-number">3.5</span> Formulas in R<a class="anchor" aria-label="anchor" href="#formulas-in-r"><i class="fas fa-link"></i></a>
+</h2>
+<!-- moved two exercise files inline: 
+chicken-chew-screen.Rmd (was exercise 3.6)
+dolphin-toss-candy.Rmd (was 3.7) -->
+<p>You’re familiar to some extent with traditional mathematical notation for formulas. Yet in applied work, you will often need to translate such formulas into computer notation. This book is written using R, but particularly when mathematical formulas are involved, commands are similar across many computer languages, so what you learn will be applicable to any other languages such as Python or MATLAB.</p>
 <p>The first high-level computer language was FORTRAN, released in 1957. The name stands for “formula translation.” FORTRAN enabled arithmetic operations to be written in a way very nearly that of traditional notation. Until then, computer programs were written using alpha-numeric codes that were meaningless to a casual reader. We unfortunately still use the term “computer code” to refer to programs, despite 70-years progress in improving legibility.</p>
 <p>The best way to learn to implement mathematical formulas in a computer language is to read examples and practice writing them.</p>
 <p>Here are some examples:</p>
-<table class="table table-sm">
+<div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
 <th>Traditional notation</th>
 <th>R notation</th>
@@ -590,7 +569,7 @@ Which pattern-book function has just a single value missing from its domain?
 <td><code><a href="https://rdrr.io/r/base/Log.html">exp(-2)</a></code></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Each of these examples has been written using numbers as inputs to the mathematical operations. The syntax will be exactly the same when using an input name such as <code>x</code> or <code>y</code> or <code>altitude</code>, for instance <code>(x - y) / 2</code>. In order for that command using <code>x</code> and <code>y</code> to work, some meaning must have been previously attached to the symbols. We’ll come back to this important topic on another day.</p>
 <p>Read through the above table of examples several times. Note down any that you find at all confusing. Then cover up the right side of the table and write down the R expression for each item on the left side. Similarly, cover up the left side of the table and translate the R expression into traditional notation.</p>
 <div class="scaffolding">
@@ -620,17 +599,15 @@ Which pattern-book function has just a single value missing from its domain?
 <li>Multiplication and exponentiation are often written traditionally in terms of the relative position of quantities. So <span class="math inline">\((3 + 2)\pi\)</span> means to multiply 5 times <span class="math inline">\(\pi\)</span>, even though there is no multiplication sign being written. Similar, <span class="math inline">\(\pi^{3 + 2}\)</span> means to raise <span class="math inline">\(\pi\)</span> to the fifth power. There is no “exponentiation sign” used, just the positioning of <span class="math inline">\(3+2\)</span> as a superscript: <span class="math inline">\(^{3+2}\)</span>. In R (and almost every computer language) multiplication and exponentiation <strong>must be written explicitly</strong>. The quantities <span class="math inline">\((3 + 2)\pi\)</span> and <span class="math inline">\(\pi^{3 + 2}\)</span> would be translated as <code>(3 + 2) * pi</code> and <code>pi^(3+2)</code>.</li>
 </ol>
 <p>One additional note: All these examples can be written with a single line of code, as is true for many short formulas. Later on, we’ll encounter longer formulas that <em>could</em> be written on a single line but are more readable when spread over two or more consecutive lines.</p>
-</details><hr>
-<details><summary><strong>Exercise 3.7</strong>: <span><a name="File:%20Exercises/Fun/dolphin-toss-candy.Rmd" href="#zSgXP2"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/dolphin-toss-candy.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">zSgXP2</span>
-</span></summary><p>When your R command is not a complete sentence, the <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> will display an error like this:</p>
+<p>When your R command is not a complete sentence, the <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> will display an error like this:</p>
 <p><span style="font-color: red;"><code>Error in parse(text = x, keep.source = TRUE) : <text>:5:0: unexpected end of input </text></code></span></p>
 <p>The “unexpected end of input” is the computer’s way of saying, “You haven’t finished your sentence so I don’t know what to do.”</p>
 <p>Each of these R expressions is incomplete. Your job, which you should do in a sandbox, is to turn each into a complete expression. Sometimes you’ll have to be creative, since when a sentence is incomplete you, like the computer, don’t really know what it means to say! But each of these erroneous expressions can be fixed by <strong>adding</strong> or <strong>changing</strong> text.</p>
 <p>Open a sandbox and copy each of the items below, one at a time, into a sandbox. Press “Run code” for that item and verify that you get an error message.</p>
 <p>For the first item, the sandbox will look like this:</p>
 <div class="figure" style="text-align: center">
-<span id="fig:unnamed-chunk-94"></span>
-<img src="Exercises/Fun/www/sandbox-error.png" alt="Running an invalid command will produce an error message." width="90%"><p class="caption">
+<span id="fig:unnamed-chunk-20"></span>
+<img src="www/sandbox-error.png" alt="Running an invalid command will produce an error message." width="90%"><p class="caption">
 Figure 3.2: Running an invalid command will produce an error message.
 </p>
 </div>
@@ -644,7 +621,47 @@ Figure 3.2: Running an invalid command will produce an error message.
 <li><code>14(3 + 7)</code></li>
 <li><code>e^2</code></li>
 <li><code>3 + 4 x + 2 x^2</code></li>
-</ol></details>
+</ol>
+<hr>
+<details><summary><strong>Exercise 3.5</strong>: <span><a name="File:%20Exercises/Fun/fish-sees-tree.Rmd" href="#BXCA4"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fish-sees-tree.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BXCA4</span>
+</span></summary><p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>. (Just click on that link, although you may eventually be given other ways to open a sandbox.)</p>
+<div class="scaffolding">
+<p>When you see a breakout box like this, it means that we’re providing some computer code that you can paste into a sandbox and run. For this exercise, that code is</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">2</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+<p>Paste those two lines into the sandbox and press “Run code.” Verify that you get this as a result:</p>
+<p><code>[1] 1.285941</code></p>
+</div>
+<p>Each line that you pasted in the sandbox is a <strong><em>command</em></strong>. The first command gives a value to <span class="math inline">\(x\)</span>. The second command uses that value for <span class="math inline">\(x\)</span> to calculate a function output. The function is <span class="math inline">\(g(x)\equiv \sin(x) \times \sqrt{\strut x}\)</span>.</p>
+<div class="why">
+<p>Why not simplify the above code to the single line <code>sin(2)*sqrt(2)</code>? This would produce the same output but would introduce an ambiguity to the human reader. We want to make it clear to the reader (and the computer) that whatever <span class="math inline">\(x\)</span> might be, it should be used as the input to <strong>both</strong> the <span class="math inline">\(\sin()\)</span> and the <span class="math inline">\(\sqrt{\strut\ \ \ }\)</span> functions.</p>
+</div>
+<p>In the following questions, numbers have been rounded to two or three significant digits. Select the answer <em>closest</em> to the computer output.</p>
+<p><strong>Question A</strong> Change <span class="math inline">\(x\)</span> to 1. What’s the output of <span class="math inline">\(\sin(x) \ \sqrt{\strut x}\)</span></p>
+<p>    -1.51<span class="mcanswer"> ︎✘ </span>       0.244<span class="mcanswer"> ︎✘ </span>       0.84<span class="mcanswer"> Good. </span>       0.99<span class="mcanswer"> ︎✘ </span>       2.14<span class="mcanswer"> ︎✘ </span>       <code>NaN</code><span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question B</strong> Change <span class="math inline">\(x\)</span> to 3. What’s the output of <span class="math inline">\(\sin(x) \  \sqrt{\strut x}\)</span></p>
+<p>    -1.51<span class="mcanswer"> ︎✘ </span>       0.244<span class="mcanswer"> Nice! </span>       0.84<span class="mcanswer"> ︎✘ </span>       0.99<span class="mcanswer"> ︎✘ </span>       2.14<span class="mcanswer"> ︎✘ </span>       <code>NaN</code><span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question C</strong> Change <span class="math inline">\(x\)</span> to <span class="math inline">\(-5\)</span>. What’s the output of <span class="math inline">\(\sin(x) \  \sqrt{\strut x}\)</span></p>
+<ol style="list-style-type: lower-roman">
+<li>-1.51<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>0.244<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>0.84<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>0.99<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>2.14<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<code>NaN</code><span class="mcanswer"> Excellent! This stands for Not-a-Number, which is what you get when you calculate the square root of a negative input. </span>
+</li>
+</ol>
+<p>In the sandbox, change the <strong>function</strong> to be <span class="math inline">\(\sqrt{\strut\pnorm(x)}\)</span>.</p>
+<p><strong>Question D</strong> For <span class="math inline">\(x=2\)</span>, what’s the output of <span class="math inline">\(\sqrt{\strut\pnorm(x)}\)</span>?</p>
+    -1.51<span class="mcanswer"> ︎✘ </span>       0.244<span class="mcanswer"> ︎✘ </span>       0.84<span class="mcanswer"> ︎✘ </span>       0.99<span class="mcanswer"> Correct. </span>       2.14<span class="mcanswer"> ︎✘ </span>       <code>NaN</code><span class="mcanswer"> ︎✘ </span>
+</details>
 </div>
 </div>
   <div class="chapter-nav">
@@ -658,6 +675,7 @@ Figure 3.2: Running an invalid command will produce an error message.
 <li><a class="nav-link" href="#bureaucratic"><span class="header-section-number">3.2</span> A bureaucratic analogy</a></li>
 <li><a class="nav-link" href="#domain-input-space"><span class="header-section-number">3.3</span> Domain: input space</a></li>
 <li><a class="nav-link" href="#range-output-space"><span class="header-section-number">3.4</span> Range: output space</a></li>
+<li><a class="nav-link" href="#formulas-in-r"><span class="header-section-number">3.5</span> Formulas in R</a></li>
 </ul>
 
       <div class="book-extra">
@@ -675,7 +693,7 @@ Figure 3.2: Running an invalid command will produce an error message.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-24.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -12,7 +12,10 @@
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
     const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
     for (let popover of popovers){
       const div = document.createElement('div');
@@ -87,6 +90,14 @@
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
 <li class="book-part">Block 2: Differentiation</li>
 <li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 </ul>
 
         <div class="book-extra">
@@ -116,7 +127,7 @@
 <span class="fu">gf_point</span><span class="op">(</span><span class="va">temp</span> <span class="op">~</span> <span class="va">time</span>, data<span class="op">=</span><span class="va">Stans_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_lims</span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fl">25</span> <span class="op">+</span> <span class="fl">83.3</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.0277</span><span class="op">*</span><span class="va">time</span><span class="op">)</span> <span class="op">~</span> <span class="va">time</span>, color<span class="op">=</span><span class="st">"dodgerblue"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-72-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-73-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>See if <span class="math inline">\(k=-0.02\)</span> provides a better fit to the model. (You can add another <code>slice_plot()</code> to be able to compare the original and <span class="math inline">\(k=-0.02\)</span> models.)</p>
 </div>
 <p>Later in CalcZ, we’ll study <strong><em>optimization</em></strong>. There are optimization techniques for directing the computer to refine the parameters to best match the data. Just to illustrate, here’s what we get:</p>
@@ -206,12 +217,12 @@ Figure 14.5: Polishing the parameters of the sinusoid
 <div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">Minutes</span> <span class="op">~</span> <span class="va">Month</span>, data <span class="op">=</span> <span class="va">SunsetLA</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_line</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-172-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-205-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>We’re using both <code>gf_point()</code> and <code>gf_line()</code>. With data that oscillates up and down, connecting the data points with lines makes it easier to see the pattern.</p>
 </div>
 <p><strong>Question A</strong> What is the range of the number of minutes until sunset over the whole 4-year period?</p>
 <ol style="list-style-type: lower-roman">
-<li>40 to 190 minutes<span class="mcanswer"> Right-oh! </span><br>
+<li>40 to 190 minutes<span class="mcanswer"> Nice! </span><br>
 </li>
 <li>120 minutes<span class="mcanswer"> ︎✘ A range is an interval spanned by <em>two</em> numbers. </span><br>
 </li>
@@ -221,7 +232,16 @@ Figure 14.5: Polishing the parameters of the sinusoid
 </li>
 </ol>
 <p><strong>Question B</strong> The data fall nicely on a sine-shaped curve. What is the period of that sine?</p>
-<p>    6 months<span class="mcanswer"> ︎✘ Look at the number of months from one peak to another. </span>       11 months<span class="mcanswer"> ︎✘ Look more carefully. And remember that the change in length of day is an <em>annual</em> phenomenon. </span>       12 months<span class="mcanswer"> Good. </span>       12 minutes<span class="mcanswer"> ︎✘ Period refers to an interval on the <em>domain</em> of the function, not the range. </span></p>
+<ol style="list-style-type: lower-roman">
+<li>6 months<span class="mcanswer"> ︎✘ Look at the number of months from one peak to another. </span><br>
+</li>
+<li>11 months<span class="mcanswer"> ︎✘ Look more carefully. And remember that the change in length of day is an <em>annual</em> phenomenon. </span><br>
+</li>
+<li>12 months<span class="mcanswer"> Good. </span><br>
+</li>
+<li>12 minutes<span class="mcanswer"> ︎✘ Period refers to an interval on the <em>domain</em> of the function, not the range. </span>
+</li>
+</ol>
 <p>The function <span class="math display">\[\mbox{sunset}(\mbox{Month}) \equiv A  \sin(2 \pi\, \mbox{Month} / 12) + C\]</span> is a <em>linear combination</em> of two functions:</p>
 <ol style="list-style-type: decimal">
 <li>The constant function <code>one(Month)</code>
@@ -253,7 +273,16 @@ Figure 14.5: Polishing the parameters of the sinusoid
 </ol>
 <p>We’re going to fix the problem with <code>sunset()</code> by defining a <em>time offset</em> to use as a reference. For a sine function, a suitable time offset is the value along the horizontal axis when the phenomenon being modeled crosses <span class="math inline">\(C\)</span> with a positive slope. There are 4 such points along the horizontal axis readily identifiable in the data. (They may not be at an integer value of <code>Month</code>.)</p>
 <p><strong>Question D</strong> Which of these is a suitable value for the time offset?</p>
-<p>    0 months<span class="mcanswer"> ︎✘ That’s not a time when the data suggest that <span class="math inline">\(C\)</span> is being crossed. </span>       19 months<span class="mcanswer"> ︎✘ That’s a maximum, not a crossing of <span class="math inline">\(C\)</span>. </span>       21.5 months<span class="mcanswer"> ︎✘ That’s a crossing of <span class="math inline">\(C\)</span>, but not one with a positive slope. </span>       15.5 months<span class="mcanswer"> Correct. This is a good rough value. Since the period is 12 months, you could equally well have said the offset is 3.5 months. </span></p>
+<ol style="list-style-type: lower-roman">
+<li>0 months<span class="mcanswer"> ︎✘ That’s not a time when the data suggest that <span class="math inline">\(C\)</span> is being crossed. </span><br>
+</li>
+<li>19 months<span class="mcanswer"> ︎✘ That’s a maximum, not a crossing of <span class="math inline">\(C\)</span>. </span><br>
+</li>
+<li>21.5 months<span class="mcanswer"> ︎✘ That’s a crossing of <span class="math inline">\(C\)</span>, but not one with a positive slope. </span><br>
+</li>
+<li>15.5 months<span class="mcanswer"> Correct. This is a good rough value. Since the period is 12 months, you could equally well have said the offset is 3.5 months. </span>
+</li>
+</ol>
 <p>In the original scaffolding, the value of <code>offset</code> was zero. Change that to match your answer to the previous question.</p>
 <p>Plot out the modified <code>sunset()</code> function and confirm that it is a much better match to the data than the original (that is, the one without the time offset). You can “tune” your function by tweaking the numerical values of the <span class="math inline">\(A\)</span>, <span class="math inline">\(C\)</span>, and <span class="math inline">\(offset\)</span> parameters until you get a solid match.</p>
 <p>Alternatively, you can use <code>fitModel()</code> to do the tuning for you. Plug in your estimates (a.k.a. “guesses”) for the parameters in place of the <code>___</code> in the following. Then run the code. You’ll see your estimate of the function compared to the result of having the computer refine your estimate. Chances are, the computer does a better job of stringing the function through the data.</p>
@@ -310,7 +339,7 @@ Figure 14.5: Polishing the parameters of the sinusoid
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-24.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

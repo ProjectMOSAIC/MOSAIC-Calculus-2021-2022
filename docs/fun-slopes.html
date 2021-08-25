@@ -12,7 +12,10 @@
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><script type="text/x-mathjax-config">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
     const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
     for (let popover of popovers){
       const div = document.createElement('div');
@@ -87,6 +90,14 @@
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
 <li class="book-part">Block 2: Differentiation</li>
 <li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 </ul>
 
         <div class="book-extra">
@@ -181,7 +192,7 @@
 <ul>
 <li><p><strong>Formula</strong>: <span class="math inline">\(f(x) \equiv a x + b\)</span>. The parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are the “slope” and “intercept” respectively. (More precisely, <span class="math inline">\(b\)</span> is the “y-intercept.” But in statistics and modeling, it’s just the “intercept.”)</p></li>
 <li>
-<p><strong>Reading parameters from a graph</strong>: You learned several ways to do this which are all equivalent. Maybe the easiest is the read the y-intercept off the graph. That’s <span class="math inline">\(b\)</span>. Then choose some non-zero <span class="math inline">\(x_1\)</span> and read off from the graph the value of <span class="math inline">\(f(x_1)\)</span>. The slope is simply <span class="math display">\[\frac{f(x_1) - b}{x_0}\]</span></p>
+<p><strong>Reading parameters from a graph</strong>: You learned several ways to do this which are all equivalent. Maybe the easiest is t roead the y-intercept off the graph. That’s <span class="math inline">\(b\)</span>. Then choose some non-zero <span class="math inline">\(x_1\)</span> and read off from the graph the value of <span class="math inline">\(f(x_1)\)</span>. The slope is simply <span class="math display">\[\frac{f(x_1) - b}{x_1}\]</span></p>
 <p>The <strong><em>y-intercept method</em></strong> is a special case of a more general method, the <strong><em>two-point method</em></strong>, that you can use even if the y-intercept isn’t shown on the graph. Pick two specific values of <span class="math inline">\(x\)</span>, which we’ll call <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_1\)</span>. Evalate the function at these input values and compute the rise over run: <span class="math display">\[\mbox{rise over run} \equiv \frac{f(x_1) - f(x_0)}{x_1 - x_0}\]</span>
 The rise over run is the slope of the straight line.</p>
 <p>The y-intercept method is exactly the same as the two-point method with <span class="math inline">\(x_0 = 0\)</span>.</p>
@@ -228,9 +239,9 @@ Figure 9.2: The exponential function that was previously matched to the cooling-
 <li><p>Corresponding with the idea of the change in output being <span class="math inline">\(f(x=b) - f(x=a)\)</span> the change in the input value to a function is <span class="math inline">\(b - a\)</span>. This is often called the <em>run</em> in the value of the input.</p></li>
 </ul>
 <p>Each point on the graph of a function has Cartesian coordinates <span class="math inline">\((a, f(x=a))\)</span>. For example, the graph of the function <span class="math inline">\(f()\)</span> shown in Graph I includes points such as <span class="math inline">\((1.0, 4.0)\)</span>, and <span class="math inline">\((3.5, 3.0)\)</span>. The second coordinate is the output value when we provide the first coordinate as an input value. The nature of the <span class="math inline">\(f()\)</span> function (as defined by the graph) is such that <span class="math inline">\(f(x=1) \equiv 4\)</span> and <span class="math inline">\(f(x=3.5) \equiv 3\)</span>.</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-130-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-163-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> True or false: In Graph I, the <em>rise</em> from a to b is positive.</p>
-<p>    TRUE<span class="mcanswer"> ︎✘ <span class="math inline">\(f(x=a) &gt; f(x=b)\)</span>, so the rise <span class="math inline">\(f(x=b) - f(x=a)\)</span> is <em>negative</em>. </span>       FALSE<span class="mcanswer"> Right-oh! </span></p>
+<p>    TRUE<span class="mcanswer"> ︎✘ <span class="math inline">\(f(x=a) &gt; f(x=b)\)</span>, so the rise <span class="math inline">\(f(x=b) - f(x=a)\)</span> is <em>negative</em>. </span>       FALSE<span class="mcanswer"> Nice! </span></p>
 <p><strong>Question B</strong> True or false: In Graph I, the <em>run</em> from <span class="math inline">\(x=a\)</span> to <span class="math inline">\(x=b\)</span> is positive.</p>
 <ol style="list-style-type: lower-roman">
 <li>TRUE<span class="mcanswer"> Right! </span><br>
@@ -238,10 +249,10 @@ Figure 9.2: The exponential function that was previously matched to the cooling-
 <li>FALSE<span class="mcanswer"> ︎✘ The <em>run</em> is about the relative positions of <span class="math inline">\(x=a\)</span> and <span class="math inline">\(x=b\)</span> on the x-axis. Since <span class="math inline">\(a &lt; b\)</span>, the run from <span class="math inline">\(x=a\)</span> to <span class="math inline">\(x=b\)</span> is positive. </span>
 </li>
 </ol>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-131-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-164-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question C</strong> True or false: In Graph II, the <em>run</em> from a to b is positive.</p>
 <ol style="list-style-type: lower-roman">
-<li>TRUE<span class="mcanswer"> Right-oh! </span><br>
+<li>TRUE<span class="mcanswer"> Nice! </span><br>
 </li>
 <li>FALSE<span class="mcanswer"> ︎✘ The <em>run</em> is about the relative positions of a and b on the x-axis. Since a is to the left of b, the run from a to b is positive. </span>
 </li>
@@ -257,7 +268,7 @@ Figure 9.2: The exponential function that was previously matched to the cooling-
 </ol>
 <p><strong>Question F</strong> True or false: In Graph II, the <em>rise</em> from b to c is positive.</p>
 <ol style="list-style-type: lower-roman">
-<li>TRUE<span class="mcanswer"> Right-oh! </span><br>
+<li>TRUE<span class="mcanswer"> Nice! </span><br>
 </li>
 <li>FALSE<span class="mcanswer"> ︎✘ The <em>rise</em> from <span class="math inline">\(x=b\)</span> to <span class="math inline">\(x=c\)</span> is <span class="math inline">\(f(x = c) - f(x = b)\)</span>. Since <span class="math inline">\(f(x=c) &gt; f(x=b)\)</span>, the rise is positive. </span>
 </li>
@@ -307,19 +318,19 @@ Figure 9.2: The exponential function that was previously matched to the cooling-
 <p>    TRUE<span class="mcanswer"> Right! </span>       FALSE<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question E</strong> True or false: The average rate of change of <span class="math inline">\(f(x) \equiv \log(x)\)</span> over [2, 3] is 0.5062353.<br>
 (Hint: Change the code above so the interval variable goes from 2 to 3 and f becomes the function <span class="math inline">\(f(x) \equiv \log(x)\)</span>)</p>
-<p>    TRUE<span class="mcanswer"> ︎✘ </span>       FALSE<span class="mcanswer"> Right-oh! </span></p>
+<p>    TRUE<span class="mcanswer"> ︎✘ </span>       FALSE<span class="mcanswer"> Nice! </span></p>
 <p><strong>Question F</strong> True or false: The average rate of change of <span class="math inline">\(f(x) \equiv \sin(x)\)</span> over [0.0, 0.5] is 0.9588511</p>
 <p>    TRUE<span class="mcanswer"> Right! </span>       FALSE<span class="mcanswer"> ︎✘ </span></p>
 </details><hr>
 <details><summary><strong>Exercise 9.7</strong>: <span><a name="File:%20Exercises/Fun/eagle-bring-car.Rmd" href="#rTSX3"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/eagle-bring-car.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">rTSX3</span>
 </span></summary><p>Consider the sinusoid function, graphed below.</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-134-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> What is the average rate of change over the interval <span class="math inline">\(0 &lt; x &lt; \frac{1}{2}\)</span>? (Choose the closest value.)</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-167-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> What is the average rate of change over the interval <span class="math inline">\(0 &lt; x &lt; \frac{1}{2}\)</span>? (Choose the closest value.)</p>
 <ol style="list-style-type: lower-roman">
 <li>0<span class="mcanswer"> ︎✘ For this to be true, the function output would need to be the same at the two endpoints of the interval. </span><br>
 </li>
 <li>0.5<span class="mcanswer"> ︎✘ Did you forget to divide the rise by the run? </span><br>
 </li>
-<li>1<span class="mcanswer"> Right-oh! Right. From the interval you have that the run is 1/2. The rise over that interval is from 0 to 1/2, so a rise of 1/2. </span>
+<li>1<span class="mcanswer"> Nice! Right. From the interval you have that the run is 1/2. The rise over that interval is from 0 to 1/2, so a rise of 1/2. </span>
 </li>
 </ol>
 <p><strong>Question B</strong> What is the average rate of change over the interval <span class="math inline">\(0 &lt; x &lt; 6.25\)</span>? (Choose the closest value.)</p>
@@ -333,7 +344,7 @@ Figure 9.2: The exponential function that was previously matched to the cooling-
 </ol>
 <p><strong>Question C</strong> What is the average rate of change over the interval <span class="math inline">\(0 &lt; x &lt; 10\)</span>? (Choose the closest value.)</p>
 <ol style="list-style-type: lower-roman">
-<li>-0.05<span class="mcanswer"> Right-oh! Right. The rise is -0.5 and the run is 10. </span><br>
+<li>-0.05<span class="mcanswer"> Nice! Right. The rise is -0.5 and the run is 10. </span><br>
 </li>
 <li>-0.5<span class="mcanswer"> ︎✘ This is the “rise” over the interval, but it’s not the average rate of change. You’ll need to divide the rise by another quantity to get the average rate of change. </span><br>
 </li>
@@ -540,7 +551,7 @@ Figure 9.8: Comparing the pattern-book function (blue) to it’s slope function 
 <details><summary><strong>Exercise 9.12</strong>: <span><a name="File:%20Exercises/Fun/slope-web-1.Rmd" href="#CUXLR"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/slope-web-1.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">CUXLR</span>
 </span></summary><p>There is a web of connections between the pattern-book functions and their slopes.</p>
 <p><strong>Question A</strong> 1. Which pattern-book function has a slope function that is simply a input-shifted version of itself? (For small enough <span class="math inline">\(h\)</span>.)</p>
-<p>    exponential<span class="mcanswer"> ︎✘ </span>       sinusoid<span class="mcanswer"> Right-oh! </span>       logarithm<span class="mcanswer"> ︎✘ </span>       power-law <span class="math inline">\(x^{-1}\)</span><span class="mcanswer"> ︎✘ </span></p>
+<p>    exponential<span class="mcanswer"> ︎✘ </span>       sinusoid<span class="mcanswer"> Nice! </span>       logarithm<span class="mcanswer"> ︎✘ </span>       power-law <span class="math inline">\(x^{-1}\)</span><span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question B</strong> 2. Which pattern-book function has a slope function that is identical to itself? (For small enough <span class="math inline">\(h\)</span>.)</p>
 <p>    exponential<span class="mcanswer"> Right! </span>       sinusoid<span class="mcanswer"> ︎✘ </span>       logarithm<span class="mcanswer"> ︎✘ </span>       power-law <span class="math inline">\(x^{-1}\)</span><span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question C</strong> 3. Which pattern-book function has a slope function that is another pattern-book function? (Hint: The other function is also listed among the choices.)</p>
@@ -560,7 +571,7 @@ Since <span class="math inline">\(h\)</span> is a number, <span class="math inli
 <code>Inf</code><span class="mcanswer"> ︎✘ This would be the result if the numerator were positive, however small. But both the numerator and the denominator are zero. </span><br>
 </li>
 <li>
-<code>NaN</code><span class="mcanswer"> Right-oh! Meaning, ‘not a number.’ </span><br>
+<code>NaN</code><span class="mcanswer"> Nice! Meaning, ‘not a number.’ </span><br>
 </li>
 <li>
 <code>Bogus</code><span class="mcanswer"> ︎✘ This is <strong>not</strong> a value and can’t be used in arithmetic. But <code>Inf</code> and <code>NaN</code> each can be legitimately used in arithmetic. </span><br>
@@ -639,7 +650,7 @@ Figure 9.9: The instantaneous investment return from the tree is the instantaneo
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-24.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
