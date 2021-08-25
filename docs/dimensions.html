@@ -356,10 +356,27 @@ We can experimentally determine the numerical value of the dimensionless constan
 </span></summary><p>You are designing a pendulum for a planned joint NASA/ESA mission to Mars. From the orbital period and radius of Mars, its mass is known. From the mass and the observed diameter of the planet, gravitational acceleration at the surface is calculated as 3.721 m/s<span class="math inline">\(^2\)</span>. According to Section <a href="dimensions.html#pendulum-dimensions">16.4</a>, the period is <span class="math inline">\(\text{Period} = 2 \pi \sqrt{\frac{\text{Gravity}}{\text{Length}}}\)</span>.</p>
 <p>The length of your pendulum is 3 feet.</p>
 <p><strong>Question A</strong> What will be the period of your pendulum when it eventually gets to Mars? (Hint: Don’t make the mistake of the engineers working on the <a href="https://en.wikipedia.org/wiki/Mars_Polar_Lander">Mars Polar Lander</a> and forget to resolve the different units of length presented in the problem.)</p>
-<p>    1.3 seconds<span class="mcanswer"> ︎✘ </span>       1.9 seconds<span class="mcanswer"> ︎✘ </span>       3.1 seconds<span class="mcanswer"> Right! </span>       9.1 seconds<span class="mcanswer"> ︎✘ </span></p>
+<ol style="list-style-type: lower-roman">
+<li>1.3 seconds<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1.9 seconds<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>3.1 seconds<span class="mcanswer"> Right! </span><br>
+</li>
+<li>9.1 seconds<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
 <p><strong>Question B</strong> What is the period of your pendulum on Earth?</p>
-    1.3 seconds<span class="mcanswer"> ︎✘ </span>       1.9 seconds<span class="mcanswer"> Right! </span>       3.1 seconds<span class="mcanswer"> ︎✘ </span>       9.1 seconds<span class="mcanswer"> ︎✘ </span>
-</details>
+<ol style="list-style-type: lower-roman">
+<li>1.3 seconds<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1.9 seconds<span class="mcanswer"> Right! </span><br>
+</li>
+<li>3.1 seconds<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>9.1 seconds<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol></details>
 </div>
 <div id="conversion-flavors-of-1" class="section level2" number="16.5">
 <h2>
@@ -414,22 +431,22 @@ For the civil engineers, introduce the words stress and strain and talk about th
 Where <span class="math inline">\(n\)</span> is zero at the midnight marking New Years and increases by 1 per day. (The <span class="math inline">\(n+10\)</span> has units of days and translates New Years back 10 days, to the day of the winter solstice.) <span class="math inline">\(\delta_\odot()\)</span> gives the declination of the sun: the latitude pieced by an imagined line connecting the centers of the earth and the sun.</p>
 <p>The Wikipedia formula is well written in that it uses some familiar numbers to help the reader see where the formula comes from. 365 is recognizably the length of the year in days. <span class="math inline">\(360^\circ\)</span> is the angle traversed when making a full cycle around a circle. <span class="math inline">\(23.44^\circ\)</span> is less familiar, but the student of geography might recognize it as the latitude of the Tropic of Cancer, the latitude farthest north where the sun is directly overhead at noon (on the day of the summer solstice).</p>
 <p>But there’s a world of trouble for programmer who implements the formula as</p>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dec_sun</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span><span class="fl">360</span><span class="op">/</span><span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">+</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span></code></pre></div>
 <p>For instance, the equinoxes are around March 21 (n=81) and Sept 21 (n=264). On an equinox, the delination of the sun is zero degrees. But let’s plug <span class="math inline">\(n=81\)</span> and <span class="math inline">\(n=264\)</span> into the formula and see what we get.</p>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun</span><span class="op">(</span><span class="fl">81</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 5.070321</code></pre>
-<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun</span><span class="op">(</span><span class="fl">264</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -23.38324</code></pre>
 <p>The equinoxes aren’t even equal! And they are not close to zero. Does this mean astronomy is wrong?</p>
 <p>The Wikipedia formula should have been programmed this way, using 2 <span class="math inline">\(\pi\)</span> radians instead of 360 degrees:</p>
-<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dec_sun_right</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">23.44</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="op">(</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span> <span class="op">/</span> <span class="fl">365</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">n</span><span class="op">+</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">n</span><span class="op">)</span>
 <span class="fu">dec_sun_right</span><span class="op">(</span><span class="fl">81</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
-<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">dec_sun_right</span><span class="op">(</span><span class="fl">264</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
 <p>The deviation of one-tenth of a degree reflects rounding off the time of the equinox to the nearest day.</p>
@@ -464,7 +481,7 @@ Where <span class="math inline">\(n\)</span> is zero at the midnight marking New
 </li>
 <li>Multiplication or Division rule<span class="mcanswer"> ︎✘ There are no restrictions for multiplication and division, so a formula can hardly violate them! </span><br>
 </li>
-<li>Exponential<span class="mcanswer"> Nice! The exponent is 4 ft / 3 g, which has dimension L / M. Exponents must <em>always</em> have dimension [1]. </span><br>
+<li>Exponential<span class="mcanswer"> Right-oh! The exponent is 4 ft / 3 g, which has dimension L / M. Exponents must <em>always</em> have dimension [1]. </span><br>
 </li>
 <li>It’s valid. No rules are violated.<span class="mcanswer"> ︎✘ </span>
 </li>
@@ -477,7 +494,7 @@ Where <span class="math inline">\(n\)</span> is zero at the midnight marking New
 </li>
 <li>Exponential<span class="mcanswer"> ︎✘ The exponent is 4 hr/3 min, which has dimension T/T = [1]. So the rule is satisfied. </span><br>
 </li>
-<li>It’s valid. No rules are violated.<span class="mcanswer"> Nice! </span>
+<li>It’s valid. No rules are violated.<span class="mcanswer"> Right-oh! </span>
 </li>
 </ol>
 <p><strong>Question E</strong> In this formula <span class="math display">\[5 \text{g} \times 3 \text{kg} - 7 \text{lbs}\]</span> choose which rule (if any) is violated.</p>
@@ -503,19 +520,10 @@ Where <span class="math inline">\(n\)</span> is zero at the midnight marking New
 </li>
 </ol></details><details><summary><strong>Exercise 16.3</strong>: <span><a name="File:%20Exercises/Dimension/dim-params.Rmd" href="#DVGKY"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/dim-params.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">DVGKY</span>
 </span></summary><p><strong>Question A</strong> A) The dimension of <span class="math inline">\(t\)</span> is T, that is, <span class="math inline">\([t] = T\)</span>. What must the dimension of <span class="math inline">\(k\)</span> for the arithmetic operation to make sense?</p>
-<ol style="list-style-type: lower-roman">
-<li>[1]<span class="mcanswer"> ︎✘ Then $[kt] = $T, which would violate the exponential rule. </span><br>
-</li>
-<li>T<span class="math inline">\(^{ -1}\)</span><span class="mcanswer"> Excellent! Right, [k] needs to cancel out [t] so that the exponention is valid. </span><br>
-</li>
-<li>T<span class="mcanswer"> ︎✘ Then $[kt] = <span class="math inline">\(T\)</span>^2$, which would violate the exponential rule. </span><br>
-</li>
-<li>None of the above<span class="mcanswer"> ︎✘ </span>
-</li>
-</ol>
+<p>    [1]<span class="mcanswer"> ︎✘ Then $[kt] = <span class="math inline">\(T, which would violate the exponential rule. &lt;/span&gt;       T\)</span>^{ -1}$<span class="mcanswer"> Excellent! Right, [k] needs to cancel out [t] so that the exponention is valid. </span>       T<span class="mcanswer"> ︎✘ Then $[kt] = <span class="math inline">\(T\)</span>^2$, which would violate the exponential rule. </span>       None of the above<span class="mcanswer"> ︎✘ </span></span></p>
 <p><strong>Question B</strong> B) What must the dimension of <span class="math inline">\(c\)</span> for the arithmetic operation <span class="math inline">\(1 + c \cdot 2^{kt}\)</span> to make sense?</p>
 <ol style="list-style-type: lower-roman">
-<li>[1]<span class="mcanswer"> Nice! Right. You’re going to have to add <span class="math inline">\(c \cdot 2^{kt}\)</span> to 1. Since <span class="math inline">\([kt] = [1]\)</span>, <span class="math inline">\(c\)</span> also needs to be dimensionless. </span><br>
+<li>[1]<span class="mcanswer"> Right-oh! Right. You’re going to have to add <span class="math inline">\(c \cdot 2^{kt}\)</span> to 1. Since <span class="math inline">\([kt] = [1]\)</span>, <span class="math inline">\(c\)</span> also needs to be dimensionless. </span><br>
 </li>
 <li>T<span class="math inline">\(^{-1}\)</span><span class="mcanswer"> ︎✘ </span><br>
 </li>
@@ -535,7 +543,7 @@ In order to render the quantity both dimensionless and <em>unitless</em>, <span 
 </li>
 <li>1.5 times of the baby’s<span class="mcanswer"> ︎✘ </span><br>
 </li>
-<li>4 times the baby’s<span class="mcanswer"> Nice! </span><br>
+<li>4 times the baby’s<span class="mcanswer"> Right-oh! </span><br>
 </li>
 <li>8 times the baby’s<span class="mcanswer"> ︎✘ </span>
 </li>
@@ -577,7 +585,16 @@ You can’t take (pounds)<span class="math inline">\(^{2/3}\)</span> or (kg)<spa
 <li><p>Power has dimension [Energy] <span class="math inline">\(\times\  T^{-1}\)</span>.</p></li>
 </ul>
 <p><strong>Question A</strong> Which of the following is a correct dimensional formulation of power?</p>
-<p>    [Force][Velocity]<span class="mcanswer"> Excellent! </span>       [Energy][Velocity]<span class="mcanswer"> ︎✘ </span>       [Force] / [Velocity]<span class="mcanswer"> ︎✘ </span>       [Energy] / [Velocity]<span class="mcanswer"> ︎✘ </span></p>
+<ol style="list-style-type: lower-roman">
+<li>[Force][Velocity]<span class="mcanswer"> Excellent! </span><br>
+</li>
+<li>[Energy][Velocity]<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>[Force] / [Velocity]<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>[Energy] / [Velocity]<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
 <p><strong>Question B</strong> What is the dimension of <span class="math inline">\(P_s\)</span> in E-M Theory?</p>
 <ol style="list-style-type: lower-roman">
 <li>[Power] <span class="math inline">\(\times\ M^{-1}\)</span><span class="mcanswer"> Good. In other words, specific power, that is, power per mass. </span><br>

@@ -132,15 +132,15 @@ Figure 21.2: The pattern-book sinusoid and sigmoidal functions. A vertical blue 
 </p>
 </div>
 <p>The computer can easily construct the slope functions for the sinusoid and sigmoid, which we’ll call <code>Dsin()</code> and <code>Dsigma()</code> respectively.</p>
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Dsin</span>   <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span>  <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">+</span><span class="va">h</span><span class="op">)</span> <span class="op">-</span>   <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">t</span>, h<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>
 <span class="va">Dsigma</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">t</span><span class="op">+</span><span class="va">h</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">t</span>, h<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></code></pre></div>
 <p>In the tilde expression handed to <code>makeFun()</code>, we’ve identified <code>t</code> as the name of the input and given a “small” default value to the <code>h</code> parameter. But R recognizes that both <code>Dsin()</code> and <code>Dsigma()</code> are functions with two inputs, <code>t</code> and <code>h</code>, as you can see in the parenthesized argument list for the functions.</p>
-<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Dsin</span></code></pre></div>
 <pre><code>## function (t, h = 0.1) 
 ## (sin(t + h) - sin(t))/h</code></pre>
-<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Dsigma</span></code></pre></div>
 <pre><code>## function (t, h = 0.1) 
 ## (pnorm(t + h) - pnorm(t))/h</code></pre>
@@ -187,7 +187,7 @@ Figure 21.4: The slope functions of the logarithm and exponential.
 </h2>
 <p>In motivating differentiation of the pattern-book functions, we introduced a quantity <span class="math inline">\(h\)</span> and then ignored it, saying that it doesn’t really matter so long as it is “small.” A reasonable person might wonder what “small” really means, and why we needed to introduce <span class="math inline">\(h\)</span> in the first place if we were eventually going to ignore it. <span style="float: right; padding-left: 50px;"><a name="2382" href="#2382"><img src="www/icons8-signpost.png" title="Location: 2382" width="12px"></a><span style="color: red; font-size: 6pt;">2382</span></span></p>
 <p>One reason is that “small” and “zero,” although related, are different. For example, refering to the slope functions <code>Dsin()</code> and <code>Dsigma()</code> that we created in an early example in this chapter, we see that setting <span class="math inline">\(h\)</span> to zero does not get us where we need to be: <span style="float: right; padding-left: 50px;"><a name="2384" href="#2384"><img src="www/icons8-signpost.png" title="Location: 2384" width="12px"></a><span style="color: red; font-size: 6pt;">2384</span></span></p>
-<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">Dsin</span><span class="op">(</span>t<span class="op">=</span><span class="fl">1</span>, h<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
 <span class="fu">Dsigma</span><span class="op">(</span>t<span class="op">=</span><span class="fl">0</span>, h<span class="op">=</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p>In <code>NaN</code>, you can hear the echo of your fourth-grade teacher reminding you that it is illegal to divide by zero.</p>

@@ -166,15 +166,24 @@ Failing to remember the <span class="math inline">\(sd\)</span> is a common pitf
 <details><summary><strong>Exercise 22.2</strong>: <span><a name="File:%20Exercises/Diff/dnorm.Rmd" href="#QIELS"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/dnorm.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">QIELS</span>
 </span></summary><p>Compare the functions <span class="math inline">\(f_1 \equiv \dnorm(x, mn, sd)\)</span> and <span class="math inline">\(f_2 \equiv \dnorm\left(\left[x-mn\right]/sd\right)\)</span> by plotting them out in a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>.</p>
 <p>In order to construct the plot, you’ll have to pick specific values for <span class="math inline">\(mn\)</span> and <span class="math inline">\(sd\)</span>. Make sure that you use the same <span class="math inline">\(sd\)</span> and <span class="math inline">\(mn\)</span> when constructing <span class="math inline">\(f_1()\)</span> and <span class="math inline">\(f_2()\)</span>. For instance:</p>
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mn</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, mn<span class="op">=</span><span class="fl">2</span>, sd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
 <span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span> <span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="va">mn</span><span class="op">)</span> <span class="op">/</span> <span class="va">sd</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, mn<span class="op">=</span><span class="fl">2</span>, sd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p><strong>Question A</strong> When <span class="math inline">\(sd = 1\)</span>, are the two functions the same?</p>
-<p>    Yes<span class="mcanswer"> Correct. </span>       Yes, but only if <span class="math inline">\(mn=1\)</span><span class="mcanswer"> ︎✘ </span>       Yes, but only if <span class="math inline">\(mn=0\)</span><span class="mcanswer"> ︎✘ </span>       No<span class="mcanswer"> ︎✘ </span></p>
+<ol style="list-style-type: lower-roman">
+<li>Yes<span class="mcanswer"> Correct. </span><br>
+</li>
+<li>Yes, but only if <span class="math inline">\(mn=1\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>Yes, but only if <span class="math inline">\(mn=0\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>No<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
 <p><strong>Question B</strong> When <span class="math inline">\(sd eq 1\)</span>, for any given <span class="math inline">\(mn\)</span>, the two functions are not the same. What’s the relationship between <span class="math inline">\(f_1(x)\)</span> and $f_2(x)?</p>
 <ol style="list-style-type: lower-roman">
 <li>
-<span class="math inline">\(f_2(x) = sd\, f_1(x)\)</span><span class="mcanswer"> Nice! </span><br>
+<span class="math inline">\(f_2(x) = sd\, f_1(x)\)</span><span class="mcanswer"> Right-oh! </span><br>
 </li>
 <li>
 <span class="math inline">\(f_1(x) = sd\, f_2(x)\)</span><span class="mcanswer"> ︎✘ </span><br>
@@ -207,16 +216,27 @@ The vertical acceleration is the second derivative of alt() with respect to time
 </li>
 </ol>
 <p>In a sandbox, re-write <span class="math inline">\(\text{alt}(x)\)</span> as <span class="math inline">\(f(t) \equiv \text{alt}\left(-v \left[t - t_0\right]\right)\)</span>. Set <span class="math inline">\(v\)</span> to the plane’s velocity in feet per second. For our purposes, it doesn’t matter what <span class="math inline">\(t_0\)</span> is; you can set it to zero. (<span class="math inline">\(t_0\)</span> is the plane’s arrival time at the foot of the runway.) Plot out the function choosing a domain for <span class="math inline">\(t\)</span> that lets you see the whole descent path.</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="prod-comp-rules.html#cb208-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">pnorm</span>(<span class="sc">-</span> <span class="dv">20000</span><span class="sc">*</span> v<span class="sc">*</span> t, <span class="dv">30000</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">30000</span><span class="sc">/</span><span class="dv">6</span>) <span class="sc">~</span> t, <span class="at">v =</span> __your_velocity_here__)</span>
-<span id="cb208-2"><a href="prod-comp-rules.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">f</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span>__your_domain_here__))</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="prod-comp-rules.html#cb207-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">pnorm</span>(<span class="sc">-</span> <span class="dv">20000</span><span class="sc">*</span> v<span class="sc">*</span> t, <span class="dv">30000</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">30000</span><span class="sc">/</span><span class="dv">6</span>) <span class="sc">~</span> t, <span class="at">v =</span> __your_velocity_here__)</span>
+<span id="cb207-2"><a href="prod-comp-rules.html#cb207-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">f</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span>__your_domain_here__))</span></code></pre></div>
 <p>Compute the second derivative <span class="math inline">\(\partial_{tt} f(t)\)</span> to find the vertical component of acceleration of the aircraft. (Important note: Due to a bug in R, use <code>numD()</code> rather than <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> to compute the second derivative.)
 Graph the second derivative over the appropriate domain and look for the most extreme values of acceleration.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="prod-comp-rules.html#cb209-1" aria-hidden="true" tabindex="-1"></a>ddf <span class="ot">&lt;-</span> <span class="fu">numD</span>(<span class="fu">f</span>(t) <span class="sc">~</span> t <span class="sc">+</span> t)</span>
-<span id="cb209-2"><a href="prod-comp-rules.html#cb209-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">ddf</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span>__your_domain_here__))</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-267-1.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-267-2.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="prod-comp-rules.html#cb208-1" aria-hidden="true" tabindex="-1"></a>ddf <span class="ot">&lt;-</span> <span class="fu">numD</span>(<span class="fu">f</span>(t) <span class="sc">~</span> t <span class="sc">+</span> t)</span>
+<span id="cb208-2"><a href="prod-comp-rules.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">ddf</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span>__your_domain_here__))</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-269-1.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-269-2.png" width="90%" style="display: block; margin: auto;"></p>
 <p>A rule of thumb is that a vertical acceleration up to <span class="math inline">\(5\, \text{ft}\, \text{s}^{-2}\)</span> is not discomfiting. Regrettably, the descent path we described doesn’t meet the standard! So we have to re-design the descent path. Since both the altitude and velocity are set, the only parameter you can change is the distance from the foot of the runway where descent commences.</p>
 <p><strong>Question B</strong> How far from the foot of the runway should descent begin in order to stay within the <span class="math inline">\(5\, \text{ft}\, \text{s}^{-2}\)</span> acceleration constraint? Pick the shortest distance that satisfies the constraint.</p>
-<p>    40,000 ft<span class="mcanswer"> ︎✘ </span>       50,000 ft<span class="mcanswer"> ︎✘ </span>       60,000 ft<span class="mcanswer"> Excellent! </span>       70,000 ft<span class="mcanswer"> ︎✘ </span>       80,000 ft<span class="mcanswer"> ︎✘ </span></p>
+<ol style="list-style-type: lower-roman">
+<li>40,000 ft<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>50,000 ft<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>60,000 ft<span class="mcanswer"> Excellent! </span><br>
+</li>
+<li>70,000 ft<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>80,000 ft<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
 <p><strong>For reflection</strong>: A new hire at the airline’s operations center proposes to model the descent as a straight-line function rather than a sigmoid. He points out that the second derivative of a straight-line function is always 0, so the passengers would feel no acceleration at all! Explain to this newbie what’s wrong with his idea.</p>
 </details>
 </div>
@@ -236,7 +256,7 @@ Graph the second derivative over the appropriate domain and look for the most ex
 <p><strong>Question A</strong> What sort of combination is <span class="math inline">\(h_1(x)\equiv \ln(x) e^x\)</span>?</p>
 <p>    product<span class="mcanswer"> Good. </span>       composition<span class="mcanswer"> ︎✘ </span>       neither<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question B</strong> What sort of combination is <span class="math inline">\(h_2(x)\equiv \sin(x) \cos(x)\)</span>?</p>
-<p>    product<span class="mcanswer"> Nice! </span>       composition<span class="mcanswer"> ︎✘ </span>       neither<span class="mcanswer"> ︎✘ </span></p>
+<p>    product<span class="mcanswer"> Right-oh! </span>       composition<span class="mcanswer"> ︎✘ </span>       neither<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question C</strong> What sort of combination is <span class="math inline">\(h_3(x) \equiv \sin(\cos(x))\)</span>?</p>
 <p>    product<span class="mcanswer"> ︎✘ </span>       composition<span class="mcanswer"> Correct. </span>       neither<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question D</strong> What sort of combination is <span class="math inline">\(h_4(x) \equiv e^{\ln(x)}\)</span>?</p>
@@ -248,16 +268,10 @@ Graph the second derivative over the appropriate domain and look for the most ex
 <p><strong>Question G</strong> What sort of combination is <span class="math inline">\(h_7(x) \equiv \pnorm(x^2)\)</span>?</p>
 <p>    product<span class="mcanswer"> ︎✘ </span>       composition<span class="mcanswer"> Correct. </span>       neither<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question H</strong> What sort of combination is <span class="math inline">\(h_8(x) \equiv \pnorm(x) \dnorm(x)\)</span>?</p>
-<p>    product<span class="mcanswer"> Nice! </span>       composition<span class="mcanswer"> ︎✘ </span>       neither<span class="mcanswer"> ︎✘ </span></p>
+<p>    product<span class="mcanswer"> Right-oh! </span>       composition<span class="mcanswer"> ︎✘ </span>       neither<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question I</strong> What sort of combination is <span class="math inline">\(h_9(x) \equiv 1/\sin(x)\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>product<span class="mcanswer"> ︎✘ </span><br>
-</li>
-<li>composition<span class="mcanswer"> Excellent! Remember, <span class="math inline">\(1/\sin(x)\)</span> is the same as <span class="math inline">\(\recip(\sin(x))\)</span>. </span><br>
-</li>
-<li>neither<span class="mcanswer"> ︎✘ </span>
-</li>
-</ol></details><details><summary><strong>Exercise 22.08</strong>: <span><a name="File:%20Exercises/Diff/buck-draw-bed.Rmd" href="#QFzIOl"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/buck-draw-bed.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">QFzIOl</span>
+    product<span class="mcanswer"> ︎✘ </span>       composition<span class="mcanswer"> Excellent! Remember, <span class="math inline">\(1/\sin(x)\)</span> is the same as <span class="math inline">\(\recip(\sin(x))\)</span>. </span>       neither<span class="mcanswer"> ︎✘ </span>
+</details><details><summary><strong>Exercise 22.08</strong>: <span><a name="File:%20Exercises/Diff/buck-draw-bed.Rmd" href="#QFzIOl"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/buck-draw-bed.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">QFzIOl</span>
 </span></summary><p>In function compositions of the form <span class="math inline">\(f\left(\strut g(x)\right)\)</span>, the function <span class="math inline">\(f()\)</span> is called the <strong><em>exterior function</em></strong> and <span class="math inline">\(g()\)</span> is called the <strong><em>interior function.</em></strong></p>
 <p><strong>Question A</strong> In <span class="math inline">\(\cos(\ln(x))\)</span> which is the <strong>interior</strong> function?</p>
 <ol style="list-style-type: lower-roman">
@@ -336,8 +350,21 @@ Graph the second derivative over the appropriate domain and look for the most ex
 </li>
 </ol>
 <p><strong>Question E</strong> In <span class="math inline">\(\sin(x)\cos(x^2)\)</span>, which is the interior function?</p>
-    <span class="math inline">\(x^2\)</span><span class="mcanswer"> ︎✘ </span>       <span class="math inline">\(x\)</span><span class="mcanswer"> ︎✘ </span>       <span class="math inline">\(\cos(x^2\)</span><span class="mcanswer"> ︎✘ </span>       None of the above<span class="mcanswer"> ︎✘ </span>       It’s not a function composition.<span class="mcanswer"> Correct. </span>
-</details>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(x^2\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(x\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(\cos(x^2\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>None of the above<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>It’s not a function composition.<span class="mcanswer"> Correct. </span>
+</li>
+</ol></details>
 </div>
 <div id="step-2-find-f-and-g" class="section level3" number="22.2.2">
 <h3>

@@ -300,7 +300,7 @@ Figure 7.5: Natural <strong>quantities</strong> must be scaled to pure numbers b
 <tr class="even">
 <td>sinusoid</td>
 <td><span class="math inline">\(\sin(x)\)</span></td>
-<td><span class="math inline">\(A \sin(\frac{2 \pi}{P} x) + C\)</span></td>
+<td><span class="math inline">\(A \sin\left(\frac{2 \pi}{P} (x-x_0)\right) + C\)</span></td>
 </tr>
 <tr class="odd">
 <td>proportional</td>
@@ -326,23 +326,32 @@ Figure 7.7: The baseline for the exponential is the horizontal asymptote. There 
 </p>
 </div>
 </div>
+<div class="why">
+<p>Our prefered form for the input scaling in the basic modeling functions is <span class="math inline">\(m(x - x_0)\)</span>. Sometimes it can be a little hard to see this form given the conventions for parameterization. For instance, in the basic modeling sinusoid <span class="math display">\[\sin\left(\underbrace{\frac{2 \pi}{P}}_m\ \ (x-x_0)\right)\]</span> the multiplier is written <span class="math inline">\(\frac{2\pi}{P}\)</span> rather than <span class="math inline">\(m\)</span>.</p>
+<p>In the basic modeling exponential and straight line functions <span class="math display">\[A e^{kx} + C \ \ \ \text{and}\ \ \ a x + b\]</span>
+The <span class="math inline">\(x_0\)</span> does not appear. Why not?</p>
+<p>Suppose we did write the exponential as <span class="math display">\[A_2 e^{k(x-x_0)} + B\]</span> This could be simplified algebraically to <span class="math display">\[A_2 e^{kx_0} e^{kx} + B\]</span> Although this looks a bit different, note that <span class="math inline">\(e^{k x_0}\)</span> is simply a number, not a function of <span class="math inline">\(x\)</span>. We can therefore combine it with <span class="math inline">\(A_2\)</span>, giving <span class="math inline">\(A = A_2 e^{k x_0}\)</span>. The <span class="math inline">\(A\)</span> coefficient in the exponential makes any use of <span class="math inline">\(x_0\)</span> redundant and unnecessary.</p>
+<p>A similar algebra logic applies to the straight-line function <span class="math inline">\(ax + b\)</span>. We don’t need an <span class="math inline">\(x_0\)</span> there, either.</p>
+</div>
 <hr>
 <details><summary><strong>Exercise 7.1</strong>: <span><a name="File:%20Exercises/Fun/fiducial-point.Rmd" href="#MWLCS"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fiducial-point.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">MWLCS</span>
-</span></summary><p>Recall that each <strong><em>basic modeling functions</em></strong> are constructed from the corresponding pattern-book functions by scaling the input.</p>
+</span></summary><p>Recall that each <strong><em>basic modeling function</em></strong> is constructed from the corresponding pattern-book function by scaling the input.</p>
 <p><span class="math display">\[\text{pattern-book function}\ \ \underset{x\rightarrow a(x-x_0)}{\overset{\text{input scaling}}{\Large\Longrightarrow}} \ \ \text{basic modeling function}\]</span></p>
-<p>Recognizing the axis crossings (y is blue, x is red) and asymptotes (orange) for the pattern-book functions can help you figure out the parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(x_0\)</span> in the input scaling <span class="math inline">\(a(x-x_0)\)</span> for the basic modeling functions. Here’s a reference:</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-5.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-6.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-7.png" width="50%" style="display: block; margin: auto;"></p>
+<p>Figure <a href="#fig:fid-points"><strong>??</strong></a> shows the pattern-book functions with some added annotations. When the function has horizontal or vertical asymptotes, the location is shown by orange arrows. There is also a blue dot placed on the graph of functions with asymptotes. For functions without asymptotes, there are two blue dots. The location of the asymptotes and blue dots mark characteristic features of each function. The positions of the blue dot and asymptotes, or the positions of the two blue dots, are useful for figuring out the values of parameters in basic modeling functions.</p>
+<p>For example, the basic modeling reciprocal function is <span class="math inline">\(g(x) \equiv \frac{1}{m (x-x_0)} + C\)</span>. The parameter <span class="math inline">\(C\)</span> will be the value where the horizontal asymptote crosses the vertical axis. The parameter <span class="math inline">\(x_0\)</span> will be the value where the vertical asymptote crosses the horizontal axis. As for the parameter <span class="math inline">\(m\)</span>: find the input where the function value is <span class="math inline">\(C+1\)</span>. Let’s call that <span class="math inline">\(x^\star\)</span>. The <span class="math inline">\(m = 1/(x^\star - x_0)\)</span>.</p>
+<p>For the sinusoid, the blue dots mark the positive-going zero crossings of the baseline. The horizontal distance between the blue dots is the period parameter, <span class="math inline">\(P\)</span>. The horizontal position of either of the two dots tells the phase offset <span class="math inline">\(x_0\)</span>.</p>
+<p><img src="CalcZ-notes_files/figure-html/fid-points-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/fid-points-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/fid-points-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/fid-points-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/fid-points-5.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/fid-points-6.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/fid-points-7.png" width="50%" style="display: block; margin: auto;"></p>
 <p>Each of the following plots shows a basic modeling function whose input scaling has the form <span class="math inline">\(x - x_0\)</span>. Your job is to figure out from the graph what is the numerical value of <span class="math inline">\(x_0\)</span>. (Hint: For simplicity, <span class="math inline">\(x_0\)</span> in the questions will always be an integer.)</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-133-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-132-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> In plot (A), what is <span class="math inline">\(x_0\)</span>?</p>
 <p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> Right! Right. Look for the input that generates the peak output value. </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-134-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-133-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question B</strong> In plot (B), what is <span class="math inline">\(x_0\)</span>?</p>
-<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> Right! The fiducial piont is a positive-going zero crossing. </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-135-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> Right! The fiducial point is a positive-going zero crossing. </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-134-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question C</strong> In plot (C), what is <span class="math inline">\(x_0\)</span>?</p>
-<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Right! The location of the vertical asymptote is the clue. </span>       2<span class="mcanswer"> ︎✘ </span></p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-136-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Right! The vertical asymptote is the clue. </span>       2<span class="mcanswer"> ︎✘ </span></p>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-135-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question D</strong> In plot (D), what is <span class="math inline">\(x_0\)</span>?</p>
 <ol style="list-style-type: lower-roman">
 <li>-2<span class="mcanswer"> ︎✘ </span><br>
@@ -356,7 +365,7 @@ Figure 7.7: The baseline for the exponential is the horizontal asymptote. There 
 <li>2<span class="mcanswer"> ︎✘ </span>
 </li>
 </ol>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-137-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-136-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question E</strong> In plot (E), what is <span class="math inline">\(x_0\)</span>?</p>
 <p>    -2<span class="mcanswer"> Nice! Right. The location of the vertical asymtote is the clue. </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
 </details><hr>
@@ -380,7 +389,7 @@ Similar to MWLCS and VcUetN but with input scaling of the form $a(x-x_0)$. Keep 
 This is being moved to drill.
 --><details><summary><strong>Exercise 7.2</strong>: <span><a name="File:%20Exercises/Fun/scale-input-1.Rmd" href="#uKCIE"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/scale-input-1.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">uKCIE</span>
 </span></summary><p>Each of the graphs shows two horizontal scales and one of the basic modeling functions. Which horizontal scale (black or blue) corresponds to the pattern-book function?</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-139-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> For graph (A), which scale corresponds to the pattern-book function?</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-138-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> For graph (A), which scale corresponds to the pattern-book function?</p>
 <ol style="list-style-type: lower-roman">
 <li>black<span class="mcanswer"> Nice! </span><br>
 </li>
@@ -391,7 +400,7 @@ This is being moved to drill.
 <li>both<span class="mcanswer"> ︎✘ It can’t be both. There’s only one pattern-book function. When you scale the input, it becomes a “basic modeling function.” </span>
 </li>
 </ol>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-140-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-139-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question B</strong> For graph (B), which scale corresponds to the pattern-book function?</p>
 <ol style="list-style-type: lower-roman">
 <li>black<span class="mcanswer"> ︎✘ </span><br>
@@ -403,7 +412,7 @@ This is being moved to drill.
 <li>both<span class="mcanswer"> ︎✘ It can’t be both. There’s only one pattern-book function. When you scale the input, it becomes a “basic modeling function.” </span>
 </li>
 </ol>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-141-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-140-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question C</strong> For graph (C), which scale corresponds to the pattern-book function?</p>
 <ol style="list-style-type: lower-roman">
 <li>black<span class="mcanswer"> ︎✘ </span><br>
@@ -418,65 +427,52 @@ This is being moved to drill.
 <details><summary><strong>Exercise 7.3</strong>: <span><a name="File:%20Exercises/Fun/scale-input-2.Rmd" href="#BLECL"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/scale-input-2.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BLECL</span>
 </span></summary><p>Find the straight-line function that will give the value on the black scale for each point <span class="math inline">\(x\)</span> on the blue scale. The function will take the blue-scale reading as input and produce the black-scale reading as output, that is:
 <span class="math display">\[\text{black}(x) \equiv a (x - x_0)\]</span></p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-1.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-2.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-3.png" width="90%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-4.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-142-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> For Graph A, which function maps blue <span class="math inline">\(x\)</span> to the value on the black scale?</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="math inline">\(black(x) \equiv x/3\)</span><span class="mcanswer"> Nice! </span><br>
+<li>$ ext{black}( ext{blue})  x$<span class="mcanswer"> Nice! </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 3\, x\)</span><span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span><br>
+<li>$ ext{black}( ext{blue}) , x$<span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv x + 3\)</span><span class="mcanswer"> ︎✘ Is there a horiztontal shift? </span><br>
+<li>$ ext{black}( ext{blue}) x + 3$<span class="mcanswer"> ︎✘ Is there a horiztontal shift? </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv x - 3\)</span><span class="mcanswer"> ︎✘ Is there a horizontal shift? </span>
+<li>$ ext{black}( ext{blue}) x - 3$<span class="mcanswer"> ︎✘ Is there a horizontal shift? </span>
 </li>
 </ol>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-143-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question B</strong> For Graph B, which function maps blue <span class="math inline">\(x\)</span> to the value on the black scale?</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="math inline">\(black(x) \equiv -2\,x/3\)</span><span class="mcanswer"> Right! </span><br>
+<li>$ ext{black}( ext{blue}) -,x$<span class="mcanswer"> Right! </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 3\, x/2\)</span><span class="mcanswer"> ︎✘ Look carefully at the <span class="math inline">\(\pm\)</span> signs on the scales. </span><br>
+<li>$ ext{black}( ext{blue})  x$<span class="mcanswer"> ︎✘ Look carefully at the <span class="math inline">\(\pm\)</span> signs on the scales. </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 2\,x/3\)</span><span class="mcanswer"> ︎✘ Look carefully at the <span class="math inline">\(\pm\)</span> signs on the scales. </span><br>
+<li>$ ext{black}( ext{blue})  x$<span class="mcanswer"> ︎✘ Look carefully at the <span class="math inline">\(\pm\)</span> signs on the scales. </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv -3\,x/2\)</span><span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span>
+<li>$ ext{black}( ext{blue}) -x$<span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span>
 </li>
 </ol>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-144-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question C</strong> For Graph C, which function maps blue <span class="math inline">\(x\)</span> to the value on the black scale?</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="math inline">\(black(x) \equiv (x - 2)/2\)</span><span class="mcanswer"> Correct. Good. An interval of length 4 on the blue scale (say, from 2 to 6) becomes an interval of length 2 on the black scale. So you know that blue to black involves dividing by 2. </span><br>
+<li>$ ext{black}( ext{blue}) (x - 2)$<span class="mcanswer"> Correct. Good. An interval of length 4 on the blue scale (say, from 2 to 6) becomes an interval of length 2 on the black scale. So you know that blue to black involves dividing by 2. </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 3\, x\)</span><span class="mcanswer"> ︎✘ Is there a shift </span><br>
+<li>$ ext{black}( ext{blue}) , x$<span class="mcanswer"> ︎✘ Is there a shift </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 2\,x\)</span><span class="mcanswer"> ︎✘ Is there a shift? </span><br>
+<li>$ ext{black}( ext{blue}) ,x$<span class="mcanswer"> ︎✘ Is there a shift? </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 2\,(x + 2)\)</span><span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span>
+<li>$ ext{black}( ext{blue}) ,(x + 2)$<span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span>
 </li>
 </ol>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-145-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question D</strong> For Graph D, which function maps blue <span class="math inline">\(x\)</span> to the value on the black scale?</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="math inline">\(black(x) \equiv 2 (x + 3)/3\)</span><span class="mcanswer"> Correct. </span><br>
+<li>$ ext{black}( ext{blue})  (x + 3)$<span class="mcanswer"> Correct. </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 3 (x - 3)/2x\)</span><span class="mcanswer"> ︎✘ </span><br>
+<li>$ ext{black}( ext{blue})  (x - 3)$<span class="mcanswer"> ︎✘ </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 3 (x+1)/2\)</span><span class="mcanswer"> ︎✘ </span><br>
+<li>$ ext{black}( ext{blue})  (x+1)$<span class="mcanswer"> ︎✘ </span><br>
 </li>
-<li>
-<span class="math inline">\(black(x) \equiv 3(x - 2)/2\)</span><span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span>
+<li>$ ext{black}( ext{blue}) rac{3}{2}(x - 2)$<span class="mcanswer"> ︎✘ You’re going the wrong way, from black to blue. </span>
 </li>
 </ol></details>
 </div>
@@ -501,16 +497,16 @@ A_2 \sin\left(\frac{2 \pi}{P_2}t\right) +
 A_3 \sin\left(\frac{2 \pi}{P_3}t\right) + \cdots\]</span></p>
 <p>Linear combination of functions provides a powerful and flexible general-purpose modeling technique in part because many physical systems seem to work this way and in part because the methods for finding the scalars—<span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span>, and so on—have an extremely strong theory and fast computer implementations that automatically solve the problem once the modeler has selected the functions she wants to combine. In Block 4, we use the name <strong><em>target problem</em></strong> to refer the problem of finding scalars to match as well as possible a linear combination to data.</p>
 <p>An expression like <span class="math inline">\(A e^{kx} + C\)</span> combines the exponential (obviously!) and a second function that isn’t immediately obvious: the constant function <span class="math inline">\(\text{constant}(x) \equiv 1\)</span>. It might be overkill to re-write the expression as <span class="math inline">\(A e^{kx} + C\, \text{constant}(x)\)</span> but get in the habit of seeing the constant function as a constant presence in linear combinations!</p>
-<p>Polynomials are an important example of linear combinations. Something like <span class="math inline">\(p(x) \equiv a + b t + c t^2\)</span> is a linear combination of the constant function, the proportionality function, and the square function.</p>
+<p>Polynomials are an important example of linear combinations. Something like <span class="math inline">\(p(x) \equiv a + b t + c t^2\)</span> is a linear combination of the constant function, the proportional function, and the square function.</p>
 <details><summary><strong>Exercise 7.4</strong>: <span><a name="File:%20Exercises/Fun/two-sines.Rmd" href="#FKLEU"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/two-sines.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">FKLEU</span>
 </span></summary><p>The graph shows a linear combination of two sinusoids, one of period 0.6 and the other of period 2. There is also a baseline shift. That is, the graph shows the function:</p>
-<p><span class="math display">\[a_1 \sin\left(\frac{2\pi}{2}t\right) + a_2 \sin\left(\frac{2\pi}{0.6} (t-.3)\right) + a_3\]</span></p>
+<p><span class="math display">\[A_1 \sin\left(\frac{2\pi}{2}t\right) + A_2 \sin\left(\frac{2\pi}{0.6} (t-.3)\right) + A_3\]</span></p>
 <div class="inline-figure"><img src="CalcZ-notes_files/figure-html/two-sines-1-1.png" width="90%" style="display: block; margin: auto;"></div>
-<p><strong>Question A</strong> What is <span class="math inline">\(a_3\)</span>?</p>
+<p><strong>Question A</strong> What is <span class="math inline">\(A_3\)</span>?</p>
 <p>    -4<span class="mcanswer"> Good. </span>       -2<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> ︎✘ </span></p>
-<p><strong>Question B</strong> What is <span class="math inline">\(a_1\)</span>?</p>
+<p><strong>Question B</strong> What is <span class="math inline">\(A_1\)</span>?</p>
 <p>    0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> Correct. </span>       3.5<span class="mcanswer"> ︎✘ </span></p>
-<p><strong>Question C</strong> What is <span class="math inline">\(a_2\)</span>?</p>
+<p><strong>Question C</strong> What is <span class="math inline">\(A_2\)</span>?</p>
     0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Excellent! </span>       2<span class="mcanswer"> ︎✘ </span>       3.5<span class="mcanswer"> ︎✘ </span>
 </details>
 </div>
