@@ -90,10 +90,10 @@
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
 <li class="book-part">Block 2: Differentiation</li>
 <li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
-<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
-<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
-<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
-<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
 <li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
 <li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
@@ -355,7 +355,51 @@ Finally, a note about discontinuity. The location `year.nibbles.glasses` is in U
 </li>
 </ol></details>
 </div>
+<div id="find-x" class="section level2" number="10.2">
+<h2>
+<span class="header-section-number">10.2</span> Find x<a class="anchor" aria-label="anchor" href="#find-x"><i class="fas fa-link"></i></a>
+</h2>
+<p>Most readers are familiar with the sort of high-school math problem where you are presented with an equation written in terms of <span class="math inline">\(x\)</span> and asked to “find <span class="math inline">\(x\)</span>” or “find the solution.” For instance, the problem might be</p>
+<p><span class="math display">\[\text{Let}\ \ 3x - 2 = 7 x^2 .\ \ \  \text{Find} \ x .\]</span></p>
+<p>The above problem falls into one class of such changes, the class of “finding roots of polynomials.” Here’s another problem in that class:</p>
+<blockquote>
+<p><em>An investment club decided to buy
+$9000 worth of stock with each
+member paying an equal share. But
+two members left the club, and the
+remaining members had to pay $50
+more apiece. How many members
+are in the club?</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;This translates to an equation, where &lt;span class="math inline"&gt;\(x\)&lt;/span&gt; is the number of members: &lt;span class="math display"&gt;\[(x-2)(9000/x + 50) = 9000\]&lt;/span&gt; &lt;a href="https://www.ams.org/notices/201005/rtx100500608p.pdf"&gt;Source&lt;/a&gt;&lt;/p&gt;'><sup>16</sup></a></p>
+</blockquote>
+<p>Let’s pose the problem in terms of a function, money_raised<span class="math inline">\((x)\)</span> where <span class="math inline">\(x\)</span> is the original number of members in the investment club. Originally, the members were each going to pay <span class="math inline">\(9000/x\)</span>. But after the drop outs, each of the remaining members has to pay <span class="math inline">\(9000/x + 50\)</span>. Since there are <span class="math inline">\(x-2\)</span> remaining members, the total amount raised is <span class="math display">\[\text{money_raised}(x) \equiv (x-2) \left(\frac{9000}{x} + 50\right)\]</span>
+Figure <a href="#fig:money-raised"><strong>??</strong></a> graphs <span class="math inline">\(\text{money_raised}(x)\)</span></p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">money_raised</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fl">9000</span><span class="op">/</span><span class="va">x</span> <span class="op">+</span> <span class="fl">50</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
+<span class="fu">slice_plot</span><span class="op">(</span><span class="fu">money_raised</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/money-raised-1.png" width="90%" style="display: block; margin: auto;">
+The function tells us, for any number of members <span class="math inline">\(x\)</span>, how much money will be raised. So what’s <span class="math inline">\(x\)</span> for the club? The function doesn’t tell us … until we add in a new fact. The club raised $9000. So look up $9000 on the vertical axis, trace horizontally over to the graph, and read off the resulting input that generates an output of $9000.</p>
+<p>This inverse way of using functions—we know the output and we need to calculate the input—is very common. One reason is that sometimes it’s relatively easy to construct a model that takes input <span class="math inline">\(x\)</span> to an output, but the problem at hand is to figure out from a value of the output what is the corresponding value of the input.</p>
+<div class="intheworld">
+<p>Seismograms and electrocardiograms</p>
 </div>
+<p>Suppose that you have a function <span class="math inline">\(f(x)\)</span> and you also know the inverse of that function. We’ll call the inverse <span class="math inline">\(g(x)\)</span> for this example, but a more typical notation is <span class="math inline">\(f^{-1}(x)\)</span> where the function name is <span class="math inline">\(f^{-1}\)</span>.</p>
+<p>Composing a function and its inverse gives back the input: <span class="math inline">\(f(g(x)) = x\)</span> and <span class="math inline">\(g(f(x)) = x\)</span>.</p>
+<p>As part of your high-school mathematics education, you learned the inverses to several functions. For instance, <span class="math inline">\(e^x\)</span> and <span class="math inline">\(\ln(x)\)</span> are inverses, meaning that <span class="math inline">\(\ln(e^x) = x\)</span> and <span class="math inline">\(e^{\ln(x)} = x\)</span>. The identity function is its own inverse. The inverse of the square function is the square root: <span class="math inline">\(\sqrt{x^2} = x\)</span> and <span class="math inline">\((\sqrt{x})^2 = x\)</span>.</p>
+<p>It’s helpful to keep in mind that if you have a function <span class="math inline">\(f(x)\)</span> there is some other function—although you may not know its form yet—that is the inverse to <span class="math inline">\(f()\)</span>.</p>
+<p>There are two caveats:</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<p>Mathematicians will say that for functions like <span class="math inline">\(\sin(x)\)</span> or <span class="math inline">\(\dnorm(x)\)</span> which fail the horizontal line test the inverse does not exist. That’s because mathematicians want the inverse to have a single, unique value, while functions like <span class="math inline">\(\dnorm()\)</span> have two inputs that generate any output in the function’s range. <span class="math inline">\(\sin()\)</span> has an infinite number of inputs that generate any output in the function’s range.</p>
+<p>But in practice, the problem is to find <strong>some</strong> input that will generate the known output. If there is more than one such input, we just have to choose one.</p>
+<p>We can even satisfy the mathematician’s insistence that there be a unique inverse if we restrict the domain of the forward function to a region where it is monotonically increasing or monotonically decreasing.</p>
+</li>
+<li><p>There is always an algorithm to that can be applied to find a solution to any inverse problem. But this algorithm is rarely a simple formula. Not having a formula, we play a name game. For instance, the inverse of the square function is called the “square root,” but there is no simple formula for finding the square root of a number. Similarly, the inverse to <span class="math inline">\(\sin(x)\)</span> is called <span class="math inline">\(\arcsin(x)\)</span>, but there is no simple formula for <span class="math inline">\(\arcsin()\)</span>. Almost invariably we use such inverse functions not by doing arithmetic to calculate their output, but by using a calculator button or a software function that carries out the algorithm.</p></li>
+</ol>
+<p>For now, it suffices that you can compute the inverse to any function (over some sub-domain where the function is monotonically increasing or decreasing) by graphing the function and then reading from the vertical axis to the horizontal. As we encounter more concepts from calculus and computing, we’ll develop additional methods for evaluating an inverse function.</p>
+
+</div>
+</div>
+
   <div class="chapter-nav">
 <div class="prev"><a href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></div>
 <div class="next"><a href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></div>
@@ -364,6 +408,7 @@ Finally, a note about discontinuity. The location `year.nibbles.glasses` is in U
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#function-inverses-and-solving"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
 <li><a class="nav-link" href="#function-inverses"><span class="header-section-number">10.1</span> Function inverses</a></li>
+<li><a class="nav-link" href="#find-x"><span class="header-section-number">10.2</span> Find x</a></li>
 </ul>
 
       <div class="book-extra">
@@ -381,7 +426,7 @@ Finally, a note about discontinuity. The location `year.nibbles.glasses` is in U
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

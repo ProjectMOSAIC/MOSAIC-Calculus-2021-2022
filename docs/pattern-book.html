@@ -90,10 +90,10 @@
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
 <li class="book-part">Block 2: Differentiation</li>
 <li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
-<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
-<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
-<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
-<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
 <li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
 <li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
@@ -265,7 +265,7 @@ Figure 2.4: The domain of power-law functions with non-integer power is <span cl
 <p>As a very brief introduction, consider these examples. A <strong><em>polynomial</em></strong> is a <strong><em>linear combination</em></strong> of simple functions called “monomials.” These are likely familiar to you in traditional notation:
 <span class="math display">\[g(x) \equiv 2 + 3 x - 7x^2\]</span>
 In the R/mosaic computer notation we will be using the function <span class="math inline">\(g()\)</span> would be defined like this:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">3</span><span class="op">*</span><span class="va">x</span> <span class="op">-</span> <span class="fl">7</span><span class="op">*</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
 <p>Notice that the R/mosaic notation has most elements in common with the traditional notation, but the order is somewhat different.</p>
 <div class="takenote">
@@ -284,10 +284,10 @@ In the R/mosaic computer notation we will be using the function <span class="mat
 <p>Functions constructed as a <strong><em>product</em></strong> of simple functions can look like this in tradition notation:
 <span class="math display">\[h(t) \equiv \sin(t) e^{-t}\]</span>
 and like this in computer notation:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">t</span><span class="op">)</span> <span class="op">~</span> <span class="va">t</span><span class="op">)</span></code></pre></div>
 <p>In function <strong><em>composition</em></strong>, the output of one function is the input to a second function, as with <span class="math display">\[H(t) \equiv \sin\left(e^{-t}\right)\]</span> or, in computer notation,</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">H</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">t</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">t</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="function-shapes" class="section level2" number="2.4">
@@ -295,18 +295,18 @@ and like this in computer notation:</p>
 <span class="header-section-number">2.4</span> Function shapes<a class="anchor" aria-label="anchor" href="#function-shapes"><i class="fas fa-link"></i></a>
 </h2>
 <p>You are going to be building models by selecting an appropriate function or by putting functions together in various ways. This might remind you of Lego blocks. As you know, Legos come in different shapes: <span class="math inline">\(6\times 2\)</span>, <span class="math inline">\(4\times 2\)</span>, <span class="math inline">\(2\times 2\)</span>, and so on. Similarly, each of the pattern-book functions has a distinctively shaped graph. Knowing the shapes by name will help you when you need to build a model. <span style="float: right; padding-left: 50px;"><a name="280" href="#280"><img src="www/icons8-signpost.png" title="Location: 280" width="12px"></a><span style="color: red; font-size: 6pt;">280</span></span></p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-5.png" width="50%" style="display: block; margin: auto;"></p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-5.png" width="50%" style="display: block; margin: auto;"></p>
 <p>The <strong><em>proportional function</em></strong> and the <strong><em>constant function</em></strong> have extremely simple shapes. Note that the graph of a constant function is not just any line, but a line with zero slope.</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-2.png" width="50%" style="display: block; margin: auto;"></p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-14-2.png" width="50%" style="display: block; margin: auto;"></p>
 <p>It is tempting to deny that the constant function is a function. After all, the output does not depend on the input. Still, this situation arises frequently in modeling: you start out supposing that one quantity depends on another, but it sometimes turns out that it does not. Since functions are our way of representing relationships, it is helpful to have a function for the situation of “no relationship.” The constant function does this job.</p>
 <p>You may also notice the proportional function shown above does nothing to change the input; it simply returns as output the same value it received as input. For this reason, the proportional pattern-book function (<span class="math inline">\(f(x)=x\)</span>) is sometimes called the <strong><em>identity function</em></strong>. Later we will show how this simple pattern-book function can be endowed with parameters that form the basis of many change relationships.</p>
 <hr>
 <details><summary><strong>Exercise 2.1</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-zeros.Rmd" href="#H2KG3"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-zeros.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">H2KG3</span>
 </span></summary><div class="scaffolding">
 <p>Copy and paste the R/mosaic command below into a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>. The command shows a simple way to graph a function, in this case <code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code>. Press “Run code” to execute the command and draw the graph.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-124-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-125-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>In this exercise, you’ll be modifying the sandbox code to draw different functions, so you can examine their shapes.</p>
 </div>
 <p>Your task is to read and interpret the graphs of the basic modeling functions. Here, you will be looking for <strong><em>zero-crossings</em></strong>: the neighborhood of a point in the function’s domain where the <strong>output</strong> of the function is negative for inputs on one side and positive for inputs on the other side. If zero is touched but not crossed, we’ll call that “touched zero.”</p>
@@ -428,18 +428,18 @@ Throughout science, it’s common to set a standard approach to defining a chara
 <div class="observation">
 <p>Functions like <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code>, <code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code> are always referred to by name with parentheses enclosing the arguments. Other functions are traditionally written without a name, for instance, like <span class="math inline">\(e^x\)</span> or <span class="math inline">\(1/x\)</span>. These two different conventions can lead to confusion. There is little that can be done to avoid that confusion, since the dual conventions appear throughout technical work.</p>
 <p>If absolute consistency of notation were the prime goal, we could have written this book in a style that gives a name to every pattern-book function writes it in the name/parentheses style. Something like this:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">reciprocal</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">t</span> <span class="op">~</span> <span class="va">t</span><span class="op">)</span>
 <span class="va">constant</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">1</span> <span class="op">~</span> <span class="va">z</span><span class="op">)</span>
 <span class="va">square</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
 <p>These would be used in the ordinary way, for instance:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reciprocal</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.1428571</code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">constant</span><span class="op">(</span><span class="fl">123.67</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">square</span><span class="op">(</span><span class="fl">19</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 361</code></pre>
 <p>Writing reciprocal(<span class="math inline">\(x\)</span>) instead of <span class="math inline">\(1/x\)</span> is long-winded, which is perhaps why you never see it. But when you see <span class="math inline">\(1/x\)</span> you should think of it as a function being applied to <span class="math inline">\(x\)</span> and not as a bit of arithmetic.</p>
@@ -476,7 +476,7 @@ Throughout science, it’s common to set a standard approach to defining a chara
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

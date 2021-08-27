@@ -90,10 +90,10 @@
 <li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
 <li class="book-part">Block 2: Differentiation</li>
 <li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
-<li><a class="" href="computing-derivs.html"><span class="header-section-number">18</span> Computing derivatives</a></li>
-<li><a class="" href="concavity-curvature.html"><span class="header-section-number">19</span> Concavity and curvature</a></li>
-<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">20</span> Continuity and smoothness</a></li>
-<li><a class="" href="evanescent-h.html"><span class="header-section-number">21</span> Evanescent h</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
 <li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
 <li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
@@ -119,7 +119,7 @@
 <p>Looking back on the exponential fitted to the cooling water data in Section <a href="process-of-modeling.html#fit-exponential">8.2</a>, it looks like our original estimate of the half-life is a bit too small; the data doesn’t seem to decay at the rate implied by <span class="math inline">\(k = -0.0277\)</span>. Perhaps we should try a somewhat slower decay, say <span class="math inline">\(k = -0.2\)</span> and see if that improves things.</p>
 <div class="scaffolding">
 <p>In the cooling water example, we’re using only a subset of the data collected by Prof. Wagon. The next commands re-create that subset so that you can work with it. They also plot the data and an exponential model. <span style="float: right; padding-left: 50px;"><a name="1565" href="#1565"><img src="www/icons8-signpost.png" title="Location: 1565" width="12px"></a><span style="color: red; font-size: 6pt;">1565</span></span></p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># reconstruct the sample</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span>
 <span class="va">Stans_data</span> <span class="op">&lt;-</span> <span class="va">CoolingWater</span> <span class="op">%&gt;%</span> <span class="fu">sample_n</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>
@@ -127,18 +127,18 @@
 <span class="fu">gf_point</span><span class="op">(</span><span class="va">temp</span> <span class="op">~</span> <span class="va">time</span>, data<span class="op">=</span><span class="va">Stans_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_lims</span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fl">25</span> <span class="op">+</span> <span class="fl">83.3</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.0277</span><span class="op">*</span><span class="va">time</span><span class="op">)</span> <span class="op">~</span> <span class="va">time</span>, color<span class="op">=</span><span class="st">"dodgerblue"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-73-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-74-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>See if <span class="math inline">\(k=-0.02\)</span> provides a better fit to the model. (You can add another <code>slice_plot()</code> to be able to compare the original and <span class="math inline">\(k=-0.02\)</span> models.)</p>
 </div>
 <p>Later in CalcZ, we’ll study <strong><em>optimization</em></strong>. There are optimization techniques for directing the computer to refine the parameters to best match the data. Just to illustrate, here’s what we get:</p>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">refined_params</span> <span class="op">&lt;-</span>
   <span class="fu">fitModel</span><span class="op">(</span><span class="va">temp</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">k</span><span class="op">*</span><span class="va">time</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Stans_data</span>,
            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">25</span>, B <span class="op">=</span> <span class="fl">83.3</span>, k <span class="op">=</span> <span class="op">-</span><span class="fl">0.0277</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">refined_params</span><span class="op">)</span></code></pre></div>
 <pre><code>##           A           B           k 
 ## 25.92628463 60.69255269 -0.01892572</code></pre>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_f</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">refined_params</span><span class="op">)</span>
 <span class="fu">gf_point</span><span class="op">(</span><span class="va">temp</span> <span class="op">~</span> <span class="va">time</span>, data <span class="op">=</span> <span class="va">Stans_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">new_f</span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op">~</span> <span class="va">time</span>, color<span class="op">=</span><span class="st">"dodgerblue"</span><span class="op">)</span></code></pre></div>
@@ -188,7 +188,7 @@ Figure 14.4: With the phase about right, a better estimate can be made of the pe
 </p>
 </div>
 <p>That’s a pretty good match to the data! We might call it quits at that. First, let’s polish up the parameter estimates, letting the computer do the tedious work of trying little tweaks to see if it can improve the fit.</p>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tide_mod</span> <span class="op">&lt;-</span>
   <span class="fu">fitModel</span><span class="op">(</span><span class="va">level</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">*</span><span class="op">(</span><span class="va">hour</span><span class="op">-</span><span class="va">hzero</span><span class="op">)</span><span class="op">/</span><span class="va">P</span><span class="op">)</span>,
   data <span class="op">=</span> <span class="va">RI_tide</span>,
@@ -214,15 +214,15 @@ Figure 14.5: Polishing the parameters of the sinusoid
 <!-- (All times are already adjusted for daylight savings time. The book doesn't tell us whether the value for each month is an average over all days or for a particular day of the month.) -->
 <p>Open a sandbox and make a plot of sunset time versus month.</p>
 <div class="scaffolding">
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">Minutes</span> <span class="op">~</span> <span class="va">Month</span>, data <span class="op">=</span> <span class="va">SunsetLA</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_line</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-207-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-208-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>We’re using both <code>gf_point()</code> and <code>gf_line()</code>. With data that oscillates up and down, connecting the data points with lines makes it easier to see the pattern.</p>
 </div>
 <p><strong>Question A</strong> What is the range of the number of minutes until sunset over the whole 4-year period?</p>
 <ol style="list-style-type: lower-roman">
-<li>40 to 190 minutes<span class="mcanswer"> Right-oh! </span><br>
+<li>40 to 190 minutes<span class="mcanswer"> Nice! </span><br>
 </li>
 <li>120 minutes<span class="mcanswer"> ︎✘ A range is an interval spanned by <em>two</em> numbers. </span><br>
 </li>
@@ -232,7 +232,16 @@ Figure 14.5: Polishing the parameters of the sinusoid
 </li>
 </ol>
 <p><strong>Question B</strong> The data fall nicely on a sine-shaped curve. What is the period of that sine?</p>
-<p>    6 months<span class="mcanswer"> ︎✘ Look at the number of months from one peak to another. </span>       11 months<span class="mcanswer"> ︎✘ Look more carefully. And remember that the change in length of day is an <em>annual</em> phenomenon. </span>       12 months<span class="mcanswer"> Good. </span>       12 minutes<span class="mcanswer"> ︎✘ Period refers to an interval on the <em>domain</em> of the function, not the range. </span></p>
+<ol style="list-style-type: lower-roman">
+<li>6 months<span class="mcanswer"> ︎✘ Look at the number of months from one peak to another. </span><br>
+</li>
+<li>11 months<span class="mcanswer"> ︎✘ Look more carefully. And remember that the change in length of day is an <em>annual</em> phenomenon. </span><br>
+</li>
+<li>12 months<span class="mcanswer"> Good. </span><br>
+</li>
+<li>12 minutes<span class="mcanswer"> ︎✘ Period refers to an interval on the <em>domain</em> of the function, not the range. </span>
+</li>
+</ol>
 <p>The function <span class="math display">\[\mbox{sunset}(\mbox{Month}) \equiv A  \sin(2 \pi\, \mbox{Month} / 12) + C\]</span> is a <em>linear combination</em> of two functions:</p>
 <ol style="list-style-type: decimal">
 <li>The constant function <code>one(Month)</code>
@@ -244,13 +253,13 @@ Figure 14.5: Polishing the parameters of the sinusoid
 <p>You can estimate <span class="math inline">\(C\)</span> by the mid-point of the range (in minutes) of the data. You can estimate <span class="math inline">\(A\)</span> as half the length of the range (that is, half the max minus the min.)</p>
 <p>Make rough but reasonable numeric estimates for <span class="math inline">\(C\)</span> and <span class="math inline">\(A\)</span> from the data. Then, in the sandbox, define the <code>sunset()</code> function using the numerical estimates in the linear combination. Plot your function as a layer on top of the data. (Pipe the <code>gf_point()</code> layer to <code>slice_plot()</code>.)</p>
 <div class="scaffolding">
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="modeling-cycle.html#cb104-1" aria-hidden="true" tabindex="-1"></a>sunset <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(A <span class="sc">+</span> C<span class="sc">*</span><span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>(Month <span class="sc">-</span> offset)<span class="sc">/</span><span class="dv">12</span>), </span>
-<span id="cb104-2"><a href="modeling-cycle.html#cb104-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">A =</span> __your estimate__, </span>
-<span id="cb104-3"><a href="modeling-cycle.html#cb104-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> __your estimate__,</span>
-<span id="cb104-4"><a href="modeling-cycle.html#cb104-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">offset=</span><span class="dv">0</span>)</span>
-<span id="cb104-5"><a href="modeling-cycle.html#cb104-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(Minutes <span class="sc">~</span> Month, <span class="at">data =</span> SunsetLA) <span class="sc">%&gt;%</span></span>
-<span id="cb104-6"><a href="modeling-cycle.html#cb104-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_line</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb104-7"><a href="modeling-cycle.html#cb104-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">sunset</span>(Month) <span class="sc">~</span> Month)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="modeling-cycle.html#cb106-1" aria-hidden="true" tabindex="-1"></a>sunset <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(A <span class="sc">+</span> C<span class="sc">*</span><span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>(Month <span class="sc">-</span> offset)<span class="sc">/</span><span class="dv">12</span>), </span>
+<span id="cb106-2"><a href="modeling-cycle.html#cb106-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">A =</span> __your estimate__, </span>
+<span id="cb106-3"><a href="modeling-cycle.html#cb106-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> __your estimate__,</span>
+<span id="cb106-4"><a href="modeling-cycle.html#cb106-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">offset=</span><span class="dv">0</span>)</span>
+<span id="cb106-5"><a href="modeling-cycle.html#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(Minutes <span class="sc">~</span> Month, <span class="at">data =</span> SunsetLA) <span class="sc">%&gt;%</span></span>
+<span id="cb106-6"><a href="modeling-cycle.html#cb106-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_line</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb106-7"><a href="modeling-cycle.html#cb106-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">sunset</span>(Month) <span class="sc">~</span> Month)</span></code></pre></div>
 <p>The domain for <code>slice_plot()</code> is inherited to that implied by the <code>SunsetLA</code> data. Notice that the input name in <code>slice_plot()</code> corresponds to that established in <code>gf_point()</code>.</p>
 </div>
 <p><strong>Question C</strong> Your <code>sunset()</code> function should be a pretty good match to the data except for one thing. What is that thing?</p>
@@ -264,31 +273,40 @@ Figure 14.5: Polishing the parameters of the sinusoid
 </ol>
 <p>We’re going to fix the problem with <code>sunset()</code> by defining a <em>time offset</em> to use as a reference. For a sine function, a suitable time offset is the value along the horizontal axis when the phenomenon being modeled crosses <span class="math inline">\(C\)</span> with a positive slope. There are 4 such points along the horizontal axis readily identifiable in the data. (They may not be at an integer value of <code>Month</code>.)</p>
 <p><strong>Question D</strong> Which of these is a suitable value for the time offset?</p>
-<p>    0 months<span class="mcanswer"> ︎✘ That’s not a time when the data suggest that <span class="math inline">\(C\)</span> is being crossed. </span>       19 months<span class="mcanswer"> ︎✘ That’s a maximum, not a crossing of <span class="math inline">\(C\)</span>. </span>       21.5 months<span class="mcanswer"> ︎✘ That’s a crossing of <span class="math inline">\(C\)</span>, but not one with a positive slope. </span>       15.5 months<span class="mcanswer"> Correct. This is a good rough value. Since the period is 12 months, you could equally well have said the offset is 3.5 months. </span></p>
+<ol style="list-style-type: lower-roman">
+<li>0 months<span class="mcanswer"> ︎✘ That’s not a time when the data suggest that <span class="math inline">\(C\)</span> is being crossed. </span><br>
+</li>
+<li>19 months<span class="mcanswer"> ︎✘ That’s a maximum, not a crossing of <span class="math inline">\(C\)</span>. </span><br>
+</li>
+<li>21.5 months<span class="mcanswer"> ︎✘ That’s a crossing of <span class="math inline">\(C\)</span>, but not one with a positive slope. </span><br>
+</li>
+<li>15.5 months<span class="mcanswer"> Correct. This is a good rough value. Since the period is 12 months, you could equally well have said the offset is 3.5 months. </span>
+</li>
+</ol>
 <p>In the original scaffolding, the value of <code>offset</code> was zero. Change that to match your answer to the previous question.</p>
 <p>Plot out the modified <code>sunset()</code> function and confirm that it is a much better match to the data than the original (that is, the one without the time offset). You can “tune” your function by tweaking the numerical values of the <span class="math inline">\(A\)</span>, <span class="math inline">\(C\)</span>, and <span class="math inline">\(offset\)</span> parameters until you get a solid match.</p>
 <p>Alternatively, you can use <code>fitModel()</code> to do the tuning for you. Plug in your estimates (a.k.a. “guesses”) for the parameters in place of the <code>___</code> in the following. Then run the code. You’ll see your estimate of the function compared to the result of having the computer refine your estimate. Chances are, the computer does a better job of stringing the function through the data.</p>
 <div class="scaffolding">
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="modeling-cycle.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="do">## rough estimates from graph</span></span>
-<span id="cb105-2"><a href="modeling-cycle.html#cb105-2" aria-hidden="true" tabindex="-1"></a>rough_A <span class="ot">&lt;-</span> __estimated_A__</span>
-<span id="cb105-3"><a href="modeling-cycle.html#cb105-3" aria-hidden="true" tabindex="-1"></a>rough_C <span class="ot">&lt;-</span> __estimated_C__</span>
-<span id="cb105-4"><a href="modeling-cycle.html#cb105-4" aria-hidden="true" tabindex="-1"></a>rough_offset <span class="ot">&lt;-</span> __estimated_offset___</span>
-<span id="cb105-5"><a href="modeling-cycle.html#cb105-5" aria-hidden="true" tabindex="-1"></a>guessed_fun <span class="ot">&lt;-</span></span>
-<span id="cb105-6"><a href="modeling-cycle.html#cb105-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">makeFun</span>(A<span class="sc">*</span><span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>(Month <span class="sc">-</span> offset)<span class="sc">/</span><span class="dv">12</span>) <span class="sc">+</span> C <span class="sc">~</span> Month,</span>
-<span id="cb105-7"><a href="modeling-cycle.html#cb105-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">A  =</span> rough_A, <span class="at">C =</span> rough_D,</span>
-<span id="cb105-8"><a href="modeling-cycle.html#cb105-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">offset =</span> rough_offset)</span>
-<span id="cb105-9"><a href="modeling-cycle.html#cb105-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-10"><a href="modeling-cycle.html#cb105-10" aria-hidden="true" tabindex="-1"></a>tuned_fun <span class="ot">&lt;-</span></span>
-<span id="cb105-11"><a href="modeling-cycle.html#cb105-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fitModel</span>(Minutes <span class="sc">~</span> A<span class="sc">*</span><span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>(Month <span class="sc">-</span> offset)<span class="sc">/</span><span class="dv">12</span>) <span class="sc">+</span> C,</span>
-<span id="cb105-12"><a href="modeling-cycle.html#cb105-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">data  =</span> SunsetLA,</span>
-<span id="cb105-13"><a href="modeling-cycle.html#cb105-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">start =</span> <span class="fu">list</span>(<span class="at">A =</span> rough_A,</span>
-<span id="cb105-14"><a href="modeling-cycle.html#cb105-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">C =</span> rough_C,</span>
-<span id="cb105-15"><a href="modeling-cycle.html#cb105-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">offset =</span> rough_offset) )</span>
-<span id="cb105-16"><a href="modeling-cycle.html#cb105-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-17"><a href="modeling-cycle.html#cb105-17" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(Minutes <span class="sc">~</span> Month, <span class="at">data =</span> SunsetLA) <span class="sc">%&gt;%</span></span>
-<span id="cb105-18"><a href="modeling-cycle.html#cb105-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_line</span>(<span class="at">color  =</span> <span class="st">"dodgerblue"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb105-19"><a href="modeling-cycle.html#cb105-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">tuned_fun</span>(Month) <span class="sc">~</span> Month) <span class="sc">%&gt;%</span></span>
-<span id="cb105-20"><a href="modeling-cycle.html#cb105-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">guessed_fun</span>(Month) <span class="sc">~</span> Month,  <span class="at">color =</span> <span class="st">"orange3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="modeling-cycle.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="do">## rough estimates from graph</span></span>
+<span id="cb107-2"><a href="modeling-cycle.html#cb107-2" aria-hidden="true" tabindex="-1"></a>rough_A <span class="ot">&lt;-</span> __estimated_A__</span>
+<span id="cb107-3"><a href="modeling-cycle.html#cb107-3" aria-hidden="true" tabindex="-1"></a>rough_C <span class="ot">&lt;-</span> __estimated_C__</span>
+<span id="cb107-4"><a href="modeling-cycle.html#cb107-4" aria-hidden="true" tabindex="-1"></a>rough_offset <span class="ot">&lt;-</span> __estimated_offset___</span>
+<span id="cb107-5"><a href="modeling-cycle.html#cb107-5" aria-hidden="true" tabindex="-1"></a>guessed_fun <span class="ot">&lt;-</span></span>
+<span id="cb107-6"><a href="modeling-cycle.html#cb107-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">makeFun</span>(A<span class="sc">*</span><span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>(Month <span class="sc">-</span> offset)<span class="sc">/</span><span class="dv">12</span>) <span class="sc">+</span> C <span class="sc">~</span> Month,</span>
+<span id="cb107-7"><a href="modeling-cycle.html#cb107-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">A  =</span> rough_A, <span class="at">C =</span> rough_D,</span>
+<span id="cb107-8"><a href="modeling-cycle.html#cb107-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">offset =</span> rough_offset)</span>
+<span id="cb107-9"><a href="modeling-cycle.html#cb107-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-10"><a href="modeling-cycle.html#cb107-10" aria-hidden="true" tabindex="-1"></a>tuned_fun <span class="ot">&lt;-</span></span>
+<span id="cb107-11"><a href="modeling-cycle.html#cb107-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fitModel</span>(Minutes <span class="sc">~</span> A<span class="sc">*</span><span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>(Month <span class="sc">-</span> offset)<span class="sc">/</span><span class="dv">12</span>) <span class="sc">+</span> C,</span>
+<span id="cb107-12"><a href="modeling-cycle.html#cb107-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">data  =</span> SunsetLA,</span>
+<span id="cb107-13"><a href="modeling-cycle.html#cb107-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">start =</span> <span class="fu">list</span>(<span class="at">A =</span> rough_A,</span>
+<span id="cb107-14"><a href="modeling-cycle.html#cb107-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">C =</span> rough_C,</span>
+<span id="cb107-15"><a href="modeling-cycle.html#cb107-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">offset =</span> rough_offset) )</span>
+<span id="cb107-16"><a href="modeling-cycle.html#cb107-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-17"><a href="modeling-cycle.html#cb107-17" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(Minutes <span class="sc">~</span> Month, <span class="at">data =</span> SunsetLA) <span class="sc">%&gt;%</span></span>
+<span id="cb107-18"><a href="modeling-cycle.html#cb107-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_line</span>(<span class="at">color  =</span> <span class="st">"dodgerblue"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb107-19"><a href="modeling-cycle.html#cb107-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">tuned_fun</span>(Month) <span class="sc">~</span> Month) <span class="sc">%&gt;%</span></span>
+<span id="cb107-20"><a href="modeling-cycle.html#cb107-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">guessed_fun</span>(Month) <span class="sc">~</span> Month,  <span class="at">color =</span> <span class="st">"orange3"</span>)</span></code></pre></div>
 </div>
 <p>Perhaps you were expecting the tuned sine function to match the data exactly. It does not. One reason for this is that the Earth’s orbit around the Sun is not exactly circular. The sine function is only a <em>model</em> of the phenomenon, good for some purposes and not for others. For a more complete explanation, see <a href="https://en.wikipedia.org/wiki/Sunrise_equation">this article on Wikipedia</a>.</p>
 (<em>Thomas Swalm</em> contributed to this exercise.)
@@ -321,7 +339,7 @@ Figure 14.5: Polishing the parameters of the sinusoid
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-25.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
