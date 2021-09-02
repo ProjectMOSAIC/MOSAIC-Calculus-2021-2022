@@ -79,7 +79,7 @@
 <li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
 <li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
 <li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
-<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Process of modeling</a></li>
+<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Finding parameters for the basic modeling functions</a></li>
 <li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
 <li><a class="active" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
 <li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
@@ -98,6 +98,7 @@
 <li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
 <li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
+<li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
 </ul>
 
         <div class="book-extra">
@@ -116,8 +117,8 @@
 </li>
 </ol>
 </div>
-<p>Very much in the spirit of naming common tasks, the process of turning an output from a function into the corresponding input using a computer program is called <strong><em>zero finding</em></strong>. As is often the case, computer programming often involves reformatting things to fit in a standard format. Here, the standard format is to find the input that corresponds to an output of <em>zero</em>. In reality, as in our snowplow problem, you might not care about an output zero. (The facilities manager in charge of zero miles of road is likely to be out of a job pretty soon!) <span style="float: right; padding-left: 50px;"><a name="1200" href="#1200"><img src="www/icons8-signpost.png" title="Location: 1200" width="12px"></a><span style="color: red; font-size: 6pt;">1200</span></span></p>
-<p>But output zero is just a format. You can easily re-write any function to create a new one where the output you want turns out to be zero. For instance, in our snowplow problem, instead of applying zero-finding to the function <span class="math inline">\(g(x) = 168 x\)</span>, we would construct another, related function <span class="math inline">\(h(x) \equiv g(x) - 400\)</span>. Finding a zero of <span class="math inline">\(h()\)</span> gives us directly an input for <span class="math inline">\(g()\)</span> corresponding to an output of 400.</p>
+<p>Very much in the spirit of naming common tasks, the process of turning an output from a function into the corresponding input is called <strong><em>solving</em></strong>. In high-school mathematics, you may have heard the phrases “solve for <span class="math inline">\(x\)</span>” or “find <span class="math inline">\(x\)</span>.” Generally what was mean can be expressed using functions this way: Given an output <span class="math inline">\(g(x_0)\)</span> find the input <span class="math inline">\(x_0\)</span> that would produce that output.</p>
+<p>In computer programming, “solving” is sometimes called <strong><em>zero finding</em></strong>. As is often the case, computer programming often involves re-arranging things to fit in a standard format. Here, the standard format is to find the input that corresponds to an output of <em>zero</em>. In other words, given only the output <span class="math inline">\(A = g(x_0)\)</span> and not <span class="math inline">\(x_0\)</span> itself, find a value for <span class="math inline">\(x_0\)</span> that satisfies look for the input <span class="math inline">\(x_0\)</span> at which <span class="math inline">\(g(x_0) - A = 0\)</span>.</p>
 <div id="function-inverses" class="section level2" number="10.1">
 <h2>
 <span class="header-section-number">10.1</span> Function inverses<a class="anchor" aria-label="anchor" href="#function-inverses"><i class="fas fa-link"></i></a>
@@ -137,8 +138,8 @@ approximately 400 miles of road that must be plowed following a significant snow
 <p>The task of answering such a question is often called <strong><em>solving</em></strong> a <strong><em>word problem</em></strong>.</p>
 <p>You don’t need calculus to solve this problem, but insofar as the format is familiar to you, it might help to depict how it would be addressed as a modeling task and how to use the model created to guide the mathematical work of getting a numerical answer to the problem.</p>
 <p><strong>Modeling Phase</strong>: The objective is to create a function that represents snow plowing and that will let us answer the question about how much plowing activity is needed. Here’s a function that takes as input <span class="math inline">\(x\)</span> a number of plows and provides as output the number of miles that can be serviced in a day.
-<span class="math display">\[\mbox{miles_plowed}(x) \equiv 7 \times 24 \times x\]</span>
-In reality, “miles plowed” depends on the amount of snow, the safe speed limit of the plows, the number of rest breaks needed by the drivers, how far the snowplow terminus is from the road system, how many cars are parked on the road and the available number of tow trucks, and the day of the week and the time of day. (Remember, there might be other traffic on the road. Plowing at rush hour is bound to be small! And slow down at night!) It seems that textbook “word problems” never mention such issues, having been written in a world where plowing snow is exactly the same as doing simple arithmetic.</p>
+<span class="math display">\[\mbox{miles_plowed}(x) \equiv 7 \ \text{mph} \times 24 \ \text{hours-per-day}\times x\ \text{plows}\]</span>
+In reality, “miles plowed” depends on the amount of snow, the safe speed limit of the plows, the number of rest breaks needed by the drivers, how far the snowplow terminus is from the road system, how many cars are parked on the road and the available number of tow trucks, and the day of the week and the time of day. (Remember, there might be other traffic on the road. Plowing at rush hour is bound to be slow! And the reduced visibility at night calls for extra care!) It seems that textbook “word problems” never mention such issues, having been written in a world where plowing snow is exactly the same as doing simple arithmetic.</p>
 <p>Likely, we’re going to have to use the <strong><em>modeling cycle</em></strong> to end up with a genuinely useful model. Still, we have to start somewhere, so let’s start with <span class="math inline">\(7 \times 24 \times x\)</span>.</p>
 <p>We can use this function to solve the problem: How many plows are needed to get the 400-miles of road serviced in 1 day? It’s a matter of choosing a suitable method for applying the function to guide us to the answer. <span style="float: right; padding-left: 50px;"><a name="1210" href="#1210"><img src="www/icons8-signpost.png" title="Location: 1210" width="12px"></a><span style="color: red; font-size: 6pt;">1210</span></span></p>
 <p>One simple method, which sometimes is called <strong><em>guess and check</em></strong> is to propose some answers and see what happens. Being experts in snow plowing, we know that you can’t have negative or fractional plows, so our guesses for <span class="math inline">\(x\)</span> will be integers. Let’s do this systematically:</p>
@@ -199,19 +200,19 @@ In reality, “miles plowed” depends on the amount of snow, the safe speed lim
 </tbody>
 </table></div>
 <p>The domain of the miles_plowed() function is <span class="math inline">\(x = 0, 1, 2, 3, \ldots\)</span>, so our table covers only a bit of the domain.</p>
-<p>Miles_plowed() might be a genius function, but in using it we have to keep in mind that we don’t actually know the input. What we do know is something in the form of the output: 400 miles. The mathematical operation of <strong><em>solving</em></strong> consists of looking up what we do know in the <strong>output</strong> column of the table, then reading off the corresponding <strong>input</strong> as our answer. Since 400 doesn’t appear in the output column, we’ll look for an interval that includes 400. Of course, that’s the interval from 336 to 504. So the answer will be something bigger than <span class="math inline">\(x=2\)</span> but doesn’t need to be any larger than <span class="math inline">\(x=3\)</span>. You’ve been in the facilities management business for many years, so you know to choose the answer <span class="math inline">\(x=3\)</span>.</p>
+<p>Our purpose in constructing miles_plowed() is not to figure out the output given the input, but to do the opposite: given the output, find the input. The information we have is in the form of the output: 400 miles. The mathematical operation of <strong><em>solving</em></strong> consists of looking up what we do know in the <strong>output</strong> column of the table, then reading off the corresponding <strong>input</strong> as our answer. Since 400 doesn’t appear in the output column, we’ll look for an interval that includes 400. Of course, that’s the interval from 336 to 504. So the answer will be something bigger than <span class="math inline">\(x=2\)</span> but doesn’t need to be any larger than <span class="math inline">\(x=3\)</span>. You’ve been in the facilities management business for many years, so you know to choose the answer <span class="math inline">\(x=3\)</span>.</p>
 <p>If you have a graph of a function, it can be easy to calculate what the input should be for a given output. Just reverse the finger action, looking up the output on the vertical axis, tracing horizontally to the function graph, then reading off the result from the input axis.</p>
-<p>Now let’s write the problem using math notation rather than a table. We’re looking for a value of <span class="math inline">\(x\)</span> such that <span class="math display">\[\mbox{miles_plowed}(x) = 400\]</span> This is an <strong><em>equation</em></strong> as opposed to a <strong><em>function definition</em></strong> which we write with <span class="math inline">\(\equiv\)</span> rather than <span class="math inline">\(=\)</span>. The point of writing equations is often to signal to us that the task is to “solve for <span class="math inline">\(x\)</span>.”</p>
+<p>Now let’s write the problem using math notation rather than a table. We’re looking for a value of <span class="math inline">\(x\)</span> such that <span class="math display">\[\mbox{miles_plowed}(x) = 400\]</span> This is an <strong><em>equation</em></strong> as opposed to a <strong><em>function definition</em></strong>. We write equations with <span class="math inline">\(=\)</span> and definitions with <span class="math inline">\(\equiv\)</span>. The point of writing equations is often to signal to us that the task is to “solve for <span class="math inline">\(x\)</span>.”</p>
 <p>An algebraic solution relies on replacing miles_plowed(<span class="math inline">\(x\)</span>) with the function’s formula and then re-arranging numbers and possibly other symbols until we have an equation of the form <span class="math inline">\(x = \ldots\)</span>. Here, that’s easy:</p>
 <p><span class="math display">\[7 \times 24 \times x = 400\ \ \implies\ \ x = 400/(7\times 24)\]</span></p>
-<p>Do some arithmetic and we find <span class="math inline">\(x = 2.381\)</span>. Apply some common sense and we translate this into “three plows.”</p>
-<p>An industrious facilities manager might go further. “Today there is 400 miles of road. But next year there will be more, although I don’t yet know the exact number. While I’m doing all this math work, I’ll write up a memo so that next year, when I know how much road there will be, I can just to some arithmetic.” This is a good idea, although a mathematician might prefer the word “function” to “memo [to guide] arithmetic.” <span style="float: right; padding-left: 50px;"><a name="1220" href="#1220"><img src="www/icons8-signpost.png" title="Location: 1220" width="12px"></a><span style="color: red; font-size: 6pt;">1220</span></span></p>
-<p>You likely learned how to set up and solve this memo-writing function. The key is to replace 400 with a symbol standing for the number of miles of road. We’ll use <span class="math inline">\(M\)</span>. Then you do the re-arrangement with <span class="math inline">\(M\)</span> in place of 400.</p>
-<p><span class="math display">\[168 x = M\ \ \implies\ \ x = M/168\]</span></p>
+<p>Apply some arithmetic and we find <span class="math inline">\(x = 2.381\)</span>. Apply some common sense and we translate this into “three plows.”</p>
+<p>An industrious facilities manager might go further. “Today there is 400 miles of road. But next year there will be more, although I don’t yet know the exact number. While I’m doing all this math work, I’ll write up a memo with a formula so that next year, when I know how much road there will be, my assistant can find the answer with simple arithmetic.” <span style="float: right; padding-left: 50px;"><a name="1220" href="#1220"><img src="www/icons8-signpost.png" title="Location: 1220" width="12px"></a><span style="color: red; font-size: 6pt;">1220</span></span></p>
+<p>You likely learned how to set up and solve the manager wants to put in her memo. The key is to replace 400 with a symbol standing for the number of miles of road. We’ll use <span class="math inline">\(M\)</span>. Then you do the re-arrangement with <span class="math inline">\(M\)</span> in place of 400.</p>
+<p><span class="math display">\[7 \times 24\, x = M\ \ \implies\ \ x = M/168\]</span></p>
 <p>All that remains is to give a more informative name in place of <span class="math inline">\(x\)</span> and to write it as a proper function: <span class="math inline">\(n_{plows}(M) \equiv M/168\)</span>.</p>
 <p>This process of starting with a function like <span class="math inline">\(\mbox{miles_plowed(x)}\)</span> and transforming it into a function in a more convenient format for the task at hand <span class="math inline">\(n_{plows}(M)\)</span> is called <strong><em>inverting the function</em></strong>.</p>
-<p>High-school algebra emphasizes techniques for inverting functions by moving symbols around. This is great when it can be done, but it’s often impossible in real science and engineering problems. In such cases we use a very powerful, general-purpose method, that is, <strong><em>guess and check</em></strong>.</p>
-<p>Another common strategy for inverting functions that are beyond our reach algebraically is to rely on a specialist to develop the inverse function, give it a name, write it down a formula in mathematical notation or, sometimes more usefully, write a computer program that implements the inverse function’s algorithm. With this strategy, all that’s needed to invert a function is to know the name or formula of the function’s inverse. Here’s a table of such names and formulas, most of which is likely familiar to you.</p>
+<p>High-school algebra emphasizes techniques for inverting functions by moving symbols around. This is great when it can be done, but it’s often impossible in real science and engineering problems. The <strong><em>guess and check</em></strong> method that was used in the snowplow mileage table is very simple. particularly when it’s paired with a process for refining the guess after every check. <strong><em>Newton’s method</em></strong> is one such method, it makes use of the idea of slope functions, particularly those introduced in Block 2.</p>
+<p>Another common strategy for inverting functions that are beyond our own reach algebraically is to rely on a specialist to develop the inverse function, give it a name, write down a formula in mathematical notation or, sometimes more usefully, write a computer program that implements the inverse function’s algorithm. With this strategy, all that’s needed to invert a function is to know the name or formula of the function’s inverse. Here’s a table of such names and formulas, most of which is likely familiar to you.</p>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
 <th>function</th>
@@ -221,7 +222,7 @@ In reality, “miles plowed” depends on the amount of snow, the safe speed lim
 <tr class="odd">
 <td>Exponential: <span class="math inline">\(e^x\)</span>
 </td>
-<td>Logarithm: <span class="math inline">\(\ln(x)\)</span>
+<td>Logarithm (“natural”): <span class="math inline">\(\ln(x)\)</span>
 </td>
 </tr>
 <tr class="even">
@@ -238,7 +239,7 @@ In reality, “miles plowed” depends on the amount of snow, the safe speed lim
 <tr class="even">
 <td>Power law: <span class="math inline">\(x^2\)</span>
 </td>
-<td>Square root: <span class="math inline">\(\sqrt{x}\)</span>
+<td>Square root/power-law: <span class="math inline">\(\sqrt{x} = x^{1/2}\)</span>
 </td>
 </tr>
 <tr class="odd">
@@ -266,7 +267,7 @@ In reality, “miles plowed” depends on the amount of snow, the safe speed lim
 <p>Sometimes the notation <span class="math inline">\(g^{-1}(x)\)</span> is used for "the inverse function of <span class="math inline">\(g()\)</span>. This is potentially confusing, since <span class="math inline">\(g^{-1}(x)\)</span> might reasonable be interpretted as <span class="math inline">\(1/g(x)\)</span> and, in general, those two things are not equal.</p>
 <p>Straight-line (with non-zero slope), exponential (<span class="math inline">\(e^{kt}\)</span> where <span class="math inline">\(k\neq 0\)</span>), and logarithm functions aways have inverse functions. For power-law and sinusoid functions, there can be several (or many) different inverse functions. We’ll get to this when we need to. <span style="float: right; padding-left: 50px;"><a name="1230" href="#1230"><img src="www/icons8-signpost.png" title="Location: 1230" width="12px"></a><span style="color: red; font-size: 6pt;">1230</span></span></p>
 <p>There’s an easy graphical test for whether there is a unique inverse function or not. Draw the graph, then see if any horizontal line touches the graph of the function in more than one place. If so, there is no unique inverse function.</p>
-<p><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-1.png" width="33%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-2.png" width="33%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-3.png" width="33%" style="display: block; margin: auto;"></p>
+<p><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/Fun-3a2-1-3.png" width="50%" style="display: block; margin: auto;"></p>
 <hr>
 <!-- the "What 3 words?" problem from Fall 2020
 <details>
@@ -329,20 +330,20 @@ Finally, a note about discontinuity. The location `year.nibbles.glasses` is in U
 </span></summary><p>The graphs of functions and their inverses are related by a flip around the <strong><em>line of identity</em></strong>, shown in green in the following graph.</p>
 <div class="inline-figure"><img src="CalcZ-notes_files/figure-html/if1-1-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>The black curve is the graph of <span class="math inline">\(e^x\)</span>.</p>
-<p><strong>Question A</strong> Is the red curve the graph of a function? (Hint: Does it pass the vertical line test?)</p>
+<p><strong>Question A</strong> Is the magenta curve the graph of a function? (Hint: Does it pass the vertical line test?)</p>
 <ol style="list-style-type: lower-roman">
 <li>Yes<span class="mcanswer"> Correct. </span><br>
 </li>
-<li>No<span class="mcanswer"> ︎✘ The red curve has a vertical asymptote at <span class="math inline">\(x=0\)</span>, but since it never reaches that asymptote, it passes the vertical line test. </span>
+<li>No<span class="mcanswer"> ︎✘ The magenta curve has a vertical asymptote at <span class="math inline">\(x=0\)</span>, but since it never reaches that asymptote, it passes the vertical line test. </span>
 </li>
 </ol>
-<p><strong>Question B</strong> Which of these functions is graphed in red?</p>
+<p><strong>Question B</strong> Which of these functions is graphed in magenta?</p>
 <ol style="list-style-type: lower-roman">
 <li>
 <span class="math inline">\(1/x\)</span><span class="mcanswer"> ︎✘ </span><br>
 </li>
 <li>
-<span class="math inline">\(\log(x)\)</span><span class="mcanswer"> Excellent! </span><br>
+<span class="math inline">\(\ln(x)\)</span><span class="mcanswer"> Excellent! </span><br>
 </li>
 <li>
 <span class="math inline">\(\sqrt{x}\)</span><span class="mcanswer"> ︎✘ </span><br>
@@ -355,13 +356,13 @@ Finally, a note about discontinuity. The location `year.nibbles.glasses` is in U
 </li>
 </ol></details>
 </div>
-<div id="find-x" class="section level2" number="10.2">
+<div id="solving-graphically" class="section level2" number="10.2">
 <h2>
-<span class="header-section-number">10.2</span> Find x<a class="anchor" aria-label="anchor" href="#find-x"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.2</span> Solving graphically<a class="anchor" aria-label="anchor" href="#solving-graphically"><i class="fas fa-link"></i></a>
 </h2>
 <p>Most readers are familiar with the sort of high-school math problem where you are presented with an equation written in terms of <span class="math inline">\(x\)</span> and asked to “find <span class="math inline">\(x\)</span>” or “find the solution.” For instance, the problem might be</p>
 <p><span class="math display">\[\text{Let}\ \ 3x - 2 = 7 x^2 .\ \ \  \text{Find} \ x .\]</span></p>
-<p>The above problem falls into one class of such changes, the class of “finding roots of polynomials.” Here’s another problem in that class:</p>
+<p>The above problem falls into one class of such tasks, the class of “finding roots of polynomials.” Here’s another problem in that same class:</p>
 <blockquote>
 <p><em>An investment club decided to buy
 $9000 worth of stock with each
@@ -369,11 +370,11 @@ member paying an equal share. But
 two members left the club, and the
 remaining members had to pay $50
 more apiece. How many members
-are in the club?</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;This translates to an equation, where &lt;span class="math inline"&gt;\(x\)&lt;/span&gt; is the number of members: &lt;span class="math display"&gt;\[(x-2)(9000/x + 50) = 9000\]&lt;/span&gt; &lt;a href="https://www.ams.org/notices/201005/rtx100500608p.pdf"&gt;Source&lt;/a&gt;&lt;/p&gt;'><sup>16</sup></a></p>
+are in the club?</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;This translates to an equation, where &lt;span class="math inline"&gt;\(x\)&lt;/span&gt; is the number of members: &lt;span class="math display"&gt;\[(x-2)(9000/x + 50) = 9000\]&lt;/span&gt; &lt;a href="https://www.ams.org/notices/201005/rtx100500608p.pdf"&gt;Source&lt;/a&gt;&lt;/p&gt;'><sup>15</sup></a></p>
 </blockquote>
-<p>Let’s pose the problem in terms of a function, money_raised<span class="math inline">\((x)\)</span> where <span class="math inline">\(x\)</span> is the original number of members in the investment club. Originally, the members were each going to pay <span class="math inline">\(9000/x\)</span>. But after the drop outs, each of the remaining members has to pay <span class="math inline">\(9000/x + 50\)</span>. Since there are <span class="math inline">\(x-2\)</span> remaining members, the total amount raised is <span class="math display">\[\text{money_raised}(x) \equiv (x-2) \left(\frac{9000}{x} + 50\right)\]</span>
+<p>Let’s pose the problem in terms of a function, money_raised<span class="math inline">\((x)\)</span> where <span class="math inline">\(x\)</span> is the original number of members in the investment club. Originally, the members were each going to pay <span class="math inline">\(9000/x\)</span>. But after the two people drop out, each of the remaining members has to pay <span class="math inline">\(9000/x + 50\)</span>. Since there are <span class="math inline">\(x-2\)</span> remaining members, the total amount raised is <span class="math display">\[\text{money_raised}(x) \equiv (x-2) \left(\frac{9000}{x} + 50\right)\]</span>
 Figure <a href="#fig:money-raised"><strong>??</strong></a> graphs <span class="math inline">\(\text{money_raised}(x)\)</span></p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">money_raised</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fl">9000</span><span class="op">/</span><span class="va">x</span> <span class="op">+</span> <span class="fl">50</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">money_raised</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="CalcZ-notes_files/figure-html/money-raised-1.png" width="90%" style="display: block; margin: auto;">
@@ -395,8 +396,34 @@ The function tells us, for any number of members <span class="math inline">\(x\)
 </li>
 <li><p>There is always an algorithm to that can be applied to find a solution to any inverse problem. But this algorithm is rarely a simple formula. Not having a formula, we play a name game. For instance, the inverse of the square function is called the “square root,” but there is no simple formula for finding the square root of a number. Similarly, the inverse to <span class="math inline">\(\sin(x)\)</span> is called <span class="math inline">\(\arcsin(x)\)</span>, but there is no simple formula for <span class="math inline">\(\arcsin()\)</span>. Almost invariably we use such inverse functions not by doing arithmetic to calculate their output, but by using a calculator button or a software function that carries out the algorithm.</p></li>
 </ol>
-<p>For now, it suffices that you can compute the inverse to any function (over some sub-domain where the function is monotonically increasing or decreasing) by graphing the function and then reading from the vertical axis to the horizontal. As we encounter more concepts from calculus and computing, we’ll develop additional methods for evaluating an inverse function.</p>
-
+<p>For now, it suffices that you can compute the inverse to any function (over some sub-domain where the function is monotonically increasing or decreasing) by graphing the function and then reading from the vertical axis to the horizontal. As we encounter more concepts from calculus and computing, we’ll develop additional methods for evaluating an inverse function without first having to construct that function.</p>
+</div>
+<div id="zero-finding" class="section level2" number="10.3">
+<h2>
+<span class="header-section-number">10.3</span> Zero-finding<a class="anchor" aria-label="anchor" href="#zero-finding"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong><em>Zero-finding</em></strong> is the name of a process for finding a function input that produces a function output of zero. Usually, zero isn’t a an output value of interest. (If the snow-plow manager asked her assistant to figure out how many plows are needed to cover 0 miles in one day, the assistant would wonder if someone has lost their mind.)</p>
+<p>However, any solving problem can be translated into a zero-finding problem. For example, if the problem is to solve <span class="math inline">\(g(x) = M\)</span>, we can equally well state the problem as finding a zero of <span class="math inline">\(h(x) \equiv g(x) - M\)</span>.</p>
+<div class="why">
+<p>Why would anyone want to do this?</p>
+<p>Often, mathematical algorithms in computer languages are written to accept a <strong><em>function</em></strong> as an input rather than an <strong><em>equation</em></strong>. For instance the R/mosaic operator <code>findZeros()</code> takes as it’s primary argument a tilde expression describing a function.</p>
+</div>
+<p>For example, the investment-club problem given earlier in this chapter can be re-stated as a zero-finding problem.</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">money_raised</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fl">9000</span><span class="op">/</span><span class="va">x</span> <span class="op">+</span> <span class="fl">50</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
+<span class="fu">findZeros</span><span class="op">(</span><span class="fu">money_raised</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fl">9000</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
+<pre><code>##          x
+## 1 -18.0000
+## 2  -0.0001
+## 3  20.0000</code></pre>
+<p>It turns out that there are three zeros for `money_raised(x) - 9000$. Only one of them has any sensible interpretation as the number of investors in the club.</p>
+<details><summary><strong>Exercise XX.XX</strong>: <span><a name="File:%20Exercises/Fun/titmouse-throw-sofa.Rmd" href="#1kZXxT"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/titmouse-throw-sofa.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">1kZXxT</span>
+</span></summary><p>Consider the problem of finding a value of <span class="math inline">\(x\)</span> such that <span class="math inline">\(cos(x) = x^2\)</span>. This is easy to do graphically: find the input where the graphs of <span class="math inline">\(cos(x)\)</span> and <span class="math inline">\(x^2\)</span> cross.</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-185-1.png" width="90%" style="display: block; margin: auto;">
+In a sandbox, create a function <span class="math inline">\(h(x)\)</span> that is zero when the equation is satisfied. Pass the tilde expression <code>h(x) ~ x</code> to the R/mosaic <code>findZeros()</code> operator to find a precise numerical answer to the problem:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="function-inverses-and-solving.html#cb57-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( __define_your_h_function__ )</span>
+<span id="cb57-2"><a href="function-inverses-and-solving.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">findZeros</span>(<span class="fu">h</span>(x) <span class="sc">~</span> x)</span></code></pre></div>
+</details>
 </div>
 </div>
 
@@ -408,7 +435,8 @@ The function tells us, for any number of members <span class="math inline">\(x\)
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#function-inverses-and-solving"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
 <li><a class="nav-link" href="#function-inverses"><span class="header-section-number">10.1</span> Function inverses</a></li>
-<li><a class="nav-link" href="#find-x"><span class="header-section-number">10.2</span> Find x</a></li>
+<li><a class="nav-link" href="#solving-graphically"><span class="header-section-number">10.2</span> Solving graphically</a></li>
+<li><a class="nav-link" href="#zero-finding"><span class="header-section-number">10.3</span> Zero-finding</a></li>
 </ul>
 
       <div class="book-extra">
@@ -426,7 +454,7 @@ The function tells us, for any number of members <span class="math inline">\(x\)
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-27.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-09-01.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

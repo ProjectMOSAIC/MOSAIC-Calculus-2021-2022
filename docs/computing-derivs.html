@@ -79,7 +79,7 @@
 <li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
 <li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
 <li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
-<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Process of modeling</a></li>
+<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Finding parameters for the basic modeling functions</a></li>
 <li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
 <li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
 <li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
@@ -98,6 +98,7 @@
 <li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
 <li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
+<li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
 </ul>
 
         <div class="book-extra">
@@ -125,26 +126,26 @@
 <p>When mathematics is done with paper and pencil, “making a function” is a matter of writing a formula, such as <span class="math inline">\(x^2 \sin(x) + 3\)</span> and sometimes giving a name to the formula, e.g. <span class="math inline">\(h(x) \equiv x^2 \sin(x) + 3\)</span>. We are essentially writing something down that will make sense when viewed by another person trained in the conventions of mathematical notation. <span style="float: right; padding-left: 50px;"><a name="2170" href="#2170"><img src="www/icons8-signpost.png" title="Location: 2170" width="12px"></a><span style="color: red; font-size: 6pt;">2170</span></span></p>
 <p>For a computer, on the other hand, a function is a definite kind of thing. We “make a function” by creating that kind of thing and, usually, giving it a name. We use (or “evaluate”) a function by using a definite syntax, which in R involves the use of parentheses, for instance <em>name</em><code>(</code><em>input</em><code>)</code>. <span style="float: right; padding-left: 50px;"><a name="2175" href="#2175"><img src="www/icons8-signpost.png" title="Location: 2175" width="12px"></a><span style="color: red; font-size: 6pt;">2175</span></span></p>
 <p>The computer language itself provides specific means to define a new function. In R/mosaic, you first construct a tilde expression naming the function inputs (right side of the tilde) and specifying the algorithm of that function (left side of the tilde), as with this formula:</p>
-<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f_description</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">~</span> <span class="va">x</span>   <span class="co"># a tilde expression</span></code></pre></div>
 <p>On its own, <code>f_description</code> cannot be used like a function because it was constructed as something else: a tilde expression. Trying to use <code>f_description</code> in the way one uses a function produces an error.</p>
 <pre><code>f_description(2)
  Error in f_description(2): could not find function "f_description"</code></pre>
 <p>In between the tilde expression and the final result—a function—is software that translates from tilde-expressions into functions:</p>
-<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">f_description</span><span class="op">)</span></code></pre></div>
 <p>The new creation, <code>f()</code> can now be used like any other function, e.g.</p>
-<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 6.63719</code></pre>
 <p>Down deep inside, <code>makeFun()</code> uses a more basic function-creation syntax which looks like this</p>
-<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fl">3</span><span class="op">}</span></code></pre></div>
 <pre><code>## function(x) {x^2 * sin(x) + 3}</code></pre>
 <p>You can see all the same information that was in the tilde description, just arranged differently.</p>
 <p>Almost every computer language provides something like <code>function</code>. There workings are advanced technology and essentially impossible to describe in much the same way as the workings of a transistor or a COVID vaccine are known only to specialists. <span style="float: right; padding-left: 50px;"><a name="2180" href="#2180"><img src="www/icons8-signpost.png" title="Location: 2180" width="12px"></a><span style="color: red; font-size: 6pt;">2180</span></span></p>
 <p>In the same spirit as <code>makeFun()</code>, which translates a tilde-expression into the corresponding function, in R/mosaic you have <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> which takes a tilde expression and translates it into the derivative of the function described. For example:</p>
-<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span><span class="va">f_description</span><span class="op">)</span></code></pre></div>
 <pre><code>## function (x) 
 ## 2 * x * sin(x) + x^2 * cos(x)</code></pre>
@@ -304,11 +305,11 @@
 </h2>
 <p>You can use the definition of the slope function <span class="math display">\[{\cal D}_x f(x) = \frac{f(x+0.1) - f(x)}{0.1}\]</span>
 to create an approximation to the derivative of any function. Like this:</p>
-<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">x</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">x</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span><span class="op">-</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="va">dg</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
 <p>Whenever you calculate a derivative function, you should check against mistakes or other sources of error. For instance, whenever the derivative is zero, the original function should have an instantaneous slope of zero. Figure <a href="computing-derivs.html#fig:check-dg">19.1</a> shows a suitable plot for supporting this sort of check.</p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">zeros_of_dg</span> <span class="op">&lt;-</span> <span class="fu">findZeros</span><span class="op">(</span><span class="fu">dg</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, npts<span class="op">=</span><span class="fl">500</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">dg</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"tan"</span>, npts<span class="op">=</span><span class="fl">500</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -333,15 +334,15 @@ Figure 19.1: A check that zero-crossings (blue) of the derivative function (tan)
 <details><summary><strong>Exercise 19.2</strong>: <span><a name="File:%20Exercises/Diff/fly-speak-canoe.Rmd" href="#K05LrF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fly-speak-canoe.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">K05LrF</span>
 </span></summary><p>As you know, given a function <span class="math inline">\(g(x)\)</span> it’s easy to construct a new function <span class="math inline">\({\cal D}_x g(x)\)</span> that will be an approximation to the derivative <span class="math inline">\(\partial_x g(x)\)</span>. The approximation function, which we call the slope function, can be <span class="math display">\[{\cal D}_x g(x) \equiv \frac{g(x + 0.1) - g(x)}{0.1}\]</span></p>
 <p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and use <code>makeFun()</code> to create a function <span class="math inline">\(g(x) \equiv \sin(x)\)</span> and another that will be the slope function, called it <code>slope_of_g()</code>.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="computing-derivs.html#cb161-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sin</span>(x) <span class="sc">~</span> x)</span>
-<span id="cb161-2"><a href="computing-derivs.html#cb161-2" aria-hidden="true" tabindex="-1"></a>slope_of_g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( _your_tilde_expression_here )</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="computing-derivs.html#cb160-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sin</span>(x) <span class="sc">~</span> x)</span>
+<span id="cb160-2"><a href="computing-derivs.html#cb160-2" aria-hidden="true" tabindex="-1"></a>slope_of_g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( _your_tilde_expression_here )</span></code></pre></div>
 <p><strong>Question A</strong> What’s the value of <code>slope_of_g(1)</code>?</p>
 <p>    0.3749<span class="mcanswer"> ︎✘ </span>       0.4973<span class="mcanswer"> Good. </span>       1.3749<span class="mcanswer"> ︎✘ </span>       1.4973<span class="mcanswer"> ︎✘ </span></p>
 <p>Using your sandbox, plot both <code>g()</code> and <code>slope_of_g()</code> (in blue) on a domain <span class="math inline">\(-5 \leq x \leq 5\)</span>. This can be done with <code>slicePlot()</code> in the following way:</p>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">slope_of_g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-247-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> Which of these statements best describes the graph of <span class="math inline">\(g()\)</span> compared to <code>slope_of_g()</code>?</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-254-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> Which of these statements best describes the graph of <span class="math inline">\(g()\)</span> compared to <code>slope_of_g()</code>?</p>
 <ol style="list-style-type: lower-roman">
 <li>
 <code>slope_of_g()</code> is shifted left by about <span class="math inline">\(\pi/2\)</span> compared to <code>g(x)</code>.<span class="mcanswer"> Good. </span><br>
@@ -360,15 +361,15 @@ Figure 19.1: A check that zero-crossings (blue) of the derivative function (tan)
 </ol></details><details><summary><strong>Exercise 19.3</strong>: <span><a name="File:%20Exercises/Diff/wolf-talk-kayak.Rmd" href="#n78LrF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/wolf-talk-kayak.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">n78LrF</span>
 </span></summary><p>As you know, given a function <span class="math inline">\(g(x)\)</span> it’s easy to construct a new function <span class="math inline">\({\cal D}_x g(x)\)</span> that will be an approximation to the derivative <span class="math inline">\(\partial_x g(x)\)</span>. The approximation function, which we call the slope function, can be <span class="math display">\[{\cal D}_x h(x) \equiv \frac{h(x + 0.1) - h(x)}{0.1}\]</span></p>
 <p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and use <code>makeFun()</code> to create a function <span class="math inline">\(h(x) \equiv e^x\)</span> and another function called <code>slope_of_h()</code> using the definition of <span class="math inline">\({\cal D} h(x)\)</span>.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="computing-derivs.html#cb163-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(x) <span class="sc">~</span> x)</span>
-<span id="cb163-2"><a href="computing-derivs.html#cb163-2" aria-hidden="true" tabindex="-1"></a>slope_of_h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( _your_tilde_expression_here_ )</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="computing-derivs.html#cb162-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(x) <span class="sc">~</span> x)</span>
+<span id="cb162-2"><a href="computing-derivs.html#cb162-2" aria-hidden="true" tabindex="-1"></a>slope_of_h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( _your_tilde_expression_here_ )</span></code></pre></div>
 <p><strong>Question A</strong> What’s the value of <code>slope_of_h(1)</code>?</p>
 <p>    0.3749<span class="mcanswer"> ︎✘ </span>       0.7183<span class="mcanswer"> ︎✘ </span>       1.3749<span class="mcanswer"> ︎✘ </span>       1.7183<span class="mcanswer"> ︎✘ </span>       2.7183<span class="mcanswer"> Right! </span></p>
 <p>Using your sandbox, plot both <code>h()</code> and <code>slope_of_h()</code> (in blue) on a domain <span class="math inline">\(-1 \leq x \leq 1\)</span>. This can be done with <code>slicePlot()</code> in the following way:</p>
-<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu">h</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">slope_of_h</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-248-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> Which of these statements best describes the graph of <span class="math inline">\(h()\)</span> compared to <code>slope_of_h()</code>?</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-255-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> Which of these statements best describes the graph of <span class="math inline">\(h()\)</span> compared to <code>slope_of_h()</code>?</p>
 <ol style="list-style-type: lower-roman">
 <li>
 <code>slope_of_h()</code> is negative compared to <code>h(x)</code>.<span class="mcanswer"> Good. </span><br>
@@ -389,7 +390,7 @@ Figure 19.1: A check that zero-crossings (blue) of the derivative function (tan)
 <span class="header-section-number">19.3</span> The slope-function operator<a class="anchor" aria-label="anchor" href="#the-slope-function-operator"><i class="fas fa-link"></i></a>
 </h2>
 <p>Take a look at the statement we used to construct the slope function of <code>g()</code>:</p>
-<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dg</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
 <p>There’s almost nothing about this statement that has anything to do with the specifics of how we defined <code>g()</code>; we could have used any <span class="math inline">\(g()\)</span>. The “almost” in the previous sentence is about the choice of 0.1, which isn’t guaranteed to be small enough. <span style="float: right; padding-left: 50px;"><a name="2200" href="#2200"><img src="www/icons8-signpost.png" title="Location: 2200" width="12px"></a><span style="color: red; font-size: 6pt;">2200</span></span></p>
 <p>It would be convenient to have an <strong><em>operator</em></strong> that automates the process of constructing a slope function. This is a programming task and in that sense beyond the scope of this course. Still, it’s a good idea to get in the habit of reading programming code. So here goes … creating a <code>slopeFun()</code> operator: <span style="float: right; padding-left: 50px;"><a name="2205" href="#2205"><img src="www/icons8-signpost.png" title="Location: 2205" width="12px"></a><span style="color: red; font-size: 6pt;">2205</span></span></p>
@@ -400,14 +401,14 @@ Figure 19.1: A check that zero-crossings (blue) of the derivative function (tan)
 <li>There’s the matter of whether 0.1 is small enough. So let’s use an <code>h</code> argument in place of 0.1 that we can change when needed.</li>
 </ol>
 <p>Putting this together, here is a <code>slopeFun()</code> operator that takes a tilde expression (like <code>makeFun()</code> and <code>slice_plot()</code>) and produces a new mathematical function that is the slope function for the mathematical function described in the tilde expression. (There are a couple of R programming elements in <code>slopeFun()</code> that you aren’t expected to understand completely. But do try reading the code to see what sense you can make of it.)</p>
-<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">slopeFun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">tilde</span>, <span class="va">h</span><span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">{</span> <span class="co">#two arguments, one with a default value</span>
    <span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">tilde</span><span class="op">)</span>  <span class="co"># Turn the tilde expression into a function</span>
    
    <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">h</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">x</span>, h<span class="op">=</span><span class="va">h</span><span class="op">)</span> <span class="co"># just like before, with h instead of 0.1</span>
 <span class="op">}</span></code></pre></div>
 <p>Figure <a href="computing-derivs.html#fig:slope-quick-check">19.2</a> provides a quick check of whether the function works and whether <code>h=0.1</code> is small enough. Since the tan curve runs right through the middle of the black curve, we have a good indication that <span class="math inline">\(h = 0.001\)</span> is just as good as <span class="math inline">\(h = 0.00000000001\)</span>.</p>
-<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dx_sin</span> <span class="op">&lt;-</span> <span class="fu">slopeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">dx_sin</span><span class="op">(</span><span class="va">x</span>, h <span class="op">=</span> <span class="fl">0.00000000001</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">dx_sin</span><span class="op">(</span><span class="va">x</span>, h<span class="op">=</span><span class="fl">0.001</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"tan"</span><span class="op">)</span></code></pre></div>
@@ -485,27 +486,27 @@ It’s accepted that the limit of a sum is the sum of the limits. Also, the limi
 <p>Let’s take on the exponential function <span class="math inline">\(h(x) \equiv e^x\)</span>:</p>
 <p><span class="math display">\[\partial_x e^x = \lim_{h\rightarrow 0}\frac{e^{x+h} - e^x}{h} = e^x \lim_{h\rightarrow 0}\left[\frac{e^h - 1}{h}\right]\]</span>
 At a glance, it can be hard to know what to make of <span class="math inline">\(\lim_{h\rightarrow 0} (e^h-1)/h\)</span>. Setting <span class="math inline">\(h=0\)</span> in the denominator is perfectly legitimate and gives <span class="math inline">\(e^0 - 1 = 0\)</span>. But that still leaves the <span class="math inline">\(h\)</span> in the numerator. Still, for any non-zero <span class="math inline">\(h\)</span>, the division is legitimate, so let’s see what happens as <span class="math inline">\(h \rightarrow 0\)</span>:</p>
-<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">h</span><span class="op">)</span>
 <span class="fu">f</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1.051709</code></pre>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1.005017</code></pre>
-<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1.0005</code></pre>
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.0001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1.00005</code></pre>
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.0000001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.0000000001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Setting <span class="math inline">\(h\)</span> exactly to zero, however, won’t work: it produces <code>NaN</code>.</p>
-<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
 <p>Since <span class="math inline">\(\lim_{h\rightarrow 0} (e^h-1)/h = 1\)</span>, we have</p>
@@ -521,26 +522,26 @@ At a glance, it can be hard to know what to make of <span class="math inline">\(
 \ \\
 = -\lim_{h\rightarrow 0}\frac{1}{x^2 + hx}\]</span>
 So long as <span class="math inline">\(x \neq 0\)</span>, there is no divide-by-zero problem, but let’s see what the computer thinks:</p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">h</span><span class="op">*</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">h</span>, x<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
 <span class="fu">g</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.00990099</code></pre>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.00999001</code></pre>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.009999</code></pre>
-<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.0001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.0099999</code></pre>
-<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.0000001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.01</code></pre>
-<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.0000000001</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.01</code></pre>
-<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.01</code></pre>
 <p>Setting <span class="math inline">\(h\)</span> to zero in the last expression gives another differentiation rule:</p>
@@ -667,7 +668,7 @@ Figure 19.3: A diagram showing how differentiation connects the pattern-book fun
 </details><details><summary><strong>Exercise 19.6</strong>: <span><a name="File:%20Exercises/Diff/finch-trim-kayak.Rmd" href="#ykels"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/finch-trim-kayak.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ykels</span>
 </span></summary><div class="scaffolding">
 <p>The R command given below defines a new operator named <code>Diff()</code> which implements the differencing operator <span class="math inline">\(\cal D_x\)</span> for functions with one input.</p>
-<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Diff</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">f</span>, <span class="va">h</span><span class="op">=</span><span class="fl">0.001</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
     <span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">h</span><span class="op">)</span> <span class="op">-</span> <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="va">h</span>
@@ -675,21 +676,21 @@ Figure 19.3: A diagram showing how differentiation connects the pattern-book fun
 <span class="op">}</span></code></pre></div>
 <p>Open an R sandbox and copy the definition of <code>Diff()</code> into it.</p>
 <p>As an example of the use of <code>Diff()</code>, here is some more R code that defines a function <code>f()</code> and finds <span class="math inline">\({\cal D}_x f()\)</span>, calling it <code>D_f()</code>. Then a slice plot is made of both <code>f()</code> and <code>D_f()</code>. (Remember to paste this code under the definition of <code>Diff()</code> in your sandbox.)</p>
-<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span>   <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="va">D_f</span> <span class="op">&lt;-</span> <span class="fu">Diff</span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">D_f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color <span class="op">=</span> <span class="st">"orange3"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-250-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-257-1.png" width="90%" style="display: block; margin: auto;"></div>
 </div>
 <p>For each of the following functions, write a brief comparison of the function to it’s differenced version. You can combine phrases such as “same shape,” “different shape. larger in amplitude,” “smaller in amplitude,” “same period,” “shorter period,” “longer period,” or whatever seems appropriate. For instance, for the original example in the sandbox, a reasonable comparison might be, “f() is concave down but Diff(f) is concave up.”</p>
-<p><strong>Essay question tmp-6</strong>: A. For the function <span class="math inline">\(f(x) \equiv 3 x\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
-<p><strong>Essay question tmp-7</strong>: B. For the function <span class="math inline">\(f(x) \equiv x^2\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
-<p><strong>Essay question tmp-8</strong>: C. For the function <span class="math inline">\(f(x) \equiv \exp(x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
-<p><strong>Essay question tmp-9</strong>: D. For the function <span class="math inline">\(f(x) \equiv \exp(-0.3 x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
-<p><strong>Essay question tmp-10</strong>: E. For the function <span class="math inline">\(f(x) \equiv \sin(x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
-<p><strong>Essay question tmp-11</strong>: F. For the function <span class="math inline">\(f(x) \equiv \sin(2 \pi x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>).</p>
-<p><strong>Essay question tmp-12</strong>: G. For the function <span class="math inline">\(f(x) \equiv \sin(\frac{2 \pi}{20} x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>).</p>
+<p><strong>Essay question tmp-5</strong>: A. For the function <span class="math inline">\(f(x) \equiv 3 x\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
+<p><strong>Essay question tmp-6</strong>: B. For the function <span class="math inline">\(f(x) \equiv x^2\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
+<p><strong>Essay question tmp-7</strong>: C. For the function <span class="math inline">\(f(x) \equiv \exp(x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
+<p><strong>Essay question tmp-8</strong>: D. For the function <span class="math inline">\(f(x) \equiv \exp(-0.3 x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
+<p><strong>Essay question tmp-9</strong>: E. For the function <span class="math inline">\(f(x) \equiv \sin(x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>.</p>
+<p><strong>Essay question tmp-10</strong>: F. For the function <span class="math inline">\(f(x) \equiv \sin(2 \pi x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>).</p>
+<p><strong>Essay question tmp-11</strong>: G. For the function <span class="math inline">\(f(x) \equiv \sin(\frac{2 \pi}{20} x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\cal D_x f\)</span>).</p>
 </details>
 </div>
 </div>
@@ -721,7 +722,7 @@ Figure 19.3: A diagram showing how differentiation connects the pattern-book fun
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-08-27.</p>
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-09-01.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

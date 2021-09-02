@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 26 Polynomials | CalcZ Student Notes</title>
+<meta name="author" content="Daniel Kaplan">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
+    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+    for (let popover of popovers){
+      const div = document.createElement('div');
+      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+      div.innerHTML = popover.getAttribute('data-content');
+
+      // Will this work with TeX on its own line?
+      var has_math = div.querySelector("span.math");
+      if (has_math) {
+        document.body.appendChild(div);
+      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+      	MathJax.Hub.Queue(function(){
+          popover.setAttribute('data-content', div.innerHTML);
+      	})
+      }
+    }
+    </script>
+</head>
+<body>
+<span class="math inline">
+    \(\newcommand{\line}{\text{line}}
+    \newcommand{\hump}{\text{hump}}
+    \newcommand{\sigmoid}{\text{sigmoid}}
+    \newcommand{\recip}{\text{recip}}
+    \newcommand{\diff}[1]{{\cal D}_#1}
+    \newcommand{\pnorm}{\text{pnorm}}
+    \newcommand{\dnorm}{\text{dnorm}}
+    \newcommand{\CC}[1]{\color{#648fff}{#1}}
+    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
+    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
+    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
+    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+    </span>
+
+    <!-- see https://www.homepages.ucl.ac.uk/~ucahmto/elearning/2019/09/14/bookdown.html-->
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">CalcZ Student Notes</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
+<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
+<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
+<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
+<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
+<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
+<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
+<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
+<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Finding parameters for the basic modeling functions</a></li>
+<li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
+<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
+<li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
+<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">12</span> Functions with multiple inputs</a></li>
+<li><a class="" href="fun-piecewise.html"><span class="header-section-number">13</span> Piecewise functions</a></li>
+<li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
+<li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
+<li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
+<li class="book-part">Block 2: Differentiation</li>
+<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivs of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
+<li><a class="active" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="Not%20available">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="polynomials" class="section level1" number="26">
+<h1>
+<span class="header-section-number">26</span> Polynomials<a class="anchor" aria-label="anchor" href="#polynomials"><i class="fas fa-link"></i></a>
+</h1>
+<p>A big part of the high-school algebra curriculum is about polynomials.
+In some ways, this is appropriate since polynomials played an outsized
+part in the historical development of mathematical theory. Indeed, the
+so-called “Fundamental theorem of algebra” is about
+polynomials.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The fundamental theorem says that an order-n
+polynomial has n roots (including multiplicities).&lt;/p&gt;"><sup>31</sup></a></p>
+<p>For modelers, polynomials are a mixed bag. They are very widely used in modeling. Sometimes this is entirely appropriate, for instance the low-order polynomials that are the subject of Chapter <a href="local-approximations.html#local-approximations">25</a>. The problems come when high-order
+polynomials are selected for modeling purposes. Building a reliable model with high-order polynomials requires a deep knowledge of mathematics, and introduces serious potential pitfalls. Modern professional modelers learn the alternatives to high-order polynomials, but newcomers often draw on their experience in high-school and give unwarranted credence to polynomials. This chapter attempts to guide you to the ways you are likely to see polynomials in your future work and to help you avoid them when better alternatives are available.</p>
+<div id="polynomial-basics" class="section level2" number="26.1">
+<h2>
+<span class="header-section-number">26.1</span> Basics of polynomials<a class="anchor" aria-label="anchor" href="#polynomial-basics"><i class="fas fa-link"></i></a>
+</h2>
+<p>As you know, a polynomial is a <strong><em>linear combination</em></strong> of a particular class of functions: power-law functions with non-negative, integer exponents: 1, 2, 3, …. The individual functions are called <strong><em>monomials</em></strong>, a word use that echoes the construction of chemical polymers out of monomers; for instance, the material <em>polyester</em> is constructed by chaining together a basic chemical unit called an <a href="https://en.wikipedia.org/wiki/Ester"><em>ester</em></a><em>.</em></p>
+<p>In one variable, say <span class="math inline">\(x\)</span>, the monomials are
+<span class="math inline">\(x^1, x^2, x^3\)</span>, and so on. (There’s also <span class="math inline">\(x^0\)</span>, but that’s better thought of as the constant function.) An <strong><em>n-th order</em></strong> polynomial has monomials up to exponent <span class="math inline">\(n\)</span>. For example, the form of a third-order polynomial is
+<span class="math display">\[a_0 + a_1 x^1 + a_2 x^2 + a_3 x^3\]</span>
+High-order polynomials are rarely used for multiple inputs because they are verbose and unreliable. Consider the third-order polynomial form in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:
+<span class="math display">\[\underbrace{b_0 + b_x x + b_y y}_\text{first-order terms} + \underbrace{b_{xy} x y + b_{xx} x^2 + b_{yy} y^2}_\text{second-order terms} + \underbrace{b_{xxy} x^2 y + b_{xyy} x y^2 + b_{xxx} x^3 + b_{yyy} y^3}_\text{third-order terms}\]</span> Too many terms! Consequently, we’ll limit this chapter to polynomials in one variable.</p>
+<p>The <strong><em>domain</em></strong> of polynomials, like the power-law functions they are made from, is the entire number line: <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span>. But for the purposes of understanding the shape of high-order polynomials, it’s helpful to divide the domain into three parts: a <strong><em>wriggly domain</em></strong> at the center and two <strong><em>tail domains</em></strong> to the right and left of the center.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:wriggly-polynomial"></span>
+<img src="CalcZ-notes_files/figure-html/wriggly-polynomial-1.png" alt="A $n$th-order polynomial can have up to $n-1$ critical points that it wriggles among. A 7-th order polynomial is shown here in which there are six local maxima or minima alternatingly." width="90%"><p class="caption">
+Figure 26.1: A <span class="math inline">\(n\)</span>th-order polynomial can have up to <span class="math inline">\(n-1\)</span> critical points that it wriggles among. A 7-th order polynomial is shown here in which there are six local maxima or minima alternatingly.
+</p>
+</div>
+<p>Figure <a href="polynomials.html#fig:wriggly-polynomial">26.1</a> shows a 7-th order polynomial—that is, the highest-order term is <span class="math inline">\(x^7\)</span>. In one of the tail domains the function value heads off to <span class="math inline">\(\infty\)</span>, in the other to <span class="math inline">\(-\infty\)</span>.</p>
+<p>This is always the case with odd-order polynomials: 1, 3, 5, 7, …. For even-order polynomials, the function value in the two tail domains go in the same direction, either both to <span class="math inline">\(\infty\)</span> (Hands up!) or both to <span class="math inline">\(-\infty\)</span>.</p>
+<p>In the wriggly domain in Figure <a href="polynomials.html#fig:wriggly-polynomial">26.1</a>, there are six argmins or argmaxes. An <span class="math inline">\(n\)</span>th-order polynomial can have up to <span class="math inline">\(n-1\)</span> extrema.</p>
+<p>Note that the local polynomial approximations in Chapter <a href="local-approximations.html#local-approximations">25</a> are at most 2-nd order and so there is at most 1 wriggle: a unique argmax. If the approximation does not include the quadratic terms (<span class="math inline">\(x^2\)</span> or <span class="math inline">\(y^2\)</span>) then there is no argmax for the function.</p>
+</div>
+<div id="high-order-approximations" class="section level2" number="26.2">
+<h2>
+<span class="header-section-number">26.2</span> High-order approximations<a class="anchor" aria-label="anchor" href="#high-order-approximations"><i class="fas fa-link"></i></a>
+</h2>
+<p>We’ve discussed first- and second-order polynomial approximations and their valuable contribution to modeling technique in Chapter <a href="local-approximations.html#local-approximations">25</a>. From now on, we’ll focus only on polynomials of order three or higher.</p>
+<p>The potential attraction of high-order polynomials is that, with their wriggly interior, they can take on a large number of appearances. This chameleon-like behavior has historically made them the tool of choice for understanding the behavior of approximations. That theory has motivated the use of polynomials for modeling patterns in data, but, paradoxically, has shown that high-order polynomials should not be the tool of choice for modeling data. The mathematical background needed for those better tools won’t be available to us until Block 5, when we explore linear algebra.</p>
+<p>Let’s start the story before the invention of the linear-algebra tools, when polynomials were well understood.</p>
+<p>Polynomial functions lend themselves well to calculations, since the output from a polynomial function can be calculated using just the basic arithmetic functions: addition, subtraction, multiplication, and division. To illustrate, consider this polynomial: <span class="math display">\[g(x) \equiv x - \frac{1}{6} x^3\]</span>
+This is a third-order polynomial, since the highest-order term is <span class="math inline">\(x^3\)</span>. The coefficients have been selected for the purpose of the illustration to be easy to handle by mental arithmetic. For instance, for <span class="math inline">\(g(x=1)\)</span> is <span class="math inline">\(5/6\)</span>. Similarly, <span class="math inline">\(g(x=1/2) = 23/48\)</span> and <span class="math inline">\(g(x=2) = 2/3\)</span>. A person of today’s generation would use an electronic calculator for more complicated inputs, but the mathematicians of Newton’s time were accomplished human calculators. It would have been well within their capabilities to calculate, using paper and pencil<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Unfortunately for these human calculators, pencils weren’t invented until 1795. Prior to the introduction of this advanced, graphite-based computing technology, mathematicians had to use quill and ink.&lt;/p&gt;"><sup>32</sup></a>, <span class="math inline">\(g(\pi/4) = 0.7046527\)</span>.</p>
+<p>Our example polynomial, <span class="math inline">\(g(x) \equiv x - \frac{1}{6}x^3\)</span>, graphed in color in Figure <a href="polynomials.html#fig:small-sine">26.2</a>, doesn’t look like any of our pattern book functions. But, for a small interval around <span class="math inline">\(x=0\)</span>, it has a great similarity to the sinusoid.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:small-sine"></span>
+<img src="CalcZ-notes_files/figure-html/small-sine-1.png" alt="The polynomial $g(x) \equiv x -x^3 / 6$ is remarkably similar to $\sin(x)$ near $x=0$." width="90%"><p class="caption">
+Figure 26.2: The polynomial <span class="math inline">\(g(x) \equiv x -x^3 / 6\)</span> is remarkably similar to <span class="math inline">\(\sin(x)\)</span> near <span class="math inline">\(x=0\)</span>.
+</p>
+</div>
+<p>It’s clear from the graph that the approximation is excellent near <span class="math inline">\(x=0\)</span> and gets worse as <span class="math inline">\(x\)</span> gets larger. The approximation is poor for <span class="math inline">\(x \approx \pm 2\)</span>. We know enough about polynomials to say that the approximation will not get better for larger <span class="math inline">\(x\)</span>; the sine function has a range of <span class="math inline">\(-1\)</span> to <span class="math inline">\(1\)</span>, while the left and right tails of the polynomial are heading off to <span class="math inline">\(\infty\)</span> and <span class="math inline">\(-\infty\)</span> respectively.</p>
+<p>One way to quantify the quality of the approximation is to look at the <strong><em>error</em></strong>, that is the difference between the actual sinusoid and <span class="math inline">\(g(x)\)</span>, that is <span class="math inline">\({\cal E}(x) \equiv |\strut\sin(x) - g(x)|\)</span>. The point of the absolute value used in defining the error is that we’re interested in how <strong><em>far</em></strong> the approximation is from the actual function and not so much in whether the approximation is below or above the actual function. Figure <a href="#fig:sin-error"><strong>??</strong></a> shows <span class="math inline">\({\cal E}(x)\)</span> as a function of <span class="math inline">\(x\)</span>.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:sin-error-1"></span>
+<img src="CalcZ-notes_files/figure-html/sin-error-1.png" alt="The error ${\cal E}(x)$ of $x - x^3/6$ as an approximation to $\sin(x)$. Left panel: linear scale. Right panel: log-log scale." width="90%"><p class="caption">
+Figure 26.3: The error <span class="math inline">\({\cal E}(x)\)</span> of <span class="math inline">\(x - x^3/6\)</span> as an approximation to <span class="math inline">\(\sin(x)\)</span>. Left panel: linear scale. Right panel: log-log scale.
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<span id="fig:sin-error-2"></span>
+<img src="CalcZ-notes_files/figure-html/sin-error-2.png" alt="The error ${\cal E}(x)$ of $x - x^3/6$ as an approximation to $\sin(x)$. Left panel: linear scale. Right panel: log-log scale." width="90%"><p class="caption">
+Figure 26.4: The error <span class="math inline">\({\cal E}(x)\)</span> of <span class="math inline">\(x - x^3/6\)</span> as an approximation to <span class="math inline">\(\sin(x)\)</span>. Left panel: linear scale. Right panel: log-log scale.
+</p>
+</div>
+<p>Figure <a href="#fig:sin-error"><strong>??</strong></a> shows that for <span class="math inline">\(x &lt; 0.3\)</span>, the error in the polynomial approximation to <span class="math inline">\(\sin(x)\)</span> is in the 5th decimal place. For instance, <span class="math inline">\(\sin(0.3) = 0.2955202\)</span> while <span class="math inline">\(g(0.3) = 0.2955000\)</span>.</p>
+<p>That the graph of <span class="math inline">\({\cal E}(x)\)</span> is a straight-line on log-log scales diagnoses <span class="math inline">\({\cal E}(x)\)</span> as a power law. That is: <span class="math inline">\({\cal E}(x) = A x^p\)</span>. As always for power-law functions, we can estimate the exponent <span class="math inline">\(p\)</span> from the slope of the graph. It’s easy to see that the slope is positive, so <span class="math inline">\(p\)</span> must also be positive.</p>
+<p>The inevitable consequence of <span class="math inline">\({\cal E}(x)\)</span> being a power-law function with positive <span class="math inline">\(p\)</span> is that <span class="math inline">\(\lim_{x\rightarrow 0} {\cal E}(x) = 0\)</span>. That is, the polynomial approximation <span class="math inline">\(x - \frac{1}{6}x^3\)</span> is <em>exact</em> as <span class="math inline">\(x \rightarrow 0\)</span>.</p>
+<p>Throughout this book, we’ve been using straight-line approximations to functions around an input <span class="math inline">\(x_0\)</span>. The slope of the tangent-line approximation is the derivative of the function at <span class="math inline">\(x_0\)</span>. We can always choose the coefficients of a polynomial approximation to be at least as good as the tangent-line approximation. For a function <span class="math inline">\(f(x)\)</span> that we want to approximate at <span class="math inline">\(x=x_0\)</span> with a polynomial, just start with the polynomial
+<span class="math display">\[g(x) = f(x_0) + \partial_x f(x_0) [x-x_0]\]</span>
+Notice that <span class="math inline">\(g(x=x_0) = f(x=x_0)\)</span>, and <span class="math inline">\(\partial_x g(x=x_0) = \partial_x f(x=x_0)\)</span>: the approximation matches the function’s value and its derivative at <span class="math inline">\(x_0\)</span>. One way to construct a high-order polynomial approximation is to follow the same logic: structure <span class="math inline">\(g(x)\)</span> such that <span class="math inline">\(g(x_0) = f(x_0)\)</span> and <span class="math inline">\(\partial_x g(x=x_0) = \partial_x f(x=x_0)\)</span>, <span class="math inline">\(\partial_{xx} g(x=x_0) = \partial_{xx} f(x=x_0)\)</span>, and so on for the higher order derivatives.</p>
+<p><span class="math display">\[\newcommand{\bigstrut}{{\rule[-.3\baselineskip]{0pt}{1.5\baselineskip}}\]</span></p>
+<p>The table below compares the function value and the derivatives at input <span class="math inline">\(x = x_0 = 0\)</span> for <span class="math inline">\(\sin(x)\)</span> to the polynomial approximation <span class="math inline">\(g(x)\equiv x - \frac{1}{6} x^3\)</span>.</p>
+<p>Order | <span class="math inline">\(\sin(x)\)</span> derivative | <span class="math inline">\(x - \frac{1}{6}x^3\)</span> derivative ——|———————-|——————————– 0 | <span class="math inline">\(\sin(x) \left.{\Large\strut}\right|_{x=0} = 0\)</span> | <span class="math inline">\(\left( 1 - \frac{1}{6}x^3\right)\left.{\Large\strut}\right|_{x=0} = 0\)</span>
+1 | <span class="math inline">\(\cos(x) \left.{\Large\strut}\right|_{x=0} = 1\)</span> |
+<span class="math inline">\(\left(1 - \frac{3}{6} x^2\right) \left.{\Large\strut}\right|_{x=0}= 1\)</span>
+2 | <span class="math inline">\(-\sin(x) \left.{\Large\strut}\right|_{x=0} = 0\)</span> |
+<span class="math inline">\(\left(- \frac{6}{6} x\right) \left.{\Large\strut}\right|_{x=0} = -1\)</span>
+3 | <span class="math inline">\(-\cos(x) \left.{\Large\strut}\right|_{x=0} = -1\)</span> |
+<span class="math inline">\(- 1\left.{\Large\strut}\right|_{x=0} = -1\)</span>
+4 | <span class="math inline">\(\sin(x) \left.{\Large\strut}\right|_{x=0} = 0\)</span> |
+<span class="math inline">\(0\left.{\Large\strut}\right|_{x=0} = 0\)</span></p>
+<p>The first four derivatives of <span class="math inline">\(x - \frac{1}{6} x^3\)</span> exactly match, at <span class="math inline">\(x=0\)</span>, the first four derivatives of <span class="math inline">\(\sin(x)\)</span>.</p>
+<p>The polynomial <span class="math inline">\(h(x) \equiv a_0 + a_1 [x-x_0]^1 + a_2 [x-x_0]^2 + \cdots + a_n [x-x_0]^n\)</span>, with coefficients <span class="math inline">\(a_0, a_1, a_2, ...\)</span> selected to match the function value <span class="math inline">\(f(x=x_0)\)</span> as well as the first <span class="math inline">\(n\)</span> derivatives <span class="math inline">\(\partial_x f(x=x_0)\)</span>, <span class="math inline">\(\partial_{xx} f(x=x_0)\)</span>, <span class="math inline">\(\partial_{xxx} f(x=x_0)\)</span>, … is called the <strong><em>Taylor polynomial</em></strong> approximation to <span class="math inline">\(f(x)\)</span> around the input <span class="math inline">\(x_0\)</span>.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-2" class="example"><strong>Example 26.1  </strong></span>Find the 4th-order Taylor polynomial approximation to <span class="math inline">\(f(x) = e^x\)</span> around <span class="math inline">\(x=0\)</span>.</p>
+<p>We know it will be a 4th order polynomial:
+<span class="math display">\[\text{Taylor}(x) \equiv a_0 + a_1 x + a_2 x^2 + a_3 x^3 + a_4 x^4\]</span>
+The exponential function is particularly nice for examples because the function value and all it’s derivatives are identical: <span class="math inline">\(e^x\)</span>. So <span class="math display">\[f(x= 0) \color{magenta}{=} \partial_x f(x=0) \color{magenta}= \partial_{xx} f(x=0) \color{magenta}= \partial_{xxx} f(x=0) \color{magenta}= \partial_{xxxx} f(x=0) \color{magenta}= 1\]</span>
+The function value and derivatives of <span class="math inline">\(\text{Taylor}(x)\)</span> at <span class="math inline">\(x=0\)</span> are:
+<span class="math display">\[
+\text{Taylor}(x=0) = a_0\\
+\,\\
+\partial_{x}\text{Taylor}(x=0) = a_1\\
+\,\\
+\partial_{xx}\text{Taylor}(x=0) = 2 a_2\\
+\,\\
+\partial_{xxx}\text{Taylor}(x=0) = 2\cdot3\cdot a_3\\
+\,\\
+\partial_{xxxx}\text{Taylor}(x=0) = 2\cdot3\cdot4 \cdot a_4
+\]</span>
+Matching these to the exponential evaluated at <span class="math inline">\(x=0\)</span>, we get
+<span class="math display">\[a_0 = 1\\
+\,\\
+a_1 = 1\\
+\,\\
+a_2 = \frac{1}{2}\\
+\,\\
+a_3 = \frac{1}{2 \cdot 3}\\
+\,\\
+a_4 = \frac{1}{2 \cdot 3 \cdot 4}
+\]</span>
+So the 4th-order Taylor polynomial approximation to the exponential at <span class="math inline">\(x=0\)</span> is <span class="math display">\[g(x) = 1 + x + \frac{1}{2} x + \frac{1}{2\cdot 3} x^2 + \frac{1}{2\cdot 3} x^3 +\frac{1}{2\cdot 3\cdot 4} x^4\]</span></p>
+<p>Figure <a href="polynomials.html#fig:taylor-exp-4">26.5</a> shows the exponential function <span class="math inline">\(e^x\)</span> and its 4th-order Taylor polynomial approximation near <span class="math inline">\(x=0\)</span>:</p>
+<div class="figure" style="text-align: center">
+<span id="fig:taylor-exp-4"></span>
+<img src="CalcZ-notes_files/figure-html/taylor-exp-4-1.png" alt="The 4th-order Taylor polynomial approximation to $e^x$ arount $x=0$" width="90%"><p class="caption">
+Figure 26.5: The 4th-order Taylor polynomial approximation to <span class="math inline">\(e^x\)</span> arount <span class="math inline">\(x=0\)</span>
+</p>
+</div>
+<p>The polynomial is exact at <span class="math inline">\(x=0\)</span> but the <strong><em>error</em></strong> <span class="math inline">\({\cal E}(x)\)</span> grows with increasing distance from <span class="math inline">\(x=0\)</span>:</p>
+<div class="figure" style="text-align: center">
+<span id="fig:taylor-exp-5"></span>
+<img src="CalcZ-notes_files/figure-html/taylor-exp-5-1.png" alt="The error from a 4th-order Taylor polynomial approximation to $e^x$ around $x=0$." width="50%"><img src="CalcZ-notes_files/figure-html/taylor-exp-5-2.png" alt="The error from a 4th-order Taylor polynomial approximation to $e^x$ around $x=0$." width="50%"><p class="caption">
+Figure 26.6: The error from a 4th-order Taylor polynomial approximation to <span class="math inline">\(e^x\)</span> around <span class="math inline">\(x=0\)</span>.
+</p>
+</div>
+<p>From the plot of <span class="math inline">\(\log_{10} {\cal E}(x)\)</span> versus <span class="math inline">\(\log_{10} | x |\)</span> in Figure <a href="polynomials.html#fig:taylor-exp-5">26.6</a>you can see that the error grows from zero at <span class="math inline">\(x=0\)</span> as a power-law function. Measuring the exponent of the power-law from the slope of the graph on log-log axes give <span class="math inline">\({\cal E}(|x|) = a |x|^5\)</span>. This is typical of Taylor polynomials: for a polynomial of degree <span class="math inline">\(n\)</span>, the error will grow as a power-law with exponent <span class="math inline">\(n+1\)</span>. This means that the higher is <span class="math inline">\(n\)</span>, the faster <span class="math inline">\(\lim_{x\rightarrow x_0}{\cal E}(x) \rightarrow 0\)</span>. On the other hand, since <span class="math inline">\({\cal E}_x\)</span> is a power law function, as <span class="math inline">\(x\)</span> gets further from <span class="math inline">\(x_0\)</span> the error grows as as <span class="math inline">\(\left(x-x_0\right)^{n+1}\)</span></p>
+</div>
+<details><summary><strong>Exercise 26.05</strong>: <span><a name="File:%20Exercises/Diff/bee-throw-mug.Rmd" href="#k8H2vs"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/bee-throw-mug.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">k8H2vs</span>
+</span></summary><p>In this exercise, you’re going to approximate a sinusoid <span class="math inline">\(sin(x)\)</span> with polynomials of order 3, 5, and 7. The approximation should go exactly through the coordinate pair <span class="math inline">\((x_0=0, y=0)\)</span> shown as a bright dot on the graph. Notice that the approximation is exacty tangent to the sinusoid at <span class="math inline">\(x_0 = 0\)</span>: the approximating line goes straight through the dot and continues pretty much through the center of the thick line marking the sinusoid, until the sinusoid curves away from the straight line.</p>
+<div class="inline-figure">
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-320-1.png" width="90%" style="display: block; margin: auto;">
+0. Draw your own graph of a sinusoid so that you can sketch on top of it the polynomial approximations you are going to design.</div>
+<ol style="list-style-type: decimal">
+<li>
+<p>Start with <strong>sketching</strong> in a third-order polynomial that approximates the sinusoid near <span class="math inline">\(x_0=0\)</span>. The general formula for a third order polynomial is <span class="math display">\[\text{third}(x) \equiv \overbrace{\underbrace{b_0 + b_1 x^1}_\text{first-order polynomial} + b_2 x^2}^\text{second-order polynomial} + b_3 x^3\]</span>
+To turn the first-order approximation into a third-order approximation algebraically, you would need to choose the coefficients <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span>. You want to choose the best possible <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> to stay close to the sinusoid. Of course, you could take the lazy person’s approach and choose <span class="math inline">\(b_2 = b_3 = 0\)</span>. If you did that, you would have the first-order polynomial. Here’s the important point: the best third-order polynomial will not be any worse than the first-order polynomial, but it can be better!</p>
+<p>Remember what you know about the shape of third-order polynomials:</p>
+<ol style="list-style-type: lower-alpha">
+<li>One tail will go up, the other down.</li>
+<li>There can be both an argmin and an argmax.</li>
+</ol>
+</li>
+<li><p>Repeat (1), sketching out a 5th-order polynomial. Again, one tail will go up and the other down. But now there can be two argmaxes and two argmins that alternate along the <span class="math inline">\(x\)</span> axis: min, max, min, max.</p></li>
+<li>
+<p>One more time, sketching now a 7th-order polynomial. Just like the first-, third-, and fifth-order polynomial, for the 7th one tail will go up and the other down. There can be as many as three argmaxes and three argmins. They will alternate: between any two argmaxes, there will be one argmin.</p>
+</li>
+</ol></details><details><summary><strong>Exercise XX.XX</strong>: <span><a name="File:%20Exercises/Diff/fir-shut-coat.Rmd" href="#uebqnO"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fir-shut-coat.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">uebqnO</span>
+</span></summary><p>Least square fits</p>
+<pre><code>## Warning: Removed 60 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 44 row(s) containing missing values (geom_path).</code></pre>
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-322-1.png" width="90%" style="display: block; margin: auto;"></details><details><summary><strong>Exercise XX.XX</strong>: <span><a name="File:%20Exercises/Diff/local-shift.Rmd" href="#682lsB"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/local-shift.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">682lsB</span>
+</span></summary><p>Here are graphs of three power-law functions (that is, <span class="math inline">\(\left[x-x_0\right]^n\)</span>) with different values of <span class="math inline">\(x_0\)</span>:</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-324-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> For the blue function, what is <span class="math inline">\(x_0\)</span>?</p>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span>       3<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> Right-oh! </span>       5<span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question B</strong> For the blue function, what is the order of the polynomial?</p>
+<p>    0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Good. </span>       2<span class="mcanswer"> ︎✘ </span>       3<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> ︎✘ </span>       5<span class="mcanswer"> ︎✘ </span></p>
+<hr>
+<p><strong>Question C</strong> For the red function, what is <span class="math inline">\(x_0\)</span>?</p>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> Right! </span>       3<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> ︎✘ </span>       5<span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question D</strong> For the red function, what is the order of the polynomial?</p>
+<p>    0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> Correct. </span>       2<span class="mcanswer"> ︎✘ </span>       3<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> ︎✘ </span>       5<span class="mcanswer"> ︎✘ </span></p>
+<hr>
+<p><strong>Question E</strong> For the green function, what is <span class="math inline">\(x_0\)</span>?</p>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span>       3<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> Right! </span>       5<span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question F</strong> For the green function, what is the order of the polynomial?</p>
+    0<span class="mcanswer"> ︎✘ </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span>       3<span class="mcanswer"> Right-oh! </span>       4<span class="mcanswer"> ︎✘ </span>       5<span class="mcanswer"> ︎✘ </span>
+</details><details><summary><strong>Exercise XX.XX</strong>: <span><a name="File:%20Exercises/Diff/frog-throw-screen.Rmd" href="#ecdVKx"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/frog-throw-screen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ecdVKx</span>
+</span></summary><p>For a function <span class="math inline">\(f(x)\)</span> and its derivatives <span class="math inline">\(f^{(1)}(x)\)</span>, <span class="math inline">\(f^{(2)}(x)\)</span>, … the Taylor polynomial <span class="math inline">\(p(x)\)</span> centered on <span class="math inline">\(x_0\)</span> is</p>
+<p><span class="math display">\[p(x) \equiv f(x_0) + \frac{f^{(1)}(x_0)}{1!} (x - x_0)^1 + 
+\frac{f^{(2)}(x_0)}{2!} (x - x_0)^2 + \cdots\]</span></p>
+<p>A Taylor polynomial, like all polynomials, is a linear combination of basic functions.</p>
+<p><strong>Question A</strong> Which of these are the basic functions being linearly combined in a Taylor polynomial?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(f(x), f^{(1)}(x), f^{(2)}(x), \ldots\)</span><span class="mcanswer"> ︎✘ You won’t find any of these in the definition of <span class="math inline">\(p(x)\)</span> given above. </span><br>
+</li>
+<li>
+<span class="math inline">\(f(x_0), f^{(1)}(x_0), f^{(2)}(x_0), \ldots\)</span><span class="mcanswer"> ︎✘ These are not functions of <span class="math inline">\(x\)</span>. They are numbers computed by evaluating a function at the center point <span class="math inline">\(x_0\)</span>. </span><br>
+</li>
+<li>
+<span class="math inline">\(f(x_0), \frac{f^{(1)}(x_0)}{1!}, \frac{f^{(2)}(x_0)}{2!}, \ldots\)</span><span class="mcanswer"> ︎✘ These are not functions of <span class="math inline">\(x\)</span>. They are numbers computed by evaluating a function at the center point <span class="math inline">\(x_0\)</span>. </span><br>
+</li>
+<li>
+<span class="math inline">\((x-x_0), (x - x_0)^2, \ldots\)</span><span class="mcanswer"> Excellent! These are the only places where the variable <span class="math inline">\(x\)</span> appears in the Taylor formula. </span>
+</li>
+</ol>
+<p>As you recall, the Taylor polynomial for <span class="math inline">\(e^x\)</span> has an especially lovely formula: <span class="math display">\[p(x) = 1 + \frac{x}{1!} + \frac{x^2}{2!} + \cdots\]</span></p>
+<p><strong>Question B</strong> In the above formula, the center <span class="math inline">\(x_0\)</span> does not appear. Why not?</p>
+<ol style="list-style-type: lower-roman">
+<li>Having a center is not a requirement for a Taylor polynomial.<span class="mcanswer"> ︎✘ This is wrong. All Taylor polynomials are expansions around some fixed center value. </span><br>
+</li>
+<li>There is a center, <span class="math inline">\(x_0 = 1\)</span>, but terms like <span class="math inline">\(x_0 x^2\)</span> were simplified to <span class="math inline">\(x^2\)</span>.<span class="mcanswer"> ︎✘ Look again at the Taylor formula at the start of this section. The basis functions are <span class="math inline">\(x-x_0, (x-x_0)^2, \ldots\)</span>, not <span class="math inline">\(x_0 x, x_0 x^2, \ldots\)</span> </span><br>
+</li>
+<li>There is a center, <span class="math inline">\(x_0 = 0\)</span>, but the terms like <span class="math inline">\((x-x_0)^2\)</span> were simplified to <span class="math inline">\(x^2\)</span>.<span class="mcanswer"> Right-oh! </span>
+</li>
+</ol>
+<p>Consider this Taylor polynomial:
+<span class="math display">\[p(x) = e + \frac{e}{1!} (x-1) + \frac{e}{2!} (x-1)^2 + \cdots\]</span>
+A neophyte instructor is convinced that <span class="math inline">\(p(x)\)</span> is a Taylor expansion of <span class="math inline">\(e^x\)</span>.</p>
+<p><strong>Question C</strong> Could the neophyte be right?</p>
+<ol style="list-style-type: lower-roman">
+<li>No, a polynomial doesn’t have functions like <span class="math inline">\(e\)</span>.<span class="mcanswer"> ︎✘ <span class="math inline">\(e\)</span> is not a function, it’s just a number, 2.718282…. </span><br>
+</li>
+<li>Yes. The center is <span class="math inline">\(x_0 = 1\)</span>.<span class="mcanswer"> Excellent! </span><br>
+</li>
+<li>Not really. The formula suggests that the center is <span class="math inline">\(x_0=1\)</span> but the coefficients are wrong.<span class="mcanswer"> ︎✘ The coefficients are right. </span>
+</li>
+</ol>
+<p>Consider the function <span class="math inline">\(f(x) \equiv (x - 3)^2\)</span>.</p>
+<p><strong>Question D</strong> Using ordinary algebra, <span class="math inline">\(f(x)\)</span> can be expanded as <span class="math inline">\((x^2 - 6 x -9)\)</span>. Is <span class="math display">\[p(x) = -9 - 6 x + x^2\]</span> a Taylor polynomial expansion of <span class="math inline">\(f(x)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li>Yes, with a center at <span class="math inline">\(x_0 = 0\)</span><span class="mcanswer"> Excellent! As you can tell from solving, this works for this specific polynomial, but is uncommon among polynomials. </span><br>
+</li>
+<li>Yes, with a center at <span class="math inline">\(x_0 = 3\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>No, because there are no factorials involved<span class="mcanswer"> ︎✘ The factorials are part of the coefficients. </span>
+</li>
+</ol>
+<p>Here’s the Taylor polynomial expansion of <span class="math inline">\(\sin(x)\)</span> about a center <span class="math inline">\(x_0\)</span>:
+<span class="math display">\[p(x) = 1/2 - \frac{\sqrt{3}/{2}}{2!} (x - x_0)^2 + \frac{1/2}{4!} (x - x_0)^4 + \cdots\]</span>
+<strong>Question E</strong> What’s the numerical value of <span class="math inline">\(x_0\)</span>? (Hint: Remember that the coefficients involve the function and its derivatives evaluated at <span class="math inline">\(x_0\)</span> as described at the very top of this section.)</p>
+    <span class="math inline">\(\pi/6\)</span><span class="mcanswer"> Good. </span>       <span class="math inline">\(\pi/3\)</span><span class="mcanswer"> ︎✘ </span>       <span class="math inline">\(\pi/2\)</span><span class="mcanswer"> ︎✘ </span>       <span class="math inline">\(\pi\)</span><span class="mcanswer"> ︎✘ </span>
+</details><p><strong>Question F</strong> Find <span class="math inline">\(f(1)\)</span> exactly for your 4th-order polynomial approximation to <span class="math inline">\(e^x\)</span>. Which of these is it?</p>
+<p>    2 8/12<span class="mcanswer"> ︎✘ </span>       2 17/24<span class="mcanswer"> Right-oh! </span>       2 35/48<span class="mcanswer"> ︎✘ </span>       2 7/10<span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question G</strong> Again using <span class="math inline">\(f()\)</span> for the 4th-order polynomial approximation to <span class="math inline">\(e^x\)</span>, subtract <span class="math inline">\(f(1)\)</span> from <span class="math inline">\(e^1\)</span>. The result will be near zero. To quantify how near, count the number of leading zeros after the decimal point. How many zeros are there?</p>
+<p>    1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> Right-oh! </span>       3<span class="mcanswer"> ︎✘ </span>       4<span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question H</strong> Repeat the above calculation, but include the 5th- and 6th-order terms (that is, <span class="math inline">\(a_5 x^5\)</span> and <span class="math inline">\(a_6 x^6\)</span>) when programming the polynomial computer. Subtract the new <span class="math inline">\(f(1)\)</span> from <span class="math inline">\(e^1\)</span>. How many leading zeros are there after the decimal point?</p>
+<p>    1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span>       3<span class="mcanswer"> Right-oh! </span>       4<span class="mcanswer"> ︎✘ </span></p>
+<details><summary><strong>Exercise XX.XX</strong>: <span><a name="File:%20Exercises/Diff/girl-wake-bottle.Rmd" href="#KmDiXI"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/girl-wake-bottle.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">KmDiXI</span>
+</span></summary><p>Recall the formula for the coefficients <span class="math inline">\(a_n\)</span> to approximate a function <span class="math inline">\(f(x)\)</span>:</p>
+<p><span class="math display">\[a_n = \frac{f^{(n)}(x_0)}{n!}\]</span>
+where <span class="math inline">\(f^{(n)}\)</span> means the "n<sup>th</sup> derivative. For simplicity, we’ll look at examples where <span class="math inline">\(x_0 = 0\)</span>, so that the polynomial itself will be</p>
+<p><span class="math display">\[p(x) = a_0 x^0\!\!\!\!\!\! \mbox{✘✘ }\ + a_1 x^1 + a_2 x^2 + a_3 x^3 + \cdots\]</span>
+We crossed out the <span class="math inline">\(x^0\)</span> because that’s equal to 1.</p>
+<p>Let’s construct the polynomial coefficients for the function <span class="math inline">\(f(x) = e^x\)</span> around <span class="math inline">\(x_0 = 1\)</span>. Start with the sequence of derivatives <span class="math inline">\(f^{(n)}(0)\)</span>.</p>
+<p><strong>Question A</strong> Which of these gives the sequence <span class="math inline">\(f^{(n)}(0)\)</span> (where <span class="math inline">\(f(x) = e^x\)</span>) for <span class="math inline">\(n=0, 1, 2, 3, ...\)</span> ?</p>
+<ol style="list-style-type: lower-roman">
+<li>0, 0, 0, 0, 0, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1, 1, 1, 1, 1, …<span class="mcanswer"> Excellent! </span><br>
+</li>
+<li>1, 2, 3, 4, 5, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>0, 1, 2, 3, 4, …<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question B</strong> Which of these gives the sequence <span class="math inline">\(n!\)</span> for <span class="math inline">\(n=0, 1, 2, 3, ...\)</span> ?</p>
+<ol style="list-style-type: lower-roman">
+<li>0, 0, 0, 0, 0, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1, 2, 3, 4, 5, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>0, 1, 2, 3, 4, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1, 1, 2, 6, 24, …<span class="mcanswer"> Right-oh! </span>
+</li>
+</ol>
+<p><strong>Question C</strong> One of these is <strong>not</strong> the polynomial expansion for <span class="math inline">\(e^x\)</span>. Which one?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(1 + x + \frac{x^2}{2} + \frac{x^3}{6} + \frac{x^4}{24} + \cdots\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(1 + x + \frac{x^2}{2} + \frac{x^3}{3} + \frac{x^4}{4} + \cdots\)</span><span class="mcanswer"> Correct. </span><br>
+</li>
+<li>
+<span class="math inline">\(1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots\)</span><span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p>Now let’s construct the polynomial expansion of <span class="math inline">\(\sin(x)\)</span> using the same technique: Find the sequence of derivatives <span class="math inline">\(f^{(n)}\)</span>, then divide each of them by <span class="math inline">\(n!\)</span> to construct the <span class="math inline">\(a_n\)</span> coefficients.</p>
+<p><strong>Question D</strong> Which of these gives the sequence <span class="math inline">\(f^{(n)}(0)\)</span> (where <span class="math inline">\(f(x) = \sin(x)\)</span>) for <span class="math inline">\(n=0, 1, 2, 3, ...\)</span> ? (Remember, <span class="math inline">\(x_0\)</span> will be set to zero.)</p>
+<ol style="list-style-type: lower-roman">
+<li>0, 1, -1, 1, -1, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1, 0, -1, 0, 1, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>0, 1, 0, -1, 0, …<span class="mcanswer"> Correct. </span><br>
+</li>
+<li>1, 0, 0, -1, 1, …<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question E</strong> One of these <strong>is</strong> the polynomial expansion for <span class="math inline">\(\sin(x)\)</span>. Which one?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(1 + x + \frac{x^2}{2} + \frac{x^3}{6} + \frac{x^4}{24} + \cdots\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(x - \frac{x^3}{3} - \frac{x^5}{5} + \cdots\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(x - \frac{x^3}{6} - \frac{x^5}{120} + \cdots\)</span><span class="mcanswer"> Excellent! </span><br>
+</li>
+<li>
+<span class="math inline">\(1 + x - \frac{x^3}{6} - \frac{x^5}{24} + \cdots\)</span><span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question F</strong> Take the correct polynomial expansion for <span class="math inline">\(\sin(x)\)</span> from the previous question and differentiate it term by term to get the polynomial expansion for <span class="math inline">\(\cos(x)\)</span>. Which one of these is right</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(1 - \frac{x^2}{2} + \frac{x^3}{6} - \frac{x^4}{24} + \cdots\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(1 - \frac{x^2}{2} - \frac{x^4}{4} + \cdots\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(1 - \frac{x^2}{6} + \frac{x^4}{24} - \cdots\)</span><span class="mcanswer"> Excellent! </span><br>
+</li>
+<li>
+<span class="math inline">\(1 - \frac{x^2}{2} + \frac{x^4}{120} + \cdots\)</span><span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p>Finally, let’s construct the polynomial expansion of the function <span class="math inline">\(f(x) \equiv \frac{1}{1-x}\)</span> at <span class="math inline">\(x_0 = 0\)</span>.</p>
+<p><strong>Question G</strong> Which of these gives the sequence <span class="math inline">\(f^{(n)}(0)\)</span> (where <span class="math inline">\(f(x) = 1/(1-x)\)</span>) for <span class="math inline">\(n=0, 1, 2, 3, ...\)</span> ? (Remember, <span class="math inline">\(x_0\)</span> will be set to zero.)</p>
+<ol style="list-style-type: lower-roman">
+<li>1, 1, 1, 1, 1 …<span class="mcanswer"> Right! </span><br>
+</li>
+<li>1, -1, 1, -1, 1, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>0, 1, 0, 1, 0, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1, 0, 1, 0, 1, …<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><strong>Question H</strong> What are the coefficients <span class="math inline">\(a_n\)</span> in the polynomial expansion of <span class="math inline">\(1/(1-x)\)</span>, for <span class="math inline">\(n = 0, 1, 2, 3, 4, ...\)</span></p>
+<ol style="list-style-type: lower-roman">
+<li>1, 1, 1, 1, 1, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1, 1/2, 1/6, 1/24, 1/120, …<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1, 1, 1/2, 1/6, 1/24, …<span class="mcanswer"> Excellent! </span><br>
+</li>
+<li>1, 1, 2!, 3!, 4!<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol></details><details><summary><strong>Exercise XX.XX</strong>: <span><a name="File:%20Exercises/Diff/fawn-hear-kayak.Rmd" href="#IlNSF0"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fawn-hear-kayak.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">IlNSF0</span>
+</span></summary><div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"www/polycomp.R"</span><span class="op">)</span></code></pre></div>
+<p>We’re all busy people these days and nobody has the time to compute an infinite number of coefficients in order to program the polynomial computer. So, we’ll have to use just a few coefficients. How many is enough?</p>
+<p>For example, the coefficients for <span class="math inline">\(e^x\)</span> (around <span class="math inline">\(x_0 = 0\)</span>) are <span class="math inline">\(1, 1, 1/2, 1/6, 1/24, 1/120, 1/720, 1/5040, 1/40320, 1/362880, ...\)</span> Factorials get big fast!</p>
+<p>The sandbox shows a simple comparison of the polynomial approximation to the actual exponential function. it plots the magnitude of the error <span class="math inline">\(|e^x - p(x)|\)</span> on a log-log scale.</p>
+<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">poly_comp</span><span class="op">(</span>x0 <span class="op">=</span> <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">6</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">24</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">120</span><span class="op">)</span>
+<span class="va">error_fun</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fu">p</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
+<span class="fu">slice_plot</span><span class="op">(</span><span class="fu">error_fun</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fu">p</span><span class="op">(</span><span class="op">-</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"orange3"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+       <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span>, <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_labs</span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Absolute error"</span><span class="op">)</span></code></pre></div>
+<p>Read the graph carefully to make sure you understand what is being displayed.</p>
+<ul>
+<li>It’s easy to think about the “absolute error” scale as indicating the number of zeros <em>after</em> the decimal point in the size of the error. For example <code>1e-6</code> is 0.000001. The approximation has that much error or less for <span class="math inline">\(|x| &lt; 0.3\)</span>.</li>
+<li>We’re using log-log scales because we anticipated that the error would be something like a power law. (Why? Because the first term omitted from the approximation will produce a function <span class="math inline">\(a_{n+1} x^{n+1}\)</span>, a power law. And when a power-law function is plotted on log-log axes, it appears as a straight line) But we can’t graph negative values of <span class="math inline">\(x\)</span> on a log scale. So we’re plotting both <span class="math inline">\(p(x)\)</span> and <span class="math inline">\(p(-x)\)</span> together. The error for negative <span class="math inline">\(x\)</span> values are plotted in red.</li>
+</ul>
+<p><strong>Question A</strong> For <span class="math inline">\(x \approx 2.0\)</span>, the magnitude of the error is, to judge from the graph, <code>1e-1</code>. When written as a decimal number, how many leading zeros are after the decimal point?</p>
+<p>    -2<span class="mcanswer"> ︎✘ </span>       -1<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> Right! </span>       1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span></p>
+<p><strong>Question B</strong> For <span class="math inline">\(x \approx 10.0\)</span>, the magnitude of the error is, to judge from the graph, <code>1e4</code>. What is this when written as a decimal number?</p>
+    10<span class="mcanswer"> ︎✘ </span>       100<span class="mcanswer"> ︎✘ </span>       1000<span class="mcanswer"> ︎✘ </span>       10000<span class="mcanswer"> Right-oh! </span>
+</details>
+</div>
+<div id="lhopitals-rule" class="section level2" number="26.3">
+<h2>
+<span class="header-section-number">26.3</span> l’Hopital’s rule<a class="anchor" aria-label="anchor" href="#lhopitals-rule"><i class="fas fa-link"></i></a>
+</h2>
+<p>One task for which the polynomial computer is extremely well suited is
+the resolution of singularities. A singularity is an input for which the
+function involves division by zero, for instance:</p>
+<p><span class="math display">\[g(x) \equiv \frac{\sin(x)}{x}\ \ \ \mbox{at}\ \ \ x=0\]</span></p>
+<p>Since division by zero is undefined, there’s no way to do a numerical
+computation at <span class="math inline">\(x=0\)</span>. Even computer arithmetic is set up to recognize
+this:</p>
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="va">x</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
+<span class="fu">g</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] NaN</code></pre>
+<p>The output <code>NaN</code> stands for “not a number.” It is as if the computer is
+throwing up its hands and saying, “I don’t know what to do with this.”</p>
+<p>Actually, the computer doesn’t get so frustrated at all such
+division-by-zero problems, for instance</p>
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">x</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
+<span class="fu">h</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] Inf</code></pre>
+<p>The output <code>Inf</code> is also not a number, but here the computer is willing
+to say that whatever 1/0 might be, it’s very large: infinity.</p>
+<p>Why does the computer make a distinction between the kind of
+divide-by-zero in <span class="math inline">\(\sin(x)/x\)</span> and the kind in <span class="math inline">\(1/x\)</span>. The answer is that
+the first function involves a numerator, <span class="math inline">\(\sin(x)\)</span> that will also be
+zero when <span class="math inline">\(x=0\)</span>. It’s the zero-over-zero that prompts the <code>NaN</code>
+response:</p>
+<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">0</span> <span class="op">/</span> <span class="fl">0</span></code></pre></div>
+<pre><code>## [1] NaN</code></pre>
+<p>The numerator must literally be zero. Being very close to zero doesn’t
+cut it.</p>
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">0.000000000000000000000000000000000000000000000001</span> <span class="op">/</span> <span class="fl">0</span></code></pre></div>
+<pre><code>## [1] Inf</code></pre>
+<p>The polynomial computer provides another approach to sorting out what
+<span class="math inline">\(\sin(x)/x\)</span> and similar functions might be at <span class="math inline">\(x=0\)</span>. And the key thing
+is the word “approach.” The sandbox carries out the <span class="math inline">\(\sin(x)/x\)</span>
+calculation for <span class="math inline">\(x\)</span> very small but not zero. See what you get.</p>
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">0.00000001</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="va">x</span></code></pre></div>
+<p>Although <span class="math inline">\(\sin(x) / x\)</span> is not defined at <span class="math inline">\(x=0\)</span>, it is defined
+<em>everywhere</em> else. Recall that the idea of a <strong>limit</strong> is to find a
+value to stand in for the undefined <span class="math inline">\(\sin(0)/0\)</span> by making <span class="math inline">\(x\)</span> very small
+and seeing what you get. If you get something sensible for very small
+<span class="math inline">\(x\)</span>, and get the same thing for <em>even smaller</em> <span class="math inline">\(x\)</span>, then we have a
+reasonable claim for what value to insert for <span class="math inline">\(\sin(x)/x\)</span>.</p>
+<p><strong>Question C</strong> Using the sandbox above, add more zeros to <span class="math inline">\(x\)</span> to make it even smaller. You can stop when you get tired. Does <span class="math inline">\(\sin(x)/x\)</span> evaluate to something sensible for such tiny <span class="math inline">\(x\)</span>? If so, what value?</p>
+<ol style="list-style-type: lower-roman">
+<li>0<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1/2<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>1<span class="mcanswer"> Right! </span><br>
+</li>
+<li>answer varies with <span class="math inline">\(x\)</span> as <span class="math inline">\(x\)</span> gets smaller<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p>Saying, “so small that I got tired typing the zeros” is not a convincing
+definition of “small” to a mathematician. For example,
+0.0000000000000001 parsec (a unit of length) seems small but it is
+equivalent to about 10 feet—no so small. Mathematicians want you to
+take “small” to the limit, an arbitrarily large number of zeros, and
+when you’re done with that, even more zeros.</p>
+<p>Fortunately, R and other computer languages have a scientific notation
+that allows you just to name the number of zeros you want after the
+decimal point. For instance <code>1e-2</code> is <span class="math inline">\(0.01\)</span>—one zero. Similarly
+<code>1e-20</code> is <span class="math inline">\(0.00000000000000000001\)</span>, nineteen zeros.</p>
+<p><strong>Question D</strong> Use the previous sandbox, but this time use scientific notation so that you can look at <span class="math inline">\(x\)</span> as small as 1e-31 (30 zeros) or even smaller. Starting at <code>x = 1e-31</code>, calculate <code>sin(x)/x</code>. Then double the number of zeros, keep on doubling the number of zeros. The result will continue to be 1 … until it eventually becomes <code>NaN</code>. How many zeros are there in the <code>x</code> that produces <code>NaN</code> as the answer to <code>sin(x)/x</code>?</p>
+<p>    127<span class="mcanswer"> ︎✘ </span>       191<span class="mcanswer"> ︎✘ </span>       323<span class="mcanswer"> Correct. </span>       379<span class="mcanswer"> ︎✘ </span>       1281<span class="mcanswer"> ︎✘ </span></p>
+<p>What’s happening here has more to do with the nature of computers than
+the nature of numbers. Computers (in the manner they are ordinarily
+programmed) use packets of bits to represent numbers, and the chips have
+been engineered to make those bit packets respond to arithmetic
+operations as if they were the numbers they represent. A typical
+computer number, like 0.001, uses 64 bits in a special, standard format.
+Since there is a finite number of bits, there is a largest possible
+non-<code>Inf</code> number and a smallest possible non-zero number. According to
+the IEEE standard for “floating-point” arithmetic the largest non-<code>Inf</code>
+number is around <code>1e300</code> and the smallest non-zero number is around
+<code>1e-320</code>. This failure to behave like genuine mathematical numbers is
+called “overflow” (for large numbers which turn into <code>Inf</code>) and
+“underflow” (for small numbers which turn into <code>0</code>).</p>
+<p><strong>Question E</strong> Play around with numbers in the format <code>1e300</code>, <code>1e301</code> and so on until you find the smallest <code>1e???</code> that prints as <code>Inf</code>. Similarly, try numbers in the format <code>1e-320</code> and <code>1e-321</code> until you find the largest one that prints out as exactly zero. What are those two numbers?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<code>1e305</code> and <code>1e-322</code><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<code>1e306</code> and <code>1e-323</code><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<code>1e308</code> and <code>1e-324</code><span class="mcanswer"> Good. </span><br>
+</li>
+<li>
+<code>1e309</code> and <code>1e-327</code><span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p>The polynomial computer doesn’t have any problem with overflow or
+underflow. The key to success is to write the Taylor polynomial for
+functions such as <span class="math inline">\(\sin(x)\)</span> or <span class="math inline">\(x\)</span> or <span class="math inline">\(x^2\)</span> near <span class="math inline">\(x_0 = 0\)</span>. Such
+polynomials will always look like:</p>
+<p><span class="math display">\[f(x) = a_1 x^1 + a_2 x^2 + a_3 x^3 + \cdots\]</span></p>
+<p>What’s special here is that the <code>a_0</code> term does not need to be included
+in the polynomial, since <span class="math inline">\(f(0) = 0\)</span>.</p>
+<p><strong>Question F</strong> One of these functions has a Taylor polynomial at <span class="math inline">\(x_0 = 0\)</span> the <em>does need</em> a non-zero <span class="math inline">\(a_0\)</span> term. The other’s don’t. Which function needs the non-zero <span class="math inline">\(a_0\)</span> term?</p>
+<p>    <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code><span class="mcanswer"> ︎✘ </span>       <code><a href="https://rdrr.io/r/base/Trig.html">tan()</a></code><span class="mcanswer"> ︎✘ </span>       <code><a href="https://rdrr.io/r/base/Trig.html">atan()</a></code><span class="mcanswer"> ︎✘ </span>       <code><a href="https://rdrr.io/r/base/Trig.html">acos()</a></code><span class="mcanswer"> Excellent! </span></p>
+<p>These zero divided by zero problems (like <span class="math inline">\(\sin(x) / x\)</span>) always involve
+a ratio of two functions (<span class="math inline">\(\sin(x)\)</span> and <span class="math inline">\(x\)</span> here) that don’t need the
+<span class="math inline">\(a_0\)</span> term in their Taylor series around <span class="math inline">\(x_0 = 0\)</span>. That makes them just
+a little bit simpler.</p>
+<p>What’s more important than simpler is that, for the expansion of such
+functions to study the limit at <span class="math inline">\(x \rightarrow 0\)</span>, we only need the
+**first terms with a non-zero coefficient* <span class="math inline">\(a_k\)</span> to represent the
+function with complete accuracy.</p>
+<p>Why? Consider the 2nd-order Taylor polynomial <span class="math inline">\(a_1 x + a_2 x^2\)</span>. If we
+are to be able to safely disregard the <span class="math inline">\(a_2\)</span> term it is because that
+term, for small <span class="math inline">\(x\)</span> is much, much smaller than the <span class="math inline">\(a_1 x\)</span> term. And we
+can always choose non-zero <span class="math inline">\(x\)</span> to make this so.</p>
+<p>For instance, suppose our polynomial were <span class="math inline">\(x + 100 x^2\)</span>. For <span class="math inline">\(x=0.1\)</span>,
+the first and second terms are the same size; we need them both for
+accuracy. For <span class="math inline">\(x=0.01\)</span>, the second term is 1/100 the size of the first
+term, maybe we don’t need the second term so much. You can always make
+<span class="math inline">\(x\)</span> so small that anyone will be satisfied that the second term is
+utterly negligible compared to the first.</p>
+<p>Here’s the method:</p>
+<p>Suppose you have a function <span class="math inline">\(f(x) \equiv u(x)/v(x)\)</span> where
+<span class="math display">\[\lim_{x\rightarrow 0} u(x) = 0\ \ \ \mbox{and}\ \ \ \lim_{x\rightarrow 0} v(x) = 0\]</span>
+Given this, <span class="math inline">\(f(0)\)</span> is not defined. But we can ask whether there is a
+sensible value that can be plugged in in place of <span class="math inline">\(f(0)\)</span> that will cause
+the modified <span class="math inline">\(f()\)</span> to be continuous at <span class="math inline">\(x=0\)</span>.</p>
+<p>Step 1: Write the Taylor polynomial expansion around <span class="math inline">\(x-0 = 0\)</span> for both
+<span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v(x)\)</span>. If both expansions have a non-zero first coefficient,
+you can stop there. Now we have:</p>
+<p><span class="math display">\[u(x) \approx a_1 x\\
+v(x) \approx b_1 x\]</span> where <span class="math inline">\(a_1 = \partial_x u(0)\)</span> and
+<span class="math inline">\(b_1 = \partial_x v(0)\)</span>.</p>
+<p>Step 2: Divide the polynomial (really just linear!) expansion of <span class="math inline">\(u()\)</span>
+by the expansion of <span class="math inline">\(v()\)</span> to get</p>
+<p><span class="math display">\[\lim_{x\rightarrow 0}\frac{u(x)}{v(x)} = \lim_{x\rightarrow 0} \frac{a_1 x}{b_1 x} = \frac{a_1}{b_1}\]</span></p>
+<p>That’s the answer, <span class="math inline">\(a_1/b_1\)</span>, at least when <span class="math inline">\(b_1 \neq 0\)</span>. We’ll come
+back to that case later.</p>
+<p><strong>Question G</strong> For <span class="math inline">\(\lim_{x\rightarrow 0} \sin(x) / x\)</span>, what are <span class="math inline">\(a_1\)</span> and <span class="math inline">\(b_1\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(a_1 = 1\)</span> and <span class="math inline">\(b_1 = 1\)</span><span class="mcanswer"> Right! </span><br>
+</li>
+<li>
+<span class="math inline">\(a_1 = \pi\)</span> and <span class="math inline">\(b_1 = \pi\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(a_1 = -1\)</span> and <span class="math inline">\(b_1 = -1\)</span><span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>
+<span class="math inline">\(a_1 = 0\)</span> and <span class="math inline">\(b_1 = -1\)</span><span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p>Sometimes the singularity is at some non-zero <span class="math inline">\(x\)</span>. For instance,
+<span class="math display">\[h(x) \equiv \frac{x^2 - 16}{x - 4}\]</span> The divide-by-zero comes into
+play when <span class="math inline">\(x=4\)</span>. So is there a sensible value to plug in for <span class="math inline">\(h(4)\)</span> to
+replace the singularity.</p>
+<p>Here, write your Taylor polynomials around <span class="math inline">\(x_0 = 4\)</span>, the location of
+the singularity. We’ll get:</p>
+<p><span class="math display">\[x^2 - 16 = a_1 (x-4) + a_2 (x-4)^2 + \cdots\\ 
+x - 4 = b_1 (x-4)\]</span> Using Taylor’s formula for coefficients we’ll get
+<span class="math display">\[a_1 = \partial_x (x^2 - 16)\left.\right|_{x=4} = 2x\left.\right|_{x=4} = 8\\
+b_1 = \partial_x (x - 4) = 1
+\]</span></p>
+<p>Consequently, <span class="math inline">\(\lim_{x\rightarrow 4} \frac{x^2 - 16}{x - 4} = 8\)</span></p>
+<p>We’ve been discussing ratios of functions where the ratio cannot be
+calculated at the singularity using simply the limits of the functions
+approaching that singularity. (For instance
+<span class="math inline">\(\lim_{x\rightarrow 0} \sin(x) = 0\)</span> and <span class="math inline">\(\lim_{x\rightarrow 0} x = 0\)</span>,
+but knowing this does not tell us what
+<span class="math inline">\(\lim_{x\rightarrow 0} \frac{\sin(x)}{x}\)</span> will be. These are called
+“indeterminate forms.” As you’ve seen, if we know more about the
+functions than merely their individual limits, we can sometimes resolve
+the indeterminacy. Here we’re doing that by writing each function as a
+low-order polynomial.</p>
+<p>The indeterminate form <span class="math inline">\(\lim_{x\rightarrow 0} \frac{\sin(x)}{x}\)</span> might
+be said to have the “shape” 0/0. But 0/0 is just a notation about the
+limits of the two individual functions. There are indeterminate forms
+with other shapes:
+<span class="math display">\[\frac{0}{0}\ \ \ \ \ \ \frac{\infty}{\infty}\ \ \ \ \ \ 0\, {\infty\ \ \ \  \ 0^0\ \ \ \ \ \ \infty^0\ \ \ \ \ \ 1^\infty\ \ \ \ \ \ \infty - \infty}\]</span>
+Keep in mind that something like <span class="math inline">\(0 \infty\)</span> is not a multiplication
+problem but rather shorthand for <span class="math inline">\(u(x) v(x)\)</span> where
+<span class="math inline">\(\lim_{x\rightarrow x_0} u(x) = 0\)</span> and
+<span class="math inline">\(\lim_{x\rightarrow x_0} v(x) \rightarrow \infty\)</span>.</p>
+<p>There is a variety of algebraic tricks to try to transform these
+different shapes of indeterminate forms into a ratio of functions, each
+of which goes to zero at the relevant <span class="math inline">\(x_0\)</span>. Once that’s done, you can
+apply the method described above.</p>
+<p>Indeterminate forms have been a bonanza for the author of calculus book
+exercises, who can write an large number of examples, many of which have
+never been seen in the wild.</p>
+<p>One shortcut that that works in practice is to make a graph of the
+indeterminate form near the singularity. If the limit as <span class="math inline">\(x\)</span> approaches
+the singularity is a finite number, you can read off the result from the
+graph.</p>
+<p>In the sandbox below, the function <span class="math inline">\(g(x)\equiv x \ln(x)\)</span> is set up. This
+function has a singularity at <span class="math inline">\(x=0\)</span>. Examine the plot and determine
+where the function value is going as you walk along the graph to the
+singularity.</p>
+<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
+<span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>You may have to zoom in on the domain to get a clear read of the
+function value at <span class="math inline">\(x=0\)</span> singularity.</p>
+<p><strong>Question H</strong> From the graph, determine <span class="math inline">\(\lim_{x\rightarrow 0} x \ln(x()\)</span>. Choose the correct answer.</p>
+<p>    -0.2<span class="mcanswer"> ︎✘ </span>       0<span class="mcanswer"> Right-oh! </span>       0.1<span class="mcanswer"> ︎✘ </span>       0.5<span class="mcanswer"> ︎✘ </span></p>
+<p>Conventionally, the relationship
+<span class="math display">\[\lim_{x\rightarrow x_0} \frac{u(x)}{v(x)} = \lim_{x\rightarrow x_0} \frac{\partial_x u(x)}{\partial_x v(x)}\]</span>
+is called “L’Hopital’s Rule” after the author of the very first Calculus
+textbook where the rule was first published. Here’s the title page from
+the second edition of 1716.</p>
+<div class="inline-figure"><img src="www/lhopital-cover.png" width="50%" style="display: block; margin: auto;"></div>
+<div class="intheworld">
+<p><a href="https://en.wikipedia.org/wiki/Brook_Taylor">Brooke Taylor</a> (1685-1731), a near contemporary of Newton, published his work on approximating polynomials in 1715. Wikipedia reports: “[T]he importance of [this] remained unrecognized until 1772, when Joseph-Louis Lagrange realized its usefulness and termed it ‘the main [theoretical] foundation of differential calculus.’”</p>
+<div class="figure" style="text-align: center">
+<span id="fig:brook-taylor"></span>
+<img src="www/Brook_Taylor.jpg" alt="Brook Taylor [Source](https://en.wikipedia.org/wiki/Brook_Taylor#/media/File:Taylor_Brook_Goupy_NPG.jpg)" width="40%"><p class="caption">
+Figure 26.7: Brook Taylor <a href="https://en.wikipedia.org/wiki/Brook_Taylor#/media/File:Taylor_Brook_Goupy_NPG.jpg">Source</a>
+</p>
+</div>
+<p>Taylor’s work preceded by about a century the development of techniques for working with data. One of the pioneers in these new techniques was Carl Friedrich Gauss (1777-1855), after whom the gaussian function is named. Gauss’s techniques are the foundation of an incredibly important statistical method that is ubiquitous today: <strong><em>least squares</em></strong>. Least squares provides an entirely different way to find the coefficients on approximating polynomials (and an infinite variety of other function forms). The R/mosaic <code>fitModel()</code> function for polishing parameter estimates is based on least squares. In Block 5, we’ll explore least squares and the mathematics underlying the calculations of least-squares estimates of parameters.</p>
+<p>Due to the importance of Taylor polynomials in the development of calculus, many students assume their use extends to constructing models from data. They also assume that third- and higher-order monomials are a good basis for modeling data. Both these assumptions are wrong. Least squares is the proper foundation for working with data.</p>
+</div>
+<!--
+## Fitting polynomials
+
+Taylor polynomials provide a means to approximate continuous and smooth functions around a center $x_0$. So long as $x$ is very close to $x_0$, the approximation will be excellent. But Taylor polynomials aren't a solution to every problem. Consider the piecewise continuous function, $ramp(x-1)$, in Figure \@ref(fig:ramp-Taylor).
+
+<div class="figure" style="text-align: center">
+<img src="CalcZ-notes_files/figure-html/ramp-Taylor-1.png" alt="A piecewise continuous ramp function (gray) together with its Taylor polynomial (magenta) centered on $x_0 = 0$." width="90%" />
+<p class="caption">(\#fig:ramp-Taylor)A piecewise continuous ramp function (gray) together with its Taylor polynomial (magenta) centered on $x_0 = 0$.</p>
+</div>
+The value of $ramp(x-1) \left.\Large\right|_{x=0}$ is zero, as is the value of the first, second, third, and every other derivative. Whatever we choose for the order $n$ of the Taylor polynomial, it will be $\text{Taylor(x) = 0}$. That's an excellent approximation to $ramp(x-1)$ around $x=0$! But it misses the point of $ramp()$ entirely.
+
+Or consider the problem that introduced this chapter: finding an arithmetic process to evaluate $\sin(x)$. As it happens, we only need to be able to evaluate $\sin(x)$ on the interval $0 \leq x \leq \pi/2$.^[If $x$ is outside this range, add or subtract a multiple $k \in [\ldots, -2, -1, 0, 1, 2, \ldots]$ of $\pi$ so  $0 \leq x - k \pi \leq \pi$. Then, if $\pi/2 \leq (x - k \pi)$, calculate $\sin(\pi - (x - k \pi))$ 
+
+FIT TO PART OF SINE
+
+
+```r
+Pts <- tibble(x = seq(0, pi/2, length=1000), y = sin(x))
+mod <- lm(y ~ x + I(x*x) + I(x*x*x) - 1, data = Pts)
+mod
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x + I(x * x) + I(x * x * x) - 1, data = Pts)
+## 
+## Coefficients:
+##            x      I(x * x)  I(x * x * x)  
+##       1.0164       -0.0563       -0.1189
+```
+
+```r
+fmod <- makeFun(mod)
+slice_plot(sin(x) ~ x, domain(x=c(0, pi/2)), size=3, alpha=0.25) %>%
+  slice_plot(fmod(x) ~ x, color="magenta")
+```
+
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-131-1.png" width="90%" style="display: block; margin: auto;" />
+
+```r
+slice_plot(sin(x) - fmod(x) ~ x, domain(x=c(0, pi/2))) %>%
+  slice_plot(sin(x) - (x - x^3/6) ~ x, color="green")
+```
+
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-131-2.png" width="90%" style="display: block; margin: auto;" />
+
+-->
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#polynomials"><span class="header-section-number">26</span> Polynomials</a></li>
+<li><a class="nav-link" href="#polynomial-basics"><span class="header-section-number">26.1</span> Basics of polynomials</a></li>
+<li><a class="nav-link" href="#high-order-approximations"><span class="header-section-number">26.2</span> High-order approximations</a></li>
+<li><a class="nav-link" href="#lhopitals-rule"><span class="header-section-number">26.3</span> l’Hopital’s rule</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="Not%20available/blob/master/Diff-taylor.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="Not%20available/edit/master/Diff-taylor.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>CalcZ Student Notes</strong>" was written by Daniel Kaplan. It was last built on 2021-09-01.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>
