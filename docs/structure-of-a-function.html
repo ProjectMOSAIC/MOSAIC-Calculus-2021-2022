@@ -72,6 +72,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
 <li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
 <li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
 <li><a class="active" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
@@ -99,6 +100,12 @@
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
 <li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 <li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+<li class="book-part">Block 3: Accumulation</li>
+<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
+<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
+<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
+<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
 </ul>
 
         <div class="book-extra">
@@ -117,6 +124,9 @@
 </li>
 </ol>
 </div>
+<blockquote>
+<p><em>The ideas which are here expressed so laboriously are extremely simple …. The difficulty lies, not in the new ideas, but in escaping from the old ones, which [branch]<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Original word: “ramify”&lt;/p&gt;"><sup>3</sup></a>, for those brought up as most of us have been, into every corner of our minds.</em> — J. M Keynes, 1936, <a href="files.ethz.ch/isn/125515/1366_KeynesTheoryofEmployment.pdf"><em>The General Theory of Employment, Interest, and Money</em></a>, 1936</p>
+</blockquote>
 <p>You’re used to mathematical functions being stated as <strong><em>formulas</em></strong>, expressions composed of addition, multiplication, square roots, and so on.</p>
 <ul>
 <li>The expression <span class="math inline">\(m x + b\)</span> uses a multiplication and an addition.</li>
@@ -360,9 +370,157 @@ Cooper-Bessemer V-250
 <span class="header-section-number">3.4</span> Range: output space<a class="anchor" aria-label="anchor" href="#range-output-space"><i class="fas fa-link"></i></a>
 </h2>
 <p>The <strong><em>range</em></strong> of a function is the set of all the <em>outputs</em> that can be produced. Since at this stage we’re working only with functions that return a single number as output, it’s common to describe the range as all or part of the number line. For instance, some functions only have positive outputs. Other functions’ outputs are always in the interval 0 to 1. (This is the case, for instance, when the function returns a probability as the output.)</p>
+<div class="intheworld">
+<p><strong>Weather forecasting by numerical process</strong></p>
+<p><em><a href="https://archive.org/details/weatherpredictio00richrich/page/184/mode/2up?view=theater">Weather forecasting by numerical process</a></em> is a highly influential book, from 1922, by <a href="https://en.wikipedia.org/wiki/Lewis_Fry_Richardson">Lewis Fry Richardson</a>. He envisioned a calculation for a weather forecast as a kind of function. The domain for the forecast is the latitude and longitude of a point on the globe, rather than the rectilinear organization of corridor.</p>
+<p>One fantastic illustration of the idea shows a building constructed in the form of an inside-out globe. <a href="https://www.cabinetmagazine.org/issues/27/foer.php">Source</a> At each of many points on the globe, there is a business. (You can see this most clearly in the foreground, which shows several boxes of workers.)</p>
+<div class="figure" style="text-align: center">
+<span id="fig:unnamed-chunk-19"></span>
+<img src="www/Richardson-globe.jpg" alt="An artist's depiction of the organization of calculations for weather forecasting by Richardson's system." width="70%"><p class="caption">
+Figure 3.1: An artist’s depiction of the organization of calculations for weather forecasting by Richardson’s system.
+</p>
+</div>
+<p>In each business there is a person who will report the current air pressure at that point on the globe, another person who reports the temperature, another reporting humidity, and so on. To compute the predicted weather for the next day, the business has a staff assigned to visit the neighboring businesses to find out the pressure, temperature, humidity, etc. Still other staffers take the collected output from the neighbors and carry out the arithmetic to translate those outputs into the forecast for tomorrow. For instance, knowing the pressure at neighboring points enables the direction of wind to be calculated, thus the humidity and temperature of air coming in to and out of the region the business handles. In today’s numerical weather prediction models, the globe is divided very finely by latitude, longitude, and altitude, and software handles both the storage of present conditions and the calculation from that of the future a few minutes later. Repeating the process using the forecast enables a prediction to be made for a few minutes after that, and so on.</p>
+<p>Some of the most important concepts in calculus relate to the process of collecting outputs from neighboring points and combining them: for instance finding the difference or the sum. To illustrate, here is the first set of equations from Richardson’s <em>Weather forecasting …</em> written in the notation of calculus:</p>
+<div class="inline-figure"><img src="www/Richardson-equations.png" width="70%" style="display: block; margin: auto;"></div>
+<p>You can hardly be expected at this point to understand the calculations described by these equations, which involve the physics of air flow, the coriolis force, etc. but it’s worth pointing out some of the notation:</p>
+<ul>
+<li>The equations are about the momentum of a column of air at a particular latitude (<span class="math inline">\(\phi\)</span>) and longitude.</li>
+<li>
+<span class="math inline">\(M_E\)</span> and <span class="math inline">\(M_N\)</span> are east-west and north-south components of that momentum.</li>
+<li>
+<span class="math inline">\(\partial M_E /\partial t\)</span> is the rate at which the east-west momentum will change in the next small interval of time (<span class="math inline">\(\partial t\)</span>).</li>
+<li>
+<span class="math inline">\(p_G\)</span> is the air pressure at ground level from that column of air.</li>
+<li>
+<span class="math inline">\(\partial p_G / \partial n\)</span> is about the difference between air pressure in the column of air and the columns to the north and south.</li>
+</ul>
+<p>Calculus provides both the notation for describing the physics of climate and the means to translate this physics into arithmetic calculation.</p>
+</div>
+</div>
+<div id="formulas-in-r" class="section level2" number="3.5">
+<h2>
+<span class="header-section-number">3.5</span> Formulas in R<a class="anchor" aria-label="anchor" href="#formulas-in-r"><i class="fas fa-link"></i></a>
+</h2>
+<!-- moved two exercise files inline: 
+chicken-chew-screen.Rmd (was exercise 3.6)
+dolphin-toss-candy.Rmd (was 3.7) -->
+<p>You’re familiar to some extent with traditional mathematical notation for formulas. Yet in applied work, you will often need to translate such formulas into computer notation. This book is written using R, but particularly when mathematical formulas are involved, commands are similar across many computer languages, so what you learn will be applicable to any other languages such as Python or MATLAB.</p>
+<p>The first high-level computer language was FORTRAN, released in 1957. The name stands for “formula translation.” FORTRAN enabled arithmetic operations to be written in a way very nearly that of traditional notation. Until then, computer programs were written using alpha-numeric codes that were meaningless to a casual reader. We unfortunately still use the term “computer code” to refer to programs, despite 70-years progress in improving legibility.</p>
+<p>The best way to learn to implement mathematical formulas in a computer language is to read examples and practice writing them.</p>
+<p>Here are some examples:</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>Traditional notation</th>
+<th>R notation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(3 + 2\)</span></td>
+<td><code>3 + 2</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(3 \div 2\)</span></td>
+<td><code>3 / 2</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(6 \times 4\)</span></td>
+<td><code>6 * 4</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sqrt{\strut4}\)</span></td>
+<td><code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(4)</a></code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\ln 5\)</span></td>
+<td><code><a href="https://rdrr.io/r/base/Log.html">log(5)</a></code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2 \pi\)</span></td>
+<td><code>2 * pi</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\frac{1}{2} 17\)</span></td>
+<td><code>(1 / 2) * 17</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(17 - 5 \div 2\)</span></td>
+<td><code>17 - 5 / 2</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\frac{17 - 5}{\strut 2}\)</span></td>
+<td><code>(17 - 5) / 2</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(3^2\)</span></td>
+<td><code>3^2</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e^{-2}\)</span></td>
+<td><code><a href="https://rdrr.io/r/base/Log.html">exp(-2)</a></code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Each of these examples has been written using numbers as inputs to the mathematical operations. The syntax will be exactly the same when using an input name such as <code>x</code> or <code>y</code> or <code>altitude</code>, for instance <code>(x - y) / 2</code>. In order for that command using <code>x</code> and <code>y</code> to work, some meaning must have been previously attached to the symbols. We’ll come back to this important topic on another day.</p>
+<p>Read through the above table of examples several times. Note down any that you find at all confusing. Then cover up the right side of the table and write down the R expression for each item on the left side. Similarly, cover up the left side of the table and translate the R expression into traditional notation.</p>
+<div class="scaffolding">
+<p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and, one at a time, write and run the R expression for each of these traditional-notation expressions. We give the numerical result for each of the traditional expressions to let you confirm that your R version is correct.</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\((16 - 3)/2\)</span> gives result 6.5</li>
+<li>
+<span class="math inline">\(\sqrt{\frac{19}{3}}\)</span> gives 2.5166115</li>
+<li>
+<span class="math inline">\(\cos(\frac{2 \pi}{3})\)</span> gives -0.5</li>
+<li>
+<span class="math inline">\(\pi^3 + 2\)</span> gives 33.0062767</li>
+<li>
+<span class="math inline">\(\pi^{3+2}\)</span> gives 306.0196848</li>
+</ol>
+</div>
+<p>Once you have a grasp of how to render traditional-notation formulas into R, read these few principles to help consolidate your understanding.</p>
+<ol style="list-style-type: lower-roman">
+<li>Computer languages generally, and R in particular, involve expressions that are written in a typewriter format: one conventional character after another in a straight line. There are no superscripts or subscripts used. So, <span class="math inline">\(\frac{1}{3}\)</span> will be written <code>1/3</code>. The equivalent of <span class="math inline">\(\sqrt{7}\)</span> is <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(7)</a></code>.</li>
+<li>Parentheses:
+<ol style="list-style-type: lower-alpha">
+<li>When an opening parenthesis directly follows a name, as in <code>sqrt(</code>, it means that the named operation is to be <strong><em>applied</em></strong> to the quantity inside the parentheses. So <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(7)</a></code> means “take the square root of 7” and <code><a href="https://rdrr.io/r/base/Log.html">log(10)</a></code> means “take the (natural) logarithm of 10.” The common mathematical functions typically take only one input. We’ll stick with those for now.</li>
+<li>When an opening parenthesis does not directly follow a name, as in <code>6 - (2+3)</code>, the parentheses stand for <strong><em>grouping</em></strong> in exactly the same way as in traditional notation. For instance, <span class="math inline">\((6 + 15) / 3\)</span> is translated as <code>(6 + 15) / 3</code>.</li>
+</ol>
+</li>
+<li>Multiplication and exponentiation are often written traditionally in terms of the relative position of quantities. So <span class="math inline">\((3 + 2)\pi\)</span> means to multiply 5 times <span class="math inline">\(\pi\)</span>, even though there is no multiplication sign being written. Similar, <span class="math inline">\(\pi^{3 + 2}\)</span> means to raise <span class="math inline">\(\pi\)</span> to the fifth power. There is no “exponentiation sign” used, just the positioning of <span class="math inline">\(3+2\)</span> as a superscript: <span class="math inline">\(^{3+2}\)</span>. In R (and almost every computer language) multiplication and exponentiation <strong>must be written explicitly</strong>. The quantities <span class="math inline">\((3 + 2)\pi\)</span> and <span class="math inline">\(\pi^{3 + 2}\)</span> would be translated as <code>(3 + 2) * pi</code> and <code>pi^(3+2)</code>.</li>
+</ol>
+<p>One additional note: All these examples can be written with a single line of code, as is true for many short formulas. Later on, we’ll encounter longer formulas that <em>could</em> be written on a single line but are more readable when spread over two or more consecutive lines.</p>
+<p>When your R command is not a complete sentence, the <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> will display an error like this:</p>
+<pre><code>&lt;span style="font-color: red;"&gt;&lt;code&gt;Error in parse(text = x, keep.source = TRUE) : &lt;text&gt;:5:0: unexpected end of input &lt;/code&gt;&lt;/span&gt;</code></pre>
+<p>The “unexpected end of input” is the computer’s way of saying, “You haven’t finished your sentence so I don’t know what to do.”</p>
+<p>Each of these R expressions is incomplete. Your job, which you should do in a sandbox, is to turn each into a complete expression. Sometimes you’ll have to be creative, since when a sentence is incomplete you, like the computer, don’t really know what it means to say! But each of these erroneous expressions can be fixed by <strong>adding</strong> or <strong>changing</strong> text.</p>
+<p>Open a sandbox and copy each of the items below, one at a time, into a sandbox. Press “Run code” for that item and verify that you get an error message.</p>
+<p>For the first item, the sandbox will look like this:</p>
+<div class="figure" style="text-align: center">
+<span id="fig:unnamed-chunk-21"></span>
+<img src="www/sandbox-error.png" alt="Running an invalid command will produce an error message." width="90%"><p class="caption">
+Figure 3.2: Running an invalid command will produce an error message.
+</p>
+</div>
+<p>Then, fix the command so you get a numerical result rather than the error message.</p>
+<p>Working through all of these will help you develop an eye and finger-memory for R commands.</p>
+<ol style="list-style-type: lower-roman">
+<li><code>sin 3</code></li>
+<li><code>((16 - 4) + (14 + 2) / sqrt(7)</code></li>
+<li><code>pnorm(3; mean=2, sd=4)</code></li>
+<li><code>log[7]</code></li>
+<li><code>14(3 + 7)</code></li>
+<li><code>e^2</code></li>
+<li><code>3 + 4 x + 2 x^2</code></li>
+</ol>
+</div>
+<div id="exercises-2" class="section level2" number="3.6">
+<h2>
+<span class="header-section-number">3.6</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-2"><i class="fas fa-link"></i></a>
+</h2>
 <details><summary><strong>Exercise 3.1</strong>: <span><a name="File:%20Exercises/Fun/range-domain.Rmd" href="#RLUCX"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/range-domain.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">RLUCX</span>
 </span></summary><p>Consider this graph of a function <span class="math inline">\(g(x)\)</span>:</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-128-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-144-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> What is the <strong>domain</strong> of <span class="math inline">\(g(x)\)</span>?</p>
 <ol style="list-style-type: lower-roman">
 <li>
@@ -428,44 +586,14 @@ Correct.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
 Good.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
 </div>
 </li>
-</ol></details><div class="intheworld">
-<p><strong>Weather forecasting by numerical process</strong></p>
-<p><em><a href="https://archive.org/details/weatherpredictio00richrich/page/184/mode/2up?view=theater">Weather forecasting by numerical process</a></em> is a highly influential book, from 1922, by <a href="https://en.wikipedia.org/wiki/Lewis_Fry_Richardson">Lewis Fry Richardson</a>. He envisioned a calculation for a weather forecast as a kind of function. The domain for the forecast is the latitude and longitude of a point on the globe, rather than the rectilinear organization of corridor.</p>
-<p>One fantastic illustration of the idea shows a building constructed in the form of an inside-out globe. <a href="https://www.cabinetmagazine.org/issues/27/foer.php">Source</a> At each of many points on the globe, there is a business. (You can see this most clearly in the foreground, which shows several boxes of workers.)</p>
-<div class="figure" style="text-align: center">
-<span id="fig:unnamed-chunk-18"></span>
-<img src="www/Richardson-globe.jpg" alt="An artist's depiction of the organization of calculations for weather forecasting by Richardson's system." width="70%"><p class="caption">
-Figure 3.1: An artist’s depiction of the organization of calculations for weather forecasting by Richardson’s system.
-</p>
-</div>
-<p>In each business there is a person who will report the current air pressure at that point on the globe, another person who reports the temperature, another reporting humidity, and so on. To compute the predicted weather for the next day, the business has a staff assigned to visit the neighboring businesses to find out the pressure, temperature, humidity, etc. Still other staffers take the collected output from the neighbors and carry out the arithmetic to translate those outputs into the forecast for tomorrow. For instance, knowing the pressure at neighboring points enables the direction of wind to be calculated, thus the humidity and temperature of air coming in to and out of the region the business handles. In today’s numerical weather prediction models, the globe is divided very finely by latitude, longitude, and altitude, and software handles both the storage of present conditions and the calculation from that of the future a few minutes later. Repeating the process using the forecast enables a prediction to be made for a few minutes after that, and so on.</p>
-<p>Some of the most important concepts in calculus relate to the process of collecting outputs from neighboring points and combining them: for instance finding the difference or the sum. To illustrate, here is the first set of equations from Richardson’s <em>Weather forecasting …</em> written in the notation of calculus:</p>
-<div class="inline-figure"><img src="www/Richardson-equations.png" width="70%" style="display: block; margin: auto;"></div>
-<p>You can hardly be expected at this point to understand the calculations described by these equations, which involve the physics of air flow, the coriolis force, etc. but it’s worth pointing out some of the notation:</p>
-<ul>
-<li>The equations are about the momentum of a column of air at a particular latitude (<span class="math inline">\(\phi\)</span>) and longitude.</li>
-<li>
-<span class="math inline">\(M_E\)</span> and <span class="math inline">\(M_N\)</span> are east-west and north-south components of that momentum.</li>
-<li>
-<span class="math inline">\(\partial M_E /\partial t\)</span> is the rate at which the east-west momentum will change in the next small interval of time (<span class="math inline">\(\partial t\)</span>).</li>
-<li>
-<span class="math inline">\(p_G\)</span> is the air pressure at ground level from that column of air.</li>
-<li>
-<span class="math inline">\(\partial p_G / \partial n\)</span> is about the difference between air pressure in the column of air and the columns to the north and south.</li>
-</ul>
-<p>Calculus provides both the notation for describing the physics of climate and the means to translate this physics into arithmetic calculation.</p>
-</div>
-<hr>
-<details><summary><strong>Exercise 3.2</strong>: <span><a name="File:%20Exercises/Fun/sheep-buy-dress.Rmd" href="#pUKm4c"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/sheep-buy-dress.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">pUKm4c</span>
+</ol></details><details><summary><strong>Exercise 3.2</strong>: <span><a name="File:%20Exercises/Fun/sheep-buy-dress.Rmd" href="#pUKm4c"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/sheep-buy-dress.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">pUKm4c</span>
 </span></summary>
 Refer to the data on internal combustion engine characteristics in Section <a href="structure-of-a-function.html#inputs-to-output">3.1</a>. How would you describe the relationship between engine power (<code>BHP</code>) and RPM? Which of the pattern-book functions shows a similar relationship between input and output?
-</details><hr>
-<details><summary><strong>Exercise 3.3</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-domain.Rmd" href="#DLWSA"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-domain.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">DLWSA</span>
+</details><details><summary><strong>Exercise 3.3</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-domain.Rmd" href="#DLWSA"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-domain.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">DLWSA</span>
 </span></summary><p>All but two of the pattern-book functions have a domain that runs over the whole number line: <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span>.</p>
 <p>Which pattern-book function has a domain that excludes zero and negative numbers as inputs?</p>
 Which pattern-book function has just a single value missing from its domain?
-</details><hr>
-<details><summary><strong>Exercise 3.4</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-range.Rmd" href="#MNCLS2"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-range.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">MNCLS2</span>
+</details><details><summary><strong>Exercise 3.4</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-range.Rmd" href="#MNCLS2"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-range.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">MNCLS2</span>
 </span></summary><p>A function’s <strong><em>domain</em></strong> is the set of possible inputs to the function. A function’s <strong><em>range</em></strong> is the set of possible outputs. For each of the pattern-book functions, specify what is the range.</p>
 <p><strong>Question A</strong> What is the range of the pattern-book <strong>exponential</strong> function?</p>
 <ol style="list-style-type: lower-roman">
@@ -614,125 +742,7 @@ Correct.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
 Correct.Right. The pattern-book sigmoid function has an output that is always in the interval <span class="math inline">\(0 \leq \pnorm(x) \leq 1 .\)</span>
 </div>
 </li>
-</ol></details><hr>
-</div>
-<div id="formulas-in-r" class="section level2" number="3.5">
-<h2>
-<span class="header-section-number">3.5</span> Formulas in R<a class="anchor" aria-label="anchor" href="#formulas-in-r"><i class="fas fa-link"></i></a>
-</h2>
-<!-- moved two exercise files inline: 
-chicken-chew-screen.Rmd (was exercise 3.6)
-dolphin-toss-candy.Rmd (was 3.7) -->
-<p>You’re familiar to some extent with traditional mathematical notation for formulas. Yet in applied work, you will often need to translate such formulas into computer notation. This book is written using R, but particularly when mathematical formulas are involved, commands are similar across many computer languages, so what you learn will be applicable to any other languages such as Python or MATLAB.</p>
-<p>The first high-level computer language was FORTRAN, released in 1957. The name stands for “formula translation.” FORTRAN enabled arithmetic operations to be written in a way very nearly that of traditional notation. Until then, computer programs were written using alpha-numeric codes that were meaningless to a casual reader. We unfortunately still use the term “computer code” to refer to programs, despite 70-years progress in improving legibility.</p>
-<p>The best way to learn to implement mathematical formulas in a computer language is to read examples and practice writing them.</p>
-<p>Here are some examples:</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
-<th>Traditional notation</th>
-<th>R notation</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(3 + 2\)</span></td>
-<td><code>3 + 2</code></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(3 \div 2\)</span></td>
-<td><code>3 / 2</code></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(6 \times 4\)</span></td>
-<td><code>6 * 4</code></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\sqrt{\strut4}\)</span></td>
-<td><code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(4)</a></code></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(\ln 5\)</span></td>
-<td><code><a href="https://rdrr.io/r/base/Log.html">log(5)</a></code></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(2 \pi\)</span></td>
-<td><code>2 * pi</code></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(\frac{1}{2} 17\)</span></td>
-<td><code>(1 / 2) * 17</code></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(17 - 5 \div 2\)</span></td>
-<td><code>17 - 5 / 2</code></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(\frac{17 - 5}{\strut 2}\)</span></td>
-<td><code>(17 - 5) / 2</code></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(3^2\)</span></td>
-<td><code>3^2</code></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(e^{-2}\)</span></td>
-<td><code><a href="https://rdrr.io/r/base/Log.html">exp(-2)</a></code></td>
-</tr>
-</tbody>
-</table></div>
-<p>Each of these examples has been written using numbers as inputs to the mathematical operations. The syntax will be exactly the same when using an input name such as <code>x</code> or <code>y</code> or <code>altitude</code>, for instance <code>(x - y) / 2</code>. In order for that command using <code>x</code> and <code>y</code> to work, some meaning must have been previously attached to the symbols. We’ll come back to this important topic on another day.</p>
-<p>Read through the above table of examples several times. Note down any that you find at all confusing. Then cover up the right side of the table and write down the R expression for each item on the left side. Similarly, cover up the left side of the table and translate the R expression into traditional notation.</p>
-<div class="scaffolding">
-<p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and, one at a time, write and run the R expression for each of these traditional-notation expressions. We give the numerical result for each of the traditional expressions to let you confirm that your R version is correct.</p>
-<ol style="list-style-type: lower-roman">
-<li>
-<span class="math inline">\((16 - 3)/2\)</span> gives result 6.5</li>
-<li>
-<span class="math inline">\(\sqrt{\frac{19}{3}}\)</span> gives 2.5166115</li>
-<li>
-<span class="math inline">\(\cos(\frac{2 \pi}{3})\)</span> gives -0.5</li>
-<li>
-<span class="math inline">\(\pi^3 + 2\)</span> gives 33.0062767</li>
-<li>
-<span class="math inline">\(\pi^{3+2}\)</span> gives 306.0196848</li>
-</ol>
-</div>
-<p>Once you have a grasp of how to render traditional-notation formulas into R, read these few principles to help consolidate your understanding.</p>
-<ol style="list-style-type: lower-roman">
-<li>Computer languages generally, and R in particular, involve expressions that are written in a typewriter format: one conventional character after another in a straight line. There are no superscripts or subscripts used. So, <span class="math inline">\(\frac{1}{3}\)</span> will be written <code>1/3</code>. The equivalent of <span class="math inline">\(\sqrt{7}\)</span> is <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(7)</a></code>.</li>
-<li>Parentheses:
-<ol style="list-style-type: lower-alpha">
-<li>When an opening parenthesis directly follows a name, as in <code>sqrt(</code>, it means that the named operation is to be <strong><em>applied</em></strong> to the quantity inside the parentheses. So <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(7)</a></code> means “take the square root of 7” and <code><a href="https://rdrr.io/r/base/Log.html">log(10)</a></code> means “take the (natural) logarithm of 10.” The common mathematical functions typically take only one input. We’ll stick with those for now.</li>
-<li>When an opening parenthesis does not directly follow a name, as in <code>6 - (2+3)</code>, the parentheses stand for <strong><em>grouping</em></strong> in exactly the same way as in traditional notation. For instance, <span class="math inline">\((6 + 15) / 3\)</span> is translated as <code>(6 + 15) / 3</code>.</li>
-</ol>
-</li>
-<li>Multiplication and exponentiation are often written traditionally in terms of the relative position of quantities. So <span class="math inline">\((3 + 2)\pi\)</span> means to multiply 5 times <span class="math inline">\(\pi\)</span>, even though there is no multiplication sign being written. Similar, <span class="math inline">\(\pi^{3 + 2}\)</span> means to raise <span class="math inline">\(\pi\)</span> to the fifth power. There is no “exponentiation sign” used, just the positioning of <span class="math inline">\(3+2\)</span> as a superscript: <span class="math inline">\(^{3+2}\)</span>. In R (and almost every computer language) multiplication and exponentiation <strong>must be written explicitly</strong>. The quantities <span class="math inline">\((3 + 2)\pi\)</span> and <span class="math inline">\(\pi^{3 + 2}\)</span> would be translated as <code>(3 + 2) * pi</code> and <code>pi^(3+2)</code>.</li>
-</ol>
-<p>One additional note: All these examples can be written with a single line of code, as is true for many short formulas. Later on, we’ll encounter longer formulas that <em>could</em> be written on a single line but are more readable when spread over two or more consecutive lines.</p>
-<p>When your R command is not a complete sentence, the <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> will display an error like this:</p>
-<pre><code>&lt;span style="font-color: red;"&gt;&lt;code&gt;Error in parse(text = x, keep.source = TRUE) : &lt;text&gt;:5:0: unexpected end of input &lt;/code&gt;&lt;/span&gt;</code></pre>
-<p>The “unexpected end of input” is the computer’s way of saying, “You haven’t finished your sentence so I don’t know what to do.”</p>
-<p>Each of these R expressions is incomplete. Your job, which you should do in a sandbox, is to turn each into a complete expression. Sometimes you’ll have to be creative, since when a sentence is incomplete you, like the computer, don’t really know what it means to say! But each of these erroneous expressions can be fixed by <strong>adding</strong> or <strong>changing</strong> text.</p>
-<p>Open a sandbox and copy each of the items below, one at a time, into a sandbox. Press “Run code” for that item and verify that you get an error message.</p>
-<p>For the first item, the sandbox will look like this:</p>
-<div class="figure" style="text-align: center">
-<span id="fig:unnamed-chunk-20"></span>
-<img src="www/sandbox-error.png" alt="Running an invalid command will produce an error message." width="90%"><p class="caption">
-Figure 3.2: Running an invalid command will produce an error message.
-</p>
-</div>
-<p>Then, fix the command so you get a numerical result rather than the error message.</p>
-<p>Working through all of these will help you develop an eye and finger-memory for R commands.</p>
-<ol style="list-style-type: lower-roman">
-<li><code>sin 3</code></li>
-<li><code>((16 - 4) + (14 + 2) / sqrt(7)</code></li>
-<li><code>pnorm(3; mean=2, sd=4)</code></li>
-<li><code>log[7]</code></li>
-<li><code>14(3 + 7)</code></li>
-<li><code>e^2</code></li>
-<li><code>3 + 4 x + 2 x^2</code></li>
-</ol>
-<hr>
-<details><summary><strong>Exercise 3.5</strong>: <span><a name="File:%20Exercises/Fun/fish-sees-tree.Rmd" href="#BXCA4"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fish-sees-tree.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BXCA4</span>
+</ol></details><details><summary><strong>Exercise 3.5</strong>: <span><a name="File:%20Exercises/Fun/fish-sees-tree.Rmd" href="#BXCA4"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fish-sees-tree.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BXCA4</span>
 </span></summary><p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>. (Just click on that link, although you may eventually be given other ways to open a sandbox.)</p>
 <div class="scaffolding">
 <p>When you see a breakout box like this, it means that we’re providing some computer code that you can paste into a sandbox and run. For this exercise, that code is</p>
@@ -791,6 +801,7 @@ Good.This stands for Not-a-Number, which is what you get when you calculate the 
 </details>
 </div>
 </div>
+
   <div class="chapter-nav">
 <div class="prev"><a href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></div>
 <div class="next"><a href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></div>
@@ -803,6 +814,7 @@ Good.This stands for Not-a-Number, which is what you get when you calculate the 
 <li><a class="nav-link" href="#domain-input-space"><span class="header-section-number">3.3</span> Domain: input space</a></li>
 <li><a class="nav-link" href="#range-output-space"><span class="header-section-number">3.4</span> Range: output space</a></li>
 <li><a class="nav-link" href="#formulas-in-r"><span class="header-section-number">3.5</span> Formulas in R</a></li>
+<li><a class="nav-link" href="#exercises-2"><span class="header-section-number">3.6</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -820,7 +832,7 @@ Good.This stands for Not-a-Number, which is what you get when you calculate the 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-09.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

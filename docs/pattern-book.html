@@ -72,6 +72,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
 <li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
 <li><a class="active" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
 <li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
@@ -99,6 +100,12 @@
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
 <li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 <li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+<li class="book-part">Block 3: Accumulation</li>
+<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
+<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
+<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
+<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
 </ul>
 
         <div class="book-extra">
@@ -296,18 +303,42 @@ and like this in computer notation:</p>
 <span class="header-section-number">2.4</span> Function shapes<a class="anchor" aria-label="anchor" href="#function-shapes"><i class="fas fa-link"></i></a>
 </h2>
 <p>You are going to be building models by selecting an appropriate function or by putting functions together in various ways. This might remind you of Lego blocks. As you know, Legos come in different shapes: <span class="math inline">\(6\times 2\)</span>, <span class="math inline">\(4\times 2\)</span>, <span class="math inline">\(2\times 2\)</span>, and so on. Similarly, each of the pattern-book functions has a distinctively shaped graph. Knowing the shapes by name will help you when you need to build a model.</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-12-5.png" width="50%" style="display: block; margin: auto;"></p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-2.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-3.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-4.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-5.png" width="50%" style="display: block; margin: auto;"></p>
 <p>The <strong><em>proportional function</em></strong> and the <strong><em>constant function</em></strong> have extremely simple shapes. Note that the graph of a constant function is not just any line, but a line with zero slope.</p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-13-2.png" width="50%" style="display: block; margin: auto;"></p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-14-2.png" width="50%" style="display: block; margin: auto;"></p>
 <p>It is tempting to deny that the constant function is a function. After all, the output does not depend on the input. Still, this situation arises frequently in modeling: you start out supposing that one quantity depends on another, but it sometimes turns out that it does not. Since functions are our way of representing relationships, it is helpful to have a function for the situation of “no relationship.” The constant function does this job.</p>
 <p>You may also notice the proportional function shown above does nothing to change the input; it simply returns as output the same value it received as input. For this reason, the proportional pattern-book function (<span class="math inline">\(f(x)=x\)</span>) is sometimes called the <strong><em>identity function</em></strong>. Later we will show how this simple pattern-book function can be endowed with parameters that form the basis of many change relationships.</p>
-<hr>
+<div class="observation">
+<p>Functions like <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code>, <code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code> are always referred to by name with parentheses enclosing the arguments. Other functions are traditionally written without a name, for instance, like <span class="math inline">\(e^x\)</span> or <span class="math inline">\(1/x\)</span>. These two different conventions can lead to confusion. There is little that can be done to avoid that confusion, since the dual conventions appear throughout technical work.</p>
+<p>If absolute consistency of notation were the prime goal, we could have written this book in a style that gives a name to every pattern-book function writes it in the name/parentheses style. Something like this:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">reciprocal</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">t</span> <span class="op">~</span> <span class="va">t</span><span class="op">)</span>
+<span class="va">constant</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">1</span> <span class="op">~</span> <span class="va">z</span><span class="op">)</span>
+<span class="va">square</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
+<p>These would be used in the ordinary way, for instance:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">reciprocal</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 0.1428571</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">constant</span><span class="op">(</span><span class="fl">123.67</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">square</span><span class="op">(</span><span class="fl">19</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 361</code></pre>
+<p>Writing reciprocal(<span class="math inline">\(x\)</span>) instead of <span class="math inline">\(1/x\)</span> is long-winded, which is perhaps why you never see it. But when you see <span class="math inline">\(1/x\)</span> you should think of it as a function being applied to <span class="math inline">\(x\)</span> and not as a bit of arithmetic.</p>
+<p>By the way … I used different names for the inputs in these three functions just to remind the reader that, for functions with one input, the name has no significance. You just have to make sure to use the same name on the left- and right-hand sides of the tilde expression.</p>
+</div>
+</div>
+<div id="exercises-1" class="section level2" number="2.5">
+<h2>
+<span class="header-section-number">2.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"><i class="fas fa-link"></i></a>
+</h2>
 <details><summary><strong>Exercise 2.1</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-zeros.Rmd" href="#H2KG3"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-zeros.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">H2KG3</span>
 </span></summary><div class="scaffolding">
 <p>Copy and paste the R/mosaic command below into a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>. The command shows a simple way to graph a function, in this case <code><a href="https://rdrr.io/r/base/Log.html">exp()</a></code>. Press “Run code” to execute the command and draw the graph.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-126-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-142-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>In this exercise, you’ll be modifying the sandbox code to draw different functions, so you can examine their shapes.</p>
 </div>
 <p>Your task is to read and interpret the graphs of the basic modeling functions. Here, you will be looking for <strong><em>zero-crossings</em></strong>: the neighborhood of a point in the function’s domain where the <strong>output</strong> of the function is negative for inputs on one side and positive for inputs on the other side. If zero is touched but not crossed, we’ll call that “touched zero.”</p>
@@ -377,12 +408,10 @@ and like this in computer notation:</p>
 <td></td>
 </tr>
 </tbody>
-</table></details><hr>
-<details><summary><strong>Exercise 2.2</strong>: <span><a name="File:%20Exercises/Fun/lobster-ride-glasses.Rmd" href="#Pdt9jy"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/lobster-ride-glasses.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">Pdt9jy</span>
+</table></details><details><summary><strong>Exercise 2.2</strong>: <span><a name="File:%20Exercises/Fun/lobster-ride-glasses.Rmd" href="#Pdt9jy"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/lobster-ride-glasses.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">Pdt9jy</span>
 </span></summary>
 On a piece of paper, sketch from memory a graph of each of the nine pattern-book functions.
-</details><hr>
-<details><summary><strong>Exercise 2.3</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-axis-crossing.Rmd" href="#VIW7T"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-axis-crossing.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">VIW7T</span>
+</details><details><summary><strong>Exercise 2.3</strong>: <span><a name="File:%20Exercises/Fun/pattern-book-axis-crossing.Rmd" href="#VIW7T"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/pattern-book-axis-crossing.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">VIW7T</span>
 </span></summary><p>For each of the pattern-book functions except the reciprocal, the graph crosses either the vertical axis (that is <span class="math inline">\(x=0\)</span>) or the horizontal axis (that is, <span class="math inline">\(f(x) = 0\)</span>), or both. It’s helpful to know the exact quantitative value for the output where the function graph crosses the vertical axis.</p>
 <p>To answer these questions, you will want to open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> to try the various possibilities.</p>
 <p><strong>Question A</strong> What is the exact output of the pattern-book <strong>exponential</strong> function when the input is <span class="math inline">\(x=0\)</span>?</p>
@@ -416,8 +445,7 @@ Excellent!Right. But 0.4 will do when you’re sketching a graph.
 </ol>
 <p><strong>Question E</strong> What is the exact output of the pattern-book <strong>constant</strong> function?</p>
 <p>    0<span class="mcanswer">︎✘</span>       0.3989423<span class="mcanswer">︎✘</span>       1/2<span class="mcanswer">︎✘</span>       1<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span></p>
-</details><hr>
-<details><summary><strong>Exercise 2.4</strong>: <span><a name="File:%20Exercises/Fun/bear-lay-plant.Rmd" href="#Qj0JAr"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/bear-lay-plant.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">Qj0JAr</span>
+</details><details><summary><strong>Exercise 2.4</strong>: <span><a name="File:%20Exercises/Fun/bear-lay-plant.Rmd" href="#Qj0JAr"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/bear-lay-plant.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">Qj0JAr</span>
 </span></summary><p>Some of our pattern-book functions have a distinctive property called <strong>scale invariance</strong>. This means the graph of the function looks the same even when plotted on very different horizontal and vertical axes. The function <span class="math inline">\(\ln(x)\)</span> plotted on two different scales in Figure <a href="pattern-book.html#fig:log-scale-invariance">2.5</a> shows that the graph of the function has practically the same shape.</p>
 <div class="figure" style="text-align: center">
 <span id="fig:log-scale-invariance"></span>
@@ -472,28 +500,7 @@ Excellent!The domain <span class="math inline">\(-3 &lt; x &lt; 3\)</span> suppo
 <p><strong>Question B</strong> The sigmoid function <code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code> also has a characteristic scale. Which of these is a domain length that can encompass the characteristic shape of the sigmoid?</p>
 <p>    0.1<span class="mcanswer">︎✘</span>       1<span class="mcanswer">︎✘</span>       6<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       16<span class="mcanswer">︎✘</span>       256<span class="mcanswer">︎✘</span></p>
 Throughout science, it’s common to set a standard approach to defining a characteristic scale. For instance, the characteristic scale of an aircraft could be taken as the length of body. Gaussian and sigmoids are so common throughout science that there is a convention for defining the characteristic scale called the <strong><em>standard deviation</em></strong>. For the pattern book gaussian and sigmoid, the standard deviation is 1. That’s much shorter than the domain that captures the bulk of action of the gaussian or sigmoid. For this reason, statisticians in practice use a characteristic scale of <span class="math inline">\(\pm 2\)</span> or <span class="math inline">\(\pm 3\)</span> standard deviations.
-</details><hr>
-<div class="observation">
-<p>Functions like <code><a href="https://rdrr.io/r/base/Trig.html">sin()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html">log()</a></code>, <code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code> are always referred to by name with parentheses enclosing the arguments. Other functions are traditionally written without a name, for instance, like <span class="math inline">\(e^x\)</span> or <span class="math inline">\(1/x\)</span>. These two different conventions can lead to confusion. There is little that can be done to avoid that confusion, since the dual conventions appear throughout technical work.</p>
-<p>If absolute consistency of notation were the prime goal, we could have written this book in a style that gives a name to every pattern-book function writes it in the name/parentheses style. Something like this:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">reciprocal</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">t</span> <span class="op">~</span> <span class="va">t</span><span class="op">)</span>
-<span class="va">constant</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">1</span> <span class="op">~</span> <span class="va">z</span><span class="op">)</span>
-<span class="va">square</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
-<p>These would be used in the ordinary way, for instance:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">reciprocal</span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.1428571</code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">constant</span><span class="op">(</span><span class="fl">123.67</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">square</span><span class="op">(</span><span class="fl">19</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 361</code></pre>
-<p>Writing reciprocal(<span class="math inline">\(x\)</span>) instead of <span class="math inline">\(1/x\)</span> is long-winded, which is perhaps why you never see it. But when you see <span class="math inline">\(1/x\)</span> you should think of it as a function being applied to <span class="math inline">\(x\)</span> and not as a bit of arithmetic.</p>
-<p>By the way … I used different names for the inputs in these three functions just to remind the reader that, for functions with one input, the name has no significance. You just have to make sure to use the same name on the left- and right-hand sides of the tilde expression.</p>
-</div>
-
+</details>
 </div>
 </div>
   <div class="chapter-nav">
@@ -507,6 +514,7 @@ Throughout science, it’s common to set a standard approach to defining a chara
 <li><a class="nav-link" href="#the-power-law-family"><span class="header-section-number">2.2</span> The power-law family</a></li>
 <li><a class="nav-link" href="#constructing-functions"><span class="header-section-number">2.3</span> Constructing functions</a></li>
 <li><a class="nav-link" href="#function-shapes"><span class="header-section-number">2.4</span> Function shapes</a></li>
+<li><a class="nav-link" href="#exercises-1"><span class="header-section-number">2.5</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -524,7 +532,7 @@ Throughout science, it’s common to set a standard approach to defining a chara
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-09.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 31 Symbolic anti-differentiation | MOSAIC Calculus</title>
+<meta name="author" content="Daniel Kaplan">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
+    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+    for (let popover of popovers){
+      const div = document.createElement('div');
+      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+      div.innerHTML = popover.getAttribute('data-content');
+
+      // Will this work with TeX on its own line?
+      var has_math = div.querySelector("span.math");
+      if (has_math) {
+        document.body.appendChild(div);
+      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+      	MathJax.Hub.Queue(function(){
+          popover.setAttribute('data-content', div.innerHTML);
+      	})
+      }
+    }
+    </script>
+</head>
+<body>
+<span class="math inline">
+    \(\newcommand{\line}{\text{line}}
+    \newcommand{\hump}{\text{hump}}
+    \newcommand{\sigmoid}{\text{sigmoid}}
+    \newcommand{\recip}{\text{recip}}
+    \newcommand{\diff}[1]{{\cal D}_#1}
+    \newcommand{\pnorm}{\text{pnorm}}
+    \newcommand{\dnorm}{\text{dnorm}}
+    \newcommand{\CC}[1]{\color{#648fff}{#1}}
+    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
+    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
+    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
+    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+    </span>
+
+
+
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">MOSAIC Calculus</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
+<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
+<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
+<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
+<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
+<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
+<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
+<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
+<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Finding parameters for the basic modeling functions</a></li>
+<li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
+<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
+<li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
+<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">12</span> Functions with multiple inputs</a></li>
+<li><a class="" href="fun-piecewise.html"><span class="header-section-number">13</span> Piecewise functions</a></li>
+<li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
+<li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
+<li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
+<li class="book-part">Block 2: Differentiation</li>
+<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivatives of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
+<li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+<li class="book-part">Block 3: Accumulation</li>
+<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
+<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
+<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
+<li><a class="active" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="Not%20available">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="accum-symbolic" class="section level1" number="31">
+<h1>
+<span class="header-section-number">31</span> Symbolic anti-differentiation<a class="anchor" aria-label="anchor" href="#accum-symbolic"><i class="fas fa-link"></i></a>
+</h1>
+<div class="example">
+<p><span id="exm:unlabeled-div-3" class="example"><strong>Example 31.1  </strong></span>Galileo knew, of course, that a falling object speeds up as it falls. He also knew that the time increments of velocity were constant. He didn’t know about calculus, but if he had, he would have known that “time increment” should be replaced by the derivative of velocity: a rate of change that we call “acceleration.” Today, we know the value of that constant acceleration is approximately constant, and we even have units: <span class="math inline">\(g = - 9.8\)</span> m/s<span class="math inline">\(^2\)</span>. Since velocity <span class="math inline">\(V(t)\)</span> is the integral of acceleration, we even have a formula for velocity as a function of time: <span class="math display">\[V(t) = \int g dt + C = g t + C\]</span>.</p>
+<p>Suppose Galileo releases a ball from the Tower of Pisa at exactly 3 seconds after noon. The velocity is <span class="math display">\[V(t\geq 3) = g \times t + C = -9.8 \text{m/s}^2 \times t + C = -29.4 \text{m/s} + C\ .\]</span></p>
+<p>But what is the value of <span class="math inline">\(C\)</span>? Galileo knows that at <span class="math inline">\(t=3\)</span>, when he released the ball from a standstill, the velocity was zero. <span class="math display">\[V(3) = g \times t + C = -9.8\, \text{m/s}^2 \times 3\, \text{s} + C = - 29.4\, \text{m/s} + C \ .\]</span> Since <span class="math inline">\(V(3) = 0 \text{m/s}\)</span> we can deduce that <span class="math inline">\(C= 29.4\, \text{m/s}\)</span>.</p>
+</div>
+<p>Come back to Galileo and integrate motion under constant gravity, involving two integrals:
+<span class="math display">\[V(t) = \int v(t) dt + C_1$ = -\int 9.8 dt + C_1 = - 9.8 t + C_1\]</span> What’s the value of the constant of integration, which we’re writing as <span class="math inline">\(C_1\)</span>? If we know the initial position <span class="math inline">\(x(0)\)</span>, that is, the position at <span class="math inline">\(t=0\)</span>, then plugging <span class="math inline">\(t=0\)</span> into the formula for <span class="math inline">\(V(t)\)</span> gives <span class="math inline">\(C_1 = V(0)\)</span>.</p>
+<p>We also know that position <span class="math inline">\(x(t)\)</span> is
+<span class="math display">\[x(t) = \int V(t) dt + C_2\]</span> There’s no reason to think that the constant of integration that relates the anti-derivative <span class="math inline">\(\int V(t) dt\)</span> to <span class="math inline">\(x(t)\)</span> is the same as the constant of integration that relates <span class="math inline">\(\int v(t) dt\)</span> to <span class="math inline">\(V(t)\)</span>. That’s why we are writing the constant as <span class="math inline">\(C_2\)</span> here.</p>
+<p>Happily, we know <span class="math inline">\(V(t) = -9.8 t + V(0)\)</span>. So we can calculate <span class="math display">\[x(t) = \int \left[-9.8 t + V(0)\right]\,dt \\
+= \int \left[-8.8 t\right]dt + \int V(0) dt =\\
+\frac{9.8}{2} t^2 + V(0) t + C_2\ .\]</span>
+And what is the value of the constant of integration <span class="math inline">\(C_2\)</span>? Suppose we know the position of the ball at <span class="math inline">\(t=0\)</span>, that is, <span class="math inline">\(x(0)\)</span>. Plugging <span class="math inline">\(t=0\)</span> into the above formula gives <span class="math inline">\(x(0) = C_2\)</span>.</p>
+<div id="polynomials-1" class="section level2" number="31.1">
+<h2>
+<span class="header-section-number">31.1</span> Polynomials<a class="anchor" aria-label="anchor" href="#polynomials-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>GO THROUGH THE LOGIC OF INTEGRATING POLYNOMIALS JUST BASED ON THEIR COEFFICIENTS.</p>
+<p>Pick up on the Taylor series for <span class="math inline">\(\dnorm(x)\)</span> defined in Exercises/Diff/birch-dig-radio.Rmd and have them integrate this out from zero to get an approximation to <span class="math inline">\(\pnorm()\)</span>. Integrate out to <span class="math inline">\(x=0.5\)</span>, then switch to the Taylor polynomial around <span class="math inline">\(x_0=1\)</span> and keep on integrating. Use the first integral out to <span class="math inline">\(x=0.5\)</span> as the starting value for the second integral.</p>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#accum-symbolic"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
+<li><a class="nav-link" href="#polynomials-1"><span class="header-section-number">31.1</span> Polynomials</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="Not%20available/blob/master/Accum-symbolic.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="Not%20available/edit/master/Accum-symbolic.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-14.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

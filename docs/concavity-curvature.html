@@ -72,6 +72,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
 <li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
 <li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
 <li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
@@ -99,6 +100,12 @@
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
 <li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 <li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+<li class="book-part">Block 3: Accumulation</li>
+<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
+<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
+<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
+<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
 </ul>
 
         <div class="book-extra">
@@ -171,11 +178,11 @@ We’re defining the concavity of a function <span class="math inline">\(f()\)</
 <span class="math display">\[\text{second derivative of}\ f()\ \text{is written}\ \partial_{xx} f(x)\]</span>
 Look carefully to see the difference between the first derivative <span class="math inline">\(\partial_x f(x)\)</span> and the second derivative <span class="math inline">\(\partial_{xx} f(x)\)</span>: it’s all in the double subscript <span class="math inline">\(_{xx}\)</span>.</p>
 <p>Computing the second derivative is merely a matter of computing the first derivative <span class="math inline">\(\partial_x f(x)\)</span> and then computing the (first) derivative of <span class="math inline">\(\partial_x f(x)\)</span>. In R this process looks like:</p>
-<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dx_f</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span>   <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>   <span class="co"># First deriv. of f()</span>
 <span class="va">dxx_f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span><span class="fu">dx_f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>   <span class="co"># Second deriv. of f()</span></code></pre></div>
 <p>R/mosaic offers a shortcut for computing second derivatives using just one application of <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code>:</p>
-<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dxx_f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span> <span class="op">&amp;</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
 <p>Notice that we’re doubling up on the <code>x</code> in the right-hand side of the tilde expression.</p>
 </div>
@@ -214,373 +221,133 @@ Figure 20.4: At any point on the graph of a smooth function, a circle tangent to
 <p>Changing curvature implies that <span class="math inline">\(\partial_x {\cal K}\)</span> is non-zero. Since <span class="math inline">\({\cal K}\)</span> depends on the first and second derivatives of <span class="math inline">\(f(x)\)</span>, the <em>Policy</em> on gradual change means that the <strong>third derivative</strong> of <span class="math inline">\(f(x)\)</span> is non-zero.</p>
 </div>
 </div>
-<div id="exercises-1" class="section level2" number="20.4">
+<div id="exercises-16" class="section level2" number="20.4">
 <h2>
-<span class="header-section-number">20.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">20.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-16"><i class="fas fa-link"></i></a>
 </h2>
 <details><summary><strong>Exercise 20.1</strong>: <span><a name="File:%20Exercises/Diff/frog-bid-bed.Rmd" href="#ykIBCb"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/frog-bid-bed.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ykIBCb</span>
-</span></summary><p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-247-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> Glance at the graph. In which boxes is the slope negative?</p>
-<p>    A, B, C<span class="mcanswer">︎✘</span>       B, C, D<span class="mcanswer">︎✘</span>       A, C, D<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span></p>
+</span></summary><p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-263-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> Glance at the graph. In which boxes is the slope negative?</p>
+<p>    A, B, C<span class="mcanswer"> ︎✘ </span>       B, C, D<span class="mcanswer"> ︎✘ </span>       A, C, D<span class="mcanswer"> Good. </span></p>
 </details><details><summary><strong>Exercise 20.2</strong>: <span><a name="File:%20Exercises/Diff/turtle-send-pot.Rmd" href="#QnpuMN"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/turtle-send-pot.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">QnpuMN</span>
-</span></summary><p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-248-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> Consider the slope of the function in the domains marked by the boxes. What is the order of boxes from least steep to steepest?</p>
-    A, B, C<span class="mcanswer">︎✘</span>       C, A, B<span class="mcanswer">︎✘</span>       A, C, B<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       none of these<span class="mcanswer">︎✘</span>
+</span></summary><p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-264-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> Consider the slope of the function in the domains marked by the boxes. What is the order of boxes from least steep to steepest?</p>
+    A, B, C<span class="mcanswer"> ︎✘ </span>       C, A, B<span class="mcanswer"> ︎✘ </span>       A, C, B<span class="mcanswer"> Excellent! </span>       none of these<span class="mcanswer"> ︎✘ </span>
 </details><details><summary><strong>Exercise 20.3</strong>: <span><a name="File:%20Exercises/Diff/reptile-put-kitchen.Rmd" href="#kq3t86"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/reptile-put-kitchen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">kq3t86</span>
-</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-249-1.png" width="90%" style="display: block; margin: auto;"></div>
+</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-265-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> Which of the line segments is tangent to the curve at the point marked with a dot?</p>
-    A<span class="mcanswer">︎✘</span>       B<span class="mcanswer">︎✘</span>       C<span class="mcanswer">︎✘</span>       all of them<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       none of them<span class="mcanswer">︎✘</span>
+    A<span class="mcanswer"> ︎✘ </span>       B<span class="mcanswer"> ︎✘ </span>       C<span class="mcanswer"> ︎✘ </span>       all of them<span class="mcanswer"> Good. </span>       none of them<span class="mcanswer"> ︎✘ </span>
 </details><details><summary><strong>Exercise 20.4</strong>: <span><a name="File:%20Exercises/Diff/goat-pay-pot.Rmd" href="#BVRjhF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/goat-pay-pot.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BVRjhF</span>
-</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-250-1.png" width="90%" style="display: block; margin: auto;"></div>
+</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-266-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> Which of the line segments is tangent to the curve at the point marked with a dot?</p>
-<ol style="list-style-type: lower-roman">
-<li>A
-<div class="mcanswer">
-Excellent!‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>B
-<div class="mcanswer">
-︎✘too shallow
-</div>
-</li>
-<li>C
-<div class="mcanswer">
-︎✘too steep‥‥
-</div>
-</li>
-<li>all of them
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>none of them
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol></details><details><summary><strong>Exercise 20.5</strong>: <span><a name="File:%20Exercises/Diff/seahorse-speak-saucer.Rmd" href="#5ddB5r"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/seahorse-speak-saucer.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">5ddB5r</span>
-</span></summary><p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-251-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> In which of the boxes is the function concave up?</p>
-<p>    A and E<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       B and D<span class="mcanswer">︎✘</span>       C and D<span class="mcanswer">︎✘</span></p>
+<p>    A<span class="mcanswer"> Excellent! </span>       B<span class="mcanswer"> ︎✘ too shallow </span>       C<span class="mcanswer"> ︎✘ too steep </span>       all of them<span class="mcanswer"> ︎✘ </span>       none of them<span class="mcanswer"> ︎✘ </span></p>
+</details><details><summary><strong>Exercise 20.5</strong>: <span><a name="File:%20Exercises/Diff/seahorse-speak-saucer.Rmd" href="#5ddB5r"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/seahorse-speak-saucer.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">5ddB5r</span>
+</span></summary><p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-267-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> In which of the boxes is the function concave up?</p>
+<p>    A and E<span class="mcanswer"> Good. </span>       B and D<span class="mcanswer"> ︎✘ </span>       C and D<span class="mcanswer"> ︎✘ </span></p>
 </details><details><summary><strong>Exercise 20.6</strong>: <span><a name="File:%20Exercises/Diff/panda-drive-shirt.Rmd" href="#4nsU0z"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/panda-drive-shirt.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">4nsU0z</span>
-</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-253-1.png" width="90%" style="display: block; margin: auto;"></div>
+</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-269-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> In which boxes is the function smooth?</p>
-<p>    A and B<span class="mcanswer">︎✘</span>       B and C<span class="mcanswer">︎✘</span>       A and C<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       none of them<span class="mcanswer">︎✘</span>       all of them<span class="mcanswer">︎✘</span></p>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-254-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> In which boxes is the function smooth?</p>
-<p>    A and B<span class="mcanswer">︎✘</span>       B and C<span class="mcanswer">︎✘</span>       A and C<span class="mcanswer">︎✘</span>       none of them<span class="mcanswer">︎✘</span>       all of them<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span></p>
+<ol style="list-style-type: lower-roman">
+<li>A and B<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>B and C<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>A and C<span class="mcanswer"> Right! </span><br>
+</li>
+<li>none of them<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>all of them<span class="mcanswer"> ︎✘ </span>
+</li>
+</ol>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-270-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> In which boxes is the function smooth?</p>
+<ol style="list-style-type: lower-roman">
+<li>A and B<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>B and C<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>A and C<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>none of them<span class="mcanswer"> ︎✘ </span><br>
+</li>
+<li>all of them<span class="mcanswer"> Right! </span>
+</li>
+</ol>
 <hr>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-255-1.png" width="90%" style="display: block; margin: auto;"><strong>Question C</strong> In which boxes is the function smooth?</p>
-<p>    A<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       B<span class="mcanswer">︎✘</span>       neither of them<span class="mcanswer">︎✘</span>       both of them<span class="mcanswer">︎✘</span></p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-271-1.png" width="90%" style="display: block; margin: auto;"><strong>Question C</strong> In which boxes is the function smooth?</p>
+<p>    A<span class="mcanswer"> Excellent! </span>       B<span class="mcanswer"> ︎✘ </span>       neither of them<span class="mcanswer"> ︎✘ </span>       both of them<span class="mcanswer"> ︎✘ </span></p>
 </details><details><summary><strong>Exercise 20.7</strong>: <span><a name="File:%20Exercises/Diff/crow-write-chair.Rmd" href="#iIXOYZ"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/crow-write-chair.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">iIXOYZ</span>
 </span></summary><p>We introduced concavity graphically and used the terms “concave up” and “concave down.” Now we can compute the concavity quantitatively using the second derivative.</p>
 <p>In a sandbox, create this function and plot it. (Note: <code>rfun()</code> generates random functions in the same way you might by moving a pencil smoothly on a piece of paper. The <code>seed = 8427</code> effectively chooses which of infinitely many function is being generated. Different seeds give different functions. )</p>
-<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">rfun</span><span class="op">(</span> <span class="op">~</span> <span class="va">z</span>, seed <span class="op">=</span> <span class="fl">8427</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-256-1.png" width="90%" style="display: block; margin: auto;">
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-272-1.png" width="90%" style="display: block; margin: auto;">
 You can see that in the region near <span class="math inline">\(x = -1\)</span> the function is concave down. While near <span class="math inline">\(x=2.5\)</span> the function is concave up.</p>
 <p>In your sandbox, compute the <strong><em>second derivative</em></strong> of <span class="math inline">\(f(x)\)</span> and evaluate it at <span class="math inline">\(x=-1\)</span> and <span class="math inline">\(x=2.5\)</span>.</p>
-<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dxx_f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span> <span class="op">&amp;</span> <span class="va">x</span><span class="op">)</span>
 <span class="fu">dxx_f</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>
 <span class="fu">dxx_f</span><span class="op">(</span><span class="fl">2.5</span><span class="op">)</span></code></pre></div>
 <p>Using these results, and perhaps experimenting a little with different values of <span class="math inline">\(x\)</span>, you should be able to answer this question:</p>
 <p><strong>Question A</strong> Which of these is a correct statement of “concave up” in terms of the value of <span class="math inline">\(\partial_{xx} f(x)\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &gt; 0\)</span>
-<div class="mcanswer">
-Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
+<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &gt; 0\)</span><span class="mcanswer"> Right-oh! </span><br>
 </li>
-<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &lt; 0\)</span>
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
+<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &lt; 0\)</span><span class="mcanswer"> ︎✘ </span><br>
 </li>
-<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &lt; 0\)</span> <strong>and</strong> <span class="math inline">\(\partial_x f(x_0) &lt; 0\)</span>
-<div class="mcanswer">
-︎✘The first derivative has nothing to do with it.
-</div>
+<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &lt; 0\)</span> <strong>and</strong> <span class="math inline">\(\partial_x f(x_0) &lt; 0\)</span><span class="mcanswer"> ︎✘ The first derivative has nothing to do with it. </span><br>
 </li>
-<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &gt; 0\)</span> <strong>and</strong> <span class="math inline">\(\partial_x f(x_0) &gt; 0\)</span>
-<div class="mcanswer">
-︎✘The first derivative has nothing to do with it.
-</div>
+<li>A function is concave-up at input <span class="math inline">\(x_0\)</span> when <span class="math inline">\(\partial_{xx} f(x_0) &gt; 0\)</span> <strong>and</strong> <span class="math inline">\(\partial_x f(x_0) &gt; 0\)</span><span class="mcanswer"> ︎✘ The first derivative has nothing to do with it. </span>
 </li>
 </ol>
 <p>Recall that an <strong><em>inflection point</em></strong> is a value for the input <span class="math inline">\(x\)</span> at which <span class="math inline">\(f(x)\)</span> changes from concave up to concave down, or <em>vice versa</em>. Add a statement to your sandbox to graph <span class="math inline">\(\partial_{xx} f(x)\)</span>.</p>
 <p><strong>Question B</strong> From reading the graph of <span class="math inline">\(\partial_{xx} f(x)\)</span>, say which of these is nearest to an inflection point for <span class="math inline">\(f(x)\)</span>.</p>
-<ol style="list-style-type: lower-roman">
-<li>
-<span class="math inline">\(x = 0.0\)</span>
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>
-<span class="math inline">\(x = -4.0\)</span>
-<div class="mcanswer">
-Nice!The inflection point nearest <span class="math inline">\(x=-4\)</span> occurs at <span class="math inline">\(x = -4.156\)</span>.
-</div>
-</li>
-<li>
-<span class="math inline">\(x = 2.5\)</span>
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>
-<span class="math inline">\(x = -3\)</span>
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol>
+<p>    <span class="math inline">\(x = 0.0\)</span><span class="mcanswer"> ︎✘ </span>       <span class="math inline">\(x = -4.0\)</span><span class="mcanswer"> Right-oh! The inflection point nearest <span class="math inline">\(x=-4\)</span> occurs at <span class="math inline">\(x = -4.156\)</span>. </span>       <span class="math inline">\(x = 2.5\)</span><span class="mcanswer"> ︎✘ </span>       <span class="math inline">\(x = -3\)</span><span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question C</strong> How many inflection points are there for <span class="math inline">\(f(x)\)</span> in the domain <span class="math inline">\(-5 \leq x \leq 5\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>1
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>2
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>3
-<div class="mcanswer">
-Excellent!You can see this by graphing <span class="math inline">\(\partial_{xx} f(x)\)</span> and counting the zero crossings.
-</div>
-</li>
-<li>4
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>5
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol></details><details><summary><strong>Exercise 20.8</strong>: <span><a name="File:%20Exercises/Diff/goat-come-bed.Rmd" href="#bHacc6"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/goat-come-bed.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">bHacc6</span>
+    1<span class="mcanswer"> ︎✘ </span>       2<span class="mcanswer"> ︎✘ </span>       3<span class="mcanswer"> Excellent! You can see this by graphing <span class="math inline">\(\partial_{xx} f(x)\)</span> and counting the zero crossings. </span>       4<span class="mcanswer"> ︎✘ </span>       5<span class="mcanswer"> ︎✘ </span>
+</details><details><summary><strong>Exercise 20.8</strong>: <span><a name="File:%20Exercises/Diff/goat-come-bed.Rmd" href="#bHacc6"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/goat-come-bed.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">bHacc6</span>
 </span></summary><p>The graph of the function <span class="math inline">\(g(x) \equiv \sqrt{R^2 - x^2}\)</span> has the shape of a circle of radius <span class="math inline">\(R\)</span>, e.g.</p>
-<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">R</span><span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, R<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, npts<span class="op">=</span><span class="fl">300</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-259-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-275-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>Intuition suggests that the radius of an enscribed circle for <span class="math inline">\(g()\)</span> should match the radius of the graph of the function.</p>
 <p>In a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>, create a function to calculate the curvature of <span class="math inline">\(g()\)</span> at any input <span class="math inline">\(x\)</span>. Then plot that curvature function over the domain <span class="math inline">\(-2 &lt; x &lt; 2\)</span>. Is the curvature of <span class="math inline">\(g()\)</span> indeed constant? To help you get started, here is a bit of scaffolding for your sandbox.</p>
 <div class="scaffolding">
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="concavity-curvature.html#cb200-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sqrt</span>(R<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">~</span> x, <span class="at">R =</span> <span class="dv">2</span>) <span class="co"># define g()</span></span>
-<span id="cb200-2"><a href="concavity-curvature.html#cb200-2" aria-hidden="true" tabindex="-1"></a>dg  <span class="ot">&lt;-</span> <span class="fu">D</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x)         <span class="co"># first derivative of g()</span></span>
-<span id="cb200-3"><a href="concavity-curvature.html#cb200-3" aria-hidden="true" tabindex="-1"></a>ddg <span class="ot">&lt;-</span> <span class="fu">D</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x <span class="sc">&amp;</span> x)     <span class="co"># second derivative of g()</span></span>
-<span id="cb200-4"><a href="concavity-curvature.html#cb200-4" aria-hidden="true" tabindex="-1"></a>curvature <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">abs</span>(<span class="fu">ddg</span>(x)) <span class="sc">/</span> <span class="fu">abs</span>(__fill_in_the_formula__)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>) <span class="sc">~</span> x)</span>
-<span id="cb200-5"><a href="concavity-curvature.html#cb200-5" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">curvature</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="concavity-curvature.html#cb203-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sqrt</span>(R<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">~</span> x, <span class="at">R =</span> <span class="dv">2</span>) <span class="co"># define g()</span></span>
+<span id="cb203-2"><a href="concavity-curvature.html#cb203-2" aria-hidden="true" tabindex="-1"></a>dg  <span class="ot">&lt;-</span> <span class="fu">D</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x)         <span class="co"># first derivative of g()</span></span>
+<span id="cb203-3"><a href="concavity-curvature.html#cb203-3" aria-hidden="true" tabindex="-1"></a>ddg <span class="ot">&lt;-</span> <span class="fu">D</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x <span class="sc">&amp;</span> x)     <span class="co"># second derivative of g()</span></span>
+<span id="cb203-4"><a href="concavity-curvature.html#cb203-4" aria-hidden="true" tabindex="-1"></a>curvature <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">abs</span>(<span class="fu">ddg</span>(x)) <span class="sc">/</span> <span class="fu">abs</span>(__fill_in_the_formula__)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>) <span class="sc">~</span> x)</span>
+<span id="cb203-5"><a href="concavity-curvature.html#cb203-5" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">curvature</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>)))</span></code></pre></div>
 </div>
 <p>We set the default value of the parameter <span class="math inline">\(R\)</span> to be 2.</p>
 <p><strong>Question A</strong> What is the curvature of <span class="math inline">\(g(x)\)</span>?</p>
-    0<span class="mcanswer">︎✘        </span>       0.5<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span>‥‥‥‥‥‥‥‥</span>       1<span class="mcanswer">︎✘        </span>       1.5<span class="mcanswer">︎✘       ‥</span>       2<span class="mcanswer">︎✘‥‥‥‥‥‥‥‥</span>
+    0<span class="mcanswer"> ︎✘          </span>       0.5<span class="mcanswer"> Excellent! </span>       1<span class="mcanswer"> ︎✘          </span>       1.5<span class="mcanswer"> ︎✘         </span>       2<span class="mcanswer"> ︎✘ </span>
 </details><details><summary><strong>Exercise 20.9</strong>: <span><a name="File:%20Exercises/Diff/chicken-sleep-knife.Rmd" href="#jyXhPM"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/chicken-sleep-knife.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">jyXhPM</span>
 </span></summary><p>Here is a graph of <span class="math inline">\(\sin(x)\)</span> with points marked at <span class="math inline">\(x=-\pi/2\)</span>, <span class="math inline">\(x=0.923\)</span>, and <span class="math inline">\(x = \pi/2\)</span>. At each of those points, an inscribed circle has been drawn, tangent to the function at that point.</p>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-261-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-277-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>You’re task is to calculate the curvature <span class="math inline">\(\cal K\)</span> at each of those three input points. This is a matter of calculating the first and second derivatives of the sine function, evaluating those derivatives at the input values, and plugging them in to the formula in Section <a href="concavity-curvature.html#curvature-definition">20.3</a>.</p>
 <p><strong>Question A</strong> What is the curvature <span class="math inline">\(\cal K\)</span> of <span class="math inline">\(\sin(x=-\pi/2)\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>-1
-<div class="mcanswer">
-︎✘<span class="math inline">\(\cal K\)</span> can be negative!
-</div>
-</li>
-<li>0
-<div class="mcanswer">
-︎✘             ‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>0.5
-<div class="mcanswer">
-︎✘               ‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>1
-<div class="mcanswer">
-Excellent!     ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>2
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol>
+<p>    -1<span class="mcanswer"> ︎✘ <span class="math inline">\(\cal K\)</span> can be negative! </span>       0<span class="mcanswer"> ︎✘               </span>       0.5<span class="mcanswer"> ︎✘                 </span>       1<span class="mcanswer"> Correct.       </span>       2<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question B</strong> What is the curvature <span class="math inline">\(\cal K\)</span> of <span class="math inline">\(\sin(x=-0.923)\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>-1
-<div class="mcanswer">
-︎✘<span class="math inline">\(\cal K\)</span> can be negative!
-</div>
-</li>
-<li>0
-<div class="mcanswer">
-︎✘             ‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>0.5
-<div class="mcanswer">
-Correct.    ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>1
-<div class="mcanswer">
-︎✘     ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>2
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol>
+<p>    -1<span class="mcanswer"> ︎✘ <span class="math inline">\(\cal K\)</span> can be negative! </span>       0<span class="mcanswer"> ︎✘               </span>       0.5<span class="mcanswer"> Right-oh!      </span>       1<span class="mcanswer"> ︎✘       </span>       2<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question C</strong> What is the curvature <span class="math inline">\(\cal K\)</span> of <span class="math inline">\(\sin(x=\pi/2)\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>-1
-<div class="mcanswer">
-︎✘<span class="math inline">\(\cal K\)</span> can be negative!
-</div>
-</li>
-<li>0
-<div class="mcanswer">
-︎✘             ‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>0.5
-<div class="mcanswer">
-︎✘    ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>1
-<div class="mcanswer">
-Nice!     ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>2
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol>
+<p>    -1<span class="mcanswer"> ︎✘ <span class="math inline">\(\cal K\)</span> can be negative! </span>       0<span class="mcanswer"> ︎✘               </span>       0.5<span class="mcanswer"> ︎✘      </span>       1<span class="mcanswer"> Good.       </span>       2<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question D</strong> What is the curvature <span class="math inline">\(\cal K\)</span> of <span class="math inline">\(\sin(x=0)\)</span>? (Hint: You can tell straight from the graph, even though no enscribed circle has been drawn.</p>
-<ol style="list-style-type: lower-roman">
-<li>0
-<div class="mcanswer">
-Good.The graph is straight at <span class="math inline">\(x=0\)</span>, so no curvature
-</div>
-</li>
-<li>0.5
-<div class="mcanswer">
-︎✘                   ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>1
-<div class="mcanswer">
-︎✘                              ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>2
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol></details><!-- `rrr insert_calcZ_exercise("XX.XX", "v2doBq", "Exercises/Diff/boy-send-book.Rmd")` --><details><summary><strong>Exercise 20.10</strong>: <span><a name="File:%20Exercises/Diff/tiger-blow-futon.Rmd" href="#rou0yO"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/tiger-blow-futon.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">rou0yO</span>
+    0<span class="mcanswer"> Right-oh! The graph is straight at <span class="math inline">\(x=0\)</span>, so no curvature </span>       0.5<span class="mcanswer"> ︎✘                     </span>       1<span class="mcanswer"> ︎✘                                </span>       2<span class="mcanswer"> ︎✘ </span>
+</details><!-- `rrr insert_calcZ_exercise("XX.XX", "v2doBq", "Exercises/Diff/boy-send-book.Rmd")` --><details><summary><strong>Exercise 20.10</strong>: <span><a name="File:%20Exercises/Diff/tiger-blow-futon.Rmd" href="#rou0yO"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/tiger-blow-futon.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">rou0yO</span>
 </span></summary><p>The function <code>road(x)</code> has been constructed to correspond to a curved road of gradually tighter radius from left to right</p>
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">R</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fl">3</span> <span class="op">-</span> <span class="va">x</span><span class="op">/</span><span class="fl">2</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="va">road</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu">R</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">road</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, npts<span class="op">=</span><span class="fl">500</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-262-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-278-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>Using a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>, calculate the curvature of this road for each value of <span class="math inline">\(x\)</span>.</p>
 <p><strong>Question A</strong> What is the curvature of the road at <span class="math inline">\(x=-1\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>0.22
-<div class="mcanswer">
-Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>0.24
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.27
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.31
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.35
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol>
+<p>    0.22<span class="mcanswer"> Excellent! </span>       0.24<span class="mcanswer"> ︎✘               </span>       0.27<span class="mcanswer"> ︎✘               </span>       0.31<span class="mcanswer"> ︎✘               </span>       0.35<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question B</strong> What is the curvature of the road at <span class="math inline">\(x=1\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>0.22
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.24
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.27
-<div class="mcanswer">
-Excellent!‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>0.31
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.35
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol>
+<p>    0.22<span class="mcanswer"> ︎✘               </span>       0.24<span class="mcanswer"> ︎✘               </span>       0.27<span class="mcanswer"> Right-oh! </span>       0.31<span class="mcanswer"> ︎✘               </span>       0.35<span class="mcanswer"> ︎✘ </span></p>
 <p><strong>Question C</strong> What is the curvature of the road at <span class="math inline">\(x=0\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li>0.22
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.24
-<div class="mcanswer">
-Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>0.27
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.31
-<div class="mcanswer">
-︎✘             
-</div>
-</li>
-<li>0.35
-<div class="mcanswer">
-︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol></details>
+    0.22<span class="mcanswer"> ︎✘               </span>       0.24<span class="mcanswer"> Correct. </span>       0.27<span class="mcanswer"> ︎✘               </span>       0.31<span class="mcanswer"> ︎✘               </span>       0.35<span class="mcanswer"> ︎✘ </span>
+</details>
 </div>
 </div>
   <div class="chapter-nav">
@@ -593,7 +360,7 @@ Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥
 <li><a class="nav-link" href="#quantifing-concavity-and-curvature"><span class="header-section-number">20.1</span> Quantifing concavity and curvature</a></li>
 <li><a class="nav-link" href="#concavity-deriv"><span class="header-section-number">20.2</span> Concavity</a></li>
 <li><a class="nav-link" href="#curvature-definition"><span class="header-section-number">20.3</span> Curvature</a></li>
-<li><a class="nav-link" href="#exercises-1"><span class="header-section-number">20.4</span> Exercises</a></li>
+<li><a class="nav-link" href="#exercises-16"><span class="header-section-number">20.4</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -611,7 +378,7 @@ Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-09.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -72,6 +72,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
 <li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
 <li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
 <li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
@@ -99,6 +100,12 @@
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
 <li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 <li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+<li class="book-part">Block 3: Accumulation</li>
+<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
+<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
+<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
+<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
 </ul>
 
         <div class="book-extra">
@@ -128,7 +135,7 @@
 <span class="fu">gf_point</span><span class="op">(</span><span class="va">temp</span> <span class="op">~</span> <span class="va">time</span>, data<span class="op">=</span><span class="va">Stans_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_lims</span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fl">25</span> <span class="op">+</span> <span class="fl">83.3</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.0277</span><span class="op">*</span><span class="va">time</span><span class="op">)</span> <span class="op">~</span> <span class="va">time</span>, color<span class="op">=</span><span class="st">"dodgerblue"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-71-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-70-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>See if <span class="math inline">\(k=-0.02\)</span> provides a better fit to the model. (You can add another <code>slice_plot()</code> to be able to compare the original and <span class="math inline">\(k=-0.02\)</span> models.)</p>
 </div>
 <p>Later in this course, we’ll study <strong><em>optimization</em></strong>. There are optimization techniques for directing the computer to refine the parameters to best match the data. Just to illustrate, here’s what we get:</p>
@@ -226,55 +233,22 @@ Figure 14.5: Polishing the parameters of the sinusoid
 <div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">Minutes</span> <span class="op">~</span> <span class="va">Month</span>, data <span class="op">=</span> <span class="va">SunsetLA</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_line</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-74-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-73-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>We’re using both <code>gf_point()</code> and <code>gf_line()</code>. With data that oscillates up and down, connecting the data points with lines makes it easier to see the pattern.</p>
 </div>
 <p><strong>Question B</strong> What is the range of the number of minutes until sunset over the whole 4-year period?</p>
 <ol style="list-style-type: lower-roman">
-<li>40 to 190 minutes
-<div class="mcanswer">
-Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
+<li>40 to 190 minutes<span class="mcanswer"> Right-oh! </span><br>
 </li>
-<li>120 minutes
-<div class="mcanswer">
-︎✘A range is an interval spanned by <em>two</em> numbers.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
+<li>120 minutes<span class="mcanswer"> ︎✘ A range is an interval spanned by <em>two</em> numbers. </span><br>
 </li>
-<li>40 to 180 minutes
-<div class="mcanswer">
-︎✘The largest values are half a tick mark up from 180. Tick marks are spaced by 20 minutes.
-</div>
+<li>40 to 180 minutes<span class="mcanswer"> ︎✘ The largest values are half a tick mark up from 180. Tick marks are spaced by 20 minutes. </span><br>
 </li>
-<li>0 to 48 months
-<div class="mcanswer">
-︎✘That’s the <em>domain</em>. The <em>range</em> is along the vertical axis.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
+<li>0 to 48 months<span class="mcanswer"> ︎✘ That’s the <em>domain</em>. The <em>range</em> is along the vertical axis. </span>
 </li>
 </ol>
 <p><strong>Question C</strong> The data fall nicely on a sine-shaped curve. What is the period of that sine?</p>
-<ol style="list-style-type: lower-roman">
-<li>6 months
-<div class="mcanswer">
-︎✘Look at the number of months from one peak to another.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>11 months
-<div class="mcanswer">
-︎✘Look more carefully. And remember that the change in length of day is an <em>annual</em> phenomenon.
-</div>
-</li>
-<li>12 months
-<div class="mcanswer">
-Good.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>12 minutes
-<div class="mcanswer">
-︎✘Period refers to an interval on the <em>domain</em> of the function, not the range.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-</ol>
+<p>    6 months<span class="mcanswer"> ︎✘ Look at the number of months from one peak to another. </span>       11 months<span class="mcanswer"> ︎✘ Look more carefully. And remember that the change in length of day is an <em>annual</em> phenomenon. </span>       12 months<span class="mcanswer"> Good. </span>       12 minutes<span class="mcanswer"> ︎✘ Period refers to an interval on the <em>domain</em> of the function, not the range. </span></p>
 <p>The function <span class="math display">\[\text{sunset}(\text{Month}) \equiv A  \sin(2 \pi\, \text{Month} / 12) + C\]</span> is a <em>linear combination</em> of two functions:</p>
 <ol style="list-style-type: decimal">
 <li>The constant function <code>one(Month)</code>
@@ -296,46 +270,16 @@ Good.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
 </div>
 <p><strong>Question D</strong> Your <code>sunset()</code> function should be a pretty good match to the data except for one thing. What is that thing?</p>
 <ol style="list-style-type: lower-roman">
-<li>The <code>sunset()</code> function has a completely different range than the data.
-<div class="mcanswer">
-︎✘This won’t be the case if you have estimated <span class="math inline">\(C\)</span> and <span class="math inline">\(A\)</span> correctly.‥
-</div>
+<li>The <code>sunset()</code> function has a completely different range than the data.<span class="mcanswer"> ︎✘ This won’t be the case if you have estimated <span class="math inline">\(C\)</span> and <span class="math inline">\(A\)</span> correctly. </span><br>
 </li>
-<li>The period of the <code>sunset()</code> function doesn’t match the data.
-<div class="mcanswer">
-︎✘Did you use <code><a href="https://rdrr.io/r/base/Trig.html">sin(2*pi*Month/12)</a></code>? If so, the period should be right.
-</div>
+<li>The period of the <code>sunset()</code> function doesn’t match the data.<span class="mcanswer"> ︎✘ Did you use <code><a href="https://rdrr.io/r/base/Trig.html">sin(2*pi*Month/12)</a></code>? If so, the period should be right. </span><br>
 </li>
-<li>There is a horizontal time shift between <code>sunset()</code> and the data.
-<div class="mcanswer">
-Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
+<li>There is a horizontal time shift between <code>sunset()</code> and the data.<span class="mcanswer"> Right! </span>
 </li>
 </ol>
 <p>We’re going to fix the problem with <code>sunset()</code> by defining a <em>time offset</em> to use as a reference. For a sine function, a suitable time offset is the value along the horizontal axis when the phenomenon being modeled crosses <span class="math inline">\(C\)</span> with a positive slope. There are 4 such points along the horizontal axis readily identifiable in the data. (They may not be at an integer value of <code>Month</code>.)</p>
 <p><strong>Question E</strong> Which of these is a suitable value for the time offset?</p>
-<ol style="list-style-type: lower-roman">
-<li>0 months
-<div class="mcanswer">
-︎✘That’s not a time when the data suggest that <span class="math inline">\(C\)</span> is being crossed.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>19 months
-<div class="mcanswer">
-︎✘That’s a maximum, not a crossing of <span class="math inline">\(C\)</span>.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>21.5 months
-<div class="mcanswer">
-︎✘That’s a crossing of <span class="math inline">\(C\)</span>, but not one with a positive slope.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
-</div>
-</li>
-<li>15.5 months
-<div class="mcanswer">
-Correct.This is a good rough value. Since the period is 12 months, you could equally well have said the offset is 3.5 months.
-</div>
-</li>
-</ol>
+<p>    0 months<span class="mcanswer"> ︎✘ That’s not a time when the data suggest that <span class="math inline">\(C\)</span> is being crossed. </span>       19 months<span class="mcanswer"> ︎✘ That’s a maximum, not a crossing of <span class="math inline">\(C\)</span>. </span>       21.5 months<span class="mcanswer"> ︎✘ That’s a crossing of <span class="math inline">\(C\)</span>, but not one with a positive slope. </span>       15.5 months<span class="mcanswer"> Correct. This is a good rough value. Since the period is 12 months, you could equally well have said the offset is 3.5 months. </span></p>
 <p>In the original scaffolding, the value of <code>offset</code> was zero. Change that to match your answer to the previous question.</p>
 <p>Plot out the modified <code>sunset()</code> function and confirm that it is a much better match to the data than the original (that is, the one without the time offset). You can “tune” your function by tweaking the numerical values of the <span class="math inline">\(A\)</span>, <span class="math inline">\(C\)</span>, and <span class="math inline">\(offset\)</span> parameters until you get a solid match.</p>
 <p>Alternatively, you can use <code>fitModel()</code> to do the tuning for you. Plug in your estimates (a.k.a. “guesses”) for the parameters in place of the <code>___</code> in the following. Then run the code. You’ll see your estimate of the function compared to the result of having the computer refine your estimate. Chances are, the computer does a better job of stringing the function through the data.</p>
@@ -393,7 +337,7 @@ Correct.This is a good rough value. Since the period is 12 months, you could equ
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-09.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

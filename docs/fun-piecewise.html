@@ -72,6 +72,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
 <li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
 <li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
 <li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
@@ -99,6 +100,12 @@
 <li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
 <li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
 <li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+<li class="book-part">Block 3: Accumulation</li>
+<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
+<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
+<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
+<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
 </ul>
 
         <div class="book-extra">
@@ -131,7 +138,7 @@
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fl">1</span><span class="op">/</span><span class="fl">0</span></code></pre></div>
 <pre><code>## [1] Inf</code></pre>
-<p><code>NaN</code> stands for “not a number.” Just about any calculation involving <code>NaN</code> will generate <code>NaN</code> as a result, even those involving multiplication by zero or cancellation by subtraction or division.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;One that does produce a number is &lt;code&gt;NaN^0&lt;/code&gt;.&lt;/p&gt;"><sup>18</sup></a> For instance:</p>
+<p><code>NaN</code> stands for “not a number.” Just about any calculation involving <code>NaN</code> will generate <code>NaN</code> as a result, even those involving multiplication by zero or cancellation by subtraction or division.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;One that does produce a number is &lt;code&gt;NaN^0&lt;/code&gt;.&lt;/p&gt;"><sup>19</sup></a> For instance:</p>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fl">0</span> <span class="op">*</span> <span class="cn">NaN</span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
@@ -166,12 +173,16 @@
 <div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
+<div id="splitting-the-domain" class="section level2" number="13.1">
+<h2>
+<span class="header-section-number">13.1</span> Splitting the domain<a class="anchor" aria-label="anchor" href="#splitting-the-domain"><i class="fas fa-link"></i></a>
+</h2>
 <p>In a purely mathematical sense, the problem with functions being undefined over an extended part of a domain has been handled with cunning and imagination, but the solution—the invention of complex numbers—is not our concern here. Instead, we’re going to embrace functions that have a domain smaller than the whole number line and see what we can do with them.</p>
 <p>To illustrate, let’s use computer notation to create a function whose domain is <span class="math inline">\(x &lt; 1\)</span>. To do this, we need a way to write “if,” as in, “If <span class="math inline">\(x\)</span> is 1 or greater, return <code>NaN</code>.” We’ll use a function in R that let’s us ask a TRUE/FALSE question and, depending on the answer, do one or another calculation. The question-answering R function is <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code> whose name is remarkably descriptive. The <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code> function takes three arguments. The first is the question to be asked, the second is the value to return if the answer is “yes,” and the third is the value to return for a “no” answer.</p>
 <div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="va">x</span>, <span class="cn">NaN</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-63-1.png" width="90%" style="display: block; margin: auto;">
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-62-1.png" width="90%" style="display: block; margin: auto;">
 What takes getting used to here is the expression <code>x &lt; 1</code> which is a <strong><em>question</em></strong> not a statement of fact. There’s no standard traditional mathematical notation for questions, although some people use a question mark as in <span class="math inline">\(x \stackrel{?}{&lt;} 1\)</span>.</p>
 <p>The table shows computer notation for some common sorts of questions.</p>
 <div class="inline-table"><table class="table table-sm">
@@ -194,7 +205,7 @@ What takes getting used to here is the expression <code>x &lt; 1</code> which is
 </tr>
 <tr class="even">
 <td><code>2 &lt; x &amp; x &lt; 5</code></td>
-<td>“Is <span class="math inline">\(x\)</span> between 2 and 5?”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Literally, “Is &lt;span class="math inline"&gt;\(x\)&lt;/span&gt; both greater than 2 and less than 5?”&lt;/p&gt;'><sup>19</sup></a>
+<td>“Is <span class="math inline">\(x\)</span> between 2 and 5?”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Literally, “Is &lt;span class="math inline"&gt;\(x\)&lt;/span&gt; both greater than 2 and less than 5?”&lt;/p&gt;'><sup>20</sup></a>
 </td>
 </tr>
 <tr class="odd">
@@ -207,9 +218,10 @@ What takes getting used to here is the expression <code>x &lt; 1</code> which is
 </tr>
 </tbody>
 </table></div>
-<div id="piecewise-functions" class="section level2" number="13.1">
+</div>
+<div id="basic-piecewise-functions" class="section level2" number="13.2">
 <h2>
-<span class="header-section-number">13.1</span> Piecewise functions<a class="anchor" aria-label="anchor" href="#piecewise-functions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.2</span> Basic piecewise functions<a class="anchor" aria-label="anchor" href="#basic-piecewise-functions"><i class="fas fa-link"></i></a>
 </h2>
 <p>Having an ability to split up the domain of a function and provide different formula for each of the pieces allows us to
 construct <strong><em>piecewise functions</em></strong>. To illustrate, the function <span class="math inline">\(h(x) \equiv |x|\)</span>. You’ll recognize this as the “absolute value” function. The intuitive algorithm is to “strip the negative sign, if any” from the input. But with the ability to divide the domain into pieces, we gain access to a less mysterious sort of arithmetic operation and can re-write <span class="math display">\[h(x) \equiv \left\{ 
@@ -226,7 +238,7 @@ Or, in computer notation</p>
 In computer notation, this is</p>
 <div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Heaviside</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-66-1.png" width="90%" style="display: block; margin: auto;">
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-65-1.png" width="90%" style="display: block; margin: auto;">
 The vertical gap between the two pieces is called a <strong><em>discontinuity</em></strong>. Intuitively, you cannot draw a discontinuous function <strong><em>without lifting the pencil from the paper</em></strong>. The Heaviside function has a discontinuity at <span class="math inline">\(x=0\)</span>.</p>
 <p>Similarly, the <strong><em>ramp function</em></strong> (aka “ReLU”) is a kind of one-sided absolute value:
 <span class="math display">\[\text{ramp}(x) \equiv \left\{ 
@@ -236,12 +248,12 @@ Or, in computer notation:</p>
 <div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ramp</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fl">0</span> <span class="op">&lt;</span> <span class="va">x</span>, <span class="va">x</span>, <span class="fl">0</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">ramp</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-67-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-66-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>A linear combination of two input-shifted ramp functions gives a piecewise version of the sigmoid.</p>
 <div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sig</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu">ramp</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">-</span> <span class="fu">ramp</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">sig</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-68-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-67-1.png" width="90%" style="display: block; margin: auto;"></div>
 <div class="intheworld">
 <p>Figure <a href="fun-piecewise.html#fig:gas-use-2">13.1</a> is a graph of monthly natural gas use in the author’s household versus average temperature during the month. (Natural gas is measured in cubic feet, appreviated <em>ccf</em>.)</p>
 <div class="figure" style="text-align: center">
@@ -263,28 +275,24 @@ Even simpler is the model for the other uses of natural gas:
 Figure 13.2: The ADSR envelope function used in music synthesis consists of 6 pieces including zero output before the key is pressed and after the pulse ends. <a href="https://en.wikipedia.org/wiki/Envelope_(music)">Source</a>
 </p>
 </div>
+</div>
+<div id="exercises-12" class="section level2" number="13.3">
+<h2>
+<span class="header-section-number">13.3</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-12"><i class="fas fa-link"></i></a>
+</h2>
 <details><summary><strong>Exercise 13.3</strong>: <span><a name="File:%20Exercises/Fun/bigger-two.Rmd" href="#EDKYV"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/bigger-two.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">EDKYV</span>
 </span></summary><p>The function <code>bigger()</code> is defined piecewise in terms of two extremely simple functions. Each of the two simple functions has a contour plot with contours that are parallel. The piecewise combination of the simple functions has a more complicated contour plot, with each simple function’s parallel contours showing up in half of the domain. We’ll call these “pieces” of the domain.</p>
 <div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bigger</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">y</span> <span class="op">&gt;</span> <span class="va">x</span>, <span class="va">y</span>, <span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span>
 <span class="fu">contour_plot</span><span class="op">(</span><span class="fu">bigger</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">+</span><span class="va">y</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>, y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-209-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-225-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p><strong>Question A</strong> Which of the following best describes the two pieces of the domain?</p>
 <ol style="list-style-type: lower-roman">
-<li>One is above and to the left of the line of identity (that is, <span class="math inline">\(y=x\)</span>) and the other is below and to the right of that line.
-<div class="mcanswer">
-Excellent!
-</div>
+<li>One is above and to the left of the line of identity (that is, <span class="math inline">\(y=x\)</span>) and the other is below and to the right of that line.<span class="mcanswer"> Right! </span><br>
 </li>
-<li>One is <span class="math inline">\(x &gt; 0\)</span> and the other <span class="math inline">\(x \leq 0\)</span>
-<div class="mcanswer">
-︎✘
-</div>
+<li>One is <span class="math inline">\(x &gt; 0\)</span> and the other <span class="math inline">\(x \leq 0\)</span><span class="mcanswer"> ︎✘ </span><br>
 </li>
-<li>One is <span class="math inline">\(x &gt; 0\)</span> and the other <span class="math inline">\(y \leq 0\)</span>
-<div class="mcanswer">
-︎✘
-</div>
+<li>One is <span class="math inline">\(x &gt; 0\)</span> and the other <span class="math inline">\(y \leq 0\)</span><span class="mcanswer"> ︎✘ </span>
 </li>
 </ol></details>
 </div>
@@ -297,7 +305,9 @@ Excellent!
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#fun-piecewise"><span class="header-section-number">13</span> Piecewise functions</a></li>
-<li><a class="nav-link" href="#piecewise-functions"><span class="header-section-number">13.1</span> Piecewise functions</a></li>
+<li><a class="nav-link" href="#splitting-the-domain"><span class="header-section-number">13.1</span> Splitting the domain</a></li>
+<li><a class="nav-link" href="#basic-piecewise-functions"><span class="header-section-number">13.2</span> Basic piecewise functions</a></li>
+<li><a class="nav-link" href="#exercises-12"><span class="header-section-number">13.3</span> Exercises</a></li>
 </ul>
 
       <div class="book-extra">
@@ -315,7 +325,7 @@ Excellent!
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-09.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

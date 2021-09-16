@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 28 Totaling the little bits | MOSAIC Calculus</title>
+<meta name="author" content="Daniel Kaplan">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
+    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+    for (let popover of popovers){
+      const div = document.createElement('div');
+      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+      div.innerHTML = popover.getAttribute('data-content');
+
+      // Will this work with TeX on its own line?
+      var has_math = div.querySelector("span.math");
+      if (has_math) {
+        document.body.appendChild(div);
+      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+      	MathJax.Hub.Queue(function(){
+          popover.setAttribute('data-content', div.innerHTML);
+      	})
+      }
+    }
+    </script>
+</head>
+<body>
+<span class="math inline">
+    \(\newcommand{\line}{\text{line}}
+    \newcommand{\hump}{\text{hump}}
+    \newcommand{\sigmoid}{\text{sigmoid}}
+    \newcommand{\recip}{\text{recip}}
+    \newcommand{\diff}[1]{{\cal D}_#1}
+    \newcommand{\pnorm}{\text{pnorm}}
+    \newcommand{\dnorm}{\text{dnorm}}
+    \newcommand{\CC}[1]{\color{#648fff}{#1}}
+    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
+    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
+    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
+    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+    </span>
+
+
+
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">MOSAIC Calculus</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome to calculus</a></li>
+<li class="book-part">Block 1: Functions and quantity</li>
+<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
+<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
+<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
+<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
+<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
+<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
+<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
+<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Finding parameters for the basic modeling functions</a></li>
+<li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
+<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
+<li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
+<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">12</span> Functions with multiple inputs</a></li>
+<li><a class="" href="fun-piecewise.html"><span class="header-section-number">13</span> Piecewise functions</a></li>
+<li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
+<li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
+<li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
+<li class="book-part">Block 2: Differentiation</li>
+<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
+<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
+<li><a class="" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
+<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
+<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
+<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivatives of assembled functions</a></li>
+<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
+<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
+<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
+<li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
+<li class="book-part">Block 3: Accumulation</li>
+<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
+<li><a class="active" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
+<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
+<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="Not%20available">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="totaling-bits" class="section level1" number="28">
+<h1>
+<span class="header-section-number">28</span> Totaling the little bits<a class="anchor" aria-label="anchor" href="#totaling-bits"><i class="fas fa-link"></i></a>
+</h1>
+<p>Many students wonder how it is possible to reconstruct a function <span class="math inline">\(F(x)\)</span> from its derivative <span class="math inline">\(f(x)\)</span>. This may be especially true for those who have studied calculus previously, who may have been taught that anti-differentiation is an advanced topic and may have struggled with the algebraic methods that are traditionally emphasized many calculus courses.</p>
+<p>The point of this short chapter is to show you that anti-differentiation is easy if you look at it the right way. As an example, consider the function <span class="math inline">\(F(x)\)</span> shown in Figure <a href="#fig:F-232"><strong>??</strong></a>.</p>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/F-232-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Now imagine that we sliced up <span class="math inline">\(F(x)\)</span> over small sub-domains of <span class="math inline">\(x\)</span>, as in Figure <a href="#fig:F-slice1"><strong>??</strong></a>. That is, we approximated <span class="math inline">\(F()\)</span> piecewise locally.</p>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/F-slice1-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Can you reconstruct <span class="math inline">\(F(x)\)</span> from the local segments?</p>
+<p>Start by reading off the function value from the last point in the left-most segment. That’s been marked in Figure <a href="#fig:F-slice1"><strong>??</strong></a> with a blue dot. The function value at that dot is 7.072.</p>
+<p>Now take the second segment. The idea is to move that segment upward until it joins the first segment at the blue dot. You can do that by adding 7.072 to the second segment.
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-125-1.png" width="90%" style="display: block; margin: auto;">
+Now read off the new value at the end of the second segment, it’s 4.198. Add this amount to the third segment …
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-126-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p>Continue this process until you have reconstructed <span class="math inline">\(F(x)\)</span> from the local segments.</p>
+<p>You may object: “Of course you can reconstruct <span class="math inline">\(F(x)\)</span> from the local segments, but this isn’t the same as reconstructing <span class="math inline">\(F(x)\)</span> from its derivative <span class="math inline">\(\partial_x F(x)\)</span>.” My answer is, “That depends on how many segments you use.”</p>
+<p>Let’s use many more segments:</p>
+<div class="figure" style="text-align: center">
+<span id="fig:F-slice-many"></span>
+<img src="CalcZ-notes_files/figure-html/F-slice-many-1.png" alt="Using smaller segments (width $h=0.1$) gives each segment a simple shape." width="90%"><p class="caption">
+Figure 28.1: Using smaller segments (width <span class="math inline">\(h=0.1\)</span>) gives each segment a simple shape.
+</p>
+</div>
+<p>Notice that many of the segments are straight lines. That’s understandable, since any function looks like a straight line over a small enough domain.</p>
+<p>Each of those straight-line segments is drawn over a domain <span class="math inline">\(x_i &lt; x &lt; x_i+h\)</span> that has width <span class="math inline">\(h\)</span>. The slope of each segment is <span class="math inline">\(\partial_x F(x_i)\)</span> and it’s height is <span class="math inline">\(h \partial_x F(x_i)\)</span>. Thus, to draw the segments we don’t need <span class="math inline">\(F(x)\)</span>, we just need <span class="math inline">\(\partial_x F(x)\)</span>.</p>
+<p>You might continue to object, since not every one of the segments is a straight-line whose slope and height can be figured out with <span class="math inline">\(\partial_x F(x)\)</span>. That’s true in the figure because we made the segments fairly wide. No reason why we can’t make them smaller for the calculation (although you wouldn’t be able to distinguish them visually from one another very well).</p>
+<p>Or, here is another segment drawing trick. Even the curved segments in Figure <a href="totaling-bits.html#fig:F-slice-many">28.1</a> are essentially quadratic. The derivative of each quadratic is a function of <span class="math inline">\(x\)</span>—that’s why they curve. We can write that derivative using the first two derivatives of <span class="math inline">\(F(x)\)</span>, that is, as <span class="math inline">\(\partial_x F(x) = \partial_x F(x_i) + \partial_{xx} F(x_i) [x-x_i]\)</span>. You’ll see in Chapter XXX that we have a simple formula that will construct the individual quadratically-shaped segment from <span class="math inline">\(\partial_x F(x)\)</span>.</p>
+<div id="the-notation-of-little-bits" class="section level2" number="28.1">
+<h2>
+<span class="header-section-number">28.1</span> The notation of little bits<a class="anchor" aria-label="anchor" href="#the-notation-of-little-bits"><i class="fas fa-link"></i></a>
+</h2>
+<p>The standard notation for anti-differentiation can be interpreted in terms of putting together segments, or, in the words of Prof. Thompson in <em>Calculus Made Easy</em>, “totaling up all the little bits.” (See Section <a href="change-accumulation.html#preliminary-terrors">27.5</a>.)</p>
+<p>Let’s assemble piece by piece the mathematical notation for “anti-differentiate <span class="math inline">\(f(x)\)</span> to construct <span class="math inline">\(F(x)\)</span>.”</p>
+<ol style="list-style-type: decimal">
+<li><p>We start with the function itself: <span class="math inline">\(\large f(x)\)</span>. Remember that <span class="math inline">\(f(x)\)</span>, at each value of <span class="math inline">\(x\)</span> will be the <em>slope</em> of <span class="math inline">\(F(x)\)</span>. Why? Because <span class="math inline">\(F(x)\)</span> is the anti-derivative of <span class="math inline">\(f(x)\)</span>, so <span class="math inline">\(f(x)\)</span> is the derivative of <span class="math inline">\(F(x)\)</span>.</p></li>
+<li><p>Now divide the domain <span class="math inline">\(x\)</span> into many little bits. Each of these sub-domains is <span class="math inline">\(\large dx\)</span>, a little chunk of <span class="math inline">\(x\)</span>.</p></li>
+<li><p>On each of the little chunks, draw in <span class="math inline">\(f(x)\)</span>. Since <span class="math inline">\(f(x)\)</span> is the <em>slope</em> of <span class="math inline">\(F(x)\)</span>, we will draw <span class="math inline">\(f(x)\)</span> for any given chunk as a short line segment of that slope over the chunk. We’ll write these little bits each of which is a straight-line function, as <span class="math inline">\(\large\color{blue}{f(x) dx}\)</span>. Here’s an example where the domain <span class="math inline">\(-\pi \leq x \leq \pi\)</span> is being split into <span class="math inline">\(dx\)</span>’s of length 0.2.</p></li>
+</ol>
+<div class="figure" style="text-align: center">
+<span id="fig:show-bits"></span>
+<img src="CalcZ-notes_files/figure-html/show-bits-1.png" alt="Turning $f(x)$ (thin black curve) into straight-line segments whose slope is given by the value of $f()$." width="90%"><p class="caption">
+Figure 28.2: Turning <span class="math inline">\(f(x)\)</span> (thin black curve) into straight-line segments whose slope is given by the value of <span class="math inline">\(f()\)</span>.
+</p>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li>Assemble together all the <span class="math inline">\(f(x)dx\)</span> segments from (3) to get <span class="math inline">\(F(x)\)</span>. This instruction to assemble is denoted
+<span class="math display">\[\Large \color{blue}\int\]</span>
+</li>
+</ol>
+<div class="figure" style="text-align: center">
+<span id="fig:show-bits2"></span>
+<img src="CalcZ-notes_files/figure-html/show-bits2-1.png" alt="$\color{blue}{\int} f(x)dx$ means to assemble the straight-line pieces $f(x) dx$ in the manner described in the previous section." width="90%"><p class="caption">
+Figure 28.3: <span class="math inline">\(\color{blue}{\int} f(x)dx\)</span> means to assemble the straight-line pieces <span class="math inline">\(f(x) dx\)</span> in the manner described in the previous section.
+</p>
+</div>
+<p>Altogether, we have:</p>
+<p><span class="math display">\[\Large \underbrace{\underbrace{\LARGE\color{magenta}{\int}}_{\color{magenta}{\text{assemble}}} \underbrace{\LARGE f(x) \overbrace{\strut \overset{\strut}{dx}}^{\small \text{bits of}\ x}}_{\color{blue}{\text{the slope segments}}}}_{\text{giving}\ {\LARGE F(x)}\ \text{altogether.}}\]</span></p>
+<p>In the figures, <span class="math inline">\(f(x) \equiv \cos(x)\)</span>, so the assembly <span class="math inline">\(\int f(x) dx = \sin(x)\)</span>.</p>
+</div>
+<div id="exercises-21" class="section level2" number="28.2">
+<h2>
+<span class="header-section-number">28.2</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-21"><i class="fas fa-link"></i></a>
+</h2>
+<details><summary><strong>Exercise 28.02</strong>: <span><a name="File:%20Exercises/Accum/camel-win-bottle.Rmd" href="#BhGRKU"><img src="www/icons8-signpost.png" title="Location: Exercises/Accum/camel-win-bottle.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">BhGRKU</span>
+</span></summary><p>The graph shows a function <span class="math inline">\(G(t)\)</span> broken up into segments. Draw <span class="math inline">\(G(t)\)</span> by putting together the segments.</p>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-336-1.png" width="90%" style="display: block; margin: auto;">
+The segment in blue is obviously not a straight line. As you can see, the blue segment spans the sub-domain <span class="math inline">\(0 \leq x \leq 0.5\)</span>.</p>
+<p>How do we draw that segment knowing just <span class="math inline">\(\partial_t G(t)\)</span> and therefore <span class="math inline">\(\partial_{tt} G(t)\)</span>.</p>
+<p>The values of those two functions at <span class="math inline">\(x=0\)</span> are <span class="math inline">\(\partial_t G(0) = -1.988\)</span> and <span class="math inline">\(\partial_{tt} G(0) - 5.599\)</span>. And, since all the segments have their left end anchored at a vertical value of zero, you know <span class="math inline">\(G(0) = 0\)</span>.</p>
+Using Taylor series, construct a function centered at <span class="math inline">\(x=0\)</span>. Plot it out and see that it reconstructs the blue segment on the domain <span class="math inline">\(0 \leq x \leq 0.5\)</span>.
+</details>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></div>
+<div class="next"><a href="net-change.html"><span class="header-section-number">29</span> Integration</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#totaling-bits"><span class="header-section-number">28</span> Totaling the little bits</a></li>
+<li><a class="nav-link" href="#the-notation-of-little-bits"><span class="header-section-number">28.1</span> The notation of little bits</a></li>
+<li><a class="nav-link" href="#exercises-21"><span class="header-section-number">28.2</span> Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="Not%20available/blob/master/Accum-visualizing.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="Not%20available/edit/master/Accum-visualizing.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-14.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>
