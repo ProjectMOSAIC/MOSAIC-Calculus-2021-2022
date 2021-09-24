@@ -10,7 +10,7 @@
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4.1/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
 <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -151,7 +151,7 @@
 <pre><code>## function(x) {x^2 * sin(x) + 3}</code></pre>
 <p>You can see all the same information that was in the tilde description, just arranged differently.</p>
 <p>Almost every computer language provides something like <code>function</code>. The internal workings of <code>function</code> are elaborate and detailed … only advanced programmers need to be aware of them. This, in much the same way as it’s unnecessary to understand the workings of a transistor in order to use a computer, or comprehend the biochemistry of a COVID vaccine in order to benefit from it. <span style="float: right; padding-left: 50px;"><a name="2180" href="#2180"><img src="www/icons8-signpost.png" title="Location: 2180" width="12px"></a><span style="color: red; font-size: 6pt;">2180</span></span></p>
-<p>In the same spirit as <code>makeFun()</code>, which translates a tilde-expression into the corresponding function, in R/mosaic you have <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> which takes a tilde expression and translates it into the derivative of the function described.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Mathematically, one differentiates a function, not a tilde expression. But differentiation requires specification of the with-respect-to-input, so R/mosaic implements differentiation by using tilde-expression syntax.&lt;/p&gt;"><sup>34</sup></a> For example:</p>
+<p>In the same spirit as <code>makeFun()</code>, which translates a tilde-expression into the corresponding function, in R/mosaic you have <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> which takes a tilde expression and translates it into the derivative of the function described.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Mathematically, one differentiates a function, not a tilde expression. But differentiation requires specification of the with-respect-to-input, so R/mosaic implements differentiation by using tilde-expression syntax.&lt;/p&gt;"><sup>35</sup></a> For example:</p>
 <div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span><span class="va">f_description</span><span class="op">)</span></code></pre></div>
 <pre><code>## function (x) 
@@ -399,9 +399,9 @@ But there is no divide-by-<span class="math inline">\(h\)</span> in sight, so we
 <span class="math display">\[\partial_x x^3 = 3 x^2\ ,\]</span> consistent with the proposed rule.</p>
 <p>Those familiar with the use of Pascal’s Triangle for finding the terms of binomial expansions such as <span class="math inline">\((x + h)^p\)</span> will gain insight into the <span class="math inline">\(p x^{p-1}\)</span> rule.</p>
 </div>
-<div id="list-of-pattern-book-rules" class="section level3" number="19.4.6">
+<div id="pattern-book-derivs" class="section level3" number="19.4.6">
 <h3>
-<span class="header-section-number">19.4.6</span> List of pattern-book rules<a class="anchor" aria-label="anchor" href="#list-of-pattern-book-rules"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.4.6</span> List of pattern-book rules<a class="anchor" aria-label="anchor" href="#pattern-book-derivs"><i class="fas fa-link"></i></a>
 </h3>
 <p>We’ll save for later the derivation of the derivatives of the other pattern-book functions, but note that the gaussian function is <strong>defined</strong> to be the derivative of the sigmoidal function.</p>
 <div class="inline-table"><table class="table table-sm">
@@ -479,145 +479,344 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 </blockquote>
 <p>Some operators: <code>slice_plot()</code>, <code>contour_plot</code>, <code>make_Fun()</code>, <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code>, <code>antiD()</code>, <code>findZeros()</code></p>
 <p>For each of the R/mosaic expressions, determine which kind of thing is being created. Feel free to run the expressions in a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>.</p>
-<pre>
-
-`makeFun(a*x - b ~ x)` 
-
-
-
-( )  a function of `x`
-(x)  a function of `x`, `a`, and `b`
-( )  a tilde expression
-( )  a plot
-( )  a data frame
-( )  an error
-
-[[Correct.]]
-
-</pre>
-<pre>
-
-`D(a*x - b ~ x)` 
-
-
-
-( )  a function of `a`
-(x)  a function of `x`, `a`, and `b`
-( )  a tilde expression
-( )  a plot
-( )  a data frame
-( )  an error
-
-[[Good.]]
-
-</pre>
-<pre>
-
-`antiD(a*x - b ~ x)` 
-
-
-
-( )  a function of `a`
-(x)  a function of `x`, `a`, and `b`
-( )  a tilde expression
-( )  a plot
-( )  a data frame
-( )  an error
-
-[[Good.]]
-
-</pre>
-<pre>
-
-`slice_plot(a*x - b ~ x, domain(x=c(0,5)))` 
-
-
-
-( )  a function of `x`
-( )  a function of `x`, `a`, and `b`
-( )  a tilde expression
-( )  a plot
-( )  a data frame
-(x)  an error
-
-[[Good.]]
-
-</pre>
-<pre>
-
-`f 
-<pre>
-
-`findZeros(a*x - b ~ x, domain(x=c(0,5)))` 
-
-
-
-( )  a function of `x`
-( )  a function of `x`, `a`, and `b`
-( )  a tilde expression
-( )  a plot
-( )  a data frame
-(x)  an error
-
-[[Good.]]
-
-</pre>
-<pre>
-
-`a*x - b ~ x` 
-
-
-
-( )  a function of `x`
-( )  a function of `x`, `a`, and `b`
-(x)  a tilde expression
-( )  a plot
-( )  a data frame
-( )  an error
-
-[[Right!]]
-
-</pre>
-<pre>
-
-`f 
-<pre>Suppose you create a function in the usual way, e.g. `f 
-</pre></pre></pre></details><p><br></p>
+<p><strong>Question A</strong></p>
+<p><code>makeFun(a*x - b ~ x)</code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>x</code>
+<div class="mcanswer">
+︎✘Fair enough. But the function also has arguments <code>a</code> and <code>b</code> ‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+︎✘The tilde expression is the <strong>input</strong> to the operator. The operator translates the tilde expression into something else.
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question B</strong></p>
+<p><code><a href="https://rdrr.io/r/stats/deriv.html">D(a*x - b ~ x)</a></code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>a</code>
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+Good.
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+</ol>
+<p><strong>Question C</strong></p>
+<p><code>antiD(a*x - b ~ x)</code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>a</code>
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+Right!
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+</ol>
+<p><strong>Question D</strong></p>
+<p><code>slice_plot(a*x - b ~ x, domain(x=c(0,5)))</code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>x</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+︎✘The expression is intended to make a plot, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>. You could have provided numerical values to <code>a</code> and <code>b</code> by assigning them in previous statements. If that’s what you had in mind, you deserve full credit.
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+Good.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question E</strong></p>
+<p><code>f &lt;- makeFun(a*x + b ~ x, a=2, b=-4)</code></p>
+<p><code>slice_plot(f(x) ~ x, domain(x=c(0,5)))</code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>x</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+Excellent!This works because there are specific values provided for the <code>a</code> and <code>b</code> parameters.
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question F</strong></p>
+<p><code>findZeros(a*x - b ~ x, domain(x=c(0,5)))</code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>x</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+︎✘The expression is intended to make a data frame, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>.
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+Correct.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question G</strong></p>
+<p><code>a*x - b ~ x</code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>x</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+︎✘The expression is intended to make a plot, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>.
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question H</strong></p>
+<p><code>f &lt;- makeFun(a*x + b ~ x, a=2, b=-4)</code></p>
+<p><code>findZeros(f(x) ~ x)</code></p>
+<ol style="list-style-type: lower-roman">
+<li>a function of <code>x</code>
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a function of <code>x</code>, <code>a</code>, and <code>b</code>
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a tilde expression
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a plot
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>a data frame
+<div class="mcanswer">
+Good.
+</div>
+</li>
+<li>an error
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+</ol>
+<p><strong>Question I</strong> Suppose you create a function in the usual way, e.g. <code>f &lt;- makeFun(a*x + b ~ x, a=2, b=-4)</code>. Which of the following will plot a straight-line function with a slope of 5.</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<code>slice_plot(f(x) ~ x, domain(x=c(-5, 5)))</code>
+<div class="mcanswer">
+︎✘The default value of <code>a</code> is 2, so the line would have a slope of 2.
+</div>
+</li>
+<li>
+<code>slice_plot(f(x, b=2), domain(x=c(-5, 5))</code>
+<div class="mcanswer">
+︎✘It’s <code>a</code> that is the slope parameter.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>
+<code>slice_plot(f(x, a=5), domain(x=c(-5, 5))</code>
+<div class="mcanswer">
+Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><p><br></p>
 <details><summary><strong>Exercise 19.2</strong>: <span><a name="File:%20Exercises/Diff/fly-speak-canoe.Rmd" href="#K05LrF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fly-speak-canoe.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">K05LrF</span>
 </span></summary><p>As you know, given a function <span class="math inline">\(g(x)\)</span> it’s easy to construct a new function <span class="math inline">\({\cal D}_x g(x)\)</span> that will be an approximation to the derivative <span class="math inline">\(\partial_x g(x)\)</span>. The approximation function, which we call the slope function, can be <span class="math display">\[{\cal D}_x g(x) \equiv \frac{g(x + 0.1) - g(x)}{0.1}\]</span></p>
 <p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and use <code>makeFun()</code> to create a function <span class="math inline">\(g(x) \equiv \sin(x)\)</span> and another that will be the slope function, called it <code>slope_of_g()</code>.</p>
 <div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="computing-derivs.html#cb193-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sin</span>(x) <span class="sc">~</span> x)</span>
 <span id="cb193-2"><a href="computing-derivs.html#cb193-2" aria-hidden="true" tabindex="-1"></a>slope_of_g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( _your_tilde_expression_here )</span></code></pre></div>
-<pre>What's the value of `slope_of_g(1)`? 
-
-
-
-( )  0.3749
-(x)  0.4973
-( )  1.3749
-( )  1.4973
-
-[[Right!]]
-
-</pre>
+<p><strong>Question A</strong> What’s the value of <code>slope_of_g(1)</code>?</p>
+<p>    0.3749<span class="mcanswer">︎✘</span>       0.4973<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       1.3749<span class="mcanswer">︎✘</span>       1.4973<span class="mcanswer">︎✘</span></p>
 <p>Using your sandbox, plot both <code>g()</code> and <code>slope_of_g()</code> (in blue) on a domain <span class="math inline">\(-5 \leq x \leq 5\)</span>. This can be done with <code>slicePlot()</code> in the following way:</p>
 <div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">slope_of_g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></code></pre></div>
-<img src="CalcZ-notes_files/figure-html/unnamed-chunk-267-1.png" width="90%" style="display: block; margin: auto;"><pre>Which of these statements best describes the graph of $$g()$$ compared to `slope_of_g()`? 
-
-
-
-(x)  `slope_of_g()` is shifted left by about $$\pi/2$$ compared to `g(x)`.
-( )  `slope_of_g()` is shifted left by about $$\pi$$ compared to `g(x)`.
-( )  `slope_of_g()` has a larger amplitude than `g()`
-( )  The output of `slope_of_g()` is always positive
-( )  `slope_of_g()` is practically the same function as `g()`. That is, for any input the output of the two functions is practically the same.
-
-[[Correct.]]
-
-</pre>
-</details><details><summary><strong>Exercise 19.5</strong>: <span><a name="File:%20Exercises/Diff/doe-pay-kitchen.Rmd" href="#qCfet3"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/doe-pay-kitchen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">qCfet3</span>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-268-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> Which of these statements best describes the graph of <span class="math inline">\(g()\)</span> compared to <code>slope_of_g()</code>?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<code>slope_of_g()</code> is shifted left by about <span class="math inline">\(\pi/2\)</span> compared to <code>g(x)</code>.
+<div class="mcanswer">
+Nice!
+</div>
+</li>
+<li>
+<code>slope_of_g()</code> is shifted left by about <span class="math inline">\(\pi\)</span> compared to <code>g(x)</code>.
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>
+<code>slope_of_g()</code> has a larger amplitude than <code>g()</code>
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>The output of <code>slope_of_g()</code> is always positive
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>
+<code>slope_of_g()</code> is practically the same function as <code>g()</code>. That is, for any input the output of the two functions is practically the same.
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 19.5</strong>: <span><a name="File:%20Exercises/Diff/doe-pay-kitchen.Rmd" href="#qCfet3"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/doe-pay-kitchen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">qCfet3</span>
 </span></summary><p>Recall the differentiation rules for three of the pattern-book functions as presented in Section <a href="computing-derivs.html#symbolic-differentiation">19.4</a>:</p>
 <table class="table table-sm">
 <thead><tr class="header">
@@ -650,19 +849,33 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 </table>
 <p>All three of these pattern-book functions are members of the power-law family: <span class="math inline">\(x^p\)</span>. They differ only in the value of <span class="math inline">\(p\)</span>.</p>
 <p>There is a differentiation rule for the power-law family generally. The next question offers several formulas for this rule, only one of which is correct. You can figure out which one by trying the pattern-book functions in the table above and seeing which formula gives the correct answer for the derivative.</p>
-<pre>Which of these formulas gives the correct differentiation rule for the power-law family $$x^p$$? 
-
-
-
-(x)  $$p x^{p-1}$$
-( )  $$(p-1) x^{p+1}$$
-( )  $$x^{p-1}$$
-( )  $$(p-1) x^{p-1}$$
-
-[[Correct.]]
-
-</pre>
-</details><details><summary><strong>Exercise 19.6</strong>: <span><a name="File:%20Exercises/Diff/finch-trim-kayak.Rmd" href="#ykels"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/finch-trim-kayak.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ykels</span>
+<p><strong>Question A</strong> Which of these formulas gives the correct differentiation rule for the power-law family <span class="math inline">\(x^p\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(p x^{p-1}\)</span>
+<div class="mcanswer">
+Correct.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>
+<span class="math inline">\((p-1) x^{p+1}\)</span>
+<div class="mcanswer">
+︎✘If this were true, the derivative of <span class="math inline">\(x^2\)</span> would be <span class="math inline">\(x^3\)</span>.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>
+<span class="math inline">\(x^{p-1}\)</span>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>
+<span class="math inline">\((p-1) x^{p-1}\)</span>
+<div class="mcanswer">
+︎✘If this were true, the derivative of the identity function (<span class="math inline">\(p=1\)</span>) would be 0.
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 19.6</strong>: <span><a name="File:%20Exercises/Diff/finch-trim-kayak.Rmd" href="#ykels"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/finch-trim-kayak.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ykels</span>
 </span></summary><p>Although we created an R function named <code>slopeFun()</code> for the purposes of demonstration, it’s better to use the R/mosaic operator <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> which calculates the derivative, sometimes using symbolic methods and sometimes using a finite-difference method.</p>
 <p>As an example of the use of <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code>, here is some more R code that defines a function <code>f()</code> and finds <span class="math inline">\(\partial_x f()\)</span>, calling it <code>d_f()</code>. Then a slice plot is made of both <code>f()</code> and <code>d_f()</code>.</p>
 <div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
@@ -671,7 +884,7 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">d_f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color <span class="op">=</span> <span class="st">"orange3"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure">
-<img src="CalcZ-notes_files/figure-html/unnamed-chunk-268-1.png" width="90%" style="display: block; margin: auto;">
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-269-1.png" width="90%" style="display: block; margin: auto;">
 :::</div>
 <p>For each of the following functions, write a brief comparison of the function to it’s differenced version. You can combine phrases such as “same shape,” “different shape. larger in amplitude,” “smaller in amplitude,” “same period,” “shorter period,” “longer period,” or whatever seems appropriate. For instance, for the original example in the sandbox, a reasonable comparison might be, “f() is concave down but Diff(f) is concave up.”</p>
 <p><strong>Essay question tmp-5</strong>: A. For the function <span class="math inline">\(f(x) \equiv 3 x\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\partial_x f\)</span>.</p>
@@ -702,7 +915,7 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 <li><a class="nav-link" href="#the-exponential-rule"><span class="header-section-number">19.4.3</span> The exponential rule</a></li>
 <li><a class="nav-link" href="#the-reciprocal-rule"><span class="header-section-number">19.4.4</span> The reciprocal rule</a></li>
 <li><a class="nav-link" href="#power-law-rule"><span class="header-section-number">19.4.5</span> Power-law rule</a></li>
-<li><a class="nav-link" href="#list-of-pattern-book-rules"><span class="header-section-number">19.4.6</span> List of pattern-book rules</a></li>
+<li><a class="nav-link" href="#pattern-book-derivs"><span class="header-section-number">19.4.6</span> List of pattern-book rules</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#exercises-16"><span class="header-section-number">19.5</span> Exercises</a></li>
@@ -723,7 +936,7 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-20.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

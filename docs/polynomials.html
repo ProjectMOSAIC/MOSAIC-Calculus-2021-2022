@@ -10,7 +10,7 @@
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4.1/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
 <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -123,7 +123,7 @@ In some ways, this is appropriate since polynomials played an outsized
 part in the historical development of mathematical theory. Indeed, the
 so-called “Fundamental theorem of algebra” is about
 polynomials.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The fundamental theorem says that an order-n
-polynomial has n roots (including multiplicities).&lt;/p&gt;"><sup>40</sup></a></p>
+polynomial has n roots (including multiplicities).&lt;/p&gt;"><sup>41</sup></a></p>
 <p>For modelers, polynomials are a mixed bag. They are very widely used in modeling. Sometimes this is entirely appropriate, for instance the low-order polynomials that are the subject of Chapter <a href="local-approximations.html#local-approximations">25</a>. The problems come when high-order polynomials are selected for modeling purposes. Building a reliable model with high-order polynomials requires a deep knowledge of mathematics, and introduces serious potential pitfalls. Modern professional modelers learn the alternatives to high-order polynomials, but newcomers often draw on their experience in high-school and give unwarranted credence to polynomials. This chapter attempts to guide you to the ways you are likely to see polynomials in your future work and to help you avoid them when better alternatives are available.</p>
 <div id="polynomial-basics" class="section level2" number="26.1">
 <h2>
@@ -160,7 +160,7 @@ Figure 26.1: A <span class="math inline">\(n\)</span>th-order polynomial can hav
 </h2>
 <p>The potential attraction of high-order polynomials is that, with their wriggly interior, they can take on a large number of appearances. This chameleon-like behavior has historically made them the tool of choice for understanding the behavior of approximations. That theory has motivated the use of polynomials for modeling patterns in data, but, paradoxically, has shown that high-order polynomials should <strong>not</strong> be the tool of choice for modeling data.&amp;[The mathematical background needed for those better tools won’t be available to us until Block 5, when we explore linear algebra.]</p>
 <p>Polynomial functions lend themselves well to calculations, since the output from a polynomial function can be calculated using just the basic arithmetic functions: addition, subtraction, multiplication, and division. To illustrate, consider this polynomial: <span class="math display">\[g(x) \equiv x - \frac{1}{6} x^3\]</span>
-Since the highest-order term is <span class="math inline">\(x^3\)</span> this is a third-order polynomial. (As you’ll see, we picked these particular coefficients, 0, 1, 0, -1/6, for a reason.) With such simple coefficients the polynomial is easy to handle by mental arithmetic. For instance, for <span class="math inline">\(g(x=1)\)</span> is <span class="math inline">\(5/6\)</span>. Similarly, <span class="math inline">\(g(x=1/2) = 23/48\)</span> and <span class="math inline">\(g(x=2) = 2/3\)</span>. A person of today’s generation would use an electronic calculator for more complicated inputs, but the mathematicians of Newton’s time were accomplished human calculators. It would have been well within their capabilities to calculate, using paper and pencil, <span class="math inline">\(g(\pi/4) = 0.7046527\)</span>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Unfortunately for these human calculators, pencils weren’t invented until 1795. Prior to the introduction of this advanced, graphite-based computing technology, mathematicians had to use quill and ink.&lt;/p&gt;"><sup>41</sup></a></p>
+Since the highest-order term is <span class="math inline">\(x^3\)</span> this is a third-order polynomial. (As you’ll see, we picked these particular coefficients, 0, 1, 0, -1/6, for a reason.) With such simple coefficients the polynomial is easy to handle by mental arithmetic. For instance, for <span class="math inline">\(g(x=1)\)</span> is <span class="math inline">\(5/6\)</span>. Similarly, <span class="math inline">\(g(x=1/2) = 23/48\)</span> and <span class="math inline">\(g(x=2) = 2/3\)</span>. A person of today’s generation would use an electronic calculator for more complicated inputs, but the mathematicians of Newton’s time were accomplished human calculators. It would have been well within their capabilities to calculate, using paper and pencil, <span class="math inline">\(g(\pi/4) = 0.7046527\)</span>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Unfortunately for these human calculators, pencils weren’t invented until 1795. Prior to the introduction of this advanced, graphite-based computing technology, mathematicians had to use quill and ink.&lt;/p&gt;"><sup>42</sup></a></p>
 <p>Our example polynomial, <span class="math inline">\(g(x) \equiv x - \frac{1}{6}x^3\)</span>, graphed in color in Figure <a href="polynomials.html#fig:small-sine">26.2</a>, doesn’t look exactly like the sinusoid. If we increased the extent of the graphics domain, the disagreement would be even more striking, since the sinusoid’s output is always in <span class="math inline">\(-1 \leq \sin(x) \leq 1\)</span>, while the polynomial’s tails are heading off to <span class="math inline">\(\infty\)</span> and <span class="math inline">\(-\infty\)</span>. But, for a small interval around <span class="math inline">\(x=0\)</span>, exactly aligns with the sinusoid.</p>
 <div class="figure" style="text-align: center">
 <span id="fig:small-sine"></span>
@@ -341,7 +341,7 @@ Even at <span class="math inline">\(x=0\)</span>, there’s nothing indeterminan
 <p>Compare this to the polynomial approximation to <span class="math inline">\(\sin(x) / x^3\)</span>:
 <span class="math display">\[\frac{\sin(x)}{x^3} = \frac{x - \frac{1}{6} x^3}{x^3} = \frac{1}{x^2} - \frac{1}{6}\]</span></p>
 <p>Evaluating this at <span class="math inline">\(x=0\)</span> involves division by zero. No wonder it’s badly behaved.</p>
-<p>The procedure for checking whether a function involving division by zero behaves well or poorly is described in the first-ever calculus textbook, published in 1697. The title (in English) is: <em>The analysis into the infinitely small for the understanding of curved lines</em>. In honor of the author, the Marquis de l’Hospital, the procedure is called <strong><em>l’Hopital’s rule</em></strong>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;In many French words, the sequence “os” has been replaced by a single, accented letter, &lt;span class="math inline"&gt;\(\hat{\text{o}}\)&lt;/span&gt;.&lt;/p&gt;'><sup>42</sup></a></p>
+<p>The procedure for checking whether a function involving division by zero behaves well or poorly is described in the first-ever calculus textbook, published in 1697. The title (in English) is: <em>The analysis into the infinitely small for the understanding of curved lines</em>. In honor of the author, the Marquis de l’Hospital, the procedure is called <strong><em>l’Hopital’s rule</em></strong>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;In many French words, the sequence “os” has been replaced by a single, accented letter, &lt;span class="math inline"&gt;\(\hat{\text{o}}\)&lt;/span&gt;.&lt;/p&gt;'><sup>43</sup></a></p>
 <p>Conventionally, the relationship is written
 <span class="math display">\[\lim_{x\rightarrow x_0} \frac{u(x)}{v(x)} = \lim_{x\rightarrow x_0} \frac{\partial_x u(x)}{\partial_x v(x)}\]</span></p>
 <p>Let’s try this out with our two example functions around <span class="math inline">\(x=0\)</span>:</p>
@@ -377,209 +377,138 @@ Even at <span class="math inline">\(x=0\)</span>, there’s nothing indeterminan
 </h2>
 <details><summary><strong>Exercise 26.02</strong>: <span><a name="File:%20Exercises/Diff/birch-lie-sheet.Rmd" href="#3EdMBL"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/birch-lie-sheet.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">3EdMBL</span>
 </span></summary><p>The Taylor polynomial for <span class="math inline">\(e^x\)</span> has an especially lovely formula: <span class="math display">\[p(x) = 1 + \frac{x}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots\]</span></p>
-<pre>In the above formula, the center $$x_0$$ does not appear. Why not? 
-
-
-
-( )  Having a center is not a requirement for a Taylor polynomial.
-( )  There is a center, $$x_0 = 1$$, but terms like $$x_0 x^2$$ were simplified to $$x^2$$.
-(x)  There is a center, $$x_0 = 0$$, but the terms like $$(x-x_0)^2$$ were simplified to $$x^2$$.
-
-[[Nice!]]
-
-</pre>
-</details><details><summary><strong>Exercise 26.04</strong>: <span><a name="File:%20Exercises/Diff/pig-iron-closet.Rmd" href="#o6dP4k"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/pig-iron-closet.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">o6dP4k</span>
+<p><strong>Question A</strong> In the above formula, the center <span class="math inline">\(x_0\)</span> does not appear. Why not?</p>
+<ol style="list-style-type: lower-roman">
+<li>Having a center is not a requirement for a Taylor polynomial.
+<div class="mcanswer">
+︎✘This is wrong. All Taylor polynomials are expansions around some fixed center value.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>There is a center, <span class="math inline">\(x_0 = 1\)</span>, but terms like <span class="math inline">\(x_0 x^2\)</span> were simplified to <span class="math inline">\(x^2\)</span>.
+<div class="mcanswer">
+︎✘Look again at the Taylor formula at the start of this section. The basis functions are <span class="math inline">\(x-x_0, (x-x_0)^2, \ldots\)</span>, not <span class="math inline">\(x_0 x, x_0 x^2, \ldots\)</span>
+</div>
+</li>
+<li>There is a center, <span class="math inline">\(x_0 = 0\)</span>, but the terms like <span class="math inline">\((x-x_0)^2\)</span> were simplified to <span class="math inline">\(x^2\)</span>.
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 26.04</strong>: <span><a name="File:%20Exercises/Diff/pig-iron-closet.Rmd" href="#o6dP4k"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/pig-iron-closet.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">o6dP4k</span>
 </span></summary><p>Here is a Taylor polynomial:
 <span class="math display">\[p(x) = e + \frac{e}{1!} (x-1) + \frac{e}{2!} (x-1)^2 + \cdots\]</span></p>
-<pre>Where is the center $$x_0$$ of this polynomial? 
-
-
-
-( )  $$x_0 = -2$$
-( )  $$x_0 = -1$$
-( )  $$x_0 = 0$$
-(x)  $$x_0=1$$
-( )  $$x_0 = 2$$
-
-[[Good.]]
-
-</pre>
-<pre>Your roommate suggests that $$p(x)$$ is a Taylor expansion of $$e^x$$ around $$x=1$$. Is he right? 
-
-
-
-( )  No, a polynomial doesn't have functions like $$e$$.
-(x)  Yes. The center is $$x_0 = 1$$.
-( )  Not really. The formula suggests that the center is $$x_0=1$$ but the coefficients are wrong.
-
-[[Right!]]
-
-</pre>
-</details><details><summary><strong>Exercise 26.06</strong>: <span><a name="File:%20Exercises/Diff/dog-feel-boat.Rmd" href="#Co1Ekt"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/dog-feel-boat.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">Co1Ekt</span>
+<p><strong>Question A</strong> Where is the center <span class="math inline">\(x_0\)</span> of this polynomial?</p>
+<p>    <span class="math inline">\(x_0 = -2\)</span><span class="mcanswer">︎✘</span>       <span class="math inline">\(x_0 = -1\)</span><span class="mcanswer">︎✘</span>       <span class="math inline">\(x_0 = 0\)</span><span class="mcanswer">︎✘</span>       <span class="math inline">\(x_0=1\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       <span class="math inline">\(x_0 = 2\)</span><span class="mcanswer">︎✘</span></p>
+<p><strong>Question B</strong> Your roommate suggests that <span class="math inline">\(p(x)\)</span> is a Taylor expansion of <span class="math inline">\(e^x\)</span> around <span class="math inline">\(x=1\)</span>. Is he right?</p>
+<ol style="list-style-type: lower-roman">
+<li>No, a polynomial doesn’t have functions like <span class="math inline">\(e\)</span>.
+<div class="mcanswer">
+︎✘<span class="math inline">\(e\)</span> is not a function, it’s just a number, 2.718282….
+</div>
+</li>
+<li>Yes. The center is <span class="math inline">\(x_0 = 1\)</span>.
+<div class="mcanswer">
+Good.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Not really. The formula suggests that the center is <span class="math inline">\(x_0=1\)</span> but the coefficients are wrong.
+<div class="mcanswer">
+︎✘The coefficients are right.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 26.06</strong>: <span><a name="File:%20Exercises/Diff/dog-feel-boat.Rmd" href="#Co1Ekt"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/dog-feel-boat.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">Co1Ekt</span>
 </span></summary><p>Consider the function <span class="math inline">\(f(x) \equiv (x - 3)^2\)</span>.</p>
-<pre>Using ordinary algebra, $$f(x)$$ can be expanded as $$(x^2 - 6 x -9)$$. Is $$$p(x) = -9 - 6 x + x^2$$$ a Taylor polynomial expansion of $$f(x)$$? 
-
-
-
-(x)  Yes, with a center at $$x_0 = 0$$
-( )  Yes, with a center at $$x_0 = 3$$
-( )  No, because there are no factorials involved
-
-[[Correct.]]
-
-</pre>
-</details><details><summary><strong>Exercise 26.08</strong>: <span><a name="File:%20Exercises/Diff/calf-tear-fridge.Rmd" href="#llX7EF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/calf-tear-fridge.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">llX7EF</span>
-</span></summary>
-Here’s the Taylor polynomial expansion of <span class="math inline">\(\sin(x)\)</span> about a center <span class="math inline">\(x_0\)</span>:
+<p><strong>Question A</strong> Using ordinary algebra, <span class="math inline">\(f(x)\)</span> can be expanded as <span class="math inline">\((x^2 - 6 x -9)\)</span>. Is <span class="math display">\[p(x) = -9 - 6 x + x^2\]</span> a Taylor polynomial expansion of <span class="math inline">\(f(x)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li>Yes, with a center at <span class="math inline">\(x_0 = 0\)</span>
+<div class="mcanswer">
+Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Yes, with a center at <span class="math inline">\(x_0 = 3\)</span>
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>No, because there are no factorials involved
+<div class="mcanswer">
+︎✘The factorials are already built-in to the coefficients.
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 26.08</strong>: <span><a name="File:%20Exercises/Diff/calf-tear-fridge.Rmd" href="#llX7EF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/calf-tear-fridge.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">llX7EF</span>
+</span></summary><p>Here’s the Taylor polynomial expansion of <span class="math inline">\(\sin(x)\)</span> about a center <span class="math inline">\(x_0\)</span>:
 <span class="math display">\[p(x) = 1/2 - \frac{\sqrt{3}/{2}}{2!} (x - x_0)^2 + \frac{1/2}{4!} (x - x_0)^4 + \cdots\]</span>
-<pre>Which of these is the numerical value of $$x_0$$? (Hint: Remember that the coefficients involve the function and its derivatives evaluated at $$x_0$$ as described in Section \@ref(high-order-approx).) 
-
-
-
-(x)  $$\pi/6$$
-( )  $$\pi/3$$
-( )  $$\pi/2$$
-( )  $$\pi$$
-
-[[Right!]]
-
-</pre>
+<strong>Question A</strong> Which of these is the numerical value of <span class="math inline">\(x_0\)</span>? (Hint: Remember that the coefficients involve the function and its derivatives evaluated at <span class="math inline">\(x_0\)</span> as described in Section <a href="polynomials.html#high-order-approx">26.3</a>.)</p>
+    <span class="math inline">\(\pi/6\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       <span class="math inline">\(\pi/3\)</span><span class="mcanswer">︎✘</span>       <span class="math inline">\(\pi/2\)</span><span class="mcanswer">︎✘</span>       <span class="math inline">\(\pi\)</span><span class="mcanswer">︎✘</span>
 </details><details><summary><strong>Exercise 26.10</strong>: <span><a name="File:%20Exercises/Diff/frog-throw-screen.Rmd" href="#ecdVKx"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/frog-throw-screen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ecdVKx</span>
 </span></summary><p>With very high-order derivatives, it can be awkward to use a notation with repeated subscripts, like <span class="math inline">\(\partial_{xxxxx} f(x)\)</span>. Another notation often encountered is <span class="math inline">\(f^{(5)}\)</span>, where the integer in the superscript tells the order of the derivative. We’ll use that notation in this problem.</p>
 <p>For a function <span class="math inline">\(f(x)\)</span> and its derivatives <span class="math inline">\(f^{(1)}(x)\)</span>, <span class="math inline">\(f^{(2)}(x)\)</span>, … the Taylor polynomial <span class="math inline">\(p(x)\)</span> centered on <span class="math inline">\(x_0\)</span> is</p>
 <p><span class="math display">\[p(x) \equiv f(x_0) + \frac{f^{(1)}(x_0)}{1!} (x - x_0)^1 + 
 \frac{f^{(2)}(x_0)}{2!} (x - x_0)^2 + \cdots\]</span></p>
 <p>A Taylor polynomial, like all polynomials, is a linear combination of basic functions.</p>
-<pre>Which of these are the basic functions being linearly combined in a Taylor polynomial? 
-
-
-
-( )  $$f(x), f^{(1)}(x), f^{(2)}(x), \ldots$$
-( )  $$f(x_0), f^{(1)}(x_0), f^{(2)}(x_0), \ldots$$
-( )  $$f(x_0), \frac{f^{(1)}(x_0)}{1!},  \frac{f^{(2)}(x_0)}{2!}, \ldots$$
-(x)  $$(x-x_0), (x - x_0)^2, \ldots$$
-
-[[These are the only places where the variable $$x$$ appears in the Taylor formula.]]
-
-</pre>
-</details><details><summary><strong>Exercise 26.12</strong>: <span><a name="File:%20Exercises/Diff/local-shift.Rmd" href="#682lsB"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/local-shift.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">682lsB</span>
+<p><strong>Question A</strong> Which of these are the basic functions being linearly combined in a Taylor polynomial?</p>
+<ol style="list-style-type: lower-roman">
+<li>
+<span class="math inline">\(f(x), f^{(1)}(x), f^{(2)}(x), \ldots\)</span>
+<div class="mcanswer">
+︎✘You won’t find any of these in the definition of <span class="math inline">\(p(x)\)</span> given above. You’re confusing <span class="math inline">\(x\)</span> with <span class="math inline">\(x_0\)</span>.‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>
+<span class="math inline">\(f(x_0), f^{(1)}(x_0), f^{(2)}(x_0), \ldots\)</span>
+<div class="mcanswer">
+︎✘These are not functions of <span class="math inline">\(x\)</span>. They are numbers computed by evaluating a function at the center point <span class="math inline">\(x_0\)</span>.
+</div>
+</li>
+<li>
+<span class="math inline">\(f(x_0), \frac{f^{(1)}(x_0)}{1!}, \frac{f^{(2)}(x_0)}{2!}, \ldots\)</span>
+<div class="mcanswer">
+︎✘These are not functions of <span class="math inline">\(x\)</span>. They are numbers computed by evaluating a function at the center point <span class="math inline">\(x_0\)</span>.
+</div>
+</li>
+<li>
+<span class="math inline">\((x-x_0), (x - x_0)^2, \ldots\)</span>
+<div class="mcanswer">
+Correct.These are the only places where the variable <span class="math inline">\(x\)</span> appears in the Taylor formula.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 26.12</strong>: <span><a name="File:%20Exercises/Diff/local-shift.Rmd" href="#682lsB"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/local-shift.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">682lsB</span>
 </span></summary><p>Each of the three functions graphed below is a simple power-law function that can be written <span class="math inline">\(\left[x-x_0\right]^n\)</span>. The three functions have different values for <span class="math inline">\(x_0\)</span> and for <span class="math inline">\(n\)</span>.</p>
-<img src="CalcZ-notes_files/figure-html/unnamed-chunk-357-1.png" width="90%" style="display: block; margin: auto;"><pre>For the blue function, what is $$x_0$$? 
-
-
-
-( )  0
-( )  1
-( )  2
-( )  3
-(x)  4
-( )  5
-
-[[Nice!]]
-
-</pre>
-<pre>For the blue function, what is the order of the polynomial? 
-
-
-
-( )  0
-(x)  1
-( )  2
-( )  3
-( )  4
-( )  5
-
-[[Excellent!]]
-
-</pre>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-358-1.png" width="90%" style="display: block; margin: auto;"><strong>Question A</strong> For the blue function, what is <span class="math inline">\(x_0\)</span>?</p>
+<p>    0<span class="mcanswer">︎✘</span>       1<span class="mcanswer">︎✘</span>       2<span class="mcanswer">︎✘</span>       3<span class="mcanswer">︎✘</span>       4<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       5<span class="mcanswer">︎✘</span></p>
+<p><strong>Question B</strong> For the blue function, what is the order of the polynomial?</p>
+<p>    0<span class="mcanswer">︎✘</span>       1<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       2<span class="mcanswer">︎✘</span>       3<span class="mcanswer">︎✘</span>       4<span class="mcanswer">︎✘</span>       5<span class="mcanswer">︎✘</span></p>
 <hr>
-<pre>For the orange function, what is $$x_0$$? 
-
-
-
-( )  0
-( )  1
-(x)  2
-( )  3
-( )  4
-( )  5
-
-[[Nice!]]
-
-</pre>
-<pre>For the orange function, what is the order of the polynomial? 
-
-
-
-( )  0
-( )  1
-(x)  2
-( )  3
-( )  4
-( )  5
-
-[[Excellent!]]
-
-</pre>
+<p><strong>Question C</strong> For the orange function, what is <span class="math inline">\(x_0\)</span>?</p>
+<p>    0<span class="mcanswer">︎✘</span>       1<span class="mcanswer">︎✘</span>       2<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       3<span class="mcanswer">︎✘</span>       4<span class="mcanswer">︎✘</span>       5<span class="mcanswer">︎✘</span></p>
+<p><strong>Question D</strong> For the orange function, what is the order of the polynomial?</p>
+<p>    0<span class="mcanswer">︎✘</span>       1<span class="mcanswer">︎✘</span>       2<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       3<span class="mcanswer">︎✘</span>       4<span class="mcanswer">︎✘</span>       5<span class="mcanswer">︎✘</span></p>
 <hr>
-<pre>For the green function, what is $$x_0$$? 
-
-
-
-( )  -2
-(x)  -1
-( )  0
-( )  1
-( )  2
-( )  3
-
-[[Excellent!]]
-
-</pre>
-<pre>For the green function, what is the order of the polynomial? 
-
-
-
-( )  0
-( )  1
-( )  2
-(x)  3
-( )  4
-( )  5
-
-[[Good.]]
-
-</pre>
+<p><strong>Question E</strong> For the green function, what is <span class="math inline">\(x_0\)</span>?</p>
+<p>    -2<span class="mcanswer">︎✘</span>       -1<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       0<span class="mcanswer">︎✘</span>       1<span class="mcanswer">︎✘</span>       2<span class="mcanswer">︎✘</span>       3<span class="mcanswer">︎✘</span></p>
+<p><strong>Question F</strong> For the green function, what is the order of the polynomial?</p>
+    0<span class="mcanswer">︎✘</span>       1<span class="mcanswer">︎✘</span>       2<span class="mcanswer">︎✘</span>       3<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       4<span class="mcanswer">︎✘</span>       5<span class="mcanswer">︎✘</span>
 </details><details><summary><strong>Exercise 26.14</strong>: <span><a name="File:%20Exercises/Diff/dolphin-mean-linen.Rmd" href="#cQT2v6"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/dolphin-mean-linen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">cQT2v6</span>
 </span></summary><p>At <span class="math inline">\(x=0\)</span>, the value of <span class="math inline">\(x \ln(x)\)</span> is indeterminate, having the form <span class="math inline">\(0 \cdot \infty\)</span>.</p>
 <p>Using a sandbox, plot out <span class="math inline">\(x \ln(x)\)</span> over the domain <span class="math inline">\(0 &lt; x &lt; \frac{1}{2}\)</span>.</p>
-<pre>From the graph, determine $$\lim_{x\rightarrow 0} x \ln(x()$$. Choose the correct answer. 
-
-
-
-( )  -0.2
-(x)  0
-( )  0.1
-( )  0.5
-( )  not well behaved
-
-[[Nice!]]
-
-</pre>
+<p><strong>Question A</strong> From the graph, determine <span class="math inline">\(\lim_{x\rightarrow 0} x \ln(x()\)</span>. Choose the correct answer.</p>
+<p>    -0.2<span class="mcanswer">︎✘</span>       0<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       0.1<span class="mcanswer">︎✘</span>       0.5<span class="mcanswer">︎✘</span>       not well behaved<span class="mcanswer">︎✘</span></p>
 <p>Use l’Hopital’s rule to confirm that <span class="math inline">\(\lim_{x\rightarrow 0} x \ln(x()\)</span> exists. Here, the rule has the form:</p>
 <p><span class="math display">\[\lim_{x\rightarrow 0} x \cdot \ln(x) = [\lim_{x\rightarrow 0} \partial_x x] \cdot
  [\lim_{x\rightarrow 0} \partial_x \ln(x)]\]</span></p>
-<pre>Does the application of l'Hopital's rule confirm the result from graphing the function? 
-
-
-
-(x)  Yes
-( )  No
-
-[[Nice!]]
-
-</pre>
-</details><details><summary><strong>Exercise 26.16</strong>: <span><a name="File:%20Exercises/Diff/birch-dig-radio.Rmd" href="#jAOmME"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/birch-dig-radio.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">jAOmME</span>
+<p><strong>Question B</strong> Does the application of l’Hopital’s rule confirm the result from graphing the function?</p>
+<ol style="list-style-type: lower-roman">
+<li>Yes
+<div class="mcanswer">
+Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>No
+<div class="mcanswer">
+︎✘Aren’t you getting <span class="math inline">\(\frac{1}{1/x} = x\)</span> when you carry out the differentiation involved?
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 26.16</strong>: <span><a name="File:%20Exercises/Diff/birch-dig-radio.Rmd" href="#jAOmME"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/birch-dig-radio.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">jAOmME</span>
 </span></summary><p>We would like to write a Taylor-series polynomial for <span class="math inline">\(\dnorm(x)\)</span>. To do this, we will need the numbers
 <span class="math display">\[\dnorm(x_0),\ \ \partial_x \dnorm(x_0),\ \ \partial_{xx} \dnorm(x_0),\ \ \partial_{xxx} \dnorm(x_0), ...\]</span>
 Here are the functions for the derivatives</p>
@@ -746,7 +675,7 @@ slice_plot(sin(x) - fmod(x) ~ x, domain(x=c(0, pi/2))) %>%
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-20.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

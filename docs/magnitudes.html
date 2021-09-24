@@ -10,7 +10,7 @@
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4.1/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
 <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -484,34 +484,51 @@ Figure 15.10: Part of the first page of Henry Briggs table of logarithms
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span>, <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"displacement (cc)"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-228-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-229-1.png" width="90%" style="display: block; margin: auto;"></div>
 </div>
 <p>In the plot, you’ll see that the vertical axis has labels at 1, 10, 100, 1000, 10000. These numbers are hardly spaced evenly when plotted on a linear scale, but on the log scale they are evenly spaced. Since there is a factor of ten between consecutive labels, the interval between the labels is called a <strong><em>decade</em></strong>. On the horizontal axis, the labels are at 10, 1000, 100,000, and 10,000,000. Each of those intervals spans a factor of one hundred. For instance, from 1000 is one-hundred times 10, 100,000 is one-hundred times 1000, and so on. An interval of size 100 is said to span <strong><em>two decades</em></strong>, not 20 years but a factor of 100.</p>
 <p>Based on the log-log plot, answer these questions.</p>
-<pre>How many engines have a displacement of 1 liter or less? 
-
-
-
-( )  none
-( )  7
-(x)  14
-( )  25
-
-[[Right. It's the $$10^3$$ tick that marks 1 liter, since 1 liter is 1000 cc.]]
-
-</pre>
-<pre>Using the log-log plot, how many decades of BHP are spanned by the data? 
-
-
-
-( )  4
-(x)  5
-( )  100
-
-[[Right!]]
-
-</pre>
-</details><details><summary><strong>Exercise 15.4</strong>: <span><a name="File:%20Exercises/Fun/maple-hit-saucer.Rmd" href="#j3xe"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/maple-hit-saucer.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">j3xe</span>
+<p><strong>Question A</strong> How many engines have a displacement of 1 liter or less?</p>
+<ol style="list-style-type: lower-roman">
+<li>none
+<div class="mcanswer">
+︎✘Perhaps you recognized that the left-most tick mark corresponds to a value of 1, and that no data points are 1 or smaller. But one liter corresponds to 1000 cc.
+</div>
+</li>
+<li>7
+<div class="mcanswer">
+︎✘This is the number of engines with displacement of 10 cc or smaller. But one liter corresponds to 1000 cc.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>14
+<div class="mcanswer">
+Right!Right. It’s the <span class="math inline">\(10^3\)</span> tick that marks 1 liter, since 1 liter is 1000 cc.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>25
+<div class="mcanswer">
+︎✘That would be true if the cut-off were 10 liters. But it’s not.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question B</strong> Using the log-log plot, how many decades of BHP are spanned by the data?</p>
+<ol style="list-style-type: lower-roman">
+<li>4
+<div class="mcanswer">
+︎✘Not a bad answer, but not the best one either. Notice that the smallest engine is about half a decade below 1 BPM, and the largest is about half a decade above 10,000 BPH‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>5
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>100
+<div class="mcanswer">
+︎✘The number <span class="math inline">\(10^{100}\)</span> is called a <em>googol</em> and is roughly how many particles (including photons, neutrinos, etc.) are in the universe. Imagine, quite contrary to fact, that 1 BHP could be generated by burning one molecule of fuel per second. Then as many fuel molecules as there are particles in the universe would have to be burned each second to power an engine at the high end of a span of 100 decades.
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 15.4</strong>: <span><a name="File:%20Exercises/Fun/maple-hit-saucer.Rmd" href="#j3xe"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/maple-hit-saucer.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">j3xe</span>
 </span></summary><p>You have likely heard the phrase “exponential growth” used to describe the COVID-19 pandemic. Let’s explore this idea using actual data.</p>
 <p>The <a href="https://covid19datahub.io/">COVID-19 Data Hub</a> is a collaborative effort of universities, government agencies, and non-governmental organizaions (NGOs) to provide up-to-date information about the pandemic. We’re going to use the data about the US at the whole-country level. (There’s also data at state and county levels. Documentation is available via the link above.)</p>
 <p>Perhaps the simplest display is to show the number of cumulative cases (the <code>confirmed</code> variable) and deaths as a function of time. We’ll focus on the data up to June 30, 2020.</p>
@@ -522,60 +539,101 @@ Figure 15.10: Part of the first page of Henry Briggs table of logarithms
         color <span class="op">=</span> <span class="st">"orange3"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_line</span><span class="op">(</span><span class="va">confirmed</span> <span class="op">~</span> <span class="va">date</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure">
-<img src="CalcZ-notes_files/figure-html/unnamed-chunk-230-1.png" width="90%" style="display: block; margin: auto;">
+<img src="CalcZ-notes_files/figure-html/unnamed-chunk-231-1.png" width="90%" style="display: block; margin: auto;">
 :::</div>
-<pre>As of mid June, 2020 about how many confirmed cases were there? (Note that the labeled tick marks refer to the beginning of the month, so the point labeled `Feb` is February 1.) 
-
-
-
-( )  about 50,000
-( )  about 200,000
-( )  about 500,000
-( )  about 1,000,000
-(x)  about 2,000,000
-( )  about 5,000,000
-
-[[Excellent!]]
-
-</pre>
+<p><strong>Question A</strong> As of mid June, 2020 about how many confirmed cases were there? (Note that the labeled tick marks refer to the beginning of the month, so the point labeled <code>Feb</code> is February 1.)</p>
+<ol style="list-style-type: lower-roman">
+<li>about 50,000
+<div class="mcanswer">
+︎✘The number 1e6 means 1,000,000, that is, six zeros following the 1.
+</div>
+</li>
+<li>about 200,000
+<div class="mcanswer">
+︎✘The number 1e6 means 1,000,000, that is, six zeros following the 1.
+</div>
+</li>
+<li>about 500,000
+<div class="mcanswer">
+︎✘The number 1e6 means 1,000,000, that is, six zeros following the 1.
+</div>
+</li>
+<li>about 1,000,000
+<div class="mcanswer">
+︎✘Mid June is the tick mark <em>after</em> the mark labelled <code>Jun</code>.‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>about 2,000,000
+<div class="mcanswer">
+Excellent!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>about 5,000,000
+<div class="mcanswer">
+︎✘Mid June is the tick mark <em>after</em> the mark labelled <code>Jun</code>.‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
 <p>Here’s the same graphic as above, but taking the <em>logarithm</em> (base 10) of the number of cases (that is, <code>confirmed</code>) and of the number of deaths. Since we’re taking the logarithm of only the y-variable, this is called a “semi-log” plot.</p>
 <div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">confirmed</span><span class="op">)</span> <span class="op">~</span> <span class="va">date</span>, 
          data <span class="op">=</span> <span class="va">Covid_US</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="st">"2020-06-30"</span><span class="op">)</span><span class="op">)</span>, 
          color <span class="op">=</span> <span class="st">"dodgerblue"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_point</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">)</span> <span class="op">~</span> <span class="va">date</span>, color <span class="op">=</span> <span class="st">"orange3"</span><span class="op">)</span> </code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-231-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-232-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>Up through the beginning of March in the US, it is thought that most US cases were in people travelling into the US from hot spots such as China and Italy and the UK, as opposed to contagion between people within the US. (Such contagion is called “community spread.”) So let’s look at the data representing community spread, from the start of March onward.</p>
 <p>Exponential growth appears as a straight-line on a semi-log plot. Obviously, the overall pattern of the curves is not a straight line. The explanation for this is that the exponential growth rate changes over time, perhaps due to public health measures (like business closures, mask mandates, etc.)</p>
 <p>The first (official) US death from Covid-19 was recorded was recorded on Feb. 29, 2020. Five more deaths occurred two days later, bringing the cumulative number to 6.</p>
-<pre>The tan data points for Feb 29/March 1 show up at zero on the vertical scale for the semi-log plot. The tan data point for March 2 is at around 2 on the vertical scale. Is this consistent with the facts stated above? 
-
-
-
-( )  No. The data contradict the facts.
-(x)  Yes. The vertical scale is in log (base 10) units, so 0 corresponds to 1 death, since $$\log_{10} 1 = 0$$.
-( )  No. The vertical scale doesn't mean anything.
-
-[[Right!]]
-
-</pre>
+<p><strong>Question B</strong> The tan data points for Feb 29/March 1 show up at zero on the vertical scale for the semi-log plot. The tan data point for March 2 is at around 2 on the vertical scale. Is this consistent with the facts stated above?</p>
+<ol style="list-style-type: lower-roman">
+<li>No. The data contradict the facts.
+<div class="mcanswer">
+︎✘Think about what it means to be 0 on the vertical scale.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Yes. The vertical scale is in log (base 10) units, so 0 corresponds to 1 death, since <span class="math inline">\(\log_{10} 1 = 0\)</span>.
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>No. The vertical scale doesn’t mean anything.
+<div class="mcanswer">
+︎✘You can see from the plotting command what the quantity on the vertical axis is: <code><a href="https://rdrr.io/r/base/Log.html">log10(confirmed)</a></code> for the blue dots and <code><a href="https://rdrr.io/r/base/Log.html">log10(deaths)</a></code> for the tan.
+</div>
+</li>
+</ol>
 <p>One of the purposes of making a semi-log plot is to enable you to compare very large numbers with very small numbers on the same graph. For instance, in the semi-log plot, you can easily see when the first death occurred, a fact that is invisible in the plot of the raw counts (the first plot in this exercise).</p>
 <p>Another feature of semi-log plots is that they preserve proportionality. Look at the linear plot of raw counts and note that the curve for the number of deaths is much shallower than the curve for the number of (confirmed) cases. Yet on the semi-log plot, the two curves are practically parallel.</p>
 <p>On a semi-log plot, the arithmetic difference between the two curves tells you what the proportion is between those curves. The parallel curves mean that the proportion is practically constant.
 Calculate what the proportion between deaths and cases was in the month of May. Here’s a mathematical hint: <span class="math inline">\(\log_{10} \frac{a}{b} == \log_{10} a - \log_{10} b\)</span>. We are interested in <span class="math inline">\(\frac{a}{b}\)</span>.</p>
-<pre>What is the proportion of deaths to cases during the month of May? 
-
-
-
-( )  about 1%
-( )  about 2%
-(x)  about 5%
-( )  about 25%
-( )  about 75%
-
-[[On the semi-log plot,  the deaths curve is about 1.2 log10 units lower than the cases curve. $$10^{-1.2} = 0.063 = 6.3\%$$) separates the two curves.]]
-
-</pre>
+<p><strong>Question C</strong> What is the proportion of deaths to cases during the month of May?</p>
+<ol style="list-style-type: lower-roman">
+<li>about 1%
+<div class="mcanswer">
+︎✘This would correspond to a (vertical) difference between the curves of about 2 log10 units. Is it really that big?‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>about 2%
+<div class="mcanswer">
+︎✘This would correspond to a (vertical) difference between the curves of about 1.7 log units. Is it really that big?‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>about 5%
+<div class="mcanswer">
+Excellent!On the semi-log plot, the deaths curve is about 1.2 log10 units lower than the cases curve. <span class="math inline">\(10^{-1.2} = 0.063 = 6.3\%\)</span>) separates the two curves.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>about 25%
+<div class="mcanswer">
+︎✘I’m not really sure what could lead you to this answer. You’re making a mistake that I didn’t anticipate.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>about 75%
+<div class="mcanswer">
+︎✘It’s true that in May log10(deaths) is about 5, and log10(cases) is about 6, and 5/6 is indeed roughly 75%. But, on a log scale, the proportion relates to the difference between logs, not the ratio of logs.
+</div>
+</li>
+</ol>
 <p>In many applications, people use semi-log plots to see whether a pattern is exponential or to compare very small and very large numbers. Often, people find it easier if the vertical scale is written in the original units rather than the log units. To accomplish both, the vertical scale can be ruled with raw units spaced logarithmically, like this:</p>
 <div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">confirmed</span> <span class="op">~</span> <span class="va">date</span>, 
@@ -583,22 +641,32 @@ Calculate what the proportion between deaths and cases was in the month of May. 
          color <span class="op">=</span> <span class="st">"dodgerblue"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_point</span><span class="op">(</span><span class="va">deaths</span> <span class="op">~</span> <span class="va">date</span>, color <span class="op">=</span> <span class="st">"orange3"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-232-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-233-1.png" width="90%" style="display: block; margin: auto;"></div>
 <p>The <strong>labels</strong> on the vertical axis show the raw numbers, while the <strong>position</strong> shows the logarithm of those numbers.</p>
 <p>The next question has to do with the meaning of the interval between grid lines on the vertical axis. Note that on the <em>horizontal</em> axis, the spacing between adjacent grid lines is half a month.</p>
-<pre>What is the numerical spacing (in terms of raw counts) between adjacent grid lines on the vertical axis? (Note: Two numbers are different by a "factor of 10" when one number is 10 times the other." Similarly, "a factor of 100" means that one number is 100 times the other. 
-
-
-
-( )  10 cases
-( )  100 cases
-(x)  A factor of 10.
-( )  A factor of 100.
-
-[[Right. Every time you move up by one grid line, the raw number increases ten-fold, so 10, 100, 1000, 10,000, and so on. The phrase `a factor of 10` means to multiply by 10, not to add 10.]]
-
-</pre>
-</details><details><summary><strong>Exercise 15.5</strong>: <span><a name="File:%20Exercises/Dimension/Boyles-data.Rmd" href="#RWESX"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/Boyles-data.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">RWESX</span>
+<p><strong>Question D</strong> What is the numerical spacing (in terms of raw counts) between adjacent grid lines on the vertical axis? (Note: Two numbers are different by a “factor of 10” when one number is 10 times the other." Similarly, “a factor of 100” means that one number is 100 times the other.</p>
+<ol style="list-style-type: lower-roman">
+<li>10 cases
+<div class="mcanswer">
+︎✘If this were true, moving up from the lowest label (<code>1e+01</code>, that is, 10) the next grid line would be at 20, then 30, then 40.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>100 cases
+<div class="mcanswer">
+︎✘If this were true, moving up from the lowest label (<code>1e+01</code>) the next grid line would be at 110, then 210, then 310.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>A factor of 10.
+<div class="mcanswer">
+Excellent!Right. Every time you move up by one grid line, the raw number increases ten-fold, so 10, 100, 1000, 10,000, and so on. The phrase <code>a factor of 10</code> means to multiply by 10, not to add 10.
+</div>
+</li>
+<li>A factor of 100.
+<div class="mcanswer">
+︎✘You’re thinking along the right lines, but this is the difference between every second grid line, not adjacent grid lines.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 15.5</strong>: <span><a name="File:%20Exercises/Dimension/Boyles-data.Rmd" href="#RWESX"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/Boyles-data.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">RWESX</span>
 </span></summary><p>Open a sandbox to carry out some calculations with Boyle’s data. To see how the data frame is organized, use the <code><a href="https://rdrr.io/r/utils/head.html">head(Boyle)</a></code> and <code><a href="https://rdrr.io/r/base/names.html">names(Boyle)</a></code> commands.</p>
 <div class="scaffolding">
 <p>The scaffolding here contains a command for plotting out Boyle’s data. It also includes a command, <code>gf_lm()</code> that will add a graph of the best straight-line model to the plotted points. Recall that the <code>#</code> symbol turns what follows on the line into a <em>comment</em>, which is ignored by R. By removing the <code>#</code> selectively you can turn on the display of log axes.</p>
@@ -609,20 +677,26 @@ Calculate what the proportion between deaths and cases was in the month of May. 
      <span class="co"># scale_y_log10()</span>
   <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_lm</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-234-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-235-1.png" width="90%" style="display: block; margin: auto;"></div>
 </div>
-<pre>In a sandbox, plot pressure versus volume using linear, semi-log, and log-log axes. Based on the plot, and the straight-line function drawn, which of these is a good model of the relationship between pressure and volume? 
-
-
-
-( )  linear
-( )  exponential
-(x)  power-law
-
-[[Nice!]]
-
-</pre>
-</details><details><summary><strong>Exercise 15.6</strong>: <span><a name="File:%20Exercises/Fun/lion-jump-kitchen.Rmd" href="#gmZiWh"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/lion-jump-kitchen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">gmZiWh</span>
+<p><strong>Question A</strong> In a sandbox, plot pressure versus volume using linear, semi-log, and log-log axes. Based on the plot, and the straight-line function drawn, which of these is a good model of the relationship between pressure and volume?</p>
+<ol style="list-style-type: lower-roman">
+<li>linear
+<div class="mcanswer">
+︎✘This would look like a straight line on linear axes.‥‥
+</div>
+</li>
+<li>exponential
+<div class="mcanswer">
+︎✘This would look like a straight line on semi-log axes.
+</div>
+</li>
+<li>power-law
+<div class="mcanswer">
+Good.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 15.6</strong>: <span><a name="File:%20Exercises/Fun/lion-jump-kitchen.Rmd" href="#gmZiWh"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/lion-jump-kitchen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">gmZiWh</span>
 </span></summary><p>Recall Robert Boyle’s data on pressure and volume of a fixed mass of gas held at constant pressure. In Section <a href="magnitudes.html#magnitude-graphics">15.5</a> of the text you saw a graphical analysis that enabled you to identify Boyle’s Law with a power-law relationship between pressure and volume: <span class="math display">\[P(V) = a V^n\]</span> On log-log axes, a power-law relationship shows up as a straight-line graphically.</p>
 <p>Taking logarithms translates the relationship to a straight-line function:<span class="math display">\[\text{lnP(lnV)} = \ln(a) + n\,  \ln(V)\]</span>
 To find the parameter <span class="math inline">\(n\)</span>, you can fit the model to the data. This R command will do the job:</p>
@@ -630,129 +704,210 @@ To find the parameter <span class="math inline">\(n\)</span>, you can fit the mo
 <code class="sourceCode R"><span class="fu">fitModel</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pressure</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">+</span> <span class="va">n</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">volume</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Boyle</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and run the model-fitting command. Then, interpret the parameters.</p>
-<pre>What is the slope produced by `fitModel()` when fitting a power law model? 
-
-
-
-( )  Roughly -1
-(x)  Almost exactly -1
-( )  About -1.5
-( )  Slope $$&gt; 0$$
-
-[[Right!]]
-
-</pre>
+<p><strong>Question A</strong> What is the slope produced by <code>fitModel()</code> when fitting a power law model?</p>
+<ol style="list-style-type: lower-roman">
+<li>Roughly -1
+<div class="mcanswer">
+︎✘You must be a very precise person!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Almost exactly -1
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>About -1.5
+<div class="mcanswer">
+︎✘I’m not sure how you arrived at this answer.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Slope <span class="math inline">\(&gt; 0\)</span>
+<div class="mcanswer">
+︎✘You should be able to see from the graph you made in part (1) that the slope is negative.
+</div>
+</li>
+</ol>
 <p>According to the appropriate model that you found in (A) and (B), interpret the function you found relating pressure and volume.</p>
-<pre>As the volume becomes very large, what happens to the pressure? 
-
-
-
-(x)  Pressure becomes very small.
-( )  Pressure stays constant
-( )  Pressure also becomes large.
-( )  None of the above
-
-[[Correct.]]
-
-</pre>
+<p><strong>Question B</strong> As the volume becomes very large, what happens to the pressure?</p>
+<ol style="list-style-type: lower-roman">
+<li>Pressure becomes very small.
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Pressure stays constant
+<div class="mcanswer">
+︎✘You can see from the graph in part (A) that pressure does change with volume.‥‥‥‥
+</div>
+</li>
+<li>Pressure also becomes large.
+<div class="mcanswer">
+︎✘You can see from the graph in part (A) that pressure goes down as volume goes up.
+</div>
+</li>
+<li>None of the above
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
 <p>Return to your use of <code>fitModel()</code> to find the slope of the straight-line fit to the appropriately log-transformed model. When you carried out the log transformation, you used the so-called “natural logarithm” with expressions like <code><a href="https://rdrr.io/r/base/Log.html">log(pressure)</a></code>. Alternatively, you could have used the log base-10 or the log base-2, with expressions like <code><a href="https://rdrr.io/r/base/Log.html">log(pressure, base = 10)</a></code> or <code><a href="https://rdrr.io/r/base/Log.html">log(volume, base = 2)</a></code>. Whichever you use, you should use the same base for all the logarithmic transformations when finding the straight-line parameters.</p>
-<pre>**(D)** Does the **slope** of the  straight line found by `fitModel()` depend on which base is used? 
-
-
-
-(x)  No
-( )  Yes
-( )  There's no way to tell.
-
-[[Good.]]
-
-</pre>
-<pre>**(E)** Does the **intercept** of the  straight line found by `fitModel()` depend on which base is used? 
-
-
-
-(x)  Yes
-( )  No
-
-[[Good. But this will come out in the wash when you calculate the parameter $$C$$ in $$C x^b$$, since $$C$$ will be either $$2^\text{intercept}$$ or $$10^\text{intercept}$$ or $$e^\text{intercept}$$ depending on the base log you use.]]
-
-</pre>
-</details><details><summary><strong>Exercise 15.7</strong>: <span><a name="File:%20Exercises/Fun/engine-magnitude-new.Rmd" href="#EWLCI"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/engine-magnitude-new.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">EWLCI</span>
+<p><strong>Question C</strong> <strong>(D)</strong> Does the <strong>slope</strong> of the straight line found by <code>fitModel()</code> depend on which base is used?</p>
+<ol style="list-style-type: lower-roman">
+<li>No
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Yes
+<div class="mcanswer">
+︎✘Did you use the same base for both logarithms in your <code>fitModel()</code> expression?
+</div>
+</li>
+<li>There’s no way to tell.
+<div class="mcanswer">
+︎✘Yes, there is. Try using <code>fitModel()</code> with the different bases of log.‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question D</strong> <strong>(E)</strong> Does the <strong>intercept</strong> of the straight line found by <code>fitModel()</code> depend on which base is used?</p>
+<ol style="list-style-type: lower-roman">
+<li>Yes
+<div class="mcanswer">
+Excellent!Good. But this will come out in the wash when you calculate the parameter <span class="math inline">\(C\)</span> in <span class="math inline">\(C x^b\)</span>, since <span class="math inline">\(C\)</span> will be either <span class="math inline">\(2^\text{intercept}\)</span> or <span class="math inline">\(10^\text{intercept}\)</span> or <span class="math inline">\(e^\text{intercept}\)</span> depending on the base log you use.
+</div>
+</li>
+<li>No
+<div class="mcanswer">
+︎✘Are you sure you tried different bases?‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 15.7</strong>: <span><a name="File:%20Exercises/Fun/engine-magnitude-new.Rmd" href="#EWLCI"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/engine-magnitude-new.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">EWLCI</span>
 </span></summary><p>Here is a plot of the power output (BHP) versus displacement (in cc) of 39 internal combustion engines.</p>
 <div class="scaffolding">
 <div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_lims</span><span class="op">(</span>y  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30000</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-237-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-238-1.png" width="90%" style="display: block; margin: auto;"></div>
 </div>
-<pre>Your study partner claims that the smallest engine in the data has a displacement of 2000 cc (that is, 2.0 liters) and 100 horsepower. Based only on the graph, is this claim plausible? 
-
-
-
-(x)  Yes, because 2000  cc and 100 hp would look like (0, 0) on  the scale of this graph.
-( )  Yes, because that size engine is typical for a small car.
-( )  No, the smallest engine is close to 0 cc.
-( )  No, my study partner is always wrong.
-
-[[Excellent!]]
-
-</pre>
+<p><strong>Question A</strong> Your study partner claims that the smallest engine in the data has a displacement of 2000 cc (that is, 2.0 liters) and 100 horsepower. Based only on the graph, is this claim plausible?</p>
+<ol style="list-style-type: lower-roman">
+<li>Yes, because 2000 cc and 100 hp would look like (0, 0) on the scale of this graph.
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Yes, because that size engine is typical for a small car.
+<div class="mcanswer">
+︎✘That may be, but certainly you’ve encountered lawn mower engines that are much smaller.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>No, the smallest engine is close to 0 cc.
+<div class="mcanswer">
+︎✘Would you be able to distinguish visually an engine of 1 cc from an engine of 1000cc on this graph? Both these values would lie on the same horizontal pixel in the graph.
+</div>
+</li>
+<li>No, my study partner is always wrong.
+<div class="mcanswer">
+︎✘Be that as it may, we’re looking for a principled answer, not an <em>ad hominem</em> one.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
 <p><strong>Semi-log scales</strong></p>
 <p>The next command will make a graph of the same engine data as before, but with a log scale on the horizontal axis. The vertical axis is still linear.</p>
 <div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">BHP</span> <span class="op">~</span> <span class="va">displacement</span>, data <span class="op">=</span> <span class="va">Engines</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">gf_refine</span><span class="op">(</span><span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-238-1.png" width="90%" style="display: block; margin: auto;"></div>
-<pre>Using just the graph, answer this question: The engines range over how many decades of displacement? (Remember, a decade is a factor of 10.) 
-
-
-
-(x)  7 decades
-( )  Can't tell
-( )  $$10^7$$ decades
-( )  About 3.5 decades
-
-[[Right!]]
-
-</pre>
-</details><details><summary><strong>Exercise 15.8</strong>: <span><a name="File:%20Exercises/Fun/fish-walk-green.Rmd" href="#TLEXE"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fish-walk-green.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">TLEXE</span>
-</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-240-1.png" width="90%" style="display: block; margin: auto;"></div>
-<pre>Consider the axis scales shown above.  Which kind of scale is the horizontal axis? 
-
-
-
-(x)  linear
-( )  logarithmic
-( )  semi-logarithmic
-( )  log-log
-
-[[You can see this because a given length along the axis corresponds to the same arithmetic difference regardless of where you are on the axis.  the distance between 0 and 50 is exactly the same as the difference between 50 and 100, or the distance between 150 and 200.]]
-
-</pre>
-<pre>Which kind of scale is the vertical axis? 
-
-
-
-( )  linear
-(x)  logarithmic
-( )  semi-logarithmic
-( )  log-log
-
-[[Nice!]]
-
-</pre>
-<pre>Given your answers to the  previous two questions, what kind of plot would be made in the frame being displayed at the top of this question? 
-
-
-
-(x)  semi-log
-( )  log-log
-( )  linear-linear
-
-[[Good.]]
-
-</pre>
-</details><details><summary><strong>Exercise 15.9</strong>: <span><a name="File:%20Exercises/Dimension/tiger-have-fork.Rmd" href="#SELIX"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/tiger-have-fork.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">SELIX</span>
+<div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-239-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p><strong>Question B</strong> Using just the graph, answer this question: The engines range over how many decades of displacement? (Remember, a decade is a factor of 10.)</p>
+<ol style="list-style-type: lower-roman">
+<li>7 decades
+<div class="mcanswer">
+Correct.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Can’t tell
+<div class="mcanswer">
+︎✘Yes, you can. Figure out what one decade corresponds to in terms of distance on the log axes.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>
+<span class="math inline">\(10^7\)</span> decades
+<div class="mcanswer">
+︎✘The estimated volume of the entire universe is about <span class="math inline">\(4 \times 10^{86}\)</span> cc. The volume of a neutron is about <span class="math inline">\(6 \times 10^{-81}\)</span> cc. The range between a neutron and the universe is therefore about <span class="math inline">\(86 - -81 = 167\)</span> decades. Do you think it likely that there is an internal combustion engine smaller than a neutron or larger than the universe?
+</div>
+</li>
+<li>About 3.5 decades
+<div class="mcanswer">
+︎✘Perhaps you’re treating the distance between axis labels as one decade. Look carefully and you see that it’s actually a factor of 100, that is, two decades.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 15.8</strong>: <span><a name="File:%20Exercises/Fun/fish-walk-green.Rmd" href="#TLEXE"><img src="www/icons8-signpost.png" title="Location: Exercises/Fun/fish-walk-green.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">TLEXE</span>
+</span></summary><div class="inline-figure"><img src="CalcZ-notes_files/figure-html/unnamed-chunk-241-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p><strong>Question A</strong> Consider the axis scales shown above. Which kind of scale is the horizontal axis?</p>
+<ol style="list-style-type: lower-roman">
+<li>linear
+<div class="mcanswer">
+Correct.You can see this because a given length along the axis corresponds to the same arithmetic difference regardless of where you are on the axis. the distance between 0 and 50 is exactly the same as the difference between 50 and 100, or the distance between 150 and 200.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>logarithmic
+<div class="mcanswer">
+︎✘A clue that an axis is <strong>not</strong> logarithmic is that there is a zero marked. The log of zero is <span class="math inline">\(-\infty\)</span>, which can’t appear on any actual graph. Another key is whether the scale shows doubling behavior. The distance between 50 and 100 represents one doubling: 100 is twice 50. If the scale were logarithmic, moving forward that same distance from 100 would bring you to 200. But that’s not what happens here.
+</div>
+</li>
+<li>semi-logarithmic
+<div class="mcanswer">
+︎✘“Semi-logarithmic” is not about a single axis but about two axes: horizontal and vertical. It means that one axis is linear while the other is logarithmic.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>log-log
+<div class="mcanswer">
+︎✘“Log-log” is not about a single axis but about two axes. It means that both the horizontal and vertical axes are logarithmic.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question B</strong> Which kind of scale is the vertical axis?</p>
+<ol style="list-style-type: lower-roman">
+<li>linear
+<div class="mcanswer">
+︎✘Measure the distance from 30 to 50. If the scale were linear, then moving that same distance from 50 would bring you to 70, and moving that distance again would bring you to 90. But you can see that instead of reaching 90, you’d reach something greater than 100 on the scale. So the scale is not linear.
+</div>
+</li>
+<li>logarithmic
+<div class="mcanswer">
+Excellent!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>semi-logarithmic
+<div class="mcanswer">
+︎✘“Semi-logarithmic” is not about a single axis but about two axes: horizontal and vertical. It means that one axis is linear while the other is logarithmic.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>log-log
+<div class="mcanswer">
+︎✘“Log-log” is not about a single axis but about two axes. It means that both the horizontal and vertical axes are logarithmic.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question C</strong> Given your answers to the previous two questions, what kind of plot would be made in the frame being displayed at the top of this question?</p>
+<ol style="list-style-type: lower-roman">
+<li>semi-log
+<div class="mcanswer">
+Excellent!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>log-log
+<div class="mcanswer">
+︎✘A log-log plot has log scales for both axes. The horizontal axis here is linear.
+</div>
+</li>
+<li>linear-linear
+<div class="mcanswer">
+︎✘No, the vertical axis is logarithmic.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 15.9</strong>: <span><a name="File:%20Exercises/Dimension/tiger-have-fork.Rmd" href="#SELIX"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/tiger-have-fork.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">SELIX</span>
 </span></summary><p>The data frame <code>SSA_2007</code> comes from the <a href="https://www.ssa.gov/oact/STATS/table4c6.html">US Social Security Administration</a> and contains mortality in the US as a function of age and sex. (“Mortality” refers to the probability of dying in the next year.)</p>
 <div class="scaffolding">
 <p>Open a sandbox and copy in the following scaffolding to see the organization of the data.</p>
@@ -764,21 +919,32 @@ To find the parameter <span class="math inline">\(n\)</span>, you can fit the mo
 <div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">SSA_2007</span><span class="op">)</span>
 <span class="fu">gf_point</span><span class="op">(</span><span class="va">Mortality</span> <span class="op">~</span> <span class="va">Age</span>, color <span class="op">=</span> <span class="op">~</span> <span class="va">Sex</span>, data <span class="op">=</span> <span class="va">SSA_2007</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-243-1.png" width="90%" style="display: block; margin: auto;">
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-244-1.png" width="90%" style="display: block; margin: auto;">
 There is a <em>slight</em> mistake in the way the command is written,
 so an error message will be generated. To figure out what’s wrong, read the error message, check the variable names, and so on until you successfully make the plot.</p>
-<pre>What was the mistake in the plotting command in the above code box? 
-
-
-
-(x)  Variable names didn't match the ones in the data.
-( )  The *tilde* in the argument `color = ~ sex`
-( )  The data frame name is spelled wrong.
-( )  There is no function `gf_point()`.
-
-[[Excellent!]]
-
-</pre>
+<p><strong>Question A</strong> What was the mistake in the plotting command in the above code box?</p>
+<ol style="list-style-type: lower-roman">
+<li>Variable names didn’t match the ones in the data.
+<div class="mcanswer">
+Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>The <em>tilde</em> in the argument <code>color = ~ sex</code>
+<div class="mcanswer">
+︎✘The <code>color =</code> argument is right. The value being used, <code>~ sex</code>, is a one-sided formula and is used for things like color, shape, transparency, ….
+</div>
+</li>
+<li>The data frame name is spelled wrong.
+<div class="mcanswer">
+︎✘No.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>There is no function <code>gf_point()</code>.
+<div class="mcanswer">
+︎✘No. <code>gf_point()</code> is one of the more commonly used plotting functions‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
 <p><strong>Essay question tmp-4</strong>: What’s the obvious (simple) message of the above plot?</p>
 <p>Now you are going to use semi-log and log-log scales to look at the mortality data again. To do this, you will use the <code>gf_refine()</code> function.</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="magnitudes.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>( __and_so_on__) <span class="sc">%&gt;%</span></span>
@@ -789,55 +955,94 @@ so an error message will be generated. To figure out what’s wrong, read the er
 <p>Fill in the <code>__and_so_on__</code> details correctly and run the command in your sandbox.</p>
 <p>As written, both vertical and horizontal axes will be on log scales. This may not be what you want in the end.</p>
 <p>Arrange the plotting command to make a semi-log plot of mortality versus age. Interpret the plot to answer the following questions. Note that labels such as those along the vertical axis are often called “decade labels.”</p>
-<pre>The level of mortality in year 0 of life is how much greater than in year 1 and after? 
-
-
-
-( )  About twice as large.
-( )  About five times as large
-(x)  About 10 times as large
-( )  About 100 times as large
-
-[[Correct.]]
-
-</pre>
-<pre>Near age 20, the mortality of males is how much compared to females? 
-
-
-
-( )  Less than twice as large.
-(x)  A bit more than three times as large
-( )  About 8 times as large
-( )  About 12 times as large
-
-[[Excellent!]]
-
-</pre>
-<pre>Between the ages of about 40 and 80, how does mortality change with age? 
-
-
-
-( )  It stays about the same.
-( )  It increases as a straight line.
-(x)  It increases exponentially.
-( )  It increases, then decreases, then increases again.
-
-[[Right!]]
-
-</pre>
+<p><strong>Question B</strong> The level of mortality in year 0 of life is how much greater than in year 1 and after?</p>
+<ol style="list-style-type: lower-roman">
+<li>About twice as large.
+<div class="mcanswer">
+︎✘Hint: How much is the change between successive labels on the y axis?
+</div>
+</li>
+<li>About five times as large
+<div class="mcanswer">
+︎✘Hint: How much is the change between successive labels on the y axis?
+</div>
+</li>
+<li>About 10 times as large
+<div class="mcanswer">
+Excellent!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>About 100 times as large
+<div class="mcanswer">
+︎✘Hint: How much is the change between successive labels on the y axis?
+</div>
+</li>
+</ol>
+<p><strong>Question C</strong> Near age 20, the mortality of males is how much compared to females?</p>
+<ol style="list-style-type: lower-roman">
+<li>Less than twice as large.
+<div class="mcanswer">
+︎✘Hint: Due to the nature of logs, a difference of half a decade corresponds to a change of <span class="math inline">\(\sqrt{10}\)</span>.
+</div>
+</li>
+<li>A bit more than three times as large
+<div class="mcanswer">
+Right!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>About 8 times as large
+<div class="mcanswer">
+︎✘Hint: Due to the nature of logs, a difference of half a decade corresponds to a change of <span class="math inline">\(\sqrt{10}\)</span>.
+</div>
+</li>
+<li>About 12 times as large
+<div class="mcanswer">
+︎✘Hint: Due to the nature of logs, a difference of half a decade corresponds to a change of <span class="math inline">\(\sqrt{10}\)</span>.
+</div>
+</li>
+</ol>
+<p><strong>Question D</strong> Between the ages of about 40 and 80, how does mortality change with age?</p>
+<ol style="list-style-type: lower-roman">
+<li>It stays about the same.
+<div class="mcanswer">
+︎✘But the curve is sloping up, isn’t it?‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>It increases as a straight line.
+<div class="mcanswer">
+︎✘It would be fair to say this about the logarithm of mortality. But a straight line in log mortality means that mortality itself is increasing exponentially.
+</div>
+</li>
+<li>It increases exponentially.
+<div class="mcanswer">
+Nice!‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>It increases, then decreases, then increases again.
+<div class="mcanswer">
+︎✘Interesting that you would say this when the function in clearly monotonically increasing above age 30.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
 <p>Remake the plot of mortality vs age once again, but this time put it on log-log axes. The sign of a power-law relationship is that it shows up as a straight line on log-log axes.</p>
-<pre>Between the ages of about 40 and 80 is the increase in mortality better modeled by an exponential or a power-law process? 
-
-
-
-( )  Power-law
-(x)  Exponential
-( )  No reason to prefer one or the other.
-
-[[Right. The graph is much closer to a straight line on semi-log scales than on log-log scales.]]
-
-</pre>
-</details><details><summary><strong>Exercise 15.10</strong>: <span><a name="File:%20Exercises/Dimension/octopus-look-radio.Rmd" href="#PeQJCA"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/octopus-look-radio.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">PeQJCA</span>
+<p><strong>Question E</strong> Between the ages of about 40 and 80 is the increase in mortality better modeled by an exponential or a power-law process?</p>
+<ol style="list-style-type: lower-roman">
+<li>Power-law
+<div class="mcanswer">
+︎✘But it’s hard to find any straight line on the log-log plot.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>Exponential
+<div class="mcanswer">
+Right!Right. The graph is much closer to a straight line on semi-log scales than on log-log scales.
+</div>
+</li>
+<li>No reason to prefer one or the other.
+<div class="mcanswer">
+︎✘One is much closer to a straight line than the other.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><details><summary><strong>Exercise 15.10</strong>: <span><a name="File:%20Exercises/Dimension/octopus-look-radio.Rmd" href="#PeQJCA"><img src="www/icons8-signpost.png" title="Location: Exercises/Dimension/octopus-look-radio.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">PeQJCA</span>
 </span></summary><p>The graph comes from an online guide, “<a href="https://en.wikipedia.org/wiki/William_F._Sharpe">Retirement Income Analysis with Scenario Matrices</a>,” published in 2019 by <a href="https://en.wikipedia.org/wiki/William_F._Sharpe">William F. Sharpe</a>, winner of the Nobel Prize in economices in 1990. The guide is intended to be of interest to those planning for retirement income who also happen to have a sophisticated understanding of mathematics and computing. You may or may not be in the former group, but it is hoped that, as you follow this course, you are becoming a member of the later group.</p>
 <div class="figure" style="text-align: center">
 <span id="fig:mort-age"></span>
@@ -846,76 +1051,108 @@ Figure 15.11: Mortality rates for people aged 50+ in the US in 2009. The mortali
 </p>
 </div>
 <p>As you can see, the graph shows nearly parallel straight-line functions for both women and men, with women somewhat less likely than men to die at any given age.</p>
-<pre>What is the format of the graphics axes? 
-
-
-
-( )  linear
-(x)  semi-log
-( )  log-log
-
-[[Nice!]]
-
-</pre>
-<pre>If the age axis had been logged, which of the following would be true? 
-
-
-
-(x)  The interval from 50 to 55 would be graphically **larger** than the interval from 95 to 100.
-( )  The interval from 50 to 55 would be graphically **smaller** than the interval from 95 to 100.
-( )  The two intervals would have the same graphical length.
-
-[[Correct.]]
-
-</pre>
-<pre>At age **100**, which of these is closest to the mortality rate for men? 
-
-
-
-( )  About 10%
-( )  About 20%.
-(x)  About 40%.
-( )  About 60%
-
-[[40% is the *third* tick mark above the $$10^{-1}$$ mark.]]
-
-</pre>
-<pre>At age **65**, women have a lower probability of dying than men. How much lower, proportionately? 
-
-
-
-( )  About 5% lower than men
-( )  About 15% lower than men.
-(x)  About 40% lower than men.
-
-[[Women have a mortality rate of 1% while the rate for men is just under 2%.]]
-
-</pre>
-<pre>A rough estimate for the absolute limit of the human lifespan can be made by extrapolating the lines out to a mortality of 100%. This extrapolation would be statistically uncertain, and the pattern might change in the future either up or down, but let's ignore that for now and simply extrapolate simply a line fitting the data from age 50 to 100. Which of these is the estimate made in that way for the absolute limit of the human lifespan? 
-
-
-
-( )  105 years
-(x)  110 years
-( )  120 years
-( )  130 years
-
-[[Nice!]]
-
-</pre>
-<pre>To judge from the graph, the function relating mortality to age is which of the following? 
-
-
-
-( )  A straight-line function with positive slope.
-( )  A power-law with a positive exponent.
-(x)  An exponentially increasing function with a horizontal asymptote at mortality = 0.
-( )  An exponentially decaying function, with a horizontal asymptote at mortality = 100%.
-
-[[A straight-line on semi-log axes---what we have here---is diagnostic of an exponential function. The function value would go to zero for age = $$- \infty$$, but that mathematical fact is hardly relevant to human lifespan.]]
-
-</pre>
-</details><!--
+<p><strong>Question A</strong> What is the format of the graphics axes?</p>
+<ol style="list-style-type: lower-roman">
+<li>linear
+<div class="mcanswer">
+︎✘The function might be linear, but we’re asking about the coordinate axes?‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>semi-log
+<div class="mcanswer">
+Correct.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>log-log
+<div class="mcanswer">
+︎✘The ‘age’ axis is linear. For instance, the interval from 50 to 55 is just as long on the axis as is the interval from 95 to 100.
+</div>
+</li>
+</ol>
+<p><strong>Question B</strong> If the age axis had been logged, which of the following would be true?</p>
+<ol style="list-style-type: lower-roman">
+<li>The interval from 50 to 55 would be graphically <strong>larger</strong> than the interval from 95 to 100.
+<div class="mcanswer">
+Good.
+</div>
+</li>
+<li>The interval from 50 to 55 would be graphically <strong>smaller</strong> than the interval from 95 to 100.
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+<li>The two intervals would have the same graphical length.
+<div class="mcanswer">
+︎✘
+</div>
+</li>
+</ol>
+<p><strong>Question C</strong> At age <strong>100</strong>, which of these is closest to the mortality rate for men?</p>
+<ol style="list-style-type: lower-roman">
+<li>About 10%
+<div class="mcanswer">
+︎✘The blue dot is well above the tick mark for a mortality of <span class="math inline">\(10^{-1}\)</span>.
+</div>
+</li>
+<li>About 20%.
+<div class="mcanswer">
+︎✘20% would be the first tick mark above the <span class="math inline">\(10^{-1}\)</span> mark.‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>About 40%.
+<div class="mcanswer">
+Excellent!40% is the <em>third</em> tick mark above the <span class="math inline">\(10^{-1}\)</span> mark.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>About 60%
+<div class="mcanswer">
+︎✘60% is the *fifth tick mark abavoe the <span class="math inline">\(10^{-1}\)</span> mark.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol>
+<p><strong>Question D</strong> At age <strong>65</strong>, women have a lower probability of dying than men. How much lower, proportionately?</p>
+<ol style="list-style-type: lower-roman">
+<li>About 5% lower than men
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>About 15% lower than men.
+<div class="mcanswer">
+︎✘You’re not taking into account the log scale of the vertical axis.‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>About 40% lower than men.
+<div class="mcanswer">
+Right!Women have a mortality rate of 1% while the rate for men is just under 2%.
+</div>
+</li>
+</ol>
+<p><strong>Question E</strong> A rough estimate for the absolute limit of the human lifespan can be made by extrapolating the lines out to a mortality of 100%. This extrapolation would be statistically uncertain, and the pattern might change in the future either up or down, but let’s ignore that for now and simply extrapolate simply a line fitting the data from age 50 to 100. Which of these is the estimate made in that way for the absolute limit of the human lifespan?</p>
+<p>    105 years<span class="mcanswer">︎✘</span>       110 years<span class="mcanswer"><span class="math inline">\(\heartsuit\)</span></span>       120 years<span class="mcanswer">︎✘</span>       130 years<span class="mcanswer">︎✘</span></p>
+<p><strong>Question F</strong> To judge from the graph, the function relating mortality to age is which of the following?</p>
+<ol style="list-style-type: lower-roman">
+<li>A straight-line function with positive slope.
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>A power-law with a positive exponent.
+<div class="mcanswer">
+︎✘That would be a straight line on log-log axes.‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+<li>An exponentially increasing function with a horizontal asymptote at mortality = 0.
+<div class="mcanswer">
+Nice!A straight-line on semi-log axes—what we have here—is diagnostic of an exponential function. The function value would go to zero for age = <span class="math inline">\(- \infty\)</span>, but that mathematical fact is hardly relevant to human lifespan.
+</div>
+</li>
+<li>An exponentially decaying function, with a horizontal asymptote at mortality = 100%.
+<div class="mcanswer">
+︎✘‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥‥
+</div>
+</li>
+</ol></details><!--
 `rrr insert_calcZ_exercise("15.10", "XzZn2N", "Exercises/Fun/deer-blow-bulb.Rmd")`
 -->
 </div>
@@ -953,7 +1190,7 @@ Figure 15.11: Mortality rates for people aged 50+ in the US in 2009. The mortali
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-20.</p>
+    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-09-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
