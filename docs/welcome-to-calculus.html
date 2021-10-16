@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>MOSAIC Calculus</title>
+  <meta name="description" content="Modeling-based calculus" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="MOSAIC Calculus" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Modeling-based calculus" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="MOSAIC Calculus" />
+  
+  <meta name="twitter:description" content="Modeling-based calculus" />
+  
+
+<meta name="author" content="Daniel Kaplan" />
+
+
+<meta name="date" content="2021-10-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="change.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">CalcZ</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html"><i class="fa fa-check"></i>Welcome to calculus</a>
+<ul>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#computing-and-apps"><i class="fa fa-check"></i>Computing and apps</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#exercises-and-feedback"><i class="fa fa-check"></i>Exercises and feedback</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#practice-practice-practice"><i class="fa fa-check"></i>Practice, practice, practice</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#software-for-the-course"><i class="fa fa-check"></i>Software for the course</a></li>
+</ul></li>
+<li class="part"><span><b>I Block 1: Functions and quantity</b></span></li>
+<li class="chapter" data-level="1" data-path="change.html"><a href="change.html"><i class="fa fa-check"></i><b>1</b> Change</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="change.html"><a href="change.html#quantity-vs-number"><i class="fa fa-check"></i><b>1.1</b> Quantity vs number</a></li>
+<li class="chapter" data-level="1.2" data-path="change.html"><a href="change.html#functions"><i class="fa fa-check"></i><b>1.2</b> Functions</a></li>
+<li class="chapter" data-level="1.3" data-path="change.html"><a href="change.html#fundamental-model-of-change"><i class="fa fa-check"></i><b>1.3</b> Fundamental model of change</a></li>
+<li class="chapter" data-level="1.4" data-path="change.html"><a href="change.html#exercises"><i class="fa fa-check"></i><b>1.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pattern-book.html"><a href="pattern-book.html"><i class="fa fa-check"></i><b>2</b> Functions for modeling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pattern-book.html"><a href="pattern-book.html#pattern-book-functions"><i class="fa fa-check"></i><b>2.1</b> Pattern-book functions</a></li>
+<li class="chapter" data-level="2.2" data-path="pattern-book.html"><a href="pattern-book.html#the-power-law-family"><i class="fa fa-check"></i><b>2.2</b> The power-law family</a></li>
+<li class="chapter" data-level="2.3" data-path="pattern-book.html"><a href="pattern-book.html#constructing-functions"><i class="fa fa-check"></i><b>2.3</b> Constructing functions</a></li>
+<li class="chapter" data-level="2.4" data-path="pattern-book.html"><a href="pattern-book.html#function-shapes"><i class="fa fa-check"></i><b>2.4</b> Function shapes</a></li>
+<li class="chapter" data-level="2.5" data-path="pattern-book.html"><a href="pattern-book.html#exercises-1"><i class="fa fa-check"></i><b>2.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html"><i class="fa fa-check"></i><b>3</b> Structure of a function</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#inputs-to-output"><i class="fa fa-check"></i><b>3.1</b> Inputs to output</a></li>
+<li class="chapter" data-level="3.2" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#bureaucratic"><i class="fa fa-check"></i><b>3.2</b> A bureaucratic analogy</a></li>
+<li class="chapter" data-level="3.3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#domain-input-space"><i class="fa fa-check"></i><b>3.3</b> Domain: input space</a></li>
+<li class="chapter" data-level="3.4" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#range-output-space"><i class="fa fa-check"></i><b>3.4</b> Range: output space</a></li>
+<li class="chapter" data-level="3.5" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#formulas-in-r"><i class="fa fa-check"></i><b>3.5</b> Formulas in R</a></li>
+<li class="chapter" data-level="3.6" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#exercises-2"><i class="fa fa-check"></i><b>3.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="fun-describing.html"><a href="fun-describing.html"><i class="fa fa-check"></i><b>4</b> Describing functions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="fun-describing.html"><a href="fun-describing.html#slice-plot-intro"><i class="fa fa-check"></i><b>4.1</b> Graphing a function</a></li>
+<li class="chapter" data-level="4.2" data-path="fun-describing.html"><a href="fun-describing.html#tables-of-inputs-and-outputs"><i class="fa fa-check"></i><b>4.2</b> Tables of inputs and outputs</a></li>
+<li class="chapter" data-level="4.3" data-path="fun-describing.html"><a href="fun-describing.html#word-descriptions"><i class="fa fa-check"></i><b>4.3</b> Word descriptions</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="fun-describing.html"><a href="fun-describing.html#concavity"><i class="fa fa-check"></i><b>4.3.1</b> Concavity</a></li>
+<li class="chapter" data-level="4.3.2" data-path="fun-describing.html"><a href="fun-describing.html#continuity-intro"><i class="fa fa-check"></i><b>4.3.2</b> Continuity</a></li>
+<li class="chapter" data-level="4.3.3" data-path="fun-describing.html"><a href="fun-describing.html#monotonicity"><i class="fa fa-check"></i><b>4.3.3</b> Monotonicity</a></li>
+<li class="chapter" data-level="4.3.4" data-path="fun-describing.html"><a href="fun-describing.html#periodicity"><i class="fa fa-check"></i><b>4.3.4</b> Periodicity</a></li>
+<li class="chapter" data-level="4.3.5" data-path="fun-describing.html"><a href="fun-describing.html#asymptotic-behavior"><i class="fa fa-check"></i><b>4.3.5</b> Asymptotic behavior</a></li>
+<li class="chapter" data-level="4.3.6" data-path="fun-describing.html"><a href="fun-describing.html#local-extremes"><i class="fa fa-check"></i><b>4.3.6</b> Locally extreme points</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="fun-describing.html"><a href="fun-describing.html#computer-function-names"><i class="fa fa-check"></i><b>4.4</b> Computer function names</a></li>
+<li class="chapter" data-level="4.5" data-path="fun-describing.html"><a href="fun-describing.html#mathematical-notation"><i class="fa fa-check"></i><b>4.5</b> Mathematical notation</a></li>
+<li class="chapter" data-level="4.6" data-path="fun-describing.html"><a href="fun-describing.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fun-notation.html"><a href="fun-notation.html"><i class="fa fa-check"></i><b>5</b> Notation for functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fun-notation.html"><a href="fun-notation.html#a-notation-for-computing"><i class="fa fa-check"></i><b>5.1</b> A notation for computing</a></li>
+<li class="chapter" data-level="5.2" data-path="fun-notation.html"><a href="fun-notation.html#words-for-using-functions"><i class="fa fa-check"></i><b>5.2</b> Words for using functions</a></li>
+<li class="chapter" data-level="5.3" data-path="fun-notation.html"><a href="fun-notation.html#algorithms"><i class="fa fa-check"></i><b>5.3</b> Formulas and algorithms</a></li>
+<li class="chapter" data-level="5.4" data-path="fun-notation.html"><a href="fun-notation.html#algorithms-without-formulas"><i class="fa fa-check"></i><b>5.4</b> Algorithms without formulas</a></li>
+<li class="chapter" data-level="5.5" data-path="fun-notation.html"><a href="fun-notation.html#computer-notation"><i class="fa fa-check"></i><b>5.5</b> Computer notation</a></li>
+<li class="chapter" data-level="5.6" data-path="fun-notation.html"><a href="fun-notation.html#calcz-naming-conventions"><i class="fa fa-check"></i><b>5.6</b> CalcZ naming conventions</a></li>
+<li class="chapter" data-level="5.7" data-path="fun-notation.html"><a href="fun-notation.html#functions-in-r"><i class="fa fa-check"></i><b>5.7</b> Functions in R</a></li>
+<li class="chapter" data-level="5.8" data-path="fun-notation.html"><a href="fun-notation.html#foursigns"><i class="fa fa-check"></i><b>5.8</b> <span class="math inline">\(=\)</span>, <span class="math inline">\(\equiv\)</span>, <span class="math inline">\(\rightarrow\)</span>, <code>&lt;-</code></a></li>
+<li class="chapter" data-level="5.9" data-path="fun-notation.html"><a href="fun-notation.html#exercises-4"><i class="fa fa-check"></i><b>5.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html"><i class="fa fa-check"></i><b>6</b> Graphics &amp; function graphs</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#the-graphics-frame"><i class="fa fa-check"></i><b>6.1</b> The graphics frame</a></li>
+<li class="chapter" data-level="6.2" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-graphics-the-point-plot"><i class="fa fa-check"></i><b>6.2</b> Data graphics: the point plot</a></li>
+<li class="chapter" data-level="6.3" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#function-graphs"><i class="fa fa-check"></i><b>6.3</b> Function graphs</a></li>
+<li class="chapter" data-level="6.4" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#graphics-layers"><i class="fa fa-check"></i><b>6.4</b> Graphics layers</a></li>
+<li class="chapter" data-level="6.5" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-and-functions"><i class="fa fa-check"></i><b>6.5</b> Data and functions</a></li>
+<li class="chapter" data-level="6.6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#inputs-to-output-1"><i class="fa fa-check"></i><b>6.6</b> Inputs to output</a></li>
+<li class="chapter" data-level="6.7" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#outputs-to-inputs"><i class="fa fa-check"></i><b>6.7</b> Outputs to inputs</a></li>
+<li class="chapter" data-level="6.8" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#surface-plot"><i class="fa fa-check"></i><b>6.8</b> Graphs of functions with two inputs</a></li>
+<li class="chapter" data-level="6.9" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#contour-plots"><i class="fa fa-check"></i><b>6.9</b> Contour plots</a></li>
+<li class="chapter" data-level="6.10" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#slice-plots"><i class="fa fa-check"></i><b>6.10</b> Slice plots</a></li>
+<li class="chapter" data-level="6.11" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#exercises-5"><i class="fa fa-check"></i><b>6.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="params-intro.html"><a href="params-intro.html"><i class="fa fa-check"></i><b>7</b> Parameters for functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="params-intro.html"><a href="params-intro.html#parallel-scales"><i class="fa fa-check"></i><b>7.1</b> Parallel scales</a></li>
+<li class="chapter" data-level="7.2" data-path="params-intro.html"><a href="params-intro.html#scaling-the-input"><i class="fa fa-check"></i><b>7.2</b> Scaling the input</a></li>
+<li class="chapter" data-level="7.3" data-path="params-intro.html"><a href="params-intro.html#scale-the-output"><i class="fa fa-check"></i><b>7.3</b> Scale the output</a></li>
+<li class="chapter" data-level="7.4" data-path="params-intro.html"><a href="params-intro.html#linear-combinations"><i class="fa fa-check"></i><b>7.4</b> Linear combinations</a></li>
+<li class="chapter" data-level="7.5" data-path="params-intro.html"><a href="params-intro.html#exercises-6"><i class="fa fa-check"></i><b>7.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="process-of-modeling.html"><a href="process-of-modeling.html"><i class="fa fa-check"></i><b>8</b> Finding parameters for the basic modeling functions</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="process-of-modeling.html"><a href="process-of-modeling.html#variations-from-scaling"><i class="fa fa-check"></i><b>8.1</b> Variations from scaling</a></li>
+<li class="chapter" data-level="8.2" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-periodic"><i class="fa fa-check"></i><b>8.2</b> Curve fitting a periodic function</a></li>
+<li class="chapter" data-level="8.3" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-exponential"><i class="fa fa-check"></i><b>8.3</b> Curve fitting an exponential function</a></li>
+<li class="chapter" data-level="8.4" data-path="process-of-modeling.html"><a href="process-of-modeling.html#curve-fitting-a-power-law-function"><i class="fa fa-check"></i><b>8.4</b> Curve fitting a power-law function</a></li>
+<li class="chapter" data-level="8.5" data-path="process-of-modeling.html"><a href="process-of-modeling.html#gaussian-and-sigmoid-functions"><i class="fa fa-check"></i><b>8.5</b> Gaussian and sigmoid functions</a></li>
+<li class="chapter" data-level="8.6" data-path="process-of-modeling.html"><a href="process-of-modeling.html#exercises-7"><i class="fa fa-check"></i><b>8.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="fun-slopes.html"><a href="fun-slopes.html"><i class="fa fa-check"></i><b>9</b> Slope function</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="fun-slopes.html"><a href="fun-slopes.html#change-and-slope"><i class="fa fa-check"></i><b>9.1</b> Change and slope</a></li>
+<li class="chapter" data-level="9.2" data-path="fun-slopes.html"><a href="fun-slopes.html#continuous-change"><i class="fa fa-check"></i><b>9.2</b> Continuous change</a></li>
+<li class="chapter" data-level="9.3" data-path="fun-slopes.html"><a href="fun-slopes.html#slope"><i class="fa fa-check"></i><b>9.3</b> Slope</a></li>
+<li class="chapter" data-level="9.4" data-path="fun-slopes.html"><a href="fun-slopes.html#the-fitted-line"><i class="fa fa-check"></i><b>9.4</b> The fitted line</a></li>
+<li class="chapter" data-level="9.5" data-path="fun-slopes.html"><a href="fun-slopes.html#average-rate-of-change"><i class="fa fa-check"></i><b>9.5</b> Average rate of change</a></li>
+<li class="chapter" data-level="9.6" data-path="fun-slopes.html"><a href="fun-slopes.html#instantaneous-rate-of-change"><i class="fa fa-check"></i><b>9.6</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="9.7" data-path="fun-slopes.html"><a href="fun-slopes.html#exercises-8"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html"><i class="fa fa-check"></i><b>10</b> Function inverses and “solving”</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#function-inverses"><i class="fa fa-check"></i><b>10.1</b> Function inverses</a></li>
+<li class="chapter" data-level="10.2" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#solving-graphically"><i class="fa fa-check"></i><b>10.2</b> Solving graphically</a></li>
+<li class="chapter" data-level="10.3" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#zero-finding"><i class="fa fa-check"></i><b>10.3</b> Zero-finding</a></li>
+<li class="chapter" data-level="10.4" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#exercises-9"><i class="fa fa-check"></i><b>10.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="fun-assembling.html"><a href="fun-assembling.html"><i class="fa fa-check"></i><b>11</b> Assembling functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="fun-assembling.html"><a href="fun-assembling.html#linear-combination"><i class="fa fa-check"></i><b>11.1</b> Linear combination</a></li>
+<li class="chapter" data-level="11.2" data-path="fun-assembling.html"><a href="fun-assembling.html#function-composition"><i class="fa fa-check"></i><b>11.2</b> Function composition</a></li>
+<li class="chapter" data-level="11.3" data-path="fun-assembling.html"><a href="fun-assembling.html#modeling-polynomial-1"><i class="fa fa-check"></i><b>11.3</b> The modeling polynomial</a></li>
+<li class="chapter" data-level="11.4" data-path="fun-assembling.html"><a href="fun-assembling.html#function-multiplication"><i class="fa fa-check"></i><b>11.4</b> Function multiplication</a></li>
+<li class="chapter" data-level="11.5" data-path="fun-assembling.html"><a href="fun-assembling.html#all-together-now"><i class="fa fa-check"></i><b>11.5</b> All together now!</a></li>
+<li class="chapter" data-level="11.6" data-path="fun-assembling.html"><a href="fun-assembling.html#exercises-10"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html"><i class="fa fa-check"></i><b>12</b> Functions with multiple inputs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#fx-times-gt"><i class="fa fa-check"></i><b>12.1</b> f(x) times g(t)</a></li>
+<li class="chapter" data-level="12.2" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#two-variable-modeling-polynomial"><i class="fa fa-check"></i><b>12.2</b> Two-variable modeling polynomial</a></li>
+<li class="chapter" data-level="12.3" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#exercises-11"><i class="fa fa-check"></i><b>12.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="fun-piecewise.html"><a href="fun-piecewise.html"><i class="fa fa-check"></i><b>13</b> Piecewise functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="fun-piecewise.html"><a href="fun-piecewise.html#splitting-the-domain"><i class="fa fa-check"></i><b>13.1</b> Splitting the domain</a></li>
+<li class="chapter" data-level="13.2" data-path="fun-piecewise.html"><a href="fun-piecewise.html#basic-piecewise-functions"><i class="fa fa-check"></i><b>13.2</b> Basic piecewise functions</a></li>
+<li class="chapter" data-level="13.3" data-path="fun-piecewise.html"><a href="fun-piecewise.html#exercises-12"><i class="fa fa-check"></i><b>13.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="modeling-cycle.html"><a href="modeling-cycle.html"><i class="fa fa-check"></i><b>14</b> Modeling cycle</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-cooling-water"><i class="fa fa-check"></i><b>14.1</b> Example: Cooling water</a></li>
+<li class="chapter" data-level="14.2" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-the-tides"><i class="fa fa-check"></i><b>14.2</b> Example: The tides</a></li>
+<li class="chapter" data-level="14.3" data-path="modeling-cycle.html"><a href="modeling-cycle.html#modeling-project"><i class="fa fa-check"></i><b>14.3</b> Modeling project</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="magnitudes.html"><a href="magnitudes.html"><i class="fa fa-check"></i><b>15</b> Magnitudes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="magnitudes.html"><a href="magnitudes.html#counting-digits"><i class="fa fa-check"></i><b>15.1</b> Counting digits</a></li>
+<li class="chapter" data-level="15.2" data-path="magnitudes.html"><a href="magnitudes.html#using-digit-to-understand-magnitude"><i class="fa fa-check"></i><b>15.2</b> Using digit() to understand magnitude</a></li>
+<li class="chapter" data-level="15.3" data-path="magnitudes.html"><a href="magnitudes.html#quantity-and-magnitude"><i class="fa fa-check"></i><b>15.3</b> Quantity and magnitude</a></li>
+<li class="chapter" data-level="15.4" data-path="magnitudes.html"><a href="magnitudes.html#composing-ln"><i class="fa fa-check"></i><b>15.4</b> Composing <span class="math inline">\(\ln()\)</span></a></li>
+<li class="chapter" data-level="15.5" data-path="magnitudes.html"><a href="magnitudes.html#magnitude-graphics"><i class="fa fa-check"></i><b>15.5</b> Magnitude graphics</a></li>
+<li class="chapter" data-level="15.6" data-path="magnitudes.html"><a href="magnitudes.html#reading-log-axes"><i class="fa fa-check"></i><b>15.6</b> Reading logarithmic scales</a></li>
+<li class="chapter" data-level="15.7" data-path="magnitudes.html"><a href="magnitudes.html#fractional-digits"><i class="fa fa-check"></i><b>15.7</b> Fractional digits (optional)</a></li>
+<li class="chapter" data-level="15.8" data-path="magnitudes.html"><a href="magnitudes.html#exercises-13"><i class="fa fa-check"></i><b>15.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="dimensions.html"><a href="dimensions.html"><i class="fa fa-check"></i><b>16</b> Dimensions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="dimensions.html"><a href="dimensions.html#mathematics-of-quantity"><i class="fa fa-check"></i><b>16.1</b> Mathematics of quantity</a></li>
+<li class="chapter" data-level="16.2" data-path="dimensions.html"><a href="dimensions.html#compound-dimensions"><i class="fa fa-check"></i><b>16.2</b> Compound dimensions</a></li>
+<li class="chapter" data-level="16.3" data-path="dimensions.html"><a href="dimensions.html#arithmetic-with-dimensions"><i class="fa fa-check"></i><b>16.3</b> Arithmetic with dimensions</a></li>
+<li class="chapter" data-level="16.4" data-path="dimensions.html"><a href="dimensions.html#pendulum-dimensions"><i class="fa fa-check"></i><b>16.4</b> Example: Dimensional analysis</a></li>
+<li class="chapter" data-level="16.5" data-path="dimensions.html"><a href="dimensions.html#conversion-flavors-of-1"><i class="fa fa-check"></i><b>16.5</b> Conversion: Flavors of 1</a></li>
+<li class="chapter" data-level="16.6" data-path="dimensions.html"><a href="dimensions.html#dimensions-and-linear-combinations"><i class="fa fa-check"></i><b>16.6</b> Dimensions and linear combinations</a></li>
+<li class="chapter" data-level="16.7" data-path="dimensions.html"><a href="dimensions.html#exercises-14"><i class="fa fa-check"></i><b>16.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html"><i class="fa fa-check"></i>Projects and review</a>
+<ul>
+<li class="chapter" data-level="16.8" data-path="projects-and-review.html"><a href="projects-and-review.html#ebola-in-guinea-part-i"><i class="fa fa-check"></i><b>16.8</b> Ebola in Guinea, part I</a>
+<ul>
+<li class="chapter" data-level="16.8.1" data-path="projects-and-review.html"><a href="projects-and-review.html#data"><i class="fa fa-check"></i><b>16.8.1</b> Data</a></li>
+<li class="chapter" data-level="16.8.2" data-path="projects-and-review.html"><a href="projects-and-review.html#exploring-the-data"><i class="fa fa-check"></i><b>16.8.2</b> Exploring the Data</a></li>
+<li class="chapter" data-level="16.8.3" data-path="projects-and-review.html"><a href="projects-and-review.html#data-wrangling"><i class="fa fa-check"></i><b>16.8.3</b> Data Wrangling</a></li>
+</ul></li>
+<li class="chapter" data-level="16.9" data-path="projects-and-review.html"><a href="projects-and-review.html#analysis-of-the-outbreak"><i class="fa fa-check"></i><b>16.9</b> Analysis of the outbreak</a></li>
+<li class="chapter" data-level="16.10" data-path="projects-and-review.html"><a href="projects-and-review.html#more-data-smoothing"><i class="fa fa-check"></i><b>16.10</b> More data smoothing</a></li>
+<li class="chapter" data-level="16.11" data-path="projects-and-review.html"><a href="projects-and-review.html#final-thoughts"><i class="fa fa-check"></i><b>16.11</b> Final thoughts</a></li>
+</ul></li>
+<li class="part"><span><b>II Block 2: Differentiation</b></span></li>
+<li class="chapter" data-level="" data-path="prolog-differentiation-and-birth.html"><a href="prolog-differentiation-and-birth.html"><i class="fa fa-check"></i>Prolog: Differentiation and birth</a></li>
+<li class="chapter" data-level="17" data-path="change-relationships.html"><a href="change-relationships.html"><i class="fa fa-check"></i><b>17</b> Change relationships</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="change-relationships.html"><a href="change-relationships.html#mathematics-in-motion"><i class="fa fa-check"></i><b>17.1</b> Mathematics in motion</a></li>
+<li class="chapter" data-level="17.2" data-path="change-relationships.html"><a href="change-relationships.html#continuous-time"><i class="fa fa-check"></i><b>17.2</b> Continuous time</a></li>
+<li class="chapter" data-level="17.3" data-path="change-relationships.html"><a href="change-relationships.html#instantaneous-rate-of-change-1"><i class="fa fa-check"></i><b>17.3</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="17.4" data-path="change-relationships.html"><a href="change-relationships.html#slopes-and-motion"><i class="fa fa-check"></i><b>17.4</b> Slopes and motion</a></li>
+<li class="chapter" data-level="17.5" data-path="change-relationships.html"><a href="change-relationships.html#acceleration"><i class="fa fa-check"></i><b>17.5</b> Acceleration</a></li>
+<li class="chapter" data-level="17.6" data-path="change-relationships.html"><a href="change-relationships.html#notations-for-differentiation"><i class="fa fa-check"></i><b>17.6</b> Notations for differentiation</a></li>
+<li class="chapter" data-level="17.7" data-path="change-relationships.html"><a href="change-relationships.html#slope-fun-visualization"><i class="fa fa-check"></i><b>17.7</b> Visualizing the slope function</a></li>
+<li class="chapter" data-level="17.8" data-path="change-relationships.html"><a href="change-relationships.html#dimension-of-derivatives"><i class="fa fa-check"></i><b>17.8</b> Dimension of derivatives</a></li>
+<li class="chapter" data-level="17.9" data-path="change-relationships.html"><a href="change-relationships.html#exercises-15"><i class="fa fa-check"></i><b>17.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="evanescent-h.html"><a href="evanescent-h.html"><i class="fa fa-check"></i><b>18</b> Evanescent h</a></li>
+<li class="chapter" data-level="19" data-path="computing-derivs.html"><a href="computing-derivs.html"><i class="fa fa-check"></i><b>19</b> Computing derivatives</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="computing-derivs.html"><a href="computing-derivs.html#a-function-from-a-function"><i class="fa fa-check"></i><b>19.1</b> A function from a function</a></li>
+<li class="chapter" data-level="19.2" data-path="computing-derivs.html"><a href="computing-derivs.html#finite-differencing"><i class="fa fa-check"></i><b>19.2</b> Finite differencing</a></li>
+<li class="chapter" data-level="19.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-slope-function-operator"><i class="fa fa-check"></i><b>19.3</b> The slope-function operator</a></li>
+<li class="chapter" data-level="19.4" data-path="computing-derivs.html"><a href="computing-derivs.html#symbolic-differentiation"><i class="fa fa-check"></i><b>19.4</b> Symbolic differentiation</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="computing-derivs.html"><a href="computing-derivs.html#the-line-rule"><i class="fa fa-check"></i><b>19.4.1</b> The line rule</a></li>
+<li class="chapter" data-level="19.4.2" data-path="computing-derivs.html"><a href="computing-derivs.html#the-square-rule"><i class="fa fa-check"></i><b>19.4.2</b> The square rule</a></li>
+<li class="chapter" data-level="19.4.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-exponential-rule"><i class="fa fa-check"></i><b>19.4.3</b> The exponential rule</a></li>
+<li class="chapter" data-level="19.4.4" data-path="computing-derivs.html"><a href="computing-derivs.html#the-reciprocal-rule"><i class="fa fa-check"></i><b>19.4.4</b> The reciprocal rule</a></li>
+<li class="chapter" data-level="19.4.5" data-path="computing-derivs.html"><a href="computing-derivs.html#power-law-rule"><i class="fa fa-check"></i><b>19.4.5</b> Power-law rule</a></li>
+<li class="chapter" data-level="19.4.6" data-path="computing-derivs.html"><a href="computing-derivs.html#pattern-book-derivs"><i class="fa fa-check"></i><b>19.4.6</b> List of pattern-book rules</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="computing-derivs.html"><a href="computing-derivs.html#exercises-16"><i class="fa fa-check"></i><b>19.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="concavity-curvature.html"><a href="concavity-curvature.html"><i class="fa fa-check"></i><b>20</b> Concavity and curvature</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="concavity-curvature.html"><a href="concavity-curvature.html#quantifing-concavity-and-curvature"><i class="fa fa-check"></i><b>20.1</b> Quantifing concavity and curvature</a></li>
+<li class="chapter" data-level="20.2" data-path="concavity-curvature.html"><a href="concavity-curvature.html#concavity-deriv"><i class="fa fa-check"></i><b>20.2</b> Concavity</a></li>
+<li class="chapter" data-level="20.3" data-path="concavity-curvature.html"><a href="concavity-curvature.html#curvature-definition"><i class="fa fa-check"></i><b>20.3</b> Curvature</a></li>
+<li class="chapter" data-level="20.4" data-path="concavity-curvature.html"><a href="concavity-curvature.html#exercises-17"><i class="fa fa-check"></i><b>20.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html"><i class="fa fa-check"></i><b>21</b> Continuity and smoothness</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#continuity"><i class="fa fa-check"></i><b>21.1</b> Continuity</a></li>
+<li class="chapter" data-level="21.2" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#discontinuity"><i class="fa fa-check"></i><b>21.2</b> Discontinuity</a></li>
+<li class="chapter" data-level="21.3" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#smoothness"><i class="fa fa-check"></i><b>21.3</b> Smoothness</a></li>
+<li class="chapter" data-level="21.4" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#exercises-18"><i class="fa fa-check"></i><b>21.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html"><i class="fa fa-check"></i><b>22</b> Derivatives of assembled functions</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#using-the-rules"><i class="fa fa-check"></i><b>22.1</b> Using the rules</a></li>
+<li class="chapter" data-level="22.2" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#differentiating-linear-combinations"><i class="fa fa-check"></i><b>22.2</b> Differentiating linear combinations</a></li>
+<li class="chapter" data-level="22.3" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#product-rule-for-multiplied-functions"><i class="fa fa-check"></i><b>22.3</b> Product rule for multiplied functions</a></li>
+<li class="chapter" data-level="22.4" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#chain-rule-for-function-composition"><i class="fa fa-check"></i><b>22.4</b> Chain rule for function composition</a></li>
+<li class="chapter" data-level="22.5" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#basic-derivs"><i class="fa fa-check"></i><b>22.5</b> Derivatives of the basic modeling functions</a></li>
+<li class="chapter" data-level="22.6" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exponentials-and-logarithms-optional"><i class="fa fa-check"></i><b>22.6</b> Exponentials and logarithms (optional)</a></li>
+<li class="chapter" data-level="22.7" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exercises-19"><i class="fa fa-check"></i><b>22.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="optim-and-shape.html"><a href="optim-and-shape.html"><i class="fa fa-check"></i><b>23</b> Optimization</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="optim-and-shape.html"><a href="optim-and-shape.html#structure-of-the-problem"><i class="fa fa-check"></i><b>23.1</b> Structure of the problem</a></li>
+<li class="chapter" data-level="23.2" data-path="optim-and-shape.html"><a href="optim-and-shape.html#interpreting-the-argmax"><i class="fa fa-check"></i><b>23.2</b> Interpreting the argmax</a></li>
+<li class="chapter" data-level="23.3" data-path="optim-and-shape.html"><a href="optim-and-shape.html#derivatives-and-optimization"><i class="fa fa-check"></i><b>23.3</b> Derivatives and optimization</a></li>
+<li class="chapter" data-level="23.4" data-path="optim-and-shape.html"><a href="optim-and-shape.html#flat-on-top"><i class="fa fa-check"></i><b>23.4</b> Be practical!</a></li>
+<li class="chapter" data-level="23.5" data-path="optim-and-shape.html"><a href="optim-and-shape.html#exercises-20"><i class="fa fa-check"></i><b>23.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="partial-change.html"><a href="partial-change.html"><i class="fa fa-check"></i><b>24</b> Partial change</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="partial-change.html"><a href="partial-change.html#calculus-on-two-inputs"><i class="fa fa-check"></i><b>24.1</b> Calculus on two inputs</a></li>
+<li class="chapter" data-level="24.2" data-path="partial-change.html"><a href="partial-change.html#all-other-things-being-equal"><i class="fa fa-check"></i><b>24.2</b> All other things being equal …</a></li>
+<li class="chapter" data-level="24.3" data-path="partial-change.html"><a href="partial-change.html#gradient-vector"><i class="fa fa-check"></i><b>24.3</b> Gradient vector</a></li>
+<li class="chapter" data-level="24.4" data-path="partial-change.html"><a href="partial-change.html#total-derivative-optional"><i class="fa fa-check"></i><b>24.4</b> Total derivative (optional)</a></li>
+<li class="chapter" data-level="24.5" data-path="partial-change.html"><a href="partial-change.html#differential-skier"><i class="fa fa-check"></i><b>24.5</b> Differentials</a></li>
+<li class="chapter" data-level="24.6" data-path="partial-change.html"><a href="partial-change.html#exercises-21"><i class="fa fa-check"></i><b>24.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="local-approximations.html"><a href="local-approximations.html"><i class="fa fa-check"></i><b>25</b> Local approximations</a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="local-approximations.html"><a href="local-approximations.html#eight-simple-shapes"><i class="fa fa-check"></i><b>25.1</b> Eight simple shapes</a></li>
+<li class="chapter" data-level="25.2" data-path="local-approximations.html"><a href="local-approximations.html#low-order-polynomials"><i class="fa fa-check"></i><b>25.2</b> Low-order polynomials</a></li>
+<li class="chapter" data-level="25.3" data-path="local-approximations.html"><a href="local-approximations.html#low-order-two"><i class="fa fa-check"></i><b>25.3</b> The low-order polynomial with two inputs</a></li>
+<li class="chapter" data-level="25.4" data-path="local-approximations.html"><a href="local-approximations.html#finding-coefficients-from-data"><i class="fa fa-check"></i><b>25.4</b> Finding coefficients from data</a></li>
+<li class="chapter" data-level="25.5" data-path="local-approximations.html"><a href="local-approximations.html#exercises-22"><i class="fa fa-check"></i><b>25.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="polynomials.html"><a href="polynomials.html"><i class="fa fa-check"></i><b>26</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="polynomials.html"><a href="polynomials.html#polynomial-basics"><i class="fa fa-check"></i><b>26.1</b> Basics of polynomials with one input</a></li>
+<li class="chapter" data-level="26.2" data-path="polynomials.html"><a href="polynomials.html#multiple-inputs"><i class="fa fa-check"></i><b>26.2</b> Multiple inputs?</a></li>
+<li class="chapter" data-level="26.3" data-path="polynomials.html"><a href="polynomials.html#high-order-approx"><i class="fa fa-check"></i><b>26.3</b> High-order approximations</a></li>
+<li class="chapter" data-level="26.4" data-path="polynomials.html"><a href="polynomials.html#indeterminate-forms"><i class="fa fa-check"></i><b>26.4</b> Indeterminate forms</a></li>
+<li class="chapter" data-level="26.5" data-path="polynomials.html"><a href="polynomials.html#computing-with-indeterminate-forms"><i class="fa fa-check"></i><b>26.5</b> Computing with indeterminate forms</a></li>
+<li class="chapter" data-level="26.6" data-path="polynomials.html"><a href="polynomials.html#exercises-23"><i class="fa fa-check"></i><b>26.6</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Block 3: Accumulation</b></span></li>
+<li class="chapter" data-level="27" data-path="change-accumulation.html"><a href="change-accumulation.html"><i class="fa fa-check"></i><b>27</b> Change and accumulation</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="change-accumulation.html"><a href="change-accumulation.html#accumulation"><i class="fa fa-check"></i><b>27.1</b> Accumulation</a></li>
+<li class="chapter" data-level="27.2" data-path="change-accumulation.html"><a href="change-accumulation.html#notation-for-anti-differentiation"><i class="fa fa-check"></i><b>27.2</b> Notation for anti-differentiation</a></li>
+<li class="chapter" data-level="27.3" data-path="change-accumulation.html"><a href="change-accumulation.html#rmosaic-notation"><i class="fa fa-check"></i><b>27.3</b> R/mosaic notation</a></li>
+<li class="chapter" data-level="27.4" data-path="change-accumulation.html"><a href="change-accumulation.html#dimension-and-anti-differentiation"><i class="fa fa-check"></i><b>27.4</b> Dimension and anti-differentiation</a></li>
+<li class="chapter" data-level="27.5" data-path="change-accumulation.html"><a href="change-accumulation.html#preliminary-terrors"><i class="fa fa-check"></i><b>27.5</b> From <em>Calculus Made Easy</em></a></li>
+<li class="chapter" data-level="27.6" data-path="change-accumulation.html"><a href="change-accumulation.html#exercises-24"><i class="fa fa-check"></i><b>27.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="totaling-bits.html"><a href="totaling-bits.html"><i class="fa fa-check"></i><b>28</b> Totaling the little bits</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="totaling-bits.html"><a href="totaling-bits.html#the-notation-of-little-bits"><i class="fa fa-check"></i><b>28.1</b> The notation of little bits</a></li>
+<li class="chapter" data-level="28.2" data-path="totaling-bits.html"><a href="totaling-bits.html#exercises-25"><i class="fa fa-check"></i><b>28.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="net-change.html"><a href="net-change.html"><i class="fa fa-check"></i><b>29</b> Integration</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="net-change.html"><a href="net-change.html#net-change-1"><i class="fa fa-check"></i><b>29.1</b> Net change</a></li>
+<li class="chapter" data-level="29.2" data-path="net-change.html"><a href="net-change.html#the-definite-integral"><i class="fa fa-check"></i><b>29.2</b> The “definite” integral</a></li>
+<li class="chapter" data-level="29.3" data-path="net-change.html"><a href="net-change.html#initial-value-of-the-quantity"><i class="fa fa-check"></i><b>29.3</b> Initial value of the quantity</a></li>
+<li class="chapter" data-level="29.4" data-path="net-change.html"><a href="net-change.html#integrals-from-bottom-to-top"><i class="fa fa-check"></i><b>29.4</b> Integrals from bottom to top</a></li>
+<li class="chapter" data-level="29.5" data-path="net-change.html"><a href="net-change.html#exercises-26"><i class="fa fa-check"></i><b>29.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html"><i class="fa fa-check"></i><b>30</b> Integrals step-by-step</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#euler-method"><i class="fa fa-check"></i><b>30.1</b> Euler method</a></li>
+<li class="chapter" data-level="30.2" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#area"><i class="fa fa-check"></i><b>30.2</b> Area</a></li>
+<li class="chapter" data-level="30.3" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#the-euler-step"><i class="fa fa-check"></i><b>30.3</b> The Euler Step</a></li>
+<li class="chapter" data-level="30.4" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#better-numerics-optional"><i class="fa fa-check"></i><b>30.4</b> Better numerics (optional)</a></li>
+<li class="chapter" data-level="30.5" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#exercises-27"><i class="fa fa-check"></i><b>30.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="accum-symbolic.html"><a href="accum-symbolic.html"><i class="fa fa-check"></i><b>31</b> Symbolic anti-differentiation</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="accum-symbolic.html"><a href="accum-symbolic.html#cataloged-functions"><i class="fa fa-check"></i><b>31.1</b> The cataloged functions</a></li>
+<li class="chapter" data-level="31.2" data-path="accum-symbolic.html"><a href="accum-symbolic.html#differentials"><i class="fa fa-check"></i><b>31.2</b> Differentials</a></li>
+<li class="chapter" data-level="31.3" data-path="accum-symbolic.html"><a href="accum-symbolic.html#u-substitution"><i class="fa fa-check"></i><b>31.3</b> U-substitution</a></li>
+<li class="chapter" data-level="31.4" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integration-by-parts"><i class="fa fa-check"></i><b>31.4</b> Integration by parts</a></li>
+<li class="chapter" data-level="31.5" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integrating-polynomials"><i class="fa fa-check"></i><b>31.5</b> Integrating polynomials</a></li>
+<li class="chapter" data-level="31.6" data-path="accum-symbolic.html"><a href="accum-symbolic.html#polynomials-1"><i class="fa fa-check"></i><b>31.6</b> Polynomials</a></li>
+<li class="chapter" data-level="31.7" data-path="accum-symbolic.html"><a href="accum-symbolic.html#exercises-28"><i class="fa fa-check"></i><b>31.7</b> Exercises</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MOSAIC Calculus</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">MOSAIC Calculus</h1>
+<p class="author"><em>Daniel Kaplan</em></p>
+<p class="date"><em>2021-10-15</em></p>
+</div>
+<div id="welcome-to-calculus" class="section level1 unnumbered">
+<h1>Welcome to calculus</h1>
+<p>Calculus is the set of concepts and techniques that form the mathematical basis for dealing with motion, growth, decay, and oscillation. The phenomena can be as simple as a ball arcing ballistically through the air or as complex as the airflow over a wing that generates lift. Calculus is used in biology and business, chemistry, physics and engineering. It is the foundation for weather prediction and understanding climate change. It is the basis for the algorithms for heart rate and blood oxygen measurement by wristwatches. It is a key part of the language of science. The electron orbitals of chemistry, the stresses of bones and beams, and the business cycle of recession and rebound are all understood primarily through calculus. <span style="float: right; padding-left: 50px;"><a name="10" href="#10"><img src="www/icons8-signpost.png" title="Location: 10" width="12px"/></a><span style="color: red; font-size: 6pt;">10</red></span></p>
+<p>Calculus has been central to science from the very beginnings. It is no coincidence that the scientific method was introduced and the language of calculus was invented by the same small group of people during the historical period known as the <a href="https://en.wikipedia.org/wiki/Age_of_Enlightenment"><strong><em>Enlightenment</em></strong></a>. Learning calculus has always been a badge of honor and an entry ticket to professions. Millions of students’ career ambitions have been enhanced by passing a calculus course or thwarted by lack of access to one.</p>
+<p>In the 1880s, a hit musical featured “the very model of a modern major general.” One of his claims for modernity: “I’m very good at integral and differential calculus.” (<a href="https://www.youtube.com/watch?v=Rs3dPaz9nAo">Watch here.</a>)</p>
+<p>What was modern in 1880 is not modern anymore. Yet, amazingly, calculus today is every bit as central to science and technology as it ever was and is much more important to logistics, economics and myriad other fields than ever before. The reason is that science, engineering, and society have now fully adopted the computer for almost all aspects of work, study, and life. The collection and use of data is growing dramatically. Machine learning has become the way human decision makers interact with such data.</p>
+<p>Think about what it means to become “computerized.” To take an everyday example, consider video. Over the span of a human life, we moved from a system which involved people going to theaters to watch the shadows recorded on cellulose film to the distribution over the airwaves by low-resolution television, to the introduction of high-def broadcast video, to on demand streaming from huge libraries of movies. Just about anyone can record, edit, and distribute their own video. The range of topics (including calculus) on which you can access a video tutorial or demonstration is incredibly vast. All of this recent progress is owed to computers. <span style="float: right; padding-left: 50px;"><a name="20" href="#20"><img src="www/icons8-signpost.png" title="Location: 20" width="12px"/></a><span style="color: red; font-size: 6pt;">20</red></span></p>
+<p>The “stuff” on which computers operate, transform, and transmit is always mathematical representations stored as bits. The creation of mathematical representations of objects and events in the real world is essential to every task of any sort that any computer performs. Calculus is a key component of inventing and using such representations.</p>
+<p>You may be scratching your head. If calculus is so important, why is it that many of your friends who took calculus came away wondering what it is for? What’s so important about “slopes” and “areas” and how come your high-school teacher might have had trouble telling you what calculus is for?</p>
+<p>The disconnect between the enthusiasm expressed in the preceding paragraphs and the lived experience of students is very real. There are two major reasons for that disconnect, both of which we tackle head-on in this book.</p>
+<p>First, teachers of mathematics have a deep respect for tradition. Such respect has its merits, but the result is that almost all calculus is taught using methods that were appropriate for the era of paper and pencil–not for the computer era. As you will see, in this book we express the concepts of calculus in a way that carries directly over to the uses of calculus on computers and in genuine work. <span style="float: right; padding-left: 50px;"><a name="30" href="#30"><img src="www/icons8-signpost.png" title="Location: 30" width="12px"/></a><span style="color: red; font-size: 6pt;">30</red></span></p>
+<p>Second, the uses of calculus are enabled not by the topics of Calc I and Calc II alone, but the courses for which Calc I/II are a preliminary: linear algebra and dynamics. Only a small fraction of students who start in Calc I ever reach the parts of calculus that are the most useful. Fortunately, there is a large amount of bloat in the standard textbook topics of Calc I/II which can be removed to make room for the more important topics. We try to do that in this book.</p>
+<div id="computing-and-apps" class="section level2 unnumbered">
+<h2>Computing and apps</h2>
+<p>The text provides two complementary ways to access computing. The most intuitive is designed purely to exercise and visualize mathematical concepts through mouse-driven, graphical <strong><em>apps</em></strong>. To illustrate, here is an app that we’ll use in Block 6. You can click on the snapshot to open the app in your browser.</p>
+<p><a href="https://maa-statprep.shinyapps.io/142Z-Matrix-iteration/" target="_blank"><img src="www/app-matrix-iteration.png" width="70%"></a></p>
+<p>More fundamentally, you will be carrying out computing by composing computer commands and text and having a computer carry out the commands. One good way to do this is in a <strong><em>sandbox</em></strong>–a kind of app which provides a safe place to enter the commands. You’ll access the sandbox in your browser (click on the image below to try it now).</p>
+<p><a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/" target="_blank"><img src="www/app-sandbox-June-14-2021.png" width="50%"></a></p>
+<p>Once you’ve entered the computer commands, you press the “Run” button to have the commands carried out. (You can also press CTRL+Enter on your keyboard.)<span style="float: right; padding-left: 50px;"><a name="40" href="#40"><img src="www/icons8-signpost.png" title="Location: 40" width="12px"/></a><span style="color: red; font-size: 6pt;">40</red></span></p>
+<p>An important technique for teaching and learning computing is to present <strong><em>scaffolding</em></strong> for computer commands. At first, the scaffolding may be complete, correct commands that can be cut-and-pasted into a <strong><em>sandbox</em></strong> where the calculation will be carried out. Other times it will be left to the student to modify or fill in missing parts of the scaffolding. For example, when we introduce drawing graphs of functions and the choice of a domain, you might see a scaffold that has blanks to be filled in:</p>
+<div class="scaffold">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="welcome-to-calculus.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>( <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">*</span>t) <span class="sc">~</span> t, <span class="fu">domain</span>( <span class="sc">--</span>fill <span class="cf">in</span> domain<span class="sc">--</span> ))</span></code></pre></div>
+</div>
+<p>You can hardly be expected at this point to make sense of any part of the above command, but soon you will.</p>
+<div class="tip">
+<p>After you get used to computing in a sandbox, you may prefer to install the R and RStudio software on your own laptop. This usually provides a faster response to you and lowers the load on the sandbox cloud servers being used by other students.</p>
+<p>Experienced R users may even prefer to skip the sandbox entirely and use the standard resources of RStudio to edit and evaluate their computer commands. You’d use exactly the same R commands regardless of whether you use a cloud server or your own laptop.</p>
+</div>
+</div>
+<div id="exercises-and-feedback" class="section level2 unnumbered">
+<h2>Exercises and feedback</h2>
+<p>Learning is facilitated by rapid, formative feedback. Many of the exercises in this book are arranged to give this.<span style="float: right; padding-left: 50px;"><a name="50" href="#50"><img src="www/icons8-signpost.png" title="Location: 50" width="12px"/></a><span style="color: red; font-size: 6pt;">50</red></span></p>
+<p>Short answer exercises are often arranged to give immediate feedback that goes beyond right-or-wrong. In other words, when an answer is incorrect, we try to tell you <em>why</em> it is incorrect to provide a hint to guide you to the correct answer.</p>
+<p>To see the feedback, place your cursor just after the end an answer choice. You’ll notice that the cursor changes from an I to an arrow when you are in the right spot. For instance, in the following frivolous example , try placing your cursor just after the period in “The element calcium.” It takes several seconds for the feedback to appear, so leave your cursor in place until you see the feedback.</p>
+<p><strong>Question A</strong> What does the word <em>calculus</em> mean literally?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">A small stone<span class="mcanswer">Correct. Such stones were part of an apparatus for doing numerical calculations, back in the days before the pencil was invented.</span></span><br />
+</li>
+<li><span class="Zchoice">A source of trouble to students.<span class="mcanswer">︎✘ Calculus sometimes has that reputation, but as they say, “No pain, no gain.” Find a better answer.</span></span><br />
+</li>
+<li><span class="Zchoice">The element calcium.<span class="mcanswer">︎✘ No, but when you get the right answer you’ll realize the two are related in some cases.</span></span></li>
+</ol>
+<p>Some exercises are meant as drill, and provide only right-or-wrong feedback. Still other exercises provide no feedback at all. Typically, these are intended to raise the stakes for graded work, encouraging you to think carefully before choosing an answer.</p>
+</div>
+<div id="practice-practice-practice" class="section level2 unnumbered">
+<h2>Practice, practice, practice</h2>
+<p>It’s a good practice to practice! The <a href="https://maa-statprep.shinyapps.io/Zdrill/">Drill app</a> provides multiple-choice questions designed to be answered at a glance or a very small amount of work on scratch paper. Once you choose a topic, the questions are presented in random order. You get immediate feedback on your answer. If your answer was wrong, the question is queued up again so that you’ll have another chance. At the point where you are answering almost all questions correctly, you’re ready to move on.</p>
+</div>
+<div id="software-for-the-course" class="section level2 unnumbered">
+<h2>Software for the course</h2>
+<p>You can get started with the course using just a web browser. In addition to this textbook, bookmark the <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and <a href="https://maa-statprep.shinyapps.io/Zdrill/">DRILL QUESTIONS</a> so you can get to them easily.</p>
+<p>If you find that the web sites are too slow, you can install both the sandbox and drill apps on your own computer. (You’ll need a computer running Windows or OS-X or Linux. Smartphones or tablets won’t let you do this.)</p>
+<p>If you already use RStudio, you can skip to step (3). You can use the <em>MOSAIC Calculus</em> software directly from RStudio as an alternative to the sandbox. See step (5).</p>
+<p>Here are the steps. Steps (1), (2), and (3) together will take almost half an hour. Once they are completed, you will not need to do them again on that computer.</p>
+<p>If you already have R and RStudio installed, skip to Step (3).</p>
+<ol style="list-style-type: decimal">
+<li>Install the R software. You can find reasonable video instructions on the Internet, for instance at <a href="https://www.youtube.com/watch?v=NZxSA80lF1I">YouTube</a>
+<ul>
+<li><a href="https://cran.r-project.org/bin/windows/base/">R installer for Windows</a>.</li>
+<li><a href="https://cran.r-project.org/bin/macosx/">R installer for OS-X</a></li>
+</ul></li>
+<li>Install RStudio <a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio installer</a></li>
+</ol>
+<p>Not everyone has full permission to install external apps on their laptop. This is particularly true when the computer has been issued by your educational institution. If you are in this situation or, for other reasons, can’t complete steps (1) and (2) completely, seek help from a local expert. Both (1) and (2) have been installed by students on tens of millions of computers.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Install the MOSAIC Calculus packages within R. Launch the RStudio app, just as you would launch any other app.
+<ul>
+<li>When the RStudio app starts, the upper left pane will be labeled “Console” and there will be a prompt: <code>&gt;</code></li>
+<li>Copy and paste these commands, one at a time, after the console prompt, pressing return after each command:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="welcome-to-calculus.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.apps</span>(<span class="fu">c</span>(<span class="st">&quot;remotes&quot;</span>, <span class="st">&quot;distillr&quot;</span>))</span>
+<span id="cb2-2"><a href="welcome-to-calculus.html#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;dtkaplan/Zcalc&quot;</span>)</span></code></pre></div>
+<ul>
+<li>The first command will take about 15 seconds to complete and will display some messages in the Console, which you can ignore. <strong>NOTE</strong>: If you are given a message asking if you want to install in a “personal” or “private” library, say yes. But if you administer a system used by multiple people who need the software, select the option to install for all users.</li>
+<li>The second command will take about 5 minutes. Hundreds of incomprehensible messages will appear in the Console, all of which you can ignore. (If you are are working from a previous installation of R, you may be asked to update existing packages. Since you can do this at any time in the future, decline the update now.)</li>
+</ul></li>
+<li>On a daily basis, whenever you need to use the <em>MOSAIC Calculus</em> software.
+<ol style="list-style-type: lower-alpha">
+<li>Open the RStudio App in the usual way for your operating system.</li>
+<li>In the RStudio console, give these two commands after the console prompt:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="welcome-to-calculus.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Zcalc)</span>
+<span id="cb3-2"><a href="welcome-to-calculus.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sandbox</span>()</span></code></pre></div></li>
+</ol>
+<p>The computing sandbox will open in a browser tab. Closing that tab will return control to the console.</p>
+<p>When you want to practice with the drill questions for this book, give the command <code>Drill()</code> instead of <code>Sandbox()</code>.</p>
+<p>Most people find it convenient, when using the software several times a week, simply to keep the RStudio session open and similarly with the browser tab with the Sandbox.</p>
+<ol start="5" style="list-style-type: decimal">
+<li><strong>Not required</strong>. Many students are taught how to use RStudio directly. If you are in this situation, you will be able to take advantage of the many features provided by this sophisticated software. There are two things to keep in mind:
+<ol style="list-style-type: lower-roman">
+<li>At the start of an RStudio session, give the command <code>library(Zcalc)</code> in the console.</li>
+<li>If you are writing RMarkdown documents, then the following should make sense to you: Include <code>library(Zcalc)</code> in the start-up chunk so that it will run whenever you compile your document.</li>
+</ol></li>
+</ol>
+<!--
+
+## [[Taken out. Is there any use for it?]]
+
+There's mathematics ... and then there's the real world. The term ***mathematical modeling*** is about constructing representations of situations or phenomena in the real world in terms of mathematical objects. The advantage of being able to construct models is that models are easy to study, explore, take apart, do experiments on, and deduce the implications of.
+
+We use computers to interact with the world, whether that be record-keeping, communications, media displays, and so on. The "things" that computers work with are always mathematical representations of the real world: models. Computers carry out operations on models. For instance, sound is a real-world phenomenon that resides somewhere between the vibrations of air and the psycho-acoustics of the brain. A simple computer representation of sound is constructed using mathematical stuff: a long series of numbers. Suppose we want to *slow down* sound (say, for someone learning a foreign language) or to speed it up (to get through a slow-paced video) or to translate it into text. The technologies for doing these things are almost always implemented by doing arithmetic or more complicated mathematical procedures on the mathematical stuff.
+
+A major theme of this course is how to make such mathematical representations of real-world phenomena and how to work with the representations to extract the results we want. In particular, we will focus on representations in the form of mathematical functions. (There are other mathematical representations, but functions have a special importance and are ubiquitous in scientific work and computing.)
+
+-->
+
+</div>
+</div>
+
+
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="change.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/Welcome.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/view/shared/Welcome.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

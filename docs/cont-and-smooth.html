@@ -1,231 +1,576 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" xml:lang="">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 21 Continuity and smoothness | MOSAIC Calculus</title>
-<meta name="author" content="Daniel Kaplan">
-<meta name="description" content="You’ve seen how various properties of a function—whether it is monotonic, how it slopes, whether it is concave up or down (or not at all), curvature, etc.—can be related to the first and second...">
-<meta name="generator" content="bookdown 0.24 with bs4_book()">
-<meta property="og:title" content="Chapter 21 Continuity and smoothness | MOSAIC Calculus">
-<meta property="og:type" content="book">
-<meta property="og:description" content="You’ve seen how various properties of a function—whether it is monotonic, how it slopes, whether it is concave up or down (or not at all), curvature, etc.—can be related to the first and second...">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 21 Continuity and smoothness | MOSAIC Calculus">
-<meta name="twitter:description" content="You’ve seen how various properties of a function—whether it is monotonic, how it slopes, whether it is concave up or down (or not at all), curvature, etc.—can be related to the first and second...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4.1/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
-    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-    for (let popover of popovers){
-      const div = document.createElement('div');
-      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-      div.innerHTML = popover.getAttribute('data-content');
 
-      // Will this work with TeX on its own line?
-      var has_math = div.querySelector("span.math");
-      if (has_math) {
-        document.body.appendChild(div);
-      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-      	MathJax.Hub.Queue(function(){
-          popover.setAttribute('data-content', div.innerHTML);
-      	})
-      }
-    }
-    </script>
-</head>
-<body>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 21 Continuity and smoothness | MOSAIC Calculus</title>
+  <meta name="description" content="Modeling-based calculus" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 21 Continuity and smoothness | MOSAIC Calculus" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Modeling-based calculus" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 21 Continuity and smoothness | MOSAIC Calculus" />
+  
+  <meta name="twitter:description" content="Modeling-based calculus" />
+  
+
+<meta name="author" content="Daniel Kaplan" />
+
+
+<meta name="date" content="2021-10-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="concavity-curvature.html"/>
+<link rel="next" href="prod-comp-rules.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
 <span class="math inline">
-    \(\newcommand{\line}{\text{line}}
-    \newcommand{\hump}{\text{hump}}
-    \newcommand{\sigmoid}{\text{sigmoid}}
-    \newcommand{\recip}{\text{recip}}
-    \newcommand{\diff}[1]{{\cal D}_#1}
-    \newcommand{\pnorm}{\text{pnorm}}
-    \newcommand{\dnorm}{\text{dnorm}}
-    \newcommand{\CC}[1]{\color{#648fff}{#1}}
-    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
-    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
-    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
-    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
-    </span>
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
-<div class="container-fluid">
-<div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-    <div class="d-flex align-items-start justify-content-between">
-      <h1>
-        <a href="index.html" title="">MOSAIC Calculus</a>
-      </h1>
-      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
-    </div>
 
-    <div id="main-nav" class="collapse-lg">
-      <form role="search">
-        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">Welcome to calculus</a></li>
-<li class="book-part">Block 1: Functions and quantity</li>
-<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
-<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
-<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
-<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
-<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
-<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
-<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
-<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Finding parameters for the basic modeling functions</a></li>
-<li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
-<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
-<li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
-<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">12</span> Functions with multiple inputs</a></li>
-<li><a class="" href="fun-piecewise.html"><span class="header-section-number">13</span> Piecewise functions</a></li>
-<li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
-<li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
-<li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
-<li><a class="" href="projects-and-review.html">Projects and review</a></li>
-<li class="book-part">Block 2: Differentiation</li>
-<li><a class="" href="prolog-differentiation-and-birth.html">Prolog: Differentiation and birth</a></li>
-<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
-<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
-<li><a class="" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
-<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
-<li><a class="active" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
-<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivatives of assembled functions</a></li>
-<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
-<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
-<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
-<li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
-<li class="book-part">Block 3: Accumulation</li>
-<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
-<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
-<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
-<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
-<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">CalcZ</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html"><i class="fa fa-check"></i>Welcome to calculus</a>
+<ul>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#computing-and-apps"><i class="fa fa-check"></i>Computing and apps</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#exercises-and-feedback"><i class="fa fa-check"></i>Exercises and feedback</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#practice-practice-practice"><i class="fa fa-check"></i>Practice, practice, practice</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#software-for-the-course"><i class="fa fa-check"></i>Software for the course</a></li>
+</ul></li>
+<li class="part"><span><b>I Block 1: Functions and quantity</b></span></li>
+<li class="chapter" data-level="1" data-path="change.html"><a href="change.html"><i class="fa fa-check"></i><b>1</b> Change</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="change.html"><a href="change.html#quantity-vs-number"><i class="fa fa-check"></i><b>1.1</b> Quantity vs number</a></li>
+<li class="chapter" data-level="1.2" data-path="change.html"><a href="change.html#functions"><i class="fa fa-check"></i><b>1.2</b> Functions</a></li>
+<li class="chapter" data-level="1.3" data-path="change.html"><a href="change.html#fundamental-model-of-change"><i class="fa fa-check"></i><b>1.3</b> Fundamental model of change</a></li>
+<li class="chapter" data-level="1.4" data-path="change.html"><a href="change.html#exercises"><i class="fa fa-check"></i><b>1.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pattern-book.html"><a href="pattern-book.html"><i class="fa fa-check"></i><b>2</b> Functions for modeling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pattern-book.html"><a href="pattern-book.html#pattern-book-functions"><i class="fa fa-check"></i><b>2.1</b> Pattern-book functions</a></li>
+<li class="chapter" data-level="2.2" data-path="pattern-book.html"><a href="pattern-book.html#the-power-law-family"><i class="fa fa-check"></i><b>2.2</b> The power-law family</a></li>
+<li class="chapter" data-level="2.3" data-path="pattern-book.html"><a href="pattern-book.html#constructing-functions"><i class="fa fa-check"></i><b>2.3</b> Constructing functions</a></li>
+<li class="chapter" data-level="2.4" data-path="pattern-book.html"><a href="pattern-book.html#function-shapes"><i class="fa fa-check"></i><b>2.4</b> Function shapes</a></li>
+<li class="chapter" data-level="2.5" data-path="pattern-book.html"><a href="pattern-book.html#exercises-1"><i class="fa fa-check"></i><b>2.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html"><i class="fa fa-check"></i><b>3</b> Structure of a function</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#inputs-to-output"><i class="fa fa-check"></i><b>3.1</b> Inputs to output</a></li>
+<li class="chapter" data-level="3.2" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#bureaucratic"><i class="fa fa-check"></i><b>3.2</b> A bureaucratic analogy</a></li>
+<li class="chapter" data-level="3.3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#domain-input-space"><i class="fa fa-check"></i><b>3.3</b> Domain: input space</a></li>
+<li class="chapter" data-level="3.4" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#range-output-space"><i class="fa fa-check"></i><b>3.4</b> Range: output space</a></li>
+<li class="chapter" data-level="3.5" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#formulas-in-r"><i class="fa fa-check"></i><b>3.5</b> Formulas in R</a></li>
+<li class="chapter" data-level="3.6" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#exercises-2"><i class="fa fa-check"></i><b>3.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="fun-describing.html"><a href="fun-describing.html"><i class="fa fa-check"></i><b>4</b> Describing functions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="fun-describing.html"><a href="fun-describing.html#slice-plot-intro"><i class="fa fa-check"></i><b>4.1</b> Graphing a function</a></li>
+<li class="chapter" data-level="4.2" data-path="fun-describing.html"><a href="fun-describing.html#tables-of-inputs-and-outputs"><i class="fa fa-check"></i><b>4.2</b> Tables of inputs and outputs</a></li>
+<li class="chapter" data-level="4.3" data-path="fun-describing.html"><a href="fun-describing.html#word-descriptions"><i class="fa fa-check"></i><b>4.3</b> Word descriptions</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="fun-describing.html"><a href="fun-describing.html#concavity"><i class="fa fa-check"></i><b>4.3.1</b> Concavity</a></li>
+<li class="chapter" data-level="4.3.2" data-path="fun-describing.html"><a href="fun-describing.html#continuity-intro"><i class="fa fa-check"></i><b>4.3.2</b> Continuity</a></li>
+<li class="chapter" data-level="4.3.3" data-path="fun-describing.html"><a href="fun-describing.html#monotonicity"><i class="fa fa-check"></i><b>4.3.3</b> Monotonicity</a></li>
+<li class="chapter" data-level="4.3.4" data-path="fun-describing.html"><a href="fun-describing.html#periodicity"><i class="fa fa-check"></i><b>4.3.4</b> Periodicity</a></li>
+<li class="chapter" data-level="4.3.5" data-path="fun-describing.html"><a href="fun-describing.html#asymptotic-behavior"><i class="fa fa-check"></i><b>4.3.5</b> Asymptotic behavior</a></li>
+<li class="chapter" data-level="4.3.6" data-path="fun-describing.html"><a href="fun-describing.html#local-extremes"><i class="fa fa-check"></i><b>4.3.6</b> Locally extreme points</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="fun-describing.html"><a href="fun-describing.html#computer-function-names"><i class="fa fa-check"></i><b>4.4</b> Computer function names</a></li>
+<li class="chapter" data-level="4.5" data-path="fun-describing.html"><a href="fun-describing.html#mathematical-notation"><i class="fa fa-check"></i><b>4.5</b> Mathematical notation</a></li>
+<li class="chapter" data-level="4.6" data-path="fun-describing.html"><a href="fun-describing.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fun-notation.html"><a href="fun-notation.html"><i class="fa fa-check"></i><b>5</b> Notation for functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fun-notation.html"><a href="fun-notation.html#a-notation-for-computing"><i class="fa fa-check"></i><b>5.1</b> A notation for computing</a></li>
+<li class="chapter" data-level="5.2" data-path="fun-notation.html"><a href="fun-notation.html#words-for-using-functions"><i class="fa fa-check"></i><b>5.2</b> Words for using functions</a></li>
+<li class="chapter" data-level="5.3" data-path="fun-notation.html"><a href="fun-notation.html#algorithms"><i class="fa fa-check"></i><b>5.3</b> Formulas and algorithms</a></li>
+<li class="chapter" data-level="5.4" data-path="fun-notation.html"><a href="fun-notation.html#algorithms-without-formulas"><i class="fa fa-check"></i><b>5.4</b> Algorithms without formulas</a></li>
+<li class="chapter" data-level="5.5" data-path="fun-notation.html"><a href="fun-notation.html#computer-notation"><i class="fa fa-check"></i><b>5.5</b> Computer notation</a></li>
+<li class="chapter" data-level="5.6" data-path="fun-notation.html"><a href="fun-notation.html#calcz-naming-conventions"><i class="fa fa-check"></i><b>5.6</b> CalcZ naming conventions</a></li>
+<li class="chapter" data-level="5.7" data-path="fun-notation.html"><a href="fun-notation.html#functions-in-r"><i class="fa fa-check"></i><b>5.7</b> Functions in R</a></li>
+<li class="chapter" data-level="5.8" data-path="fun-notation.html"><a href="fun-notation.html#foursigns"><i class="fa fa-check"></i><b>5.8</b> <span class="math inline">\(=\)</span>, <span class="math inline">\(\equiv\)</span>, <span class="math inline">\(\rightarrow\)</span>, <code>&lt;-</code></a></li>
+<li class="chapter" data-level="5.9" data-path="fun-notation.html"><a href="fun-notation.html#exercises-4"><i class="fa fa-check"></i><b>5.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html"><i class="fa fa-check"></i><b>6</b> Graphics &amp; function graphs</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#the-graphics-frame"><i class="fa fa-check"></i><b>6.1</b> The graphics frame</a></li>
+<li class="chapter" data-level="6.2" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-graphics-the-point-plot"><i class="fa fa-check"></i><b>6.2</b> Data graphics: the point plot</a></li>
+<li class="chapter" data-level="6.3" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#function-graphs"><i class="fa fa-check"></i><b>6.3</b> Function graphs</a></li>
+<li class="chapter" data-level="6.4" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#graphics-layers"><i class="fa fa-check"></i><b>6.4</b> Graphics layers</a></li>
+<li class="chapter" data-level="6.5" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-and-functions"><i class="fa fa-check"></i><b>6.5</b> Data and functions</a></li>
+<li class="chapter" data-level="6.6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#inputs-to-output-1"><i class="fa fa-check"></i><b>6.6</b> Inputs to output</a></li>
+<li class="chapter" data-level="6.7" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#outputs-to-inputs"><i class="fa fa-check"></i><b>6.7</b> Outputs to inputs</a></li>
+<li class="chapter" data-level="6.8" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#surface-plot"><i class="fa fa-check"></i><b>6.8</b> Graphs of functions with two inputs</a></li>
+<li class="chapter" data-level="6.9" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#contour-plots"><i class="fa fa-check"></i><b>6.9</b> Contour plots</a></li>
+<li class="chapter" data-level="6.10" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#slice-plots"><i class="fa fa-check"></i><b>6.10</b> Slice plots</a></li>
+<li class="chapter" data-level="6.11" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#exercises-5"><i class="fa fa-check"></i><b>6.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="params-intro.html"><a href="params-intro.html"><i class="fa fa-check"></i><b>7</b> Parameters for functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="params-intro.html"><a href="params-intro.html#parallel-scales"><i class="fa fa-check"></i><b>7.1</b> Parallel scales</a></li>
+<li class="chapter" data-level="7.2" data-path="params-intro.html"><a href="params-intro.html#scaling-the-input"><i class="fa fa-check"></i><b>7.2</b> Scaling the input</a></li>
+<li class="chapter" data-level="7.3" data-path="params-intro.html"><a href="params-intro.html#scale-the-output"><i class="fa fa-check"></i><b>7.3</b> Scale the output</a></li>
+<li class="chapter" data-level="7.4" data-path="params-intro.html"><a href="params-intro.html#linear-combinations"><i class="fa fa-check"></i><b>7.4</b> Linear combinations</a></li>
+<li class="chapter" data-level="7.5" data-path="params-intro.html"><a href="params-intro.html#exercises-6"><i class="fa fa-check"></i><b>7.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="process-of-modeling.html"><a href="process-of-modeling.html"><i class="fa fa-check"></i><b>8</b> Finding parameters for the basic modeling functions</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="process-of-modeling.html"><a href="process-of-modeling.html#variations-from-scaling"><i class="fa fa-check"></i><b>8.1</b> Variations from scaling</a></li>
+<li class="chapter" data-level="8.2" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-periodic"><i class="fa fa-check"></i><b>8.2</b> Curve fitting a periodic function</a></li>
+<li class="chapter" data-level="8.3" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-exponential"><i class="fa fa-check"></i><b>8.3</b> Curve fitting an exponential function</a></li>
+<li class="chapter" data-level="8.4" data-path="process-of-modeling.html"><a href="process-of-modeling.html#curve-fitting-a-power-law-function"><i class="fa fa-check"></i><b>8.4</b> Curve fitting a power-law function</a></li>
+<li class="chapter" data-level="8.5" data-path="process-of-modeling.html"><a href="process-of-modeling.html#gaussian-and-sigmoid-functions"><i class="fa fa-check"></i><b>8.5</b> Gaussian and sigmoid functions</a></li>
+<li class="chapter" data-level="8.6" data-path="process-of-modeling.html"><a href="process-of-modeling.html#exercises-7"><i class="fa fa-check"></i><b>8.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="fun-slopes.html"><a href="fun-slopes.html"><i class="fa fa-check"></i><b>9</b> Slope function</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="fun-slopes.html"><a href="fun-slopes.html#change-and-slope"><i class="fa fa-check"></i><b>9.1</b> Change and slope</a></li>
+<li class="chapter" data-level="9.2" data-path="fun-slopes.html"><a href="fun-slopes.html#continuous-change"><i class="fa fa-check"></i><b>9.2</b> Continuous change</a></li>
+<li class="chapter" data-level="9.3" data-path="fun-slopes.html"><a href="fun-slopes.html#slope"><i class="fa fa-check"></i><b>9.3</b> Slope</a></li>
+<li class="chapter" data-level="9.4" data-path="fun-slopes.html"><a href="fun-slopes.html#the-fitted-line"><i class="fa fa-check"></i><b>9.4</b> The fitted line</a></li>
+<li class="chapter" data-level="9.5" data-path="fun-slopes.html"><a href="fun-slopes.html#average-rate-of-change"><i class="fa fa-check"></i><b>9.5</b> Average rate of change</a></li>
+<li class="chapter" data-level="9.6" data-path="fun-slopes.html"><a href="fun-slopes.html#instantaneous-rate-of-change"><i class="fa fa-check"></i><b>9.6</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="9.7" data-path="fun-slopes.html"><a href="fun-slopes.html#exercises-8"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html"><i class="fa fa-check"></i><b>10</b> Function inverses and “solving”</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#function-inverses"><i class="fa fa-check"></i><b>10.1</b> Function inverses</a></li>
+<li class="chapter" data-level="10.2" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#solving-graphically"><i class="fa fa-check"></i><b>10.2</b> Solving graphically</a></li>
+<li class="chapter" data-level="10.3" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#zero-finding"><i class="fa fa-check"></i><b>10.3</b> Zero-finding</a></li>
+<li class="chapter" data-level="10.4" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#exercises-9"><i class="fa fa-check"></i><b>10.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="fun-assembling.html"><a href="fun-assembling.html"><i class="fa fa-check"></i><b>11</b> Assembling functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="fun-assembling.html"><a href="fun-assembling.html#linear-combination"><i class="fa fa-check"></i><b>11.1</b> Linear combination</a></li>
+<li class="chapter" data-level="11.2" data-path="fun-assembling.html"><a href="fun-assembling.html#function-composition"><i class="fa fa-check"></i><b>11.2</b> Function composition</a></li>
+<li class="chapter" data-level="11.3" data-path="fun-assembling.html"><a href="fun-assembling.html#modeling-polynomial-1"><i class="fa fa-check"></i><b>11.3</b> The modeling polynomial</a></li>
+<li class="chapter" data-level="11.4" data-path="fun-assembling.html"><a href="fun-assembling.html#function-multiplication"><i class="fa fa-check"></i><b>11.4</b> Function multiplication</a></li>
+<li class="chapter" data-level="11.5" data-path="fun-assembling.html"><a href="fun-assembling.html#all-together-now"><i class="fa fa-check"></i><b>11.5</b> All together now!</a></li>
+<li class="chapter" data-level="11.6" data-path="fun-assembling.html"><a href="fun-assembling.html#exercises-10"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html"><i class="fa fa-check"></i><b>12</b> Functions with multiple inputs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#fx-times-gt"><i class="fa fa-check"></i><b>12.1</b> f(x) times g(t)</a></li>
+<li class="chapter" data-level="12.2" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#two-variable-modeling-polynomial"><i class="fa fa-check"></i><b>12.2</b> Two-variable modeling polynomial</a></li>
+<li class="chapter" data-level="12.3" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#exercises-11"><i class="fa fa-check"></i><b>12.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="fun-piecewise.html"><a href="fun-piecewise.html"><i class="fa fa-check"></i><b>13</b> Piecewise functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="fun-piecewise.html"><a href="fun-piecewise.html#splitting-the-domain"><i class="fa fa-check"></i><b>13.1</b> Splitting the domain</a></li>
+<li class="chapter" data-level="13.2" data-path="fun-piecewise.html"><a href="fun-piecewise.html#basic-piecewise-functions"><i class="fa fa-check"></i><b>13.2</b> Basic piecewise functions</a></li>
+<li class="chapter" data-level="13.3" data-path="fun-piecewise.html"><a href="fun-piecewise.html#exercises-12"><i class="fa fa-check"></i><b>13.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="modeling-cycle.html"><a href="modeling-cycle.html"><i class="fa fa-check"></i><b>14</b> Modeling cycle</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-cooling-water"><i class="fa fa-check"></i><b>14.1</b> Example: Cooling water</a></li>
+<li class="chapter" data-level="14.2" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-the-tides"><i class="fa fa-check"></i><b>14.2</b> Example: The tides</a></li>
+<li class="chapter" data-level="14.3" data-path="modeling-cycle.html"><a href="modeling-cycle.html#modeling-project"><i class="fa fa-check"></i><b>14.3</b> Modeling project</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="magnitudes.html"><a href="magnitudes.html"><i class="fa fa-check"></i><b>15</b> Magnitudes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="magnitudes.html"><a href="magnitudes.html#counting-digits"><i class="fa fa-check"></i><b>15.1</b> Counting digits</a></li>
+<li class="chapter" data-level="15.2" data-path="magnitudes.html"><a href="magnitudes.html#using-digit-to-understand-magnitude"><i class="fa fa-check"></i><b>15.2</b> Using digit() to understand magnitude</a></li>
+<li class="chapter" data-level="15.3" data-path="magnitudes.html"><a href="magnitudes.html#quantity-and-magnitude"><i class="fa fa-check"></i><b>15.3</b> Quantity and magnitude</a></li>
+<li class="chapter" data-level="15.4" data-path="magnitudes.html"><a href="magnitudes.html#composing-ln"><i class="fa fa-check"></i><b>15.4</b> Composing <span class="math inline">\(\ln()\)</span></a></li>
+<li class="chapter" data-level="15.5" data-path="magnitudes.html"><a href="magnitudes.html#magnitude-graphics"><i class="fa fa-check"></i><b>15.5</b> Magnitude graphics</a></li>
+<li class="chapter" data-level="15.6" data-path="magnitudes.html"><a href="magnitudes.html#reading-log-axes"><i class="fa fa-check"></i><b>15.6</b> Reading logarithmic scales</a></li>
+<li class="chapter" data-level="15.7" data-path="magnitudes.html"><a href="magnitudes.html#fractional-digits"><i class="fa fa-check"></i><b>15.7</b> Fractional digits (optional)</a></li>
+<li class="chapter" data-level="15.8" data-path="magnitudes.html"><a href="magnitudes.html#exercises-13"><i class="fa fa-check"></i><b>15.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="dimensions.html"><a href="dimensions.html"><i class="fa fa-check"></i><b>16</b> Dimensions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="dimensions.html"><a href="dimensions.html#mathematics-of-quantity"><i class="fa fa-check"></i><b>16.1</b> Mathematics of quantity</a></li>
+<li class="chapter" data-level="16.2" data-path="dimensions.html"><a href="dimensions.html#compound-dimensions"><i class="fa fa-check"></i><b>16.2</b> Compound dimensions</a></li>
+<li class="chapter" data-level="16.3" data-path="dimensions.html"><a href="dimensions.html#arithmetic-with-dimensions"><i class="fa fa-check"></i><b>16.3</b> Arithmetic with dimensions</a></li>
+<li class="chapter" data-level="16.4" data-path="dimensions.html"><a href="dimensions.html#pendulum-dimensions"><i class="fa fa-check"></i><b>16.4</b> Example: Dimensional analysis</a></li>
+<li class="chapter" data-level="16.5" data-path="dimensions.html"><a href="dimensions.html#conversion-flavors-of-1"><i class="fa fa-check"></i><b>16.5</b> Conversion: Flavors of 1</a></li>
+<li class="chapter" data-level="16.6" data-path="dimensions.html"><a href="dimensions.html#dimensions-and-linear-combinations"><i class="fa fa-check"></i><b>16.6</b> Dimensions and linear combinations</a></li>
+<li class="chapter" data-level="16.7" data-path="dimensions.html"><a href="dimensions.html#exercises-14"><i class="fa fa-check"></i><b>16.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html"><i class="fa fa-check"></i>Projects and review</a>
+<ul>
+<li class="chapter" data-level="16.8" data-path="projects-and-review.html"><a href="projects-and-review.html#ebola-in-guinea-part-i"><i class="fa fa-check"></i><b>16.8</b> Ebola in Guinea, part I</a>
+<ul>
+<li class="chapter" data-level="16.8.1" data-path="projects-and-review.html"><a href="projects-and-review.html#data"><i class="fa fa-check"></i><b>16.8.1</b> Data</a></li>
+<li class="chapter" data-level="16.8.2" data-path="projects-and-review.html"><a href="projects-and-review.html#exploring-the-data"><i class="fa fa-check"></i><b>16.8.2</b> Exploring the Data</a></li>
+<li class="chapter" data-level="16.8.3" data-path="projects-and-review.html"><a href="projects-and-review.html#data-wrangling"><i class="fa fa-check"></i><b>16.8.3</b> Data Wrangling</a></li>
+</ul></li>
+<li class="chapter" data-level="16.9" data-path="projects-and-review.html"><a href="projects-and-review.html#analysis-of-the-outbreak"><i class="fa fa-check"></i><b>16.9</b> Analysis of the outbreak</a></li>
+<li class="chapter" data-level="16.10" data-path="projects-and-review.html"><a href="projects-and-review.html#more-data-smoothing"><i class="fa fa-check"></i><b>16.10</b> More data smoothing</a></li>
+<li class="chapter" data-level="16.11" data-path="projects-and-review.html"><a href="projects-and-review.html#final-thoughts"><i class="fa fa-check"></i><b>16.11</b> Final thoughts</a></li>
+</ul></li>
+<li class="part"><span><b>II Block 2: Differentiation</b></span></li>
+<li class="chapter" data-level="" data-path="prolog-differentiation-and-birth.html"><a href="prolog-differentiation-and-birth.html"><i class="fa fa-check"></i>Prolog: Differentiation and birth</a></li>
+<li class="chapter" data-level="17" data-path="change-relationships.html"><a href="change-relationships.html"><i class="fa fa-check"></i><b>17</b> Change relationships</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="change-relationships.html"><a href="change-relationships.html#mathematics-in-motion"><i class="fa fa-check"></i><b>17.1</b> Mathematics in motion</a></li>
+<li class="chapter" data-level="17.2" data-path="change-relationships.html"><a href="change-relationships.html#continuous-time"><i class="fa fa-check"></i><b>17.2</b> Continuous time</a></li>
+<li class="chapter" data-level="17.3" data-path="change-relationships.html"><a href="change-relationships.html#instantaneous-rate-of-change-1"><i class="fa fa-check"></i><b>17.3</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="17.4" data-path="change-relationships.html"><a href="change-relationships.html#slopes-and-motion"><i class="fa fa-check"></i><b>17.4</b> Slopes and motion</a></li>
+<li class="chapter" data-level="17.5" data-path="change-relationships.html"><a href="change-relationships.html#acceleration"><i class="fa fa-check"></i><b>17.5</b> Acceleration</a></li>
+<li class="chapter" data-level="17.6" data-path="change-relationships.html"><a href="change-relationships.html#notations-for-differentiation"><i class="fa fa-check"></i><b>17.6</b> Notations for differentiation</a></li>
+<li class="chapter" data-level="17.7" data-path="change-relationships.html"><a href="change-relationships.html#slope-fun-visualization"><i class="fa fa-check"></i><b>17.7</b> Visualizing the slope function</a></li>
+<li class="chapter" data-level="17.8" data-path="change-relationships.html"><a href="change-relationships.html#dimension-of-derivatives"><i class="fa fa-check"></i><b>17.8</b> Dimension of derivatives</a></li>
+<li class="chapter" data-level="17.9" data-path="change-relationships.html"><a href="change-relationships.html#exercises-15"><i class="fa fa-check"></i><b>17.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="evanescent-h.html"><a href="evanescent-h.html"><i class="fa fa-check"></i><b>18</b> Evanescent h</a></li>
+<li class="chapter" data-level="19" data-path="computing-derivs.html"><a href="computing-derivs.html"><i class="fa fa-check"></i><b>19</b> Computing derivatives</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="computing-derivs.html"><a href="computing-derivs.html#a-function-from-a-function"><i class="fa fa-check"></i><b>19.1</b> A function from a function</a></li>
+<li class="chapter" data-level="19.2" data-path="computing-derivs.html"><a href="computing-derivs.html#finite-differencing"><i class="fa fa-check"></i><b>19.2</b> Finite differencing</a></li>
+<li class="chapter" data-level="19.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-slope-function-operator"><i class="fa fa-check"></i><b>19.3</b> The slope-function operator</a></li>
+<li class="chapter" data-level="19.4" data-path="computing-derivs.html"><a href="computing-derivs.html#symbolic-differentiation"><i class="fa fa-check"></i><b>19.4</b> Symbolic differentiation</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="computing-derivs.html"><a href="computing-derivs.html#the-line-rule"><i class="fa fa-check"></i><b>19.4.1</b> The line rule</a></li>
+<li class="chapter" data-level="19.4.2" data-path="computing-derivs.html"><a href="computing-derivs.html#the-square-rule"><i class="fa fa-check"></i><b>19.4.2</b> The square rule</a></li>
+<li class="chapter" data-level="19.4.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-exponential-rule"><i class="fa fa-check"></i><b>19.4.3</b> The exponential rule</a></li>
+<li class="chapter" data-level="19.4.4" data-path="computing-derivs.html"><a href="computing-derivs.html#the-reciprocal-rule"><i class="fa fa-check"></i><b>19.4.4</b> The reciprocal rule</a></li>
+<li class="chapter" data-level="19.4.5" data-path="computing-derivs.html"><a href="computing-derivs.html#power-law-rule"><i class="fa fa-check"></i><b>19.4.5</b> Power-law rule</a></li>
+<li class="chapter" data-level="19.4.6" data-path="computing-derivs.html"><a href="computing-derivs.html#pattern-book-derivs"><i class="fa fa-check"></i><b>19.4.6</b> List of pattern-book rules</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="computing-derivs.html"><a href="computing-derivs.html#exercises-16"><i class="fa fa-check"></i><b>19.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="concavity-curvature.html"><a href="concavity-curvature.html"><i class="fa fa-check"></i><b>20</b> Concavity and curvature</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="concavity-curvature.html"><a href="concavity-curvature.html#quantifing-concavity-and-curvature"><i class="fa fa-check"></i><b>20.1</b> Quantifing concavity and curvature</a></li>
+<li class="chapter" data-level="20.2" data-path="concavity-curvature.html"><a href="concavity-curvature.html#concavity-deriv"><i class="fa fa-check"></i><b>20.2</b> Concavity</a></li>
+<li class="chapter" data-level="20.3" data-path="concavity-curvature.html"><a href="concavity-curvature.html#curvature-definition"><i class="fa fa-check"></i><b>20.3</b> Curvature</a></li>
+<li class="chapter" data-level="20.4" data-path="concavity-curvature.html"><a href="concavity-curvature.html#exercises-17"><i class="fa fa-check"></i><b>20.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html"><i class="fa fa-check"></i><b>21</b> Continuity and smoothness</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#continuity"><i class="fa fa-check"></i><b>21.1</b> Continuity</a></li>
+<li class="chapter" data-level="21.2" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#discontinuity"><i class="fa fa-check"></i><b>21.2</b> Discontinuity</a></li>
+<li class="chapter" data-level="21.3" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#smoothness"><i class="fa fa-check"></i><b>21.3</b> Smoothness</a></li>
+<li class="chapter" data-level="21.4" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#exercises-18"><i class="fa fa-check"></i><b>21.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html"><i class="fa fa-check"></i><b>22</b> Derivatives of assembled functions</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#using-the-rules"><i class="fa fa-check"></i><b>22.1</b> Using the rules</a></li>
+<li class="chapter" data-level="22.2" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#differentiating-linear-combinations"><i class="fa fa-check"></i><b>22.2</b> Differentiating linear combinations</a></li>
+<li class="chapter" data-level="22.3" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#product-rule-for-multiplied-functions"><i class="fa fa-check"></i><b>22.3</b> Product rule for multiplied functions</a></li>
+<li class="chapter" data-level="22.4" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#chain-rule-for-function-composition"><i class="fa fa-check"></i><b>22.4</b> Chain rule for function composition</a></li>
+<li class="chapter" data-level="22.5" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#basic-derivs"><i class="fa fa-check"></i><b>22.5</b> Derivatives of the basic modeling functions</a></li>
+<li class="chapter" data-level="22.6" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exponentials-and-logarithms-optional"><i class="fa fa-check"></i><b>22.6</b> Exponentials and logarithms (optional)</a></li>
+<li class="chapter" data-level="22.7" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exercises-19"><i class="fa fa-check"></i><b>22.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="optim-and-shape.html"><a href="optim-and-shape.html"><i class="fa fa-check"></i><b>23</b> Optimization</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="optim-and-shape.html"><a href="optim-and-shape.html#structure-of-the-problem"><i class="fa fa-check"></i><b>23.1</b> Structure of the problem</a></li>
+<li class="chapter" data-level="23.2" data-path="optim-and-shape.html"><a href="optim-and-shape.html#interpreting-the-argmax"><i class="fa fa-check"></i><b>23.2</b> Interpreting the argmax</a></li>
+<li class="chapter" data-level="23.3" data-path="optim-and-shape.html"><a href="optim-and-shape.html#derivatives-and-optimization"><i class="fa fa-check"></i><b>23.3</b> Derivatives and optimization</a></li>
+<li class="chapter" data-level="23.4" data-path="optim-and-shape.html"><a href="optim-and-shape.html#flat-on-top"><i class="fa fa-check"></i><b>23.4</b> Be practical!</a></li>
+<li class="chapter" data-level="23.5" data-path="optim-and-shape.html"><a href="optim-and-shape.html#exercises-20"><i class="fa fa-check"></i><b>23.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="partial-change.html"><a href="partial-change.html"><i class="fa fa-check"></i><b>24</b> Partial change</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="partial-change.html"><a href="partial-change.html#calculus-on-two-inputs"><i class="fa fa-check"></i><b>24.1</b> Calculus on two inputs</a></li>
+<li class="chapter" data-level="24.2" data-path="partial-change.html"><a href="partial-change.html#all-other-things-being-equal"><i class="fa fa-check"></i><b>24.2</b> All other things being equal …</a></li>
+<li class="chapter" data-level="24.3" data-path="partial-change.html"><a href="partial-change.html#gradient-vector"><i class="fa fa-check"></i><b>24.3</b> Gradient vector</a></li>
+<li class="chapter" data-level="24.4" data-path="partial-change.html"><a href="partial-change.html#total-derivative-optional"><i class="fa fa-check"></i><b>24.4</b> Total derivative (optional)</a></li>
+<li class="chapter" data-level="24.5" data-path="partial-change.html"><a href="partial-change.html#differential-skier"><i class="fa fa-check"></i><b>24.5</b> Differentials</a></li>
+<li class="chapter" data-level="24.6" data-path="partial-change.html"><a href="partial-change.html#exercises-21"><i class="fa fa-check"></i><b>24.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="local-approximations.html"><a href="local-approximations.html"><i class="fa fa-check"></i><b>25</b> Local approximations</a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="local-approximations.html"><a href="local-approximations.html#eight-simple-shapes"><i class="fa fa-check"></i><b>25.1</b> Eight simple shapes</a></li>
+<li class="chapter" data-level="25.2" data-path="local-approximations.html"><a href="local-approximations.html#low-order-polynomials"><i class="fa fa-check"></i><b>25.2</b> Low-order polynomials</a></li>
+<li class="chapter" data-level="25.3" data-path="local-approximations.html"><a href="local-approximations.html#low-order-two"><i class="fa fa-check"></i><b>25.3</b> The low-order polynomial with two inputs</a></li>
+<li class="chapter" data-level="25.4" data-path="local-approximations.html"><a href="local-approximations.html#finding-coefficients-from-data"><i class="fa fa-check"></i><b>25.4</b> Finding coefficients from data</a></li>
+<li class="chapter" data-level="25.5" data-path="local-approximations.html"><a href="local-approximations.html#exercises-22"><i class="fa fa-check"></i><b>25.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="polynomials.html"><a href="polynomials.html"><i class="fa fa-check"></i><b>26</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="polynomials.html"><a href="polynomials.html#polynomial-basics"><i class="fa fa-check"></i><b>26.1</b> Basics of polynomials with one input</a></li>
+<li class="chapter" data-level="26.2" data-path="polynomials.html"><a href="polynomials.html#multiple-inputs"><i class="fa fa-check"></i><b>26.2</b> Multiple inputs?</a></li>
+<li class="chapter" data-level="26.3" data-path="polynomials.html"><a href="polynomials.html#high-order-approx"><i class="fa fa-check"></i><b>26.3</b> High-order approximations</a></li>
+<li class="chapter" data-level="26.4" data-path="polynomials.html"><a href="polynomials.html#indeterminate-forms"><i class="fa fa-check"></i><b>26.4</b> Indeterminate forms</a></li>
+<li class="chapter" data-level="26.5" data-path="polynomials.html"><a href="polynomials.html#computing-with-indeterminate-forms"><i class="fa fa-check"></i><b>26.5</b> Computing with indeterminate forms</a></li>
+<li class="chapter" data-level="26.6" data-path="polynomials.html"><a href="polynomials.html#exercises-23"><i class="fa fa-check"></i><b>26.6</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Block 3: Accumulation</b></span></li>
+<li class="chapter" data-level="27" data-path="change-accumulation.html"><a href="change-accumulation.html"><i class="fa fa-check"></i><b>27</b> Change and accumulation</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="change-accumulation.html"><a href="change-accumulation.html#accumulation"><i class="fa fa-check"></i><b>27.1</b> Accumulation</a></li>
+<li class="chapter" data-level="27.2" data-path="change-accumulation.html"><a href="change-accumulation.html#notation-for-anti-differentiation"><i class="fa fa-check"></i><b>27.2</b> Notation for anti-differentiation</a></li>
+<li class="chapter" data-level="27.3" data-path="change-accumulation.html"><a href="change-accumulation.html#rmosaic-notation"><i class="fa fa-check"></i><b>27.3</b> R/mosaic notation</a></li>
+<li class="chapter" data-level="27.4" data-path="change-accumulation.html"><a href="change-accumulation.html#dimension-and-anti-differentiation"><i class="fa fa-check"></i><b>27.4</b> Dimension and anti-differentiation</a></li>
+<li class="chapter" data-level="27.5" data-path="change-accumulation.html"><a href="change-accumulation.html#preliminary-terrors"><i class="fa fa-check"></i><b>27.5</b> From <em>Calculus Made Easy</em></a></li>
+<li class="chapter" data-level="27.6" data-path="change-accumulation.html"><a href="change-accumulation.html#exercises-24"><i class="fa fa-check"></i><b>27.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="totaling-bits.html"><a href="totaling-bits.html"><i class="fa fa-check"></i><b>28</b> Totaling the little bits</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="totaling-bits.html"><a href="totaling-bits.html#the-notation-of-little-bits"><i class="fa fa-check"></i><b>28.1</b> The notation of little bits</a></li>
+<li class="chapter" data-level="28.2" data-path="totaling-bits.html"><a href="totaling-bits.html#exercises-25"><i class="fa fa-check"></i><b>28.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="net-change.html"><a href="net-change.html"><i class="fa fa-check"></i><b>29</b> Integration</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="net-change.html"><a href="net-change.html#net-change-1"><i class="fa fa-check"></i><b>29.1</b> Net change</a></li>
+<li class="chapter" data-level="29.2" data-path="net-change.html"><a href="net-change.html#the-definite-integral"><i class="fa fa-check"></i><b>29.2</b> The “definite” integral</a></li>
+<li class="chapter" data-level="29.3" data-path="net-change.html"><a href="net-change.html#initial-value-of-the-quantity"><i class="fa fa-check"></i><b>29.3</b> Initial value of the quantity</a></li>
+<li class="chapter" data-level="29.4" data-path="net-change.html"><a href="net-change.html#integrals-from-bottom-to-top"><i class="fa fa-check"></i><b>29.4</b> Integrals from bottom to top</a></li>
+<li class="chapter" data-level="29.5" data-path="net-change.html"><a href="net-change.html#exercises-26"><i class="fa fa-check"></i><b>29.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html"><i class="fa fa-check"></i><b>30</b> Integrals step-by-step</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#euler-method"><i class="fa fa-check"></i><b>30.1</b> Euler method</a></li>
+<li class="chapter" data-level="30.2" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#area"><i class="fa fa-check"></i><b>30.2</b> Area</a></li>
+<li class="chapter" data-level="30.3" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#the-euler-step"><i class="fa fa-check"></i><b>30.3</b> The Euler Step</a></li>
+<li class="chapter" data-level="30.4" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#better-numerics-optional"><i class="fa fa-check"></i><b>30.4</b> Better numerics (optional)</a></li>
+<li class="chapter" data-level="30.5" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#exercises-27"><i class="fa fa-check"></i><b>30.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="accum-symbolic.html"><a href="accum-symbolic.html"><i class="fa fa-check"></i><b>31</b> Symbolic anti-differentiation</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="accum-symbolic.html"><a href="accum-symbolic.html#cataloged-functions"><i class="fa fa-check"></i><b>31.1</b> The cataloged functions</a></li>
+<li class="chapter" data-level="31.2" data-path="accum-symbolic.html"><a href="accum-symbolic.html#differentials"><i class="fa fa-check"></i><b>31.2</b> Differentials</a></li>
+<li class="chapter" data-level="31.3" data-path="accum-symbolic.html"><a href="accum-symbolic.html#u-substitution"><i class="fa fa-check"></i><b>31.3</b> U-substitution</a></li>
+<li class="chapter" data-level="31.4" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integration-by-parts"><i class="fa fa-check"></i><b>31.4</b> Integration by parts</a></li>
+<li class="chapter" data-level="31.5" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integrating-polynomials"><i class="fa fa-check"></i><b>31.5</b> Integrating polynomials</a></li>
+<li class="chapter" data-level="31.6" data-path="accum-symbolic.html"><a href="accum-symbolic.html#polynomials-1"><i class="fa fa-check"></i><b>31.6</b> Polynomials</a></li>
+<li class="chapter" data-level="31.7" data-path="accum-symbolic.html"><a href="accum-symbolic.html#exercises-28"><i class="fa fa-check"></i><b>31.7</b> Exercises</a></li>
+</ul></li>
 </ul>
 
-        <div class="book-extra">
-          <p><a id="book-repo" href="Not%20available">View book source <i class="fab fa-gitlab"></i></a></p>
-        </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="cont-and-smooth" class="section level1" number="21">
-<h1>
-<span class="header-section-number">21</span> Continuity and smoothness<a class="anchor" aria-label="anchor" href="#cont-and-smooth"><i class="fas fa-link"></i></a>
-</h1>
-<p>You’ve seen how various properties of a function—whether it is monotonic, how it slopes, whether it is concave up or down (or not at all), curvature, etc.—can be related to the first and second derivatives of the function. <span style="float: right; padding-left: 50px;"><a name="2300" href="#2300"><img src="www/icons8-signpost.png" title="Location: 2300" width="12px"></a><span style="color: red; font-size: 6pt;">2300</span></span></p>
-<p>In this chapter, we’ll elaborate on <strong><em>continuity</em></strong>, one of the ideas introduced in Section <a href="fun-describing.html#word-descriptions">4.3</a>, and use the concept of continuity to characterize functions in a new way: their <strong><em>smoothness</em></strong>. <span style="float: right; padding-left: 50px;"><a name="2305" href="#2305"><img src="www/icons8-signpost.png" title="Location: 2305" width="12px"></a><span style="color: red; font-size: 6pt;">2305</span></span></p>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MOSAIC Calculus</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="cont-and-smooth" class="section level1" number="21">
+<h1><span class="header-section-number">Chapter 21</span> Continuity and smoothness</h1>
+<p>You’ve seen how various properties of a function—whether it is monotonic, how it slopes, whether it is concave up or down (or not at all), curvature, etc.—can be related to the first and second derivatives of the function. <span style="float: right; padding-left: 50px;"><a name="2300" href="#2300"><img src="www/icons8-signpost.png" title="Location: 2300" width="12px"/></a><span style="color: red; font-size: 6pt;">2300</red></span></p>
+<p>In this chapter, we’ll elaborate on <strong><em>continuity</em></strong>, one of the ideas introduced in Section <a href="fun-describing.html#word-descriptions">4.3</a>, and use the concept of continuity to characterize functions in a new way: their <strong><em>smoothness</em></strong>. <span style="float: right; padding-left: 50px;"><a name="2305" href="#2305"><img src="www/icons8-signpost.png" title="Location: 2305" width="12px"/></a><span style="color: red; font-size: 6pt;">2305</red></span></p>
 <div id="continuity" class="section level2" number="21.1">
-<h2>
-<span class="header-section-number">21.1</span> Continuity<a class="anchor" aria-label="anchor" href="#continuity"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">21.1</span> Continuity</h2>
 <p>The intuition behind continuity is simple: If you can draw the graph of a function without lifting the pencil from the paper, the function is continuous.</p>
-<p>Continuity can be an important attribute of a modeling function. Often, we are modeling phenomena where a <strong><em>small change in input</em></strong> is expected to produce a <strong><em>small change in output</em></strong>. For instance, if your income changes by one penny, you would expect your lifestyle not to change by much. If the temperature of an oven changes by 1 degree, you don’t expect the quality of the cake you are baking to change in any noticeable way. <span style="float: right; padding-left: 50px;"><a name="2310" href="#2310"><img src="www/icons8-signpost.png" title="Location: 2310" width="12px"></a><span style="color: red; font-size: 6pt;">2310</span></span></p>
-<p>All of our basic modeling functions are continuous over their entire input domain.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The domain of the function &lt;span class="math inline"&gt;\(1/x\)&lt;/span&gt; is the whole number line, except 0, where the positive and negative branches fail to meet up.&lt;/p&gt;'><sup>36</sup></a> To illustrate <strong><em>discontinuity</em></strong> we’ll consider piecewise functions, as introduced in Chapter <a href="fun-piecewise.html#fun-piecewise">13</a>. The <strong><em>Heaviside function</em></strong>, graphed in Figure <a href="cont-and-smooth.html#fig:heaviside2">21.1</a> is discontinuous. <span style="float: right; padding-left: 50px;"><a name="2315" href="#2315"><img src="www/icons8-signpost.png" title="Location: 2315" width="12px"></a><span style="color: red; font-size: 6pt;">2315</span></span></p>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:heaviside2"></span>
-<img src="CalcZ-notes_files/figure-html/heaviside2-1.png" alt="The Heaviside function is piecewise constant with a discontiuity at $x=0$." width="90%"><p class="caption">
+<p>Continuity can be an important attribute of a modeling function. Often, we are modeling phenomena where a <strong><em>small change in input</em></strong> is expected to produce a <strong><em>small change in output</em></strong>. For instance, if your income changes by one penny, you would expect your lifestyle not to change by much. If the temperature of an oven changes by 1 degree, you don’t expect the quality of the cake you are baking to change in any noticeable way. <span style="float: right; padding-left: 50px;"><a name="2310" href="#2310"><img src="www/icons8-signpost.png" title="Location: 2310" width="12px"/></a><span style="color: red; font-size: 6pt;">2310</red></span></p>
+<p>All of our basic modeling functions are continuous over their entire input domain.<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a> To illustrate <strong><em>discontinuity</em></strong> we’ll consider piecewise functions, as introduced in Chapter <a href="fun-piecewise.html#fun-piecewise">13</a>. The <strong><em>Heaviside function</em></strong>, graphed in Figure <a href="cont-and-smooth.html#fig:heaviside2">21.1</a> is discontinuous. <span style="float: right; padding-left: 50px;"><a name="2315" href="#2315"><img src="www/icons8-signpost.png" title="Location: 2315" width="12px"/></a><span style="color: red; font-size: 6pt;">2315</red></span></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:heaviside2"></span>
+<img src="CalcZ-notes_files/figure-html/heaviside2-1.png" alt="The Heaviside function is piecewise constant with a discontiuity at $x=0$." width="90%" />
+<p class="caption">
 Figure 21.1: The Heaviside function is piecewise constant with a discontiuity at <span class="math inline">\(x=0\)</span>.
 </p>
 </div>
 <p>Drawing the graph of the Heaviside function <span class="math inline">\(H(x)\)</span> involves lifting the pencil at <span class="math inline">\(x=0\)</span>.</p>
 <p>In contrast, the piecewise <strong><em>ramp function</em></strong> (Figure <a href="cont-and-smooth.html#fig:ramp2">21.2</a>) is continuous; you don’t need to lift the pencil from the paper in order to draw the ramp function.</p>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:ramp2"></span>
-<img src="CalcZ-notes_files/figure-html/ramp2-1.png" alt="The ramp function is a continuous piecewise function." width="90%"><p class="caption">
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ramp2"></span>
+<img src="CalcZ-notes_files/figure-html/ramp2-1.png" alt="The ramp function is a continuous piecewise function." width="90%" />
+<p class="caption">
 Figure 21.2: The ramp function is a continuous piecewise function.
 </p>
 </div>
-<p>Imagine that you were constructing a model of plant growth as a function of the amount of water (in cc) provided each day. The plant needs about 20 cc of water to thrive. Let’s say that you use the Heaviside function for the model, say <span class="math inline">\(H(W-20)\)</span>, where an output of 1 means the plant thrives and a output 0 means the plant does not. The model implies that if you provide 20.001 cc of water, the plant will thrive. But if you are stingy, and provide only 19.999 cc of water, the plant will die. In other words, a very small change in the input can lead to a large change in the output. <span style="float: right; padding-left: 50px;"><a name="2320" href="#2320"><img src="www/icons8-signpost.png" title="Location: 2320" width="12px"></a><span style="color: red; font-size: 6pt;">2320</span></span></p>
-<p>Common sense suggests that a change of 0.002 cc in the amount of water—that’s a small fraction of a drop, 2 cubic millimeters of volume, is not going to lead to a qualitative change in output. So you might prefer to use a sigmoidal function as your model rather than a Heaviside function. <span style="float: right; padding-left: 50px;"><a name="2325" href="#2325"><img src="www/icons8-signpost.png" title="Location: 2325" width="12px"></a><span style="color: red; font-size: 6pt;">2325</span></span></p>
-<p>On the other hand, sometimes a very small change in input does lead to a large change in output. For instance, a sensible model of the hardness of water as a function of temperature would include a discontinuity at <span class="math inline">\(32^\circ\)</span>F, the temperature at which water turns to ice. <span style="float: right; padding-left: 50px;"><a name="2330" href="#2330"><img src="www/icons8-signpost.png" title="Location: 2330" width="12px"></a><span style="color: red; font-size: 6pt;">2330</span></span></p>
+<p>Imagine that you were constructing a model of plant growth as a function of the amount of water (in cc) provided each day. The plant needs about 20 cc of water to thrive. Let’s say that you use the Heaviside function for the model, say <span class="math inline">\(H(W-20)\)</span>, where an output of 1 means the plant thrives and a output 0 means the plant does not. The model implies that if you provide 20.001 cc of water, the plant will thrive. But if you are stingy, and provide only 19.999 cc of water, the plant will die. In other words, a very small change in the input can lead to a large change in the output. <span style="float: right; padding-left: 50px;"><a name="2320" href="#2320"><img src="www/icons8-signpost.png" title="Location: 2320" width="12px"/></a><span style="color: red; font-size: 6pt;">2320</red></span></p>
+<p>Common sense suggests that a change of 0.002 cc in the amount of water—that’s a small fraction of a drop, 2 cubic millimeters of volume, is not going to lead to a qualitative change in output. So you might prefer to use a sigmoidal function as your model rather than a Heaviside function. <span style="float: right; padding-left: 50px;"><a name="2325" href="#2325"><img src="www/icons8-signpost.png" title="Location: 2325" width="12px"/></a><span style="color: red; font-size: 6pt;">2325</red></span></p>
+<p>On the other hand, sometimes a very small change in input does lead to a large change in output. For instance, a sensible model of the hardness of water as a function of temperature would include a discontinuity at <span class="math inline">\(32^\circ\)</span>F, the temperature at which water turns to ice. <span style="float: right; padding-left: 50px;"><a name="2330" href="#2330"><img src="www/icons8-signpost.png" title="Location: 2330" width="12px"/></a><span style="color: red; font-size: 6pt;">2330</red></span></p>
 <p>One of author Charles Dickens’s famous characters described the relationship between income, expenditure, and happiness this way:</p>
 <blockquote>
 <p>"<em>Annual income 20 pounds, annual expenditure 19 [pounds] 19 [shillings] and six [pence], result happiness. Annual income 20 pounds, annual expenditure 20 pounds ought and six, result misery."</em> — the character <a href="https://en.wikipedia.org/wiki/Wilkins_Micawber">Wilkins Micawber</a> in <em>David Copperfield</em></p>
 </blockquote>
-<p>Macawber was referring to the common situation in pre-20th century England of putting debtors in prison, regardless of the size of their debt. Macawber’s statement suggests he would model happiness as a Heaviside function <span class="math inline">\(H(\text{income}- \text{expenditure})\)</span>. <span style="float: right; padding-left: 50px;"><a name="2335" href="#2335"><img src="www/icons8-signpost.png" title="Location: 2335" width="12px"></a><span style="color: red; font-size: 6pt;">2335</span></span></p>
+<p>Macawber was referring to the common situation in pre-20th century England of putting debtors in prison, regardless of the size of their debt. Macawber’s statement suggests he would model happiness as a Heaviside function <span class="math inline">\(H(\text{income}- \text{expenditure})\)</span>. <span style="float: right; padding-left: 50px;"><a name="2335" href="#2335"><img src="www/icons8-signpost.png" title="Location: 2335" width="12px"/></a><span style="color: red; font-size: 6pt;">2335</red></span></p>
 <p>Whenever the output of a function is a binary (yes-or-no) value, you can anticipate that a model will involve a discontinuous function.</p>
 </div>
 <div id="discontinuity" class="section level2" number="21.2">
-<h2>
-<span class="header-section-number">21.2</span> Discontinuity<a class="anchor" aria-label="anchor" href="#discontinuity"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">21.2</span> Discontinuity</h2>
 <p>Recall the logical path that led us to the idea of the derivative of a function. We started with the <strong><em>differencing operator</em></strong>, which takes as input a function and a “small” value of <span class="math inline">\(h\)</span>:
 <span class="math display">\[{\cal D}_x f(x) \equiv \frac{f(x+h) - f(x)}{h}\]</span>
 Then, through algebraic manipulation and numerical experiments we found that, once <span class="math inline">\(h\)</span> is small enough, the graph of the slope function <span class="math inline">\({\cal D}_x f(x)\)</span> does not depend on <span class="math inline">\(h\)</span>. And so we defined a function <span class="math inline">\(\partial_x f(x)\)</span> where <span class="math inline">\(h\)</span> doesn’t play a role, writing <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> to remember our care to never actually divide by zero.
 <span class="math display">\[\partial_x f(x) \equiv \lim_{h\rightarrow 0} \frac{f(x+h) - f(x)}{h}\ .\]</span>
 Conveniently, we found that the derivatives of the pattern-book functions can be written in terms of the pattern-book functions <em>without making any reference to <span class="math inline">\(h\)</span></em>. For instance:</p>
 <ul>
-<li>
-<span class="math inline">\(\partial_x \ln(x) = 1/x\)</span> No <span class="math inline">\(h\)</span> appears.</li>
-<li>
-<span class="math inline">\(\partial_x e^x = e^x\)</span> No <span class="math inline">\(h\)</span> appears</li>
-<li>
-<span class="math inline">\(\partial_x x^p = p\, x^{p-1}\)</span> No <span class="math inline">\(h\)</span> appears.</li>
+<li><span class="math inline">\(\partial_x \ln(x) = 1/x\)</span> No <span class="math inline">\(h\)</span> appears.</li>
+<li><span class="math inline">\(\partial_x e^x = e^x\)</span> No <span class="math inline">\(h\)</span> appears</li>
+<li><span class="math inline">\(\partial_x x^p = p\, x^{p-1}\)</span> No <span class="math inline">\(h\)</span> appears.</li>
 <li>and so on.</li>
 </ul>
 <p>With discontinuous functions, we have no such luck. Figure <a href="cont-and-smooth.html#fig:D-heaviside">21.3</a> shows what happens if we compute <span class="math inline">\({\cal D}_x H(x)\)</span>, the derivative of the Heaviside function, for smaller and smaller <span class="math inline">\(h\)</span>.</p>
-<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">H</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;=</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="va">DH01</span>   <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">H</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">H</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="va">DH001</span>  <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">H</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">-</span> <span class="fu">H</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.01</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="va">DH0001</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">H</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">0.001</span><span class="op">)</span> <span class="op">-</span> <span class="fu">H</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.001</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="fu">slice_plot</span><span class="op">(</span><span class="fu">DH01</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.02</span>, <span class="fl">0.02</span><span class="op">)</span><span class="op">)</span>, npts<span class="op">=</span><span class="fl">500</span>,
-           color<span class="op">=</span><span class="st">"red"</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">DH001</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>,
-           color<span class="op">=</span><span class="st">"darkgreen"</span>, npts<span class="op">=</span><span class="fl">500</span>, size<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">DH0001</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>,
-           color<span class="op">=</span><span class="st">"blue"</span>, npts<span class="op">=</span><span class="fl">500</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span> </code></pre></div>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:D-heaviside"></span>
-<img src="CalcZ-notes_files/figure-html/D-heaviside-1.png" alt="${\cal D}_x H(x)$, the slope function of the discontinuous Heaviside, function, depends on the value of $h$ used for the slope function. (Red: $h=0.1$; Green: $h=0.01$; Blue $h=0.001$)" width="90%"><p class="caption">
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="cont-and-smooth.html#cb221-1" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(x <span class="sc">&gt;=</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="sc">~</span> x)</span>
+<span id="cb221-2"><a href="cont-and-smooth.html#cb221-2" aria-hidden="true" tabindex="-1"></a>DH01   <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">H</span>(x <span class="sc">+</span> <span class="fl">0.1</span>) <span class="sc">-</span> <span class="fu">H</span>(x))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> x)</span>
+<span id="cb221-3"><a href="cont-and-smooth.html#cb221-3" aria-hidden="true" tabindex="-1"></a>DH001  <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">H</span>(x <span class="sc">+</span> <span class="fl">0.01</span>) <span class="sc">-</span> <span class="fu">H</span>(x))<span class="sc">/</span><span class="fl">0.01</span> <span class="sc">~</span> x)</span>
+<span id="cb221-4"><a href="cont-and-smooth.html#cb221-4" aria-hidden="true" tabindex="-1"></a>DH0001 <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">H</span>(x <span class="sc">+</span> <span class="fl">0.001</span>) <span class="sc">-</span> <span class="fu">H</span>(x))<span class="sc">/</span><span class="fl">0.001</span> <span class="sc">~</span> x)</span>
+<span id="cb221-5"><a href="cont-and-smooth.html#cb221-5" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">DH01</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.02</span>, <span class="fl">0.02</span>)), <span class="at">npts=</span><span class="dv">500</span>,</span>
+<span id="cb221-6"><a href="cont-and-smooth.html#cb221-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb221-7"><a href="cont-and-smooth.html#cb221-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">DH001</span>(x) <span class="sc">~</span> x,</span>
+<span id="cb221-8"><a href="cont-and-smooth.html#cb221-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">color=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="at">npts=</span><span class="dv">500</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb221-9"><a href="cont-and-smooth.html#cb221-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">DH0001</span>(x) <span class="sc">~</span> x,</span>
+<span id="cb221-10"><a href="cont-and-smooth.html#cb221-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">npts=</span><span class="dv">500</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">size=</span><span class="dv">2</span>) </span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:D-heaviside"></span>
+<img src="CalcZ-notes_files/figure-html/D-heaviside-1.png" alt="${\cal D}_x H(x)$, the slope function of the discontinuous Heaviside, function, depends on the value of $h$ used for the slope function. (Red: $h=0.1$; Green: $h=0.01$; Blue $h=0.001$)" width="90%" />
+<p class="caption">
 Figure 21.3: <span class="math inline">\({\cal D}_x H(x)\)</span>, the slope function of the discontinuous Heaviside, function, depends on the value of <span class="math inline">\(h\)</span> used for the slope function. (Red: <span class="math inline">\(h=0.1\)</span>; Green: <span class="math inline">\(h=0.01\)</span>; Blue <span class="math inline">\(h=0.001\)</span>)
 </p>
 </div>
 <p>Differencing the Heaviside function produces very different functions depending on the value of <span class="math inline">\(h\)</span>. The bump near <span class="math inline">\(x=0\)</span> gets taller and taller as <span class="math inline">\(h\)</span> gets smaller. Mathematicians would describe this situation as <span class="math display">\[\lim_{h\rightarrow0}{\cal D}_x H(x=0) \equiv \lim_{h\rightarrow 0} \frac{H(0+h) - H(0)}{h}\ \ \ \text{does not exist}.\]</span>
 Of course, for any given value of <span class="math inline">\(h\)</span>, e.g. <span class="math inline">\(h=0.000001\)</span>, the function <span class="math inline">\({\cal D}_x H(x)\)</span> has a definite shape. But that shape keeps changing as <span class="math inline">\(h \rightarrow 0\)</span>, so we can’t point to any specific shape as the “limit as <span class="math inline">\(h \rightarrow 0\)</span>.”</p>
-<p>Since there is no convergence in the shape of <span class="math inline">\({\cal D}_x H(0)\)</span> as <span class="math inline">\(h\)</span> gets smaller, it’s fair to say that the Heaviside function does not have a derivative at <span class="math inline">\(x=0\)</span>. But away from <span class="math inline">\(x=0\)</span>, the Heaviside function has a perfectly sensible derivative: <span class="math inline">\(\partial_x H(x) = 0\)</span> for <span class="math inline">\(x\neq 0\)</span>. But there is no derivative at <span class="math inline">\(x=0\)</span>. <span style="float: right; padding-left: 50px;"><a name="2365" href="#2365"><img src="www/icons8-signpost.png" title="Location: 2365" width="12px"></a><span style="color: red; font-size: 6pt;">2365</span></span></p>
+<p>Since there is no convergence in the shape of <span class="math inline">\({\cal D}_x H(0)\)</span> as <span class="math inline">\(h\)</span> gets smaller, it’s fair to say that the Heaviside function does not have a derivative at <span class="math inline">\(x=0\)</span>. But away from <span class="math inline">\(x=0\)</span>, the Heaviside function has a perfectly sensible derivative: <span class="math inline">\(\partial_x H(x) = 0\)</span> for <span class="math inline">\(x\neq 0\)</span>. But there is no derivative at <span class="math inline">\(x=0\)</span>. <span style="float: right; padding-left: 50px;"><a name="2365" href="#2365"><img src="www/icons8-signpost.png" title="Location: 2365" width="12px"/></a><span style="color: red; font-size: 6pt;">2365</red></span></p>
 </div>
 <div id="smoothness" class="section level2" number="21.3">
-<h2>
-<span class="header-section-number">21.3</span> Smoothness<a class="anchor" aria-label="anchor" href="#smoothness"><i class="fas fa-link"></i></a>
-</h2>
-<p><strong><em>Smoothness</em></strong> is a different concept than continuity, although the two are related. Most simply, any discontinuous function is not smooth at any input where a discontinuity occurs. But even the continuous ramp function is not smooth at the start of the ramp. Intuitively, imagine you were sliding your hand along the ramp function. You would feel the crease at <span class="math inline">\(x=0\)</span>. <span style="float: right; padding-left: 50px;"><a name="2340" href="#2340"><img src="www/icons8-signpost.png" title="Location: 2340" width="12px"></a><span style="color: red; font-size: 6pt;">2340</span></span></p>
+<h2><span class="header-section-number">21.3</span> Smoothness</h2>
+<p><strong><em>Smoothness</em></strong> is a different concept than continuity, although the two are related. Most simply, any discontinuous function is not smooth at any input where a discontinuity occurs. But even the continuous ramp function is not smooth at the start of the ramp. Intuitively, imagine you were sliding your hand along the ramp function. You would feel the crease at <span class="math inline">\(x=0\)</span>. <span style="float: right; padding-left: 50px;"><a name="2340" href="#2340"><img src="www/icons8-signpost.png" title="Location: 2340" width="12px"/></a><span style="color: red; font-size: 6pt;">2340</red></span></p>
 <p>A function is not smooth if the derivative of that function is discontinuous. For instance, the derivative of the ramp function is the Heaviside function, so the ramp is not smooth at <span class="math inline">\(x=0\)</span>.</p>
-<p>All of our basic modeling functions are smooth everywhere in their domain. In particular, the derivatives of the basic modeling functions are continuous, as are the second derivative, third derivative, and so on down the line. Such functions are called <strong><em>C-infinity</em></strong>, written <span class="math inline">\(C^\infty\)</span>. The superscript <span class="math inline">\(\infty\)</span> means that every order of derivative is continuous. <span style="float: right; padding-left: 50px;"><a name="2345" href="#2345"><img src="www/icons8-signpost.png" title="Location: 2345" width="12px"></a><span style="color: red; font-size: 6pt;">2345</span></span></p>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:C1-function"></span>
-<img src="CalcZ-notes_files/figure-html/C1-function-1.png" alt="A function whose derivative is the ramp function (hence continous) and whose second derivative is the Heaviside function (discontinous). Since the first derivative is continuous, this function has $C^1$ smoothness." width="90%"><p class="caption">
+<p>All of our basic modeling functions are smooth everywhere in their domain. In particular, the derivatives of the basic modeling functions are continuous, as are the second derivative, third derivative, and so on down the line. Such functions are called <strong><em>C-infinity</em></strong>, written <span class="math inline">\(C^\infty\)</span>. The superscript <span class="math inline">\(\infty\)</span> means that every order of derivative is continuous. <span style="float: right; padding-left: 50px;"><a name="2345" href="#2345"><img src="www/icons8-signpost.png" title="Location: 2345" width="12px"/></a><span style="color: red; font-size: 6pt;">2345</red></span></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:C1-function"></span>
+<img src="CalcZ-notes_files/figure-html/C1-function-1.png" alt="A function whose derivative is the ramp function (hence continous) and whose second derivative is the Heaviside function (discontinous). Since the first derivative is continuous, this function has $C^1$ smoothness." width="90%" />
+<p class="caption">
 Figure 21.4: A function whose derivative is the ramp function (hence continous) and whose second derivative is the Heaviside function (discontinous). Since the first derivative is continuous, this function has <span class="math inline">\(C^1\)</span> smoothness.
 </p>
 </div>
 <p>You cannot tell from the plot that the second derivative is discontinuous. But if you were in a plane flying along that trajectory, you would feel a jerk as you crossed <span class="math inline">\(x=0\)</span>.</p>
 <p>Mathematicians quantify the “smoothness” of a function by looking at the continuity of the function and its derivatives. The mathematical definition of smoothness is straightforward and phrased in terms of derivatives. Suppose you are examining the smoothness of a function <span class="math inline">\(f(x)\)</span>. The smoothness is assessed on a scale <span class="math inline">\(C^0, C^1, C^2, \ldots, C^\infty\)</span>.</p>
 <ul>
-<li>
-<span class="math inline">\(C^0\)</span>: the function <span class="math inline">\(f()\)</span> is continuous. Intuitively, this means that a graph of the function can be drawn without lifting the pencil from the paper.</li>
-<li>
-<span class="math inline">\(C^1\)</span>: the function <span class="math inline">\(f()\)</span> has a derivative over its entire domain <em>and</em> that derivative <span class="math inline">\(\partial_x f(x)\)</span> is continuous. (See Figure <a href="cont-and-smooth.html#fig:C1-function">21.4</a> for an example.)</li>
-<li>
-<span class="math inline">\(C^2\)</span>: the function <span class="math inline">\(\partial_x f(x)\)</span> has a derivative over its entire domain <em>and</em> that derivative is continuous. In other words, <span class="math inline">\(\partial_{xx} f(x)\)</span> exists and is continuous.</li>
-<li>
-<span class="math inline">\(C^n\)</span>: Like <span class="math inline">\(C^2\)</span>, but we’re talking about the <span class="math inline">\(n\)</span><sup>th</sup>-derivative of <span class="math inline">\(f(x)\)</span> existing and being continuous.</li>
-<li>
-<span class="math inline">\(C^\infty\)</span>: Usually when we denote a sequence with an infinite number of terms, we write down something like <span class="math inline">\(C^0, C^1, C^2, \ldots\)</span>. It would be entirely valid to do this in talking about the <span class="math inline">\(C^n\)</span> sequence. But many of the mathematical functions we work with are <em>infinitely differentiable</em>, that is <span class="math inline">\(C^\infty\)</span>.</li>
+<li><span class="math inline">\(C^0\)</span>: the function <span class="math inline">\(f()\)</span> is continuous. Intuitively, this means that a graph of the function can be drawn without lifting the pencil from the paper.</li>
+<li><span class="math inline">\(C^1\)</span>: the function <span class="math inline">\(f()\)</span> has a derivative over its entire domain <em>and</em> that derivative <span class="math inline">\(\partial_x f(x)\)</span> is continuous. (See Figure <a href="cont-and-smooth.html#fig:C1-function">21.4</a> for an example.)</li>
+<li><span class="math inline">\(C^2\)</span>: the function <span class="math inline">\(\partial_x f(x)\)</span> has a derivative over its entire domain <em>and</em> that derivative is continuous. In other words, <span class="math inline">\(\partial_{xx} f(x)\)</span> exists and is continuous.</li>
+<li><span class="math inline">\(C^n\)</span>: Like <span class="math inline">\(C^2\)</span>, but we’re talking about the <span class="math inline">\(n\)</span><sup>th</sup>-derivative of <span class="math inline">\(f(x)\)</span> existing and being continuous.</li>
+<li><span class="math inline">\(C^\infty\)</span>: Usually when we denote a sequence with an infinite number of terms, we write down something like <span class="math inline">\(C^0, C^1, C^2, \ldots\)</span>. It would be entirely valid to do this in talking about the <span class="math inline">\(C^n\)</span> sequence. But many of the mathematical functions we work with are <em>infinitely differentiable</em>, that is <span class="math inline">\(C^\infty\)</span>.</li>
 </ul>
 <p><strong>Examples of <span class="math inline">\(C^\infty\)</span> functions</strong>:</p>
 <ul>
@@ -235,69 +580,77 @@ Figure 21.4: A function whose derivative is the ramp function (hence continous) 
 </ul>
 <p><strong>Example of non-<span class="math inline">\(C^2\)</span> functions:</strong> We see these often when we take two or more different <span class="math inline">\(C^\infty\)</span> functions and split their domain, using one function for one subdomain and the other(s) for other subdomain(s).</p>
 <ul>
-<li>
-<span class="math inline">\(|x|\)</span>, the absolute value function. <span class="math inline">\(|x|\)</span> is a pasting together of two <span class="math inline">\(C^\infty\)</span> functions: <span class="math display">\[|x| \equiv \left\{\begin{array}{rcl}+x &amp; \text{for} &amp; 0 \leq x\\-x&amp;\text{for}&amp; \text{otherwise}\end{array} \right.\ .\]</span> The domain is split at <span class="math inline">\(x=0\)</span>.</li>
+<li><span class="math inline">\(|x|\)</span>, the absolute value function. <span class="math inline">\(|x|\)</span> is a pasting together of two <span class="math inline">\(C^\infty\)</span> functions: <span class="math display">\[|x| \equiv \left\{\begin{array}{rcl}+x &amp; \text{for} &amp; 0 \leq x\\-x&amp;\text{for}&amp; \text{otherwise}\end{array} \right.\ .\]</span> The domain is split at <span class="math inline">\(x=0\)</span>.</li>
 </ul>
-<!-- print rendering problem --><p>For engineering and design problems, smoothness means something substantially different than described by the mathematical concepts above. Later in the course we’ll introduce <strong><em>cubic splines</em></strong> which are continuous functions defined by a finite set of coordinate pairs, as in a data frame. Each line of the data frame corresponds to a dot in a scatter plot, but in a cubic spline it is called a “knot point.” The spline consists of cubic polynomials drawn between consecutive knot points. The domain is split at each of the knot points. Between any two adjacent knot points, the function is an ordinary cubic polynomial. At a knot point, the cubics on either side have been arranged to have their first and second derivatives match. Thus, the first two derivatives are continuous. The function is at least <span class="math inline">\(C^2\)</span>. The second derivative of a cubic is a straight-line function, so the second derivative of a cubic spline is a series of straight-line functions connected at the knot points. The second derivative does not itself have a derivative at the knot points. So, a cubic spline cannot satisfy the requirements for being <span class="math inline">\(C^3\)</span>; it is <span class="math inline">\(C^2\)</span>.</p>
+<!-- print rendering problem -->
+<p>For engineering and design problems, smoothness means something substantially different than described by the mathematical concepts above. Later in the course we’ll introduce <strong><em>cubic splines</em></strong> which are continuous functions defined by a finite set of coordinate pairs, as in a data frame. Each line of the data frame corresponds to a dot in a scatter plot, but in a cubic spline it is called a “knot point.” The spline consists of cubic polynomials drawn between consecutive knot points. The domain is split at each of the knot points. Between any two adjacent knot points, the function is an ordinary cubic polynomial. At a knot point, the cubics on either side have been arranged to have their first and second derivatives match. Thus, the first two derivatives are continuous. The function is at least <span class="math inline">\(C^2\)</span>. The second derivative of a cubic is a straight-line function, so the second derivative of a cubic spline is a series of straight-line functions connected at the knot points. The second derivative does not itself have a derivative at the knot points. So, a cubic spline cannot satisfy the requirements for being <span class="math inline">\(C^3\)</span>; it is <span class="math inline">\(C^2\)</span>.</p>
 </div>
 <div id="exercises-18" class="section level2" number="21.4">
-<h2>
-<span class="header-section-number">21.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-18"><i class="fas fa-link"></i></a>
-</h2>
-<details><summary><strong>Exercise 21.1</strong>: <span><a name="File:%20Exercises/Diff/spider-tug-gloves.Rmd" href="#yJKLEb"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/spider-tug-gloves.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">yJKLEb</span>
-</span></summary><ol style="list-style-type: decimal">
+<h2><span class="header-section-number">21.4</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise 21.1</strong>: <span><a name="File: Exercises/Diff/spider-tug-gloves.Rmd" href="#yJKLEb"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/spider-tug-gloves.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">yJKLEb</red></span>
+</summary>
+<ol style="list-style-type: decimal">
 <li><p>Draw the graph of a function from your imagination over the domain <span class="math inline">\(-5 \leq x \leq 5\)</span>. The function should be continuous everywhere <strong>except</strong> at <span class="math inline">\(x = -2, 1, 3\)</span>.</p></li>
 <li><p>Draw the graph of a second function from your imagination over the same domain as in (1). The second function should be continuous everywhere in domain: no discontinuities. It should also have a derivative everywhere <strong>except</strong> at <span class="math inline">\(x = -2, 1, 3\)</span>.</p></li>
-</ol></details><details><summary><strong>Exercise 21.2</strong>: <span><a name="File:%20Exercises/Diff/moose-hears-door.Rmd" href="#4Iv7t"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/moose-hears-door.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">4Iv7t</span>
-</span></summary><p>For the sketched functions below, decide what level of smoothness—<span class="math inline">\(C^0, C^1, C^2, ...\)</span>— best describes the function. (We make no tricks in the drawings. Where a function looks like it’s broken–that is, the function locally has a V-shape or a <span class="math inline">\(\Lambda\)</span>-shape–it is meant to be broken.)</p>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 21.2</strong>: <span><a name="File: Exercises/Diff/moose-hears-door.Rmd" href="#4Iv7t"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/moose-hears-door.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">4Iv7t</red></span>
+</summary>
+<p>For the sketched functions below, decide what level of smoothness—<span class="math inline">\(C^0, C^1, C^2, ...\)</span>— best describes the function. (We make no tricks in the drawings. Where a function looks like it’s broken–that is, the function locally has a V-shape or a <span class="math inline">\(\Lambda\)</span>-shape–it is meant to be broken.)</p>
 <p><strong>Question A</strong> What’s the smoothness level of function A(x)? (Hint: A quadratic function has a first derivative that changes with x but a second derivative that is constant for all x.)</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span> or higher<span class="mcanswer">︎✘ </span></span></p>
-<p><img src="Exercises/Diff/www/continuity-A.png" width="50%" style="display: block; margin: auto;"><strong>Question B</strong> What’s the smoothness level of function B(x)?</p>
+<p><img src="Exercises/Diff/www/continuity-A.png" width="50%" style="display: block; margin: auto;" />
+<strong>Question B</strong> What’s the smoothness level of function B(x)?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span> or higher<span class="mcanswer">︎✘ </span></span></p>
-<div class="inline-figure"><img src="Exercises/Diff/www/continuity-B.png" width="50%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/continuity-B.png" width="50%" style="display: block; margin: auto;" /></p>
 <p><strong>Question C</strong> What’s the smoothness level of function C(x)?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span> or higher<span class="mcanswer">︎✘ </span></span></p>
-<div class="inline-figure"><img src="Exercises/Diff/www/continuity-C.png" width="50%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/continuity-C.png" width="50%" style="display: block; margin: auto;" /></p>
 <p><strong>Question D</strong> What’s the smoothness level of function D(x)?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span> or higher<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
-<div class="inline-figure"><img src="Exercises/Diff/www/continuity-D.png" width="50%" style="display: block; margin: auto;"></div>
-</details><details><summary><strong>Exercise 21.3</strong>: <span><a name="File:%20Exercises/Diff/maple-sail-boat.Rmd" href="#UNeewh"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/maple-sail-boat.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">UNeewh</span>
-</span></summary><p>The ramp function is defined algebraically as
+<p><img src="Exercises/Diff/www/continuity-D.png" width="50%" style="display: block; margin: auto;" /></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 21.3</strong>: <span><a name="File: Exercises/Diff/maple-sail-boat.Rmd" href="#UNeewh"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/maple-sail-boat.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">UNeewh</red></span>
+</summary>
+<p>The ramp function is defined algebraically as
 <span class="math display">\[\text{ramp}(x) \equiv \left\{\begin{array}{ll}0 &amp; \text{for}\ x &lt; 0\\ x &amp; \text{otherwise} \end{array}\right. \]</span>
 or in R as</p>
-<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ramp</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">x</span><span class="op">&lt;</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="cont-and-smooth.html#cb222-1" aria-hidden="true" tabindex="-1"></a>ramp <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">0</span>, <span class="dv">0</span>, x) <span class="sc">~</span> x)</span></code></pre></div>
 <p>Evaluate these three different forms for the definition of the instantaneous rate of change at <span class="math inline">\(x=0\)</span> using <span class="math inline">\(h=0.1\)</span>.</p>
 <ul>
-<li>version 1: <span class="math display">\[{\cal D}_x f(x) \equiv \frac{f(x+h) - f(x)}{h}\]</span>
-</li>
-<li>version 2: <span class="math display">\[{\cal D}_x f(x) \equiv  \frac{f(x) - f(x-h)}{h}\]</span>
-</li>
-<li>version 3: <span class="math display">\[{\cal D}_x f(x) \equiv  \frac{f(x+h) - f(x-h)}{2 h}\]</span>
-</li>
+<li>version 1: <span class="math display">\[{\cal D}_x f(x) \equiv \frac{f(x+h) - f(x)}{h}\]</span></li>
+<li>version 2: <span class="math display">\[{\cal D}_x f(x) \equiv  \frac{f(x) - f(x-h)}{h}\]</span></li>
+<li>version 3: <span class="math display">\[{\cal D}_x f(x) \equiv  \frac{f(x+h) - f(x-h)}{2 h}\]</span></li>
 </ul>
 <p><strong>Question A</strong> Do the three versions give different numerical results at <span class="math inline">\(x=0\)</span> for <span class="math inline">\(h=0.01\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">They all give the same result.<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">They all give the same result.<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">Versions 1 and 3 give the same result, but 2 is different.<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">Versions 1 and 3 give the same result, but 2 is different.<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">Versions 1 and 2 give the same result, but 3 is different.<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">Versions 1 and 2 give the same result, but 3 is different.<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">All three are different<span class="mcanswer">Correct. </span></span></li>
 </ol>
 <p><strong>Question B</strong> For much smaller <span class="math inline">\(h\)</span> (say, <span class="math inline">\(h=0.0001\)</span>), do the three versions give different numerical results at <span class="math inline">\(x=0\)</span>?</p>
 <p>    <span class="Zchoice">Yes<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">No<span class="mcanswer">︎✘ </span></span></p>
-</details><details><summary><strong>Exercise 21.4</strong>: <span><a name="File:%20Exercises/Diff/camel-begin-piano.Rmd" href="#jG4rie"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/camel-begin-piano.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">jG4rie</span>
-</span></summary><p>Consider this function, defined piecewise:</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 21.4</strong>: <span><a name="File: Exercises/Diff/camel-begin-piano.Rmd" href="#jG4rie"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/camel-begin-piano.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">jG4rie</red></span>
+</summary>
+<p>Consider this function, defined piecewise:</p>
 <!-- print rendering problem -->
 <!-- $$h(x) \equiv \left\{
 \begin{array}{ll}0 & \text{for}\ x < 0\\x^2 &  \text{otherwise}\end{array}\right.\ .$$
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/camel-fun.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/camel-fun.png" width="30%" style="display: block; margin: auto;" /></p>
 <ol style="list-style-type: decimal">
 <li><p>Write the R command to create this function. (Hint: Remember <code>ifelse</code> from Chapter <a href="fun-piecewise.html#fun-piecewise">13</a>.)</p></li>
 <li><p>Using a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>, plot <span class="math inline">\(h(x)\)</span> over the domain <span class="math inline">\(-1 \leq x \leq 1\)</span>, then sketch a copy of the graph on your paper.</p></li>
@@ -311,31 +664,29 @@ or in R as</p>
 <li><p>Sketch <span class="math inline">\(\partial_{xx} h(x)\)</span></p></li>
 <li><p>Classify the smoothness of <span class="math inline">\(h(x)\)</span> using the following table:</p></li>
 </ol>
-<table class="table table-sm">
-<thead><tr class="header">
+<table>
+<thead>
+<tr class="header">
 <th>Smoothness</th>
 <th>Criterion</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td><span class="math inline">\(C^0\)</span></td>
-<td>
-<span class="math inline">\(\partial_x h(x)\)</span> is discontinuous</td>
+<td><span class="math inline">\(\partial_x h(x)\)</span> is discontinuous</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(C^1\)</span></td>
-<td>
-<span class="math inline">\(\partial_x h(x)\)</span> is continuous</td>
+<td><span class="math inline">\(\partial_x h(x)\)</span> is continuous</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(C^2\)</span></td>
-<td>
-<span class="math inline">\(\partial_{xx} h(x)\)</span> is continuous</td>
+<td><span class="math inline">\(\partial_{xx} h(x)\)</span> is continuous</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(C^3\)</span></td>
-<td>
-<span class="math inline">\(\partial_{xxx} h(x)\)</span> is continuous</td>
+<td><span class="math inline">\(\partial_{xxx} h(x)\)</span> is continuous</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\vdots\)</span></td>
@@ -346,95 +697,121 @@ or in R as</p>
 <td>All orders of derivative of <span class="math inline">\(h(x)\)</span> are continous.</td>
 </tr>
 </tbody>
-</table></details><details><summary><strong>Exercise 21.5</strong>: <span><a name="File:%20Exercises/Diff/fox-know-dress.Rmd" href="#2beqIv"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fox-know-dress.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">2beqIv</span>
-</span></summary><p>Consider the following functions <span class="math inline">\(f_A(x)\)</span>, <span class="math inline">\(f_B(x)\)</span>, … all of which involve a domain split at <span class="math inline">\(x=0\)</span> and the pasting together of two individually <span class="math inline">\(C^\infty\)</span> functions:</p>
+</table>
+</details>
+<details>
+<summary>
+<strong>Exercise 21.5</strong>: <span><a name="File: Exercises/Diff/fox-know-dress.Rmd" href="#2beqIv"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fox-know-dress.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">2beqIv</red></span>
+</summary>
+<p>Consider the following functions <span class="math inline">\(f_A(x)\)</span>, <span class="math inline">\(f_B(x)\)</span>, … all of which involve a domain split at <span class="math inline">\(x=0\)</span> and the pasting together of two individually <span class="math inline">\(C^\infty\)</span> functions:</p>
 <!-- 
 $$f_A(x) \equiv \left\{\begin{array}{cl}{{x^2}} & \text{for}\  0\leq x\\ x&  \text{otherwise}\end{array} \right.$$
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/funA.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funA.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question A</strong> How smooth is <span class="math inline">\(f_A(x)\)</span>?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
 <!--
 $$f_B(x) \equiv \left\{\begin{array}{cl}x^3 & \text{for}\ 0 \leq x\\0&\text{otherwise}\end{array} \right.$$
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/funB.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funB.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question B</strong> How smooth is <span class="math inline">\(f_B(x)\)</span>?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
 <p><span class="math display">\[f_C(x) \equiv \left\{\begin{array}{cl}{x^3} &amp;  \text{for}\ 0 \leq x\\x^3&amp; \text{otherwise}\end{array} \right.\]</span></p>
-<div class="inline-figure"><img src="Exercises/Diff/www/funC.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funC.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question C</strong> How smooth is <span class="math inline">\(f_C(x)\)</span>?)</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
 <!-- 
 $$f_D(x) \equiv \left\{\begin{array}{cl}x^3 & \text{for}\ 0 \leq x\\x^2&\text{otherwise}\end{array} \right.$$ 
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/funD.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funD.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question D</strong> How smooth is <span class="math inline">\(f_D(x)\)</span>?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
 <!-- 
 $$f_E(x) \equiv \left\{\begin{array}{cl}x^3 & \text{for}\  0 \leq x\\-x^2 &\text{otherwise}\end{array} \right.$$ 
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/funE.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funE.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question E</strong> How smooth is <span class="math inline">\(f_E(x)\)</span>?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
 <!--
 $$f_F(x) \equiv \left\{\begin{array}{cl}\cos(x) & \text{for}\ 0 \leq x\\0 &\text{otherwise}\end{array} \right.$$ 
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/funF.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funF.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question F</strong> How smooth is <span class="math inline">\(f_F(x)\)</span>?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
 <!--
 $$f_G(x) \equiv \left\{\begin{array}{cl}\sin(x) & \text{for}\ 0 \leq x\\0 &\text{otherwise}\end{array} \right.$$ 
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/funG.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funG.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question G</strong> How smooth is <span class="math inline">\(f_G(x)\)</span>?</p>
 <p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
 <!--
 $$f_H(x) \equiv \left\{\begin{array}{cl}\sin(x) & \text{for}\ 0 \leq x\\x &\text{otherwise}\end{array} \right.$$ 
 -->
-<div class="inline-figure"><img src="Exercises/Diff/www/funH.png" width="30%" style="display: block; margin: auto;"></div>
+<p><img src="Exercises/Diff/www/funH.png" width="30%" style="display: block; margin: auto;" /></p>
 <p><strong>Question H</strong> How smooth is <span class="math inline">\(f_H(x)\)</span>?</p>
     <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span>
 </details>
-</div>
-</div>
-
-  <div class="chapter-nav">
-<div class="prev"><a href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></div>
-<div class="next"><a href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivatives of assembled functions</a></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#cont-and-smooth"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
-<li><a class="nav-link" href="#continuity"><span class="header-section-number">21.1</span> Continuity</a></li>
-<li><a class="nav-link" href="#discontinuity"><span class="header-section-number">21.2</span> Discontinuity</a></li>
-<li><a class="nav-link" href="#smoothness"><span class="header-section-number">21.3</span> Smoothness</a></li>
-<li><a class="nav-link" href="#exercises-18"><span class="header-section-number">21.4</span> Exercises</a></li>
-</ul>
-
-      <div class="book-extra">
-        <ul class="list-unstyled">
-<li><a id="book-source" href="Not%20available/blob/master/Diff-cont-and-smooth.Rmd">View source <i class="fab fa-gitlab"></i></a></li>
-          <li><a id="book-edit" href="Not%20available/edit/master/Diff-cont-and-smooth.Rmd">Edit this page <i class="fab fa-gitlab"></i></a></li>
-        </ul>
-</div>
-    </nav>
-</div>
 
 </div>
-</div> <!-- .container -->
+</div>
+<div class="footnotes">
+<hr />
+<ol start="36">
+<li id="fn36"><p>The domain of the function <span class="math inline">\(1/x\)</span> is the whole number line, except 0, where the positive and negative branches fail to meet up.<a href="cont-and-smooth.html#fnref36" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
 
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
-
-  <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-10-12.</p>
+          </div>
+        </div>
+      </div>
+<a href="concavity-curvature.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="prod-comp-rules.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
   </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/Diff-cont-and-smooth.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/view/shared/Diff-cont-and-smooth.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
 
-  <div class="col-12 col-md-6 mt-3">
-    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
-  </div>
-
-</div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -446,22 +823,7 @@ $$f_H(x) \equiv \left\{\begin{array}{cl}\sin(x) & \text{for}\ 0 \leq x\\x &\text
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
 </script>
 </body>
+
 </html>

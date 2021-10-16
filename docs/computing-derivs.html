@@ -1,291 +1,620 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" xml:lang="">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 19 Computing derivatives | MOSAIC Calculus</title>
-<meta name="author" content="Daniel Kaplan">
-<meta name="description" content="To differentiate a function \(g(x)\) means simply to produce the corresponding function \(\partial_t g(x)\). This is often called “finding the derivative,” language that resonates with the...">
-<meta name="generator" content="bookdown 0.24 with bs4_book()">
-<meta property="og:title" content="Chapter 19 Computing derivatives | MOSAIC Calculus">
-<meta property="og:type" content="book">
-<meta property="og:description" content="To differentiate a function \(g(x)\) means simply to produce the corresponding function \(\partial_t g(x)\). This is often called “finding the derivative,” language that resonates with the...">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 19 Computing derivatives | MOSAIC Calculus">
-<meta name="twitter:description" content="To differentiate a function \(g(x)\) means simply to produce the corresponding function \(\partial_t g(x)\). This is often called “finding the derivative,” language that resonates with the...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="libs/plotly-binding-4.9.4.1/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="libs/datatables-binding-0.18/datatables.js"></script><link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><script type="text/x-mathjax-config">
-    const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-    for (let popover of popovers){
-      const div = document.createElement('div');
-      div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-      div.innerHTML = popover.getAttribute('data-content');
 
-      // Will this work with TeX on its own line?
-      var has_math = div.querySelector("span.math");
-      if (has_math) {
-        document.body.appendChild(div);
-      	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-      	MathJax.Hub.Queue(function(){
-          popover.setAttribute('data-content', div.innerHTML);
-      	})
-      }
-    }
-    </script>
-</head>
-<body>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 19 Computing derivatives | MOSAIC Calculus</title>
+  <meta name="description" content="Modeling-based calculus" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 19 Computing derivatives | MOSAIC Calculus" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Modeling-based calculus" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 19 Computing derivatives | MOSAIC Calculus" />
+  
+  <meta name="twitter:description" content="Modeling-based calculus" />
+  
+
+<meta name="author" content="Daniel Kaplan" />
+
+
+<meta name="date" content="2021-10-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="evanescent-h.html"/>
+<link rel="next" href="concavity-curvature.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
 <span class="math inline">
-    \(\newcommand{\line}{\text{line}}
-    \newcommand{\hump}{\text{hump}}
-    \newcommand{\sigmoid}{\text{sigmoid}}
-    \newcommand{\recip}{\text{recip}}
-    \newcommand{\diff}[1]{{\cal D}_#1}
-    \newcommand{\pnorm}{\text{pnorm}}
-    \newcommand{\dnorm}{\text{dnorm}}
-    \newcommand{\CC}[1]{\color{#648fff}{#1}}
-    \newcommand{\CE}[1]{\color{#785ef0}{#1}}
-    \newcommand{\CA}[1]{\color{#dc267f}{#1}}
-    \newcommand{\CB}[1]{\color{#fe6100}{#1}}
-    \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
-    </span>
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="CalcZ-style.css">
-<div class="container-fluid">
-<div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-    <div class="d-flex align-items-start justify-content-between">
-      <h1>
-        <a href="index.html" title="">MOSAIC Calculus</a>
-      </h1>
-      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
-    </div>
 
-    <div id="main-nav" class="collapse-lg">
-      <form role="search">
-        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">Welcome to calculus</a></li>
-<li class="book-part">Block 1: Functions and quantity</li>
-<li><a class="" href="change.html"><span class="header-section-number">1</span> Change</a></li>
-<li><a class="" href="pattern-book.html"><span class="header-section-number">2</span> Functions for modeling</a></li>
-<li><a class="" href="structure-of-a-function.html"><span class="header-section-number">3</span> Structure of a function</a></li>
-<li><a class="" href="fun-describing.html"><span class="header-section-number">4</span> Describing functions</a></li>
-<li><a class="" href="fun-notation.html"><span class="header-section-number">5</span> Notation for functions</a></li>
-<li><a class="" href="graphs-and-graphics.html"><span class="header-section-number">6</span> Graphics &amp; function graphs</a></li>
-<li><a class="" href="params-intro.html"><span class="header-section-number">7</span> Parameters for functions</a></li>
-<li><a class="" href="process-of-modeling.html"><span class="header-section-number">8</span> Finding parameters for the basic modeling functions</a></li>
-<li><a class="" href="fun-slopes.html"><span class="header-section-number">9</span> Slope function</a></li>
-<li><a class="" href="function-inverses-and-solving.html"><span class="header-section-number">10</span> Function inverses and “solving”</a></li>
-<li><a class="" href="fun-assembling.html"><span class="header-section-number">11</span> Assembling functions</a></li>
-<li><a class="" href="fun-multiple-inputs.html"><span class="header-section-number">12</span> Functions with multiple inputs</a></li>
-<li><a class="" href="fun-piecewise.html"><span class="header-section-number">13</span> Piecewise functions</a></li>
-<li><a class="" href="modeling-cycle.html"><span class="header-section-number">14</span> Modeling cycle</a></li>
-<li><a class="" href="magnitudes.html"><span class="header-section-number">15</span> Magnitudes</a></li>
-<li><a class="" href="dimensions.html"><span class="header-section-number">16</span> Dimensions</a></li>
-<li><a class="" href="projects-and-review.html">Projects and review</a></li>
-<li class="book-part">Block 2: Differentiation</li>
-<li><a class="" href="prolog-differentiation-and-birth.html">Prolog: Differentiation and birth</a></li>
-<li><a class="" href="change-relationships.html"><span class="header-section-number">17</span> Change relationships</a></li>
-<li><a class="" href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></li>
-<li><a class="active" href="computing-derivs.html"><span class="header-section-number">19</span> Computing derivatives</a></li>
-<li><a class="" href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></li>
-<li><a class="" href="cont-and-smooth.html"><span class="header-section-number">21</span> Continuity and smoothness</a></li>
-<li><a class="" href="prod-comp-rules.html"><span class="header-section-number">22</span> Derivatives of assembled functions</a></li>
-<li><a class="" href="optim-and-shape.html"><span class="header-section-number">23</span> Optimization</a></li>
-<li><a class="" href="partial-change.html"><span class="header-section-number">24</span> Partial change</a></li>
-<li><a class="" href="local-approximations.html"><span class="header-section-number">25</span> Local approximations</a></li>
-<li><a class="" href="polynomials.html"><span class="header-section-number">26</span> Polynomials</a></li>
-<li class="book-part">Block 3: Accumulation</li>
-<li><a class="" href="change-accumulation.html"><span class="header-section-number">27</span> Change and accumulation</a></li>
-<li><a class="" href="totaling-bits.html"><span class="header-section-number">28</span> Totaling the little bits</a></li>
-<li><a class="" href="net-change.html"><span class="header-section-number">29</span> Integration</a></li>
-<li><a class="" href="integrals-step-by-step.html"><span class="header-section-number">30</span> Integrals step-by-step</a></li>
-<li><a class="" href="accum-symbolic.html"><span class="header-section-number">31</span> Symbolic anti-differentiation</a></li>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">CalcZ</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html"><i class="fa fa-check"></i>Welcome to calculus</a>
+<ul>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#computing-and-apps"><i class="fa fa-check"></i>Computing and apps</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#exercises-and-feedback"><i class="fa fa-check"></i>Exercises and feedback</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#practice-practice-practice"><i class="fa fa-check"></i>Practice, practice, practice</a></li>
+<li class="chapter" data-level="" data-path="welcome-to-calculus.html"><a href="welcome-to-calculus.html#software-for-the-course"><i class="fa fa-check"></i>Software for the course</a></li>
+</ul></li>
+<li class="part"><span><b>I Block 1: Functions and quantity</b></span></li>
+<li class="chapter" data-level="1" data-path="change.html"><a href="change.html"><i class="fa fa-check"></i><b>1</b> Change</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="change.html"><a href="change.html#quantity-vs-number"><i class="fa fa-check"></i><b>1.1</b> Quantity vs number</a></li>
+<li class="chapter" data-level="1.2" data-path="change.html"><a href="change.html#functions"><i class="fa fa-check"></i><b>1.2</b> Functions</a></li>
+<li class="chapter" data-level="1.3" data-path="change.html"><a href="change.html#fundamental-model-of-change"><i class="fa fa-check"></i><b>1.3</b> Fundamental model of change</a></li>
+<li class="chapter" data-level="1.4" data-path="change.html"><a href="change.html#exercises"><i class="fa fa-check"></i><b>1.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pattern-book.html"><a href="pattern-book.html"><i class="fa fa-check"></i><b>2</b> Functions for modeling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pattern-book.html"><a href="pattern-book.html#pattern-book-functions"><i class="fa fa-check"></i><b>2.1</b> Pattern-book functions</a></li>
+<li class="chapter" data-level="2.2" data-path="pattern-book.html"><a href="pattern-book.html#the-power-law-family"><i class="fa fa-check"></i><b>2.2</b> The power-law family</a></li>
+<li class="chapter" data-level="2.3" data-path="pattern-book.html"><a href="pattern-book.html#constructing-functions"><i class="fa fa-check"></i><b>2.3</b> Constructing functions</a></li>
+<li class="chapter" data-level="2.4" data-path="pattern-book.html"><a href="pattern-book.html#function-shapes"><i class="fa fa-check"></i><b>2.4</b> Function shapes</a></li>
+<li class="chapter" data-level="2.5" data-path="pattern-book.html"><a href="pattern-book.html#exercises-1"><i class="fa fa-check"></i><b>2.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html"><i class="fa fa-check"></i><b>3</b> Structure of a function</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#inputs-to-output"><i class="fa fa-check"></i><b>3.1</b> Inputs to output</a></li>
+<li class="chapter" data-level="3.2" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#bureaucratic"><i class="fa fa-check"></i><b>3.2</b> A bureaucratic analogy</a></li>
+<li class="chapter" data-level="3.3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#domain-input-space"><i class="fa fa-check"></i><b>3.3</b> Domain: input space</a></li>
+<li class="chapter" data-level="3.4" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#range-output-space"><i class="fa fa-check"></i><b>3.4</b> Range: output space</a></li>
+<li class="chapter" data-level="3.5" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#formulas-in-r"><i class="fa fa-check"></i><b>3.5</b> Formulas in R</a></li>
+<li class="chapter" data-level="3.6" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#exercises-2"><i class="fa fa-check"></i><b>3.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="fun-describing.html"><a href="fun-describing.html"><i class="fa fa-check"></i><b>4</b> Describing functions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="fun-describing.html"><a href="fun-describing.html#slice-plot-intro"><i class="fa fa-check"></i><b>4.1</b> Graphing a function</a></li>
+<li class="chapter" data-level="4.2" data-path="fun-describing.html"><a href="fun-describing.html#tables-of-inputs-and-outputs"><i class="fa fa-check"></i><b>4.2</b> Tables of inputs and outputs</a></li>
+<li class="chapter" data-level="4.3" data-path="fun-describing.html"><a href="fun-describing.html#word-descriptions"><i class="fa fa-check"></i><b>4.3</b> Word descriptions</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="fun-describing.html"><a href="fun-describing.html#concavity"><i class="fa fa-check"></i><b>4.3.1</b> Concavity</a></li>
+<li class="chapter" data-level="4.3.2" data-path="fun-describing.html"><a href="fun-describing.html#continuity-intro"><i class="fa fa-check"></i><b>4.3.2</b> Continuity</a></li>
+<li class="chapter" data-level="4.3.3" data-path="fun-describing.html"><a href="fun-describing.html#monotonicity"><i class="fa fa-check"></i><b>4.3.3</b> Monotonicity</a></li>
+<li class="chapter" data-level="4.3.4" data-path="fun-describing.html"><a href="fun-describing.html#periodicity"><i class="fa fa-check"></i><b>4.3.4</b> Periodicity</a></li>
+<li class="chapter" data-level="4.3.5" data-path="fun-describing.html"><a href="fun-describing.html#asymptotic-behavior"><i class="fa fa-check"></i><b>4.3.5</b> Asymptotic behavior</a></li>
+<li class="chapter" data-level="4.3.6" data-path="fun-describing.html"><a href="fun-describing.html#local-extremes"><i class="fa fa-check"></i><b>4.3.6</b> Locally extreme points</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="fun-describing.html"><a href="fun-describing.html#computer-function-names"><i class="fa fa-check"></i><b>4.4</b> Computer function names</a></li>
+<li class="chapter" data-level="4.5" data-path="fun-describing.html"><a href="fun-describing.html#mathematical-notation"><i class="fa fa-check"></i><b>4.5</b> Mathematical notation</a></li>
+<li class="chapter" data-level="4.6" data-path="fun-describing.html"><a href="fun-describing.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fun-notation.html"><a href="fun-notation.html"><i class="fa fa-check"></i><b>5</b> Notation for functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fun-notation.html"><a href="fun-notation.html#a-notation-for-computing"><i class="fa fa-check"></i><b>5.1</b> A notation for computing</a></li>
+<li class="chapter" data-level="5.2" data-path="fun-notation.html"><a href="fun-notation.html#words-for-using-functions"><i class="fa fa-check"></i><b>5.2</b> Words for using functions</a></li>
+<li class="chapter" data-level="5.3" data-path="fun-notation.html"><a href="fun-notation.html#algorithms"><i class="fa fa-check"></i><b>5.3</b> Formulas and algorithms</a></li>
+<li class="chapter" data-level="5.4" data-path="fun-notation.html"><a href="fun-notation.html#algorithms-without-formulas"><i class="fa fa-check"></i><b>5.4</b> Algorithms without formulas</a></li>
+<li class="chapter" data-level="5.5" data-path="fun-notation.html"><a href="fun-notation.html#computer-notation"><i class="fa fa-check"></i><b>5.5</b> Computer notation</a></li>
+<li class="chapter" data-level="5.6" data-path="fun-notation.html"><a href="fun-notation.html#calcz-naming-conventions"><i class="fa fa-check"></i><b>5.6</b> CalcZ naming conventions</a></li>
+<li class="chapter" data-level="5.7" data-path="fun-notation.html"><a href="fun-notation.html#functions-in-r"><i class="fa fa-check"></i><b>5.7</b> Functions in R</a></li>
+<li class="chapter" data-level="5.8" data-path="fun-notation.html"><a href="fun-notation.html#foursigns"><i class="fa fa-check"></i><b>5.8</b> <span class="math inline">\(=\)</span>, <span class="math inline">\(\equiv\)</span>, <span class="math inline">\(\rightarrow\)</span>, <code>&lt;-</code></a></li>
+<li class="chapter" data-level="5.9" data-path="fun-notation.html"><a href="fun-notation.html#exercises-4"><i class="fa fa-check"></i><b>5.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html"><i class="fa fa-check"></i><b>6</b> Graphics &amp; function graphs</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#the-graphics-frame"><i class="fa fa-check"></i><b>6.1</b> The graphics frame</a></li>
+<li class="chapter" data-level="6.2" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-graphics-the-point-plot"><i class="fa fa-check"></i><b>6.2</b> Data graphics: the point plot</a></li>
+<li class="chapter" data-level="6.3" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#function-graphs"><i class="fa fa-check"></i><b>6.3</b> Function graphs</a></li>
+<li class="chapter" data-level="6.4" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#graphics-layers"><i class="fa fa-check"></i><b>6.4</b> Graphics layers</a></li>
+<li class="chapter" data-level="6.5" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-and-functions"><i class="fa fa-check"></i><b>6.5</b> Data and functions</a></li>
+<li class="chapter" data-level="6.6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#inputs-to-output-1"><i class="fa fa-check"></i><b>6.6</b> Inputs to output</a></li>
+<li class="chapter" data-level="6.7" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#outputs-to-inputs"><i class="fa fa-check"></i><b>6.7</b> Outputs to inputs</a></li>
+<li class="chapter" data-level="6.8" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#surface-plot"><i class="fa fa-check"></i><b>6.8</b> Graphs of functions with two inputs</a></li>
+<li class="chapter" data-level="6.9" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#contour-plots"><i class="fa fa-check"></i><b>6.9</b> Contour plots</a></li>
+<li class="chapter" data-level="6.10" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#slice-plots"><i class="fa fa-check"></i><b>6.10</b> Slice plots</a></li>
+<li class="chapter" data-level="6.11" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#exercises-5"><i class="fa fa-check"></i><b>6.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="params-intro.html"><a href="params-intro.html"><i class="fa fa-check"></i><b>7</b> Parameters for functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="params-intro.html"><a href="params-intro.html#parallel-scales"><i class="fa fa-check"></i><b>7.1</b> Parallel scales</a></li>
+<li class="chapter" data-level="7.2" data-path="params-intro.html"><a href="params-intro.html#scaling-the-input"><i class="fa fa-check"></i><b>7.2</b> Scaling the input</a></li>
+<li class="chapter" data-level="7.3" data-path="params-intro.html"><a href="params-intro.html#scale-the-output"><i class="fa fa-check"></i><b>7.3</b> Scale the output</a></li>
+<li class="chapter" data-level="7.4" data-path="params-intro.html"><a href="params-intro.html#linear-combinations"><i class="fa fa-check"></i><b>7.4</b> Linear combinations</a></li>
+<li class="chapter" data-level="7.5" data-path="params-intro.html"><a href="params-intro.html#exercises-6"><i class="fa fa-check"></i><b>7.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="process-of-modeling.html"><a href="process-of-modeling.html"><i class="fa fa-check"></i><b>8</b> Finding parameters for the basic modeling functions</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="process-of-modeling.html"><a href="process-of-modeling.html#variations-from-scaling"><i class="fa fa-check"></i><b>8.1</b> Variations from scaling</a></li>
+<li class="chapter" data-level="8.2" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-periodic"><i class="fa fa-check"></i><b>8.2</b> Curve fitting a periodic function</a></li>
+<li class="chapter" data-level="8.3" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-exponential"><i class="fa fa-check"></i><b>8.3</b> Curve fitting an exponential function</a></li>
+<li class="chapter" data-level="8.4" data-path="process-of-modeling.html"><a href="process-of-modeling.html#curve-fitting-a-power-law-function"><i class="fa fa-check"></i><b>8.4</b> Curve fitting a power-law function</a></li>
+<li class="chapter" data-level="8.5" data-path="process-of-modeling.html"><a href="process-of-modeling.html#gaussian-and-sigmoid-functions"><i class="fa fa-check"></i><b>8.5</b> Gaussian and sigmoid functions</a></li>
+<li class="chapter" data-level="8.6" data-path="process-of-modeling.html"><a href="process-of-modeling.html#exercises-7"><i class="fa fa-check"></i><b>8.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="fun-slopes.html"><a href="fun-slopes.html"><i class="fa fa-check"></i><b>9</b> Slope function</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="fun-slopes.html"><a href="fun-slopes.html#change-and-slope"><i class="fa fa-check"></i><b>9.1</b> Change and slope</a></li>
+<li class="chapter" data-level="9.2" data-path="fun-slopes.html"><a href="fun-slopes.html#continuous-change"><i class="fa fa-check"></i><b>9.2</b> Continuous change</a></li>
+<li class="chapter" data-level="9.3" data-path="fun-slopes.html"><a href="fun-slopes.html#slope"><i class="fa fa-check"></i><b>9.3</b> Slope</a></li>
+<li class="chapter" data-level="9.4" data-path="fun-slopes.html"><a href="fun-slopes.html#the-fitted-line"><i class="fa fa-check"></i><b>9.4</b> The fitted line</a></li>
+<li class="chapter" data-level="9.5" data-path="fun-slopes.html"><a href="fun-slopes.html#average-rate-of-change"><i class="fa fa-check"></i><b>9.5</b> Average rate of change</a></li>
+<li class="chapter" data-level="9.6" data-path="fun-slopes.html"><a href="fun-slopes.html#instantaneous-rate-of-change"><i class="fa fa-check"></i><b>9.6</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="9.7" data-path="fun-slopes.html"><a href="fun-slopes.html#exercises-8"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html"><i class="fa fa-check"></i><b>10</b> Function inverses and “solving”</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#function-inverses"><i class="fa fa-check"></i><b>10.1</b> Function inverses</a></li>
+<li class="chapter" data-level="10.2" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#solving-graphically"><i class="fa fa-check"></i><b>10.2</b> Solving graphically</a></li>
+<li class="chapter" data-level="10.3" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#zero-finding"><i class="fa fa-check"></i><b>10.3</b> Zero-finding</a></li>
+<li class="chapter" data-level="10.4" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#exercises-9"><i class="fa fa-check"></i><b>10.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="fun-assembling.html"><a href="fun-assembling.html"><i class="fa fa-check"></i><b>11</b> Assembling functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="fun-assembling.html"><a href="fun-assembling.html#linear-combination"><i class="fa fa-check"></i><b>11.1</b> Linear combination</a></li>
+<li class="chapter" data-level="11.2" data-path="fun-assembling.html"><a href="fun-assembling.html#function-composition"><i class="fa fa-check"></i><b>11.2</b> Function composition</a></li>
+<li class="chapter" data-level="11.3" data-path="fun-assembling.html"><a href="fun-assembling.html#modeling-polynomial-1"><i class="fa fa-check"></i><b>11.3</b> The modeling polynomial</a></li>
+<li class="chapter" data-level="11.4" data-path="fun-assembling.html"><a href="fun-assembling.html#function-multiplication"><i class="fa fa-check"></i><b>11.4</b> Function multiplication</a></li>
+<li class="chapter" data-level="11.5" data-path="fun-assembling.html"><a href="fun-assembling.html#all-together-now"><i class="fa fa-check"></i><b>11.5</b> All together now!</a></li>
+<li class="chapter" data-level="11.6" data-path="fun-assembling.html"><a href="fun-assembling.html#exercises-10"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html"><i class="fa fa-check"></i><b>12</b> Functions with multiple inputs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#fx-times-gt"><i class="fa fa-check"></i><b>12.1</b> f(x) times g(t)</a></li>
+<li class="chapter" data-level="12.2" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#two-variable-modeling-polynomial"><i class="fa fa-check"></i><b>12.2</b> Two-variable modeling polynomial</a></li>
+<li class="chapter" data-level="12.3" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#exercises-11"><i class="fa fa-check"></i><b>12.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="fun-piecewise.html"><a href="fun-piecewise.html"><i class="fa fa-check"></i><b>13</b> Piecewise functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="fun-piecewise.html"><a href="fun-piecewise.html#splitting-the-domain"><i class="fa fa-check"></i><b>13.1</b> Splitting the domain</a></li>
+<li class="chapter" data-level="13.2" data-path="fun-piecewise.html"><a href="fun-piecewise.html#basic-piecewise-functions"><i class="fa fa-check"></i><b>13.2</b> Basic piecewise functions</a></li>
+<li class="chapter" data-level="13.3" data-path="fun-piecewise.html"><a href="fun-piecewise.html#exercises-12"><i class="fa fa-check"></i><b>13.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="modeling-cycle.html"><a href="modeling-cycle.html"><i class="fa fa-check"></i><b>14</b> Modeling cycle</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-cooling-water"><i class="fa fa-check"></i><b>14.1</b> Example: Cooling water</a></li>
+<li class="chapter" data-level="14.2" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-the-tides"><i class="fa fa-check"></i><b>14.2</b> Example: The tides</a></li>
+<li class="chapter" data-level="14.3" data-path="modeling-cycle.html"><a href="modeling-cycle.html#modeling-project"><i class="fa fa-check"></i><b>14.3</b> Modeling project</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="magnitudes.html"><a href="magnitudes.html"><i class="fa fa-check"></i><b>15</b> Magnitudes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="magnitudes.html"><a href="magnitudes.html#counting-digits"><i class="fa fa-check"></i><b>15.1</b> Counting digits</a></li>
+<li class="chapter" data-level="15.2" data-path="magnitudes.html"><a href="magnitudes.html#using-digit-to-understand-magnitude"><i class="fa fa-check"></i><b>15.2</b> Using digit() to understand magnitude</a></li>
+<li class="chapter" data-level="15.3" data-path="magnitudes.html"><a href="magnitudes.html#quantity-and-magnitude"><i class="fa fa-check"></i><b>15.3</b> Quantity and magnitude</a></li>
+<li class="chapter" data-level="15.4" data-path="magnitudes.html"><a href="magnitudes.html#composing-ln"><i class="fa fa-check"></i><b>15.4</b> Composing <span class="math inline">\(\ln()\)</span></a></li>
+<li class="chapter" data-level="15.5" data-path="magnitudes.html"><a href="magnitudes.html#magnitude-graphics"><i class="fa fa-check"></i><b>15.5</b> Magnitude graphics</a></li>
+<li class="chapter" data-level="15.6" data-path="magnitudes.html"><a href="magnitudes.html#reading-log-axes"><i class="fa fa-check"></i><b>15.6</b> Reading logarithmic scales</a></li>
+<li class="chapter" data-level="15.7" data-path="magnitudes.html"><a href="magnitudes.html#fractional-digits"><i class="fa fa-check"></i><b>15.7</b> Fractional digits (optional)</a></li>
+<li class="chapter" data-level="15.8" data-path="magnitudes.html"><a href="magnitudes.html#exercises-13"><i class="fa fa-check"></i><b>15.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="dimensions.html"><a href="dimensions.html"><i class="fa fa-check"></i><b>16</b> Dimensions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="dimensions.html"><a href="dimensions.html#mathematics-of-quantity"><i class="fa fa-check"></i><b>16.1</b> Mathematics of quantity</a></li>
+<li class="chapter" data-level="16.2" data-path="dimensions.html"><a href="dimensions.html#compound-dimensions"><i class="fa fa-check"></i><b>16.2</b> Compound dimensions</a></li>
+<li class="chapter" data-level="16.3" data-path="dimensions.html"><a href="dimensions.html#arithmetic-with-dimensions"><i class="fa fa-check"></i><b>16.3</b> Arithmetic with dimensions</a></li>
+<li class="chapter" data-level="16.4" data-path="dimensions.html"><a href="dimensions.html#pendulum-dimensions"><i class="fa fa-check"></i><b>16.4</b> Example: Dimensional analysis</a></li>
+<li class="chapter" data-level="16.5" data-path="dimensions.html"><a href="dimensions.html#conversion-flavors-of-1"><i class="fa fa-check"></i><b>16.5</b> Conversion: Flavors of 1</a></li>
+<li class="chapter" data-level="16.6" data-path="dimensions.html"><a href="dimensions.html#dimensions-and-linear-combinations"><i class="fa fa-check"></i><b>16.6</b> Dimensions and linear combinations</a></li>
+<li class="chapter" data-level="16.7" data-path="dimensions.html"><a href="dimensions.html#exercises-14"><i class="fa fa-check"></i><b>16.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html"><i class="fa fa-check"></i>Projects and review</a>
+<ul>
+<li class="chapter" data-level="16.8" data-path="projects-and-review.html"><a href="projects-and-review.html#ebola-in-guinea-part-i"><i class="fa fa-check"></i><b>16.8</b> Ebola in Guinea, part I</a>
+<ul>
+<li class="chapter" data-level="16.8.1" data-path="projects-and-review.html"><a href="projects-and-review.html#data"><i class="fa fa-check"></i><b>16.8.1</b> Data</a></li>
+<li class="chapter" data-level="16.8.2" data-path="projects-and-review.html"><a href="projects-and-review.html#exploring-the-data"><i class="fa fa-check"></i><b>16.8.2</b> Exploring the Data</a></li>
+<li class="chapter" data-level="16.8.3" data-path="projects-and-review.html"><a href="projects-and-review.html#data-wrangling"><i class="fa fa-check"></i><b>16.8.3</b> Data Wrangling</a></li>
+</ul></li>
+<li class="chapter" data-level="16.9" data-path="projects-and-review.html"><a href="projects-and-review.html#analysis-of-the-outbreak"><i class="fa fa-check"></i><b>16.9</b> Analysis of the outbreak</a></li>
+<li class="chapter" data-level="16.10" data-path="projects-and-review.html"><a href="projects-and-review.html#more-data-smoothing"><i class="fa fa-check"></i><b>16.10</b> More data smoothing</a></li>
+<li class="chapter" data-level="16.11" data-path="projects-and-review.html"><a href="projects-and-review.html#final-thoughts"><i class="fa fa-check"></i><b>16.11</b> Final thoughts</a></li>
+</ul></li>
+<li class="part"><span><b>II Block 2: Differentiation</b></span></li>
+<li class="chapter" data-level="" data-path="prolog-differentiation-and-birth.html"><a href="prolog-differentiation-and-birth.html"><i class="fa fa-check"></i>Prolog: Differentiation and birth</a></li>
+<li class="chapter" data-level="17" data-path="change-relationships.html"><a href="change-relationships.html"><i class="fa fa-check"></i><b>17</b> Change relationships</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="change-relationships.html"><a href="change-relationships.html#mathematics-in-motion"><i class="fa fa-check"></i><b>17.1</b> Mathematics in motion</a></li>
+<li class="chapter" data-level="17.2" data-path="change-relationships.html"><a href="change-relationships.html#continuous-time"><i class="fa fa-check"></i><b>17.2</b> Continuous time</a></li>
+<li class="chapter" data-level="17.3" data-path="change-relationships.html"><a href="change-relationships.html#instantaneous-rate-of-change-1"><i class="fa fa-check"></i><b>17.3</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="17.4" data-path="change-relationships.html"><a href="change-relationships.html#slopes-and-motion"><i class="fa fa-check"></i><b>17.4</b> Slopes and motion</a></li>
+<li class="chapter" data-level="17.5" data-path="change-relationships.html"><a href="change-relationships.html#acceleration"><i class="fa fa-check"></i><b>17.5</b> Acceleration</a></li>
+<li class="chapter" data-level="17.6" data-path="change-relationships.html"><a href="change-relationships.html#notations-for-differentiation"><i class="fa fa-check"></i><b>17.6</b> Notations for differentiation</a></li>
+<li class="chapter" data-level="17.7" data-path="change-relationships.html"><a href="change-relationships.html#slope-fun-visualization"><i class="fa fa-check"></i><b>17.7</b> Visualizing the slope function</a></li>
+<li class="chapter" data-level="17.8" data-path="change-relationships.html"><a href="change-relationships.html#dimension-of-derivatives"><i class="fa fa-check"></i><b>17.8</b> Dimension of derivatives</a></li>
+<li class="chapter" data-level="17.9" data-path="change-relationships.html"><a href="change-relationships.html#exercises-15"><i class="fa fa-check"></i><b>17.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="evanescent-h.html"><a href="evanescent-h.html"><i class="fa fa-check"></i><b>18</b> Evanescent h</a></li>
+<li class="chapter" data-level="19" data-path="computing-derivs.html"><a href="computing-derivs.html"><i class="fa fa-check"></i><b>19</b> Computing derivatives</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="computing-derivs.html"><a href="computing-derivs.html#a-function-from-a-function"><i class="fa fa-check"></i><b>19.1</b> A function from a function</a></li>
+<li class="chapter" data-level="19.2" data-path="computing-derivs.html"><a href="computing-derivs.html#finite-differencing"><i class="fa fa-check"></i><b>19.2</b> Finite differencing</a></li>
+<li class="chapter" data-level="19.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-slope-function-operator"><i class="fa fa-check"></i><b>19.3</b> The slope-function operator</a></li>
+<li class="chapter" data-level="19.4" data-path="computing-derivs.html"><a href="computing-derivs.html#symbolic-differentiation"><i class="fa fa-check"></i><b>19.4</b> Symbolic differentiation</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="computing-derivs.html"><a href="computing-derivs.html#the-line-rule"><i class="fa fa-check"></i><b>19.4.1</b> The line rule</a></li>
+<li class="chapter" data-level="19.4.2" data-path="computing-derivs.html"><a href="computing-derivs.html#the-square-rule"><i class="fa fa-check"></i><b>19.4.2</b> The square rule</a></li>
+<li class="chapter" data-level="19.4.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-exponential-rule"><i class="fa fa-check"></i><b>19.4.3</b> The exponential rule</a></li>
+<li class="chapter" data-level="19.4.4" data-path="computing-derivs.html"><a href="computing-derivs.html#the-reciprocal-rule"><i class="fa fa-check"></i><b>19.4.4</b> The reciprocal rule</a></li>
+<li class="chapter" data-level="19.4.5" data-path="computing-derivs.html"><a href="computing-derivs.html#power-law-rule"><i class="fa fa-check"></i><b>19.4.5</b> Power-law rule</a></li>
+<li class="chapter" data-level="19.4.6" data-path="computing-derivs.html"><a href="computing-derivs.html#pattern-book-derivs"><i class="fa fa-check"></i><b>19.4.6</b> List of pattern-book rules</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="computing-derivs.html"><a href="computing-derivs.html#exercises-16"><i class="fa fa-check"></i><b>19.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="concavity-curvature.html"><a href="concavity-curvature.html"><i class="fa fa-check"></i><b>20</b> Concavity and curvature</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="concavity-curvature.html"><a href="concavity-curvature.html#quantifing-concavity-and-curvature"><i class="fa fa-check"></i><b>20.1</b> Quantifing concavity and curvature</a></li>
+<li class="chapter" data-level="20.2" data-path="concavity-curvature.html"><a href="concavity-curvature.html#concavity-deriv"><i class="fa fa-check"></i><b>20.2</b> Concavity</a></li>
+<li class="chapter" data-level="20.3" data-path="concavity-curvature.html"><a href="concavity-curvature.html#curvature-definition"><i class="fa fa-check"></i><b>20.3</b> Curvature</a></li>
+<li class="chapter" data-level="20.4" data-path="concavity-curvature.html"><a href="concavity-curvature.html#exercises-17"><i class="fa fa-check"></i><b>20.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html"><i class="fa fa-check"></i><b>21</b> Continuity and smoothness</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#continuity"><i class="fa fa-check"></i><b>21.1</b> Continuity</a></li>
+<li class="chapter" data-level="21.2" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#discontinuity"><i class="fa fa-check"></i><b>21.2</b> Discontinuity</a></li>
+<li class="chapter" data-level="21.3" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#smoothness"><i class="fa fa-check"></i><b>21.3</b> Smoothness</a></li>
+<li class="chapter" data-level="21.4" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#exercises-18"><i class="fa fa-check"></i><b>21.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html"><i class="fa fa-check"></i><b>22</b> Derivatives of assembled functions</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#using-the-rules"><i class="fa fa-check"></i><b>22.1</b> Using the rules</a></li>
+<li class="chapter" data-level="22.2" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#differentiating-linear-combinations"><i class="fa fa-check"></i><b>22.2</b> Differentiating linear combinations</a></li>
+<li class="chapter" data-level="22.3" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#product-rule-for-multiplied-functions"><i class="fa fa-check"></i><b>22.3</b> Product rule for multiplied functions</a></li>
+<li class="chapter" data-level="22.4" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#chain-rule-for-function-composition"><i class="fa fa-check"></i><b>22.4</b> Chain rule for function composition</a></li>
+<li class="chapter" data-level="22.5" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#basic-derivs"><i class="fa fa-check"></i><b>22.5</b> Derivatives of the basic modeling functions</a></li>
+<li class="chapter" data-level="22.6" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exponentials-and-logarithms-optional"><i class="fa fa-check"></i><b>22.6</b> Exponentials and logarithms (optional)</a></li>
+<li class="chapter" data-level="22.7" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exercises-19"><i class="fa fa-check"></i><b>22.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="optim-and-shape.html"><a href="optim-and-shape.html"><i class="fa fa-check"></i><b>23</b> Optimization</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="optim-and-shape.html"><a href="optim-and-shape.html#structure-of-the-problem"><i class="fa fa-check"></i><b>23.1</b> Structure of the problem</a></li>
+<li class="chapter" data-level="23.2" data-path="optim-and-shape.html"><a href="optim-and-shape.html#interpreting-the-argmax"><i class="fa fa-check"></i><b>23.2</b> Interpreting the argmax</a></li>
+<li class="chapter" data-level="23.3" data-path="optim-and-shape.html"><a href="optim-and-shape.html#derivatives-and-optimization"><i class="fa fa-check"></i><b>23.3</b> Derivatives and optimization</a></li>
+<li class="chapter" data-level="23.4" data-path="optim-and-shape.html"><a href="optim-and-shape.html#flat-on-top"><i class="fa fa-check"></i><b>23.4</b> Be practical!</a></li>
+<li class="chapter" data-level="23.5" data-path="optim-and-shape.html"><a href="optim-and-shape.html#exercises-20"><i class="fa fa-check"></i><b>23.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="partial-change.html"><a href="partial-change.html"><i class="fa fa-check"></i><b>24</b> Partial change</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="partial-change.html"><a href="partial-change.html#calculus-on-two-inputs"><i class="fa fa-check"></i><b>24.1</b> Calculus on two inputs</a></li>
+<li class="chapter" data-level="24.2" data-path="partial-change.html"><a href="partial-change.html#all-other-things-being-equal"><i class="fa fa-check"></i><b>24.2</b> All other things being equal …</a></li>
+<li class="chapter" data-level="24.3" data-path="partial-change.html"><a href="partial-change.html#gradient-vector"><i class="fa fa-check"></i><b>24.3</b> Gradient vector</a></li>
+<li class="chapter" data-level="24.4" data-path="partial-change.html"><a href="partial-change.html#total-derivative-optional"><i class="fa fa-check"></i><b>24.4</b> Total derivative (optional)</a></li>
+<li class="chapter" data-level="24.5" data-path="partial-change.html"><a href="partial-change.html#differential-skier"><i class="fa fa-check"></i><b>24.5</b> Differentials</a></li>
+<li class="chapter" data-level="24.6" data-path="partial-change.html"><a href="partial-change.html#exercises-21"><i class="fa fa-check"></i><b>24.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="local-approximations.html"><a href="local-approximations.html"><i class="fa fa-check"></i><b>25</b> Local approximations</a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="local-approximations.html"><a href="local-approximations.html#eight-simple-shapes"><i class="fa fa-check"></i><b>25.1</b> Eight simple shapes</a></li>
+<li class="chapter" data-level="25.2" data-path="local-approximations.html"><a href="local-approximations.html#low-order-polynomials"><i class="fa fa-check"></i><b>25.2</b> Low-order polynomials</a></li>
+<li class="chapter" data-level="25.3" data-path="local-approximations.html"><a href="local-approximations.html#low-order-two"><i class="fa fa-check"></i><b>25.3</b> The low-order polynomial with two inputs</a></li>
+<li class="chapter" data-level="25.4" data-path="local-approximations.html"><a href="local-approximations.html#finding-coefficients-from-data"><i class="fa fa-check"></i><b>25.4</b> Finding coefficients from data</a></li>
+<li class="chapter" data-level="25.5" data-path="local-approximations.html"><a href="local-approximations.html#exercises-22"><i class="fa fa-check"></i><b>25.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="polynomials.html"><a href="polynomials.html"><i class="fa fa-check"></i><b>26</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="polynomials.html"><a href="polynomials.html#polynomial-basics"><i class="fa fa-check"></i><b>26.1</b> Basics of polynomials with one input</a></li>
+<li class="chapter" data-level="26.2" data-path="polynomials.html"><a href="polynomials.html#multiple-inputs"><i class="fa fa-check"></i><b>26.2</b> Multiple inputs?</a></li>
+<li class="chapter" data-level="26.3" data-path="polynomials.html"><a href="polynomials.html#high-order-approx"><i class="fa fa-check"></i><b>26.3</b> High-order approximations</a></li>
+<li class="chapter" data-level="26.4" data-path="polynomials.html"><a href="polynomials.html#indeterminate-forms"><i class="fa fa-check"></i><b>26.4</b> Indeterminate forms</a></li>
+<li class="chapter" data-level="26.5" data-path="polynomials.html"><a href="polynomials.html#computing-with-indeterminate-forms"><i class="fa fa-check"></i><b>26.5</b> Computing with indeterminate forms</a></li>
+<li class="chapter" data-level="26.6" data-path="polynomials.html"><a href="polynomials.html#exercises-23"><i class="fa fa-check"></i><b>26.6</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Block 3: Accumulation</b></span></li>
+<li class="chapter" data-level="27" data-path="change-accumulation.html"><a href="change-accumulation.html"><i class="fa fa-check"></i><b>27</b> Change and accumulation</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="change-accumulation.html"><a href="change-accumulation.html#accumulation"><i class="fa fa-check"></i><b>27.1</b> Accumulation</a></li>
+<li class="chapter" data-level="27.2" data-path="change-accumulation.html"><a href="change-accumulation.html#notation-for-anti-differentiation"><i class="fa fa-check"></i><b>27.2</b> Notation for anti-differentiation</a></li>
+<li class="chapter" data-level="27.3" data-path="change-accumulation.html"><a href="change-accumulation.html#rmosaic-notation"><i class="fa fa-check"></i><b>27.3</b> R/mosaic notation</a></li>
+<li class="chapter" data-level="27.4" data-path="change-accumulation.html"><a href="change-accumulation.html#dimension-and-anti-differentiation"><i class="fa fa-check"></i><b>27.4</b> Dimension and anti-differentiation</a></li>
+<li class="chapter" data-level="27.5" data-path="change-accumulation.html"><a href="change-accumulation.html#preliminary-terrors"><i class="fa fa-check"></i><b>27.5</b> From <em>Calculus Made Easy</em></a></li>
+<li class="chapter" data-level="27.6" data-path="change-accumulation.html"><a href="change-accumulation.html#exercises-24"><i class="fa fa-check"></i><b>27.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="totaling-bits.html"><a href="totaling-bits.html"><i class="fa fa-check"></i><b>28</b> Totaling the little bits</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="totaling-bits.html"><a href="totaling-bits.html#the-notation-of-little-bits"><i class="fa fa-check"></i><b>28.1</b> The notation of little bits</a></li>
+<li class="chapter" data-level="28.2" data-path="totaling-bits.html"><a href="totaling-bits.html#exercises-25"><i class="fa fa-check"></i><b>28.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="net-change.html"><a href="net-change.html"><i class="fa fa-check"></i><b>29</b> Integration</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="net-change.html"><a href="net-change.html#net-change-1"><i class="fa fa-check"></i><b>29.1</b> Net change</a></li>
+<li class="chapter" data-level="29.2" data-path="net-change.html"><a href="net-change.html#the-definite-integral"><i class="fa fa-check"></i><b>29.2</b> The “definite” integral</a></li>
+<li class="chapter" data-level="29.3" data-path="net-change.html"><a href="net-change.html#initial-value-of-the-quantity"><i class="fa fa-check"></i><b>29.3</b> Initial value of the quantity</a></li>
+<li class="chapter" data-level="29.4" data-path="net-change.html"><a href="net-change.html#integrals-from-bottom-to-top"><i class="fa fa-check"></i><b>29.4</b> Integrals from bottom to top</a></li>
+<li class="chapter" data-level="29.5" data-path="net-change.html"><a href="net-change.html#exercises-26"><i class="fa fa-check"></i><b>29.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html"><i class="fa fa-check"></i><b>30</b> Integrals step-by-step</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#euler-method"><i class="fa fa-check"></i><b>30.1</b> Euler method</a></li>
+<li class="chapter" data-level="30.2" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#area"><i class="fa fa-check"></i><b>30.2</b> Area</a></li>
+<li class="chapter" data-level="30.3" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#the-euler-step"><i class="fa fa-check"></i><b>30.3</b> The Euler Step</a></li>
+<li class="chapter" data-level="30.4" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#better-numerics-optional"><i class="fa fa-check"></i><b>30.4</b> Better numerics (optional)</a></li>
+<li class="chapter" data-level="30.5" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#exercises-27"><i class="fa fa-check"></i><b>30.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="accum-symbolic.html"><a href="accum-symbolic.html"><i class="fa fa-check"></i><b>31</b> Symbolic anti-differentiation</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="accum-symbolic.html"><a href="accum-symbolic.html#cataloged-functions"><i class="fa fa-check"></i><b>31.1</b> The cataloged functions</a></li>
+<li class="chapter" data-level="31.2" data-path="accum-symbolic.html"><a href="accum-symbolic.html#differentials"><i class="fa fa-check"></i><b>31.2</b> Differentials</a></li>
+<li class="chapter" data-level="31.3" data-path="accum-symbolic.html"><a href="accum-symbolic.html#u-substitution"><i class="fa fa-check"></i><b>31.3</b> U-substitution</a></li>
+<li class="chapter" data-level="31.4" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integration-by-parts"><i class="fa fa-check"></i><b>31.4</b> Integration by parts</a></li>
+<li class="chapter" data-level="31.5" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integrating-polynomials"><i class="fa fa-check"></i><b>31.5</b> Integrating polynomials</a></li>
+<li class="chapter" data-level="31.6" data-path="accum-symbolic.html"><a href="accum-symbolic.html#polynomials-1"><i class="fa fa-check"></i><b>31.6</b> Polynomials</a></li>
+<li class="chapter" data-level="31.7" data-path="accum-symbolic.html"><a href="accum-symbolic.html#exercises-28"><i class="fa fa-check"></i><b>31.7</b> Exercises</a></li>
+</ul></li>
 </ul>
 
-        <div class="book-extra">
-          <p><a id="book-repo" href="Not%20available">View book source <i class="fab fa-gitlab"></i></a></p>
-        </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="computing-derivs" class="section level1" number="19">
-<h1>
-<span class="header-section-number">19</span> Computing derivatives<a class="anchor" aria-label="anchor" href="#computing-derivs"><i class="fas fa-link"></i></a>
-</h1>
-<p>To differentiate a function <span class="math inline">\(g(x)\)</span> means simply to produce the corresponding function <span class="math inline">\(\partial_t g(x)\)</span>. This is often called “finding the derivative,” language that resonates with the high-school algebra task of “finding <span class="math inline">\(x\)</span>.” Rather than conjuring an image of searching high and low for a missing function, it’s more accurate to say, “compute the derivative.” <span style="float: right; padding-left: 50px;"><a name="2150" href="#2150"><img src="www/icons8-signpost.png" title="Location: 2150" width="12px"></a><span style="color: red; font-size: 6pt;">2150</span></span></p>
-<p>In this chapter we’ll introduce two ways of computing a derivative. For simplicity we will write <span class="math inline">\(x\)</span> for the with-respect-to-variable, although in practice you might be using <span class="math inline">\(t\)</span> or <span class="math inline">\(z\)</span> or something else. <span style="float: right; padding-left: 50px;"><a name="2155" href="#2155"><img src="www/icons8-signpost.png" title="Location: 2155" width="12px"></a><span style="color: red; font-size: 6pt;">2155</span></span></p>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MOSAIC Calculus</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="computing-derivs" class="section level1" number="19">
+<h1><span class="header-section-number">Chapter 19</span> Computing derivatives</h1>
+<p>To differentiate a function <span class="math inline">\(g(x)\)</span> means simply to produce the corresponding function <span class="math inline">\(\partial_t g(x)\)</span>. This is often called “finding the derivative,” language that resonates with the high-school algebra task of “finding <span class="math inline">\(x\)</span>.” Rather than conjuring an image of searching high and low for a missing function, it’s more accurate to say, “compute the derivative.” <span style="float: right; padding-left: 50px;"><a name="2150" href="#2150"><img src="www/icons8-signpost.png" title="Location: 2150" width="12px"/></a><span style="color: red; font-size: 6pt;">2150</red></span></p>
+<p>In this chapter we’ll introduce two ways of computing a derivative. For simplicity we will write <span class="math inline">\(x\)</span> for the with-respect-to-variable, although in practice you might be using <span class="math inline">\(t\)</span> or <span class="math inline">\(z\)</span> or something else. <span style="float: right; padding-left: 50px;"><a name="2155" href="#2155"><img src="www/icons8-signpost.png" title="Location: 2155" width="12px"/></a><span style="color: red; font-size: 6pt;">2155</red></span></p>
 <ul>
 <li>Symbolic differentiation, which uses a set of re-writing rules</li>
 <li>Finite-differencing, which is based directly on the <span class="math inline">\({\cal D_x}\)</span> operator</li>
 </ul>
-<p>In the days when functions were always presented using formulas, symbolic differentiation was usually the only method taught. Nowadays, when functions are just as likely to be described using data and an algorithm, finite-differencing provides the practical approach. <span style="float: right; padding-left: 50px;"><a name="2160" href="#2160"><img src="www/icons8-signpost.png" title="Location: 2160" width="12px"></a><span style="color: red; font-size: 6pt;">2160</span></span></p>
+<p>In the days when functions were always presented using formulas, symbolic differentiation was usually the only method taught. Nowadays, when functions are just as likely to be described using data and an algorithm, finite-differencing provides the practical approach. <span style="float: right; padding-left: 50px;"><a name="2160" href="#2160"><img src="www/icons8-signpost.png" title="Location: 2160" width="12px"/></a><span style="color: red; font-size: 6pt;">2160</red></span></p>
 <div id="a-function-from-a-function" class="section level2" number="19.1">
-<h2>
-<span class="header-section-number">19.1</span> A function from a function<a class="anchor" aria-label="anchor" href="#a-function-from-a-function"><i class="fas fa-link"></i></a>
-</h2>
-<p>Recall that the goal of differentiation is to make a function out of an already known function. We’ll call the already known function <span class="math inline">\(g(x)\)</span>. In Chapter <a href="change-relationships.html#change-relationships">17</a> we’ve outlined the properties that the new function should have and gave a nice naming convention, <span class="math inline">\(\partial_x g(x)\)</span> that shows where the new function comes from. In this section we’ll put that aside and focus on the question of what it means to “make a function.” <span style="float: right; padding-left: 50px;"><a name="2165" href="#2165"><img src="www/icons8-signpost.png" title="Location: 2165" width="12px"></a><span style="color: red; font-size: 6pt;">2165</span></span></p>
-<p>When mathematics is done with paper and pencil, “making a function” is a matter of writing a formula, such as <span class="math inline">\(x^2 \sin(x) + 3\)</span> and sometimes giving a name to the formula, e.g. <span class="math inline">\(h(x) \equiv x^2 \sin(x) + 3\)</span>. We are essentially writing something down that will make sense when viewed by another person trained in the conventions of mathematical notation. <span style="float: right; padding-left: 50px;"><a name="2170" href="#2170"><img src="www/icons8-signpost.png" title="Location: 2170" width="12px"></a><span style="color: red; font-size: 6pt;">2170</span></span></p>
-<p>For a computer, on the other hand, a function is a definite kind of thing. We “make a function” by creating that kind of thing and, usually, giving it a name. We evaluate a function—that is, apply the function to inputs to produce an output—by using specific punctuation, which in R involves the use of parentheses, for instance <em>name</em><code>(</code><em>input</em><code>)</code>. <span style="float: right; padding-left: 50px;"><a name="2175" href="#2175"><img src="www/icons8-signpost.png" title="Location: 2175" width="12px"></a><span style="color: red; font-size: 6pt;">2175</span></span></p>
+<h2><span class="header-section-number">19.1</span> A function from a function</h2>
+<p>Recall that the goal of differentiation is to make a function out of an already known function. We’ll call the already known function <span class="math inline">\(g(x)\)</span>. In Chapter <a href="change-relationships.html#change-relationships">17</a> we’ve outlined the properties that the new function should have and gave a nice naming convention, <span class="math inline">\(\partial_x g(x)\)</span> that shows where the new function comes from. In this section we’ll put that aside and focus on the question of what it means to “make a function.” <span style="float: right; padding-left: 50px;"><a name="2165" href="#2165"><img src="www/icons8-signpost.png" title="Location: 2165" width="12px"/></a><span style="color: red; font-size: 6pt;">2165</red></span></p>
+<p>When mathematics is done with paper and pencil, “making a function” is a matter of writing a formula, such as <span class="math inline">\(x^2 \sin(x) + 3\)</span> and sometimes giving a name to the formula, e.g. <span class="math inline">\(h(x) \equiv x^2 \sin(x) + 3\)</span>. We are essentially writing something down that will make sense when viewed by another person trained in the conventions of mathematical notation. <span style="float: right; padding-left: 50px;"><a name="2170" href="#2170"><img src="www/icons8-signpost.png" title="Location: 2170" width="12px"/></a><span style="color: red; font-size: 6pt;">2170</red></span></p>
+<p>For a computer, on the other hand, a function is a definite kind of thing. We “make a function” by creating that kind of thing and, usually, giving it a name. We evaluate a function—that is, apply the function to inputs to produce an output—by using specific punctuation, which in R involves the use of parentheses, for instance <em>name</em><code>(</code><em>input</em><code>)</code>. <span style="float: right; padding-left: 50px;"><a name="2175" href="#2175"><img src="www/icons8-signpost.png" title="Location: 2175" width="12px"/></a><span style="color: red; font-size: 6pt;">2175</red></span></p>
 <p>The computer language itself provides specific means to define a new function. In R/mosaic, you first construct a tilde expression naming the function inputs (right side of the tilde) and specifying the algorithm of that function (left side of the tilde), as with this formula:</p>
-<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f_description</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">~</span> <span class="va">x</span>   <span class="co"># a tilde expression</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="computing-derivs.html#cb159-1" aria-hidden="true" tabindex="-1"></a>f_description <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="dv">3</span> <span class="sc">~</span> x   <span class="co"># a tilde expression</span></span></code></pre></div>
 <p>On its own, <code>f_description</code> cannot be used like a function because it was constructed as something else: a tilde expression. Trying to use <code>f_description</code> in the way one uses a function produces an error.</p>
 <pre><code>f_description(2)
- Error in f_description(2): could not find function "f_description"</code></pre>
+ Error in f_description(2): could not find function &quot;f_description&quot;</code></pre>
 <p>In between the tilde expression and the final result—a function—is software that translates from tilde-expressions into functions:</p>
-<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">f_description</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="computing-derivs.html#cb161-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(f_description)</span></code></pre></div>
 <p>The new creation, <code>f()</code> can now be used like any other function, e.g.</p>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="computing-derivs.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 6.63719</code></pre>
 <p>Down deep inside, <code>makeFun()</code> uses a more basic function-creation syntax which looks like this</p>
-<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fl">3</span><span class="op">}</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="computing-derivs.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {x<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="dv">3</span>}</span></code></pre></div>
 <pre><code>## function(x) {x^2 * sin(x) + 3}</code></pre>
 <p>You can see all the same information that was in the tilde description, just arranged differently.</p>
-<p>Almost every computer language provides something like <code>function</code>. The internal workings of <code>function</code> are elaborate and detailed … only advanced programmers need to be aware of them. This, in much the same way as it’s unnecessary to understand the workings of a transistor in order to use a computer, or comprehend the biochemistry of a COVID vaccine in order to benefit from it. <span style="float: right; padding-left: 50px;"><a name="2180" href="#2180"><img src="www/icons8-signpost.png" title="Location: 2180" width="12px"></a><span style="color: red; font-size: 6pt;">2180</span></span></p>
-<p>In the same spirit as <code>makeFun()</code>, which translates a tilde-expression into the corresponding function, in R/mosaic you have <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> which takes a tilde expression and translates it into the derivative of the function described.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Mathematically, one differentiates a function, not a tilde expression. But differentiation requires specification of the with-respect-to-input, so R/mosaic implements differentiation by using tilde-expression syntax.&lt;/p&gt;"><sup>35</sup></a> For example:</p>
-<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span><span class="va">f_description</span><span class="op">)</span></code></pre></div>
+<p>Almost every computer language provides something like <code>function</code>. The internal workings of <code>function</code> are elaborate and detailed … only advanced programmers need to be aware of them. This, in much the same way as it’s unnecessary to understand the workings of a transistor in order to use a computer, or comprehend the biochemistry of a COVID vaccine in order to benefit from it. <span style="float: right; padding-left: 50px;"><a name="2180" href="#2180"><img src="www/icons8-signpost.png" title="Location: 2180" width="12px"/></a><span style="color: red; font-size: 6pt;">2180</red></span></p>
+<p>In the same spirit as <code>makeFun()</code>, which translates a tilde-expression into the corresponding function, in R/mosaic you have <code>D()</code> which takes a tilde expression and translates it into the derivative of the function described.<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a> For example:</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="computing-derivs.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">D</span>(f_description)</span></code></pre></div>
 <pre><code>## function (x) 
 ## 0</code></pre>
 </div>
 <div id="finite-differencing" class="section level2" number="19.2">
-<h2>
-<span class="header-section-number">19.2</span> Finite differencing<a class="anchor" aria-label="anchor" href="#finite-differencing"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">19.2</span> Finite differencing</h2>
 <p>You can use the definition of the slope function <span class="math display">\[{\cal D}_x f(x) = \frac{f(x+0.1) - f(x)}{0.1}\]</span>
 to create an approximation to the derivative of any function. Like this:</p>
-<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">x</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">x</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span><span class="op">-</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="va">dg</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="computing-derivs.html#cb168-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>x)<span class="sc">*</span>(<span class="fu">pnorm</span>(x<span class="sc">/</span><span class="dv">3</span>)<span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">~</span> x)</span>
+<span id="cb168-2"><a href="computing-derivs.html#cb168-2" aria-hidden="true" tabindex="-1"></a>dg <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">g</span>(x<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">g</span>(x))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> x)</span></code></pre></div>
 <p>Whenever you calculate a derivative function, you should check against mistakes or other sources of error. For instance, whenever the derivative is zero, the original function should have an instantaneous slope of zero. Figure <a href="computing-derivs.html#fig:check-dg">19.1</a> shows a suitable plot for supporting this sort of check.</p>
-<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">zeros_of_dg</span> <span class="op">&lt;-</span> <span class="fu">findZeros</span><span class="op">(</span><span class="fu">dg</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, npts<span class="op">=</span><span class="fl">500</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">dg</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"magenta"</span>, npts<span class="op">=</span><span class="fl">500</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">gf_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="op">~</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"orange"</span>, size<span class="op">=</span><span class="fl">2</span>, alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">gf_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="op">~</span> <span class="va">x</span>, data<span class="op">=</span><span class="va">zeros_of_dg</span>, color<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></code></pre></div>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:check-dg"></span>
-<img src="CalcZ-notes_files/figure-html/check-dg-1.png" alt="The x-position of zero crossings of the derivative function (magenta) are marked with blue lines. The zero crossings correspond to local maxima or minima in the original function (black). This is because the original function has slope zero at maxima and minima." width="90%"><p class="caption">
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="computing-derivs.html#cb169-1" aria-hidden="true" tabindex="-1"></a>zeros_of_dg <span class="ot">&lt;-</span> <span class="fu">findZeros</span>(<span class="fu">dg</span>(x) <span class="sc">~</span> x, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>))</span>
+<span id="cb169-2"><a href="computing-derivs.html#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)), <span class="at">npts=</span><span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb169-3"><a href="computing-derivs.html#cb169-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">dg</span>(x) <span class="sc">~</span> x, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>, <span class="at">npts=</span><span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb169-4"><a href="computing-derivs.html#cb169-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept =</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">&quot;orange&quot;</span>, <span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb169-5"><a href="computing-derivs.html#cb169-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_vline</span>(<span class="at">xintercept =</span> <span class="sc">~</span> x, <span class="at">data=</span>zeros_of_dg, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:check-dg"></span>
+<img src="CalcZ-notes_files/figure-html/check-dg-1.png" alt="The x-position of zero crossings of the derivative function (magenta) are marked with blue lines. The zero crossings correspond to local maxima or minima in the original function (black). This is because the original function has slope zero at maxima and minima." width="90%" />
+<p class="caption">
 Figure 19.1: The x-position of zero crossings of the derivative function (magenta) are marked with blue lines. The zero crossings correspond to local maxima or minima in the original function (black). This is because the original function has slope zero at maxima and minima.
 </p>
 </div>
-<p>Look very closely at Figure <a href="computing-derivs.html#fig:check-dg">19.1</a>, particularly at the places where the blue vertical markers cross the function <span class="math inline">\(g(x)\)</span> (black). They should cross exactly at the flat zone, but they are a little shifted to the left. (You might have to zoom in on the plot to see the offset between the vertical blue marker and the local maximum of the function.) That’s the sense in which the finite-difference approach gives an approximation. The small left-shift stems from the use of 0.1 in the definition of the zero function. Use a smaller value, say 0.01 or 0.001, and you won’t be able to see the shift at all. <span style="float: right; padding-left: 50px;"><a name="2185" href="#2185"><img src="www/icons8-signpost.png" title="Location: 2185" width="12px"></a><span style="color: red; font-size: 6pt;">2185</span></span></p>
+<p>Look very closely at Figure <a href="computing-derivs.html#fig:check-dg">19.1</a>, particularly at the places where the blue vertical markers cross the function <span class="math inline">\(g(x)\)</span> (black). They should cross exactly at the flat zone, but they are a little shifted to the left. (You might have to zoom in on the plot to see the offset between the vertical blue marker and the local maximum of the function.) That’s the sense in which the finite-difference approach gives an approximation. The small left-shift stems from the use of 0.1 in the definition of the zero function. Use a smaller value, say 0.01 or 0.001, and you won’t be able to see the shift at all. <span style="float: right; padding-left: 50px;"><a name="2185" href="#2185"><img src="www/icons8-signpost.png" title="Location: 2185" width="12px"/></a><span style="color: red; font-size: 6pt;">2185</red></span></p>
 <div class="takenote">
-<p>In modeling work, there’s nothing wrong with an approximation so long as it is good enough for your purposes. We picked the value 0.1 for our definition of the slope function because it works very well with the pattern-book functions. Here, “very well” means you can’t easily see in the graph any deviation compared to the exact derivative. <span style="float: right; padding-left: 50px;"><a name="2190" href="#2190"><img src="www/icons8-signpost.png" title="Location: 2190" width="12px"></a><span style="color: red; font-size: 6pt;">2190</span></span></p>
+<p>In modeling work, there’s nothing wrong with an approximation so long as it is good enough for your purposes. We picked the value 0.1 for our definition of the slope function because it works very well with the pattern-book functions. Here, “very well” means you can’t easily see in the graph any deviation compared to the exact derivative. <span style="float: right; padding-left: 50px;"><a name="2190" href="#2190"><img src="www/icons8-signpost.png" title="Location: 2190" width="12px"/></a><span style="color: red; font-size: 6pt;">2190</red></span></p>
 <p>When a calculation can be done exactly (without outrageous effort) it certainly makes sense to use the exact method. However:</p>
 <ol style="list-style-type: decimal">
 <li>It’s useful to have an easy, approximate method always at hand. This lets you check the results of other methods for the possibility of some blunder or mis-conception. The slope function approach to differentiation is certainly easy, and if you think the approximation isn’t good enough, then instead of 0.1 use something smaller. (Chapter <a href="evanescent-h.html#evanescent-h">18</a> discusses how small is <strong>too</strong> small.)</li>
-<li>The computer makes it practical to employ the slope function as a useful approximation to the derivative. There are many other mathematical methods that the computer has made feasible, for instance the methods of <strong><em>machine learning</em></strong>. These methods create functions that sometimes cannot be handled by the traditional (“exact”) methods of differentiation. <span style="float: right; padding-left: 50px;"><a name="2195" href="#2195"><img src="www/icons8-signpost.png" title="Location: 2195" width="12px"></a><span style="color: red; font-size: 6pt;">2195</span></span>
-</li>
+<li>The computer makes it practical to employ the slope function as a useful approximation to the derivative. There are many other mathematical methods that the computer has made feasible, for instance the methods of <strong><em>machine learning</em></strong>. These methods create functions that sometimes cannot be handled by the traditional (“exact”) methods of differentiation. <span style="float: right; padding-left: 50px;"><a name="2195" href="#2195"><img src="www/icons8-signpost.png" title="Location: 2195" width="12px"/></a><span style="color: red; font-size: 6pt;">2195</red></span></li>
 </ol>
 </div>
 </div>
 <div id="the-slope-function-operator" class="section level2" number="19.3">
-<h2>
-<span class="header-section-number">19.3</span> The slope-function operator<a class="anchor" aria-label="anchor" href="#the-slope-function-operator"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">19.3</span> The slope-function operator</h2>
 <p>Take a look at the statement we used to construct the slope function of <code>g()</code>:</p>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dg</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
-<p>There is almost nothing about this statement that has anything to do with the specifics of how we defined <code>g()</code>; we could have used any <span class="math inline">\(g()\)</span>. The “almost” in the previous sentence is about the choice of 0.1, which isn’t guaranteed to be small enough. <span style="float: right; padding-left: 50px;"><a name="2200" href="#2200"><img src="www/icons8-signpost.png" title="Location: 2200" width="12px"></a><span style="color: red; font-size: 6pt;">2200</span></span></p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="computing-derivs.html#cb170-1" aria-hidden="true" tabindex="-1"></a>dg <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">g</span>(x<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">g</span>(x))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> x)</span></code></pre></div>
+<p>There is almost nothing about this statement that has anything to do with the specifics of how we defined <code>g()</code>; we could have used any <span class="math inline">\(g()\)</span>. The “almost” in the previous sentence is about the choice of 0.1, which isn’t guaranteed to be small enough. <span style="float: right; padding-left: 50px;"><a name="2200" href="#2200"><img src="www/icons8-signpost.png" title="Location: 2200" width="12px"/></a><span style="color: red; font-size: 6pt;">2200</red></span></p>
 <div class="intheworld">
 <p>In today’s world, considerable mathematical content is conveyed to users not directly with formulas but with <strong><em>software</em></strong> that implements the formulas. And in software, it’s a good idea to have a <em>name</em> for each operation so that the readers and authors of software have a completely explicit indication that a particular operation is being used.</p>
 <p>When you have many slope functions to compute in some application, it can be error prone to write many statements that are versions of</p>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dg</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="computing-derivs.html#cb171-1" aria-hidden="true" tabindex="-1"></a>dg <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">g</span>(x<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">g</span>(x))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> x)</span></code></pre></div>
 <p>It’s too easy to make a mistake in copying this over, producing a wrong computation that can be hard to detect in the code. For instance, each of these statements looks a lot like the above, but all of them are different and none is constructing a slope function:</p>
-<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span>
-<span class="va">dh</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">h</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span>
-<span class="va">du</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">u</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">u</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fl">1.0</span><span class="op">)</span>
-<span class="va">dg</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fl">0.1</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="computing-derivs.html#cb172-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">f</span>(x<span class="fl">-0.1</span>) <span class="sc">-</span> <span class="fu">f</span>(x))<span class="sc">/</span><span class="fl">0.1</span>)</span>
+<span id="cb172-2"><a href="computing-derivs.html#cb172-2" aria-hidden="true" tabindex="-1"></a>dh <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">h</span>(x<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">f</span>(x))<span class="sc">/</span><span class="fl">0.1</span>)</span>
+<span id="cb172-3"><a href="computing-derivs.html#cb172-3" aria-hidden="true" tabindex="-1"></a>du <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">u</span>(x<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">u</span>(x))<span class="sc">/</span><span class="fl">1.0</span>)</span>
+<span id="cb172-4"><a href="computing-derivs.html#cb172-4" aria-hidden="true" tabindex="-1"></a>dg <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">g</span>(x<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">g</span>(x)<span class="sc">/</span><span class="fl">0.1</span>)</span></code></pre></div>
 <p>Much easier to read and more reliable would be something like this:</p>
-<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">slopeFun</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="va">dh</span> <span class="op">&lt;-</span> <span class="fu">slopeFun</span><span class="op">(</span><span class="fu">h</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="va">du</span> <span class="op">&lt;-</span> <span class="fu">slopeFun</span><span class="op">(</span><span class="fu">u</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="computing-derivs.html#cb173-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">slopeFun</span>(<span class="fu">f</span>(x) <span class="sc">~</span> x)</span>
+<span id="cb173-2"><a href="computing-derivs.html#cb173-2" aria-hidden="true" tabindex="-1"></a>dh <span class="ot">&lt;-</span> <span class="fu">slopeFun</span>(<span class="fu">h</span>(x) <span class="sc">~</span> x)</span>
+<span id="cb173-3"><a href="computing-derivs.html#cb173-3" aria-hidden="true" tabindex="-1"></a>du <span class="ot">&lt;-</span> <span class="fu">slopeFun</span>(<span class="fu">u</span>(x) <span class="sc">~</span> x)</span></code></pre></div>
 <p>Creating such an R <strong><em>operator</em></strong> is a programming task and in that sense <em>beyond the scope of this course</em>. Still, it’s a good idea to get in the habit of reading programming code. So here goes …</p>
-<p><em>Creating a <code>slopeFun()</code> operator:</em> <span style="float: right; padding-left: 50px;"><a name="2205" href="#2205"><img src="www/icons8-signpost.png" title="Location: 2205" width="12px"></a><span style="color: red; font-size: 6pt;">2205</span></span></p>
+<p><em>Creating a <code>slopeFun()</code> operator:</em> <span style="float: right; padding-left: 50px;"><a name="2205" href="#2205"><img src="www/icons8-signpost.png" title="Location: 2205" width="12px"/></a><span style="color: red; font-size: 6pt;">2205</red></span></p>
 <ol style="list-style-type: decimal">
-<li>Instead of <code>makeFun()</code> which is really just maknig for mathematical functions, R programmers use a construction named <code>function()</code>. The name of the arguments goes inside the parentheses. The function algorithm goes between curly braces: <code>{ }</code>
-</li>
+<li>Instead of <code>makeFun()</code> which is really just maknig for mathematical functions, R programmers use a construction named <code>function()</code>. The name of the arguments goes inside the parentheses. The function algorithm goes between curly braces: <code>{ }</code></li>
 <li>We’re going to use a <strong><em>tilde expression</em></strong> as the input to <code>slopeFun()</code>. This is how the other R/mosaic operators work. That will be easier for the user and will also give us access to those other operators if we need them in writing <code>slopeFun()</code>.</li>
 <li>The object returned by the <code>slopeFun()</code> operator will be, of course, a <strong><em>function</em></strong>. We’ve been using <code>makeFun()</code> to make our mathematical functions, so expect to see that in the code for <code>slopeFun()</code>.</li>
 <li>There’s the matter of whether 0.1 is small enough. So let’s use an <code>h</code> argument in place of 0.1 that we can change when needed.</li>
 </ol>
 <p>Putting this together, here is a <code>slopeFun()</code> operator that takes a tilde expression (as do <code>makeFun()</code> and <code>slice_plot()</code>) and produces a new mathematical function that is the slope function for the mathematical function described in the tilde expression. (There are a couple of R programming elements in <code>slopeFun()</code> that you aren’t expected to understand completely. But do try reading the code to see what sense you can make of it.)</p>
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># two arguments, a tilde expression and a choice for h</span>
-<span class="co"># with a default value</span>
-<span class="va">slopeFun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">tilde</span>, <span class="va">h</span><span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">{</span> 
-   <span class="co"># Turn the tilde expression into a function</span>
-   <span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="va">tilde</span><span class="op">)</span> 
-   <span class="co"># just like before, with h instead of 0.1</span>
-   <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">h</span><span class="op">)</span> <span class="op">-</span> <span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">x</span>, h<span class="op">=</span><span class="va">h</span><span class="op">)</span> 
-<span class="op">}</span></code></pre></div>
-<p>Another important advantage of centralizing computations in a single operator is that the operator can be made more sophisticated without being harder to use. For instance, R/mosaic provides the <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> operator for computing derivatives. This knows the rules for symbolic differentiation that will be introduced in Chapter <a href="prod-comp-rules.html#prod-comp-rules">22</a> and switches to a finite-difference method (like <code>slopeFun()</code>, but more sophisticated) when symbolic differentiation isn’t applicable.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="computing-derivs.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two arguments, a tilde expression and a choice for h</span></span>
+<span id="cb174-2"><a href="computing-derivs.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="co"># with a default value</span></span>
+<span id="cb174-3"><a href="computing-derivs.html#cb174-3" aria-hidden="true" tabindex="-1"></a>slopeFun <span class="ot">&lt;-</span> <span class="cf">function</span>(tilde, <span class="at">h=</span><span class="fl">0.1</span>) { </span>
+<span id="cb174-4"><a href="computing-derivs.html#cb174-4" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Turn the tilde expression into a function</span></span>
+<span id="cb174-5"><a href="computing-derivs.html#cb174-5" aria-hidden="true" tabindex="-1"></a>   g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(tilde) </span>
+<span id="cb174-6"><a href="computing-derivs.html#cb174-6" aria-hidden="true" tabindex="-1"></a>   <span class="co"># just like before, with h instead of 0.1</span></span>
+<span id="cb174-7"><a href="computing-derivs.html#cb174-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">makeFun</span>((<span class="fu">g</span>(x <span class="sc">+</span> h) <span class="sc">-</span> <span class="fu">g</span>(x))<span class="sc">/</span>h <span class="sc">~</span> x, <span class="at">h=</span>h) </span>
+<span id="cb174-8"><a href="computing-derivs.html#cb174-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Another important advantage of centralizing computations in a single operator is that the operator can be made more sophisticated without being harder to use. For instance, R/mosaic provides the <code>D()</code> operator for computing derivatives. This knows the rules for symbolic differentiation that will be introduced in Chapter <a href="prod-comp-rules.html#prod-comp-rules">22</a> and switches to a finite-difference method (like <code>slopeFun()</code>, but more sophisticated) when symbolic differentiation isn’t applicable.</p>
 </div>
-<p>In practice, instead of home-brewed functions like <code>slopeFun()</code>, you can use the R/mosaic <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> instead, which takes a more careful approach to the computer numerics and uses symbolic differentiation whenever possible to give results without numerical error.</p>
+<p>In practice, instead of home-brewed functions like <code>slopeFun()</code>, you can use the R/mosaic <code>D()</code> instead, which takes a more careful approach to the computer numerics and uses symbolic differentiation whenever possible to give results without numerical error.</p>
 </div>
 <div id="symbolic-differentiation" class="section level2" number="19.4">
-<h2>
-<span class="header-section-number">19.4</span> Symbolic differentiation<a class="anchor" aria-label="anchor" href="#symbolic-differentiation"><i class="fas fa-link"></i></a>
-</h2>
-<p>Symbolic differentiation is the process of taking a formula and translating it to a new formula according to certain patterns or <strong><em>rules</em></strong>. Each rule is ultimately derived from the definition of the slope function and the differencing operator. <span style="float: right; padding-left: 50px;"><a name="2215" href="#2215"><img src="www/icons8-signpost.png" title="Location: 2215" width="12px"></a><span style="color: red; font-size: 6pt;">2215</span></span></p>
+<h2><span class="header-section-number">19.4</span> Symbolic differentiation</h2>
+<p>Symbolic differentiation is the process of taking a formula and translating it to a new formula according to certain patterns or <strong><em>rules</em></strong>. Each rule is ultimately derived from the definition of the slope function and the differencing operator. <span style="float: right; padding-left: 50px;"><a name="2215" href="#2215"><img src="www/icons8-signpost.png" title="Location: 2215" width="12px"/></a><span style="color: red; font-size: 6pt;">2215</red></span></p>
 <p>As you recall, the <strong><em>differencing operator</em></strong> <span class="math inline">\(\diff{x}\)</span> turns a function into its slope function
 <span class="math display">\[\diff{x} f(x) \equiv \frac{f(x+h) - f(x)}{h}\]</span></p>
 <div id="the-line-rule" class="section level3" number="19.4.1">
-<h3>
-<span class="header-section-number">19.4.1</span> The line rule<a class="anchor" aria-label="anchor" href="#the-line-rule"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">19.4.1</span> The line rule</h3>
 <p>Let’s look at one where we already know the result: The straight line function <span class="math inline">\(\line(x) \equiv a x + b\)</span> has a slope function that is constant: <span class="math inline">\(\diff{x}\line(x) = a\)</span></p>
 <p><span class="math display">\[\diff{x}\line(x) = \frac{\line(x+h) - \line(x)}{h} = \frac{\left[\strut a (x+h) + b\right] - \left[\strut a x + b\right]}{h} = \frac{ah}{h} = a\]</span>
 The derivative is the slope function with <span class="math inline">\(h\)</span> made as small as possible. It’s tempting to think of this as <span class="math inline">\(h = 0\)</span>, but that would imply dividing by zero in the differencing operator.</p>
-<p>Being wary about the possibility of dividing by zero, mathematicians adopt a convention which indicates clearly that <span class="math inline">\(h\)</span> is to be small, but <strong>not zero</strong>. This convention is marked with the notation <span class="math inline">\(\lim_{h \rightarrow 0}\)</span>, which means “as close as you can get to zero, but not zero exactly.” <span style="float: right; padding-left: 50px;"><a name="2220" href="#2220"><img src="www/icons8-signpost.png" title="Location: 2220" width="12px"></a><span style="color: red; font-size: 6pt;">2220</span></span></p>
+<p>Being wary about the possibility of dividing by zero, mathematicians adopt a convention which indicates clearly that <span class="math inline">\(h\)</span> is to be small, but <strong>not zero</strong>. This convention is marked with the notation <span class="math inline">\(\lim_{h \rightarrow 0}\)</span>, which means “as close as you can get to zero, but not zero exactly.” <span style="float: right; padding-left: 50px;"><a name="2220" href="#2220"><img src="www/icons8-signpost.png" title="Location: 2220" width="12px"/></a><span style="color: red; font-size: 6pt;">2220</red></span></p>
 <p><span class="math display">\[\partial_x \line(x) \equiv \lim_{h\rightarrow 0} \frac{\line(x+h) - \line(x)}{h} =\\
 \ \\
 = \lim_{h\rightarrow 0} \frac{a h}{h} = a\]</span></p>
 <p>This derivation is unarguably correct for any non-zero <span class="math inline">\(h\)</span>.</p>
 <p>This short derivation gives us a basic differentiation rule which we can divide into 3 special cases.</p>
 <ul>
-<li>
-<strong>Line rule</strong>: <span class="math inline">\(\partial_x ax + b = a\)</span>
+<li><strong>Line rule</strong>: <span class="math inline">\(\partial_x ax + b = a\)</span>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="math inline">\(\partial_x ax = a\)</span>. The function <span class="math inline">\(ax\)</span> is <span class="math inline">\(\line(x)\)</span> with <span class="math inline">\(b=0\)</span>.</li>
-<li>
-<span class="math inline">\(\partial_x b = 0\)</span>. The function <span class="math inline">\(b\)</span> is <span class="math inline">\(\line(x)\)</span> with <span class="math inline">\(a=0\)</span> and thus is the constant function.</li>
-<li>
-<span class="math inline">\(\partial_x x = 1\)</span>. The function <span class="math inline">\(x\)</span> is <span class="math inline">\(\line(x)\)</span> with <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=0\)</span>.</li>
-</ol>
-</li>
+<li><span class="math inline">\(\partial_x ax = a\)</span>. The function <span class="math inline">\(ax\)</span> is <span class="math inline">\(\line(x)\)</span> with <span class="math inline">\(b=0\)</span>.</li>
+<li><span class="math inline">\(\partial_x b = 0\)</span>. The function <span class="math inline">\(b\)</span> is <span class="math inline">\(\line(x)\)</span> with <span class="math inline">\(a=0\)</span> and thus is the constant function.</li>
+<li><span class="math inline">\(\partial_x x = 1\)</span>. The function <span class="math inline">\(x\)</span> is <span class="math inline">\(\line(x)\)</span> with <span class="math inline">\(a=1\)</span> and <span class="math inline">\(b=0\)</span>.</li>
+</ol></li>
 </ul>
 <p>Remember that <span class="math inline">\(\partial_x f(x)\)</span> is always a function no matter what kind of function <span class="math inline">\(f(x)\)</span> is. The functions associated with the line rule are all <strong><em>constant functions</em></strong>, meaning the output doesn’t depend on the input.</p>
 </div>
 <div id="the-square-rule" class="section level3" number="19.4.2">
-<h3>
-<span class="header-section-number">19.4.2</span> The square rule<a class="anchor" aria-label="anchor" href="#the-square-rule"><i class="fas fa-link"></i></a>
-</h3>
-<p>Only for the <span class="math inline">\(\line()\)</span> function and its three special cases is the derivative a constant function. And <span class="math inline">\(\line()\)</span> is the only function for which the <span class="math inline">\(h\)</span> in the differencing operator disappears on its own. For instance, consider the square function: <span class="math inline">\(g(x) \equiv x^2\)</span>. <span style="float: right; padding-left: 50px;"><a name="2225" href="#2225"><img src="www/icons8-signpost.png" title="Location: 2225" width="12px"></a><span style="color: red; font-size: 6pt;">2225</span></span></p>
+<h3><span class="header-section-number">19.4.2</span> The square rule</h3>
+<p>Only for the <span class="math inline">\(\line()\)</span> function and its three special cases is the derivative a constant function. And <span class="math inline">\(\line()\)</span> is the only function for which the <span class="math inline">\(h\)</span> in the differencing operator disappears on its own. For instance, consider the square function: <span class="math inline">\(g(x) \equiv x^2\)</span>. <span style="float: right; padding-left: 50px;"><a name="2225" href="#2225"><img src="www/icons8-signpost.png" title="Location: 2225" width="12px"/></a><span style="color: red; font-size: 6pt;">2225</red></span></p>
 <p><span class="math display">\[\partial_x [x^2] = \lim_{h\rightarrow 0}\frac{(x+h)^2 - x^2}{h} =\\
 \ \\
 =\lim_{h\rightarrow 0}\frac{(x^2 + 2 x h + h^2) - x^2}{h} =\\
@@ -302,52 +631,37 @@ Finally, when an expression including <span class="math inline">\(h\)</span> doe
 <p><span class="math display">\[\partial_x [x^2] = 2x + \lim_{h\rightarrow 0}h = 2x\]</span></p>
 <p>We’ll write this as another differentiation rule.</p>
 <ul>
-<li>
-<strong>Quadratic rule</strong>: <span class="math inline">\(\partial_x [x^2] = 2x\)</span>
-</li>
+<li><strong>Quadratic rule</strong>: <span class="math inline">\(\partial_x [x^2] = 2x\)</span></li>
 </ul>
 </div>
 <div id="the-exponential-rule" class="section level3" number="19.4.3">
-<h3>
-<span class="header-section-number">19.4.3</span> The exponential rule<a class="anchor" aria-label="anchor" href="#the-exponential-rule"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">19.4.3</span> The exponential rule</h3>
 <p>Let’s take on the exponential function <span class="math inline">\(h(x) \equiv e^x\)</span>:</p>
 <p><span class="math display">\[\partial_x e^x = \lim_{h\rightarrow 0}\frac{e^{x+h} - e^x}{h} = e^x \lim_{h\rightarrow 0}\left[\frac{e^h - 1}{h}\right]\]</span>
 At a glance, it can be hard to know what to make of <span class="math inline">\(\lim_{h\rightarrow 0} (e^h-1)/h\)</span>. Setting <span class="math inline">\(h=0\)</span> in the denominator is perfectly legitimate and gives <span class="math inline">\(e^0 - 1 = 0\)</span>. But that still leaves the <span class="math inline">\(h\)</span> in the numerator. Still, for any non-zero <span class="math inline">\(h\)</span>, the division is legitimate, so let’s see what happens as <span class="math inline">\(h \rightarrow 0\)</span>:</p>
-<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">h</span> <span class="op">~</span> <span class="va">h</span><span class="op">)</span>
-<span class="fu">f</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="computing-derivs.html#cb175-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">exp</span>(h) <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span>h <span class="sc">~</span> h)</span>
+<span id="cb175-2"><a href="computing-derivs.html#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="fl">0.1</span>)</span></code></pre></div>
 <pre><code>## [1] 1.051709</code></pre>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="computing-derivs.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="fl">0.01</span>)</span></code></pre></div>
 <pre><code>## [1] 1.005017</code></pre>
-<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="computing-derivs.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="fl">0.001</span>)</span></code></pre></div>
 <pre><code>## [1] 1.0005</code></pre>
-<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.0001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="computing-derivs.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="fl">0.0001</span>)</span></code></pre></div>
 <pre><code>## [1] 1.00005</code></pre>
-<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.0000001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="computing-derivs.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="fl">0.0000001</span>)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0.0000000001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="computing-derivs.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="fl">0.0000000001</span>)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Setting <span class="math inline">\(h\)</span> exactly to zero, however, won’t work: it produces <code>NaN</code>.</p>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">f</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="computing-derivs.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
 <p>Since <span class="math inline">\(\lim_{h\rightarrow 0} (e^h-1)/h = 1\)</span>, we have</p>
 <ul>
-<li>
-<strong>Exponentiation rule</strong>: <span class="math inline">\(\partial_x e^x = e^x\)</span>
-</li>
+<li><strong>Exponentiation rule</strong>: <span class="math inline">\(\partial_x e^x = e^x\)</span></li>
 </ul>
 </div>
 <div id="the-reciprocal-rule" class="section level3" number="19.4.4">
-<h3>
-<span class="header-section-number">19.4.4</span> The reciprocal rule<a class="anchor" aria-label="anchor" href="#the-reciprocal-rule"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">19.4.4</span> The reciprocal rule</h3>
 <p>Still another example: the reciprocal function, written equivalently as <span class="math inline">\(1/x\)</span> or <span class="math inline">\(x^{-1}\)</span></p>
 <p><span class="math display">\[\partial x^{-1} = \lim_{h\rightarrow 0}\frac{\frac{1}{x+h} - \frac{1}{x}}{h} \\
 \ \\
@@ -357,39 +671,28 @@ At a glance, it can be hard to know what to make of <span class="math inline">\(
 \ \\
 = -\lim_{h\rightarrow 0}\frac{1}{x^2 + hx}\]</span>
 So long as <span class="math inline">\(x \neq 0\)</span>, there is no divide-by-zero problem even when <span class="math inline">\(h=0\)</span>, but let’s see what the computer thinks:</p>
-<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">h</span><span class="op">*</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">h</span>, x<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
-<span class="fu">g</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="computing-derivs.html#cb189-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h<span class="sc">*</span>x) <span class="sc">~</span> h, <span class="at">x=</span><span class="dv">10</span>)</span>
+<span id="cb189-2"><a href="computing-derivs.html#cb189-2" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fl">0.1</span>)</span></code></pre></div>
 <pre><code>## [1] -0.00990099</code></pre>
-<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="computing-derivs.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fl">0.01</span>)</span></code></pre></div>
 <pre><code>## [1] -0.00999001</code></pre>
-<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="computing-derivs.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fl">0.001</span>)</span></code></pre></div>
 <pre><code>## [1] -0.009999</code></pre>
-<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.0001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="computing-derivs.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fl">0.0001</span>)</span></code></pre></div>
 <pre><code>## [1] -0.0099999</code></pre>
-<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.0000001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="computing-derivs.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fl">0.0000001</span>)</span></code></pre></div>
 <pre><code>## [1] -0.01</code></pre>
-<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0.0000000001</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="computing-derivs.html#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fl">0.0000000001</span>)</span></code></pre></div>
 <pre><code>## [1] -0.01</code></pre>
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">g</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="computing-derivs.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] -0.01</code></pre>
 <p>Setting <span class="math inline">\(h\)</span> to zero in the last expression gives another differentiation rule:</p>
 <ul>
-<li>
-<strong>Reciprocal rule</strong>: <span class="math inline">\(\partial_x \frac{1}{x} = -\frac{1}{x^2}\)</span>
-</li>
+<li><strong>Reciprocal rule</strong>: <span class="math inline">\(\partial_x \frac{1}{x} = -\frac{1}{x^2}\)</span></li>
 </ul>
 </div>
 <div id="power-law-rule" class="section level3" number="19.4.5">
-<h3>
-<span class="header-section-number">19.4.5</span> Power-law rule<a class="anchor" aria-label="anchor" href="#power-law-rule"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">19.4.5</span> Power-law rule</h3>
 <p>We don’t yet have the tools needed to prove a formula for the derivative of power-law functions, but we already have some instances where we know the derivative:</p>
 <ul>
 <li><span class="math inline">\(\partial_x x^2 = 2 x\)</span></li>
@@ -409,16 +712,16 @@ But there is no divide-by-<span class="math inline">\(h\)</span> in sight, so we
 <p>Those familiar with the use of Pascal’s Triangle for finding the terms of binomial expansions such as <span class="math inline">\((x + h)^p\)</span> will gain insight into the <span class="math inline">\(p x^{p-1}\)</span> rule.</p>
 </div>
 <div id="pattern-book-derivs" class="section level3" number="19.4.6">
-<h3>
-<span class="header-section-number">19.4.6</span> List of pattern-book rules<a class="anchor" aria-label="anchor" href="#pattern-book-derivs"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">19.4.6</span> List of pattern-book rules</h3>
 <p>We’ll save for later the derivation of the derivatives of the other pattern-book functions, but note that the gaussian function is <strong>defined</strong> to be the derivative of the sigmoidal function.</p>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
+<table>
+<thead>
+<tr class="header">
 <th>Name</th>
 <th><span class="math inline">\(f(x)\)</span></th>
 <th><span class="math inline">\(\partial_x f(x)\)</span></th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>exponential</td>
@@ -452,9 +755,7 @@ But there is no divide-by-<span class="math inline">\(h\)</span> in sight, so we
 </tr>
 <tr class="odd">
 <td>reciprocal</td>
-<td>
-<span class="math inline">\(1/x\)</span> or <span class="math inline">\(x^{-1}\)</span>
-</td>
+<td><span class="math inline">\(1/x\)</span> or <span class="math inline">\(x^{-1}\)</span></td>
 <td><span class="math inline">\(-1/x^2\)</span></td>
 </tr>
 <tr class="even">
@@ -468,103 +769,84 @@ But there is no divide-by-<span class="math inline">\(h\)</span> in sight, so we
 <td><span class="math inline">\(\dnorm(x)\)</span></td>
 </tr>
 </tbody>
-</table></div>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:pattern-deriv-diag"></span>
-<img src="www/pattern-derivs-diagram.png" alt="A diagram showing how differentiation connects the pattern-book functions to one another." width="90%"><p class="caption">
+</table>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:pattern-deriv-diag"></span>
+<img src="www/pattern-derivs-diagram.png" alt="A diagram showing how differentiation connects the pattern-book functions to one another." width="90%" />
+<p class="caption">
 Figure 19.2: A diagram showing how differentiation connects the pattern-book functions to one another.
 </p>
 </div>
 </div>
 </div>
 <div id="exercises-16" class="section level2" number="19.5">
-<h2>
-<span class="header-section-number">19.5</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-16"><i class="fas fa-link"></i></a>
-</h2>
-<details><summary><strong>Exercise 19.1</strong>: <span><a name="File:%20Exercises/Diff/tilde-function.Rmd" href="#kelwx"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/tilde-function.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">kelwx</span>
-</span></summary><p>The most common programming pattern in the R/mosaic calculus commands is:</p>
+<h2><span class="header-section-number">19.5</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise 19.1</strong>: <span><a name="File: Exercises/Diff/tilde-function.Rmd" href="#kelwx"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/tilde-function.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">kelwx</red></span>
+</summary>
+<p>The most common programming pattern in the R/mosaic calculus commands is:</p>
 <blockquote>
 <p><strong>Operator</strong>(<em>tilde_expression</em>, [optional details])</p>
 </blockquote>
-<p>Some operators: <code>slice_plot()</code>, <code>contour_plot</code>, <code>make_Fun()</code>, <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code>, <code>antiD()</code>, <code>findZeros()</code></p>
+<p>Some operators: <code>slice_plot()</code>, <code>contour_plot</code>, <code>make_Fun()</code>, <code>D()</code>, <code>antiD()</code>, <code>findZeros()</code></p>
 <p>For each of the R/mosaic expressions, determine which kind of thing is being created. Feel free to run the expressions in a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>.</p>
 <p><strong>Question A</strong></p>
 <p><code>makeFun(a*x - b ~ x)</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ Fair enough. But the function also has arguments <code>a</code> and <code>b</code> </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ Fair enough. But the function also has arguments <code>a</code> and <code>b</code> </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">Right! </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">Right! </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ The tilde expression is the <strong>input</strong> to the operator. The operator translates the tilde expression into something else.</span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ The tilde expression is the <strong>input</strong> to the operator. The operator translates the tilde expression into something else.</span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p><strong>Question B</strong></p>
-<p><code><a href="https://rdrr.io/r/stats/deriv.html">D(a*x - b ~ x)</a></code></p>
+<p><code>D(a*x - b ~ x)</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>a</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>a</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">Good. </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">Good. </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p><strong>Question C</strong></p>
 <p><code>antiD(a*x - b ~ x)</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>a</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>a</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">Right! </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">Right! </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p><strong>Question D</strong></p>
 <p><code>slice_plot(a*x - b ~ x, domain(x=c(0,5)))</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">︎✘ The expression is intended to make a plot, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>. You could have provided numerical values to <code>a</code> and <code>b</code> by assigning them in previous statements. If that’s what you had in mind, you deserve full credit.</span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">︎✘ The expression is intended to make a plot, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>. You could have provided numerical values to <code>a</code> and <code>b</code> by assigning them in previous statements. If that’s what you had in mind, you deserve full credit.</span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">Good. </span></span></li>
 </ol>
@@ -572,60 +854,45 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 <p><code>f &lt;- makeFun(a*x + b ~ x, a=2, b=-4)</code></p>
 <p><code>slice_plot(f(x) ~ x, domain(x=c(0,5)))</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">Excellent! This works because there are specific values provided for the <code>a</code> and <code>b</code> parameters.</span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">Excellent! This works because there are specific values provided for the <code>a</code> and <code>b</code> parameters.</span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p><strong>Question F</strong></p>
 <p><code>findZeros(a*x - b ~ x, domain(x=c(0,5)))</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">︎✘ The expression is intended to make a data frame, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>.</span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">︎✘ The expression is intended to make a data frame, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>.</span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">Correct. </span></span></li>
 </ol>
 <p><strong>Question G</strong></p>
 <p><code>a*x - b ~ x</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">Right! </span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">Right! </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">︎✘ The expression is intended to make a plot, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>.</span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">︎✘ The expression is intended to make a plot, but it doesn’t work. Specific numerical values would need to be provided for <code>a</code> and <code>b</code>.</span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">︎✘ </span></span></li>
 </ol>
@@ -633,69 +900,70 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 <p><code>f &lt;- makeFun(a*x + b ~ x, a=2, b=-4)</code></p>
 <p><code>findZeros(f(x) ~ x)</code></p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a function of <code>x</code>, <code>a</code>, and <code>b</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a tilde expression<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">a plot<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">a data frame<span class="mcanswer">Good. </span></span><br>
+<li><span class="Zchoice">a data frame<span class="mcanswer">Good. </span></span><br />
 </li>
 <li><span class="Zchoice">an error<span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p><strong>Question I</strong> Suppose you create a function in the usual way, e.g. <code>f &lt;- makeFun(a*x + b ~ x, a=2, b=-4)</code>. Which of the following will plot a straight-line function with a slope of 5.</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice"><code>slice_plot(f(x) ~ x, domain(x=c(-5, 5)))</code><span class="mcanswer">︎✘ The default value of <code>a</code> is 2, so the line would have a slope of 2.</span></span><br>
+<li><span class="Zchoice"><code>slice_plot(f(x) ~ x, domain(x=c(-5, 5)))</code><span class="mcanswer">︎✘ The default value of <code>a</code> is 2, so the line would have a slope of 2.</span></span><br />
 </li>
-<li>
-<span class="Zchoice"><code>slice_plot(f(x, b=2), domain(x=c(-5, 5))</code><span class="mcanswer">︎✘ It’s <code>a</code> that is the slope parameter.</span></span><br>
+<li><span class="Zchoice"><code>slice_plot(f(x, b=2), domain(x=c(-5, 5))</code><span class="mcanswer">︎✘ It’s <code>a</code> that is the slope parameter.</span></span><br />
 </li>
 <li><span class="Zchoice"><code>slice_plot(f(x, a=5), domain(x=c(-5, 5))</code><span class="mcanswer">Right! </span></span></li>
-</ol></details><p><br></p>
-<details><summary><strong>Exercise 19.2</strong>: <span><a name="File:%20Exercises/Diff/fly-speak-canoe.Rmd" href="#K05LrF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fly-speak-canoe.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">K05LrF</span>
-</span></summary><p>As you know, given a function <span class="math inline">\(g(x)\)</span> it’s easy to construct a new function <span class="math inline">\({\cal D}_x g(x)\)</span> that will be an approximation to the derivative <span class="math inline">\(\partial_x g(x)\)</span>. The approximation function, which we call the slope function, can be <span class="math display">\[{\cal D}_x g(x) \equiv \frac{g(x + 0.1) - g(x)}{0.1}\]</span></p>
+</ol>
+</details>
+<p><br />
+</p>
+<details>
+<summary>
+<strong>Exercise 19.2</strong>: <span><a name="File: Exercises/Diff/fly-speak-canoe.Rmd" href="#K05LrF"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/fly-speak-canoe.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">K05LrF</red></span>
+</summary>
+<p>As you know, given a function <span class="math inline">\(g(x)\)</span> it’s easy to construct a new function <span class="math inline">\({\cal D}_x g(x)\)</span> that will be an approximation to the derivative <span class="math inline">\(\partial_x g(x)\)</span>. The approximation function, which we call the slope function, can be <span class="math display">\[{\cal D}_x g(x) \equiv \frac{g(x + 0.1) - g(x)}{0.1}\]</span></p>
 <p>Open a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a> and use <code>makeFun()</code> to create a function <span class="math inline">\(g(x) \equiv \sin(x)\)</span> and another that will be the slope function, called it <code>slope_of_g()</code>.</p>
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="computing-derivs.html#cb203-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sin</span>(x) <span class="sc">~</span> x)</span>
 <span id="cb203-2"><a href="computing-derivs.html#cb203-2" aria-hidden="true" tabindex="-1"></a>slope_of_g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( _your_tilde_expression_here )</span></code></pre></div>
 <p><strong>Question A</strong> What’s the value of <code>slope_of_g(1)</code>?</p>
 <p>    <span class="Zchoice">0.3749<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">0.4973<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">1.3749<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1.4973<span class="mcanswer">︎✘ </span></span></p>
 <p>Using your sandbox, plot both <code>g()</code> and <code>slope_of_g()</code> (in blue) on a domain <span class="math inline">\(-5 \leq x \leq 5\)</span>. This can be done with <code>slicePlot()</code> in the following way:</p>
-<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">slice_plot</span><span class="op">(</span><span class="fu">g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">slope_of_g</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></code></pre></div>
-<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-278-1.png" width="90%" style="display: block; margin: auto;"><strong>Question B</strong> Which of these statements best describes the graph of <span class="math inline">\(g()\)</span> compared to <code>slope_of_g()</code>?</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="computing-derivs.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb204-2"><a href="computing-derivs.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">slope_of_g</span>(x) <span class="sc">~</span> x, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-285-1.png" width="90%" style="display: block; margin: auto;" />
+<strong>Question B</strong> Which of these statements best describes the graph of <span class="math inline">\(g()\)</span> compared to <code>slope_of_g()</code>?</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice"><code>slope_of_g()</code> is shifted left by about <span class="math inline">\(\pi/2\)</span> compared to <code>g(x)</code>.<span class="mcanswer">Nice! </span></span><br>
+<li><span class="Zchoice"><code>slope_of_g()</code> is shifted left by about <span class="math inline">\(\pi/2\)</span> compared to <code>g(x)</code>.<span class="mcanswer">Nice! </span></span><br />
 </li>
-<li>
-<span class="Zchoice"><code>slope_of_g()</code> is shifted left by about <span class="math inline">\(\pi\)</span> compared to <code>g(x)</code>.<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice"><code>slope_of_g()</code> is shifted left by about <span class="math inline">\(\pi\)</span> compared to <code>g(x)</code>.<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice"><code>slope_of_g()</code> has a larger amplitude than <code>g()</code><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice"><code>slope_of_g()</code> has a larger amplitude than <code>g()</code><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li>
-<span class="Zchoice">The output of <code>slope_of_g()</code> is always positive<span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice">The output of <code>slope_of_g()</code> is always positive<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice"><code>slope_of_g()</code> is practically the same function as <code>g()</code>. That is, for any input the output of the two functions is practically the same.<span class="mcanswer">︎✘ </span></span></li>
-</ol></details><details><summary><strong>Exercise 19.5</strong>: <span><a name="File:%20Exercises/Diff/doe-pay-kitchen.Rmd" href="#qCfet3"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/doe-pay-kitchen.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">qCfet3</span>
-</span></summary><p>Recall the differentiation rules for three of the pattern-book functions as presented in Section <a href="computing-derivs.html#symbolic-differentiation">19.4</a>:</p>
-<table class="table table-sm">
-<thead><tr class="header">
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 19.5</strong>: <span><a name="File: Exercises/Diff/doe-pay-kitchen.Rmd" href="#qCfet3"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/doe-pay-kitchen.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">qCfet3</red></span>
+</summary>
+<p>Recall the differentiation rules for three of the pattern-book functions as presented in Section <a href="computing-derivs.html#symbolic-differentiation">19.4</a>:</p>
+<table>
+<thead>
+<tr class="header">
 <th>Function name</th>
 <th>Formula</th>
 <th>Formula for derivative</th>
-<th>power-law exponent <span class="math inline">\(p\)</span>
-</th>
-</tr></thead>
+<th>power-law exponent <span class="math inline">\(p\)</span></th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>Identity</td>
@@ -721,27 +989,27 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 <p>There is a differentiation rule for the power-law family generally. The next question offers several formulas for this rule, only one of which is correct. You can figure out which one by trying the pattern-book functions in the table above and seeing which formula gives the correct answer for the derivative.</p>
 <p><strong>Question A</strong> Which of these formulas gives the correct differentiation rule for the power-law family <span class="math inline">\(x^p\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li>
-<span class="Zchoice"><span class="math inline">\(p x^{p-1}\)</span><span class="mcanswer">Correct. </span></span><br>
+<li><span class="Zchoice"><span class="math inline">\(p x^{p-1}\)</span><span class="mcanswer">Correct. </span></span><br />
 </li>
-<li>
-<span class="Zchoice"><span class="math inline">\((p-1) x^{p+1}\)</span><span class="mcanswer">︎✘ If this were true, the derivative of <span class="math inline">\(x^2\)</span> would be <span class="math inline">\(x^3\)</span>.</span></span><br>
+<li><span class="Zchoice"><span class="math inline">\((p-1) x^{p+1}\)</span><span class="mcanswer">︎✘ If this were true, the derivative of <span class="math inline">\(x^2\)</span> would be <span class="math inline">\(x^3\)</span>.</span></span><br />
 </li>
-<li>
-<span class="Zchoice"><span class="math inline">\(x^{p-1}\)</span><span class="mcanswer">︎✘ </span></span><br>
+<li><span class="Zchoice"><span class="math inline">\(x^{p-1}\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\((p-1) x^{p-1}\)</span><span class="mcanswer">︎✘ If this were true, the derivative of the identity function (<span class="math inline">\(p=1\)</span>) would be 0.</span></span></li>
-</ol></details><details><summary><strong>Exercise 19.6</strong>: <span><a name="File:%20Exercises/Diff/finch-trim-kayak.Rmd" href="#ykels"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/finch-trim-kayak.Rmd" width="12px"></a><span style="color: red; font-size: 9pt;">ykels</span>
-</span></summary><p>Although we created an R function named <code>slopeFun()</code> for the purposes of demonstration, it’s better to use the R/mosaic operator <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> which calculates the derivative, sometimes using symbolic methods and sometimes using a finite-difference method.</p>
-<p>As an example of the use of <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code>, here is some more R code that defines a function <code>f()</code> and finds <span class="math inline">\(\partial_x f()\)</span>, calling it <code>d_f()</code>. Then a slice plot is made of both <code>f()</code> and <code>d_f()</code>.</p>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span>   <span class="op">&lt;-</span> <span class="fu">makeFun</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="va">d_f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html">D</a></span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="fu">slice_plot</span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu">domain</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">slice_plot</span><span class="op">(</span><span class="fu">d_f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, color <span class="op">=</span> <span class="st">"orange3"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure">
-<img src="CalcZ-notes_files/figure-html/unnamed-chunk-279-1.png" width="90%" style="display: block; margin: auto;">
-:::</div>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 19.6</strong>: <span><a name="File: Exercises/Diff/finch-trim-kayak.Rmd" href="#ykels"><img src="www/icons8-signpost.png" title="Location: Exercises/Diff/finch-trim-kayak.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ykels</red></span>
+</summary>
+<p>Although we created an R function named <code>slopeFun()</code> for the purposes of demonstration, it’s better to use the R/mosaic operator <code>D()</code> which calculates the derivative, sometimes using symbolic methods and sometimes using a finite-difference method.</p>
+<p>As an example of the use of <code>D()</code>, here is some more R code that defines a function <code>f()</code> and finds <span class="math inline">\(\partial_x f()\)</span>, calling it <code>d_f()</code>. Then a slice plot is made of both <code>f()</code> and <code>d_f()</code>.</p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="computing-derivs.html#cb205-1" aria-hidden="true" tabindex="-1"></a>f   <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sqrt</span>(<span class="fu">exp</span>(x)) <span class="sc">-</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> x)</span>
+<span id="cb205-2"><a href="computing-derivs.html#cb205-2" aria-hidden="true" tabindex="-1"></a>d_f <span class="ot">&lt;-</span> <span class="fu">D</span>(<span class="fu">f</span>(x) <span class="sc">~</span> x)</span>
+<span id="cb205-3"><a href="computing-derivs.html#cb205-3" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">f</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb205-4"><a href="computing-derivs.html#cb205-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">d_f</span>(x) <span class="sc">~</span> x, <span class="at">color =</span> <span class="st">&quot;orange3&quot;</span>)</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-286-1.png" width="90%" style="display: block; margin: auto;" />
+:::</p>
 <p>For each of the following functions, write a brief comparison of the function to it’s differenced version. You can combine phrases such as “same shape,” “different shape. larger in amplitude,” “smaller in amplitude,” “same period,” “shorter period,” “longer period,” or whatever seems appropriate. For instance, for the original example in the sandbox, a reasonable comparison might be, “f() is concave down but Diff(f) is concave up.”</p>
 <p><strong>Essay question tmp-5</strong>: A. For the function <span class="math inline">\(f(x) \equiv 3 x\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\partial_x f\)</span>.</p>
 <p><strong>Essay question tmp-6</strong>: B. For the function <span class="math inline">\(f(x) \equiv x^2\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\partial_x f\)</span>.</p>
@@ -751,56 +1019,67 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
 <p><strong>Essay question tmp-10</strong>: F. For the function <span class="math inline">\(f(x) \equiv \sin(2 \pi x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\partial_x f\)</span>).</p>
 <p><strong>Essay question tmp-11</strong>: G. For the function <span class="math inline">\(f(x) \equiv \sin(\frac{2 \pi}{20} x)\)</span>, compare <span class="math inline">\(f()\)</span> to <span class="math inline">\(\partial_x f\)</span>).</p>
 </details>
-</div>
-</div>
-
-  <div class="chapter-nav">
-<div class="prev"><a href="evanescent-h.html"><span class="header-section-number">18</span> Evanescent h</a></div>
-<div class="next"><a href="concavity-curvature.html"><span class="header-section-number">20</span> Concavity and curvature</a></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#computing-derivs"><span class="header-section-number">19</span> Computing derivatives</a></li>
-<li><a class="nav-link" href="#a-function-from-a-function"><span class="header-section-number">19.1</span> A function from a function</a></li>
-<li><a class="nav-link" href="#finite-differencing"><span class="header-section-number">19.2</span> Finite differencing</a></li>
-<li><a class="nav-link" href="#the-slope-function-operator"><span class="header-section-number">19.3</span> The slope-function operator</a></li>
-<li>
-<a class="nav-link" href="#symbolic-differentiation"><span class="header-section-number">19.4</span> Symbolic differentiation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#the-line-rule"><span class="header-section-number">19.4.1</span> The line rule</a></li>
-<li><a class="nav-link" href="#the-square-rule"><span class="header-section-number">19.4.2</span> The square rule</a></li>
-<li><a class="nav-link" href="#the-exponential-rule"><span class="header-section-number">19.4.3</span> The exponential rule</a></li>
-<li><a class="nav-link" href="#the-reciprocal-rule"><span class="header-section-number">19.4.4</span> The reciprocal rule</a></li>
-<li><a class="nav-link" href="#power-law-rule"><span class="header-section-number">19.4.5</span> Power-law rule</a></li>
-<li><a class="nav-link" href="#pattern-book-derivs"><span class="header-section-number">19.4.6</span> List of pattern-book rules</a></li>
-</ul>
-</li>
-<li><a class="nav-link" href="#exercises-16"><span class="header-section-number">19.5</span> Exercises</a></li>
-</ul>
-
-      <div class="book-extra">
-        <ul class="list-unstyled">
-<li><a id="book-source" href="Not%20available/blob/master/Diff-computing.Rmd">View source <i class="fab fa-gitlab"></i></a></li>
-          <li><a id="book-edit" href="Not%20available/edit/master/Diff-computing.Rmd">Edit this page <i class="fab fa-gitlab"></i></a></li>
-        </ul>
-</div>
-    </nav>
-</div>
 
 </div>
-</div> <!-- .container -->
+</div>
+<div class="footnotes">
+<hr />
+<ol start="35">
+<li id="fn35"><p>Mathematically, one differentiates a function, not a tilde expression. But differentiation requires specification of the with-respect-to-input, so R/mosaic implements differentiation by using tilde-expression syntax.<a href="computing-derivs.html#fnref35" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
 
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
-
-  <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>MOSAIC Calculus</strong>" was written by Daniel Kaplan. It was last built on 2021-10-12.</p>
+          </div>
+        </div>
+      </div>
+<a href="evanescent-h.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="concavity-curvature.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
   </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/Diff-computing.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/view/shared/Diff-computing.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
 
-  <div class="col-12 col-md-6 mt-3">
-    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
-  </div>
-
-</div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -812,22 +1091,7 @@ Figure 19.2: A diagram showing how differentiation connects the pattern-book fun
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
 </script>
 </body>
+
 </html>
