@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 22 Derivatives of assembled functions | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 22 Derivatives of assembled functions | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 22 Derivatives of assembled functions | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="cont-and-smooth.html"/>
+<link rel="next" href="optim-and-shape.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><span style="font-size: 150%;><strong><a href="">MOSAIC Calculus</a></strong></span></li>
+<li><em><a>Calculus for the 21st century</a></em></li>
+<li><a>Daniel Kaplan</a></li>
+<hr>
+<li><a href="../index.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><strong><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="prolog-differentiation-and-birth.html"><a href="prolog-differentiation-and-birth.html"><i class="fa fa-check"></i>Prolog: Differentiation and birth</a></li>
+<li class="chapter" data-level="17" data-path="change-relationships.html"><a href="change-relationships.html"><i class="fa fa-check"></i><b>17</b> Change relationships</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="change-relationships.html"><a href="change-relationships.html#mathematics-in-motion"><i class="fa fa-check"></i><b>17.1</b> Mathematics in motion</a></li>
+<li class="chapter" data-level="17.2" data-path="change-relationships.html"><a href="change-relationships.html#continuous-time"><i class="fa fa-check"></i><b>17.2</b> Continuous time</a></li>
+<li class="chapter" data-level="17.3" data-path="change-relationships.html"><a href="change-relationships.html#instantaneous-rate-of-change"><i class="fa fa-check"></i><b>17.3</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="17.4" data-path="change-relationships.html"><a href="change-relationships.html#slopes-and-motion"><i class="fa fa-check"></i><b>17.4</b> Slopes and motion</a></li>
+<li class="chapter" data-level="17.5" data-path="change-relationships.html"><a href="change-relationships.html#acceleration"><i class="fa fa-check"></i><b>17.5</b> Acceleration</a></li>
+<li class="chapter" data-level="17.6" data-path="change-relationships.html"><a href="change-relationships.html#notations-for-differentiation"><i class="fa fa-check"></i><b>17.6</b> Notations for differentiation</a></li>
+<li class="chapter" data-level="17.7" data-path="change-relationships.html"><a href="change-relationships.html#slope-fun-visualization"><i class="fa fa-check"></i><b>17.7</b> Visualizing the slope function</a></li>
+<li class="chapter" data-level="17.8" data-path="change-relationships.html"><a href="change-relationships.html#dimension-of-derivatives"><i class="fa fa-check"></i><b>17.8</b> Dimension of derivatives</a></li>
+<li class="chapter" data-level="17.9" data-path="change-relationships.html"><a href="change-relationships.html#exercises"><i class="fa fa-check"></i><b>17.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="evanescent-h.html"><a href="evanescent-h.html"><i class="fa fa-check"></i><b>18</b> Evanescent h</a></li>
+<li class="chapter" data-level="19" data-path="computing-derivs.html"><a href="computing-derivs.html"><i class="fa fa-check"></i><b>19</b> Computing derivatives</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="computing-derivs.html"><a href="computing-derivs.html#a-function-from-a-function"><i class="fa fa-check"></i><b>19.1</b> A function from a function</a></li>
+<li class="chapter" data-level="19.2" data-path="computing-derivs.html"><a href="computing-derivs.html#finite-differencing"><i class="fa fa-check"></i><b>19.2</b> Finite differencing</a></li>
+<li class="chapter" data-level="19.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-slope-function-operator"><i class="fa fa-check"></i><b>19.3</b> The slope-function operator</a></li>
+<li class="chapter" data-level="19.4" data-path="computing-derivs.html"><a href="computing-derivs.html#symbolic-differentiation"><i class="fa fa-check"></i><b>19.4</b> Symbolic differentiation</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="computing-derivs.html"><a href="computing-derivs.html#the-line-rule"><i class="fa fa-check"></i><b>19.4.1</b> The line rule</a></li>
+<li class="chapter" data-level="19.4.2" data-path="computing-derivs.html"><a href="computing-derivs.html#the-square-rule"><i class="fa fa-check"></i><b>19.4.2</b> The square rule</a></li>
+<li class="chapter" data-level="19.4.3" data-path="computing-derivs.html"><a href="computing-derivs.html#the-exponential-rule"><i class="fa fa-check"></i><b>19.4.3</b> The exponential rule</a></li>
+<li class="chapter" data-level="19.4.4" data-path="computing-derivs.html"><a href="computing-derivs.html#the-reciprocal-rule"><i class="fa fa-check"></i><b>19.4.4</b> The reciprocal rule</a></li>
+<li class="chapter" data-level="19.4.5" data-path="computing-derivs.html"><a href="computing-derivs.html#power-law-rule"><i class="fa fa-check"></i><b>19.4.5</b> Power-law rule</a></li>
+<li class="chapter" data-level="19.4.6" data-path="computing-derivs.html"><a href="computing-derivs.html#pattern-book-derivs"><i class="fa fa-check"></i><b>19.4.6</b> List of pattern-book rules</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="computing-derivs.html"><a href="computing-derivs.html#exercises-1"><i class="fa fa-check"></i><b>19.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="concavity-curvature.html"><a href="concavity-curvature.html"><i class="fa fa-check"></i><b>20</b> Concavity and curvature</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="concavity-curvature.html"><a href="concavity-curvature.html#quantifing-concavity-and-curvature"><i class="fa fa-check"></i><b>20.1</b> Quantifing concavity and curvature</a></li>
+<li class="chapter" data-level="20.2" data-path="concavity-curvature.html"><a href="concavity-curvature.html#concavity-deriv"><i class="fa fa-check"></i><b>20.2</b> Concavity</a></li>
+<li class="chapter" data-level="20.3" data-path="concavity-curvature.html"><a href="concavity-curvature.html#curvature-definition"><i class="fa fa-check"></i><b>20.3</b> Curvature</a></li>
+<li class="chapter" data-level="20.4" data-path="concavity-curvature.html"><a href="concavity-curvature.html#exercises-2"><i class="fa fa-check"></i><b>20.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html"><i class="fa fa-check"></i><b>21</b> Continuity and smoothness</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#continuity"><i class="fa fa-check"></i><b>21.1</b> Continuity</a></li>
+<li class="chapter" data-level="21.2" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#discontinuity"><i class="fa fa-check"></i><b>21.2</b> Discontinuity</a></li>
+<li class="chapter" data-level="21.3" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#smoothness"><i class="fa fa-check"></i><b>21.3</b> Smoothness</a></li>
+<li class="chapter" data-level="21.4" data-path="cont-and-smooth.html"><a href="cont-and-smooth.html#exercises-3"><i class="fa fa-check"></i><b>21.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html"><i class="fa fa-check"></i><b>22</b> Derivatives of assembled functions</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#using-the-rules"><i class="fa fa-check"></i><b>22.1</b> Using the rules</a></li>
+<li class="chapter" data-level="22.2" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#differentiating-linear-combinations"><i class="fa fa-check"></i><b>22.2</b> Differentiating linear combinations</a></li>
+<li class="chapter" data-level="22.3" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#product-rule-for-multiplied-functions"><i class="fa fa-check"></i><b>22.3</b> Product rule for multiplied functions</a></li>
+<li class="chapter" data-level="22.4" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#chain-rule-for-function-composition"><i class="fa fa-check"></i><b>22.4</b> Chain rule for function composition</a></li>
+<li class="chapter" data-level="22.5" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#basic-derivs"><i class="fa fa-check"></i><b>22.5</b> Derivatives of the basic modeling functions</a></li>
+<li class="chapter" data-level="22.6" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exponentials-and-logarithms-optional"><i class="fa fa-check"></i><b>22.6</b> Exponentials and logarithms (optional)</a></li>
+<li class="chapter" data-level="22.7" data-path="prod-comp-rules.html"><a href="prod-comp-rules.html#exercises-4"><i class="fa fa-check"></i><b>22.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="optim-and-shape.html"><a href="optim-and-shape.html"><i class="fa fa-check"></i><b>23</b> Optimization</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="optim-and-shape.html"><a href="optim-and-shape.html#structure-of-the-problem"><i class="fa fa-check"></i><b>23.1</b> Structure of the problem</a></li>
+<li class="chapter" data-level="23.2" data-path="optim-and-shape.html"><a href="optim-and-shape.html#interpreting-the-argmax"><i class="fa fa-check"></i><b>23.2</b> Interpreting the argmax</a></li>
+<li class="chapter" data-level="23.3" data-path="optim-and-shape.html"><a href="optim-and-shape.html#derivatives-and-optimization"><i class="fa fa-check"></i><b>23.3</b> Derivatives and optimization</a></li>
+<li class="chapter" data-level="23.4" data-path="optim-and-shape.html"><a href="optim-and-shape.html#flat-on-top"><i class="fa fa-check"></i><b>23.4</b> Be practical!</a></li>
+<li class="chapter" data-level="23.5" data-path="optim-and-shape.html"><a href="optim-and-shape.html#exercises-5"><i class="fa fa-check"></i><b>23.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="partial-change.html"><a href="partial-change.html"><i class="fa fa-check"></i><b>24</b> Partial change</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="partial-change.html"><a href="partial-change.html#calculus-on-two-inputs"><i class="fa fa-check"></i><b>24.1</b> Calculus on two inputs</a></li>
+<li class="chapter" data-level="24.2" data-path="partial-change.html"><a href="partial-change.html#all-other-things-being-equal"><i class="fa fa-check"></i><b>24.2</b> All other things being equal …</a></li>
+<li class="chapter" data-level="24.3" data-path="partial-change.html"><a href="partial-change.html#gradient-vector"><i class="fa fa-check"></i><b>24.3</b> Gradient vector</a></li>
+<li class="chapter" data-level="24.4" data-path="partial-change.html"><a href="partial-change.html#total-derivative-optional"><i class="fa fa-check"></i><b>24.4</b> Total derivative (optional)</a></li>
+<li class="chapter" data-level="24.5" data-path="partial-change.html"><a href="partial-change.html#differential-skier"><i class="fa fa-check"></i><b>24.5</b> Differentials</a></li>
+<li class="chapter" data-level="24.6" data-path="partial-change.html"><a href="partial-change.html#exercises-6"><i class="fa fa-check"></i><b>24.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="local-approximations.html"><a href="local-approximations.html"><i class="fa fa-check"></i><b>25</b> Local approximations</a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="local-approximations.html"><a href="local-approximations.html#eight-simple-shapes"><i class="fa fa-check"></i><b>25.1</b> Eight simple shapes</a></li>
+<li class="chapter" data-level="25.2" data-path="local-approximations.html"><a href="local-approximations.html#low-order-polynomials"><i class="fa fa-check"></i><b>25.2</b> Low-order polynomials</a></li>
+<li class="chapter" data-level="25.3" data-path="local-approximations.html"><a href="local-approximations.html#low-order-two"><i class="fa fa-check"></i><b>25.3</b> The low-order polynomial with two inputs</a></li>
+<li class="chapter" data-level="25.4" data-path="local-approximations.html"><a href="local-approximations.html#partial-thought"><i class="fa fa-check"></i><b>25.4</b> Thinking partially</a></li>
+<li class="chapter" data-level="25.5" data-path="local-approximations.html"><a href="local-approximations.html#finding-coefficients-from-data"><i class="fa fa-check"></i><b>25.5</b> Finding coefficients from data</a></li>
+<li class="chapter" data-level="25.6" data-path="local-approximations.html"><a href="local-approximations.html#exercises-7"><i class="fa fa-check"></i><b>25.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="polynomials.html"><a href="polynomials.html"><i class="fa fa-check"></i><b>26</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="polynomials.html"><a href="polynomials.html#polynomial-basics"><i class="fa fa-check"></i><b>26.1</b> Basics of polynomials with one input</a></li>
+<li class="chapter" data-level="26.2" data-path="polynomials.html"><a href="polynomials.html#multiple-inputs"><i class="fa fa-check"></i><b>26.2</b> Multiple inputs?</a></li>
+<li class="chapter" data-level="26.3" data-path="polynomials.html"><a href="polynomials.html#high-order-approx"><i class="fa fa-check"></i><b>26.3</b> High-order approximations</a></li>
+<li class="chapter" data-level="26.4" data-path="polynomials.html"><a href="polynomials.html#indeterminate-forms"><i class="fa fa-check"></i><b>26.4</b> Indeterminate forms</a></li>
+<li class="chapter" data-level="26.5" data-path="polynomials.html"><a href="polynomials.html#computing-with-indeterminate-forms"><i class="fa fa-check"></i><b>26.5</b> Computing with indeterminate forms</a></li>
+<li class="chapter" data-level="26.6" data-path="polynomials.html"><a href="polynomials.html#exercises-8"><i class="fa fa-check"></i><b>26.6</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/linear-forms.html">Block 5: Linear combinations</a></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="prod-comp-rules" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 22</span> Derivatives of assembled functions</h1>
+<!-- Standard colors in equations
+magenta, brown, darkorange
+-->
+<p>In Section <a href="computing-derivs.html#symbolic-differentiation">19.4</a> we used the rules associated with <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> to confirm our claims about the derivatives of many of the pattern-book functions. We’ll call these rules <strong><em>h-theory</em></strong> for short. In this chapter, we’re going to use h-theory to find algebraic <strong><em>rules</em></strong> to calculate the derivatives of linear combinations of functions, products of functions, and composition of functions. Remarkably, we can figure out these rules without having to say specifically which functions are being combined. So the rules can be written in terms of abstractions: <span class="math inline">\(f()\)</span>, <span class="math inline">\(g()\)</span>, and <span class="math inline">\(h()\)</span>. Later, we’ll apply those rules to specific functions, to show how the rules are used in practical work.</p>
+<div id="using-the-rules" class="section level2" number="6.1">
+<h2><span class="header-section-number">22.1</span> Using the rules</h2>
+<p>When you encounter a function that you want to differentiate, you first have to examine the function to decide which rule you want to apply. In the following, we’ll to use the names <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span>, but in practice the functions will often be basic modeling functions, for instance <span class="math inline">\(e^{kx}\)</span> or <span class="math inline">\(\sin\left(\frac{2\pi}{P}t\right)\)</span>, etc.</p>
+<p><strong><em>Step 1</em></strong>: Identify f() and g()</p>
+<p>We will write the rules in terms of two function names, <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span>, which can stand for any functions whatsoever. It’s rare to see the product or the composition written explicitly as <span class="math inline">\(f(x)g(x)\)</span> of <span class="math inline">\(f(g(x))\)</span>. Instead, you are given something like <span class="math inline">\(e^x \ln(x)\)</span>. The first step in differentiating the product or composition is to identify what are <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> individually. <span style="float: right; padding-left: 50px;"><a name="2400" href="#2400"><img src="www/icons8-signpost.png" title="Location: 2400" width="12px"/></a><span style="color: red; font-size: 6pt;">2400</red></span></p>
+<p>In general, <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> might be complicated functions, themselves involving linear combinations, products, and composition. But to get started, we’ll practice with cases where they are simple, pattern-book functions. <span style="float: right; padding-left: 50px;"><a name="2405" href="#2405"><img src="www/icons8-signpost.png" title="Location: 2405" width="12px"/></a><span style="color: red; font-size: 6pt;">2405</red></span></p>
+<p><strong><em>Step 2</em></strong>: Find f’() and g’()</p>
+<p>For differentiating either products or compositions, you will need to identify both <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> (the first step) and then compute the derivatives <span class="math inline">\(\partial_x f()\)</span> and <span class="math inline">\(\partial_x g()\)</span>. That is, you’ll write down four functions. <span style="float: right; padding-left: 50px;"><a name="2410" href="#2410"><img src="www/icons8-signpost.png" title="Location: 2410" width="12px"/></a><span style="color: red; font-size: 6pt;">2410</red></span></p>
+<p><strong><em>Step 3</em></strong>: Apply the relevant rule</p>
+<p>Recall from Chapter <a href="#fun-assembling"><strong>??</strong></a> that will will be working with three important forms for creating new functions out of existing functions:</p>
+<ol style="list-style-type: decimal">
+<li>Linear combinations, e.g. <span class="math inline">\(a f(x) + bg(x)\)</span></li>
+<li>Products of functions, e.g. <span class="math inline">\(f(x) g(x)\)</span></li>
+<li>Compositions of functions, e.g. <span class="math inline">\(f\left(g(x)\right)\)</span></li>
+</ol>
+</div>
+<div id="differentiating-linear-combinations" class="section level2" number="6.2">
+<h2><span class="header-section-number">22.2</span> Differentiating linear combinations</h2>
+<p><strong><em>Linear combination</em></strong> is one of the ways in which we make new functions from existing functions. As you recall, linear combination involves <strong><em>scaling</em></strong> functions and then <strong><em>adding</em></strong> the scaled functions as in <span class="math inline">\(a f(x) + b g(x)\)</span>, alinear combination of <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span>. We can easily use <span class="math inline">\(h\)</span> to show what is the result of differentiating a linear combination of functions. First, let’s figure out what is <span class="math inline">\(\partial_x\, a f(x)\)</span>, Going back to writing <span class="math inline">\(\partial_x\)</span> in terms of a slope function:
+<span class="math display">\[\partial_x\, a\,f(x) = \frac{a\, f(x + h) - a\,f(x)}{h}\\
+\ \\
+= a \frac{f(x+h) - f(x)}{h} = a\, \partial_x f(x)\]</span>
+In other words, if we know the derivative <span class="math inline">\(\partial_x\, f(x)\)</span>, we can easily find the derivative of <span class="math inline">\(a\, f()\)</span>. Notice that even though <span class="math inline">\(h\)</span> was used in the derivation, it appears nowhere in the result <span class="math inline">\(\partial_x\, b\,f(x) = b\, \partial_x\, f(x)\)</span>. The <span class="math inline">\(h\)</span> is solvent to get the paint on the wall and evaporates once its job is done.</p>
+<p>Now consider the derivative of the sum of two functions, <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span>:
+<span class="math display">\[\partial_x\, \left[f(x) + g(x)\right] =\\
+\ \\
+=\frac{\left[f(x + h) + g(x + h)\right] - \left[f(x) + g(x)\right]}{h} \\
+\ \\
+= \frac{\left[f(x+h) -f(x)\right] + \left[g(x+h) - g(x)\right]}{h}\\
+\ \\
+= \frac{\left[f(x+h) -f(x)\right]}{h} + \frac{\left[g(x+h) - g(x)\right]}{h}\\
+\ \\
+= \partial_x\, f(x) + \partial_x\, g(x)\]</span></p>
+<p>Because of the way that <span class="math inline">\(\partial_x\)</span> can be “passed through” a linear combination, mathematicians say that differentiation is a <strong><em>linear operator</em></strong>. Consider this new fact about differentiation as a down payment on what will eventually become a complete theory telling us how to differentiate a <strong><em>product of two functions</em></strong> or the <strong><em>composition of two functions</em></strong>. We’ll lay out the <span class="math inline">\(h\)</span>-theory based algebra of this in the next two sections. <span style="float: right; padding-left: 50px;"><a name="2390" href="#2390"><img src="www/icons8-signpost.png" title="Location: 2390" width="12px"/></a><span style="color: red; font-size: 6pt;">2390</red></span></p>
+<p>We can summarize the h-theory result for linear combinations this way:</p>
+<blockquote>
+<p><em>The derivative of a linear combination is the linear combination of the derivatives.</em></p>
+</blockquote>
+<p>That is:</p>
+<p><span class="math display">\[\partial_x \left[\strut \color{magenta}{a} \color{brown}{f(x)} + \color{magenta}{b} \color{brown}{g(x)}\right] = \color{magenta}{a} {\large\color{brown}{f&#39;(x)}} + \color{magenta}{b} {\large\color{brown}{g&#39;(x)}}\]</span>
+as well as
+<span class="math display">\[\partial_x \left[\strut \color{magenta}{a}\, \color{brown}{f(x)} + \color{magenta}{b}\, \color{brown}{g(x)}  + \color{magenta}{c}\, \color{brown}{h(x)} + \cdots\right] = \color{magenta}{a}\, {\large\color{brown}{f&#39;(x)}} + \color{magenta}{b}\, {\large\color{brown}{g&#39;(x)}} + \color{magenta}{c}\, {\large\color{brown}{h&#39;(x)}} + \cdots\]</span></p>
+<div class="example">
+<p><span id="exm:unlabeled-div-1" class="example"><strong>Example 22.1  </strong></span>The derivative of a polynomial is a polynomial of a lower order.</p>
+<p>Consider the polynomial <span class="math display">\[h(x) = \color{magenta}{a}\color{brown}{x^0}  + \color{magenta}{b} \color{brown}{x^1} + \color{magenta}{c} \color{brown}{x^2}\]</span> The derivative is
+<span class="math display">\[\partial_x h(x) = \color{brown}{0}\, \color{magenta}{a}  + \color{brown}{1}\, \color{magenta}{b}  + \color{magenta}{c}\, \color{brown}{2 x} = \color{magenta}{b} +  \color{magenta}{2 c}\  x\]</span></p>
+</div>
+</div>
+<div id="product-rule-for-multiplied-functions" class="section level2" number="6.3">
+<h2><span class="header-section-number">22.3</span> Product rule for multiplied functions</h2>
+<p>The question at hand is how to compute the derivative <span class="math inline">\(\partial_x f(x) g(x)\)</span>. Of course, you can always use numerical differentiation. But let’s look at the problem from the point of view of symbolic differentiation. And since <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> are just pronoun functions, we’ll assume you are starting out already knowing the derivatives $_x f(x) <span class="math inline">\(\partial_x f(x)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span>.</p>
+<p>This situation arises particularly when <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> are pattern-book functions for which you already have memorized <span class="math inline">\(\partial_x f(x)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span> or are basic modeling functions whose derivatives you will memorize in Section <a href="prod-comp-rules.html#basic-derivs">22.5</a>.</p>
+<p>The purpose of this section is to <strong>derive</strong> the formula for <span class="math inline">\(\partial_x f(x) g(x)\)</span> in terms of <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(g(x)\)</span>, <span class="math inline">\(\partial_x f(x)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span>. This formula is called the <strong><em>product rule</em></strong>. The point of showing a derivation of the product rule is to let you see how the logic of evanescent <span class="math inline">\(h\)</span> plays a role. In practice, everyone simply memorizes the rule, which has a beautiful, symmetric form:</p>
+<p><span class="math display">\[\text{Product rule:}\ \ \ \ \partial_x \left[\strut f(x)g(x)\right] = \left[\strut \partial_x f(x)\right]\, g(x) + f(x)\, \left[\strut\partial_x g(x)\right]\]</span> and is even prettier in Lagrange notation (where <span class="math inline">\(\partial_x f(x)\)</span> is written <span class="math inline">\(f&#39;\)</span>): <span class="math display">\[ \left[\strut f g\right]&#39; = f&#39; g + g&#39; f\]</span></p>
+<p>As with all derivatives, the product rule is based on the instantaneous rate of change <span class="math display">\[F&#39;(x) \equiv \lim_{h\rightarrow 0} \frac{F(x+h) - F(x)}{h}\]</span> introduced in Section <a href="change-relationships.html#instantaneous-rate-of-change">17.3</a>.</p>
+<p>We also need two other statements about <span class="math inline">\(h\)</span> and functions:</p>
+<ol style="list-style-type: decimal">
+<li>The derivative <span class="math inline">\(F&#39;(x)\)</span> is the slope of of <span class="math inline">\(F()\)</span> at input <span class="math inline">\(x\)</span>. Taking a step of size <span class="math inline">\(h\)</span> from <span class="math inline">\(x\)</span> will induce a change of output of <span class="math inline">\(h F&#39;(x)\)</span>, so <span class="math display">\[F(x+h) = f(x) + h F&#39;(x)\ .\]</span></li>
+<li>Any result of the form <span class="math inline">\(h F(x)\)</span>, where <span class="math inline">\(F(x)\)</span> is finite, gives 0. More precisely, <span class="math inline">\(\lim_{h\rightarrow 0} h F(x) = 0\)</span></li>
+</ol>
+<p>As before, we’ll put the standard <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> disclaimer against dividing by <span class="math inline">\(h\)</span> until there are no such divisions at all, at which point we can safely use the equality <span class="math inline">\(h = 0\)</span>.</p>
+<p>Suppose the function <span class="math inline">\(F(x) \equiv f(x) g(x)\)</span>, a product of the two functions <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span>.</p>
+<p><span class="math display">\[\require{cancel} F&#39;(x) = \partial_x \left[\strut f(x) g(x) \right] \equiv \lim_{h\rightarrow 0}\frac{f(x+h) g(x+h) - f(x) g(x)}{h}\]</span>
+We’ll replace <span class="math inline">\(g(x_h)\)</span> with its equivalent <span class="math inline">\(g(x) + h g&#39;(x)\)</span> giving</p>
+<p><span class="math display">\[= \lim_{h\rightarrow 0} \frac{f(x+h) \left[\strut g(x) + h g&#39;(x) \right] - f(x) g(x)}{h} \]</span>
+<span class="math inline">\(g(x)\)</span> appears in both terms in the numerator, once multiplied by <span class="math inline">\(f(x+h)\)</span> and once by <span class="math inline">\(f(x)\)</span>. Collecting those terms give:</p>
+<p><span class="math display">\[=\lim_{h\rightarrow 0}\frac{\left[\strut f(x+ h) - f(x)\right]  g(x) + \left[\strut f(x+h) h\, g&#39;(x)\right]}{h}\]</span>
+This has two bracketed terms added together over a common denominator. Let’s split them into separate terms:</p>
+<p><span class="math display">\[=\lim_{h\rightarrow 0}\underbrace{\left[\strut \frac{f(x+h) - f(x)}{h}\right]}_{f&#39;(x)} g(x) + \lim_{h\rightarrow 0}\frac{\left[\strut f(x) + h f&#39;(x)\right]h\,g&#39;(x)}{h}\]</span></p>
+<p>The first term is <span class="math inline">\(g(x)\)</span> multiplied by the familiar form for the derivative of <span class="math inline">\(f(x)\)</span>
+<span class="math display">\[= f&#39;(x) g(x) + \lim_{h\rightarrow 0}\frac{f(x) h g&#39;(x)}{h} + \lim_{h\rightarrow 0}\frac{h f&#39;(x) h g&#39;(x)}{h}\]</span>
+In each of the last two terms there is an <span class="math inline">\(h/h\)</span> involved. This is safely set to 1, since the <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> implies that <span class="math inline">\(h\)</span> will not be exactly zero. There remain no divisions by <span class="math inline">\(h\)</span> so we can drop the <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> in favor of <span class="math inline">\(h=0\)</span>:
+<span class="math display">\[= f&#39;(x) g(x) + f(x) g&#39;(x) + \cancel{h f&#39;(x) g&#39;(x)}\]</span></p>
+<p><span class="math display">\[=f&#39;(x) g(x) + g&#39;(x) f(x)\]</span></p>
+<p>The last step relies on statement (2) above.</p>
+<p>Some people find it easier to read the rule in Lagrange shorthand, where <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> stand for <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> respectivly, and <span class="math inline">\(f&#39;\)</span> (“f-prime”) and <span class="math inline">\(g&#39;\)</span> (“g-prime”) stand for <span class="math inline">\(\partial f()\)</span> and <span class="math inline">\(\partial g()\)</span>. <span style="float: right; padding-left: 50px;"><a name="2415" href="#2415"><img src="www/icons8-signpost.png" title="Location: 2415" width="12px"/></a><span style="color: red; font-size: 6pt;">2415</red></span></p>
+<p><span class="math display">\[\large\text{Lagrange shorthand:}\ \   \partial[\color{magenta}f \times \color{brown}g] = [\color{magenta}f \times \color{brown}g]&#39; = \color{magenta}{f&#39;}\color{brown}g + \color{brown}{g&#39;}\color{magenta}f\]</span></p>
+<div class="example">
+<p><span id="exm:unlabeled-div-2" class="example"><strong>Example 22.2  </strong></span>The expression <span class="math inline">\(\partial_x x^3\)</span> is exactly the same as <span class="math inline">\(\partial_x \left[\strut x\  x^2\right]\)</span>. Since we already know <span class="math inline">\(\partial_x x\)</span> (it’s 1) and <span class="math inline">\(\partial_x x^2\)</span> (it’s <span class="math inline">\(2x\)</span>) let’s apply the product rule to find <span class="math inline">\(\partial_x x^3\)</span>:
+<span class="math display">\[\large\partial [\color{magenta}x \times \color{brown}{x^2}] = \color{magenta}{[\partial x]} \times \color{brown}{x^2} \ +\  \color{brown}{[\partial x^2]} \times \color{magenta}x =\color{magenta}1\times \color{brown}{x^2} + \color{brown}{2x} \times \color{magenta}x = 3 x^2\]</span></p>
+</div>
+<div class="takenote">
+<p>Occasionally, mathematics gives us a situation where being more general produces simplicity.</p>
+<p>In the case of function products, the generalization is from products of two functions <span class="math inline">\(f(x)\cdot g(x)\)</span> to products of more than two functions, e.g. <span class="math inline">\(u(x) \cdot v(x) \cdot w(x)\)</span>.</p>
+<p>The chain rule here takes a form that makes the overall structure much clearer:</p>
+<p><span class="math display">\[\partial_x \left[\strut u(x) \cdot v(x) \cdot w(x)\right] = \\
+\color{blue}{\partial_x u(x)} \cdot v(x) \cdot w(x)\ +\ u(x) \cdot \color{blue}{\partial_x v(x)} \cdot w(x)\ +\ u(x) \cdot v(x) \cdot \color{blue}{\partial_x w(x)}\]</span>
+In the Lagrange shorthand, the pattern is even more evident:
+<span class="math display">\[\left[ u\cdot v\cdot w\right]&#39; = \color{blue}{u&#39;}\cdot v\cdot w\ +\ u\cdot \color{blue}{v&#39;}\cdot w\ +\ u\cdot v\cdot \color{blue}{w}&#39;\]</span></p>
+</div>
+</div>
+<div id="chain-rule-for-function-composition" class="section level2" number="6.4">
+<h2><span class="header-section-number">22.4</span> Chain rule for function composition</h2>
+<p>A function composition, as described in Section <a href="#function-composition"><strong>??</strong></a>, involves inserting the output of one function (the “interior function”) as the input of the other function (the “exterior function”). As we so often do, we’ll be using pronouns a lot. A list might help keep things straight:</p>
+<ul>
+<li>There are two functions involved in a composition. We’ll call them <span class="math inline">\(f(y)\)</span> and <span class="math inline">\(g(x)\)</span>. In the composition <span class="math inline">\(f(g(x))\)</span>, the <strong><em>exterior function</em></strong> is <span class="math inline">\(f()\)</span> and the <strong><em>interior function</em></strong> is <span class="math inline">\(g()\)</span>.</li>
+<li>Each of the two functions <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> has an input.
+In our examples, we’ll use <span class="math inline">\(y\)</span> to stand for the input to the exterior function and <span class="math inline">\(x\)</span> as the pronoun for the input to the interior function.</li>
+<li>As with all rules for differentiation, we’ll need to compute the derivatives of the functions involved, each with respect to its own input. So these will be <span class="math inline">\(\partial_y f(y)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span>.</li>
+</ul>
+<p>A reason to use different pronouns for the inputs to <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> is to remind us that the output <span class="math inline">\(g(x)\)</span> is in general not the same kind of quantity as the input <span class="math inline">\(x\)</span>. In a function composition, the <span class="math inline">\(f()\)</span> function will take the output <span class="math inline">\(g(x)\)</span> as input. But since <span class="math inline">\(g(x)\)</span> is not necessarily the same kind of thing as <span class="math inline">\(x\)</span>, why would we want to use the same name for the input to <span class="math inline">\(f()\)</span> as we use for the input to <span class="math inline">\(g()\)</span>.</p>
+<p>With this distinction between the names of the inputs, we can be even more explicit about the composition, writing <span class="math inline">\(f(y=g(x))\)</span> instead of <span class="math inline">\(f(g(x))\)</span>. Had we used the pronound <span class="math inline">\(x\)</span> for the input to <span class="math inline">\(f()\)</span> but our explicit statement, although technically correct, would be confusing: <span class="math inline">\(f(x = g(x))\)</span>!</p>
+<p>With all these pronouns in mind, here is the <strong><em>chain rule</em></strong> for the derivative <span class="math inline">\(\partial_x f(g(x))\)</span>:</p>
+<p><span class="math display">\[\large\partial_x \left[\strut \color{magenta}{f\left(\strut\right.}\strut \color{brown}{g(x)}\color{magenta}{\left.\right)}\right] = [\color{magenta}{\partial_y f}](\color{brown}{g(x)}) \times [\color{brown}{\partial_xg(x)}]\]</span>
+Or, using the Lagrange prime notation, where <span class="math inline">\(&#39;\)</span> stands for the derivative of a function with respect to its input, we have
+<span class="math display">\[\large\text{Lagrange shorthand:}\ \   [\color{magenta}f(\color{brown}g)]&#39; = \color{magenta}{f&#39;} (\color{brown}g) \times \color{brown}{g}&#39;\]</span></p>
+<div class="intheworld">
+<p>In news and policy discussions, you will often hear about “inflation rate” or “birth rate” or “interest rate” or “investment rate of return.” In each case, there is a function of time combined with a derivative of that function: with the general form <span class="math display">\[\frac{\partial_t f(t)}{ f(t)}\ .\]</span></p>
+<ul>
+<li>Inflation rate: The function is cost_of_living(<span class="math inline">\(t\)</span>). The derivative is the rate of change with respect to time in the cost of living: <span class="math inline">\(\partial_t\,\)</span>cost_of_living(<span class="math inline">\(t\)</span>).</li>
+<li>Birth rate: The function is population(<span class="math inline">\(t\)</span>). The derivative is <span class="math inline">\(\partial_t\,\)</span>population(<span class="math inline">\(t\)</span>), or at least that component of the overall <span class="math inline">\(\partial_t\,\)</span>population(<span class="math inline">\(t\)</span>) that is related to births. (Other components are deaths and the balance of in-migration and out-migration.)</li>
+<li>Interest rate: The function is account_balance(<span class="math inline">\(t\)</span>) and the derivative is <span class="math inline">\(\partial_t\,\)</span>account_balance(<span class="math inline">\(t\)</span>).</li>
+<li>Investment returns: The function is net_worth(<span class="math inline">\(t\)</span>) and the derivative is <span class="math inline">\(\partial_t\,\)</span>net_worth(<span class="math inline">\(t\)</span>).</li>
+</ul>
+<p>In all these cases, The “rate” is not merely “per time” as would be the case for <span class="math inline">\(\partial_t f(t)\)</span>. Instead the rate is “per unit of the whole per time.” Thus the birth rate is “births <strong><em>per capita</em></strong> per year.”<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> Interest and return rates are “percent per year” where the “percent” understood to be the “change-in-value divided by the current value.”</p>
+<p>Thanks to the chain rule, there is a shortcut way of writing these sorts of “rates per time.” Exactly equivalent to the ratio <span class="math inline">\(\frac{\partial_t f(t)}{ f(t)}\)</span> is <span class="math display">\[\partial_t \ln(f(t))\ .\]</span></p>
+<p>Such changes in logarithms are encountered in fields such as economics or finance, where it’s common to consider the logarithm of the economic quantity in order to render changes as percent of the whole.</p>
+<p>It’s also something to keep in mind when interpreting graphs of an amount versus time, as in Figure @ref{fig:italy-us-covid}. <a href="https://www.nytimes.com/2020/03/20/health/coronavirus-data-logarithm-chart.html">Source</a></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:italy-us-covid"></span>
+<img src="www/NYT-italy-us-corona.png" alt="Growth in the number of Coronavirus cases in Italy and the US early in the pandemic." width="90%" />
+<p class="caption">
+Figure 22.1: Growth in the number of Coronavirus cases in Italy and the US early in the pandemic.
+</p>
+</div>
+<p>Look closely at the two graphs in Figure <a href="prod-comp-rules.html#fig:italy-us-covid">22.1</a>. They show exactly the same data about growing numbers of coronavirus cases, the left graph on linear axes, the right on the now-familiar semi-log axes.</p>
+<p>Most people are excellent at comparing slopes, even if they find it difficult or tedious to quantify a slope with a number and units. For instance, a glance suffices to show that in the left graph, well through mid-March the red curve (Italy) is steeper on any given date than the blue curve (US). This means that the number of people with coronavirus was growing faster (per day) in Italy.</p>
+<p>The right graph tells a different story: up until about March 1, the Italian cases were increasing faster than the US cases. Afterwards, the US sees a larger growth rate than Italy until, around March 19, the US growth rate is substantially larger than the Italy growth rate.</p>
+<p>The previous two paragraphs and their corresponding graphs may seem to contradict one another. But they are both accurate, truthful depictions of the same events. What’s different between the two graphs is that the left shows one kind of rate and the right shows another kind of rate. In the left, the slope is new-cases-per-day, the output of the derivative function <span class="math display">\[{\mathbf{\text{left graph:}}} \ \ \ \  \partial_t \text{daily_new_cases}(t)\ .\]</span> On the right, the slope is the <strong><em>proportional increase</em></strong> in cases per day, that is, <span class="math display">\[{\mathbf{\text{right graph:}}}\ \ \ \ \frac{\partial_t \text{daily_new_cases}(t)}{\text{daily_new_cases}(t)}\]</span>
+From the chain rule, we know that
+<span class="math display">\[\partial_t \left[\strut\ln(f(t))\right] = \frac{\partial_t f(t)}{f(t)}\]</span>
+Since the right graph is on semi-log axes, the slope we perceive visually is <span class="math inline">\(\partial_t \left[\strut\ln(f(t))\right]\)</span>. That’s an obscure-looking bunch of notation until the chain rule reveals it to be the rate of change at time <span class="math inline">\(t\)</span> divided by the value at time <span class="math inline">\(t\)</span>.</p>
+</div>
+<p>The derivation of the chain rule relies on two closely related statements which are expressions of the idea that near any value <span class="math inline">\(x\)</span> a function can be expressed as a linear approximation with the slope equal to the derivative of the function :</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(g(x + h) = g(x) + h g&#39;(x)\)</span></li>
+<li><span class="math inline">\(f(y + \epsilon) = f(y) + \epsilon f&#39;(y)\)</span>, which is the same thing as (1) but uses <span class="math inline">\(y\)</span> as the argument name and <span class="math inline">\(\epsilon\)</span> to stand for the small quantity we usually write with an <span class="math inline">\(h\)</span>.</li>
+</ol>
+<p>We’ll now look at <span class="math inline">\(\partial_x f\left({\large\strut} g(x)\right)\)</span> by writing down the fundamental definition of the derivative. This, of course, involves the disclaimer <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> until we’re sure that there is no division by <span class="math inline">\(h\)</span> involved.</p>
+<p><span class="math display">\[\partial_x \left[{\large\strut} f\left(\strut g(x)\right)\right]  \equiv \lim_{h\rightarrow 0}\frac{\color{magenta}{f(g(x+h))} - f(g(x))}{h}\]</span></p>
+<p>Let’s examine closely the expression <span class="math inline">\(\color{magenta}{f\left(\strut g(x+h)\right)}\)</span>. Applying rule (1) above turns it into <span class="math display">\[\lim_{h\rightarrow 0} f\left(\strut g(x) + \color{blue}{h g&#39;(x)}\right)\]</span>
+Now apply rule (2) but substituting in <span class="math inline">\(g(x)\)</span> for <span class="math inline">\(y\)</span> and <span class="math inline">\(\color{blue}{h g&#39;(x)}\)</span> for <span class="math inline">\(\epsilon\)</span>, giving<br />
+<span class="math display">\[\lim_{h\rightarrow 0} \color{magenta}{f\left(\strut g(x+h)\right)} = \lim_{h\rightarrow 0} \color{brown}{\left[{\large\strut} f\left(g(x)\right) + \color{blue}{h g&#39;(x)}f&#39;\left(g(x)\right)\right]}\]</span>
+We’ll substitute the <span class="math inline">\(\color{blue}{blue}\)</span> and <span class="math inline">\(\color{brown}{brown}\)</span> expression for the <span class="math inline">\(\color{magenta}{magenta}\)</span> expression in
+<span class="math display">\[\partial_x f\left(\strut g(x)\right)  \equiv \lim_{h\rightarrow 0}\frac{\color{magenta}{f(g(x+h))} - f(g(x))}{h}\]</span> giving
+<span class="math display">\[\partial_x f\left(\strut g(x)\right)  \equiv \lim_{h\rightarrow 0}\frac{\color{brown}{f\left(g(x)\right) + \color{blue}{h g&#39;(x)}f&#39;\left(g(x)\right)} - f\left(g(x)\right)}{h}\]</span>
+In the denominator, <span class="math inline">\(f\left(g(x)\right)\)</span> appears twice and cancels itself out. That leaves a single term with an <span class="math inline">\(h\)</span> in the numerator and an <span class="math inline">\(h\)</span> in the denominator. Those <span class="math inline">\(h\)</span>’s cancel out, at the same time obviating the need for <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> and leaving us with the chain rule:
+<span class="math display">\[\partial_x f\left(\strut g(x)\right)  \equiv \lim_{h\rightarrow 0}\frac{\color{brown}{ \color{blue}{h g&#39;(x)} f&#39;\left(g(x)\right)}}{h} = f&#39;\left(g(x)\right)\ g&#39;(x)\]</span></p>
+<div class="example">
+<p><span id="exm:unlabeled-div-3" class="example"><strong>Example 22.3  </strong></span>Use the chain rule to find the derivative <span class="math inline">\(\partial_x e^{2x}\)</span>.</p>
+<p>Recognize that <span class="math inline">\(g(x) \equiv 2x\)</span> is the interior function in <span class="math inline">\(e^{2x}\)</span> and <span class="math inline">\(f(x) \equiv \exp(x)\)</span> is the exterior function. Thus <span class="math display">\[\partial_x e^{2x} = f&#39;(g(x)) g&#39;(x) = \exp(g(x)) 2 = 2 e^{2x}\ .\]</span> Happily, this is exactly the same result as we got from using the product rule to find <span class="math inline">\(\partial_x e^{2x}\)</span>.</p>
+<p>Recognizing <span class="math inline">\(e^{2x}\)</span> as <span class="math inline">\(e^x \times e^x\)</span>, we can apply the <strong><em>product rule</em></strong>.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 22.4  </strong></span>The chain rule can be used in a clever way to find a formula for <span class="math inline">\(\partial_x \ln(x)\)</span>.</p>
+<p>We’ve already seen that the logarithm is the inverse function to the exponential, and <em>vice versa</em>. That is:
+<span class="math display">\[e^{\ln(y)} = y \ \ \ \text{and}\ \ \ \ln(e^y) = x\]</span>
+Since <span class="math inline">\(\ln(e^y)\)</span> is the same function as <span class="math inline">\(y\)</span>, the derivative <span class="math inline">\(\partial_y \ln(e^y) = \partial_y y = 1\)</span>.</p>
+<p>Let’s differentiate the second form using the chain rule:
+<span class="math display">\[\partial_y \ln(e^y) = \left[\partial_y \ln\right](e^y)\, e^x = 1\]</span> giving <span class="math display">\[\left[\partial_y \ln\right](e^y) = \frac{1}{e^y} = \recip(e^y)\]</span>
+Whatever the function <span class="math inline">\(\partial_x \ln()\)</span> might be, it takes its input and produces as output the reciprocal of that input. In other words:
+<span class="math display">\[\partial_x \ln(x) = \frac{1}{x}\ .\]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-5" class="example"><strong>Example 22.5  </strong></span>Knowing that <span class="math inline">\(\partial_x \ln(x) = 1/x\)</span> and the chain rule, we’re in a position to demonstrate the <strong><em>power-law rule</em></strong> <span class="math inline">\(\partial_x x^p = p\, x^{p-1}\)</span>. The key is to use the identity <span class="math inline">\(e^{\ln(x)} = x\)</span>.</p>
+<p><span class="math display">\[\partial_x x^p = \partial_x \left[e^{\ln(x)}\right]^p\]</span>
+The rules of exponents allow us to recognize <span class="math display">\[\left[e^{\ln(x)}\right]^p = e^{p \ln(x)}\]</span>
+Thus, <span class="math inline">\(x^p\)</span> can be seen as a composition of the exponential function onto the logarithm function.</p>
+<p>Applying the chain rule to this composition gives
+<span class="math display">\[\partial_x e^{p \ln(x)} = e^{p\ln(x)}\partial_x [p \ln(x)] =
+e^{p\ln(x)} \frac{p}{x}\ .\]</span> Of course, we already know that <span class="math inline">\(e^{p \ln(x)} = x^p\)</span>, so we have
+<span class="math display">\[\partial_x x^p = x^p \frac{p}{x} = p x^{p-1}\ .\]</span></p>
+</div>
+<ul>
+<li><span class="math inline">\(\large\partial_x [\color{brown}\sin(\color{magenta}{a x + b})] = [\partial_x \color{brown}{\sin}](\color{magenta}{a x + b}) \times \partial_x [\color{magenta}{ax + b}] = \color{brown}{\cos}(\color{magenta}{ax + b}) \times \color{magenta}a\)</span>.</li>
+</ul>
+<!-- `rrr insert_calcZ_exercise("XX.XX", "YbPAf1", "Exercises/sheep-draw-clock.Rmd")`-->
+<div class="intheworld">
+<p>In 1734, famous philosopher <a href="https://en.wikipedia.org/wiki/George_Berkeley">George Berkeley</a> (1685-1753) published a long-titled book: <em>The Analyst: A Discourse Addressed to an Infidel Mathematician: Wherein It Is Examined Whether the Object, Principles, and Inferences of the Modern Analysis Are More Distinctly Conceived, or More Evidently Deduced, Than Religious Mysteries and Points of Faith</em>. In <em>The Analyst</em>, Berkeley took issue with the arguments of that time that it is legitimate to divide by <span class="math inline">\(h\)</span> when, ultimately, <span class="math inline">\(h\)</span> will be replaced by zero. Calling <span class="math inline">\(h\)</span> an “evanescent increment,” he asked, <span style="float: right; padding-left: 50px;"><a name="2392" href="#2392"><img src="www/icons8-signpost.png" title="Location: 2392" width="12px"/></a><span style="color: red; font-size: 6pt;">2392</red></span></p>
+<blockquote>
+<p><em>“And what are these same evanescent Increments? They are neither finite Quantities nor Quantities infinitely small, nor yet nothing. May we not call them the ghosts of departed quantities?”</em></p>
+</blockquote>
+<p>Interesting, Berkeley believed that the ghost of <span class="math inline">\(h\)</span> yielded correct results. His objection was that the framers of calculus had made two, canceling errors.</p>
+<blockquote>
+<p><em>“[B]y virtue of a two fold mistake you arrive, though not at science, yet truth.”</em></p>
+</blockquote>
+<p>Berkeley was saying that calculus had not yet been put on a solid logical foundation. It wasn’t until more than a century after Berkeley’s death that this work was accomplished. Once accomplished, the results that had been claimed true all along were confirmed. <span style="float: right; padding-left: 50px;"><a name="2394" href="#2394"><img src="www/icons8-signpost.png" title="Location: 2394" width="12px"/></a><span style="color: red; font-size: 6pt;">2394</red></span></p>
+</div>
+</div>
+<div id="basic-derivs" class="section level2" number="6.5">
+<h2><span class="header-section-number">22.5</span> Derivatives of the basic modeling functions</h2>
+<p>The basic modeling functions are the same as the pattern-book functions, but with bare <span class="math inline">\(x\)</span> replaced by <span class="math inline">\(\line(x)\)</span>. In other words, each of the basic modeling functions is a <strong><em>composition</em></strong> of the corresponding pattern-book function with <span class="math inline">\(\line(x)\)</span>. As such, the derivatives of the basic modeling functions can be found using the chain rule.</p>
+<p>Suppose <span class="math inline">\(f()\)</span> is one of our pattern-book functions. Then <span class="math display">\[\large\partial_x f(\color{magenta}{ax + b}) = \color{brown}{a} f&#39;(\color{magenta}{ax + b})\]</span> where <span class="math inline">\(\color{brown}{a}\)</span> is the derivative with respect to <span class="math inline">\(x\)</span> of <span class="math inline">\(\color{magenta}{ax + b}\)</span>.</p>
+<p>Here are the steps for differentiating a basic modeling function <span class="math inline">\(\color{brown}{f}(\color{magenta}{a x + b})\)</span> where <span class="math inline">\(f()\)</span> is one of the pattern-book functions:</p>
+<ul>
+<li>Step 1: Identify the particular pattern-book function <span class="math inline">\(\color{brown}{f}()\)</span> and write down its derivative <span class="math inline">\(\color{brown}{f&#39;}\)</span>. For example, if <span class="math inline">\(f()\)</span> is <span class="math inline">\(\sin()\)</span>, then <span class="math inline">\(f&#39;()\)</span> is <span class="math inline">\(\cos()\)</span>.</li>
+<li>Step 2: Find the derivative of the linear interior function. If the function is <span class="math inline">\(\color{magenta}{ax + b}\)</span>, then the derivative is <span class="math inline">\(\color{magenta}{a}\)</span>. If the interior function is <span class="math inline">\(\frac{2\pi}{P}(t-t_0)\)</span>, the derivative is <span class="math inline">\(\frac{2 \pi}{P}\)</span>.</li>
+<li>Step 3: Write down the original function <span class="math inline">\(\large\color{brown}{f}(\color{magenta}{a x + b})\)</span> but replace <span class="math inline">\(\large\color{brown}{f}\)</span> with <span class="math inline">\(\large \color{brown}{f&#39;}\)</span> and pre-multiply by the derivative of the interior function. For instance, <span class="math display">\[\partial_x f(\color{magenta}{ax + b}) = {\large \color{magenta}{a}}{\large f&#39;}(\color{magenta}{ax + b})\]</span> Another example: <span class="math display">\[\partial_t \color{brown}{\sin}\left(\color{magenta}{\frac{2 \pi}{P}(t-t_0)} \right) = {\large \color{magenta}{\frac{2 \pi}{P}}}\color{brown}{\large\cos}\left(\color{magenta}{\frac{2 \pi}{P}(t-t_0) }\right) \]</span></li>
+</ul>
+<p>By convention, there are different ways of writing <span class="math inline">\(\line(x)\)</span> for the different pattern-book functions, for instance: <span style="float: right; padding-left: 50px;"><a name="2396" href="#2396"><img src="www/icons8-signpost.png" title="Location: 2396" width="12px"/></a><span style="color: red; font-size: 6pt;">2396</red></span></p>
+<p><span class="math display">\[\text{Pattern-book function}  \ \ \ \longrightarrow\ \ \ \text{Basic modeling function}\\
+\ \\
+\sin(x)\ \ \ \longrightarrow\ \ \ \sin\left(\strut2 \pi \left[x-x_0\right]/P\right)\\
+\exp(x)\ \ \ \longrightarrow\ \ \ \exp(k x)\\
+x^2 \ \ \ \longrightarrow\ \ \ \left[mx + b\right]^2\\
+1/x \ \ \ \longrightarrow\ \ \ 1/\left[mx + b\right]\\
+\ln(x) \ \ \ \longrightarrow\ \ \ \ln(a x + b)\\\]</span></p>
+<p>The rule for the derivative of any basic modeling function <span class="math inline">\(f(\line(x))\)</span> is <span class="math display">\[\partial_x f(\line(x)) = \partial_x \line(x) \times \partial_x f\left(\strut\line(x)\right)\]</span></p>
+<p>To illustrate:</p>
+<ul>
+<li><span class="math inline">\(\partial_x e^{\color{magenta}{kx}} = {\large\color{magenta}{k}}\, e^{\color{magenta}{kx}}\)</span> where <span class="math inline">\(\line(x) = kx\)</span>.</li>
+<li><span class="math inline">\(\partial_x \sin(2\pi (x-x_0)/P) = \frac{2\pi}{P} \sin(2\pi (x-x_0)/P)\)</span> where <span class="math inline">\(\line(x) = 2\pi (x-x_0)/P)\)</span>.</li>
+<li><span class="math inline">\(\partial_x (mx + b)^2 = m\, 2 (m x + b) = 2 m^2 x + m^2 b\)</span> where <span class="math inline">\(\line(x) = mx + b\)</span>.</li>
+<li><span class="math inline">\(\partial_x \text{reciprocal}(mx + b) = \partial_x \frac{1}{mx + b} = - \frac{m}{(mx + b)^2}\)</span> where <span class="math inline">\(\line(x) = mx + b\)</span> and we use the fact that <span class="math inline">\(\partial_x \text{reciprocal}(x) = - 1/x^2\)</span></li>
+<li><span class="math inline">\(\partial_x \ln(a x + b) = a/(ax+b)\)</span></li>
+<li><span class="math inline">\(\partial_x \pnorm(x, \text{mean}, \text{sd}) = dnorm(x, \text{mean}, \text{sd})\)</span>.</li>
+<li><span class="math inline">\(\partial_x \dnorm(x, \text{mean}, \text{sd}) = - \frac{x-m}{\text{sd}^2} \dnorm(x, \text{mean}, \text{sd})\)</span></li>
+</ul>
+<p>You will be using the derivatives of the basic modeling functions so often, that you should practice and practice until you can write the derivative at a glance.</p>
+<div class="takenote">
+<p>There are many possible implementations of the general concept of hump functions and sigmoidal functions. The one we use in this book is <span class="math inline">\(\dnorm()\)</span> for the hump and <span class="math inline">\(\pnorm()\)</span> for the sigmoid.</p>
+<p>The names <span class="math inline">\(\dnorm\)</span> and <span class="math inline">\(\pnorm\)</span> are worth remarking on. As we’ve said before, <span class="math inline">\(\dnorm()\)</span> is called the <strong><em>gaussian function</em></strong> in many fields of science and engineering. It is also a centrally important function in statistics, where it is usually called the <strong><em>normal function</em></strong>. (That’s how important it is: it’s just “normal.”) You may also have heard the normal function described as a “bell-shaped curve.”</p>
+<p>In statistical nomenclature, <span class="math inline">\(\dnorm()\)</span> is called the “normal probability density function (PDF)” and <span class="math inline">\(\pnorm()\)</span> is called the “normal cumulative density function (CDF).” That’s way too wordy for our purposes. So, for brevity, we have adopted the R name for those functions: <code>dnorm()</code> and <code>pnorm()</code>.</p>
+<p>Owing to the origin of the names <span class="math inline">\(\dnorm\)</span> and <span class="math inline">\(\pnorm\)</span>, we are writing the parameters of the functions—mean and sd—using the computer language notation. The pattern-book functions are just <span class="math inline">\(\dnorm(x)\)</span> and <span class="math inline">\(\pnorm(x)\)</span>, without listing the parameters. But the basic modeling functions, with parameters, are written <span class="math inline">\(\dnorm(x, \text{mean}, \text{sd})\)</span> and <span class="math inline">\(\dnorm(x, \text{mean}, \text{sd})\)</span>. This violates the convention that the basic modeling functions are the composition of the pattern-book functions with <span class="math inline">\(\line(x)\)</span>. But <span class="math inline">\(\dnorm()\)</span> doesn’t actually work this way because, by convention, the amplitude of the peak of <span class="math inline">\(\dnorm()\)</span> changes with the input parameter sd. That’s not true for any other basic modeling function.</p>
+</div>
+<div class="takenote">
+<p>Composition or product?</p>
+<p>There is one family of functions for which function composition is the same thing as multiplying functions: the power-law family.</p>
+<p>Consider, for instance, the function <span class="math inline">\(h(x) \equiv \left[3x\right]^4\)</span>. Let’s let <span class="math inline">\(g(x) \equiv 3x\)</span> and <span class="math inline">\(f(y) \equiv y^4\)</span>. With these definitions, <span class="math inline">\(h(x) = f(g(x))\)</span>.</p>
+<p>Recognizing that <span class="math inline">\(\partial_y f(y) = 4 y^3\)</span> and <span class="math inline">\(\partial_x g(x) = 3\)</span>, the <em>chain rule</em> gives <span class="math display">\[\partial_x h(x) = 
+\underbrace{4 g(x)^3}_{f&#39;(g(x))} \times \underbrace{3}_{g&#39;(x)} = \underbrace{4 (3 x)^3}_{f&#39;(g(x))} \times 3 = 4\cdot 3^4 \times x^3 = 324\ x^3\]</span>
+Another way to look at the same function is <span class="math inline">\(g(x)\)</span> multiplied by itself 3 times: <span class="math display">\[h(x) = g(x)\cdot g(x) \cdot g(x) \cdot g(x)\]</span>
+This is a product of 4 terms. Applying the product rule gives
+<span class="math display">\[\partial_x h(x) = \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \\\color{blue}{g&#39;(x)}\cdot g(x)\cdot g(x) \cdot g(x) +\\
+g(x)\cdot \color{blue}{g(x)}&#39;\cdot g(x) \cdot g(x) +\\
+g(x)\cdot g(x)\cdot \color{blue}{g(x)&#39;} \cdot g(x) +\\
+g(x)\cdot g(x)\cdot g(x) \cdot \color{blue}{g&#39;(x)}\ \ \ \ \]</span>
+Since multiplication is commutative, all of these four terms are the same, each being <span class="math inline">\(3^4 x^3\)</span>. The sum of all four is therefore <span class="math inline">\(4 \times 3^4 x^3 = 324 x^3\)</span>.</p>
+<p>These are two long-winded ways of getting to the result. For most people, differentiating power-law functions algebraically is simplified by using the <strong><em>rules of exponentiation</em></strong> rather than the product or chain rule. Here,
+<span class="math display">\[h(x) \equiv \left[3x\right]^4 = 3^4 x^4\]</span>so <span class="math inline">\(\partial_x h(x)\)</span> is easily handled as a scalar (<span class="math inline">\(3^4\)</span>) times a function <span class="math inline">\(x^4\)</span>. Consequently, applying the rule for differentiating power laws,
+<span class="math display">\[\partial_x h(x) = 3^4 \times \partial_x x^4 = 3^4 \times 4 x^3 = 324 x^3\]</span>
+As another example, take <span class="math inline">\(h(x) \equiv \sqrt[4]{\strut x^3}\)</span>. This is, of course, the composition <span class="math inline">\(f(g(x))\)</span> where <span class="math inline">\(f(y) \equiv y^{1/4}\)</span> and <span class="math inline">\(g(x) \equiv x^3\)</span>. Applying the chain rule to find <span class="math inline">\(\partial_x h(x)\)</span> will work (of course!), but is more work than applying the rules of exponentiation followed by a simple power-law differentiation.
+<span class="math display">\[h(x) = \sqrt[4]{\strut x^3} = x^{3/4}\ \ \text{so}\ \  \partial_x h(x) = \frac{3}{4} x^{(3/4 - 1)} = \frac{3}{4} x^{-1/4}\]</span></p>
+</div>
+</div>
+<div id="exponentials-and-logarithms-optional" class="section level2" number="6.6">
+<h2><span class="header-section-number">22.6</span> Exponentials and logarithms (optional)</h2>
+<p>The <strong><em>natural logarithm</em></strong> function, <span class="math inline">\(\ln(x)\)</span>, is one of our basic modeling functions. As you know, there are other logarithmic functions. The one most often used is the logarithm-base-10, written <span class="math inline">\(\log_{10}(x)\)</span> or <code>log10(x)</code>. Ten is an integer, and a nice number to use in arithmetic. So in practice, it’s sensible to use <span class="math inline">\(\log_{10}()\)</span>. (Indeed, <span class="math inline">\(\log_{10}()\)</span> is the digit() function, introduced in Chapter <a href="#magnitudes"><strong>??</strong></a>.</p>
+<p>The “natural” in the “natural logarithm” means something different. <span style="float: right; padding-left: 50px;"><a name="2430" href="#2430"><img src="www/icons8-signpost.png" title="Location: 2430" width="12px"/></a><span style="color: red; font-size: 6pt;">2430</red></span></p>
+<p>The base of the natural logarithm is the number called <strong><em>Euler’s constant</em></strong> and written <span class="math inline">\(e\)</span>. As a celebrity number, <span class="math inline">\(e\)</span> is right up there with <span class="math inline">\(\pi\)</span> and <span class="math inline">\(i\)</span>. Just as <span class="math inline">\(\pi\)</span> has a decimal expansion that is infinitely long, the familiar <span class="math inline">\(\pi = 3.14159265358979...\)</span>, Euler’s constant has an infinitely long decimal representation: <span class="math inline">\(e = 2.71828182845905...\)</span> <span style="float: right; padding-left: 50px;"><a name="2435" href="#2435"><img src="www/icons8-signpost.png" title="Location: 2435" width="12px"/></a><span style="color: red; font-size: 6pt;">2435</red></span></p>
+<p>It’s not obvious at first glance why <span class="math inline">\(e = 2.71828182845905...\)</span> should be called “natural” by mathematicians. The reason is not the number itself, but</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\ln(x)\)</span> is the inverse of <span class="math inline">\(e^x\)</span>, which is special for being invariant under differentiation: <span class="math inline">\(\partial_x e^x = e^x\)</span>.</li>
+<li>The derivative <span class="math inline">\(\partial_x \ln(x)\)</span> which has a particularly simple form, namely, <span class="math inline">\(1/x\)</span>.</li>
+</ol>
+<p>Let’s look at the log-base-10 and it’s computer-savvy cousin log-base-2. The very definition of logarithms means that both 10 and 2 can be written <span class="math display">\[10 = e^{\ln(10)}\ \ \ \text{and}\ \ \ 2 = e^{\ln(2)}\]</span>
+This implies that the base-10 and base-2 exponential functions can be written</p>
+<p><span class="math display">\[10^x = \left[\strut e^{\strut\ln(10)}\right]^x = e^{\ln(10)x} \ \ \ \text{and}\ \ \ 2^x = \left[\strut e^{\strut\ln(2)}\right]^x = e^{\ln(2) x}\]</span>
+Calculating <span class="math inline">\(\partial_x 10^x\)</span> or <span class="math inline">\(\partial_x 2^x\)</span> is a matter of applying the chain rule:</p>
+<p><span class="math display">\[\partial_x [10^x] = \partial_x [e^{\ln(10)x}] = e^{\ln(10)x} \times \ln(10) \ =\  10^x \times 2.3026\]</span>
+and
+<span class="math display">\[\partial_x [2^x] = \partial_x [e^{\ln(2)x}] = e^{\ln(2)x} \times \ln(2) \ = \ 2^x \times 0.6931\]</span>
+Like <span class="math inline">\(e^x\)</span>, the derivatives of <span class="math inline">\(10^x\)</span> and <span class="math inline">\(2^x\)</span> are proportional to themselves. For <span class="math inline">\(e^x\)</span> the constant of proportionality is 1, a very natural number indeed.</p>
+</div>
+<div id="exercises-4" class="section level2" number="6.7">
+<h2><span class="header-section-number">22.7</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise 22.01</strong>: <span><a name="File: Exercises/ant-give-room.Rmd" href="#jYXYTF"><img src="www/icons8-signpost.png" title="Location: Exercises/ant-give-room.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">jYXYTF</red></span>
+</summary>
+<p>Section <a href="prod-comp-rules.html#using-the-rules">22.1</a> explains that in differentiating a linear combination of two functions, or a product of two functions, or one function composed with another, your first task is to identify the two functions <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> involved. Second, compute the derivative of each of those functions on its own: <span class="math inline">\(\partial_x f(x)\)</span> and <span class="math inline">\(\partial_x g(x)\)</span>.</p>
+<p>Carry out these two tasks for each of the combined functions shown in the table. (The first row has been done for you as an example.)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Combination</th>
+<th><span class="math inline">\(f()\)</span></th>
+<th><span class="math inline">\(g()\)</span></th>
+<th><span class="math inline">\(\partial_x f()\)</span></th>
+<th><span class="math inline">\(\partial_x g()\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(e^x \ln(x)\)</span></td>
+<td><span class="math inline">\(\ln(x)\)</span></td>
+<td><span class="math inline">\(e^x\)</span></td>
+<td><span class="math inline">\(\recip\)</span> (that is <span class="math inline">\(1/x\)</span>)</td>
+<td><span class="math inline">\(e^x\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(sin(e^x)\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(x + x^2\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(1/\sin(x)\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\pnorm(x)^2\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sqrt{\pnorm(x)}\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\pnorm(x^2)\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(pnorm(sin(x))\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</details>
+<details>
+<summary>
+<strong>Exercise 22.02</strong>: <span><a name="File: Exercises/lamb-rise-sofa.Rmd" href="#3ICCCz"><img src="www/icons8-signpost.png" title="Location: Exercises/lamb-rise-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">3ICCCz</red></span>
+</summary>
+<p>For each of the following, say whether the function is a composition <span class="math inline">\(f(g(x))\)</span> or a product <span class="math inline">\(f(x) g(x)\)</span>, or neither.</p>
+<p><strong>Question A</strong> What sort of combination is <span class="math inline">\(h_1(x)\equiv \ln(x) e^x\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">composition<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> What sort of combination is <span class="math inline">\(h_2(x)\equiv \sin(x) \cos(x)\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">composition<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question C</strong> What sort of combination is <span class="math inline">\(h_3(x) \equiv \sin(\ln(x))\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">composition<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question D</strong> What sort of combination is <span class="math inline">\(h_4(x) \equiv e^{\ln(x)}\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">composition<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question E</strong> What sort of combination is <span class="math inline">\(h_5(x) \equiv \sin(x) - \dnorm(x)\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">composition<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">neither<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question F</strong> What sort of combination is is <span class="math inline">\(h_6(x) \equiv e^{x^2}\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">composition<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question G</strong> What sort of combination is <span class="math inline">\(h_7(x) \equiv \pnorm(x^2)\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">composition<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question H</strong> What sort of combination is <span class="math inline">\(h_8(x) \equiv \pnorm(x) \dnorm(x)\)</span>?</p>
+<p>    <span class="Zchoice">product<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">composition<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question I</strong> What sort of combination is <span class="math inline">\(h_9(x) \equiv 1/\sin(x)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">product<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">composition<span class="mcanswer">Nice! Remember, <span class="math inline">\(1/\sin(x)\)</span> is the same as <span class="math inline">\(\recip(\sin(x))\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice">neither<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 22.03</strong>: <span><a name="File: Exercises/pig-see-pantry.Rmd" href="#JvtMuz"><img src="www/icons8-signpost.png" title="Location: Exercises/pig-see-pantry.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">JvtMuz</red></span>
+</summary>
+<p>Consider this function, <span class="math inline">\(F(t)\)</span>, which is a linear combination of three time-shifted sigmoids.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-91-1.png" width="90%" style="display: block; margin: auto;" />
+As you know, the derivative of a sigmoid <span class="math inline">\(\text{pnorm}(t)\)</span> is a gaussian with the same center and standard deviation.</p>
+<p><strong>Question A</strong> How many gaussians will be in <span class="math inline">\(\partial_t F(t)\)</span>.</p>
+<p>    <span class="Zchoice">2<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">3<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">none<span class="mcanswer">︎✘ </span></span></p>
+<p>The following figure shows several functions. One of them is <span class="math inline">\(\partial_t F(t)\)</span>.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-92-1.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-92-2.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question B</strong> Which function is the actual derivative of <span class="math inline">\(F(t)\)</span>? (Hints: The vertical axis is important as is the value of <span class="math inline">\(\text{dnorm}(0)\)</span>.)</p>
+<p>    <span class="Zchoice">A<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">B<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">C<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">D<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-93-1.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-93-2.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question C</strong> Which function is the actual second derivative of <span class="math inline">\(F(t)\)</span>? (Hints: The vertical axis is important as is the value of <span class="math inline">\(\text{dnorm}(0)\)</span>.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">A<span class="mcanswer">︎✘ The problem is with the first event.</span></span><br />
+</li>
+<li><span class="Zchoice">B<span class="mcanswer">︎✘ The first and second events go in the same direction. The third event is not as big as the second.</span></span><br />
+</li>
+<li><span class="Zchoice">C<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">D<span class="mcanswer">︎✘ The first event isn’t the second derivative of a sigmoid.</span></span>
+</details></li>
+</ol>
+<details>
+<summary>
+<strong>Exercise 22.04</strong>: <span><a name="File: Exercises/buck-draw-bed.Rmd" href="#QFzIOl"><img src="www/icons8-signpost.png" title="Location: Exercises/buck-draw-bed.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">QFzIOl</red></span>
+</summary>
+<p>In function compositions of the form <span class="math inline">\(f\left(\strut g(x)\right)\)</span>, the function <span class="math inline">\(f()\)</span> is called the <strong><em>exterior function</em></strong> and <span class="math inline">\(g()\)</span> is called the <strong><em>interior function.</em></strong></p>
+<p><strong>Question A</strong> In <span class="math inline">\(\cos(\ln(x))\)</span> which is the <strong>interior</strong> function?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\ln()\)</span><span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\cos()\)</span><span class="mcanswer">︎✘ This is the exterior function.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sin()\)</span><span class="mcanswer">︎✘ Sine has nothing to do with it!</span></span><br />
+</li>
+<li><span class="Zchoice">None of the above<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It’s not a function composition<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question B</strong> In <span class="math inline">\(1/\sin(x)\)</span> which is the <strong>exterior</strong> function?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\recip()\)</span><span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\cos()\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sin()\)</span><span class="mcanswer">︎✘ This is the interior function.</span></span><br />
+</li>
+<li><span class="Zchoice">None of the above<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It’s not a function composition<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question C</strong> In <span class="math inline">\(\sin\left(\frac{2 \pi}{P} (t-t_0)\right)\)</span> which is the <strong>exterior</strong> function?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(t-t_0\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{2\pi}{P}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{2\pi}{P} t\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{2\pi}{P} (t-t_0)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sin()\)</span><span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">None of the above<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It’s not a function composition<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question D</strong> In <span class="math inline">\(\sin\left(2 \pi (t-t_0)/P\right)\)</span> which is the <strong>interior</strong> function?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(t-t_0\)</span><span class="mcanswer">︎✘ That’s part of it.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(2\pi /P\)</span><span class="mcanswer">︎✘ That’s part of it.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(2\pi t /P t\)</span><span class="mcanswer">︎✘ That’s part of it.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(2\pi (t-t_0)/P\)</span><span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sin()\)</span><span class="mcanswer">︎✘ This is the interior function.</span></span><br />
+</li>
+<li><span class="Zchoice">None of the above<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It’s not a function composition.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question E</strong> In <span class="math inline">\(\sin(x)\dnorm(x^2)\)</span>, which is the <strong>interior</strong> function?</p>
+    <span class="Zchoice"><span class="math inline">\(x^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(x\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\dnorm(x^2)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">None of the above<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">It’s not a function composition.<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>
+</details>
+<!--
+`rrr insert_calcZ_exercise("22.06", "qyOuQF", "Exercises/giraffe-sit-piano.Rmd")`
+
+`rrr insert_calcZ_exercise("22.08", "yT2BkB", "Exercises/ant-bite-bed.Rmd")`
+
+`rrr insert_calcZ_exercise("22.10", "Z7MY4I", "Exercises/goat-pay-pantry.Rmd")`
+
+-->
+<details>
+<summary>
+<strong>Exercise 22.06</strong>: <span><a name="File: Exercises/dnorm.Rmd" href="#QIELS"><img src="www/icons8-signpost.png" title="Location: Exercises/dnorm.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">QIELS</red></span>
+</summary>
+<p>Compare the functions <span class="math inline">\(f_1 \equiv \dnorm(x, mn, sd)\)</span> and <span class="math inline">\(f_2 \equiv \dnorm\left(\left[x-mn\right]/sd\right)\)</span> by plotting them out in a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>.</p>
+<p>In order to construct the plot, you’ll have to pick specific values for <span class="math inline">\(mn\)</span> and <span class="math inline">\(sd\)</span>. Make sure that you use the same <span class="math inline">\(sd\)</span> and <span class="math inline">\(mn\)</span> when constructing <span class="math inline">\(f_1()\)</span> and <span class="math inline">\(f_2()\)</span>. For instance:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="prod-comp-rules.html#cb75-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">dnorm</span>(x, mn, sd) <span class="sc">~</span> x, <span class="at">mn=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">3</span>)</span>
+<span id="cb75-2"><a href="prod-comp-rules.html#cb75-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">dnorm</span>( (x<span class="sc">-</span>mn) <span class="sc">/</span> sd) <span class="sc">~</span> x, <span class="at">mn=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><strong>Question A</strong> When <span class="math inline">\(\text{sd} = 1\)</span>, are the two functions the same?</p>
+<p>    <span class="Zchoice">Yes<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">Yes, but only if <span class="math inline">\(\text{mn}=1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Yes, but only if <span class="math inline">\(\text{mn}=0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">No<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> When <span class="math inline">\(\text{sd} \neq 1\)</span>, for any given mean, the two functions are not the same. What’s the relationship between <span class="math inline">\(f_1(x)\)</span> and <span class="math inline">\(f_2(x)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(f_2(x) = sd\, f_1(x)\)</span><span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f_1(x) = sd\, f_2(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f_1(x) = sd^2 f_2(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f_2(x) = sd^2 f_1(x)\)</span><span class="mcanswer">︎✘ </span></span>
+</details></li>
+</ol>
+<details>
+<summary>
+<strong>Exercise 22.08</strong>: <span><a name="File: Exercises/descent-path.Rmd" href="#HCILW"><img src="www/icons8-signpost.png" title="Location: Exercises/descent-path.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">HCILW</red></span>
+</summary>
+<p>Pilots of commercial passenger aircraft consider the comfort of their passengers into account when flying. In transitioning from level flight onto the descent path for landing, for example, pilots take care that the vertical component of acceleration isn’t so great that passengers feel the plane “falling out from under them.”</p>
+<p>A simple model of the descent path is a sigmoid function. Suppose that the descent starts from an altitude of <span class="math inline">\(A = 20,000\)</span> feet at a distance of 30,000 feet from the end of the runway. A reasonable model for the vertical component of the flight path is <span class="math display">\[\text{altitude}(x) \equiv A\,\pnorm(x,\ \  mn=30000/2,\ \  sd=30000/6)\]</span> Notice that the parameter “mean” is set to be half the distance to the runway, and the parameter “sd” is set to be a third of that. This ensures that the start and end of the descent will involve flight that is close to level.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-95-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The vertical acceleration is the second derivative of alt() with respect to time: <span class="math inline">\(\partial_{tt} \text{altitude}(t)\)</span>. But notice that alt() is a function of distance from the runway, not time.</p>
+<p>In order to treat alt() as a function of time, we need to write “distance from the runway” as a function of time. Let’s set <span class="math inline">\(t=0\)</span> to be the time when the plane begins its descent, when it’s 30,000 feet from the end of the runway. Distance from the runway will be <span class="math display">\[x(t) = 30000 - v\, t\]</span> where <span class="math inline">\(v\)</span> is the plane’s velocity.
+Composing altitude() onto <span class="math inline">\(x(t)\)</span> gives a new function
+<span class="math display">\[\text{alt}(t) \equiv \text{altitude}(x(t)) = \text{altitude}(30000-v\, t)\]</span></p>
+<p>Suppose that the aircraft is flying at <span class="math inline">\(v = 200\)</span> miles-per-hour, which is <span class="math display">\[200  \frac{\bcancel{\text{miles}}}{\cancel{\text{hour}}} \frac{\cancel{1\, \text{hour}}}{3600\, \text{s}} \frac{5280 \text{ft}}{\bcancel{1\, \text{mile}}} = 293.3 \frac{\text{ft}}{\text{s}}\]</span>.
+At that speed, it will take a little more than 100 seconds for the aircraft to reach the runway.</p>
+<p>Using a sandbox, plot out the function alt(<span class="math inline">\(t\)</span>) function, choosing a domain for <span class="math inline">\(t\)</span> that lets you see the whole descent path.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="prod-comp-rules.html#cb76-1" aria-hidden="true" tabindex="-1"></a>alt <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">20000</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="dv">30000</span> <span class="sc">-</span> v <span class="sc">*</span> t, <span class="dv">30000</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">30000</span><span class="sc">/</span><span class="dv">6</span>) <span class="sc">~</span> t, <span class="at">v =</span> <span class="fl">293.3</span>)</span>
+<span id="cb76-2"><a href="prod-comp-rules.html#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">alt</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">110</span>)))</span></code></pre></div>
+<p>Compute the second derivative <span class="math inline">\(\partial_{tt} \text{alt}(t)\)</span> to find the vertical component of acceleration of the aircraft. (Important note: Due to a bug in R, use <code>numD()</code> rather than <code>D()</code> to compute the second derivative.)</p>
+<p>Graph the second derivative over the appropriate domain and look for the most extreme values of acceleration.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="prod-comp-rules.html#cb77-1" aria-hidden="true" tabindex="-1"></a>dd_alt <span class="ot">&lt;-</span> <span class="fu">numD</span>(<span class="fu">alt</span>(t) <span class="sc">~</span> t <span class="sc">+</span> t)</span>
+<span id="cb77-2"><a href="prod-comp-rules.html#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">dd_alt</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">110</span>)))</span></code></pre></div>
+<p>From the graph, read off the maximum vertical acceleration during the descent.</p>
+<p><strong>Question A</strong> What are the <strong>units</strong> of vertical acceleration shown in the graph?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">feet-per-second<span class="mcanswer">︎✘ That’s a unit of velocity, not acceleration.</span></span><br />
+</li>
+<li><span class="Zchoice">feet-per-second-squared<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">miles-per-hour-squared<span class="mcanswer">︎✘ This is a unit of acceleration, but since we used feet and seconds in defining the alt() function, the second derivative will also be in feet and seconds.</span></span></li>
+</ol>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-98-1.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-98-2.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>A rule of thumb is that a vertical acceleration up to <span class="math inline">\(5\, \text{ft}\, \text{s}^{-2}\)</span> is acceptable in terms of passenger comfort. Regrettably, the descent path we described doesn’t meet the standard! So we have to re-design the descent path. Since both the altitude and velocity are set, the only parameter you can change is the distance from the foot of the runway where descent commences. Of course, for the parameters “mean” and “sd” need to be set accordingly.</p>
+<p><strong>Question B</strong> How far from the foot of the runway should descent begin in order to stay within the <span class="math inline">\(5\, \text{ft}\, \text{s}^{-2}\)</span> acceleration constraint? Pick the shortest distance that satisfies the constraint.</p>
+<p>    <span class="Zchoice">40,000 ft<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">50,000 ft<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">60,000 ft<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">70,000 ft<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">80,000 ft<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>For reflection</strong>: A new hire at the airline’s operations center proposes to model the descent as a straight-line function rather than a sigmoid. He points out that the second derivative of a straight-line function is always 0, so the passengers would feel no acceleration at all! Explain to this newbie what’s wrong with his idea.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 22.09</strong>: <span><a name="File: Exercises/octopus-teach-sheet.Rmd" href="#Ao6v5n"><img src="www/icons8-signpost.png" title="Location: Exercises/octopus-teach-sheet.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Ao6v5n</red></span>
+</summary>
+<p>In Exercise none yet, E9e7c6 you constructed models <span class="math inline">\(D(t)\)</span> of the availability of a drug in the bloodstream for three different pill-taking regimens: every six hours, every eight hours, and a double dose to start followed by a single dose every eight hours. The model for from a single, isolated pill is a zero before the pill is taken, then exponential decay from the level of the pill dose after the pill is taken. Like this:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="prod-comp-rules.html#cb78-1" aria-hidden="true" tabindex="-1"></a>pill <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(t <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t)) <span class="sc">~</span> t, <span class="at">k =</span> <span class="fu">log</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="dv">3</span>)</span></code></pre></div>
+<p>The parameter <span class="math inline">\(k\)</span> has been set to represent a drug with a half-life of three hours.</p>
+<p>The model for the entire regiment is a linear combination of time-shifted single pills, e.g.:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="prod-comp-rules.html#cb79-1" aria-hidden="true" tabindex="-1"></a>regimen8 <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(A<span class="sc">*</span><span class="fu">pill</span>(t) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-8</span>) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-16</span>) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-24</span>) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-32</span>) <span class="sc">~</span> t, <span class="at">A=</span><span class="dv">1</span>)</span></code></pre></div>
+<p>From graphs of the functions themselves it is easy to check whether the availability ever falls below the therapeutic threshold (which we stipulated is 0.25). For instance, the eight-hour regiment with a dose of <code>A=1</code> does fall below the threshold during the first day. So a larger dose is needed than <code>A=1</code>.</p>
+<p>The derivative <span class="math inline">\(\partial_t \text{regimen8}(t)\)</span> tells the instantaneous rate at which the drug is being administered to and eliminated from the patient’s body.</p>
+<blockquote>
+<p>For each of the three regimens, construct <span class="math inline">\(\partial_t \text{regimen}(t)\)</span>. Ignoring the glitches due to discontinuity at the times the pills are consumed, which of the three regimens has the lowest average rate of drug elimination?</p>
+</blockquote>
+<img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-101-1.png" width="90%" style="display: block; margin: auto;" />
+</details>
+<details>
+<summary>
+<strong>Exercise 22.10</strong>: <span><a name="File: Exercises/goldfish-keep-bed.Rmd" href="#ed6q4v"><img src="www/icons8-signpost.png" title="Location: Exercises/goldfish-keep-bed.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ed6q4v</red></span>
+</summary>
+<p>Recall from Section <a href="#function-composition"><strong>??</strong></a> the <strong><em>Lorenz curve</em></strong> used to describe income inequality. The Lorenz curve shows the fraction of total income versus population fraction.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lorenz-data-redux"></span>
+<img src="MOSAIC-Calculus_files/figure-html/lorenz-data-redux-1.png" alt="A Lorenz curve (blue) fitted to income data from the US in 2009. (See Figure \@ref(fig:lorenz-data).)" width="90%" />
+<p class="caption">
+Figure 22.2: A Lorenz curve (blue) fitted to income data from the US in 2009. (See Figure <a href="#fig:lorenz-data"><strong>??</strong></a>.)
+</p>
+</div>
+<p>Since the population is arranged from poorest to richest along the horizontal axis, Lorenz curves must be both monotonically increasing and concave up. That is, any Lorenz function <span class="math inline">\(L(P)\)</span>, where <span class="math inline">\(P\)</span> is the population fraction, must satisfy these criteria:</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(L(0) = 0\)</span></li>
+<li><span class="math inline">\(L(1) = 1\)</span> that is, the aggregate fraction of income earned by the entire population is 100%.</li>
+<li><span class="math inline">\(\partial_P L(P) \ &gt; \ 0\)</span> that is, monotonically increasing</li>
+<li><span class="math inline">\(\partial_{PP} L(P) \ &gt; \ 0\)</span> that is, concave up.</li>
+</ol>
+<p>Consider a function <span class="math inline">\(H(P) \equiv L_1(L_2(P))\)</span> which is the composition of two Lorenz curves.</p>
+<ul>
+<li>A. Use the composition rule to show that <span class="math inline">\(H(P)\)</span> is monotonically increasing. (Hint, calculate <span class="math inline">\(\partial_P H(P)\)</span> and show that it must be positive.)</li>
+<li>B. Using both the composition and product rules, calculate <span class="math inline">\(\partial_{PP} H(P)\)</span> and show that <span class="math inline">\(H(P)\)</span> must be concave up.</li>
+</ul>
+</details>
+<details>
+<summary>
+<strong>Exercise 22.12</strong>: <span><a name="File: Exercises/monkey-forget-tv.Rmd" href="#0yrIXe"><img src="www/icons8-signpost.png" title="Location: Exercises/monkey-forget-tv.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">0yrIXe</red></span>
+</summary>
+<p>The formula for the function <span class="math inline">\(\dnorm(x)\)</span> is
+<span class="math display">\[\dnorm(x) \equiv \frac{1}{\sqrt{2 \pi}} \exp\left(\frac{x^2}{2}\right)\ .\]</span></p>
+<ol style="list-style-type: decimal">
+<li><p>Use the chain rule to find <span class="math inline">\(\partial_x \dnorm(x)\)</span>.</p></li>
+<li><p>Confirm from your answer to (1) that there is another formula for <span class="math inline">\(\partial_x \dnorm(x)\)</span>, namely <span class="math display">\[\partial_x \dnorm(x) = - x \dnorm(x)\ .\]</span></p></li>
+<li><p>Use the product rule to find <span class="math inline">\(\partial_{xx} \dnorm(x)\)</span>.</p></li>
+</ol>
+<!--
+Ans: 
+$$- \dnorm(x) + x^2 \dnorm(x) = \dnorm(x) \left[{\large\strut}x^2 - 1\right]$$
+-->
+<ol start="4" style="list-style-type: decimal">
+<li>From your answer to (3), compute the 3rd derivative <span class="math inline">\(\partial_{xxx} \dnorm(x)\)</span>:</li>
+</ol>
+<p>Ans: <span class="math display">\[2 x \dnorm(x) - x \left[{\large\strut}x^2 - 1\right] \dnorm(x) = \dnorm(x) \left[{\large\strut} (3 x - x^3)\right] \ .\]</span></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Let’s generalize the pattern. Each of the previous derivatives has been a polynomial—let’s call it <span class="math inline">\(p_n(x)\)</span> for the <span class="math inline">\(n\)</span>th derivative—times <span class="math inline">\(\dnorm(x)\)</span>. Knowing <span class="math inline">\(p_n(x)\)</span>, we can easily find <span class="math inline">\(p_{n+1}(x)\)</span>:
+<span class="math display">\[p_{n+1}(x) = -x p_n(x) + \partial_x p_n(x)\]</span>
+We know <span class="math inline">\(p_1(x) = -x\)</span> so <span class="math inline">\(p_2(x) = x^2 - 1\)</span>. In turn, this tells us
+<span class="math inline">\(p_3(x) = 3x - x^3\)</span>. Find:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(p_4(x)\)</span></li>
+<li><span class="math inline">\(p_5(x)\)</span></li>
+<li><span class="math inline">\(p_6(x)\)</span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 22.14</strong>: <span><a name="File: Exercises/dog-look-bottle.Rmd" href="#2JJoS6"><img src="www/icons8-signpost.png" title="Location: Exercises/dog-look-bottle.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">2JJoS6</red></span>
+</summary>
+<p>Confirm using algebraic manipulation the differentiation rule for a product of three functions:</p>
+<p><span class="math display">\[\left[ u\cdot v\cdot w\right]&#39; = \color{blue}{u&#39;}\cdot v\cdot w\ +\ u\cdot \color{blue}{v&#39;}\cdot w\ +\ u\cdot v\cdot \color{blue}{w}&#39;\]</span>
+Here, <span class="math inline">\(u\)</span> is shorthand for <span class="math inline">\(u(x)\)</span>, and <span class="math inline">\(u&#39;\)</span> is shorthand for <span class="math inline">\(\partial_x u(x)\)</span>, and similarly for <span class="math inline">\(v\)</span> and <span class="math inline">\(w\)</span>.</p>
+Hint: <span class="math inline">\(\left[ u\cdot v\cdot w\right] = u \cdot \left[ v \cdot w\right]\)</span>. So a product of three functions can be seen as a product <span class="math inline">\(u\cdot h\)</span> where <span class="math inline">\(h \equiv v \cdot w\)</span>.
+</details>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="12">
+<li id="fn12"><p>“Per capita” is Latin. Literally, it translates to “by head.” but its modern sense is “per unit of population.” The “unit of population” is, of course, a person.<a href="prod-comp-rules.html#fnref12" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="cont-and-smooth.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="optim-and-shape.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/22-rules.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/22-rules.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
