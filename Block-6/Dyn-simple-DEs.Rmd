@@ -1,0 +1,738 @@
+# Simple differential equations
+
+We are now switching over to another formalism for describing dynamics: differential equations. Differential equations are used to describe dynamics that take place in continuous time or space, as opposed to the one-step-at-a-time, discrete-time situation for finite-difference equations. `r mark(6200)`
+
+It may help, even before getting into differential equations, to highlight some of the similarities and differences from discrete-time dynamics.
+
+. | Differential Equations | Difference Equations
+--|------------------------|---------------------
+Trajectory | continuous functions $x(t)$ | discrete sets of numbers ${x_0, x_1, x_2, \ldots}$
+Dynamics | instantaneous change is a function of current state | state at next step is a function of previous state.
+
+Difference equations are analogous to football and baseball. In both these sports, action takes place in discrete steps: one down at a time in football, one batter at a time in baseball. (Base stealing is the exception in baseball, since that can happen at any time.) `r mark(6205)`
+
+Differential equations are like soccer or ice hockey or basketball: the play proceeds continually (although interrupted by goals and penalties).
+
+We are going to start with differential equation systems where the *state space* is a wire-like number line: a single quantity.  The state at any instant (the "instantaneous state") can be well imagined as a bead sliding along the wire. `r mark(6210)`
+
+Newcomers understandably endow this bead-on-wire analogy with other familiar properties of the real world. For instance, a real-world wire has friction which needs to be overcome by applying a force. A real-world bead has momentum which prolongs motion even after force has been applied. As you will see, a differential equation system that involves force and momentum requires a two-dimensional (or higher) state space. `r mark(6215)`
+
+An exact physical analogy to a one-dimensional differential equation system will always be somewhat artificial, since the physical laws of motion can't be implemented with a one-dimensional state. Here's one such contrived analogy: `r mark(6220)`
+
+> The state space is represented by a road, the instantaneous state being the location of a car along that road. But instead of the car's motion being set by the accelerator and brakes, the velocity of the car is strictly dictated by an authoritarian government law: no exceptions. When the dictated speed is zero, the car will stand still and cannot start moving again. Ultimately, depending on the shape of the law, the car will head off to infinity or come to an eternal standstill at a stable fixed point. Two different cars can never collide on this road: if the cars are close together, they must be travelling at similar velocities. Cars can't pass one another in different directions. Passing requires that the two cars have opposite velocities: one positive and one negative.  If the mandated velocity at a point along the road is positive, every car that comes to that point must have the same positive velocity. `r mark(6225)`
+
+The diagram shows such a road as a grey line. The red numbers are mile-markers alongside the road. The curve shows the mandated speed at any point: you can read off the numerical value of the mandated speed on the y-axis. `r mark(6230)`
+
+```{r echo=FALSE, warning=FALSE}
+f <- rfun( ~ x, seed=999)
+xpts <- seq(-5,5,length=500)
+offset <- mean(f(xpts))
+scale <- sd(xpts)
+speed  <- function(x) 20*(f(x-10) - offset)/scale
+Signs <- tibble::tibble(
+  x = seq(0,20, by=2),
+  y = 13,
+  label = paste("Mile", x),
+  angle = -sign(x - 9)*90
+)
+slice_plot(speed(x) ~ x, domain(x=c(0,20)), color="dodgerblue") %>%
+  gf_text(y ~ x, label = ~ label, color="orange3", data = Signs, angle=~ angle) %>%
+  gf_text(-30 ~ 1, label=c("West"), inherit=FALSE ) %>%
+  gf_text(30 ~ 19, label=c("East"), inherit=FALSE ) %>%
+  gf_hline(yintercept=0, color="black", alpha=0.3, size=3) %>%
+  gf_labs(y = "Mandated speed (mph)", x="", title="County Road B") %>%
+  gf_theme(panel.grid = element_blank(), axis.text.x = element_blank())
+```
+
+
+```{r drive1-1, echo=FALSE, results="markup"}
+askMC(
+  "At mile marker 4, which way is the car going?",
+  "+West+" = "A negative velocity means heading west.",
+  "East",
+  "At a standstill"
+)
+```
+
+```{r drive1-2, echo=FALSE, results="markup"}
+askMC(
+  "How long will it take for the car to go from mile marker 4 to mile marker 0? (Choose the closest answer.)",
+  "5 minutes",
+  "15 minutes",
+  "+25 minutes+" = "The velocity is about -10 mph over that segment of the road. To go 4 miles at 10 mph takes 24 minutes.",
+  "45 minutes",
+  "Can't be done.",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-3, echo=FALSE, results="markup"}
+askMC(
+  "A car starts at mile marker 8. Where will it end up?",
+  "+All the way west+",
+  "About mile 9",
+  "About mile 10",
+  "About mile 13",
+  "All the way east",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-4, echo=FALSE, results="markup"}
+askMC(
+  "A car starts at mile marker 10. Where will it end up?",
+  "All the way west",
+  "About mile 9",
+  "About mile 10",
+  "+About mile 13+",
+  "All the way east",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r drive1-5, echo=FALSE, results="markup"}
+askMC(
+  "You and your friend plan to bike along the road. (Bikes are not covered by the speed mandate.) You'll stop at a point where you can sell snacks to motorists through their car windows. What's the most profitable point for you to set up your business.",
+  "All the way west",
+  "About mile 9",
+  "About mile 10",
+  "+About mile 13+",
+  "All the way east",
+  random_answer_order = FALSE
+)
+```
+
+A government commission is exploring ways to improve road use by changing the speed mandate. They will add a constant to the existing speed mandate.
+
+```{r drive1-6, echo=FALSE, results="markup"}
+askMC(
+  "One group of citizens wants to facilitate east-to-west travel. Which of these would be a suitable value of the constant to add to the speed mandate?",
+  "+-75 mph+",
+  "-25 mph",
+  "15 mph",
+  "35 mph",
+  "60 mph",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-7, echo=FALSE, results="markup"}
+askMC(
+  "Another group of citizens wants to facilitate west-to-east travel. Which of these would be a suitable value of the constant to add to the speed mandate?",
+  "-75 mph",
+  "-25 mph",
+  "15 mph",
+  "35 mph",
+  "+60 mph+",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-8, echo=FALSE, results="markup"}
+askMC(
+  "An angry chef has a road-side hamburger stand at mile 5. His business has been non-existent since the current speed mandate was implemented. To give his stand the best chance at success, which policy should he advocate?",
+  "-75 mph",
+  "-25 mph",
+  "+15 mph+",
+  "35 mph",
+  "60 mph",
+  random_answer_order = FALSE
+)
+```
+
+
+-----
+
+
+
+A familiar task from high-school math is to "solve" an equation. For instance, if given the equation $a x^2 + b x + c = 0$ and asked to "solve for $x$," you might remember to invoke some procedure such as the quadratic formula:$$x = \frac{1}{2a}\left[-b \pm \sqrt{\strut b^2 - 4 a c}\right]$$ From experience, you would know that $x$ will be a number (although the situation gets a little sketchy when $4ac > b^2$). `r mark(6235)`
+
+In CalcZ, rather than emphasize "equations," we've built on the notion of **functions**. For instance, in the language of calculus, we would define a function such as $f(x) \equiv a x^2 + b x + c$. The task of "solving" is re-framed as "finding a zero of $f(x)$," that is, finding a value $x_0$ for which $f(x_0) = 0$. A similar sort of task is "finding an *argmax* of $f(x)$." This means to find an $x^\star$ such that $f(x^\star) \geq f(x)$ for all $x$. We have used several notations, e.g. $x_0$, $x^\star$, etc., to indicate that a task is to find a specific numerical value that, when put as an input to a function, gives an output that has some specified property, e.g. the output is zero or the output is maximized. `r mark(6240)`
+
+We have also studied operators that, when given a *function* as input, produce as output *another function*. The most famous of these are *differentiation* and *anti-differentiation*.
+
+With finite-difference equations, we have returned to mathematical objects in the form of *equations*, and to the task of *solving*. For instance, a one-dimensional finite-difference equation looks like $$x_{n+1} = f(x_n)$$ The equation sets the relationship between the future ($n+1$) state and the present ($n$) state. To find a *solution* to the finite-difference equation does not mean finding a numerical value for $x$. Instead, it means finding a *function*  $x_n$ that satisfies the relationship specified by the equation. `r mark(6245)`
+
+Calling $x_n$ a "function" drops (for good reason) some conventions we have used throughout the course:
+
+1. We have used *parentheses* rather than subscripts, so $x(n)$ instead of $x_n$.
+2. We have used names like $f()$ and $g()$ and $\exp()$ and $\sin()$ for functions, and used names like $x$ and $y$ and $t$ for *numerical inputs to functions*.
+3. We have been concerned with functions where the input can be varied continuously, say $\infty < x < \infty$ rather than functions where the input is discrete, e.g. $n=0, 1, 2, \ldots$.
+
+Differential equations---as opposed to *difference equations*---also involve an equation. As we start out, that equation will involve **three** different functions, typically a function of time $g(t)$, the derivative $\partial_t g(t)$ of that function with respect to time and still another function $\text{dynamic}()$. So a differential equation might look like $$\underbrace{\partial_t g(t)}_\text{function 3} = \underbrace{\text{dynamic}}_\text{function 2}(\ \underbrace{g(t)}_\text{function 1}\ )$$ `r mark(6250)`
+
+The equation mandates a particular relationship between the functions $g(t)$ and $\partial_t g(t)$. To *solve* this equation means to find a particular function $g(t)$ that is faithful to the mandate set by the equation. And, of course, whatever $g(t)$ is, $\partial_t g(t)$ is its derivative with respect to time. `r mark(6255)`
+
+As a form of contrast, consider this equation: $$\partial_t g(t) = \sin(\omega\, t)$$
+We already learned a technique to solve such an equation, namely take the anti-derivative with respect to time of both sides:
+$$g(t) + C \equiv \int \partial_t g(t) dt = \int \sin(\omega t) dt \equiv - \frac{1}{\omega} \cos(\omega\, t) + D$$
+
+Notice that I've used $\equiv$ in two places in the above line. To say $\partial_t g(t) = \sin(\omega t)$ is to impose a mandate. This won't be true for any $g(t)$ that comes along, the equation is giving specific information about what kind of function $g(t)$ has to be. One the other hand, $g(t) - C \equiv \int \partial_t g(t) dt$ is something that has to be true for *any* $g(t)$ that someone happens to provide. Similarly, $\int \sin(\omega t)dt \equiv - \frac{1}{\omega} \cos(\omega\, t) + D$ is a mathematical *fact*, not a modeling statement about the world. `r mark(6260)`
+
+In a differential equation, the unknown function $g(t)$ appears on *both* sides of the equation, once in the form of $\partial_t g(t)$ ("function 3") and once as $g(t)$ ("function 1"). Although it's tempting to apply anti-differentiation, that will not do the job of finding $g(t)$, since $g(t)$ itself appears as part of the broader function $\text{dynamics}(\ g(t)\ )$ to which we're tempted to apply anti-differentiation. `r mark(6265)`
+
+We will need other approaches to *solve* the differential equation for $g(t)$. We will use two good approaches, one that always works (for any function $\text{dynamics}()$ and the second that only works sometimes. `r mark(6270)`
+
+1. A numerical method that approximates the differential equation with a finite-difference equation, enabling it to be solved simply by *iteration*. This is Euler's method.
+2. A algebraic method that works only if we already know the functional form of the solution. As you'll see, for many differential equations important in modeling, there is such an *ansatz*: a function we already know where all we have to do is fill in the details. `r mark(6275)`
+
+Interestingly, traditionally calculus courses have featured a third method for solving differential equations:
+
+3. An algebraic method that sometimes allows the solver to translate the differential equation into a form that looks like this: $h(g(t)) = \int f(t) dt$ and enables standard anti-differentiation of $f(t)$ to be the central step. We won't dwell on this because it only works sometimes, often requires an algebraic superpower that not all students possess, and, in the cases most commonly encountered in modeling has already been done giving us an *ansatz* that we can use in method (2). `r mark(6280)`
+
+```{r sff1, echo=FALSE, results="markup"}
+askMC(
+  "Consider the differential equation $$\\partial_t g(t) = 0.2 g(t) \\left(1 - g(t)/200\\right)$$ Which of these is the function $\\text{dynamics}()$ in the differential equation?",
+  "+$\\text{dynamics}(x) \\equiv 0.2 x (1 - x/200)$+" = "When you give as input the function $g(t)$ you get the right-hand side of the differential equation.",
+  "$\\text{dynamics}(t) \\equiv 0.2 g(t) (1-g(t)/200)$" = "The input to dynamics() should be the function $g(t)$, not the whole right side of the differential equation.",
+  "$\\text{dynamics}(x) \\equiv 0.2 x$",
+  "$\\text{dynamics}(x) \\equiv 1 - x/200$"
+)
+```
+
+Differential equations are often written in a kind of shorthand which makes it easier for those in the know but can be confusing to newcomers. We're going to use that shorthand *since you will encounter it in your downstream courses*. But we want to lay it out in parallel with the highly explicit notation we have been using thus far. `r mark(6285)`
+
+The differential equation in the previous exercise is
+$$\partial_t g(t) = 0.2 g(t) \left(1 - g(t)/200\right)$$
+The shorthand makes some substitutions:
+
+i. The function $g(t)$ is written simply $x$. You will need to force yourself to remember that $x$ is really $x(t)$: a function of time.
+ii. The derivative notation $\partial_t g(t)$ is replaced with $\dot{x}$. That tiny dot over the $x$ is entirely equivalent to $\partial_t$.
+
+Let's write it a little bigger to be sure you can spot it:
+
+<div style="font-size: 45px; text-align:center;">$$\dot{x}$$</div>
+
+In the shorthand the equation is rendered
+
+<div style="font-size: 30px; text-align:center;">$$\dot{x} = 0.2\, x\ (1-x/200)$$</div> Although we've saved having to write $(t)$ multiple times and having to write $\partial_t$ at all, until you get used to it you will forget that $t$ has anything to do with $\dot{x} = 0.2\, x\ (1-x/200)$. Keep your eyes out for that little speck of a dot, $\dot{\ }$, because it is the only thing to remind you about the essential role of $t$ as the input to the sought-after $x(t)$. `r mark(6290)`
+
+```{r sff2, echo=FALSE, results="markup"}
+askMC(
+  "Which of the following is the x-shorthand for the differential equation $$\\partial_t g(t) = a g(t) + b \\ \\text{?}$$",
+  "+$\\dot{x} = a x + b$+",
+  "$x = a \\dot{x} + b$" = "Dot on the wrong side.",
+  "$\\dot{x} = a \\dot{x} + b$" = "Too many dots.",
+  "$\\dot{x}(t) = a x(t) + b$" = "Remember, the $t$ is implicit in the dot."
+)
+```
+
+```{r sff3, echo=FALSE, results="markup"}
+askMC(
+  "What is the function dynamics() in $\\dot{x} = a x + b$?",
+  "+dynamics$(x) \\equiv a x + b$+",
+  "dynamics$(t) \\equiv a x + b$" = "Don't put a $t$ where it's not needed.",
+  "dynamics$(x) \\equiv x + b$",
+  "dynamics$(x) \\equiv a x$"
+)
+```
+
+
+-----
+
+There are a few differential-equation forms that show up again and again in modeling problems. We're going to introduce them to you here and, later, show you the solutions.
+
+**The proportional growth/decay model**: $\dot{x} = a x$
+
+* Simple population growth. The population is a function of time: $x(t)$. Growth at any instant is proportional to the instantaneous population. For instance a population growing at 3% per year will have $a \approx 0.03$ with units 1/year.
+* Radioactive decay. The amount of the radioactive substance is a function of time: $x(t)$. For example, phosphorus-32 (that is, $^{32}$P) has a half life of 14 days. The differential equation is $\dot{x} = -a x$ with $a \approx 0.049$ with units 1/day. `r mark(6295)`
+
+**Change proportional to  difference**: $\dot{x} = - a (x - x_\text{fixed})$
+
+* Newton's Law of Cooling is about how a hot (or cold) object comes into equilibrium with the ambient temperature. For instance, you might have a cup of coffee at $200^\circ$F in a room at $70^\circ$F. Unless you drink it, the coffee will cool with time until it reaches the room's temperature. In this setting, $x_\text{fixed} = 70^\circ$F. The value of $a$ depends on how insulated the cup is (and details of evaporation, etc.). But if the coffee reaches very near to room temperature in 60 minutes, $a \approx 0.5$ with units 1/minute. `r mark(6300)`
+
+
+```{r basic2a, echo=FALSE, results="markup"}
+askMC(
+  "What are the units of the output of $x(t)$?",
+  "degrees F per minute",
+  "+degrees F+",
+  "1/minute",
+  "1/degrees F"
+)
+```
+
+```{r basic2b, echo=FALSE, results="markup"}
+askMC(
+  "What are the units of $\\dot{x}$?",
+  "+degrees F per minute+",
+  "degrees F",
+  "1/minute",
+  "1/degrees F"
+)
+```
+
+```{r basic2c, echo=FALSE, results="markup"}
+askMC(
+  "What is $x$?",
+  "the room temperature",
+  "the initial temperature of the coffee",
+  "+the instantaneous coffee temperature as a function of time+",
+  "the fixed rate at which the coffee cools",
+  "the instantaneous rate at which the coffee cools as a function of time"
+)
+```
+
+```{r basic2d, echo=FALSE, results="markup"}
+askMC(
+  "What is $\\dot{x}$?",
+  "the room temperature",
+  "the initial temperature of the coffee",
+  "the instantaneous coffee temperature as a function of time",
+  "+the instantaneous rate at which the coffee cools as a function of time+"
+)
+```
+
+**Limited growth**, e.g. $\dot{x} = r x (1-x/k)$
+
+The proportional-growth model will lead to $x(t)$ increasing without limit. Sometimes that's a good model over short times, before $x(t)$ has a chance to get unrealistically big. But over long periods of time, something's gotta give. `r mark(6305)`
+
+* Population with a "carrying capacity." For $t$ when $x(t)$ is very small, the population growth is well approximated by the usual proportion-growth model.  For intermediate $t$, the population has grown to a large enough size that it is consuming a substantial fraction of the available resources and population growth slows. When the population reaches the "carrying capacity" the growth stops (e.g. birth rate = death rate). `r mark(6310)`
+
+```{r basic3a, echo=FALSE, results="markup"}
+askMC(
+  "If the units of $x(t)$ is, say, rabbits, what is the units of $k$?",
+  "+rabbits+",
+  "rabbits per day",
+  "rabbits per week",
+  "rabbits per year"
+)
+```
+
+```{r basic3b, echo=FALSE, results="markup"}
+askMC(
+  "Suppose the units of $\\dot{x}$ is, rabbits per month, what is the units of $r$?",
+  "+1/month+",
+  "rabbits per month",
+  "months per rabbit",
+  "rabbits per month-squared"
+)
+```
+
+```{r basic3c, echo=FALSE, results="markup"}
+askMC(
+  "Even without finding the full solution $x(t)$ to the differential equation, you can figure out how big the population will be when growth falls to zero. How big?",
+  "+$k$+",
+  "$k/r$",
+  "$r/k$",
+  "$1/r$"
+)
+```
+
+
+
+`r insert_calcZ_exercise("XX.XX", "5DVPWG", "Exercises/Dynamics/spruce-make-lamp.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "L6hTUu", "Exercises/Dynamics/pine-win-oven.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "VCWRBs", "Exercises/Dynamics/seal-fly-socks.Rmd")`
+
+-----
+
+In a previous problem, we examined a standard model of limited growth, the "logistic model." In this problem, we're going to build a somewhat more complicated model of an ecosystem, based on the logistic growth model for grass. `r mark(6315)`
+
+To turn a field of growing grass into an ecosystem, we're going to add grazing cows to the field. A grazing cow has an impact on a field. To simplify, consider a single cow. She eats until she's full, then takes time off to chew the cud with other cows and ruminate on the day's events. But, if grass is very scarce, she may not be able to consume all that she would otherwise eat. She'll be a hungry, ill-fed cow. `r mark(6320)`
+
+When building a model, start by thinking what you want to use the model for. Here, we'll imagine that we're interested in *sustainability*, that is, whether the cow/grass ecosystem is stable. And, since cows are raised for a purpose, we'd like to use the model to find out whether the cow would be well fed and how things would change if another cow were added to the field. Sustainability is a question about dynamics. Here, the system would be sustainable if the field produces more grass in a day than the cow (and her herd-mates if any) consumes consumes in a day. `r mark(6325)`
+
+We'll model a cow's consumption as a sigmoidal function consumption(v) of the amount of grass (v -- for "vegetation") available. Like this:
+
+```{r echo=FALSE, height=3, out.width="75%", fig.align="center"}
+consumption <- makeFun((beta*v^2/(v0^2 + v^2))~ v, beta=0.1, v0=3)
+slice_plot(consumption(v) ~ v, domain(v=c(0,15))) %>%
+  gf_labs(y="Consumption (tons/day)", x="available biomass (tons)",
+          title="Daily consumption by one cow")
+```
+
+
+```{r cow1, echo=FALSE}
+explain <- "\"Most hungry\" suggests and extreme value of something. There's nothing extreme values in the middle."
+askMC(
+  "At what level of available biomass is the cow most hungry at the end of the day? (Hint: Think about how you would measure how hungry a cow is at the end of the day.)",
+  "+2 tons+" = "The consumption function is steepest here, meaning that if more grass were available the cow would eat the biggest proportion of it.",
+  "5 tons" = explain,
+  "10 tons" = explain,
+  "15 tons" = "Even if more grass were available, the cow wouldn't each much of it."
+)
+```
+
+The cow's consumption is one part of the dynamics. If there were no grass growing, the dynamics would be $$\partial_t G(v) = - H \times \text{consumption}(v)$$ where $H$ is the number of cows in the herd. `r mark(6330)`
+
+```{r cow2, echo=FALSE}
+etude2::etudeEssay("Explain why there is a minus sign in the previous dynamics.")
+```
+
+A more complete model will take into account the intrinsic growth of the grass when there are no cows. As in the previous exercise, we'll use a logistic model with a carrying capacity of 25 tons of grass in the field. Subtracting daily consumption from daily growth of grass gives the rate of change of the biomass of grass. `r mark(6335)`
+
+::: {.todo}
+PUT IMAGE/LINK to May's Cows app here
+:::
+
+The graph can be made to display any of three functions:
+
+1. The intrinsic logistic model growth dynamics with no cows.
+2. The total consumption by the herd of cows.
+3. The **net growth**, which is the difference between (1) and (2).
+
+```{r cow3, echo=FALSE}
+etude2::etudeEssay("With no cows, there are two fixed points in the grass dynamics. One of the is unstable, the other stable. Say which one is unstable and give an explanation for the instability based on what you know about fields and vegetation.")
+```
+
+In the following, we'll define a "well-fed cow" as a cow who eats at least 90% of what she would eat in ideal circumstances. A "starving" cow eats at most 50% of what she would eat in ideal circumstances. `r mark(6340)`
+
+```{r cow4, echo=FALSE}
+askMC(
+  "Add one cow to the field. Judging from the net dynamics, what will be her condition?",
+  "+well-fed+",
+  "starving",
+  "in between",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow5, echo=FALSE}
+explain <- "Is there a fixed point of the dynamics at 7 tons? No."
+askMC(
+  "Graze a total of ten cows in the field. These will reduce the biomass carrying capacity. What is that capacity with ten cows?",
+  "1.2 tons/day" = "This is the fastest daily growth possible in the field.",
+  "7 tons" =  explain,
+  "7 tons/day" = "Wrong in a couple of ways.",
+  "12 tons" = "This is the biomass that leads to the fastest growth, but it is still growth, not a fixed point.",
+  "+22 tons+",
+  "22 tons/day" = "Wrong dimensions.",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow6, echo=FALSE}
+askMC(
+  "Seeing your cows and the grass thrive, you gradually add more and more to the field. What's the largest number of cows you can have in the field and still have well fed cows?",
+  15, 19, "+22+", 24,
+  random_answer_order = TRUE
+)
+```
+
+```{r cow7, echo=FALSE}
+etude2::etudeEssay(
+  "We like sustainable systems to be robust against disturbances. For instance, there might be a week of cloudy weather that reduces grass growth by half. Explain why or why not the situation with 22 cows is robust." `r mark(6345)`
+)
+```
+
+```{r cow8, echo=FALSE}
+askMC(
+  "Soon after the disruption caused by the week of cloudy weather, the field again reaches a stable fixed point. What's the biomass at this fixed point? Assume: you are still in the 22 cow scenerio.",
+  "+less than 2 tons+",
+  "6 tons",
+  "12 tons",
+  "greater than 12 tons",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow9, echo=FALSE}
+askMC(
+  "After the disruption has passed and the system has again reached equilibrium, what will be the state of the 22 cows in the field?",
+  "well-fed",
+  "+starving+",
+  "in between",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow10, echo=FALSE}
+askMC(
+  "Seeing the state of your 22 cows, you decide that you need to decrease the herd size to a level where the cows were well fed: 20 cows. What stable biomass fixed point will the system reach?",
+  "+3 tons+",
+  "12 tons",
+  "18 tons",
+  "25 tons",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow11, echo=FALSE}
+askMC(
+  "You're going to reduce the herd size still more to get things back to a healthy, stable equilibrium with well-fed cows. What's the largest herd size that will accomplish this?",
+  5, 12, 15,  "+17+", 18, random_answer_order = FALSE
+)
+```
+
+```{r cow12, echo=FALSE}
+askMC(
+  "At a herd size of 15 cows, about how many days will it take to get back (look at your end biomass for 20 cows) to a point where the cows are well fed? (Hint: How much will the biomass increase each day? The consumption curves starts to flatten out when the cows are well fed.)",
+  "about 2 days",
+  "about 5 days",
+  "about 10 days",
+  "+about 20 days+",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow13, echo=FALSE}
+askMC(
+  "Like the previous question, but with 2 more cows. At a herd size of 17 cows, about how many days will it take to get back (look at your end biomass for 20 cows) to a point where the cows are well fed?",
+  "about 10 days",
+  "about 20 days",
+  "about 30 days",
+  "+about 100 days+" = "It takes a long time to get through the 'waist' in the net dynamics where the biomass is around 3 tons but the net growth is only about 0.01 ton per day.",
+  random_answer_order = FALSE
+)
+```
+
+-----
+
+We're writing the 1-D differential equation as $\dot{x} = f(x)$. Remember that every possible 1-D differential equation can be written this way. The thing that distinguishes one equation from another is the dynamics function $f()$. `r mark(6350)`
+
+We have examined a few possibilities for $f()$, for instance:
+
+i. $f(x) = a x$ -- the linear function: $f(x)$ is **proportional** to $x$.
+ii. $f(x) = a x + b$ -- the straight-line function
+iii. $f(x) = r x (1-x/K)$ -- the so-called "logistic" function
+
+There are other forms of $f()$ that a modeler occasionally encounters, such as
+
+iv. $f(x) = a x^2$, or
+v. $f(x) = a \sqrt{\strut x}$
+vi. ... and many others!
+
+But (i), (ii), and (iii) are by far the most common, so we focus on them.
+
+Each of (i), (ii), and (iii) has a solution in terms of the basic modeling functions we have used throughout CalcZ: sinusoid, sigmoidal, exponential, and so on. These solutions have been known for at least 200 years. This means that an operational ability to solve a differential equation is a matter of memorizing those solutions. `r mark(6355)`
+
+Our goal in this section is to help you understand in general the logic of finding solutions to differential equations. To find a solution means finding a **function** <span style='color: blue; font-size: 30px;'>$x(t)$</span> that satifies `r mark(6360)`
+
+<span style='font-size: 36px;'><span style='color: red'>$\dot{x(t)}$</span> $=$ <span style='color: green'>$f(x(t))$</span>
+
+There are multiple strategies for finding that function $x$. An important one of which is to make a <span style='color: blue;'>guess about the function form</span> (e.g. sinusoid, exponential, etc.) then varying the parameters of that function until the <span style='color: red;'>function on the left side</span> matches the <span style='color: green;'>function on the right side</span>. `r mark(6365)`
+
+<div class="reminder-note">
+
+**Reminder**:
+
+Following convention, we simplify the notation by leaving out any explicit mention of $t$.
+
+<span style='font-size: 36px;'><span style='color: red'>$\dot{x}$</span> $=$ <span style='color: green'>$f(x)$</span>
+
+The role of $t$ in the differentiation is made implicit by the **dot** on the $x$. It's so, so easy to forget this and become confused. So be careful to be attentive to the dot in $\dot{x}$ as signalling the derivative of $x(t)$ with respect to $t$. `r mark(6370)`
+
+</div>
+
+An *ansatz* is a guess for a form of $x(t)$ that might balance the <span style='color: red;'>left</span> and <span style='color: green;'>right</span> sides of the differential equation.
+
+To help you form an intuition for the ansatz style of solving differential equations, we provide you with an interactive app:
+
+<a href="https://maa-statprep.shinyapps.io/142Z-balance-derivs/" target="_blank"><img src='www/balance-derivs.png' width="50%"></a>
+
+As usual, click on the picture of the app to open it in another browser tab, then arrange this tab and that to be side by side on your screen.
+
+In this app, all you are going to do is search for a solution to the simple, 1-D differential equation:
+
+<span style='font-size: 30px;'>$$\dot{x} = a x$$</span>
+
+In the exercises that follow, we are going to specify a numerical value for $a$ (You'll have to set $a$ to the specified value using the little selector underneath the equation in the left-hand panel of the app). `r mark(6375)`
+
+You may have already memorized the solution to this differential equation. But for now, let's pretend that you have not and that you are going to find a solution by the ansatz method.
+
+The equipment you have to aid in your search is:
+
+1. A selector for the **form** of ansatz (e.g. sinusoidal, exponential, etc.). Note that each form has one or two **parameters**.
+2. A slider control for each of the parameters in (1).
+
+The action plays out this way:
+
+a. Pick one of the ansatze on offer. The exercises will tell you which one to use. **There is no guarantee that the one we tell you to use will provide a successful solution.** That might seem mean, but we want you to be able to tell when a proposed solution doesn't work out.
+b. Gradually move the parameter slider(s). This will change the shape of the candidate function shown in blue in the top graph.
+c. Observe the two functions shown in the bottom graph.
+    i. The red function is simply the time derivative of the blue function in the top graph. That is, the red function is what goes on the left-hand side of the differential equation.
+    ii. The green function is $a x$, that is, the right side of the differential equation.
+d. To satisfy the differential equation, the left and the right sides must be the same function. You can easily see if this is the case when the red and green functions lie exactly on top of one another. `r mark(6380)`
+
+It might be that no matter how you set the parameters, you cannot get the red and green functions to align. This signals that the ansatz being used is not appropriate for this differential equation.
+
+```{r bside1, echo=FALSE, results="markup"}
+askMC(
+  "Using the ansatz $x(t) = \\sin(\\omega t)$, confirm that the red function is indeed $\\partial_t x$ (a.k.a. $\\dot{x}$). Which of the following is **not** a reason to support this confirmation? (You will want to vary the $\\omega$ slider to see which statements remain true regardless of $\\omega$.)",
+  "The period of the blue function is the same as the period of the red function.",
+  "+The amplitude of the blue function is the same as the amplitude of the red function.+",
+  "The red function is shifted 1/4 cycle in time from the blue function.",
+  "The red function has amplitude $\\omega$ compared to the amplitude 1 of the blue function"
+)
+```
+
+```{r bside2, echo=FALSE, results="markup"}
+askMC(
+  "Still using the ansatz $x(t) = \\sin(\\omega t)$, confirm that the green function is what it is supposed to be, namely $a x(t)$. You will want to vary $a$ to see which statements are true regardless of $a$. Which of the following statements is **not** a reason to support the confirmation?",
+  "When $a < 0$, the green function is flipped upside-down compared to the blue function.",
+  "The green function has the same period as the blue function.",
+  "+The red function is shifted 1/4 cycle in time from the blue function.+",
+  "The amplitude of the blue function is 1, but the amplitude of the green function is $a$."
+)
+```
+
+
+
+```{r bside3, echo=FALSE, results="markup"}
+askMC(
+  "Still using the ansatz $x(t) = \\sin(\\omega t)$, search for a value of the parameter $\\omega$ that leads to the blue function and the red function to be the same. What did you find?",
+  "$\\omega = 0.27$ leads to a red/blue match.",
+  "There's a red/blue match for some $\\omega > 1.0$.",
+  "Large $\\omega$ is heading in the right direction, but the slider doesn't give enough range to make sure.",
+  "+It's impossible!+"
+)
+```
+
+
+```{r bside4, echo=FALSE, results="markup"}
+askMC(
+  "Still using the ansatz $x(t) = \\sin(\\omega t)$, modify the differential equation by changing the constant of proportionality $a$. Search for an $(\\omega, a$) combination that balances the red and green functions. What did you find?",
+  "When $a=1$, there is an $\\omega$ that does the job.",
+  "When $a=0$, any choice of $\\omega$ will work.",
+  "+There's no such combination to be found.+"
+)
+```
+
+```{r bside5, echo=FALSE, results="markup"}
+askMC(
+ "What's your conclusion after trying out a sinusoidal ansatz?",
+ "A sinusoid *almost* works.",
+ "A sinusoid is an appropriate ansatz.",
+ "+A sinusoid is inappropriate form for a solution.+"
+)
+```
+
+```{r bside6, echo=FALSE, results="markup"}
+askMC(
+  "Shift to the sigmoidal ansatz. There are two parameters, `center` and `width`. Finding settings for those parameters that will balance the red and green functions. (You might have to change the value of $a$ to be successful.) What do you conclude?",
+  "+A sigmoidal is never an appropriate form for the solution to $\\dot{x} = a x$.+",
+  "A sigmoidal is *always* and appropriate form for the solution to $\\dot{x} = a x$.",
+  "A sigmoidal works when $a < 0$, but not for $a > 0$."
+)
+```
+
+```{r bside7, echo=FALSE, results="markup"}
+askMC(
+  "Shift to the exponentially growing/decaying ansatz. There are two parameters, $k$ and $\\omega$. Finding settings for those parameters that will balance the red and green functions. What do you conclude?",
+  "+An exponentially growing/decaying sinusoid is never an appropriate form for the solution to $\\dot{x} = a x$.+",
+  "The exponentially growing/decaying sinusoid will work if $k$ and $\\omega$ are carefully chosen.",
+  "The exponentially growing/decaying sinusoid will work for all $k$ so long as  $\\omega$ omega is set to a specific value."
+)
+```
+
+```{r bside8, echo=FALSE, results="markup"}
+askMC(
+  "To wrap up, shift to the simple exponential ansatz. There is only one parameter: $k$. The good news is that you can make the exponential ansatz work. What is the relationship between $a$ and $k$ that red and green functions that match?",
+  "It doesn't depend on $a$, just on $k$.",
+  "It doesn't depend on $k$, just on $a$.",
+  "When $k = \\ln(a)$ the red and green match.",
+  "+When $k = a$ the red and green match.+",
+  "When $k = e^a$, the red and green match."
+)
+```
+
+
+-----
+
+We're writing the 1-D differential equation as $\dot{x} = f(x)$. Remember that every possible 1-D differential equation can be written this way. The thing that distinguishes one equation from another is the dynamics function $f()$. `r mark(6385)`
+
+We have examined a few possibilities for $f()$, for instance:
+
+i. $f(x) = a x$ -- the linear function: $f(x)$ is **proportional** to $x$.
+ii. $f(x) = a x + b$ -- the straight-line function
+iii. $f(x) = r x (1-x/K)$ -- the so-called "logistic" function
+
+There are other forms of $f()$ that a modeler occasionally encounters, such as
+
+iv. $f(x) = a x^2$, or
+v. $f(x) = a \sqrt{\strut x}$
+vi. ... and many others!
+
+But (i), (ii), and (iii) are by far the most common, so we focus on them.
+
+Each of (i), (ii), and (iii) has a solution in terms of the basic modeling functions we have used throughout CalcZ: sinusoid, sigmoidal, exponential, and so on. These solutions have been known for at least 200 years. This means that an operational ability to solve a differential equation is a matter of memorizing those solutions. `r mark(6390)`
+
+Our goal in this section is to help you understand in general the logic of finding solutions to differential equations. To find a solution means finding a **function** <span style='color: blue; font-size: 30px;'>$x(t)$</span> that satifies `r mark(6395)`
+
+<span style='font-size: 36px;'><span style='color: red'>$\dot{x(t)}$</span> $=$ <span style='color: green'>$f(x(t))$</span>
+
+There are multiple strategies for finding that function $x$. An important one of which is to make a <span style='color: blue;'>guess about the function form</span> (e.g. sinusoid, exponential, etc.) then varying the parameters of that function until the <span style='color: red;'>function on the left side</span> matches the <span style='color: green;'>function on the right side</span>. `r mark(6400)`
+
+::: {.takenote  data-latex=""}
+Following convention, we simplify the notation by leaving out any explicit mention of $t$.
+
+<span style='font-size: 36px;'><span style='color: red'>$\dot{x}$</span> $=$ <span style='color: green'>$f(x)$</span>
+
+The role of $t$ in the differentiation is made implicit by the **dot** on the $x$. It's so, so easy to forget this and become confused. So be careful to be attentive to the dot in $\dot{x}$ as signalling the derivative of $x(t)$ with respect to $t$. `r mark(6405)`
+:::
+
+
+## Classical models
+
+There are four differential equation models that are so commonly encountered that you should *memorize* the qualitative solutions. For all but one, you should have the quantitative solution readily at hand. `r mark(6410)`
+
+**Exponential growth/decay** to zero
+
+The model is $$\dot{x} = a x \ \ \implies\ \ \ x(t) = A e^{a t}$$ that is to say the dynamical function is a linear (proportional) function.  The heading gives the description of the qualitative solution: exponential growth and decay. The free parameter $A$ in the quantitative solution will be the numerical value of $x(0)$.  `r mark(6415)`
+
+This is a model of **population growth** and **radioactive decay** among very many other settings. Whether it's growth or decay is set by the parameter $a$: positive for growth, negative for decay.
+
+**Exponential growth/decay to a non-zero fixed point**
+
+The model is $$\dot{x} = -a (x - K) \ \ \implies\ \  x(t) = K + Ae^{-at}$$
+
+This is most famously "Newton's Law of Cooling," where $x(t)$ is the changing temperature as a function of time and $K$ is the ambient (e.g. room) temperature. The object's temperature decays exponentially to the ambient temperature. `r mark(6420)`
+
+**Logistic growth to the carrying capacity $\kappa$**
+
+The model is $$\dot{x} = r x (1 - x/\kappa)\ \ \implies\ \ \ x(t) = \left\{\begin{array}{lcc}\text{sigmoidal growth to }\kappa & \text{ if } & x(0) < \kappa\\
+\text{stable at }\kappa & \text{ if } & x(0) = \kappa\\
+\text{exponential decay to }\kappa & \text{ if } & x(0) > \kappa
+\end{array}\right.$$
+
+In some ways, this is like Newton's Law. Eventually the solution will be approximately exponential decay to the fixed point $\kappa$.
+
+Why "eventually?" Because when $0 < x(0) \ll \kappa$ the solution will at first be exponential growth from zero before settling down to exponential decay to the fixed point $\kappa$.
+
+This model is most famously associated with ecology and the growth of a population in an environment where resources needed for life are limited. The "carrying capacity" is the largest steady population that can be sustained. `r mark(6425)`
+
+```{r q5-4, echo=FALSE, results="markup"}
+askMC(
+  "Which of the following differential equations represents the statement: *\"The rate at which the radioactive substance decays is directly proportional to the amount of substance remaining.\"*",
+"$\\dot {x} =Ce^{-kt}$",
+"$x(t)=Ce^{-kt}$",
+"+$\\dot x=-kx$+",
+"$\\dot x=-k(x-x_0)$",
+"$\\dot x = \\int x dx$",
+random_answer_order = FALSE
+)
+```
+
+```{r q5-8b, echo=FALSE, results="markup"}
+askMC(
+  "Given $\\dot x =0.2x(1-\\frac{x}{50})$ with initial condition $x(0)=70$, is $x(t)$ increasing, decreasing, constant, or cannot be determined?",
+"Increasing",
+"+Decreasing+",
+"Constant",
+"Cannot be determined",
+random_answer_order = FALSE
+)
+```
+
+To answer this question, it helps to notice that the given initial condition $x(0) = 70$ is *above* the carrying capacity of 50. So the solution will be exponential decay toward the carrying capacity.
+
+
+```{r q5-5, echo=FALSE, results="markup"}
+askMC(
+"Suppose you pull the roast out of the oven when its temperature is $$175^{\\circ}$$F.  The room temperature is $$70^{\\circ}$$F and the roast cools in accordance with Newton’s Law of Cooling.  Let $y(t)$ be the temperature of the roast $t$ minutes after it is removed from the oven. Which of the following is the differential equation that models this situation?", `r mark(6430)`
+
+"+$\\dot y = -k(y-70)$+",
+"$\\dot y = -k(y-175)$",
+"$\\dot y = 175e^{-kt}-70$",
+"$\\dot y = -ky$",
+"$y(t)=Ce^{-kt}+175$",
+random_answer_order = FALSE
+)
+```
+
+
+

@@ -1,0 +1,153 @@
+# States, Dynamics, Trajectory
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Dyn-1a", "Understand the difference between state, dynamics, trajectory")
+state_objective("Dyn-1b", "Understand the difference between continuous and discrete time")
+state_objective("Dyn-1c", "Recognize the form of a differential or finite-difference equation")
+```
+:::
+
+
+AN EXERCISE THAT WAS IN DIFF, but better suited here:
+
+`r insert_calcZ_exercise("24.20", "uifJjv", "Exercises/Diff/aspen-let-cotton.Rmd")`
+
+
+
+A **trajectory** is a sequence of successive states. For example, here is a trajectory of six successive states: $$\{ {\mathbf S_0}, {\mathbf S_1},  {\mathbf S_2}, {\mathbf S_3}, {\mathbf S_4}, {\mathbf S_5}\}$$ `r mark(6100)`
+
+It's conventional to call ${\mathbf S}_0$ the "initial state" or, more often, the **initial condition**.
+
+Usually, we calculate a trajectory one step at a time:
+$$\left\{ {\mathbf S_0},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \\ {\mathbf S_1}=g({\mathbf S_0}),\\ {\mathbf S_2} = g({\mathbf S_1}),\\ {\mathbf S_3} = g({\mathbf S_2}),\\ {\mathbf S_4} = g({\mathbf S_3}),\\ \ \ \ \ \ {\mathbf S_5} = g({\mathbf S_4}))\ \ \ \right\}$$
+NOTE: We've written the above on several lines just to make it more readable. It could just as well have been written on one line.
+
+-----
+
+
+One common mathematical task in using finite-difference equations is **iteration**. In iterating a finite-difference equation, you are running a machine to construct the "future state" from the "present state." In iteration, you repeatedly do this. By plugging in the "future state" into the machine, you generate a state further in the future. `r mark(6105)`
+
+It can be helpful to think of "future" and "present" state in terms of a series of days. The system's state **today** is the present state. The system's state **tomorrow** is the next future state.  The system's state on the **day after tomorrow** is the future state after tomorrows's state. `r mark(6110)`
+
+A finite-difference equation is a statement about how tomorrow's state is a function of today's state. We could write this in the form
+$$\text{state}_{\small\text{tomorrow}} = g( \text{state}_{\small\text{ today}})$$
+This notation is wordy and hard to read. So we simplify it.
+
+- Today is day $n$
+- Tomorrow is day $n+1$
+- The state on day $n$ is written $\mathbf S_n$.
+- The state on day $n+1$ is written $\mathbf S_{n+1}$
+- The dynamics are represented by a function, say, $g({\mathbf S})$.
+- To remind us of the role played by $g()$, we write $${\mathbf S}_{n+1} = g({\mathbf S}_n)$$
+
+(Exercises: DtLAhm, mJRDLy)
+
+The ingredients for calculating a trajectory are:
+
+a. A function $g(S)$
+b. An initial condition ${\mathbf S}_0$.
+c. A choice of how many steps to take.
+
+<!--
+
+There are two basic styles to computing trajectories on the computer. The first is a **calculator style* series of commands. For instance, the code in the sandbox computes a trajectory of length 6 from the given $g()$ and initial condition. `r mark(6115)`
+
+```{r fdec1, exercise=TRUE, exercise.cap="Calculator style", exercise.nline=10, eval=FALSE}
+g <- makeFun(5 + x/2 ~ x)
+x0 <- 7
+x1 <- g(x0)
+x2 <- g(x1)
+x3 <- g(x2)
+x4 <- g(x3)
+x5 <- g(x4)
+x6 <- g(x5)
+
+```
+
+Computer programmers learn that his is a bad style for several reasons.
+
+i. The information about all these closely related things `x0`, `x1`, `x2` and so on is spread out over a bunch of different names. Most programming language provide no easy way to handle these as a group. An example of "handling as a group" is to plot out the trajectory versus $n$.
+ii. The statements are highly repetitive. Some people like this, because it gives them a sense of order. But programmers learn (through hard experience) that it is difficult for a human reader to confirm that every line is repeating exactly the same pattern. For instance, `x5 <- g(x3)` is a perfectly valid computer statement, but inconsistent with the dynamics that are supposed to be calculated. `r mark(6120)`
+
+A more effective style of programming is illustrated in the next sandbox which uses an "iteration operator":
+
+-->
+
+To facilitate calculating a trajectory, use the `Iterate()` operator.
+
+```{r fdec3-2, exercise=TRUE, exercise.cap="An iteration operator", exercise.nlines=8, eval=FALSE}
+g <- makeFun(5 + x/2 ~ x)
+Traj <- Iterate(g, x0 = 7, n = 6)
+Traj
+```
+
+```{r fdec3-2-solution, echo=FALSE}
+g <- makeFun(-0.8*x + 2 ~ x)
+Traj <- Iterate(g, x0=10, 50)
+gf_point(x ~ n, data = Traj) %>%
+  gf_line(alpha=0.2)
+```
+
+The `Iterate()` operator takes as a first argument the dynamics in the form of the name of a function or a tilde-expression of the sort accepted by `makeFun()`. The next argument is the initial condition. (This argument is named `x0` regardless of the name used in the dynamics).  The third argument is the number of steps to iterate. `r mark(6125)`
+
+`Iterate()` returns a data frame with two (or more) columns. The first, named `n`, is the step number. The second is given the same name as the variable used in the dynamical function. Because the output of `Iterate()` is in the form of a data frame, you can employ any function set up to accept a data frame. `gf_point()` is particularly useful for plotting the trajectory as a function of $n$.
+
+`Iterate()` is for finite-difference equations in discrete time, so $n$ will always be an integer and the trajectory is appropriately plotted as a series of isolated points. Even so, it can be helpful to the human viewer to connect the points faintly with straight lines. This makes it a bit easier to see the sequence. For instance:
+
+```{r eval=FALSE}
+# Make the Traj then ...
+gf_point(x ~ n, data = Traj) %>%
+  gf_line(alpha=0.2)
+```
+
+(Exercises: DzIhgb)
+
+You can use the `Iterate()` function to compute the trajectory of any finite-difference system from any initial condition. Each trajectory is a sequence of numbers $\{x_n\}$ for $n=0, 1, 2, \ldots$.
+
+Sometimes it's possible to find an algebraic formula for a trajectory. Such a formula is unfortunately called a "solution," an over-used word in mathematics. In the days before computers were readily available, students of dynamics tended to study only those systems for which an algebraic solution could be found. A more modern style is to put the modeling setting first and foremost and not hesitate to use numerical methods like `Iterate()` instead of relying on algebra. `r mark(6130)`
+
+Because the word "solution" appears so often in textbooks it's helpful to know what they look like and how they are different from dynamics.
+
+i. Arithmetic sequences
+    - Dynamics: $x_{n+1} = x_n + b$
+    - Solution: $x_n = x_0 + n b$
+ii. Geometric sequences
+    - Dynamics: $x_{n+1} = \alpha\, x_n$
+    - Solution: $x_n = x_0\, \alpha^n$
+iii. Combined sequences
+    - Dynamics: $x_{n+1} = \alpha\, x_n + b$   <br>
+    - Solution: $x_n = \left(x_0 - b/\alpha\right) \alpha^n + b/\alpha$
+
+The dynamics of a discrete-time system write tomorrow's state as a function of today's state. In contrast, the *solution* gives a formula for $x_n$ directly in terms of $n$, the initial condition $x_0$, and any parameters of the system (such as $\alpha$ and $b$ in the above examples). `r mark(6135)`
+
+As you can see, even for dynamics as simple as for the combined sequences, the solution is fairly complicated. Because solutions can be so complicated, they can be extremely hard to find and hard to use. The only ones we will use extensively will be composed of relatively simple terms like $(-1)^n$ and $\alpha^n$. The analogs of these for continuous time systems are $\sin(\omega t)$ and $e^{-kt}$. `r mark(6140)`
+
+(Exercises: 9mSE8t)
+
+## 142Z Day 15 exercises
+
+`r insert_calcZ_exercise("XX.XX", "DtLAhm", "Exercises/Dynamics/kitten-mean-tv.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "mJRDLy", "Exercises/Dynamics/rat-lend-piano.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "DzIhgb", "Exercises/Dynamics/ape-leave-shirt.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "9mSE8t", "Exercises/Dynamics/lobster-become-sofa.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "FUIt1Q", "Exercises/Dynamics/spider-find-book.Rmd")`
+
+
+::: {.takenote  data-latex=""}
+We will be using a handful of Greek letters in our mathematical notation. You should learn these by heart:
+
+* $\alpha$  : alpha (lowercase)
+* $\beta$  : beta (lowercase)
+* $\lambda$  : lambda (lowercase)
+* $\Lambda$  : lambda (uppercase)
+* $\omega$  : omega (lowercase)
+* $\xi$  : xi (lowercase), pronounced "ex-eee"
+* $\eta$  : eta (lowercase)
+
+The last two of these, $\xi$ and $\eta$ are the Greek equivalents to the familiar $x$ and $y$. We'll see $\xi$ and $\eta$ as arguments to functions that we will quickly be re-scaling and renaming $x$ and $y$. `r mark(6145)`
+:::

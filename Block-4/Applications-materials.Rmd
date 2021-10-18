@@ -1,0 +1,319 @@
+# Material for Applications Block
+
+## Tukey's ladder (optional)
+
+::: {.todo}
+[[Tukey's ladder]] Using a simple straight line with input composition and/or output composition. You can get a variety of curve shapes using only a linear function.
+:::
+
+
+`r insert_calcZ_exercise(11.15, "UVGMA", "Exercises/Applications/rule-of-72.Rmd")`
+
+
+
+
+EXERCISE:
+
+In Section \@ref(function-composition) you saw a function giving the declination of the sun as a function of day of year, and length-of-day as a function of latitude and sun's declination. Putting these together let's us assemble day-length as a function of latitude and day of year.
+
+Give function. DRAW CONTOUR PLOT, take slices. Day length as seen by a migrating bird. [Plug in a simple sinusoid for latitude to reduce the function to day-length versus day-of-year.]
+
+
+
+
+Log transformation of used car prices
+
+[[Perceived brightness or loudness]] is a log scale.
+
+
+
+
+
+`r insert_calcZ_exercise(11.23, "TWLC", "Exercises/Applications/available-health-care.Rmd")`
+
+
+## Cubic splines
+
+## Polynomials and data
+
+A global polynomial has a nice feature: all orders of derivatives are
+continuous. But there is a huge disadvantage. Polynomials, like dogs
+chasing squirrels, always run off to infinity in the end. This
+off-to-infinity behavior always occurs outside the domain of the knots.
+Even so, it is highly relevant to what goes on inside the knots' domain,
+because the polynomial function "wriggles" as if to gain momentum for its
+infinite run. To use a metaphor, a polynomial is like a player rounding
+the bases in baseball. To go fast and yet to touch each base requires
+that the runner curve considerably outside the direct path from base to
+base.
+
+For this exercise, let's define a wriggle this (highly informal) way:
+
+> *A wriggle is a change in sign of the slope of the function in the
+> interval between two adjacent knot points.*
+
+We'll use the "exploring interpolation" app,
+[here](https://maa-statprep.shinyapps.io/142Z-Interpolation/?_ga=2.39812192.233017403.1617632170-1036744100.1568230437).
+
+Turn on both the cubic-spline and the global cubic displays; you're
+going to be contrasting their behavior. (You don't need the linear
+interpolant to be displayed.)
+
+We're going to ask a series of questions about the behavior of the
+interpolants. Since knot points are generated at random, it might be
+that one particular set of knot points does not demonstrate clearly the
+feature that we'll as about. Therefore, in answering each question press
+"Start again" several times to find out whether the presence or absence
+of the feature is generic or due simply to the play of chance.
+
+```{r cs1-1, echo=FALSE, results="markup"}
+askMC(
+  "True or False: the interpolating function has at most one wriggle between adjacent knots.",
+  "polynomial: true; cubic-spline: false",
+  "+polynomial: true; cubic-spline: true+",
+  "polynomial: false; cubic-spline: true",
+  "polynomial: false; cubic-spline: false",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1-2, echo=FALSE, results="markup"}
+askMC(
+  "True or false: the wriggles tend to get bigger toward the edges of the set of knots. ",
+  "+polynomial: true; cubic-spline: false+",
+  "polynomial: true; cubic-spline: true",
+  "polynomial: false; cubic-spline: true",
+  "polynomial: false; cubic-spline: false",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1-3, echo=FALSE, results="markup"}
+askMC(
+  "Turn down the number of knots to $n=3$. True or false: the cubic spline and global polynomial functions are practically the same. ",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1-4, echo=FALSE, results="markup"}
+askMC(
+  "Turn up the number of knots to $n=10$ or higher. True or false: the cubic spline and global polynomial functions are practically the same. ",
+  "True",
+  "+False+",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1-5, echo=FALSE, results="markup"}
+askMC(
+  "Keeping the number of knots at $n=10$ or higher ... True or false: the wriggles of the global polynomial are smaller than the wriggles of the cubic spline. ",
+  "True",
+  "+False+",
+  random_answer_order = FALSE
+)
+```
+
+The app has a control to change the $x$-scale of the display, excluding
+the first or last few knots. (The interpolating function, however, uses
+all the knots.)
+
+```{r cs1-6, echo=FALSE, results="markup"}
+askMC(
+  "Keeping the number of knots at $n=10$ or higher, but excluding the first and last knot points ... True or false: the wriggles of the global polynomial are similar to or smaller than the wriggles of the cubic spline when looking at the function over the restricted domain.",
+  "True",
+  "+False+",
+  random_answer_order = FALSE
+)
+```
+
+::: {.why  data-latex=""}
+The interpolation-explorer app has a "jitter" button which adds a small
+random vertical displacement to the knot points. This simulates the
+situation when the knot points are drawn from noisy data. A method (such
+as interpolation with polynomials) is called **ill-conditioned** when it
+tends to magnify the effect of noise. You can get an idea for this by
+pressing "jitter" many times and looking at the spread of the resulting
+interpolating functions. The higher the order of polynomial, that is,
+the greater the number of knot points, the worse the magnification. You
+can judge for yourself whether the cubic spline suffers from a similar
+problem.
+:::
+
+`r insert_calcZ_exercise(22.3, "2W6VB", "Exercises/Diff/approx-orange.Rmd")`
+
+`r insert_calcZ_exercise(22.5, "3IUVB", "Exercises/Diff/approx-blue.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "zdrsLb", "Exercises/Diff/fox-dig-room.Rmd")`
+
+::: {.todo}
+[Under taylor series, show that $\frac{e^h - 1}{h} \rightarrow 0$.]
+:::
+
+::: {.takenote  data-latex=""}
+The derivative of a ***polynomial*** follows the linear combination rule
+because polynomials are a linear combination of functions. Those
+functions are the monomials, $x^0$, $x^1$, $x^2$, and so on. Of course,
+the derivative of each monomial is another monomial with an exponent
+reduced by 1 and scaled by the original exponent. That is,
+$\partial_x x^k = k x^{k-1}$.
+
+The consequence is that the derivative of a polynomial is another
+polynomial, with each term being reduced by one order.
+
+-   $\partial_x x^0 = 0$
+-   $\partial_x x^1 = x^0 = 1$
+-   $\partial_x x^2 = 2 x^1 = 2x$
+-   and so on.
+
+Example:
+$f(x) \equiv a + b x + c x^2\  \  \implies\ \ \partial_x f(x) \equiv b + 2 c x$
+:::
+
+## Solving computationally
+
+::: {.todo}
+How to find the zeros of the derivative of a function and how to
+evaluate the second derivative at those zeros to find out what kind of
+critical point it is.
+:::
+
+::: {.todo}
+The cubic bifurcation. Start with a cubic with an argmax followed by an
+argmin. Then move the parameter to see the two critical points coalesce
+into a single point then disappear.
+
+Or, maybe, "the problem with polynomials." Linear function always has 1
+root and no critical points. Quadratic function always has one critical
+point (and subject to a constant may have two roots generically). But a
+cubic might have 1 or 3 solutions and the behavior depends on the
+constant. It might have one or three critical points. `r mark(2905)`
+:::
+
+## Calculating square roots
+
+It's easy to square a number by hand; just multiply the number by
+itself. But it's hard to find the square root of a number---unless you
+have a computer or calculator. How does the calculator do it?
+
+Algebraically, the problem is this: You have a number $B$, say $B=17$
+and you seek an as yet unknown number, which we will call $x$. The
+relationship between them is $$x^2 = B .$$ If you're good at algebra,
+it's almost algebraic to solve the equation for $x$. You take the square
+root of both sides to get $x = \sqrt{B}$ and reach for a calculator. But
+the calculator can't reach for another calculator, so how does it do it?
+Using calculus, of course!
+
+Since calculus is about *functions*, we'll translate $x^2 = B$ into a
+function that we'll call $g()$: $$g(x) = x^2 - B$$. Given any value of
+$x$, it's easy to find the output of $g()$. If you can guess a value of
+$x$ such that $g(x) = 0$, then you have a solution to the problem.
+
+The calculator starts with a guess, $x=1$. Plugging this into $g()$ and
+using $B=17$, we find that $g(1) = -16$. So $x=1$ is *not* $\sqrt{B}$.
+(And you already knew that!) But $g(1) = -176$ actually has something
+helpful to say: our guess was too big. Likewise, if we had guessed too
+large, say $x=10$, we would get $g(10) = 100 - 17 = 83$. This positive
+output from $g()$ says that $x=10$ is too big to be $\sqrt{B}$. So we
+can guess something in between and start anew.
+
+Calculus provides a way to take a guess and improve it. To see, let's
+make a plot of $g(x)$, and mark the simple guess $x=1$ with the output
+of $g(1) = -16$.
+
+```{r}
+slice_plot(x^2 - 17 ~ x, domain(x = c(0, 10))) %>%
+  gf_point(-16 ~ 1) %>%
+  slice_plot(-16 + 2*(x-1) ~ x, color="blue")
+```
+
+With calculus, we can find the straight-line function that is tangent to
+$g(x)$ at $x=1$. It will be
+$$f_0(x) = g(1) + \partial_x g(1) [x - 1] = -16 + 2 [x-1]$$
+
+The function $f_0()$ is a horrible approximation to $g()$ except around
+the point $x=1$. Still, it is useful. We can easily use $f_0()$ to find
+a new guess, by finding the $x$ such that $f_0(x) = 0$. (This sounds
+pointless right now, but wait!) Solving $-16 + 2[x-1] = 0$, we get
+$x=9$, which becomes our new guess.
+
+In general, for a function $g()$ and an initial guess $x_i$, the new
+guess $x_{i+1}$ will be the zero of the tangent-line function at the
+initial guess.
+
+$$x_{i+1} = x_i - \frac{g(x_0)}{\partial_x g(x_0)}$$
+
+For our particular $g(x) \equiv x^2 - 17$, this becomes
+$$x_{i+1} = x_i - \frac{x_i^2 - 17}{2x_i}$$ This function, which we
+might call `improve()` is implemented in the sandbox. Notice that the
+calculation in `improve()` uses only arithmetic, no square roots.
+
+```{r daily-digital-35-sandbox4-setup, echo=FALSE}
+options(digits = 15)
+```
+
+```{r daily-digital-35-sandbox4, eval=FALSE}
+improve <- makeFun(x_i - (x_i^2 - 17) / (2*x_i) ~ x_i)
+improve(x_i = 1) # one improvement steps
+improve(improve(1)) # two improvement steps
+improve(improve(improve(1))) # three improvement steps
+```
+
+```{r daily-digital-35-QA9, echo=FALSE}
+askMC(
+  prompt = "As very accurate approximation, $\\sqrt{17} = 4.12310562561766$? How many improvement steps do you need to take to reach this level of accuracy?",
+  3,4,5,6,"+7+",8,9,10, 
+  random_answer_order = FALSE
+)
+```
+
+```{r daily-digital-35-QA10, echo=FALSE}
+askMC(
+  prompt = "Modify the `improve()` function so that it calculates toward $\\sqrt{75829.31}$. Starting from an initial guess of $x = 100$, what is the guess after 3 improvements?",
+  180.832, "+276.624+", "437.293", "562.745", "601.174",
+  random_answer_order = FALSE
+)
+```
+
+Consider the improvement function for finding **cube roots**.
+
+```{r daily-digital-35-QA11, echo=FALSE}
+askMC(
+  prompt = "What will the $g(x)$ function look like for finding cube roots?",
+    "+`g <- makeFun(x^3 - B ~ x)`+",
+    "`g <- makeFun(x - B^3 ~ B)`",
+    "`g <- makeFun(x^3 - B ~ B)`",
+    "`g <- makeFun((x - B)^3 ~ x)`",
+    "`g <- makeFun(x^6 - B^3 ~ x)`"
+)
+```
+
+```{r daily-digital-35-QA12, echo=FALSE}
+askMC(
+  prompt = "What will be $\\partial_x g()$?",
+    "+`dx_g <- makeFun(3*x^2 ~ x)`+",
+    "`dx_g <- makeFun(2*x^3  ~ x)`",
+    "`dx_g <- makeFun(x^2  ~ x)`",
+    "`dx_g <- makeFun(3*x^2 - B  ~ x)`",
+    "`dx_g <- makeFun(2*x^3 - B  ~ x)`",
+    "`dx_g <- makeFun(x^2 - B  ~ x)`"
+)
+```
+
+Remember that the improvement function will be
+$$\text{improve}(x) = x - \frac{g(x)}{\partial_x g(x)}$$ In the code
+box, implement the improvement function for $\sqrt[3]{19.4}$. Then,
+starting with the initial guess $x_i = 10$, calculate six improvement
+steps.
+
+```{r daily-digital-35-E1, eval=FALSE}
+improve <- __your_function_here__
+improve(improve(for_six_improvement_steps_altogether(10)))
+```
+
+```{r daily-digital-35-E1-check, eval=FALSE}
+grade_result(
+  pass_if(~ abs(.result - 2.686997) < 0.001)
+)
+```

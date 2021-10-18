@@ -1,0 +1,258 @@
+# Risk and expectation
+
+The Powerball is a weekly lottery famous for its outsized payoff. For instance, for the week of April 7, 2021, the jackpot payout is officially described as $43,000,000. There is a limited sense in which this might be true, but in a far more meaningful sense it is not. The winner has a choice between a one-time cash payout of $29,300,000 or an annuity of 30 annual payments of $1,433,333. However, the winnings are taxable income and the lottery's administration (a not-for-profit, government benefit organization) withhold applicable federal and state taxes. According to the [usmega site](https://www.usamega.com/powerball/jackpot), in Colorado the cash payment would amount to $17,161,778 while the annuity would be 30 payments of $873,711. `r mark(4300)`
+
+This will sound silly, but we know the value of $17,161,778 paid today: it is $17,161,778. But what is the value of $873,711 paid out over 30 years? The answer depends on the *discount rate*, that is, the present value of future money. When the discount rate is $r$, the current value of money due to be paid in $n$ years is $(1-r)^n$. For instance, at $r = 5\%$, the current value of $1000 to be paid 10 years in the future is $599. The table shows the net present value of the $873,711 paid out yearly over 30 years. `r mark(4305)`
+
+Discount rate | Net Present Value
+--------------|------------------:
+0    | `r format(sum(1^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+1%   | `r format(sum(.99^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+2%   | `r format(sum(.98^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+4%   | `r format(sum(.96^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+5%   | `r format(sum(.95^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+8%   | `r format(sum(.92^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+10%  | `r format(sum(.90^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+15%  | `r format(sum(.85^(0:29))*873711, digits=4, scientific=FALSE, big.mark=",")`
+
+The formula behind this table is $$873711 \sum_{k=0}^{29} (1-r)^k$$
+
+What discount rate to use is a judgement call, and will reasonably depend on a person's situation. For example, a 90-year old might reasonably discount future money at $r=20\%$, whereas the discount rate for a person owing money next month to the mafia might be considerably higher.  `r mark(4310)`
+
+As a placeholder, we can look to the auctions of inflation-adjusted US Treasury Inflation Protected Securities (TIPS). As of this writing, a TIPS with a nominal payout of $1000 in 30 years is for sale at $100.70 (as of April 6, 2021), corresponding to a discount rate of 8% per year. With some justification, one might assert that the nominal $43,000,000 Powerball prize is really worth about $10 million. `r mark(4315)`
+
+Let's turn the problem of calculating a net present value into a calculus problem. Rather than summing over the discounted yearly dollar payout, we'll consider a continuous payout rate in dollars per year.  `r mark(4320)`
+
+```{r pb1-1, echo=FALSE, results="markup"}
+askMC(
+  "In continuous time, a continuously compounding interest rate $r$ is a parameter in a differential equation $$\\dot{P} = r P$$ where $P$ is the amount of money (\"principal\") under investment.  Solve the differential equation at $t=1$ year  with an initial principal of $100  to find the corresponding *effective annual interest rate*. Which of these is the conversion between $r$ in the differential equation and the effective annual interest rate? (Hint: Think carefully about the distinction between the interest rate $r$ and the increase at the end of one year $1+r$)",
+  "+$\\exp(r) - 1$+",
+  "$\\exp(1+r) -1$",
+  "$\\exp(r)$",
+  "$\\exp(1+r)$"
+)
+```
+
+```{r pb1-2, echo=FALSE, results="markup"}
+askMC(
+  "Using the correct answer from the previous question, find the continuously compounding interest rate $r$ that corresponds to an effective annual discount rate of 8%. Which of these is it?",
+  "$r = \\ln(0.08)$",
+  "+$r = \\ln(1.08)$+",
+  "$r = \\sqrt{0.08}$",
+  "$r = \\sqrt{(1 + 0.08)^2} - 1$"
+  
+)
+```
+
+
+```{r pb1-3, echo=FALSE, results="markup"}
+askMC(
+  "Which of these integrals corresponds to the discrete sum in the formula for the net present value of the Powerball payout?",
+  "+$\\int_0^{29} 873711 (1-r)^t dt$+",
+  "$\\int_1^{30} 873711 (1-r)^t dr$",
+  "$\\int_0^{30} 873711 (1-r)^t dt$",
+  "$\\int_1^{29} 873711 (1-r)^t dr$"
+)
+```
+
+
+Here is a sandbox you can use for the calculations needed to answer the following questions.
+
+```{r pb2-1, exercise=TRUE, exercise.cap="Calculation sandbox", exercise.nlines=10, eval = FALSE}
+
+
+
+
+```
+
+
+```{r answer-to-last-question, echo=FALSE, eval=FALSE}
+F <- antiD((1-r)^t ~ t, r=0.077)
+10*(F(100000) - F(0))
+```
+
+
+We're going to use an effective annual discount rate of 8% in the following problems.
+
+```{r pb1-4, echo=FALSE, results="markup"}
+askMC(
+  "Which of the following is the continuously compounded interest rate that corresponds to the effective annual interest rate of 8%?",
+  "7.3%",
+  "+7.7%+",
+  "8.0%", 
+  "8.3%",
+  random_answer_order = FALSE
+)
+```
+
+```{r pb1-5, echo=FALSE, results="markup"}
+askMC(
+  "Using the continously compounded interest rate that's equivalent to an effective annual rate of 8%, calculate the appropriate integral for the net present value of a continuous payout at a rate of $873,711 dollars/year$ for the 30-year annuity term used in Powerball. Which of these is it? (Hint: Construct the appropriate anti-derivative and from that compute the appropriate definite integral.)", 
+  "$8,970,000",
+  "+$9,840,000+",
+  "$10,030,000",
+  "$10,460,000",
+  random_answer_order = FALSE
+)
+```
+
+There is a joke that makes sense only to the financially savvy: When the Powerball claims a $1 million payout, they mean $1 per year over a million years. We can do this calculation using numerical evaluation of the definite integral but there is a catastrophic loss of numerical precision for the 1-million year calculation. Instead, do the calculation for a $10/year payout over 100,000 years. `r mark(4325)`
+
+First, answer the following **ungraded** question with utter honesty.
+
+```{r pb1-6a, echo=FALSE, results="markup"}
+etude2::etudeEssay(
+  "**Before doing the actual calculation**, form an intuitive answer to the question of what is the net present value of $10/year over 100,000 years. Don't try to be strategic in anticipating the answer, just give your gut feeling. The instructors are curious about what sorts of numbers will come to mind." `r mark(4330)`
+)
+```
+
+```{r pb1-6b, echo=FALSE, results="markup"}
+askMC(
+  "At the continuously compounded interest rate corresponding to an effective annual rate of 8%, find the net present value of $10 per year over a hundred-thousand years. Which one of these is closest?",
+  "+$124.80+",
+  "$1248.00$",
+  "$12,480.00$",
+  "$124,800.00$",
+  random_answer_order = TRUE
+)
+```
+
+Finally, and this has nothing to do with net present value *per se*, try out the calculation of the net present value of $1 per year over a million years. This is worth doing if only to see a compelling example of how far off computer numerics can be when using very large or very small numbers. `r mark(4335)`
+
+A professional will always have at hand some method for checking the reasonableness of an answer in order to detect when something is wrong. For example, here you might look at a sequence of calculations: $100,000 per year over 10 years, $10,000 per year over 100 years, and so on. You would expect the numbers in this sequence to approach some sort of limit as the number of years increases. It does, but as the number of years gets larger that limit goes awry. `r mark(4340)`
+
+
+
+## Expecting an earthquake
+
+We have records of large earthquakes going back 1000's of years, at least in those parts of the world that kept written records. In regions with mainly oral traditions, stories of historical earthquakes are treated with skepticism.  `r mark(4345)`
+
+For instance, in California written records reach about 400 years into the past. Anticipating a future earthquakes is an everyday matter in California and governments in seismically active zones have prepared by means of building codes and emergency precautions. A bit further up the US West Coast, in the Cascadia region of Oregon, there is a shorter written record and, until the last 30-40 years, little realization that the [area has been subject to profoundly powerful earthquakes](https://www.oregon.gov/oem/Documents/01_ORP_Cascadia.pdf) called "great quakes." There are great quakes in living memory: the 2004 Boxing Day earthquake centered on Sumatra that led to the deaths of hundreds of thousands of people, and the 2011 Tohoku earthquake in Japan that killed tens of thousands and led to the meltdown of nuclear power plants in Fukashima. Both of these were magnitude 9.1. Even larger were the 1964  9.2 magnitude quake in southern Alaska and the magnitude 9.5 Valdivia earthquake in Chile in 1960. The local magnitude scale is logarithmic, so a 9.5 magnitude quake releases about 3 times the energy of a 9.1 magnitude quake.  `r mark(4350)`
+
+This exercise explores a model to inform the extent to which it's worth preparing for such quakes in order to prevent material damage. The risk to life is another important matter. But feasible investments in the build environment can minimize the direct impact of earthquakes to human life. Tsunamis generated by quakes are another matter, for which the only effective mitigating precautions are the development of evacuation routes and procedures and relocation of building away from the affected zone.  `r mark(4355)`
+
+Let's imagine a situation in which $100 spent in precautions such as strengthening building construction would generate $1000 in savings in the event of a major earthquake. (This ratio is made up for demonstration purposes, but you can easily substitute a better substantiated estimate.) From a societal point of view, many people would see the investment as clearly worthwhile. But we're going to take a more technical point of view that incorporates two factors: `r mark(4360)`
+
+- The $100 is to be spent today, while the $1000 savings will occur in the future. This can be handled by simple discounting.
+- The time until the earthquake is unknown, although reasonable probability models are available.
+
+The time of the last great Cascadia Zone earthquake is known with surprising precision: January 26, 1700. Before this, dates are estimated from geologic evidence. The figure shows the known history of Cascadia Zone earthquakes. [Source](https://www.oregon.gov/oem/Documents/01_ORP_Cascadia.pdf) `r mark(4365)`
+
+```{r echo=FALSE, out.width="90%", fig.align="center"}
+knitr::include_graphics("www/earthquake-timeline.png")
+```
+
+A standard model for the interval between earthquakes of a given magnitude is the exponential distribution. For the great quakes in the Cascadia Zone, the average interval between consecutive quakes is about 300 years and the corresponding exponential probability distribution is $$\frac{e^{t/300}}{300}$$ The sandbox is set up to make a graph of this distribution and enables other calculations you will need later. `r mark(4370)`
+
+As shown by the definite integral already coded in the sandbox, the total probability of an earthquake at some point in the future is, according to the model, 100%. So this is a model of *when* an earthquake will occur, not *whether* one will occur.  `r mark(4375)`
+
+```{r ep2-1, exercise=TRUE, exercise.cap="Earthquake interval probability", exercise.nlines=8, eval=FALSE}
+prob <- makeFun(exp(-t/300)/300 ~ t)
+slice_plot(prob(t) ~ t, domain(t = c(0,1000)))
+Prob <- antiD(prob(t)~ t)
+Prob(Inf) - Prob(0)
+
+
+
+
+```
+```{r answer-to-ep2-1, echo=FALSE, eval=FALSE}
+average <- 50
+prob <- makeFun(exp(-t/average)/average ~ t)
+payback <- makeFun(prob(t) * 100 * exp(-0.078*t) ~ t)
+Payback <- antiD(payback(t) ~ t)
+Payback(Inf) - Payback(0)
+```
+
+Almost everyone who meets the exponential probability model is surprised that the density is highest at time $t=0^+$, that is, immediately after the previous quake. 
+
+```{r ep1-1, echo=FALSE, results="markup"}
+askMC(
+  "By using the appropriate definite integral, find the probability for earthquakes separated on average by 300 years (this essentially means using the provided model in the code) that the actual interval from the last quake will be less than 30 years. Which percentage is closest?",
+  "2%",
+  "+10%+",
+  "20%",
+  "25%",
+  random_answer_order = FALSE
+)
+```
+
+```{r ep1-2, echo=FALSE, results="markup"}
+askMC(
+  "Similarly to the previous question, find the probability that the actual interval from the last quake will be more than 500 years. (Hint: Be thoughful about what the limits of integration will be.)",
+  "2%",
+  "10%",
+  "+20%+",
+  "25%",
+  random_answer_order = FALSE
+)
+```
+
+An astounding and counter-intuitive aspect of the exponential model is that the same probability density describes the time from **now** to the eventual earthquake. In other words, it doesn't matter how long it's been since the last earthquake.  `r mark(4380)`
+
+Now let's put together our model of the net present value of an expenditure on earthquake preparedness. As you recall, the net present value of $\$10$ to be paid $t$ years from the present is $10 e^{-r t}$, where $r$ is the continuously compounded interest rate. For the example, we'll set $r=7.8\%$, as we did in the Powerball example.  `r mark(4385)`
+
+Of course $t$ is uncertain, so there's no definite answer for the net present value of earthquake preparedness. However, since we have a model of the probability of the earthquake occuring as a function of the interval $t$, we can find the **expectation value** of the net present value of earthquake preparedness.  `r mark(4390)`
+
+For continuous probability densities (such as the exponential earthquake interval model) an expectation value is the definite integral over all possibilities of the probability density times the eventual outcome.  `r mark(4395)`
+
+```{r ep1-3, echo=FALSE, results="markup"}
+askMC(
+  "Using the information presented above about the probability density function and the net present value, which of the following is appropriate for calculation of the net present value of $10 spent today for earthquake preparedness?",
+  "+$\\frac{100}{300} \\int_{0}^{\\infty} e^{-0.078 t} e^{-t/300}dt$+",
+  "$\\frac{10}{300} \\int_{0}^{\\infty} e^{-1.078 t} e^{-t/300}dt$",
+  "$100 \\int_{0}^{300} e^{-1.078 t} e^{-t/300}dt$",
+  "$\\frac{100}{300} \\int_{0}^{\\infty} e^{-7.8 t} e^{-t/300}dt$"
+)
+```
+  
+The integral gives only the net present value of the eventual benefit of earthquake preparedness. If this is larger than today's expenditure, the expenditure is economically worthwhile.
+
+```{r ep1-4, echo=FALSE, results="markup"}
+askMC(
+  "What is the numerical value of the correct integral from the previous question?",
+  "$0.43",
+  "+$4.10+",
+  "$14.80",
+  "$34.50", 
+  random_answer_order = FALSE
+)
+```
+
+We used an average time between earthquakes of 300 years, as seem appropriate for the Cascadia Zone earthquake history. The net present value of the eventual reduction in damages was small, too small to justify the expenditure on economic grounds. `r mark(4400)`
+
+Modify the code in the above sandbox to perform the calculation for different earthquakes, say with an average interval of 50 years or 100 years. 
+
+```{r ep1-5, echo=FALSE, results="markup"}
+askMC(
+ "What's the longest average interval that generates a net present value of the damage reduction of $\\$10$, enough to justify the expenditure? Pick the closest one. (Hint: You can try out expectation value integral using the average intervals given as choices in place of the 300-year interval originally used.)",
+ "25 years",
+ "+50 years+",
+ "100 years",
+ "150 years",
+ random_answer_order = FALSE
+)
+```
+
+WARNING. You should not come away from this exercise with the idea that $r = 0.078$ is the "right" discount rate. We used that rate in this exercise only because there is documented evidence that some group of people---the sorts of investors who buy 30-year TIPS---currently act as if that were their discount rate. An individual is entitled to set his or her own discount rate based on any rationale whatsoever. (That said, the interest rate you could make long term on an investment readily available to you can reasonably be taken as the baseline.) `r mark(4405)`
+
+When it comes to groups of people, the appropriate discount rate becomes a matter of opinion and disagreement. In particular, there is a concept called the ["social discount rate"](https://en.wikipedia.org/wiki/Social_discount_rate). Regretably, there is no clear basis for picking this other than to put it in the range 0 to about 7%. Net present value is therefore a dubious criterion for making decisions whose impact will be felt in the long term, over generations. This is the case, for instance, with global warming. `r mark(4410)`
+
+
+
+`r insert_calcZ_exercise("XX.XX", "l5Higs", "Exercises/Applications/shark-hang-radio.Rmd")`
+
+
+# Simple Comparisons and reductions (NPV and expected value)
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Close-4a", "Recognize two important real-world contexts in which a vector (or function) output applies: a. A cash-flow stream; and b. A probability distribution for an outcome")
+state_objective("Close-4b", "Employ Net Present Value (NPV) and Expected Value to convert vector outputs into a scalar for the purposes of optimization")
+state_objective("Close-4c", "Compute the NPV of a cash flow stream")
+state_objective("Close-4d", "Determine the expected value based on a discrete/continuous probability distribution function")
+state_objective("Close-4e", "Compute the expected value of a cash flow stream discounting to the NPV")
+```
+:::
+
+# Project 3: Life expectancy

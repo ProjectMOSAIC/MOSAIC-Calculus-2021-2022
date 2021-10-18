@@ -1,0 +1,44 @@
+---
+id: "dog-have-mattress"
+created: "Tue Sep  7 14:28:05 2021"
+global_id: "kEAW8g"
+---
+
+
+
+In the population prediction model at the start of the chapter want to find a function $P(y)$ that gives the population as a function of year $y$. From the data, we plotted out $\ln\left[P(y)\right]$ and found a fairly smooth curve that was upward sloping and concave down. Next, we made a plot of the derivative with respect to year of that upward-sloping, concave-down curve and found the derivative to be well approximated by a straight-line function with a negative slope $a - b y$. In other words, we found
+$$\partial_y \ln(P(y)) = a - b\,y$$
+We want to figure out $P(y)$ from this relationship.
+
+**Step 1**: Anti-differentiate the functions on both sides of the equation. This has the effect of removing the $\partial_y$ from the left side of the equation and replacing the right side by $\int \left[a - b\, y\right]\ dy $.
+
+Task 1: Confirm that $\int \left[a - b\,y\right]dy = a y - \frac{1}{2} b y^2 + C$.
+
+**Step 2**: From Step 1 we have translated the relationship between population and year into this form:
+
+$$\ln(P(y)) = a y - \frac{1}{2} b y^2 + C$$
+
+Task 2: Exponentiate both sides of the newly framed relationship to get $ P(y) = \exp\left(a y - \frac{1}{2} b y^2 + C\right)$ and use the algebra of exponentials to write this as $P(y) = A e^{ay -b y^2}$.
+
+**Step 3**: Let's declare that $y=0$ means "the present year." 
+
+Task 3: Find the population in the present year and use that information to estimate one of the parameters in $P(y) = A e^{ay-b y^2}$.
+
+**Step 4**: The per-capita growth rate is $G(y) \approx \partial_y e^{a y - b y^2}$. The data suggest that $G(0) = a =  \approx 0.01$ and that $G(75) \approx 0$. Similarly, $b \approx 0.01/75$. You can use the chain rule to calculate $G(y) \approx \partial_y e^{a y - b y^2} = (a - 2 b y)  e^{a y - b y^2}$
+
+Task 4: You know $a$ and you have a rough value for $b$. Let's refine that value for $b$. To do this, set $y=75$ and plot $(a - 2 b y)  e^{a y - b y^2}$ as a function of $b$. Find the $b$ that corresponds to 0 growth. 
+
+```{r}
+f <- makeFun((a - 2*b*y)*exp(a*y - b * y^2) ~ b, a = 0.01, y=75 )
+slice_plot(f(b) ~ b, domain(b=c(0.000,0.01/75)))
+```
+Read off the value of $b$ from the graph.
+
+Now that you have numerical estimates for $a$ and $b$, plot out $P(y)$ for the next 200 years. According to the prediction, what will be the population in year 2200?
+
+```{r echo=FALSE, eval=FALSE}
+P <- makeFun(A*exp(a*y - b*(y^2)) ~ y, a = 0.01, b = 0.00007, A=330)
+slice_plot(P(y) ~ y, domain(y=c(0,200)))
+
+# At y=180, the estimate is 200 M
+```

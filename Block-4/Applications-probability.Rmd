@@ -1,0 +1,585 @@
+# Probability
+
+## Objectives
+
+a. Understand the relationship between the gaussian function and the sigmoidal function. 
+b. Discuss the scientific application of probability density and cumulative probability.
+
+## Integrals and basic modeling functions (review)
+
+Throughout the course, we've been building models from a small set of modeling functions:
+
+i. exponentials $e^{kt}$
+ii. power-law functions $x^{n}$
+iii. sinusoids: sines and cosines, e.g., $\sin(\omega x)$
+iv. logarithm
+v. gaussian functions, a go-to function for something that happens locally
+vi. sigmoidal functions, a related function for modeling something that "builds up" or "matures" to a final value.
+
+In terms of derivatives, exponentials, power-law functions, and sinusoids have a remarkable property:
+
+> The derivative of a $\left\{\begin{array}{c}\text{exponential}\\\text{power-law}\\\text{sinusoid}\end{array}\right\}$ is a $\left\{\begin{array}{c}\text{exponential}\\\text{power-law}\\\text{sinusoid}\end{array}\right\}$ `r mark(4500)`
+
+The same property can also be stated in terms of anti-derivatives :
+
+> The anti-derivative of a $\left\{\begin{array}{c}\text{exponential}\\\text{power-law}\\\text{sinusoid}\end{array}\right\}$ is a $\left\{\begin{array}{c}\text{exponential}\\\text{power-law}\\\text{sinusoid}\end{array}\right\}$ $+ C$. `r mark(4505)`
+
+Logarithm functions don't have this property: the derivative of a logarithm is **not** a logarithm function. But they are not that far afield. They border on exponentials (the log function is the inverse of an exponential function) and also power-law functions; the anti-derivative of $x^{-1}$ is $\ln(x) + C$ and, of course, the derivative of $\ln(x)$ is $x^{-1}$. `r mark(4510)`
+
+Sigmoids and gaussian functions similarly do **not** have this property. The derivative of a sigmoid is not a sigmoid and the derivative of a gaussian is not a gaussian. But ...
+
+> The $\left\{\begin{array}{c}\text{derivative}\\\text{anti-derivative}\end{array}\right\}$
+derivative of a $\left\{\begin{array}{c}\text{sigmoid}\\\text{gaussian}\end{array}\right\}$ is a $\left\{\begin{array}{c}\text{gaussian}\\\text{sigmoid}\end{array}\right\}$
+
+In this Daily Digital, you're going to explore gaussians and sigmoids in a specific setting: uncertainty and risk. It turns out that each gaussian and its corresponding sigmoid provide different perspectives on the same phenomenon. `r mark(4515)`
+
+## Quantifying uncertainty with probability
+
+Note: *This section introduces some new technical words, such as "probability," "variance," "state space," and "cumulative" that are broadly important in quantitative work but not traditionally considered part of calculus. Try to understand what these words mean. That will help you in your later studies in downstream courses. But you will not be examined on the details in this course.* `r mark(4520)`
+
+Uncertainty is the state of being unreliable or undetermined. Probability is---in modern usage---a way of quantifying uncertainty, of putting uncertainty on a scale. Before the modern era, probability was a kind of opposite to uncertainty, a state of being reliable or determined. This almost complete reversal of the definition of probability reflects the difficulty untrained people have in doing probability calculations correctly. `r mark(4525)`
+
+In the mathematical formulation of probability, central components are the "event" and the "state space." An event is something that happens, think of one flip of a coin as an event, or one frame in bowling, or the wind speed at a particular instant. The state space is the set of **all** possible outcomes of an event. The state space of a coin flip is famously heads or tails. The state space of a frame in bowling is the numbers 0 through 10 reflecting the number of pins bowled over. (We're ignoring "strikes" here.) The state space of wind speed is a non-negative number as might be read off of an anemometer.  `r mark(4530)`
+
+A probability is a number assigned to an element of a state space. For instance, in a coin flip, the number 1/2 is conventionally assigned to each of the possible outcomes: heads or tails. There are two essential properties that these assigned numbers must have to be valid probabilities: `r mark(4535)`
+
+1. the number must be between zero and one (inclusive). You can't have a probability of -0.2 or 13.
+2. added up across all the elements of a state space, the probability numbers must sum to 1.
+
+The probability number 0 is assigned to elements of the state space that need not have been listed in the first place, because they *cannot happen*.
+
+The probability number 1 is assigned to a single element of the state space that is inevitable. 
+
+Other than the possibly unfamiliar formal vocabulary used in the preceding, the statements (1) and (2) are intuitive to many people. What might calculus have to contribute?
+
+This course being calculus, we are concerned particularly with quantities that are continuous, e.g. the location of a point on the number line, the weight of a bucket after it's been rained on, etc. For a continuous quantity, the state space will be the number line $-\infty < x < \infty$ or some finite segments of the number line, e.g. $0 \leq x \leq 1$. Either way, the state space consists of an *infinite number* of possible values. For example, one member of the $0 \leq x \leq 1$ state space is 0.963012894848362656100076390430914821056649089340673461090773. Another is 0.4204042488709096655207811854786639390334021305202371464110919373058862984183853728834073997986972243. Still others are $1/\sqrt{2}$ and $1/\pi$ and $1/e$ and on and on without end. `r mark(4540)`
+
+To illustrate, the sandbox allows you to specify any target number you like between 0 and 1, which we'll call $\tau$ (tau). Using a professional quality "random number generator" called `rnorm()`, we'll generate 100 or 1000 or 1,000,000 events, each of which is a random number between 0 and 1. Then calculate how many of those events hit your specific target. You can look at each of the events by uncommenting the middle line. The last line counts how many of the events "hit the target." (0 means, "none of them hit the target.") `r mark(4545)`
+
+Play the game as many times as you like, with whatever number $0 \leq \tau \leq 1$ you think will be most lucky. The integer argument to `rnorm()` specifies how many trials to run. For the sake of not burdening the computers serving the Daily Digital, don't make the argument much bigger than 1,000,000. You only need to change the numbers in blue font to play the game and hit the check your answer button. `r mark(4550)`
+
+```{r rnorm, exercise=TRUE, exercise.nlines=6, exercise.cap="Hit the target by firing randomly"}
+tau <- 1/3 # or whatever number you like between 0 and 1
+# rnorm(100) == beta # look at each of the events
+sum(rnorm(10000) == tau) # 10,000 events
+
+```
+
+```{r rnorm-check}
+options(gradethis_glue_correct = "All misses!! Don't feel bad. { .message } { .correct }",
+        gradethis_glue_incorrect = "Really? {.message}")
+gradethis::grade_result(
+  pass_if( ~ sum(.result) == 0, 
+           message = "This is what we expected. There are so many possibilities when we work in continuous space. But feel free to try again and again and again and ..."),
+  fail_if( ~ sum(.result) == 1, 
+           message = "That's amazing! We've never seen such a thing before. And likely we will never see such a thing again. In fact, we're sure there was some bug in the software or a computer malfunction and that you wouldn't have gotten any hits if things were working. Nonetheless, please leave this as your answer (even though it's marked 'wrong') so that we can know who is  the most lucky student of all our students, ever!"),
+  fail_if( ~ TRUE, 
+           message = "Ask Dr. Kaplan to tell you the story of the man who got the equivalent of this at the Montreal casino in the 1990s ... and what happened after he was released from jail!")
+)
+
+```
+
+## Re-organize this!
+
+
+
+## Quantifying uncertainty with probability
+
+Note: *This section introduces some new technical words, such as "probability," "variance," "state space," and "cumulative" that are broadly important in quantitative work but not traditionally considered part of calculus. Try to understand what these words mean. That will help you in your later studies in downstream courses. But you will not be examined on the details in this course.* `r mark(4555)`
+
+Uncertainty is the state of being unreliable or undetermined. Probability is---in modern usage---a way of quantifying uncertainty, of putting uncertainty on a scale. Before the modern era, probability was a kind of opposite to uncertainty, a state of being reliable or determined. This almost complete reversal of the definition of probability reflects the difficulty untrained people have in doing probability calculations correctly. `r mark(4560)`
+
+In the mathematical formulation of probability, central components are the "event" and the "state space." An event is something that happens, think of one flip of a coin as an event, or one frame in bowling, or the wind speed at a particular instant. The state space is the set of **all** possible outcomes of an event. The state space of a coin flip is famously heads or tails. The state space of a frame in bowling is the numbers 0 through 10 reflecting the number of pins bowled over. (We're ignoring "strikes" here.) The state space of wind speed is a non-negative number as might be read off of an anemometer.  `r mark(4565)`
+
+A probability is a number assigned to an element of a state space. For instance, in a coin flip, the number 1/2 is conventionally assigned to each of the possible outcomes: heads or tails. There are two essential properties that these assigned numbers must have to be valid probabilities: `r mark(4570)`
+
+1. the number must be between zero and one (inclusive). You can't have a probability of -0.2 or 13.
+2. added up across all the elements of a state space, the probability numbers must sum to 1.
+
+The probability number 0 is assigned to elements of the state space that need not have been listed in the first place, because they *cannot happen*.
+
+The probability number 1 is assigned to a single element of the state space that is inevitable. 
+
+Other than the possibly unfamiliar formal vocabulary used in the preceding, the statements (1) and (2) are intuitive to many people. What might calculus have to contribute?
+
+This course being calculus, we are concerned particularly with quantities that are continuous, e.g. the location of a point on the number line, the weight of a bucket after it's been rained on, etc. For a continuous quantity, the state space will be the number line $-\infty < x < \infty$ or some finite segments of the number line, e.g. $0 \leq x \leq 1$. Either way, the state space consists of an *infinite number* of possible values. For example, one member of the $0 \leq x \leq 1$ state space is 0.963012894848362656100076390430914821056649089340673461090773. Another is 0.4204042488709096655207811854786639390334021305202371464110919373058862984183853728834073997986972243. Still others are $1/\sqrt{2}$ and $1/\pi$ and $1/e$ and on and on without end. `r mark(4575)`
+
+To illustrate, the sandbox allows you to specify any target number you like between 0 and 1, which we'll call $\tau$ (tau). Using a professional quality "random number generator" called `rnorm()`, we'll generate 100 or 1000 or 1,000,000 events, each of which is a random number between 0 and 1. Then calculate how many of those events hit your specific target. You can look at each of the events by uncommenting the middle line. The last line counts how many of the events "hit the target." (0 means, "none of them hit the target.") `r mark(4580)`
+
+Play the game as many times as you like, with whatever number $0 \leq \tau \leq 1$ you think will be most lucky. The integer argument to `rnorm()` specifies how many trials to run. For the sake of not burdening the computers serving the Daily Digital, don't make the argument much bigger than 1,000,000. You only need to change the numbers in blue font to play the game and hit the check your answer button. `r mark(4585)`
+
+TURN THIS INTO AN APP
+
+```{r rnorm, eval=FALSE, exercise=TRUE, exercise.nlines=6, exercise.cap="Hit the target by firing randomly"}
+tau <- 1/3 # or whatever number you like between 0 and 1
+# rnorm(100) == beta # look at each of the events
+sum(rnorm(10000) == tau) # 10,000 events
+
+```
+
+```{r rnorm-check, eval=FALSE, echo=FALSE}
+options(gradethis_glue_correct = "All misses!! Don't feel bad. { .message } { .correct }",
+        gradethis_glue_incorrect = "Really? {.message}")
+gradethis::grade_result(
+  pass_if( ~ sum(.result) == 0, 
+           message = "This is what we expected. There are so many possibilities when we work in continuous space. But feel free to try again and again and again and ..."),
+  fail_if( ~ sum(.result) == 1, 
+           message = "That's amazing! We've never seen such a thing before. And likely we will never see such a thing again. In fact, we're sure there was some bug in the software or a computer malfunction and that you wouldn't have gotten any hits if things were working. Nonetheless, please leave this as your answer (even though it's marked 'wrong') so that we can know who is  the most lucky student of all our students, ever!"),
+  fail_if( ~ TRUE, 
+           message = "Ask Dr. Kaplan to tell you the story of the man who got the equivalent of this at the Montreal casino in the 1990s ... and what happened after he was released from jail!")
+)
+
+```
+
+
+## Calculus and probability
+
+Given the result from the "randomly hit the target" experiment, it would be reasonable to conclude that `runif(0)` picks numbers each of which has a probability of 0. It would be better to say that the probability is *infinitesimal*, just like the $h$ in the definition of the derivative or the $dx$ in the way we write integrals. `r mark(4590)`
+
+Calculus provides the means to assign such infinitesimal probabilities to the elements of a continuous state space. The strategy is this:
+
+1. Assign a **function** whose output, over the state space, never negative.
+2. Ensure that, over the state space, e.g. for $x$ in the interval $a \leq x \leq b$ that $$\int_a^b\! f(x) dx = 1$$
+
+Such functions are called "probability density functions." Here's one probability density function:
+
+$$\text{uniform} (x) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{when} \ a \leq x \leq b\\0&\text{otherwise} \end{array}\right.$$
+Consider a question like, "What's the probability that the outcome of an event governed by the uniform probability density will be $c$?" 
+
+The answer is **not** $f(c)$. Neither is it $f(c) dx$. 
+
+Instead, the answer is $\int_c^c f(x) dx = 0$. 
+
+Many non-mathematicians might answer the question by saying that the probability is $f(c) dx$. There's something to that answer, but remember that $dx$ is a notation meaning "take the limit as it goes to zero," $f(c)dx$ is a limit rather than a number. (Save yourself from trying to sort this out with a shortcut: $f(c) dx$ isn't a number. But $\int_c^c f(x) dx$ is a number, namely 0.) `r mark(4595)`
+
+$f(c)$ is much like the concept of "density." We can meaningfully say that a material has a *density* at each point. But it's not useful to say that a material has a *mass* at each point. The *mass* of a material is the integral of the density over the space occupied by the material.  `r mark(4600)`
+
+
+```{r unif1, echo=FALSE}
+askMC(
+  "What is $$\\int_a^b dx\\ \\ \\text{?}$$",
+  "You haven't said what the function to be integrated is." = "Let's rewrite the integral in the question as $$\\int_a^b 1 dx$$. The function being integrated is the one where the output is 1, regardless of the input.",
+  "+$b-a$+",
+  "$b - a + C$" = "This is a **definite** integral. There will be no constant of integration. Or, said another way, the answer is $(b+C) - (a+C)$, with the constant of integration attaching to both the evaluations of the anti-derivative at the limits of integration. The two $C$ terms cancel out.",
+  "1.4" = "Reasonable answer insofar as a definite integral, with numerical limits of integration, evaluates to a number. But here the limits of integration ($a$ and $b$) are parameters, so the definite integral is a function of those parameters.",
+  random_answer_order = FALSE 
+)
+```
+
+```{r unif2, echo=FALSE}
+askMC(
+  "According to the definition of uniform$(x)$, what is $$\\int_{-\\infty}^a \\text{uniform}(x) dx\\ \\ \\text{?}$$",
+  "+0+" = "Right. The value of uniform$(x)$ is zero everywhere on the interval $- \\infty \\leq x \\leq a$.", "1"="This would be if the bounds of integration were a to b. Remember a is the lower bound of the uniform function.", "$b - a$"="Remember a is the lower bound of the uniform function.", "$a - b$"="Remember a is the lower bound of the uniform function.",
+  random_answer_order = FALSE 
+)
+```
+
+```{r unif3, echo=FALSE}
+askMC(
+  "According to the definition of uniform$(x)$, what is $$\\int_a^b\\text{uniform}(x) dx\\ \\ \\text{?}$$",
+  "0"="uniform(x) by definition is a probability density function.", 
+  "+1+" = "You can see this using the fact that $$\\int_a^b  dx = b - a$$, so $\\int_a^b \\text{uniform}(x) dx = 1$.", "$b - a$"="uniform(x) by definition is a probability density function.", 
+  "$a - b$"="uniform(x) by definition is a probability density function.", 
+  "Not enough information to know."="uniform(x) by definition is a probability density function.",
+  random_answer_order = FALSE 
+)
+```
+
+
+```{r unif4, echo=FALSE}
+askMC(
+  "Using the results from the previous questions, what is $$\\int_{-\\infty}^{\\infty} \\text{uniform}(x) dx\\ \\ \\text{?}$$",
+  "0", "+1+" = "That's part of the definition of a  probability density function, that the integral over all possible values of $x$ must be 1.", 
+  "$b-a$", "$a-b$",
+  random_answer_order = FALSE 
+  
+)
+```
+
+## The probability density function
+
+The probability density function is a helpful way of visualizing the possible outcomes of an event. By looking at a graph of the density function, you can see which outcomes are relatively likely and which are not.  `r mark(4605)`
+
+For instance, here is a probability density function called an "exponential density." $$p(t) \equiv k\, e^{-t/k}$$
+Exponential densities are often used to model things like the time between earthquakes or the time between engine failures. As an example, if $t$ is measured in years and $k=1/100$, the exponential density is the standard model of the time between consecutive 100-year storms at a location. `r mark(4610)`
+
+```{r echo=FALSE}
+p <- makeFun(ifelse(t < 0, 0, exp(-t/100)/100) ~ t)
+P <- antiD(p(t) ~ t, lower.bound = 0)
+slice_plot(p(t) ~ t, domain(t=c(-100, 400)), npts=200) %>%
+  gf_labs(x="t: Time between 100-year storms.", y = "p(t): Probability density.")
+```
+
+Notice that the probability density is zero for negative time. That's just common sense at work; the time between consecutive storms can't be negative. Perhaps more surprisingly, there's a substantially non-zero probability density for the time between storms being just 10 years, or even less! And notice the very small numbers on the y-axis; the density is much less than 1. But that's OK, because a probability density is not the same as a probability. `r mark(4615)`
+
+```{r cdfstorm1, echo=FALSE}
+askMC(
+  "How much probability corresponds to one small gray square of area in the graph?",
+  "1"="pick a gray box, what are its dimensions?",
+  "+.0625+"="that is 6.25%",
+  ".125"="pick a gray box, what are its dimensions?",
+  ".25"="This is four gray boxes, not one and 25%",
+  random_answer_order = FALSE
+)
+```
+
+```{r cdfstorm2, echo=FALSE}
+askMC(
+  "Using your answer from the previous question, estimate the probability (by counting gray boxes) of the time between 100 year storms being 50 years or less?",
+  "1"="your bounds for t are between 0 and 50 years",
+  ".0039"="This answer is not a percent",
+  "+39%+"="Correct. If you think this answer is counter-intuitive, that there is an almost 40% chance of the interval between 100 year storms being less than 50 years, you can appreciate why it's important to hand probabilities quantitatively rather than intuitively.",
+  ".25"="your bounds for t are between 0 and 50 years",
+  random_answer_order = FALSE
+)
+```
+
+
+## The cumulative distribution
+
+The **cumulative** distribution translates the probability density into an actual probability (a number between zero and one). Formally, the cumulative distribution is $$P(t) \equiv \int_{-\infty}^t p(t) dt$$ `r mark(4620)`
+
+Evaluating $P(t)$ at given value of $t$ gives a probability. For instance, $P(10) \approx 0.095$, roughly 10%. In terms of storms, this means that according to the standard model of these things, the time between consequtive 100-year storms has a 10% chance of being 10 years or less! `r mark(4625)`
+
+A graph of the **cumulative** distribution shows what you might have anticipated: the gaussian function $p(t)$ has an integral that is a sigmoid function.
+
+```{r echo=FALSE}
+slice_plot(P(t) ~ t, domain(t=c(-100,400)), npts=300) %>%
+  gf_labs(title="Cumulative distribution", x="t (years)", y = "Probability that outcome < t")
+```
+
+```{r exp1, echo=FALSE}
+explain <- "What's the value of $P(t=50)$"
+askMC(
+  "Imagine that a 100-year storm has just happened at your location. What is the probability that the next 100-year storm will happen within 50 years?",
+  "11%" = explain,
+  "27%" = explain,
+  "+39%+",
+  "51%" = explain,
+  random_answer_order = FALSE 
+)
+```
+
+```{r exp2, echo=FALSE}
+askMC(
+  "The *median* time between 100-year storms is the value where there is a 50% probability that consecutive storms will happen closer in time than this value and 50% that consecutive storms will happen further apart than this value. What is the *median* time between 100-year storms, according to the standard model? (Hint: You can read this off the graph.)",
+  "about 30 years",
+  "50 years",
+  "+about 70 years+",
+  "100 years",
+  "about 130 years",
+  random_answer_order = TRUE
+)
+```
+
+
+
+## The expectation value
+
+The *expectation value* is an important way to summarize a probability density function. It can be a valuable way to inform decisions, a topic we'll save for another day. Here, we'll focus on the calculation of the expectation value itself. `r mark(4630)`
+
+Expectation values are useful, for example, in deciding whether to make an investment. Suppose you have been offered a "ground floor" opportunity in a start-up company. The statistics of start-ups show that 50% fail in their first year and another 50% of the survivors fail each year after that. You'll have to forego salary, but you will be given stock options. You think, after 5 years, if the company gets that far, the options will be worth $5M. Should you take the job, instead of, say, a job paying $50K/year with a long-established company? Your simple model is that there is a 1/32 chance that the options will come through for $5M, otherwise they will be worthless. The expectation value is $5,000,000 $\times 1/32 =$ $156,250. This is less than what you would make working for the long-established company during the 5 years. A simple form of decision-making compares the expectation value of the start-up ($156,250) with the expectation value of then $50K/year job over five years. `r mark(4635)`
+
+Calculus provides tools for working with more subtle models. You are working with a process where each event generates a numerical outcome according to a probability density function $f(x)$. We collect the outcomes from many events: a series of numbers. As you know, the *average* of the numbers is often used to represent a "typical" outcome, a shorthand way of summarizing the sequence itself. `r mark(4640)`
+
+The expectation value is the value we would get for the average if we could construct an infinitely long series of events. "Infinitely long series" is an imaginary, theoretical construct. But calculus provides a way to simulate an infinitely long series. The expectation value corresponding to a probability density function $f(x)$ is an integral:
+$$\int_{-\infty}^\infty x \cdot f(x) dx$$
+
+```{r expect1, echo=FALSE}
+explain <- "The anti-derivative of $x \\cdot$ uniform$(x)$ is $$\\frac{1}{2}\\frac{1}{b-a} x^2$$."
+explain2 <- "Remember that $b^2 - a^2 = (b+a)(b-a)$"
+askMC(
+  "Recall that a *uniform* probability density is one that generates outcomes equally likely to be any number between specified lower and upper bounds. For the uniform density between $a$ and $b$, the probability density function $$\\text{uniform} (x) \\equiv \\left\\{\\begin{array}{cl}\\frac{1}{b-a} & \\text{when} \\ \\ a \\leq x \\leq b\\\\0&\\text{otherwise} \\end{array}\\right.$$ What is the expectation value of uniform(x), that is, what is $$\\int_{-\\infty}^{\\infty} x\\ \\text{uniform}(x) dx \\text{?}$$ Hint: you really only need to consider $$\\int_a^b x\\ \\text{uniform}(x) dx$$, since $$\\int_{-\\infty}^a \\text{uniform}(x) dx=\\int_b^{-\\infty} \\text{uniform}(x) dx=0$$",
+  "$(b-a)/3$" = explain,
+  "+$(a + b)/2$+",
+  "$\\sqrt{a^2 + b^2}$" = explain,
+  "$(a-b)/2$"= explain2,
+  "It involves $\\infty$." = "I think you're plugging $\\pm \\infty$ as the bounds of the definite integral. But remember that $\\text{uniform}(x < a) = \\text{uniform}(b < x) = 0.$"
+)
+```
+
+
+::: {.scaffolding  data-latex=""}
+The sandbox below gives the probability density function for the exponential process used in the example of the time interval between successive 100 year storms. Your task is to compute the expectation value for the time between storms. In symbols, this is $$\int_{-\infty}^\infty t\times p(t)\, dt$$ You can use `antiD()` to find the antiderivative and `Inf` to stand for infinity.  `r mark(4645)`
+
+```{r expect2, eval=FALSE, exercise.cap="Expectation value for time between 100-year storms", excercise.nlines=7}
+# probability density
+p <- makeFun(ifelse(t < 0, 0, exp(-t/100)/100) ~ t)
+# For the expectation value, we want to integrate t*p(t) 
+F <- antiD(...integrand... ~ t)
+# Evaluate
+F(...upper...) - F(...lower...)
+```
+
+```{r eval=FALSE, echo=FALSE, expect2-check}
+grade_result(
+  pass_if(~ abs(.result - 100) < .0001, message="Since you're integrating out to infinity, don't be surprised if there's some round-off error."),
+  fail_if( ~ TRUE)
+)
+```
+:::
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Int-3a", "Understand the notation of limits of integration within a definite integral.")
+state_objective("Int-3b", "Determine the units of a definite integral (MMAC pg. 614).")
+state_objective("Int-3c", "Use the algebraic properties of definite integrals (MMAC pg. 615-616) to calculate definite integrals.") 
+state_objective("Int-3d", "Calculate definite integrals graphically")
+```
+:::
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Int-4a", "Understand the Fundamental Theorem of Calculus Part 2 as how to evaluate definite integrals")
+state_objective("Int-4b", "Comprehend how the Fundamental Theorem of Calculus Part 2 graphically can calculate the area between curves (MMAC pgs. 644-645)")
+state_objective("Int-4c", "Understand the Fundamental Theorem of Calculus Part 1 as the net accumulation function")
+state_objective("Int-4d", "Understand how a definite integral with a variable limit of integration outputs a function")
+```
+:::
+
+
+::: {.forinstructor}
+By introducing the parent/child metaphor for the kind of relationship captured by differentiation, we've anticipated the "Fundamental Theorem." It therefore won't seem so fundamental.
+
+So don't overdo the "Fundamental" part. 
+
+:::
+
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Int-6a", "Understand the relationship between the gaussian function and the sigmoidal function.")
+state_objective("Int-6b", "Discuss the scientific application of probability density and cumulative probability.")
+state_objective("Int-6c", "Understand the concept of expected value.")
+```
+:::
+
+
+
+## Calculus and probability
+
+Given the result from the "randomly hit the target" experiment, it would be reasonable to conclude that `runif(0)` picks numbers each of which has a probability of 0. It would be better to say that the probability is *infinitesimal*, just like the $h$ in the definition of the derivative or the $dx$ in the way we write integrals. `r mark(4650)`
+
+Calculus provides the means to assign such infinitesimal probabilities to the elements of a continuous state space. The strategy is this:
+
+1. Assign a **function** whose output, over the state space, never negative.
+2. Ensure that, over the state space, e.g. for $x$ in the interval $a \leq x \leq b$ that $$\int_a^b\! f(x) dx = 1$$
+
+Such functions are called "probability density functions." Here's one probability density function:
+
+$$\text{uniform} (x) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{when} \ a \leq x \leq b\\0&\text{otherwise} \end{array}\right.$$
+Consider a question like, "What's the probability that the outcome of an event governed by the uniform probability density will be $c$?" 
+
+The answer is **not** $f(c)$. Neither is it $f(c) dx$. 
+
+Instead, the answer is $\int_c^c f(x) dx = 0$. 
+
+Many non-mathematicians might answer the question by saying that the probability is $f(c) dx$. There's something to that answer, but remember that $dx$ is a notation meaning "take the limit as it goes to zero," $f(c)dx$ is a limit rather than a number. (Save yourself from trying to sort this out with a shortcut: $f(c) dx$ isn't a number. But $\int_c^c f(x) dx$ is a number, namely 0.) `r mark(4655)`
+
+$f(c)$ is much like the concept of "density." We can meaningfully say that a material has a *density* at each point. But it's not useful to say that a material has a *mass* at each point. The *mass* of a material is the integral of the density over the space occupied by the material.  `r mark(4660)`
+
+
+```{r unif1, echo=FALSE}
+askMC(
+  "What is $$\\int_a^b dx\\ \\ \\text{?}$$",
+  "You haven't said what the function to be integrated is." = "Let's rewrite the integral in the question as $$\\int_a^b 1 dx$$. The function being integrated is the one where the output is 1, regardless of the input.",
+  "+$b-a$+",
+  "$b - a + C$" = "This is a **definite** integral. There will be no constant of integration. Or, said another way, the answer is $(b+C) - (a+C)$, with the constant of integration attaching to both the evaluations of the anti-derivative at the limits of integration. The two $C$ terms cancel out.",
+  "1.4" = "Reasonable answer insofar as a definite integral, with numerical limits of integration, evaluates to a number. But here the limits of integration ($a$ and $b$) are parameters, so the definite integral is a function of those parameters.",
+  random_answer_order = FALSE 
+)
+```
+
+```{r unif2, echo=FALSE}
+askMC(
+  "According to the definition of uniform$(x)$, what is $$\\int_{-\\infty}^a \\text{uniform}(x) dx\\ \\ \\text{?}$$",
+  "+0+" = "Right. The value of uniform$(x)$ is zero everywhere on the interval $- \\infty \\leq x \\leq a$.", "1"="This would be if the bounds of integration were a to b. Remember a is the lower bound of the uniform function.", "$b - a$"="Remember a is the lower bound of the uniform function.", "$a - b$"="Remember a is the lower bound of the uniform function.",
+  random_answer_order = FALSE 
+)
+```
+
+```{r unif3, echo=FALSE}
+askMC(
+  "According to the definition of uniform$(x)$, what is $$\\int_a^b\\text{uniform}(x) dx\\ \\ \\text{?}$$",
+  "0"="uniform(x) by definition is a probability density function.", 
+  "+1+" = "You can see this using the fact that $$\\int_a^b  dx = b - a$$, so $\\int_a^b \\text{uniform}(x) dx = 1$.", "$b - a$"="uniform(x) by definition is a probability density function.", 
+  "$a - b$"="uniform(x) by definition is a probability density function.", 
+  "Not enough information to know."="uniform(x) by definition is a probability density function.",
+  random_answer_order = FALSE 
+)
+```
+
+
+```{r unif4, echo=FALSE}
+askMC(
+  "Using the results from the previous questions, what is $$\\int_{-\\infty}^{\\infty} \\text{uniform}(x) dx\\ \\ \\text{?}$$",
+  "0", "+1+" = "That's part of the definition of a  probability density function, that the integral over all possible values of $x$ must be 1.", 
+  "$b-a$", "$a-b$",
+  random_answer_order = FALSE 
+  
+)
+```
+
+## The probability density function
+
+The probability density function is a helpful way of visualizing the possible outcomes of an event. By looking at a graph of the density function, you can see which outcomes are relatively likely and which are not.  `r mark(4665)`
+
+For instance, here is a probability density function called an "exponential density." $$p(t) \equiv k\, e^{-t/k}$$
+Exponential densities are often used to model things like the time between earthquakes or the time between engine failures. As an example, if $t$ is measured in years and $k=1/100$, the exponential density is the standard model of the time between consecutive 100-year storms at a location. `r mark(4670)`
+
+```{r echo=FALSE}
+p <- makeFun(ifelse(t < 0, 0, exp(-t/100)/100) ~ t)
+P <- antiD(p(t) ~ t, lower.bound = 0)
+slice_plot(p(t) ~ t, domain(t=c(-100, 400)), npts=200) %>%
+  gf_labs(x="t: Time between 100-year storms.", y = "p(t): Probability density.")
+```
+
+Notice that the probability density is zero for negative time. That's just common sense at work; the time between consecutive storms can't be negative. Perhaps more surprisingly, there's a substantially non-zero probability density for the time between storms being just 10 years, or even less! And notice the very small numbers on the y-axis; the density is much less than 1. But that's OK, because a probability density is not the same as a probability. `r mark(4675)`
+
+```{r cdfstorm1, echo=FALSE}
+askMC(
+  "How much probability corresponds to one small gray square of area in the graph?",
+  "1"="pick a gray box, what are its dimensions?",
+  "+.0625+"="that is 6.25%",
+  ".125"="pick a gray box, what are its dimensions?",
+  ".25"="This is four gray boxes, not one and 25%",
+  random_answer_order = FALSE
+)
+```
+
+```{r cdfstorm2, echo=FALSE}
+askMC(
+  "Using your answer from the previous question, estimate the probability (by counting gray boxes) of the time between 100 year storms being 50 years or less?",
+  "1"="your bounds for t are between 0 and 50 years",
+  ".0039"="This answer is not a percent",
+  "+39%+"="Correct. If you think this answer is counter-intuitive, that there is an almost 40% chance of the interval between 100 year storms being less than 50 years, you can appreciate why it's important to hand probabilities quantitatively rather than intuitively.",
+  ".25"="your bounds for t are between 0 and 50 years",
+  random_answer_order = FALSE
+)
+```
+
+
+## The cumulative distribution
+
+The **cumulative** distribution translates the probability density into an actual probability (a number between zero and one). Formally, the cumulative distribution is $$P(t) \equiv \int_{-\infty}^t p(t) dt$$ `r mark(4680)`
+
+Evaluating $P(t)$ at given value of $t$ gives a probability. For instance, $P(10) \approx 0.095$, roughly 10%. In terms of storms, this means that according to the standard model of these things, the time between consequtive 100-year storms has a 10% chance of being 10 years or less! `r mark(4685)`
+
+A graph of the **cumulative** distribution shows what you might have anticipated: the gaussian function $p(t)$ has an integral that is a sigmoid function.
+
+```{r echo=FALSE}
+slice_plot(P(t) ~ t, domain(t=c(-100,400)), npts=300) %>%
+  gf_labs(title="Cumulative distribution", x="t (years)", y = "Probability that outcome < t")
+```
+
+```{r exp1, echo=FALSE}
+explain <- "What's the value of $P(t=50)$"
+askMC(
+  "Imagine that a 100-year storm has just happened at your location. What is the probability that the next 100-year storm will happen within 50 years?",
+  "11%" = explain,
+  "27%" = explain,
+  "+39%+",
+  "51%" = explain,
+  random_answer_order = FALSE 
+)
+```
+
+```{r exp2, echo=FALSE}
+askMC(
+  "The *median* time between 100-year storms is the value where there is a 50% probability that consecutive storms will happen closer in time than this value and 50% that consecutive storms will happen further apart than this value. What is the *median* time between 100-year storms, according to the standard model? (Hint: You can read this off the graph.)",
+  "about 30 years",
+  "50 years",
+  "+about 70 years+",
+  "100 years",
+  "about 130 years",
+  random_answer_order = TRUE
+)
+```
+
+
+
+## The expectation value
+
+The *expectation value* is an important way to summarize a probability density function. It can be a valuable way to inform decisions, a topic we'll save for another day. Here, we'll focus on the calculation of the expectation value itself. `r mark(4690)`
+
+Expectation values are useful, for example, in deciding whether to make an investment. Suppose you have been offered a "ground floor" opportunity in a start-up company. The statistics of start-ups show that 50% fail in their first year and another 50% of the survivors fail each year after that. You'll have to forego salary, but you will be given stock options. You think, after 5 years, if the company gets that far, the options will be worth $5M. Should you take the job, instead of, say, a job paying $50K/year with a long-established company? Your simple model is that there is a 1/32 chance that the options will come through for $5M, otherwise they will be worthless. The expectation value is $5,000,000 $\times 1/32 =$ $156,250. This is less than what you would make working for the long-established company during the 5 years. A simple form of decision-making compares the expectation value of the start-up ($156,250) with the expectation value of then $50K/year job over five years. `r mark(4695)`
+
+Calculus provides tools for working with more subtle models. You are working with a process where each event generates a numerical outcome according to a probability density function $f(x)$. We collect the outcomes from many events: a series of numbers. As you know, the *average* of the numbers is often used to represent a "typical" outcome, a shorthand way of summarizing the sequence itself. `r mark(4700)`
+
+The expectation value is the value we would get for the average if we could construct an infinitely long series of events. "Infinitely long series" is an imaginary, theoretical construct. But calculus provides a way to simulate an infinitely long series. The expectation value corresponding to a probability density function $f(x)$ is an integral:
+$$\int_{-\infty}^\infty x \cdot f(x) dx$$
+
+```{r expect1, echo=FALSE}
+explain <- "The anti-derivative of $x \\cdot$ uniform$(x)$ is $$\\frac{1}{2}\\frac{1}{b-a} x^2$$."
+explain2 <- "Remember that $b^2 - a^2 = (b+a)(b-a)$"
+askMC(
+  "Recall that a *uniform* probability density is one that generates outcomes equally likely to be any number between specified lower and upper bounds. For the uniform density between $a$ and $b$, the probability density function $$\\text{uniform} (x) \\equiv \\left\\{\\begin{array}{cl}\\frac{1}{b-a} & \\text{when} \\ \\ a \\leq x \\leq b\\\\0&\\text{otherwise} \\end{array}\\right.$$ What is the expectation value of uniform(x), that is, what is $$\\int_{-\\infty}^{\\infty} x\\ \\text{uniform}(x) dx \\text{?}$$ Hint: you really only need to consider $$\\int_a^b x\\ \\text{uniform}(x) dx$$, since $$\\int_{-\\infty}^a \\text{uniform}(x) dx=\\int_b^{-\\infty} \\text{uniform}(x) dx=0$$",
+  "$(b-a)/3$" = explain,
+  "+$(a + b)/2$+",
+  "$\\sqrt{a^2 + b^2}$" = explain,
+  "$(a-b)/2$"= explain2,
+  "It involves $\\infty$." = "I think you're plugging $\\pm \\infty$ as the bounds of the definite integral. But remember that $\\text{uniform}(x < a) = \\text{uniform}(b < x) = 0.$"
+)
+```
+
+The sandbox below gives the probability density function for the exponential process used in the example of the time interval between successive 100 year storms. Your task is to compute the expectation value for the time between storms. In symbols, this is $$\int_{-\infty}^\infty t\times p(t)\, dt$$ You can use `antiD()` to find the antiderivative and `Inf` to stand for infinity.  `r mark(4705)`
+
+```{r expect2, exercise=TRUE, exercise.cap="Expectation value for time between 100-year storms", excercise.nlines=7}
+# probability density
+p <- makeFun(ifelse(t < 0, 0, exp(-t/100)/100) ~ t)
+# For the expectation value, we want to integrate t*p(t) 
+F <- antiD(...integrand... ~ t)
+# Evaluate
+F(...upper...) - F(...lower...)
+```
+
+```{r expect2-check}
+grade_result(
+  pass_if(~ abs(.result - 100) < .0001, message="Since you're integrating out to infinity, don't be surprised if there's some round-off error."),
+  fail_if( ~ TRUE)
+)
+```
+
+<!--
+## Parameters of gaussians
+
+IN DRAFT ... Present the gaussian. Show the analytic form for the gaussian. Expectation value is the "center" parameter. The density function and the cumulative distribution function are so important that they have been given names in R, `dnorm()` and `pnorm()` respectively. `r mark(4710)`
+
+Here's another probability density function that looks very complicated but is nonetheless important in many fields. Physicists and engineers tend to call it the "Gaussian" distribution, but in many other fields it is simply called the "normal" distribution, that's how common it is.  `r mark(4715)`
+
+$$g(x) \equiv \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(- \frac{1}{2}\frac{(x - m)^2}{\sigma^2}\right)$$
+-->
+
+
+
+<!-- outline. XX means "not included in the above"
+
+1. gaussian / sigmoid pair
+    i. Probability of generating a specific random number from a continuous prob. density is zero. 
+    ii. You need to integrate it up over a finite domain.
+2. Expectation value  and XX standard width (variance) 
+3. Important prob cumulatives/densities: uniform, XX normal, exponential, XXbeta
+4. $p(x = \alpha) = 0$, but $p(x < \alpha) \neq 0$. Finding $p(\alpha \leq x \leq \beta)$ as a definite integral. 
+    i. Probility earthquake will happen in next 10 years.
+    ii. 95% central interval
+5. XX Probabilities of probabilities: Bayesian reasoning and the space shuttle.
+
+-->
+
+------
+
+In DD-08 we used the exponential probability density and talked about expectation values. Translate the following into a step-by-step process, asking questions along the way.
+
+Find $\int \frac{1}{k} t e^{-t/k} dt$, the expectation value for the exponential probability distribution.
+
+$$\int_a^b u \cdot dv = \left.u\cdot v \right|_a^b - \int_a^b v\cdot du$$
+
+Let's look at the function $\frac{1}{k}\ t \ e^{-t/k}$
+
+Suppose we let $dv = \frac{1}{k} e^{-t/k} dt$. This gives $v= -e^{-t/k}$.
+
+Let $u = t$. Then $du = dt$.
+
+Plugging in to the integration-by-parts formula we have
+
+$$\int_{0}^\infty \frac{1}{k} t e^{-t/k} dt = \left[ t e^{-t/k}\right]_{0}^\infty + \int_{0}^{\infty}e^{-t/k}dt= 0  - \left[k e^{-t/k}\right]_0^\infty = k$$

@@ -1,0 +1,104 @@
+# Eigensolutions
+
+We've got two types of differential equations where the output of the dynamical function is proportional to the input:
+
+1. One-dimensional dynamics: $$\dot{x} = a x$$ You can easily figure out what the solution looks like. Quantitatively, it's $x(t) = A e^{a t}$ where the value of $A$ corresponds to the initial condition $x(0)$. Qualitatively, it's exponential growth when $a > 0$ and exponential decay when $a < 0$. `r mark(6600)`
+
+2. Two-dimensional dynamics: $$\dot{\mathbf X} = {\mathbf A} {\mathbf X} \ \ \text{or, more verbosely}\ \ \ \left[\begin{array}{c}\dot{x}\\\dot{y}\end{array}\right] =
+\left[\begin{array}{cc}a & b\\1 & 0\end{array}\right]
+\left[\begin{array}{c}x\\y\end{array}\right] \ \ \text{or even} \ \
+\left\{\begin{array}{ll}\dot{x} = a\, x + b\, y\\\dot{y} = 1\, x + 0\, y \end{array}\right.$$
+
+Actually, you can write such proportional dynamics in $n$-dimensional space, but pretty much all the interesting phenomena happen in two-dimensions, so we'll save such things for later courses.
+
+More commonly we say "linear dynamics" to refer to dynamics where the dynamical rule is proportional to the state. Linear dynamics have some very important properties that make them central to much of science and technology. `r mark(6605)`
+
+a. Near enough to a fixed point (sometimes called an "equilibrium"), all dynamics can be effectively treated as linear.
+b. If you have two different solutions $x_1(t)$ and $x_2(t)$ to the same linear differential equation, then the linear combination $\alpha\, x_1(t) + \beta\, x_2(t)$ is also a solution to that equation.
+c. Sources, saddles, and sinks in two-dimensional dynamics (and higher!) *always* have certain directions where the trajectory is a straight-line pointing exactly to the fixed point. These directions are called **eigenvectors** and we denote them by capital lambda: ${\mathbf \Lambda}_1$ and
+${\mathbf \Lambda}_2$.
+d. Every eigenvector ${\mathbf \Lambda}_i$ is associated with a scalar that we write as lower-case lambda: $\lambda_i$. The relationship involves the matrix ${\mathbf A}$ of which ${\mathbf \Lambda_i}$ is an eigenvector, specifically that $${\mathbf A} \cdot {\mathbf \Lambda_i} = \lambda_i {\mathbf \Lambda_i}$$
+e. When the initial condition is along any of the eigenvectors, the distance from the fixed point is exactly exponential, e.g. $x(t) = A_1 e^{\lambda_i t}$ and $y(t) = A_2 e^{\lambda_i t}$. Another way to say this is to write the solution using vector notation: $${\mathbf X}(t) = \alpha {\mathbf \Lambda_i} e^{\lambda_i t} .$$ `r mark(6610)`
+
+### Things you can calculate or otherwise figure out
+
+A) There is a relatively simple formula for the eigenvalues in terms of the $a$ and $b$ parameters in the [ab10] matrix.
+
+$$\lambda_{1,2} = \frac{1}{2}\left[a \pm \sqrt{\strut a^2 + 4b}\right]$$
+
+B) When the quantity $a^2 + 4b$ inside the square root is positive then the eigenvalues will be real numbers. If they are both negative, the flow is a sink. If they are both positive, the flow is a saddle. If one is positive and one is negative, the flow is a saddle. `r mark(6615)`
+
+C) When the quantity $a^2 + 4b$ inside the square root is negative, then the eigenvalue will be complex numbers, that is, having both a real part and an imaginary part, as in the number $3 - 2i$. The flow will be spiral. More specifically:
+    - If $a < 0$, the flow is a stable spiral.
+    - If $a > 0$, the flow is an unstable spiral
+    - If $a = 0$, the flow is a center.
+
+There are many other things you might want to know about the quantitative solution to the linear, two-dimensional differential equation, but for us in this course they are unnecessary details. Best to learn them when you have a specific need. `r mark(6620)`
+
+The tasks we emphasize in this course are:
+
+1. Given parameters $a$ and $b$ in the linear, two-dimensional differential equation, find the eigenvalues $\lambda_1$ and $\lambda_2$.
+2. Given $\lambda_1$ and $\lambda_2$, describe the flow qualitatively by examining the real and imaginary parts of the eigenvalues.
+3. Given an initial condition of the form ${\mathbf X}(0) = m {\mathbf \Lambda_i}$ calculate the solution as ${\mathbf X}(t) = m {\mathbf \Lambda_i} e^{\lambda_i t}$
+
+### Quiz Questions
+
+
+```{r q5-3, echo=FALSE, results="markup"}
+askMC(
+  "If the initial state of a linear dynamical system is an Eigenvector, then the trajectory associated to that initial state is ...?",
+
+"An unstable fixed point",
+"A curving path",
+"+A straight line path+",
+"A stable fixed point",
+"Oscillatory",
+random_answer_order = FALSE
+)
+```
+
+This simply says, once the state is on an eigenvector, it stays in the direction of that eigenvector.
+
+```{r q5-2, echo=FALSE, results="markup"}
+askMC(
+  "Suppose ${\\mathbf B}$ is a $2 \\times 2$ matrix that gives a dynamical system: ${\\mathbf X}_{n+1}=B{\\mathbf X}_n$.
+
+  If ${\\mathbf X}_0=\\left (\\begin{matrix}24 \\\\ 16\\end{matrix} \\right )$ is an Eigenvector of ${\\mathbf B}$ with corresponding Eigenvalue $\\lambda=1/2$, then what is ${\\mathbf X}_2$?",
+"$\\left (\\begin{matrix}48 \\\\ 32\\end{matrix} \\right )$",
+"$\\left (\\begin{matrix}12 \\\\ 8\\end{matrix} \\right )$",
+"+$\\left (\\begin{matrix}6 \\\\ 4\\end{matrix} \\right )$+",
+"$\\left (\\begin{matrix}3 \\\\ 2\\end{matrix} \\right )$",
+random_answer_order = FALSE
+)
+```
+
+This is much the same thing, although perhaps unnecessarily confusing by the use of discrete-time dynamics rather than differential equations. We're told that the initial condition ${\mathbf X}_0$ is an eigenvector. Thus, ${\mathbf X}_1$ and ${\mathbf X}_2$ and ... and ${\mathbf X}_n$ will all be multiples of the eigenvector. Since the eigenvalue is $\lambda=1/2$, we'll have ${\mathbf X}_1 = \frac{1}{2} {\mathbf X}_0$ and ${\mathbf X}_2 = \frac{1}{2} {\mathbf X}_1 = (\frac{1}{2})^2 {\mathbf X}_0$. `r mark(6625)`
+
+Had this been a differential equation, we would have had ${\mathbf X}(t) = {\mathbf X}(0) e^{t/2}$.
+
+```{r q5-1, echo=FALSE, results="markup"}
+askMC(
+  "Suppose matrix ${\\mathbf A} = \\left[\\begin{array}{r}1 & 2 \\\\4 & -1 \\end{array}\\right]$ and ${\\mathbf X}=\\left[\\begin{array}{rr}-1\\\\2
+\\end{array}\\right]$. Is vector ${\\mathbf X}$ an eigenvector for ${\\mathbf A}$?",
+"+Yes+",
+"No",
+"Not enough information is given",
+random_answer_order = FALSE
+)
+```
+
+The salient fact to remember here is that when ${\mathbf \Lambda}$ is an eigenvector of matrix ${\mathbf A}$ with eigenvalue $\lambda$, then
+$${\mathbf A} {\mathbf \Lambda} = \lambda {\mathbf \Lambda}$$
+
+You could test the proposition that ${\mathbf X}=\left[\begin{array}{rr}-1\\2
+\end{array}\right]$
+is an eigenvector by multiplying ${\mathbf A}$ by ${\mathbf X}$.
+
+$$\left[\begin{array}{r}1 & 2 \\4 & -1 \end{array}\right]
+\cdot \left[\begin{array}{rr}-1\\2
+\end{array}\right] = \left[\begin{array}{r}3\\ -6\end{array}\right] = -3 \left[\begin{array}{rr}-1\\2
+\end{array}\right]$$
+
+This shows both that $${\mathbf X}=\left[\begin{array}{rr}-1\\2
+\end{array}\right]$$ is an eigenvector and that the corresponding eigenvalue is $\lambda = -3$.
+

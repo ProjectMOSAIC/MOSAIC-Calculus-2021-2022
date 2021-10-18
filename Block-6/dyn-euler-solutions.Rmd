@@ -1,0 +1,163 @@
+# Euler solutions
+
+We have suggested a simple model for limited growth:
+$$\dot{x} = r\,x\,(1-x/K)$$ where $K$ is the "carrying capacity" of the environment in which the growth occurs. Given a graph of the dynamics function (\dynamics$(x) = r x (1-x)$, you should at this point be able to locate the values $x^\star$ of any fixed points and determine at a glance whether they are stable. `r mark(6500)`
+
+But sometimes you need more information about how the shape of the solution, that is $x(t)$ versus $t$. Currently, we have a formula for the solution of only one form of differential equation: $$\dot{x} = a x \ \ \ \implies \ \ \ x(t) = x(0) e^{a t}$$ This is an important solution since it describes all dynamics near fixed points. But what if we are interested in transient behavior far from a fixed point? `r mark(6505)`
+
+A valuable tool is "numerical integration" of differential equations. You've see how this works in the app used in DD-19:
+
+::: {.todo}
+Provide package link to DE-Euler app
+:::
+
+<a href="https://maa-statprep.shinyapps.io/142Z-DE-Euler" target="_blank"><img src="www/Euler-app.png" width="25%"></a>
+
+In this section, we'll work to generate solutions in the form of R **functions** that can be used like any other R function. The central operator is `integrateODE()`, which, given the dynamical function in $\dot{x} = \text{dynamics}(x)$ an initial condition $x(0)$, and the numerical values of any parameters, produces the solution. `r mark(6510)`
+
+For example the code in the sandbox generates a solution to $\dot{x} = a x$. Once we have that solution, we can do the usual things with it: graphing, finding zeros, differentiating, etc.
+
+```{r onum1, exercise=TRUE, exercise.cap = "Meeting integrateODE()", exercise.nlines = 10, eval=FALSE, warning=FALSE}
+soln <- integrateODE(dx ~ a * x, a = -1, x = 10, tdur = 10)
+# The solution function is called 'soln$x()`. See bottom of section for details.
+slice_plot(soln$x(t) ~ t, domain(t = c(0, 10)))
+x_dot <- D(soln$x(t) ~ t)
+slice_plot(x_dot(t) ~ t, domain(t = c(0, 10)))
+
+```
+
+As you recall, the standard model for limited growth is $$\dot{x} = r\, x (1-x/K)$$ Modify the code in the sandbox to find the solution to this model, using $K=100$, $r=1$, and $x(0) = 10$.
+
+```{r num1, echo=FALSE, results="markup"}
+askMC(
+  "At what time does the solution cross $x=50$? Hint: Make sure all parameters match appropriately",
+  "about $t=0.5$",
+  "+about $t=2$+",
+  "about $t=4$",
+  "about $t=7$",
+  "sometime $t > 10$",
+  random_answer_order = FALSE
+)
+```
+
+```{r num2, echo=FALSE, results="markup"}
+askMC(
+  "Repeat the integration of the limited growth model with $r=1$, $K=100$, but now $x(0) = 0.1$ At what time does the solution cross $x=50$?",
+  "about $t=0.5$",
+  "about $t=2$",
+  "about $t=4$",
+  "+about $t=7$+",
+  "sometime $t > 10$",
+  random_answer_order = FALSE
+)
+```
+
+```{r num3, echo=FALSE, results="markup"}
+askMC(
+  "Once more carry out the integration of the limited growth model with $r=1$, $K=100$, but now $x(0) = 200$ At what time does the solution cross $x=150$?",
+  "+about $t=0.5$+",
+  "about $t=2$",
+  "about $t=4$",
+  "about $t=7$",
+  "sometime $t > 10$",
+  random_answer_order = FALSE
+)
+```
+
+
+::: {.takenote  data-latex=""}
+
+**What are the arguments to `integrateODE()` and what is the result of the integration?**
+
+
+1. The dynamical function, written as a tilde expression. But this is a slightly different sort of thing than you're used to with `makeFun()`. In `makeFun()` you might write `sin(3 * x) ~ x` for the tilde expression. But in `integrateODE()` the left-hand side of the tilde expression simply names the variable in the differential equation. Since the variable in this example is `x`, the left-hand side is the differential `dx`. The *right-hand* side of the tilde expression is, in `integrateODE()`, the mathematical formula for the dynamics function written in R notation.
+2. Arguments such as `a = -1`, or $r=1$ or $K=100$ set numerical values for the parameters in the dynamical function.
+3. `x = 10` or `x = 200` sets the initial condition.
+4. `tdur = 10` the domain in time for which we want the solution calculated: it will go from $0 \leq t \leq \text{tdur}$. Here, it's set to a reasonable value for the dynamics being studied.
+
+By rights, the object returned by `integrateODE()` ought to be the function that solves the differential equation for the given parameters and initial condition.  That's *almost* the case. But we will use `integrateODE()` for 2-D and higher-dimensional equations, just as we used it for 1-D equations in this section. Consequently, `integrateODE()` is arranged to return a **list** of functions. Each element of that list has a name. In the example here, there is only one element to the list (since the dynamics are 1-dimensional). The name of that element is `x`.  The R expression `soln$x` refers to that element; `soln$x` is a *function* but `soln` is a *list*. The `$` is one of the ways of referring to a particular element of a list in R. `r mark(6515)`
+
+:::
+
+```{r echo=FALSE}
+piecewise_fun <- function(x, r=1, K=100) {
+  ifelse(x < K/2, 1.4*r*x/2, 1.4*r*K/4 - 1.4*r*(x-K/2)/2)
+}
+piecewise_fun <- function(x, r=1, K=100, center=K/2) {
+  peak <- 1.4*r*center/2
+  ifelse(x < center, 1.4*r*x/2, peak - peak*(x-center)/(K-center))
+}
+```
+
+From the early days of CalcZ, we've emphasized the use of approximations. There's a temptation to contrast "approximation" with "true." That can be strongly misleading. For example, almost always a beautiful analytic form for a model is selected because it makes working with the model more tractable using the techniques at hand. For almost all the 350 years since calculus was introduced, the most powerful techniques involved algebra, so models were built using functions for which algebra could be used to calculate integrals, find zeros, etc. But the reality behind the model, the reality that the model attempts to capture in some way, often is not expected to match the functions for which algebra is a viable technique. `r mark(6520)`
+
+To illustrate, consider the logistic model of limited growth. This is almost always presented as a quadratic dynamical function:
+$$\underbrace{\dot{x}}_\text{rate of change} = \underbrace{r x (1-x/K)}_\text{dynamical function} \equiv \underbrace{g(x)}_\text{giving the function a name}$$
+where $r$ is a growth rate and $K$, the carrying capacity, is the largest sustainable level of the quantity $x$. (We've assigned the name $g()$ to the dynamical function)
+
+You should be able easily to see that the dynamical function has fixed points at $x=0$ and at $x=K$. We assess the stability of each of those fixed points by looking at the derivative with respect to $x$ of the dynamical function at the fixed point. `r mark(6525)`
+
+$$\partial_x g(x) = r\,(1 - 2 x /K)$$
+When $x=0$, $\partial_x\,g(x) = r$, so for small $x$ the model produces exponential growth $e^{rt}$.
+
+When $x=K$, $\partial_x\,g(x) = -r$, giving exponential decay $e^{-rt}$.
+
+Let's put that in context to see if it really makes sense. For example, exponential growth is often an appropriate model for bacterial or fungal growth, e.g. *E. coli* growing in a bio-reactor that has just been innoculated. Presumably, the exponential growth rate depends on the uptake of nutrients through the cell membrane, the time taken for molecular processes such as DNA replication, the time needed to organize a cell division, and the growth of the daughter cells until they can build up enough internal substance to divide again. `r mark(6530)`
+
+Near the carrying capacity, things are different. A build-up of waste products might interfere with nutrient uptake or transport of waste to the outside of the cell membrane. There might arise some predator or phage that kills or injures cells. `r mark(6535)`
+
+There's no particular reason to suppose that the rate of population growth and population decay should be the same at small $x$ as at the carrying capacity $K$. Yet the quadratic dynamical function used in logistic growth mandates that those two rates be exactly the same. `r mark(6540)`
+
+We use the dynamic function $r\, x (1-x/K)$ because we like to use low-order polynomials as modeling functions. But we could use something else. For example, the `piecewise_fun()` is a roughly similar shape: `r mark(6545)`
+
+
+
+```{r}
+slice_plot(2 * x * (1 - x/100) ~ x, domain(x=c(-10,110))) %>%
+  slice_plot(piecewise_fun(x, r=2, K=100) ~ x, color="orange3")
+```
+
+
+The sandbox below gives the commands for solving the two dynamics problems---the one where the quadratic is the dynamical function and the one where the piecewise linear function gives the dynamics, and plotting  one on top of the other. `r mark(6550)`
+
+
+```{r gg1, exercise=TRUE, exercise.cap="Quadratic vs piecewise linear dynamics", exercise.nlines=8, eval=FALSE}
+
+soln  <- integrateODE(dx ~ r * x*(1-x/K),
+                      r = 2, K=100, x = 10, tdur = 10)
+soln2 <- integrateODE(dx ~ piecewise_fun(x, r, K),
+                      r = 2, K = 100, x = 10, tdur = 10)
+slice_plot(soln$x(t) ~ t, domain(t=c(0, 10)) ) %>%
+slice_plot(soln2$x(t) ~ t, color='red')
+```
+
+```{r gg2, echo=FALSE, results="markup"}
+askMC(
+  "Compare those two solutions (in the graph) and draw a correct conclusion about the extent to which the \"details\" in the shape of the dynamics function makes a difference in the solution.",
+  "+So long as the fixed points and rough magnitude of the dynamics function are the same, the solutions will also be much the same.+",
+  "Any tweak in the shape of the dynamics function has a major impact on the shape of the solution.",
+  "The details of the dynamics function far from the fixed points can produce oscillations in the solution."
+)
+```
+
+```{r gg3, echo=FALSE, results="markup"}
+askMC(
+  "The piecewise formulation makes it easier to choose different growth/decay rates at the fixed points $x=0$ and $x=K$$. To do this, use the `center` argument to specify the $x$ at which the peak of the triangle occurs. Set `center` so that the slope near $x=0$ is about 3 times greater than the slope at $x=K$. What value should you give to `center` to accomplish this when $K=100$?",
+  "`center = 10`",
+  "+`center = 25`+",
+  "`center = 33.3`",
+  "`center = 66.7`",
+  random_answer_order = FALSE
+)
+```
+
+```{r gg4, echo=FALSE, results="markup"}
+askMC(
+  "Modify the code in the sandbox to add `center = ` as a fourth argument to `piecewise_fun()`. Give `center` the value of the correct answer to the previous problem. Comparing the solution of the (new) piecewise function to that of the original quadratic function, what differences are there?",
+  "The location of the stable fixed point is different.",
+  "There is no big difference between the two.",
+  "+The growth curve takes much longer to level out near the fixed point.+"
+)
+```
+
+`r insert_calcZ_exercise("XX.XX", "H8THyA", "Exercises/Dynamics/horse-read-hamper.Rmd")`

@@ -1,0 +1,584 @@
+# Nonlinear dynamical models
+
+## Warfare
+
+Differential equations provide a medium for expressing engineering and physics ideas, as well as ideas in many other fields. Frederick William Lanchester (1868-1946) was a British engineer, considered one of the greats of British automotive engineering. But that hardly does justice to him. `r mark(6810)`
+
+While voyaging across the Atlantic to America, he became captivated by the gliding flight of herring gulls. This led to his development of his circulation theory of flight, a foundation of aerofoil theory. In 1906 he published *Aerial Flight* containing the first full theory of lift and drag. In *Aerodonetics* (1908) he developed his phugoid theory of aircraft stability, describing oscillations and stalls. `r mark(6815)`
+
+In 1914, Lanchester wrote a book-length series of journal articles that were published in 1916 as *Aircraft in Warfare: the Dawn of the Fourth Arm*. Imagine trying to theorize about a form of conflict that had never been seen!
+The difficulty ... is that in order to get the future into true perspective, it is necessary to be able to look forward along two parallel lines of development---i.e. to visualize the improvement of aircraft possible in the near future as a matter of engineering development, and simultaneously to form a live conception of what this improvement and evolution will open up in the potentialities of the machine as an instrument of war. (p.3) `r mark(6820)`
+
+As a small part of his theorizing, Lanchester introduced a simple mathematical theory of combat now known as Lanchester's Laws. He imagined two opposing forces, Red and Blue, of size $R$ and $B$ and fighting effectiveness $r$ and $b$ respectively. (Both $r$ and $b$ are positive numbers. Indeed, neither $R$ nor $B$ can ever become negative.) The rules of attrition are that losses to Blue are proportional to the size of Red, and vice versa. `r mark(6825)`
+
+<div style="font-size: 30px; text-align:center;">
+$$\dot{B} = - r R\\
+\dot{R} = - b B$$
+</div>
+
+This dynamical system has a fixed point at (0, 0): no forces, no fighting.
+
+The eigenvalues of the system are $\lambda_{1,2} = \pm \sqrt{rb}$
+
+```{r lanch-1, echo=FALSE, results="markup"}
+askMC(
+  "Which of the three flows below corresponds to Lanchester's Law?",
+  "+A+", "B", "C",
+  random_answer_order = FALSE
+)
+```
+
+```{r echo=FALSE, out.width="50%", fig.show="keep"}
+math141Z::streamlines(list(~ 0.001*R -2*B, ~ .001*B-R), 
+                      domain(R=c(-1,5), B=c(-1, 5)), nsteps=15, stepsize=0.01) %>%
+  gf_refine(coord_fixed(x=c(-1,5), y=c(-1,5), clip="on")) %>%
+  gf_labs(title="(A)")
+
+math141Z::streamlines(list(~ 0.001*R +B/2, ~ .001*B-R), 
+                      domain(R=c(-1,5), B=c(-1, 5)), nsteps=15, stepsize=0.01) %>%
+  gf_refine(coord_fixed(x=c(-1,5), y=c(-1,5), clip="on")) %>%
+  gf_labs(title="(B)")
+
+math141Z::streamlines(list(~ 0.001*R +B/2, ~ .001*B+R), 
+                      domain(R=c(-1,5), B=c(-1, 5)), nsteps=15, stepsize=0.01) %>%
+  gf_refine(coord_fixed(x=c(-1,5), y=c(-1,5), clip="on")) %>%
+  gf_labs(title="(C)")
+
+```
+
+```{r lanch-2, echo=FALSE, results="markup"}
+askMC(
+  "Which of these sentences best describes the dynamics of Lanchester's Law?",
+  "Both forces battle to complete annihilation.",
+  "+The stronger force wipes out the weaker force.+",
+  "The weaker force holds off the stronger force."
+)
+```
+
+Lanchester's Law has a surprising consequence for measuring the overall strength of a force in a way that combines size ($R$ and $B$) and effectiveness ($r$ and $b$) and the implications that has for tactics. `r mark(6830)`
+
+The motivating idea is to find some quantity based on $R$, $B$, $r$, and $b$ that **does not change in time**, even as $R$ and $B$ change. This is called a *conserved quantity*. Here's one candidate
+
+$$rR^2 - b B^2 \overset{?}{=} \text{constant}$$
+How can you see that this is conserved? Differentiate it with respect to time. If that derivative is zero, then the quantity doesn't change in time. We'll do this in two parts:
+
+```{r lanch3, echo=FALSE, results="markup"}
+askMC(
+  "Calculate $\\partial_t r R^2$. Which of these is right? (Hint: Use the chain rule of differentiation and Lanchester's equations to simplify more.)",
+  "+$-2 rb RB$+",
+  "$2rR$",
+  "$-2r\\dot{R}$",
+  "$2r\\dot{R} B$ "
+)
+```
+
+```{r lanch4, echo=FALSE, results="markup"}
+askMC(
+  "Perform the similar calculation  $\\partial_t b B^2$. Is it the case that $\\partial_t r R^2 = \\partial_t b B^2$?",
+  "+Yes+",
+  "No",
+  "Depends on $b$ and $r$.",
+  "Depends on $B$ and $R$.",
+  random_answer_order=FALSE
+)
+```
+
+Here are two more candidates for conserved quantities:
+
+a. $rR - bB$
+b. $rB - bR$
+
+Take the derivative with respect to time of each of them to determine if they are conserved.
+
+```{r lanch5, echo=FALSE, results="markup"}
+askMC(
+  "Which of (a) and (b) are conserved?",
+  "Just (a).",
+  "Just (b).",
+  "Both (a) and (b).",
+  "+Neither (a) nor (b).+",
+  random_answer_order = FALSE
+)
+```
+
+The conservation of $rR^2 - b B^2$ suggests that we measure a force's strength as effectiveness $\times$ size$^2$. As battle proceeds, the strength of each force goes down at the same rate until the battle is over.  `r mark(6835)`
+
+One implication of this is that a single force of size 2 is twice as strong as two separate forces each of size 1.  Don't split your own forces. Stay in formation! Seek to split your opponent's forces. `r mark(6840)`
+
+## Predator vs prey
+
+We've looked at this seemingly simple model, almost a cartoon of the interaction of predators and prey, which we're calling "rabbits" ($R$) and "foxes" ($F$). 
+
+<div style="font-size: 30px; text-align:center;">
+$$\dot{R} = r R - \beta RF\\\dot{F} = - \mu F + \gamma RF$$
+</div>
+
+Your task in this section is to find *solutions* to these differential equations. Sometimes it possible to do this algebraically, as with the linear systems $\dot{x} = a x$ or $\dot{\mathbf X} = {\mathbf A} {\mathbf X}$. Here that's not so easy. `r mark(6845)`
+
+But even if we can't use algebra to find the solutions, it helps to undertake as much *analysis* of the system as we can in algebraic form. For instance, by setting $\dot{R} = \dot{F} = 0$, we can find that there is a fixed point at $(R^\star=\mu/\gamma,\ F^\star = r/\beta)$. `r mark(6850)`
+
+In the previous section, we linearized the dynamics around this fixed point and found algebraically that the eigenvalues are $\lambda_{1,2} = i\omega$, that is, with no real part. So we know to expect an oscillation in the population of rabbits and foxes. Since the real part of the eigenvalues is zero, the stability is "neutral," heading neither inward toward the fixed point or outward from it. `r mark(6855)`
+
+To explore solutions to the predator-prey dynamics, we can use numerical methods such as Euler steps. Doing this requires starting with numerical values for 
+
+i. the initial conditions, that is $R(0)$ and $F(0)$
+ii. the parameters $r$, $\beta$, $\gamma$, $\mu$
+
+Suppose we are intending to model a situation where the equilibrium population for rabbits is $R^\star = 1000$ and for foxes is $F^\star = 100$. Using our algebraic form for the location of the fixed point, this tells allows us how some parameters are related to others. `r mark(6860)`
+
+```{r pn1-1, echo=FALSE, results="markup"}
+askMC(
+  "Knowing that $R^\\star = \\mu/\\gamma$, what does this say about the relationship between $\\mu$ and $\\gamma$ when $R^\\star \\equiv 1000$?",
+  "+$\\mu = 1000\\, \\gamma$+",
+  "$\\gamma = 1000\\, \\mu$",
+  "$\\mu = \\gamma/1000$"
+)
+```
+
+```{r pn1-2, echo=FALSE, results="markup"}
+askMC(
+  "Knowing that $F^\\star = r/\\beta$, what does this say about the relationship between $r$ and $\\beta$ when $F^\\star \\equiv 10$?",
+  "+$r = 10\\, \\beta$+",
+  "$\\beta = 10\\, r$",
+  "$r = \\beta/10$"
+)
+```
+
+These two relationships tells us that if we know $\beta$ and $\gamma$, simple arithmetic tells us $r$ and $\mu$, and *vice versa*.
+
+Part of the art of modeling is selecting parameters in a way that we can make at least rough estimates of their numerical values from information that's available or can be readily collected. The two simplest parameters in this regard are $r$ and $\mu$, which govern the reproductive rate of rabbits (in the absence of foxes) and the death rate of foxes (in the absence of rabbits). `r mark(6865)`
+
+This being an exercise, we do a quick search on the internet. This reveals that [rabbits have 3-4 litters per year](https://www.reconnectwithnature.org/news-events/the-buzz/cottontail-rabbits-breeding) and that the [life-span of a red fox](https://en.wikipedia.org/wiki/Red_fox) (presumably with prey available) is 2-5 years. Intuition suggests that a dramatic shortage of food would reduce lifespan to a small fraction of this. For the purpose of simplicity, we'll continue under the assumption that the doubling time of a rabbit population (absent predation) is 3 months, and the half-life of a starving fox is also 3 months.  `r mark(6870)`
+
+```{r pn1-3, echo=FALSE, results="markup"}
+askMC(
+  "In a world without foxes and unlimited resources, the dynamics of rabbit population is $\\dot{R} = r R$. What is $r$ to produce a 3-month doubling time, assuming that $t$ is measured in months? (Hint: $R(t) = R(0) e^{rt}$.)",
+  "about 0.1 month$^{-1}$",
+  "+about 0.3 month$^{-1}$+",
+  "about 0.5 month$^{-1}$",
+  "about 0.7 month$^{-1}$",
+  random_answer_order = FALSE
+)
+```
+
+A similar method tells us the fox starvation half-life $\mu$. Knowing $r$ and $\mu$ gives us numerical values for $\gamma$ and $\beta$. For instance, $\gamma = \mu / 1000 = 0.0003$ and $\beta = r / 10 = 0.03$ `r mark(6875)`
+
+With tentative values for these parameters, we can find solutions to the differential equations. The following code box finds solutions and graphs them. The graphs are made with `traj_plot()`, which utilizes the output of `integrateODE()`. In `traj_plot()`, the tilde expression determines what's plotted against what. The initial conditions are set by the last two arguments. (Note: the $R$ and $F$ axes are logarithmic. So the distance between consecutive marks is a factor of $\sqrt{10}$.) `r mark(6880)`
+
+```{r pn1-4, exercise=TRUE, exercise.cap="Solving the DEs", exercise.nlines=12, eval=FALSE, warning=FALSE}
+Rdot <- dR ~  0.3*R - 0.03  *R*F # rabbit dynamics
+Fdot <- dF ~ -0.3*F + 0.0003*R*F # fox dynamics
+# Integrate these numerically over a period of, say, 36 months.
+Soln <- integrateODE(Rdot, Fdot, tdur=36, R=1200, F=8)
+traj_plot(R(t) ~ F(t), Soln, nt=10) %>%
+  gf_refine(scale_y_log10(), scale_x_log10())
+traj_plot(R(t) ~ t, Soln, color="orange3") %>%
+  traj_plot(F(t) ~ t, Soln, color="dodgerblue") %>%
+  gf_refine(scale_y_log10()) %>%
+  gf_labs(y="R (red) and F (blue)")
+```
+
+```{r pn1-5, echo=FALSE, results="markup"}
+askMC(
+  "Starting at $R(0) = 1000$ and $F(0) = 10$, look at the resulting dynamics over the 36-month period. Which of these describes the solutions best? Make sure your code matches the parameters in this question.",
+  "Rabbit population oscillates, but fox population stays constant.",
+  "Foth rabbit and fox populations oscillate.",
+  "+Both rabbit and fox population stay constant.+",
+  "Fox population rises and falls, but rabbits are steady."
+)
+```
+
+```{r pn1-6, echo=FALSE, results="markup"}
+askMC(
+  "Change the initial conditions to $R(0) = 1000$ and $F(0) = 15$. Which of these best describes the solutions?",
+  "+The rabbit population oscillates around 1000, with a period of about 20 months.+",
+  "The rabbit population oscillates around 1000, with a period of about 10 months.",
+  "The rabbit population stays at its equilibrium value. That's where it started.",
+  "The fox population oscillates from about around 30, with a period of 20 months." 
+)
+```
+
+```{r pn1-7, echo=FALSE, results="markup"}
+askMC(
+  "Still sticking with $R(0) = 1000$, find an initial population for foxes that will eventually drive the *peak* rabbit population to around 3000. What is that value of $F(0)$?",
+  20, 30, 40, 50, right_one = 30,
+  random_answer_order = FALSE
+)
+```
+
+```{r pn1-8, echo=FALSE, results="markup"}
+askMC(
+  "Due to the use of semi-log axes in the time-series plots, you can easily look for segments of time, if any, when the rabbit population grows exponentially and falls exponentially. The same for foxes. Which of these best describes the relationship?",
+  "When foxes grow exponentially, rabbits decay exponentially.",
+  "+When foxes grow exponentially, the rabbit population does *not* show an approximately exponential pattern. It's peaking.+",
+  "There are no periods where the population of either foxes or rabbits show an approximately linear growth or decay."
+)
+```
+
+```{r pn1-9, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The peak fox population *follows* the peak rabbit population by just a few months.",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r pn1-10, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The low point in the fox population proceeds, or *lags*, the low point in the rabbit population by a little over a year.",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+In Teletubby land, the rabbits breed all year long (and there are no foxes, at least on-camera). But much of the real world is seasonal. Just to play around with a system that reflects seasonality, the following sandbox changes the system so that the rabbits reproduce in May through August (months 5 through 8). The details of how we do this aren't important for us here, but involve the use of "remainder" division, `t %% 12`. Orange vertical lines mark successive Junes. `r mark(6885)`
+
+```{r pn1-11, exercise=TRUE, exercise.cap="Solving the DEs", exercise.nlines=15, eval=FALSE, warning=FALSE}
+april_to_august <- function(t) {
+  month = t %% 12
+  month > 3 & month < 9
+}
+Rdot <- dR ~  (t%%12 > 4 & t%%12 < 9)*0.3*R - 0.03  *R*F # rabbit dynamics
+Fdot <- dF ~ -0.3*F + 0.0003*R*F # fox dynamics
+# Longer period of integration: 200 months
+Soln <- integrateODE(Rdot, Fdot, tdur=200, R=1000, F=5)
+traj_plot(R(t) ~ F(t), Soln, nt=0) 
+traj_plot(R(t) ~ t, Soln, color="orange3") %>%
+  gf_vline(xintercept=6 + (0:15) * 12, color="orange")
+traj_plot(F(t) ~ t, Soln, color="dodgerblue") %>%
+  gf_vline(xintercept=6 + (0:15) * 12, color="orange")
+```
+
+```{r pn1-12, echo=FALSE, results="markup"}
+askMC(
+  "With the seasonal rabbit breeding, which of these best describes the dynamics?",
+  "A steady yearly pattern.",
+  "+A mostly yearly pattern with some small fluctuations from one year to the next.+",
+  "Complete chaos",
+  "Exponential run-away of the rabbit population",
+  random_answer_order = FALSE
+)
+```
+
+Dynamics such as these can be extremely hard to understand. You'll see this better of you change the `0.3` in the `0.3*R` rabbit reproduction term to `0.35` or higher. 
+
+Lessons to take home from this example:
+
+- Even simple nonlinear dynamics can generate non-decaying oscillations.
+- Add just a little more complexity, and things can get really complicated.
+- It's almost impossible to make ecological models that could give good predictions. (One real-world manifestation of this is the collapse of global fisheries as the various parties argue about what "sustainable" might mean.) `r mark(6890)`
+
+Linear dynamics around a fixed point is a big part of what we can understand mathematically about real-world systems.
+
+## Numerics
+
+We've looked at this seemingly simple model, almost a cartoon of the interaction of predators and prey, which we're calling "rabbits" ($R$) and "foxes" ($F$). 
+
+<div style="font-size: 30px; text-align:center;">
+$$\dot{R} = r R - \beta RF\\\dot{F} = - \mu F + \gamma RF$$
+</div>
+
+Your task in this section is to find *solutions* to these differential equations. Sometimes it possible to do this algebraically, as with the linear systems $\dot{x} = a x$ or $\dot{\mathbf X} = {\mathbf A} {\mathbf X}$. Here that's not so easy. `r mark(6895)`
+
+But even if we can't use algebra to find the solutions, it helps to undertake as much *analysis* of the system as we can in algebraic form. For instance, by setting $\dot{R} = \dot{F} = 0$, we can find that there is a fixed point at $(R^\star=\mu/\gamma,\ F^\star = r/\beta)$. `r mark(6900)`
+
+In the previous section, we linearized the dynamics around this fixed point and found algebraically that the eigenvalues are $\lambda_{1,2} = i\omega$, that is, with no real part. So we know to expect an oscillation in the population of rabbits and foxes. Since the real part of the eigenvalues is zero, the stability is "neutral," heading neither inward toward the fixed point or outward from it. `r mark(6905)`
+
+To explore solutions to the predator-prey dynamics, we can use numerical methods such as Euler steps. Doing this requires starting with numerical values for 
+
+i. the initial conditions, that is $R(0)$ and $F(0)$
+ii. the parameters $r$, $\beta$, $\gamma$, $\mu$
+
+Suppose we are intending to model a situation where the equilibrium population for rabbits is $R^\star = 1000$ and for foxes is $F^\star = 100$. Using our algebraic form for the location of the fixed point, this tells allows us how some parameters are related to others. `r mark(6910)`
+
+```{r pn1-1, echo=FALSE, results="markup"}
+askMC(
+  "Knowing that $R^\\star = \\mu/\\gamma$, what does this say about the relationship between $\\mu$ and $\\gamma$ when $R^\\star \\equiv 1000$?",
+  "+$\\mu = 1000\\, \\gamma$+",
+  "$\\gamma = 1000\\, \\mu$",
+  "$\\mu = \\gamma/1000$"
+)
+```
+
+```{r pn1-2, echo=FALSE, results="markup"}
+askMC(
+  "Knowing that $F^\\star = r/\\beta$, what does this say about the relationship between $r$ and $\\beta$ when $F^\\star \\equiv 10$?",
+  "+$r = 10\\, \\beta$+",
+  "$\\beta = 10\\, r$",
+  "$r = \\beta/10$"
+)
+```
+
+These two relationships tells us that if we know $\beta$ and $\gamma$, simple arithmetic tells us $r$ and $\mu$, and *vice versa*.
+
+Part of the art of modeling is selecting parameters in a way that we can make at least rough estimates of their numerical values from information that's available or can be readily collected. The two simplest parameters in this regard are $r$ and $\mu$, which govern the reproductive rate of rabbits (in the absence of foxes) and the death rate of foxes (in the absence of rabbits). `r mark(6915)`
+
+This being an exercise, we do a quick search on the internet. This reveals that [rabbits have 3-4 litters per year](https://www.reconnectwithnature.org/news-events/the-buzz/cottontail-rabbits-breeding) and that the [life-span of a red fox](https://en.wikipedia.org/wiki/Red_fox) (presumably with prey available) is 2-5 years. Intuition suggests that a dramatic shortage of food would reduce lifespan to a small fraction of this. For the purpose of simplicity, we'll continue under the assumption that the doubling time of a rabbit population (absent predation) is 3 months, and the half-life of a starving fox is also 3 months.  `r mark(6920)`
+
+```{r pn1-3, echo=FALSE, results="markup"}
+askMC(
+  "In a world without foxes and unlimited resources, the dynamics of rabbit population is $\\dot{R} = r R$. What is $r$ to produce a 3-month doubling time, assuming that $t$ is measured in months? (Hint: $R(t) = R(0) e^{rt}$.)",
+  "about 0.1 month$^{-1}$",
+  "+about 0.3 month$^{-1}$+",
+  "about 0.5 month$^{-1}$",
+  "about 0.7 month$^{-1}$",
+  random_answer_order = FALSE
+)
+```
+
+A similar method tells us the fox starvation half-life $\mu$. Knowing $r$ and $\mu$ gives us numerical values for $\gamma$ and $\beta$. For instance, $\gamma = \mu / 1000 = 0.0003$ and $\beta = r / 10 = 0.03$ `r mark(6925)`
+
+With tentative values for these parameters, we can find solutions to the differential equations. The following code box finds solutions and graphs them. The graphs are made with `traj_plot()`, which utilizes the output of `integrateODE()`. In `traj_plot()`, the tilde expression determines what's plotted against what. The initial conditions are set by the last two arguments. (Note: the $R$ and $F$ axes are logarithmic. So the distance between consecutive marks is a factor of $\sqrt{10}$.) `r mark(6930)`
+
+```{r pn1-4, exercise=TRUE, exercise.cap="Solving the DEs", exercise.nlines=12, eval=FALSE, warning=FALSE}
+Rdot <- dR ~  0.3*R - 0.03  *R*F # rabbit dynamics
+Fdot <- dF ~ -0.3*F + 0.0003*R*F # fox dynamics
+# Integrate these numerically over a period of, say, 36 months.
+Soln <- integrateODE(Rdot, Fdot, tdur=36, R=1200, F=8)
+traj_plot(R(t) ~ F(t), Soln, nt=10) %>%
+  gf_refine(scale_y_log10(), scale_x_log10())
+traj_plot(R(t) ~ t, Soln, color="orange3") %>%
+  traj_plot(F(t) ~ t, Soln, color="dodgerblue") %>%
+  gf_refine(scale_y_log10()) %>%
+  gf_labs(y="R (red) and F (blue)")
+```
+
+```{r pn1-5, echo=FALSE, results="markup"}
+askMC(
+  "Starting at $R(0) = 1000$ and $F(0) = 10$, look at the resulting dynamics over the 36-month period. Which of these describes the solutions best? Make sure your code matches the parameters in this question.",
+  "Rabbit population oscillates, but fox population stays constant.",
+  "Foth rabbit and fox populations oscillate.",
+  "+Both rabbit and fox population stay constant.+",
+  "Fox population rises and falls, but rabbits are steady."
+)
+```
+
+```{r pn1-6, echo=FALSE, results="markup"}
+askMC(
+  "Change the initial conditions to $R(0) = 1000$ and $F(0) = 15$. Which of these best describes the solutions?",
+  "+The rabbit population oscillates around 1000, with a period of about 20 months.+",
+  "The rabbit population oscillates around 1000, with a period of about 10 months.",
+  "The rabbit population stays at its equilibrium value. That's where it started.",
+  "The fox population oscillates from about around 30, with a period of 20 months." 
+)
+```
+
+```{r pn1-7, echo=FALSE, results="markup"}
+askMC(
+  "Still sticking with $R(0) = 1000$, find an initial population for foxes that will eventually drive the *peak* rabbit population to around 3000. What is that value of $F(0)$?",
+  20, 30, 40, 50, right_one = 30,
+  random_answer_order = FALSE
+)
+```
+
+```{r pn1-8, echo=FALSE, results="markup"}
+askMC(
+  "Due to the use of semi-log axes in the time-series plots, you can easily look for segments of time, if any, when the rabbit population grows exponentially and falls exponentially. The same for foxes. Which of these best describes the relationship?",
+  "When foxes grow exponentially, rabbits decay exponentially.",
+  "+When foxes grow exponentially, the rabbit population does *not* show an approximately exponential pattern. It's peaking.+",
+  "There are no periods where the population of either foxes or rabbits show an approximately linear growth or decay."
+)
+```
+
+```{r pn1-9, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The peak fox population *follows* the peak rabbit population by just a few months.",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r pn1-10, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The low point in the fox population proceeds, or *lags*, the low point in the rabbit population by a little over a year.",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+In Teletubby land, the rabbits breed all year long (and there are no foxes, at least on-camera). But much of the real world is seasonal. Just to play around with a system that reflects seasonality, the following sandbox changes the system so that the rabbits reproduce in May through August (months 5 through 8). The details of how we do this aren't important for us here, but involve the use of "remainder" division, `t %% 12`. Orange vertical lines mark successive Junes. `r mark(6935)`
+
+```{r pn1-11, exercise=TRUE, exercise.cap="Solving the DEs", exercise.nlines=15, eval=FALSE, warning=FALSE}
+april_to_august <- function(t) {
+  month = t %% 12
+  month > 3 & month < 9
+}
+Rdot <- dR ~  (t%%12 > 4 & t%%12 < 9)*0.3*R - 0.03  *R*F # rabbit dynamics
+Fdot <- dF ~ -0.3*F + 0.0003*R*F # fox dynamics
+# Longer period of integration: 200 months
+Soln <- integrateODE(Rdot, Fdot, tdur=200, R=1000, F=5)
+traj_plot(R(t) ~ F(t), Soln, nt=0) 
+traj_plot(R(t) ~ t, Soln, color="orange3") %>%
+  gf_vline(xintercept=6 + (0:15) * 12, color="orange")
+traj_plot(F(t) ~ t, Soln, color="dodgerblue") %>%
+  gf_vline(xintercept=6 + (0:15) * 12, color="orange")
+```
+
+```{r pn1-12, echo=FALSE, results="markup"}
+askMC(
+  "With the seasonal rabbit breeding, which of these best describes the dynamics?",
+  "A steady yearly pattern.",
+  "+A mostly yearly pattern with some small fluctuations from one year to the next.+",
+  "Complete chaos",
+  "Exponential run-away of the rabbit population",
+  random_answer_order = FALSE
+)
+```
+
+Dynamics such as these can be extremely hard to understand. You'll see this better of you change the `0.3` in the `0.3*R` rabbit reproduction term to `0.35` or higher. 
+
+Lessons to take home from this example:
+
+- Even simple nonlinear dynamics can generate non-decaying oscillations.
+- Add just a little more complexity, and things can get really complicated.
+- It's almost impossible to make ecological models that could give good predictions. (One real-world manifestation of this is the collapse of global fisheries as the various parties argue about what "sustainable" might mean.) `r mark(6940)`
+
+Linear dynamics around a fixed point is a big part of what we can understand mathematically about real-world systems.
+
+## Arms race
+
+Lewis Fry Richardson (1881-1953) was an English scientist who worked
+in many areas, including weather prediction.  This problem concerns a
+model Richardson built to account for arms races between countries.
+
+In the model, $x$ and $y$ respectively refer to the size of the
+military of the two countries.  The equations model how the size of
+the militaries change in time:
+<div style="font-size: 30px; text-align:center;">
+$$\begin{eqnarray*}
+\dot{x} & = & a y - m x + r\\
+\dot{y} & = & b x - n y + s\\
+\end{eqnarray*}$$
+</div>
+
+The terms $r$ and $s$ represent the basic grievances between the two countries.
+
+The parameters $a$ and $b$ represent "fear," that is, the extent to which one country feels the need to build up arms in response to the other country's arms.
+
+The parameters $m$ and $n$ are about the internal dynamics of the
+country: its ability/desire to sustain a large military.
+
+```{r arms1, echo=FALSE}
+askMC(
+  "What should the signs of $r$ and $s$ be  if the countries have substantial grievances against each other?",
+  "+positive+", "negative", "zero",
+  random_answer_order = FALSE
+)
+```
+
+```{r arms2, echo=FALSE}
+askMC(
+  "What should be the signs of $a$ and $b$, given that they represent 
+  \"fear?\"",
+   "+positive+", "negative", "zero",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r arms3, echo=FALSE}
+askMC(
+  "What should be the signs of $m$ and $n$, in a country which, on its own, would not like to build a large military? Note the sign preceeding these terms.",
+  "+positive+", "negative", "zero",
+  random_answer_order = FALSE
+)
+```
+
+```{r echo = FALSE}
+scenario1 = function(x,y) {
+  dx = 2*y - 5*x + 5
+  dy = 2*x - 3*y + 5
+  return( c(dx=dx,dy=dy) )
+  }
+scenario2 = function(x,y) {
+ dx = 2*y - 1*y + 3
+ dy = 2*x - 2*y + 3
+ return( c(dx=dx,dy=dy) )
+ }
+wrong.scenario2 = function(x,y) {
+ dx = -2*y - 1*x + 3
+ dy = 2*x - 2*y + 3
+ return( c(dx=dx,dy=dy) )
+ }
+```
+
+```{r echo = FALSE, out.width="70%", fig.show="hold"}
+DOM <- domain(x = c(0, 4), y = c(0, 4))
+math141Z::streamlines(
+  list( ~ -2*y - x + 3,
+        ~ 2*x - 2*y + 3),
+  DOM, 
+  stepsize=0.005
+) %>%
+  gf_labs(x = "Freedonia arms",
+          y = "Jockavia arms",
+          title = "Flow field (A)")
+
+math141Z::streamlines(
+  list( ~ 2*y - 1*y + 3,
+        ~ 2*x - 2*y + 3),
+  DOM, 
+  stepsize=0.005
+) %>%
+  gf_labs(x = "Freedonia arms",
+          y = "Jockavia arms",
+          title = "Flow field (B)")
+
+math141Z::streamlines(
+  list( ~ 2*y - 5*x + 5,
+        ~ 2*x - 3*y + 5),
+  DOM, 
+  stepsize=0.002
+) %>%
+  gf_labs(x = "Freedonia arms",
+          y = "Jockavia arms",
+          title = "Flow field (C)")
+```
+
+
+Depending on the values of the parameters $a$, $b$, $m$, $n$, $r$, and $s$, the Richardson dynamics can produce different outcomes.  Two of the previous three plots show Richardson Arms Race dynamics for two mutually fearful countries with  mutual grievances, Freedonia and Jockavia.  The third plot does not; the signs of one of the coefficients has been reversed and so the dynamics don't make sense for modeling an arms race. `r mark(6945)`
+
+a. In each of the three plots, start from initial point $x=2,y=1$,   that is, a situation where Freedonia is more armed than Jackavia, and trace out the trajectory over time.
+#. For each of the three plots, find any equilibrium point and say   whether it is stable or unstable.  If there is no equilibrium, move on.
+#. Identify which of the three plots is NOT the Richardson dynamics.
+#. In the non-Richardson flow, which coefficient has been reversed: it's one of $a$, $b$, $m$, $n$, $r$, or $s$.
+
+```{r arms4, echo=FALSE}
+askMC(
+  "Which of the previous plots are Not the Richardson Dynamics?",
+  "+Flow Field A+", "Flow Field B", "Flow Field C",
+  random_answer_order = FALSE
+)
+```
+
+```{r arms5, echo=FALSE}
+askMC(
+  "In this plot which if the parameters is reversed?",
+  "+a+", "b", "m", "n", "r", "s",
+  random_answer_order = FALSE
+)
+```
+
+## Review
+
+- We've systematically covered linear dynamics (local modeling) in one and two dimensional state spaces.
+- We've talked a little bit about nonlinear dynamics (global modeling) using low-order polynomials. 
+- The next logical topic in terms of importance of use would be **linear dynamics with inputs**, e.g. the transient movement of a car suspension when hitting a series of bumps in the road or the principles for building a control system for dealing with such inputs. You will see this in "systems engineering" type courses, but we don't have time to cover it here in CalcZ. (Which is to say, "We have more important things to cover that traditionally are not we'll treated in downstream engineering courses even though the concepts of crucial to any kind of quantitative design work in fields from engineering to public health.) `r mark(6950)`
+
+
+
+# Are you where you need to be?
+
+If you can make sense of the following diagram, you are in a good place. 
+
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+knitr::include_graphics("www/Phase_plane_nodes.png")
+```
+
+[Source](https://commons.wikimedia.org/wiki/File:Phase_plane_nodes.svg)
+
+

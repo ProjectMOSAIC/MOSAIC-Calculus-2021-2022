@@ -1,0 +1,112 @@
+# (PART) Interlude: Iteration {.nonumber}
+
+Back in the days when mathematical notation was developed, calculations were done by people (who were called "computers"). Since people were involved, it was reasonable to rely on common sense guiding them to do the right thing. For instance, suppose the computers task was to calculate $3.7^5$. A reasonable instruction to a human is "multiply 3.7 by itself five times." 
+
+As it happens, that isn't a very clear instruction. Does it mean "solve the same multiplication problem, $3.7 \times 3.7$, five times in succession?" That's easy, because once you've done it, getting 13.69 as the answer, you just repeat that answer four more times: five times in total. As you know, that's not the way to get the right answer (which is 693.4396).
+
+Writing unambiguous instructions suitable for a machine to carry out is challenging, especially when first starting out. Fortunately there is a more-or-less straightforward framework for carrying out ***iteration***. Once you know this framework, you'll be able to present information to the computer in the right way.
+
+## Initialize state, update state, terminate
+
+A nice way to think about iteration is a process for establishing a ***state*** and updating that state over and over until you are done.
+
+Consider the calculation of $3.7^{\,5}$. Here's a nice approach:
+
+1. We'll call the state `x` and initialize it to 1. 
+2. Define the update process to be "multiply `x` by 3.7 and make this the new state. 
+3. Carry out the update process 5 times.
+
+There are two, distinct styles for describing iteration to the computer: ***function composition*** versus ***looping***. Almost everyone find looping easier to understand, but function composition makes it more obvious what the update process is.
+
+Here's the looping style in R for the $3.7^{\,5}$ problem.
+
+```{r}
+x <- 1 # Initialize state
+for (n in 1:5) {
+  x <- 3.7 * x  # Update state
+}
+x 
+```
+```{r echo=FALSE}
+# PUT THIS IN math141Z
+compose_n <- function(fun, n=1, accumulate=FALSE) {
+  if (! is.function(fun)) stop("First argument must be a function")
+  function(...) {
+    state <- list(...)
+    # accept data frame as input, but turn the last row
+    # into a list and make that the state.
+    if (length(state) == 1 && is.data.frame(state[[1]])) {
+      state <- state[[1]]
+      state <- as.list(state[nrow(state),])
+    }
+    nms <- names(formals(fun))
+    names(state) <- nms
+    if (accumulate) 
+      accumulator <- tibble::as_tibble(state)
+    for (k in 1:n) {
+      state <- as.list(do.call(fun, state))
+      names(state) <- nms
+      if (accumulate) {
+        accumulator <- 
+          dplyr::bind_rows(accumulator, tibble::as_tibble(state))
+      }
+    }
+    if (accumulate) accumulator
+    else tibble::as_tibble(state)
+  }
+}
+
+compose_f <- function(...) {
+  funs <- list(...)
+  first <- funs[[length(funs)]]
+  function(...) {
+    inputs <- list(...)
+    for (k in length(funs):1) {
+      inputs <- as.list(do.call(funs[[k]],inputs))
+    }
+    if (length(inputs==1)) return(inputs[[1]])
+    else return(inputs)
+    
+  }
+}
+```
+
+The composition style is different. 
+
+i. You write a function that takes the present state and returns the updated state. 
+ii. Compose that function $n$ times
+iii. Apply the composed function to the initial state
+
+```{r}
+update <- function(x) 3.7*x
+cfun <- compose_n(update, n=5)
+cfun(1)
+fib <- function(x, y) c(x+y, x)
+eight <- compose_n(fib, n=5)(1, 0)
+goo <- compose_n(fib, n=3, accumulate=TRUE)
+goo(eight)
+```
+
+
+
+# Guess &  (check, improve, repeat)
+
+## How to check (and when to stop)
+
+## How to improve
+
+## Walking uphill
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Deriv-10e", "Distinguish between two basic strategies \"walk uphill\" and \"differentiate and solve for zero.\"")
+```
+:::
+
+## Finding zeros
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Deriv-10d", "Understand how Newton’s method uses an iterative process to find where the function is zero")
+```
+:::

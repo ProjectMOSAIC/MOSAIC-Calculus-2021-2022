@@ -1,0 +1,499 @@
+# Discrete-time dynamics
+
+::: {.todo}
+Use this as source material for other sections, since we're going to be doing continuous-type dynamics.
+:::
+
+
+
+# Difference equations in 1 dimension
+
+    Objectives:")
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Dyn-2a", "Understand how discrete time operates and what a step is ")
+state_objective("Dyn-2b", "Define a fixed point in discrete time and determine whether the fixed point is stable or unstable")
+state_objective("Dyn-2c", "Understand the relationship between oscillations and stability as we step through discrete time")
+```
+:::
+
+An important strategy in creating and understanding models of dynamics involves **fixed points**.  A fixed point is a value of the state which the dynamics leave untouched. For finite-difference equation dynamics, $${\mathbf X}_{n+1} = g({\mathbf X}_n)$$ `r mark(7700)`
+
+At a fixed point, "tomorrow's" value is the same as "today": ${\mathbf X}_{n+1} = {\mathbf X}_n$; the state doesn't change with $n$.
+
+A fixed point ${\mathbf X}^\star$ satisfies
+$${\mathbf X}^\star = g({\mathbf X}^\star)\ \ \ \text{or, said another way,}\ \ \ g({\mathbf X}^\star) - {\mathbf x^\star} = 0$$
+"Fixed point" is a mathematical term. In the sciences, you will hear the term "equilibrium state," "steady state," "resting point," or "balance point." For example, chemistry has a concept of [chemical equilibrium](https://en.wikipedia.org/wiki/Chemical_equilibrium), a state where the concentration of reactants and products doesn't change. Finding such equilibria is an important task in many areas of science and engineering. `r mark(7705)`
+
+Some dynamical systems don't display any fixed points, e.g. the orbit of the Earth around the Sun. Others have one or more. We're going to treat them mathematically by analysis of the function $g()$ that governs the dynamics. `r mark(7710)`
+
+There are several ways to find fixed points.
+
+1. If you have a simple algebraic form for $g()$ you can solve $g(x) = x$ for $x$. For instance, suppose $g(x) \equiv 4 x (1-x)$. Then the fixed points satisfy $$x^\star = 4x^\star (1-x^\star)$$  This has two solutions: one at $x^\star = 0$ and the other at $x^\star = 3/4$.  (Exercise: dBCKD6) `r mark(7715)`
+
+2. Numerical solving. If solving $g(x)=x$ is not so easy, then we can instead create a new function $h(x)\equiv g(x)-x$ and then solve for the zeros of $h()$.  The point of setting up the helper function $h()$ is that computer algorithms for finding zeros generally take a *function* as their input rather than an *equation*.  (Exercise: RLdGHh ) `r mark(7720)`
+
+3. Graphically. Plot out the function $g(x) - x$ versus $x$. Find values of $x$ where the graph crosses zero. Each of these values is a fixed point $x^\star$.
+
+For instance:
+```{r eval=FALSE}
+dom <- domain(x = c(0,10))
+g <- makeFun(x + sin(x) ~ x)
+slice_plot(g(x) - x ~ x, dom)
+```
+
+4. By iteration. Sometimes you can identify a fixed point by iterating the dynamics starting from different initial conditions. The following sandbox iterates a system for 100 steps. The `tail(5)` function returns just the last 5 rows of the data table, making it easier to see where the state ended up after many iterations. `r mark(7725)`
+
+```{r eval=FALSE}
+g <- makeFun(x + sin(x) ~ x)
+Iterate(g, x0=.872, 100) %>% tail(5)
+```
+You can look for different fixed points by trying different values for $x0$.
+
+(Exercise: Iw4IJW)
+
+------
+
+A tree provides a simple example of equilibrium. A living tree grows slowly, with essentially no change from day to day. The tree is usually in equilibrium with its surroundings. But there are disruptions that can place the tree out of equilibrium. The wind is a familiar disruption, changing the dynamics so that the tree no longer stands straight and still; it sways in the wind. A severe storm or a chain saw creates an opportunity for bigger disruption, removing the fixed point of upright posture and replacing it with an entirely different sort of fixed point. The steady, slow process of rot can weaken the equilibrium to the point where it no longer exists or is too weak to withstand the wind. The tree falls. `r mark(7730)`
+
+Mathematics provides several concepts for thinking about equilibrium and the loss of equilibrium. The idea of a **fixed point** is at the center of things. The idea of disruption also has a mathematical equivalent called "forcing." The slow change (as in the rot of a tree) leading to a dramatic, sometimes sudden, collapse is represented by a "bifurcation." We'll explore forcing and bifurcation later, when we've developed better tools and ways of thinking to understand dynamics. `r mark(7735)`
+
+Here we will examine the important topic of "stability." The word has a variety of related meanings in everyday life: a patient is stable when his or her condition is not worsening (or getting better), a chair is stable when it won't fall over, a stable personal relationship is much preferred to an unstable one, a person who is stable does not get upset or disturbed by a trivial incident. `r mark(7740)`
+
+In mathematics, "stability" is a property of dynamics near a fixed point. A fixed point is stable when an initial trajectory close enough to the fixed point leads to a trajectory that continues to get closer to the fixed point. A fixed point is unstable when initial conditions close to the fixed point lead to trajectories that tend away from the fixed point. `r mark(7745)`
+
+In everyday life, we think about stability as a matter of how hard you can push something before it falls over. A coin standing on edge is not very stable in this sense, any palpable disturbance will cause it to fall over. But mathematically, stability is just about the response to infinitesimal disturbances. The coin standing on edge is mathematically stable. Large disturbances may lead to the state of a system leaving even a stable fixed point. Stability of mathematical fixed points is about *local* dynamics. The response to large disturbances is non-local or *global* dynamics, a much harder topic. `r mark(7750)`
+
+Use a `r sandbox_link()` to explore stability via iteration.
+
+```{r eval=FALSE}
+g <- makeFun(5*sin(x)^2 ~ x)
+findZeros(g(x) - x ~ x)
+Iterate(g, x0 = 0.0001, n=10)
+```
+
+[Exercise: YsZp7T]
+
+[Advanced exercise: AvXzzY, eMT6Zn]
+
+-----
+
+Previously, we examined the stability of fixed points by using iteration: start at an initial condition arbitrarily close (but not exactly on!) a fixed point and see if the trajectory tends toward or away from the fixed point. `r mark(7755)`
+
+Now we'll look at stability another way, by considering the shape of of the dynamical function near a fixed point. At this point in CalcZ, you're aware that "near" suggests local, and that we routinely model (continuous) functions in terms of the value at a point, the value of the derivative at the point, and the value of the 2nd derivative at the point. `r mark(7760)`
+
+The stability of a fixed point is determined in all but very special situations by the slope of the function at the fixed point. Here's the rule:
+
+> In the dynamical system $x_{n+1} = g(x_n)$ with a fixed point at $x^\star$, the stability of that fixed point depends only on the magnitude of $\left| \partial_x g(x^\star) \right|$. The rule is:
+
+> If $\left| \partial_x g(x^\star) \right| > 1$, the fixed point at $x^\star$ is **unstable**.
+
+> If $\left| \partial_x g(x^\star) \right| < 1$, the fixed point at $x^\star$ is **stable**.
+
+Notice that it doesn't matter what is the **sign** of $\partial_x g(x^\star)$; the fixed point will be stable or not depending just on the magnitude of the derivative.
+
+```{r eval=FALSE}
+g <- makeFun(sin(x)^2 + 1 ~ x)
+fixed_points <- findZeros(g(x) - x ~ x)
+dg <- D(g(x) ~ x)
+
+## Now, apply dg() to the fixed point(s)
+dg(fixed_points)
+```
+
+[Exercise: 61zaad, F0nHmq, VesZTL, z7CO1o]
+
+
+## Day 16 Exercises
+
+`r insert_calcZ_exercise("XX.XX", "dBCKD6", "Exercises/Dynamics/snake-drive-socks.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "RLdGHh", "Exercises/Dynamics/spruce-type-chair.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "Iw4IJW", "Exercises/Dynamics/titmouse-drive-pantry.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "YsZp7T", "Exercises/Dynamics/calf-fly-boat.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "61zaad", "Exercises/Dynamics/calf-dive-pot.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "F0nHmq", "Exercises/Dynamics/turtle-become-magnet.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "VesZTL", "Exercises/Dynamics/titmouse-see-jacket.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "z7CO1o", "Exercises/Dynamics/finch-make-door.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "AvXzzY", "Exercises/Dynamics/crow-know-scarf.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "eMT6Zn", "Exercises/Dynamics/spider-dive-sheet.Rmd")`
+
+
+
+# Difference equations in 2 dimensions
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Dyn-3a", "Learn how to construct future states of a dynamical system in two dimensions given the dynamical rule and the two-dimensional initial condition.")
+state_objective("Dyn-3b", "Appreciate that global dynamics can be complicated, potentially with many fixed points, learn how to identify the locations of the fixed points.")
+state_objective("Dyn-3c", "Understand how local dynamics near a fixed point are comparatively simple and can be meaningfully approximated by a matrix.")
+state_objective("Dyn-3d", "Review the mechanics of matrix arithmetic and iterate a dynamical system written in terms of a matrix.")
+```
+:::
+
+```{r echo=FALSE}
+source("Exercises/Dynamics/draw_flow.R", local=TRUE)
+```
+
+We will be using finite-difference equations mainly for modeling physical processes. It turns out that the way forward is **not** to make the function $g(x)$ more complicated in $x_{n+1} = g(x_n)$ but instead to add more state variables. In this course, we'll deal with states with two quantities, $(x, y)$, which can be called a *two-dimensional* state. The systems we will study will involve two dynamical functions, each of which takes both $x$ and $y$ as arguments. That is:
+$$x_{n+1} = f(x_n, y_n)\\
+y_{n+1} = g(x_n, y_n)$$
+
+For instance, here is one such system:
+```{r echo=FALSE, out.width="100%", message=FALSE}
+draw_flow()
+```
+The functions $f(x,y)$ and $g(x,y)$ are represented by short line segments with a tiny dot at one end. Each line segment connects $(x_n, y_n)$ to $(x_{n+1}, y_{n+1})$, with the dot at the $n+1$ end.
+
+Consider the line segment that starts at $(0,0)$. The end of the line segment is at about $(-0.101, -0.163)$. (You can't see such precision from the graph, but the author can!) This is just to say that for the particular $f()$ and $g()$ being displayed, $$f(0, 0) = -0.101\ \ \ \text{and}\ \ \ g(0,0) = -0.163$$ The result of the dynamics is to take a state of $(0,0)$ a bit to the "southwest," to $(-0.101, -0.163)$. From there you can take the next step, then the one after that, and so on to approximate the trajectory. It's very much like the state was being blown around in the wind, with the line segments indicating the direction and speed of the wind at any point. `r mark(7765)`
+
+```{r 2d1-1, echo=FALSE, results="markup"}
+askMC(
+  "Consider the line segments near $(2.5, 2.5)$. Which of these best describes the functions at that point?",
+  "$f(2.5, 2.5) \\approx 0$ and $g(2.5.,2.5) < 0$",
+  "+$f(2.5, 2.5) < 0$ and $g(2.5.,2.5) \\approx 0$+",
+  "$f(2.5, 2.5) > 0$ and $g(2.5.,2.5) < 0$",
+  "$f(2.5, 2.5) \\approx 0$ and $g(2.5.,2.5) > 0$"
+)
+```
+
+The blue and red contour lines are added to the picture to help the viewer spot fixed points. The blue contour line is the zero contour of $f(x,y) - x$. Similarly, the red contour line is the zero contour of $g(x,y) - y$. `r mark(7770)`
+
+The left panel below shows the dynamics of $x$: that is $x_{n+1} = f(x_n,y_n)$. The right panel shows the $y$ dynamics: $y_{n+1} = g(x_n,y_n)$.
+
+```{r echo=FALSE, out.width="50%", fig.show="hold", message=FALSE}
+draw_flow(dy=0, center = c(-2,3), width=3,
+          ngrid=11, dx=0.2, arrow=2) %>%
+  gf_labs(title = expression(x[n+1] == f(x[n],y[n])))
+draw_flow(dx=0, center = c(-2,3), width=3,
+          ngrid=11, dy=0.2, arrow=3) %>%
+  gf_labs(title = expression(y[n+1] == g(x[n],y[n]))) %>%
+  gf_refine(coord_fixed(xlim=c(-5, 1), ylim=c(-0.5, 5.5), clip="on"))
+```
+
+Note that in the x-dynamics plot, we're only seeing the change in $x$. That's why the line segments are all horizontal: they connect $x_n$ to $x_{n+1}$. The blue contour shows the points where $x_{n+1} = x_n$: The line segment is just a dot. For this particular $f(x,y)$ the segments starting at places to the right of the contour point to the left; the segments starting to the left of the contour point to the right. At the contour, the segments point neither left nor right: they are fixed points with respect to $x$. `r mark(7775)`
+
+The right panel is similar, but shows the dynamics of $y$. Since the plot shows only the change in $y$, the segments are all oriented in the $y$ direction. For this particular $g(x,y)$, segments above the contour point upward, segments below the contour point downward, and segments on the contour show no change in $y$. `r mark(7780)`
+
+The original graph shows both the $x$ and $y$ dynamics simultaneously. Where the blue and red contours cross, there is a fixed point in both $x$ and $y$. You can see 3 such fixed points (with a fourth suggested near the top of the graph). `r mark(7785)`
+
+[Exercises: KzgT1c, 3A3pMv]
+
+-----
+
+
+Consider a tuning fork as an example of a dynamical system. Ordinarily it's in equilibrium: silent. But after you tap it, it rings, the ringing dying out over time. The design and use of a turning fork is all about the transient vibrations as the fork returns to equilibrium, its fixed point. `r mark(7790)`
+
+We are going to focus on a small but important part of dynamics: the behavior **near** a fixed point. Up until now, we've considered only stability or instability. But now we want to know a bit more, about the behavior of the transient approaching **near** a stable fixed point or the escape from **near** an unstable one. `r mark(7795)`
+
+We're going to use an approach that's familiar in calculus: zoom in on the region very close to fixed points.
+
+"Very close" can mean different things to different people. In calculus, *very close* is often taken to mean, "so close that the system is well approximated as a linear system." That is, instead of looking at general, nonlinear functions of the dynamics, we're going to look only at dynamics involving linear functions. The system we are going to study will be this one:
+$$\xi_{n+1} = \mu + \alpha\, \xi_n + \beta\, \eta_n\\
+\eta_{n+1} = \nu + \gamma\, \xi_n + \delta\, \eta_n$$
+
+Where $\alpha, \beta, \gamma, \delta, \nu, \mu$ are all constant scalars, and $\xi$ ("ex-eee", Greek for x) and $\eta$ ("ay-tah", Greek for $y$).
+
+There is a lot of Greek in the above equation, but don't let it worry you. That's because we're going to simplify things even more.
+
+Since we're interested in behavior **near** a fixed point $(\xi^\star, \eta^\star)$, we'll define new state variables that are centered on the fixed point:
+$$x = \xi - \xi^\star\\
+y = \eta - \eta^\star$$
+In terms of $x$ and $y$, the fixed point is at $(0,0)$.
+
+The dynamics **near** this stable fixed point now become:
+$$x_{n+1} = a x_n + b y_n\\
+y_{n+1} = c x_n + d y_n$$
+
+We don't need terms like $\mu$ and $\nu$ in the $(\xi, \eta)$ system, because when $(x_n = 0, y_n=0)$ both $x_{n+1}$ and $y_{n+1}$ will be zero: a fixed point at $(0,0)$!
+
+
+It's just the four parameters $a, b, c$, and $d$ that shape the dynamics. It can be handy to adopt a vector/matrix notation to highlight the role of the four parameters without distracting from all the $x_n$ and $y_n$ notation. Do do this, we'll put $x_n$ and $y_n$ into a single vector, which we'll call ${\mathbf X}_n$. (Note the boldface **x** to signify that it is a vector, rather than a scalar wich is written unbolded, $x$.) `r mark(7800)`
+$$
+\left[ \begin{array}{c}x_{n+1}\\y_{n+1}\end{array} \right] \equiv\ \ \ \ {\mathbf X}_{n+1} =
+\left[ \begin{array}{cc}a & b\\c & d\end{array} \right]
+{\mathbf X}_n \ \ \ \ \equiv
+\left[ \begin{array}{c}a x_{n} + by_n\\c x_n + d y_{n}\end{array} \right]
+$$
+It's important to remember that writing the dynamics as
+$${\mathbf X}_{n+1} =
+\left[ \begin{array}{cc}a & b\\c & d\end{array} \right]
+{\mathbf X}_n$$
+doesn't change anything about the dynamics, it's just a more compact notation.
+
+We could simplify even more by giving a name to the [abcd] matrix, like this:
+$${\mathbf X}_{n+1} = {\mathbf A}\cdot {\mathbf X}_n$$
+But we'll be wanting to look at the role played by each of the four parameters $a, b, c$, and $d$, so we'll continue to write out the matrix components.
+
+
+The price we pay for limiting ourselves to linear dynamics is that we can't necessarily describe the global behavior of dynamics, just the behavior in a small locale. It turns out in science and engineering that this is often all that we need. (We'll look at some dynamical models that rely on nonlinearity in future days.) `r mark(7805)`
+
+-----
+
+Recall some of the concepts we used in exploring *linear combinations*.
+
+- a **vector** is a mathematical object with two properties: magnitude (length) and direction. We wrote vectors as a column of numbers, for instance $${\mathbf v} = \left[\begin{array}{r}3\\-1\\8\end{array}\right]\ \ \ \text{or}\ \ \ {\mathbf u} =\left[\begin{array}{r}2\\-3\end{array}\right]$$ The dimension of a vector is the count of numbers used in its representation: 3 for $\mathbf v$ and 2 for $\mathbf u$.
+- a **matrix** is a collection of vectors, all of which have the same dimension. For instance:
+
+$${\mathbf M} =\left[\begin{array}{rrr}3 & 1 & 0\\-1 & 4 & -2\\8 & 0 & 12\end{array}\right]\ \ \ \text{or}\ \ \ {\mathbf P} =\left[\begin{array}{rr}-1 & 2\\7 & 0\end{array}\right]$$
+
+- **multiplying** a matrix times a vector produces a new vector which is a *linear combination* of the vectors in the matrix. For instance:
+
+$${\mathbf P}\cdot{\mathbf u} = \left[\begin{array}{rr}-1 & 2\\7 & 0\end{array}\right] \cdot \left[\begin{array}{r}2\\-3\end{array}\right] =
+2 \left[\begin{array}{r}-1\\7\end{array}\right] + -3 \left[\begin{array}{r}2\\0\end{array}\right] = \left[\begin{array}{r}-7\\14\end{array}\right]$$
+
+There's a simplification of the [abcd]-style matrix that is particularly important in the way dynamics are written in physics and related disciplines. That matrix has the form $$\left[\begin{array}{cc}a & b\\1 & 0\end{array}\right]$$
+We'll call this an [ab10]-format matrix.
+
+It's worth emphasizing the special form of the equations corresponding to an [ab10] matrix:
+
+$$\underbrace{\left[\begin{array}{c}x_{n+1}\\y_{n+1}\end{array}\right]}_\text{next state} =
+\underbrace{\left[\begin{array}{rr}a & b\\1 & 0\end{array}\right]}_\text{[ab10] format matrix} \cdot\underbrace{\left[\begin{array}{c}x_n\\y_n\end{array}\right]}_\text{current state} =
+\left[\begin{array}{rcr}a\, x_n & + & b\, y_n \\x_n & & \end{array}\right]$$
+Since both $x_n$ and $y_n$ are numerical quantities, you'll often work with the system like this:
+
+$$\underbrace{\left[\begin{array}{c}x_{n+1}\\y_{n+1}\end{array}\right]}_\text{next state} =
+\underbrace{\left[\begin{array}{rr}a & b\\1 & 0\end{array}\right]}_\text{[ab10] format matrix} \cdot\underbrace{\left[\begin{array}{r}3\\-1\end{array}\right]}_\text{current state} =
+\left[\begin{array}{rcr}3 a & + & (-1)b \\3 & & \end{array}\right]$$
+
+[Exercise: j2ettP ]
+
+
+
+
+
+
+
+
+## Day 17 Exercises
+
+
+`r insert_calcZ_exercise("XX.XX", "KzgT1c", "Exercises/Dynamics/crow-find-sofa.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "on164B", "Exercises/Dynamics/seaweed-bite-shoe.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "3A3pMv", "Exercises/Dynamics/bee-wake-bottle.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "j2ettP", "Exercises/Dynamics/shark-understand-saw.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "PTn8Yk", "Exercises/Dynamics/aspen-take-cotton.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "JcqzZA", "Exercises/Dynamics/camel-dig-fridge.Rmd")`
+
+
+
+# Wrap-up Discrete Time difference equations
+
+
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Dyn-4a", "Understand how eigenvalues can describe the properties of difference equations in discrete time")
+state_objective("Dyn-4b", "Understand sequences as steps through discrete time")
+```
+:::
+
+We're focusing now on the behavior of discrete-time dynamical systems near fixed points. Recall that we've defined $x$ and $y$ scales that have the fixed point at (0, 0) and that the dynamics can be approximated by linear functions which we write with a matrix. We'll call the matrix ${\mathbf A}$ and use ${\mathbf X}_n$ to denote the two-dimensional state at time $n$.  So the dynamics are: $${\mathbf X}_{n+1} = {\mathbf A}\, {\mathbf X}_n\ \ \ \text{where}\ \ {\mathbf A} = \left[\begin{array}{cc}a & b\\c & d\end{array}\right]\  \text{for instance}\ \ \left[\begin{array}{rr}1.1 & -0.4\\0.3 & 0.9\end{array}\right]$$
+This is all just a matter of arithmetic. Suppose we start at the initial condition ${\mathbf X}_0 = \left[\begin{array}{r}1.3\\0.5\end{array}\right]$. Using the example matrix from above, the value of ${\mathbf X}_{1}$ will be ${\mathbf A}\, {\mathbf X}_0$, or `r mark(7810)`
+$$
+{\mathbf X}_1 = \underbrace{\left[\begin{array}{rr}1.1 & -0.4\\0.3 & 0.9\end{array}\right]}_{\mathbf A} \cdot \underbrace{\left[\begin{array}{r}1.3\\0.5\end{array}\right]}_{{\mathbf X}_0} = 1.3 \left[\begin{array}{r}1.1\\0.3\end{array}\right] + 0.5 \left[\begin{array}{r}-0.4\\0.9\end{array}\right] = \left[\begin{array}{r}1.23\\0.84\end{array}\right] `r mark(7815)`
+$$
+Over the next few class sessions, you'll see why such systems are important in practice. For now, however, we want to see the behavior of such systems as they are iterated to higher $n$. We can obviously construct an infinite number of make-work exercises about matrix arithmetic. And we could have you push off the arithmetic labor onto the computer. But instead, we take heed of a famous epigram that's painted onto the wall in the Math Department offices (by the window overlooking the chapel): `r mark(7820)`
+
+> *The purpose of computing is insight, not numbers.* --- Richard Hamming
+
+If we were to have you calculate and display numerically sequences of vectors, it would be hard to extract insight into the patterns of matrix iteration. Instead, we'll use a graphical display, actually two: `r mark(7825)`
+
+1. The trajectory as it moves from step to step through state space, that is, the space $y$ versus $x$.
+2. The "time series" for the variable $y$, that is, $y_n$ versus $n$. Think of this as a graph of $y$ versus time, while the state-space graph is $y$ versus $x$.
+
+We'll let the computer do the arithmetic and graphing. Your job is to experiment with various matrices, explore the patterns of motion they produce, and gain some insight. Click on the picture of the app to bring it up in another tab of your browser, then arrange that tab and this one side by side. `r mark(7830)`
+
+<a href="https://maa-statprep.shinyapps.io/142Z-Matrix-iteration/" target="_blank"><img src="www/app-snapshot.png" width="70%"></a>
+
+**Slow and fast motion**
+
+Each trajectory consists of a series of dots. The dots are connected with a thin line to help you see easily consecutive points, but these are discrete-time dynamics so only the dots are "real."
+
+The spacing between consecutive dots is something like the "speed" of the motion, but perhaps "distance jumped" is a better metaphor to correspond to discrete time. For convenience, we'll say the motion is "slow" when consecutive dots are close together and "fast" when they are far apart. `r mark(7835)`
+
+One general pattern seen in linear dynamics near a fixed point is that the motion is slow near the fixed point and fast far from it.
+
+Sometimes the speed of motion is systematically faster for trajectories heading in some directions and slower for trajectories in other directions. But on any one trajectory, the motion will be faster far from the fixed point and slower near to it. Of course, the speed of motion is zero right at the fixed point: it's fixed! `r mark(7840)`
+
+
+**The saddle** Start with the matrix $${\mathbf A} = \left[\begin{array}{rr}0.90 & 0.05\\0.05 & 1.01\end{array}\right]$$
+Set the number of iterations to, say, 100. Then click in the graph to start trajectories for many places near the perimeter of the graphic frame. You can just do this randomly at first, but then clear the graph and do it systematically to make the pattern of motion clear. `r mark(7845)`
+
+This pattern is called a "saddle," because the dynamics are analogous to the movement of a drop of water rolling down a horse saddle.
+
+```{r sts-1, echo=FALSE, results="markup"}
+askMC(
+  "From initial conditions in a particular direction from the origin (that is, the fixed point), the trajectories head in straight to the origin. What direction is that? (Use the notation of the clock. So 6:00 is straight down, 9:00 is to the left, and so on.) Hint: Use the y versus n graph to determine where the trajectory started.",
+  "+4:00 & 10:00+",
+  "2:00 & 8:00",
+  "6:00 & 12:00",
+  "1:00 & 7:00",
+  random_answer_order = TRUE
+)
+```
+
+```{r sts-2, echo=FALSE, results="markup"}
+askMC(
+  "The trajectories that head in almost straight to the fixed point, turn left or right and head away from the fixed point in another direction. What direction is that? Hint: Use the y versus n graph to determine where the trajectory started.",
+  "4:00 & 10:00",
+  "2:00 & 8:00",
+  "6:00 & 12:00",
+  "+1:00 & 7:00+",
+  random_answer_order = TRUE
+)
+```
+
+The two directions you found in the previous two questions are called "characteristic directions," or, more generally, **characteristic vectors**. But in mathematics and the sciences, these are usually called **eigenvectors**. We denote the eigenvectors as ${\mathbf \Lambda}_1$ and ${\mathbf \Lambda}_2$, pronouced "lambda-one" and "lambda-two." Perhaps one way to remember that the ${\mathbf \Lambda}$s are each telling part of the story of the A matrix is to see that ${\mathbf \Lambda}$ is only part of A. `r mark(7850)`
+
+Associated with each eigenvector is a number called a **characteristic value** or **eigenvalue**. The two eigenvalues are displayed as $\lambda_1$ and $\lambda_2$ underneath the matrix. We'll defer for the present how these are calculated. `r mark(7855)`
+
+The dynamics have an extremely simple solution when they start on an eigenvector: motion right along that eigenvector. Suppose the initial condition is $m {\mathbf \Lambda}_1$
+The solution is $${\mathbf X}_n = \lambda_1^n\ \  m {\mathbf \Lambda}_1$$ with the same for $\lambda_2$ and ${\mathbf \Lambda}_2$.
+Such motion is either stable ($|\lambda | < 1$) or unstable ($|\lambda| > 1$).
+
+```{r sts-3, echo=FALSE, results="markup"}
+askMC(
+  "Which is the eigenvalue corresponding to the direction of stable motion?",
+  "+0.88+",
+   "0.9",
+  "1.01",
+  "1.03",
+  random_answer_order = FALSE
+)
+```
+
+```{r sts-4, echo=FALSE, results="markup"}
+askMC(
+  "Which is the eigenvalue corresponding to the direction of **unstable** motion?",
+  "0.88",
+   "0.9",
+  "1.01",
+  "+1.03+",
+  random_answer_order = FALSE
+)
+```
+
+The saddle behavior is "generic" in the sense that a small change to the numbers composing the matrix will still produce saddle motion.
+
+**The source** In the app, change the matrix to $${\mathbf A} = \left[\begin{array}{rr}1.1 & 0.05\\0.05 & 1.1\end{array}\right]$$ and construct trajectories starting from all around the fixed point.
+
+```{r sts-5, echo=FALSE, results="markup"}
+askMC(
+  "Which is the **stable** eigenvector?",
+  "${\\mathbf \\Lambda}_1$",
+  "${\\mathbf \\Lambda}_2$",
+  "Both ${\\mathbf \\Lambda}_1$ and ${\\mathbf \\Lambda}_2$",
+  "+There is no stable direction.+",
+  random_answer_order = FALSE
+)
+```
+
+```{r sts-6, echo=FALSE, results="markup"}
+askMC(
+  "Which is the **unstable** eigenvector?",
+  "${\\mathbf \\Lambda}_1$",
+  "${\\mathbf \\Lambda}_2$",
+  "+Both ${\\mathbf \\Lambda}_1$ and ${\\mathbf \\Lambda}_2$+",
+  "There is no stable direction.",
+  random_answer_order = FALSE
+)
+```
+
+```{r sts-7, echo=FALSE, results="markup"}
+askMC(
+  "Since motion along both eigenvectors is unstable, the trajectory moves away from the origin. Motion along one of the eigenvectors is relatively \"fast\" and motion along the other is \"slow\". (You can see the speed by looking at the spacing between dots on a trajectory) What is the eigenvalue for the **slow** direction?",
+  "0.95",
+  "+1.05+",
+  "1.15",
+  "1.25",
+  random_answer_order = FALSE
+)
+```
+
+```{r sts-8, echo=FALSE, results="markup"}
+askMC(
+  "Which direction does the \"slow\" eigenvector point in? (You may need to create many trajectories before you find one that is straight.)",
+  "+4:30 - 10:30+",
+  "1:30 - 7:30",
+  "2:30 - 8:30",
+  "There is no slow eigenvector.",
+  random_answer_order = TRUE
+)
+```
+
+**The spiral node** In the app, change the matrix to $${\mathbf A} = \left[\begin{array}{rr}1.0 & -0.5\\0.5 & 0.9\end{array}\right]$$ and construct a single trajectory of 100 or so steps starting near the fixed point. (Why a single trajectory? You'll see.) `r mark(7860)`
+
+```{r sts-9, echo=FALSE, results="markup"}
+askMC(
+  "What phrase best describes the trajectory?",
+  "Clockwise spiral toward the fixed point",
+  "Clockwise spiral away from the fixed point",
+  "Counter-clockwise spiral toward the fixed point",
+  "+Counter-clockwise spiral away from the fixed point+",
+  random_answer_order = FALSE
+)
+```
+
+```{r sts-10, echo=FALSE, results="markup"}
+askMC(
+  "What phrase best describes the time series $y_n$ versus $n$?",
+  "exponential growth",
+  "a sinusoid",
+  "+a sinusoid whose amplitude grows exponentially+",
+  "a sinusoid whose baseline is shifted away from zero",
+  random_answer_order = FALSE
+)
+```
+
+```{r sts-11, echo=FALSE, results="markup"}
+askMC(
+  "The eigenvalues have a different form in the spiral motion than they did in the saddle or source. What's that difference?",
+  "They are negative numbers.",
+  "They are integers.",
+  "They are real numbers.",
+  "They are rational numbers (e.g. 15/32).",
+  "They are irrational numbers (e.g, $\\pi$).",
+  "+They are complex numbers.+" = "Numbers written like 0.3i are called \"imaginary\". Numbers with both a real and an imaginary part are called \"complex\" numbers."
+)
+```
+
+**String art** This isn't an actual term in dynamics, but it is an apt description of the sorts of trajectories seen when one or both of the diagonal elements of the ${\mathbf A}$ matrix are negative. For instance, set the matrix in the app to $${\mathbf A} = \left[\begin{array}{rr}-1.00 & -0.02\\-0.01 & -1.00\end{array}\right]$$ and construct a trajectory with 100 or more steps. `r mark(7865)`
+
+The trajectories are pretty complicated looking, but the time series of an individual component are not.
+
+```{r sts-12, echo=FALSE, results="markup"}
+askMC(
+  "Which of these phrases best describes the **time series** $y_n$ versus $n$?",
+  "exponential growth",
+  "exponential decay",
+  "+exponential growth but alternating signs+",
+  "exponential decay but alternating signs",
+  random_answer_order = FALSE
+)
+```
+
+**Curved trajectories and curved time series** It's tempting---**but wrong**--- to look at the curves in trajectories as something like exponential growth. But keep in mind that the growth is exponential only in the time series. When a trajectory is sharply curved that corresponds to the motion starting in the direction of the slow eigenvector and then curving onto the fast eigenvector. Often this appears in the trajectory as an down-then-up kind of graph. `r mark(7870)`
+
+
+
+`r insert_calcZ_exercise("XX.XX", "pbnVGt", "Exercises/Dynamics/wolf-meet-screen.Rmd")`
+
+
+`r insert_calcZ_exercise("XX.XX", "3D9C7d", "Exercises/Dynamics/maple-think-ring.Rmd")`
+
+
+

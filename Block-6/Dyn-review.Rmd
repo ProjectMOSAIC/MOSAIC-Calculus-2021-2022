@@ -1,0 +1,306 @@
+# Review of dynamics
+
+# Catch-up: Review Day
+
+Differential equations provide an important type of model for **systems** that change in time.
+
+A **system** is something made up of two or more interacting components. A dynamical system has a **state** and a **dynamical rule**. Typically the state is a set of numbers. In CalcZ, we consider states consisting of one number, and states consisting of two numbers. We call these *one-dimension* and *two-dimensional* systems respectively. `r mark(7000)`
+
+A **change of state** is a set of numbers, one for each component of the state, which tells how fast the state is changing. In other words, the change of state is the derivative with respect to time of the state. `r mark(7005)`
+
+A **dynamical rule** consists of one function for each dimension of state. The function takes the state as input, and returns the **change-of-state with respect to time**.
+
+A **differential equation** is a kind of sentence saying, "This is the state and dynamical rule for a dynamical system." The differential equation **defines** the system. Perhaps it's best to read "$\dot{x} =\ ...$  or $\partial_t x = \ ...$ as `r mark(7010)`
+
+> "the dynamics of the changing quantity $x$ is defined to be ..." followed by a function of $x$ to the right of the $=$ sign.
+
+It doesn't matter if you use $\partial_t x$ or $\dot{x}$ or even $dx/dt$ on the left hand side of the equation: they all mean the same thing. Think of them as dialects of mathematical language spoken in different fields. `r mark(7015)`
+
+
+Here are six examples of differential equations, labeled (A) through (F).
+
+A)       $\partial_t\, x = b\, \sin(x)$
+
+---
+
+B)       $\dot{x} = r\, x$
+
+---
+
+C)       $\dot{x} = r\, x\, (1 - x/K)$
+
+---
+
+D)       $\left\{\begin{array}{ll}\dot{x} = 2\, x -3\, y\\\dot{y} = 1\, x + 2\, y \end{array}\right.$
+
+---
+
+E)       $\dot{\mathbf X} = {\mathbf A} {\mathbf X}$, for instance
+${\dot{\mathbf X}} = \left[\begin{array}{cc}a & b\\c & d\end{array}\right] {\mathbf X}$
+
+---
+
+F)       $\left\{\begin{array}{ll}\dot{S} = -\beta\, S\, I\\ \dot{I} = \beta\, S\, I - \alpha\, I\\\dot{R} = \alpha\, R\end{array}\right.$
+
+---
+
+It's helpful to have a systematic process for reading a differential equation.
+
+**Step 1**) Identify the symbol(s) representing the *state* and what is the dimension of the state.
+
+- Equations (A-C): The state is $x$ and has one dimension.
+
+- Equation (D): There are two derivatives on the left-hand side of the equation, $\dot{x}$ and $\dot{y}$. This indicates that the state is the pair $(x, y)$, a two-dimensional state.
+
+- Equation (E): The very compact form $\dot{\mathbf X} = {\mathbf A} {\mathbf X}$ is using vector/matrix notation (the **symbols in bold face**). We cannot tell yet what the dimension of vector $\mathbf X$ is. The example ${\dot{\mathbf X}} = \left[\begin{array}{cc}a & b\\c & d\end{array}\right] {\mathbf X}$ shows the shape of the matrix $\mathbf A$. Here we can see that the state must be two-dimensional.
+Is the state one-dimensional or two-dimensional?
+
+```{r dst-1, echo=FALSE, results="markup"}
+askMC(
+  "What symbol(s) represent the state in Equation (F)?",
+  "$x$ and $y$" = "Do you see an $x$ or $y$ anywhere in equation (F)?",
+  "Just $y$",
+  "$S$ and $I$" = "But there are three equations.",
+  "+$S$, $I$, and $R$+"
+)
+```
+
+
+```{r dst-2, echo=FALSE, results="markup"}
+askMC(
+  "What is the dimension of the state in Equation (F)?",
+  1, 2, 3, 4, "Not enough information",
+  right_one = 3, random_answer_order = FALSE
+)
+```
+
+**Step 2**) Identify the dynamical rule(s). These will always be functions of the state and may include *parameters*, which are simply symbols standing in for numerical quantities.
+
+Equation A) The state is $x$ and the dynamical function is $a \sin(x)$. Since $a$ is not part of the state, it must be a parameter.
+
+Equation B) The state is $x$ and the dynamical function is $a x$. That's a very simple function, but it's also very common in models.
+
+Equation C) The state is $x$. The dynamical function $r x (1 - x/K)$ has two parameters: $r$ and $K$.
+
+```{r dst-3, echo=FALSE, results="markup"}
+askMC(
+  "How many dynamical functions are there in Equation (D)? (Hint: What is the dimension of the state in Equation (D)?)",
+  1, 2, 3, 4, "Not enough information",
+  right_one = 2,
+  random_answer_order = FALSE
+)
+```
+
+In vector/matrix notation such as $\dot{\mathbf X} = {\mathbf A} {\mathbf X}$ , it can seem that there is only one one function. Here, that's ${\mathbf A} {\mathbf X}$. But remember, such multiplication of a matrix times a vector amounts to a *vector of functions*, as in Equation (D). `r mark(7020)`
+
+
+```{r dst-4, echo=FALSE, results="markup"}
+askMC(
+  "In Equation (F) there are three dynamical rules, one of each of the components of the state. Which of these is **not** one of those functions?",
+  "$-\\beta S I$",
+  "$\\beta S I - \\alpha I$",
+  "$\\alpha I$",
+  "+$-\\beta S I + \\alpha I$+"
+)
+```
+
+-----
+
+### QUIZ-TYPE QUESTIONS
+
+```{r q5-4b, echo=FALSE, results="markup"}
+askMC(
+  "Which of the following differential equations represents the statement: *\"The rate at which the radioactive substance decays is directly proportional to the amount of substance remaining.\"*",
+"$\\dot {x} = Ce^{-kt}$",
+"$x(t)=Ce^{-kt}$",
+"+$\\dot x=-kx$+",
+"$\\dot x=-k(x-x_0)$",
+"$\\dot x = \\int x dx$",
+random_answer_order = FALSE
+)
+```
+
+Four of the five choices given are differential equations. But $x(t) = C e^{kt}$ is not. Recall that the grammar of a differential equation is
+
+> [Derivative of state with respect to time] = [Dynamical function(s) that take state as the input]
+
+$x(t)$ is not a "derivative of state with respect to time."
+
+The other four choices are all differential equations: they have $\dot{x}$ on the left of the $=$ sign.
+
+To answer the question, we have to figure out which of the four choices for dynamical function is *direct proportionality* to the state. The "directly proportional function" is a constant times the input to the function, e.g. $a\, x$ or $-k\, x$ or $r\, x$ or even, for a vector state, ${\mathbf A} {\mathbf X}$ `r mark(7025)`
+
+-----
+
+```{r q5-8, echo=FALSE, results="markup"}
+askMC(
+  "Given $$\\dot x = 0.2x(1-\\frac{x}{50})$$ with initial condition $x(0)=70$, is $x(t)$ increasing, decreasing, constant, or cannot be determined?",
+"Increasing",
+"+Decreasing+",
+"Constant",
+"Cannot be determined",
+random_answer_order = FALSE
+)
+```
+
+You have been given a differential equation $$\dot x = 0.2\, x\left(1-\frac{x}{50}\right)$$
+You can see that the state is one-dimensional, represented by the symbol $x$.
+
+On the right side of the $=$ sign is the dynamical function. Since the state at time $t=0$ is $x(t=0) = 70$, you can use the function to calculate the **change-in-state** at time $t=0$. This will be `0.2*70 * (1-70/50)` giving $-5.6$. A negative change in state means that at time $t=0$ the state is **decreasing**. `r mark(7030)`
+
+Notice that the question asks whether $x(t)$ is increasing or decreasing. The is a question about the **solution** to the differential equation, not just the instantaneous rate of change of $x$ at $t=0$. To be able to answer that, it helps to be able to recognize that $r x (1-x/K)$ is one of the specific dynamical functions we've studied in detail. (See the section on "Common Models.") `r mark(7035)`
+
+-----
+
+A differential equation is a *description of how a system works*. The format for that description involves an instantaneous state, for instance $x$ or $(x,y)$, and a dynamical rule, for instance $-rx(1-x/K)$. The differential equation says "the instantaneous rate of change of the state" (e.g. $\dot{x}$) is set by this dynamical rule (e.g. $-rx(1-x/K)$). `r mark(7040)`
+
+When using a differential equation for some modeling purpose, one of the most common tasks is to **find a family of solutions**. Often, all you will need is a qualitative description of the family of solutions, for instance, "oscillatory exponential decay to a fixed point," or "a saddle", etc. `r mark(7045)`
+
+But it happens that sometimes you need to be very specific, for instance by giving a quantitative definition for a function $x(t)$ that satisfies the differential equation.
+
+
+
+Given some function of time $x(t)$, how can we confirm that it is a solution? Plug it into the differential equation and see if the equality continues to hold. For instance, suppose the differential equation is $$\dot{x} = a x$$ (which is a very common form in modeling). `r mark(7050)`
+
+Your friend **Abby** offers a possible solution, the function $x(t) = t^2$.
+
+Your study group leader **Leslie** says, no, the solution is $x(t) = B\, e^{at}$
+
+Your lab partner **Skyler** says that the solution is $x(t) = A e^{\lambda t}$.
+
+And, Yael, an acquantance, offers the possible solution $x(t) = A \sin(\omega t)$
+
+How can we determine who, if anyone, is right.
+
+For each friend, use the proposed solution to calculate the left side of the differential equation $\partial_t x(t)$ and separately calculate the right side of the differential equation. In our example, $\dot{x} = a x$, the right side is $a x(t)$. Then check if the left side is actually equal to the right side. Let's try this for each of our four proposals. `r mark(7055)`
+
+**Abby**: $2 t \overset{?}{=} 2 a t^2$. The equal sign has a question mark because we seek to find out if the two sides are indeed equal. Here that's not the case. So Abby is just plain wrong. What's more, Abby's $t^2$ is not a *family* of solutions: there is only one function $t^2$. If she had given $t^n$ or $a t^2$ or $a t^n$, we would at least have had a family of functions. But none of them would have been solutions to the differential equation. `r mark(7060)`
+
+**Leslie**:  $a B\, e^{at} \overset{?}{=} a B\, e^{at}$. Yes, obviously. So Leslie is right! But notice that the equation will be true for *any $B$. Leslie has given us a family of solutions, not just a single solution. For instance, $2 e^{at}$ is a solution, as is $2.351 e^{a t}$, as is .... `r mark(7065)`
+
+**Skyler**: $A \lambda e^{\lambda t} \overset{?}{=} a A e^{\lambda t}$. It's harder to say whether this is right. So simplify by dividing both sides by their common term $A e^{\lambda t}$ getting $\lambda \overset{?}{=} a$. This will be right or wrong depending on the value of $\lambda$. Skyler didn't say what $\lambda$ is, so we can answer, "Right, Skyler, so long as $\lambda$ in your solution is set to be the $a$ from  the differential equation." `r mark(7070)`
+
+Skyler's solution is in the form of an *ansatz*: a function involving one or more parameters that are not assigned a specific value.  But working with the ansatz might lead us to discover what those parameters must be in order to achieve a genuine solution. `r mark(7075)`
+
+Yael's solution is also in the form of an *ansatz*, because we don't know what $\omega$ should be. So try it out:
+
+**Yael**: $A \omega \cos(\omega t) \overset{?}{=} A \sin(\omega t)$. Regrettably for Yael, there is no possible value for $\omega$ that can make the proposal true.
+
+The functions offered by Leslie and Skyler are both **families* of functions. Each one has a "free" parameter---$B$ for Leslie, $A$ for Skyler---that can be anything at all.
+
+Another common task when using a differential equation is to find a **particular value** for the free parameter that will cause the solution to match a specific fact. Often, such facts are given as "initial conditions." For example, $x(0) = 7$ is an initial condition.  Needing to satisfy this specific initial condition would tell Leslie that $B = 7$, and similarly for Skyler that $A = 7$. `r mark(7080)`
+
+Initial conditions can come in various forms, for example: $x(10) = 23$ or $\left.\partial_t x(t) \right|_{t=0} = 9$.
+
+### Quiz Questions
+
+```{r q5-6, echo=FALSE, results="markup"}
+askMC(
+"Let $\\dot{x} = g(x)$ be some differential equation. Suppose that the general solution to it is $x(t)=\\frac{1}{t+C}$. If $x(0)=2$, then what is the value of $C$ ?",
+"2",
+"0",
+"1",
+"+$\\frac{1}{2}$+",
+"Cannot be determined",
+random_answer_order = FALSE
+)
+```
+
+The question prompt provides the solution as a family of functions $x(t) = \frac{1}{t+C}$, where $C$ is the free parameter. How did the question-writer find this? No way to know, because the writer didn't tell us what is $g(x)$, which is an essential fact to know before trying to find a solution. `r mark(7085)`
+
+You can recognize from the last sentence of the prompt that the question is about an initial condition and might have been rephrased as "What needs to be the specific numerical value of the free parameter $C$ to make that particular solution match up with the initial condition $x(0) = 2$. `r mark(7090)`
+
+We know from the given family of solution functions $x(t) = \frac{1}{t+C}$ that $x(0) = 1/C$. For the given initial condition $x(0) = 2$ this will happen when $C = 1/2$.
+
+
+```{r q5-7, echo=FALSE, results="markup"}
+askMC(
+"Given the equation $\\dot{x} = -\\frac{1}{3}x$, which of the following functions are solutions:
+
+a. $x(t)=4e^{-t/3}$
+b. $x(t)=e^{-t/3}+C$
+c. $x(t)=e^{-t/3}$
+d. $x(t)=e^{-x/3}$
+e. None of these are solutions
+
+",
+"a & b",
+"+a & c+",
+"b & d",
+"a & d",
+"e",
+random_answer_order = FALSE
+)
+```
+
+The short description of how to answer this is: $\dot{x} = a x$ is such a fundamental differential equation that you should memorize the solution: $x(t) = A e^{a t}$ where $A$ is a free parameter that can be anything and still satisfy the differential equation. Both (a) and (c) are of this form. (And so is (b), to be honest, but only if $C=0$.) `r mark(7095)`
+
+
+All four of (a)-(d) are equations with $x(t)$ on the left side. That's good, because a solution to a differential equation $\dot{x} = g(x)$ should always have the form $x(t)$. (You might notice that (d) does not in fact have a $t$ in the formula on the right side. Not a good sign!) `r mark(7100)`
+
+Let's examine proposals (a)-(d) using the plug-in process: calculate $\dot{x}$ on the left side and $g(x)$ on the right side.
+
+a. $-\frac{1}{3} 4 e^{-t/3} \overset{?}{=} - \frac{1}{3} x(t) = -\frac{1}{3} 4 e^{-t/3}$. The two sides are obviously equal, so $4e^{-t/3}$ is a solution!
+b. $-\frac{1}{3} e^{-t/3} \overset{?}{=} - \frac{1}{3} x(t) = -\frac{1}{3} (e^{-t/3} + C)$. There are two reasonable answers: the two sides are not equal if $C$ is to be a free parameter. But if $C$ is made to be zero (as in an ansatz) the sides are equal.
+c. $-\frac{1}{3} e^{-t/3} \overset{?}{=} -\frac{1}{3} x(t) = -\frac{1}{3} e^{-t/3}$. Check.
+d. The proposal $x(t) = e^{-x/3}$ isn't really a function of $t$. This makes no sense as a solution to a differential equation.
+
+-----
+
+The concept of "trajectory" is very closely related to that of "solution." The difference is most easily seen in terms of their graphs.
+
+A *solution* will be graphed on axes where the vertical axis is one of the state components and the horizontal axis is time.
+
+A *trajectory* will be graphed such that each component of the state has its own axis and time is not represented explicitly. This is mainly useful in thinking about differential equations whose state has two (or more) components. `r mark(7105)`
+
+```{r echo=FALSE, out.width="50%", fig.show="keep"}
+y <- makeFun(exp(-t) * sin(3*t + 1) ~ t)
+x <- makeFun(exp(-t) * sin(3*t + 3) ~ t)
+slice_plot(x(t) ~ t, domain(t=c(0,5)), label_text = "x(t)", label_x = 0.1) %>%
+  slice_plot(y(t) ~ t, color="dodgerblue", label_text = "y(t)", label_x=0.3) %>%
+  gf_labs(y="=x(t) and y(t)", title="Solutions x vs t and y vs t")
+Pts <- tibble::tibble(t = seq(0,5, by=0.01)) %>%
+  mutate(x = x(t), y = y(t))
+gf_path(y ~ x, data = Pts) %>%
+  gf_label(y ~ x, label=~ paste0("t = ", t), data = Pts %>% filter(t %in% 0:4), color="dodgerblue", fill=NA, hjust=1) %>%
+  gf_point(y ~ x, color="dodgerblue", data = Pts %>% filter(t %in% 0:4)) %>%
+  gf_labs(y = "y(t)", x = "x(t)", title="Trajectory")
+```
+
+Many (most?) people have an easier time making sense of shapes than of algebraic notation. So being able to describe a family of solutions to a differential equation as a shape---spiral in, spiral out, circular orbit, ...--- can be an effective way to communicate. Of course, such shapes of trajectories have an equivalent description in terms of solutions: exponentially decaying oscillations, exponentially growing oscillations, steady sinusoidal oscillations. `r mark(7110)`
+
+A pretty and effective way to display a dynamical rule is by drawing many short trajectories starting from many different points in the state space. Typically, this is used for systems with 2-dimensional state. These are called **flow fields**. The examples below each show flow fields in black and a single trajectory in that field in red. The initial condition is the starting point of the trajectory---the thin end of the tail. `r mark(7115)`
+
+```{r echo=FALSE, out.width="50%", fig.show="keep"}
+knitr::include_graphics("www/spiral.png")
+knitr::include_graphics("www/saddle.png")
+```
+
+**Linear 2-dimensional dynamics near a fixed point**
+
+We're writing this model as 
+$$\left\{\begin{array}{l}\strut\dot{x} = a x + b y \\ \strut\dot{y} = x \end{array} \right.$$
+and calling it the "[ab10]" model.
+
+The [ab10] model is a kind of clay that can be used to build a model of any phenomenon that potentially involves motion up and down: bobbing springs, swinging pendulums, oscillations in circuits, economic cycles, interacting populations near an equilibrium, vibrations in structures, spread of epidemics, and so on. `r mark(7120)`
+
+The [ab10] model has a fixed point at the origin (that is, $(x=0, y=0)$). This fixed point is either stable or unstable depending on the parameters $a$ and $b$. Also, depending on the values of $a$ and $b$ the flows will have one of just a few different forms: `r mark(7125)`
+
+- a stable "node"
+- an unstable "source"
+- a "saddle" which is effectively unstable.
+- an unstable (outward) "spiral"
+- a stable (inward) "spiral"
+
+Each of these behaviors is "generic," which is to say that there is a range of $a$ and $b$ values that will produce each of them.
+
+Another possible behavior is called a "center," something between an unstable and a stable spiral. In other words, the trajectory is a closed loop. To be a center, $a$ must be exactly zero, no plus-or-minus about it. And $b$ has to be less than zero. `r mark(7130)`
+
+
+Sink | Saddle | Source
+:------:|:-------:|:-------:
+<img src="www/sink.png" width="80%"> | <img src="www/saddle.png" width="80%"> | <img src="www/source.png" width="80%">
+**stable spiral** | **center** | **unstable spiral**
+<img src="www/spiral.png" width="80%"> | <img src="www/center.png" width="80%"> | <img src="www/unstable-spiral.png" width="80%">
+
+Eigenvalues provide the tool to figure out which type the flow will be as a function of parameters $a$ and $b$.

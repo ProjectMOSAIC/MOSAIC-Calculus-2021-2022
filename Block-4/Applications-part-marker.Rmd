@@ -1,0 +1,87 @@
+# (PART) Block 4: Manifestations {.unnumbered}
+
+You are far enough along in your study of calculus that we can step away from teaching you calculus concepts and techniques, and look at some of the many ways that these concepts and techniques are appear in the work and theory of the quantitative disciplines. This is mainly where you will encounter calculus in your further studies. We want to make sure you're in a position to recognize the calculus when it is happening.
+
+
+
+## Algorithmic optimization
+
+A SECTION TAKEN OUT OF DIFF/Multivariate. Better suited to this block.
+
+
+
+In Chapter \@ref(optim-and-shape) we explored how to find an argmin of a function $f(x)$ with one input. Finding the argmin is easy and intuitive if you have a graph of $f(x)$: just look for the top of the hill. 
+
+Figure \@ref(fig:optim-hill) shows an example. With a bit of practice you can see that the "top of the hill" is at roughly $(x=1, y=1)$ whereat the function takes on a value somewhat larger than 16. 
+
+```{r optim-hill, echo=FALSE, fig.cap="For an objective function with two inputs, the argmax can be found by looking for the location of the top of the hill. In general, the contour near the top of a hill will be a closed round shape.", cache=TRUE}
+graw <- rfun( ~ x + y, seed=68)
+g <- makeFun(-graw(x, y)  ~ x & y)
+contour_plot(g(x, y+.2) ~ x + y, domain(x=c(-2,2), y=c(-2, 2))) %>%
+  gradient_plot(g(x, y) ~ x + y, color="orange3", alpha=0.25) %>%
+  gf_refine(coord_fixed())
+```
+Many optimization problems involve objective functions with several or many inputs. Regrettably, it becomes very difficult to graph functions with 3 or more inputs. So, we can't rely on our visual intuition to find the top of the hill.
+
+The key to optimization problems with many inputs is the derivative of the function. Figure \@ref(fig:optim-hill2) shows the gradient field of the same terrain graphed in Figure \@ref(fig:optim-hill). Even without seeing the surface or the contours, you can get to the top of the hill by picking a starting point and following the contours. Since there can be many hills in a complicated terrain, this approach will get you to the one "closest" to your starting point. In practice, modelers repeat the method for many different starting points until they reach a hilltop that's high enough for their purposes.
+
+```{r optim-hill2, echo=FALSE, fig.cap="You don't need the contours to find the top of the hill. Just follow the gradient vectors!"}
+gradient_plot(g(x, y) ~ x + y, 
+  domain(x=c(-2,2), y=c(-2, 2)), 
+  color="orange3", alpha=1) %>%
+  gf_refine(coord_fixed())
+```
+Let's lay out the algorithm for using the gradient to find an argmax. In every optimization problem we assume we know the objective function $g(x, y, z, ...)$ and can compute the output of the function for any valid inputs.
+
+**Step 1** We pick two starting points near to each other: ${\mathbf X}_0 = (x_0, y_0, z_0, \ldots)$ and ${\mathbf X}_2 = (x_1, y_1, z_1, \ldots)$. (We're using the names ${\mathbf X}_0$ and ${\mathbf X}_1$ to denote the starting points, just as we might denote a place on Earth by a name like "Chicago." 
+
+**Step 2** By evaluating $g()$ at ${\mathbf X}_0$ and ${\mathbf X}_1$ we can find the gradient vector near ${\mathbf X}_1$. 
+
+$$\partial_{\color{magenta}{x}} g({\mathbf X}_1) \equiv \partial_{\color{magenta}{x}} g(x_1, y_1, z_1, \ldots) = \frac{g(\color{magenta}{x_1}, y_1, z_1, \ldots) - g(\color{magenta}{x_0}, y_1, z_1, \ldots)}{\color{magenta}{x_1 - x_0}}\\
+\,\\
+\partial_{\color{brown}{y}} g({\mathbf X}_1) \equiv\partial_{\color{brown}{y}} g(x_1, y_1, z_1, \ldots) = \frac{g(x_1, \color{brown}{y_1}, z_1, \ldots) - g(x_1, \color{brown}{y_0}, z_1, \ldots)}{\color{brown}{y_1 - y_0}}\\
+\,\\
+\partial_{\color{purple}{z}} g({\mathbf X}_1) \equiv\partial_{\color{purple}{z}} g(x_1, y_1, z_1, \ldots) = \frac{g(x_1, y_1, \color{purple}{z_1}, \ldots) - g(x_1, y_1, \color{purple}{z_0}, \ldots)}{\color{purple}{z_1 - z_0}}\\
+\,\\
+\ldots$$
+
+**Step 3** Pick a small number $h$ and compute the coordinates of a new point $${\mathbf X}_2 \equiv (
+\color{magenta}{x_1} + h \partial_{\color{magenta}{x}} g({\mathbf X}_1), 
+\color{brown}{y_1} + h \partial_{\color{brown}{y}} g({\mathbf X}_1), 
+\color{purple}{z_1} + h \partial_{\color{purple}{z}} g({\mathbf X}_1), \ldots) $$
+${\mathbf X}_2$ is located a small distance from ${\mathbf X}_1$ in the direction of the gradient vector. 
+
+**Step 4** If $g({\mathbf X}_2) \approx g({\mathbf X}_1)$ then the gradient vector must be very close to zero. We can stop the algorithm, giving the argmax result as ${\mathbf X}_2$. Otherwise, go back to Step 2, but using ${\mathbf X}_1$ in place of ${\mathbf X}_0$ and using ${\mathbf{X}_2}$ in place of ${\mathbf{X}_1}$. 
+
+There are many variations on this algorithm that seek to reduce the number of calculations, avoid overstepping the argmax, etc. Collectively, the algorithms are called ***gradient ascent*** or, in more familiar language, "walking uphill one step at a time."
+
+
+### Linear combinations
+
+
+
+Bohr model of the atom, destructive interference of the wave function, why there are discrete orbitals.
+
+
+### Probability
+
+Situation of walking along a beach collecting shells of a rate species. The shells aren't evenly distributed along the beach. Perhaps this is due to the underwater topography or isolated kelp forests being offshore in someplaces and not others. Whatever the reason, the observation is the distribution is uneven and you are somewhat more likely to find a shell in some places rather than others. 
+
+How shall we represent this distribution mathematically. Naturally, we can use a function whose input is location along the coast, perhaps measured in km north of a geographic marker. What should the output of the function be?
+
+Let's start with the (incorrect) idea: that the output is the probability of finding a shell at the given location. With this formulation, your favorite shell-hunting location would be the argmax of the function.
+
+Suppose, for instance, you've got your shell-finding function drawn on a map. You and your friend, who took calculus last year take a day off for a field trip. Parking near your favorite spot, where the shell-finding function has an output of 0.1, you hike in on the trail, crossing the sand until you finally arrive at that narrow margin where the shells have been washed by the last high tide. 
+
+Bad luck! No shell today. You start back to the car but your friend calls after you. "The function is continuous. If the output is 0.1 here, then it's going to be close to 0.1 nearby." Your friend proposes to take a step up the shore---let's call it a step of length $h$---to a new spot. "That spot also has a probability of 0.1. We might not find anything there, but if we keep taking steps we'll have many opportunities to find a shell. I bet if we take 20 steps, we will be sure to find a shell at one of the locations." 
+
+You're experience tells you this reasoning is wrong. "No, no no. The 0.1 isn't just the probability of finding a shell at one exact place, it's the probability of finding a shell in the neighborhood of that place."
+
+Your friend asks, "How big is a neighborhood?" You're not sure. And if you don't know how widely you have to search, it's meaningless to assert that the probability is 0.1. So how can you claim to have a shell-finding function.
+
+The resolution to the problem is that the shell-finding function does not have an output that is a probability.  OUTPUT IS PROBABILITY DENSITY, which might be in probability per km. For instance, the shell-finding function is more or less constant over a small interval, say 10 meters. Over those 10 meters, the density is 0.1/km. If you walk a 10 meter length, you will have covered 0.01 km, so the probability of finding a shell on that short walk is $0.1 \text{km}^{-1} \times 0.01 \text{km} = 0.001$: one in a thousand.
+
+Accumulating probability. The probability is a function of how long you walk along the beach. No point just looking at the argmax; that's just where the pickings are relatively easy. Instead, your most efficient strategy is to cover an interval where, on average, the function is highest.
+
+THEN DO THE CALCULATION OF AVERAGE.
+

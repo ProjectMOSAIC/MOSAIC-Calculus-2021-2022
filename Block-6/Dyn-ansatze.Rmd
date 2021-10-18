@@ -1,0 +1,220 @@
+# Ansätze: Forms of solutions
+
+An *ansatz* is a guess for a form of $x(t)$ that might balance the <span style='color: red;'>left</span> and <span style='color: green;'>right</span> sides of the differential equation.
+
+::: {.todo}
+TURN THESE INTO WORKED EXAMPLES
+
+In mathematics, a proposed but not yet proved answer to a question is called an *ansatz*. (Plural is *ansätze*.) Starting with an ansatz is very powerful, since you can use substitution to check.
+
+```{r an1, echo=FALSE}
+askMC(
+  "Consider the differential equation $\\dot{y} = 3 y$. Is the ansatz $y = 10 \\times 3^t$ correct?",
+  "Yes",
+  "+No+" = "A correct ansatz would be $y_0 e^{3t}$",
+  "Not enough information",
+  random_answer_order = FALSE
+)
+```
+
+```{r an2, echo=FALSE}
+askMC(
+  "Consider the differential equation $t \\dot{y} - 2y = 0$. Is the ansatz $y=t^2$ correct?",
+  "+Yes+",
+  "No",
+  "Not enough information",
+  random_answer_order = FALSE
+)
+```
+
+:::
+
+
+
+To help you form an intuition for the ansatz style of solving differential equations, we provide you with an interactive app:
+
+<a href="https://maa-statprep.shinyapps.io/142Z-balance-derivs/" target="_blank"><img src='www/balance-derivs.png' width="50%"></a>
+
+As usual, click on the picture of the app to open it in another browser tab, then arrange this tab and that to be side by side on your screen.
+
+In this app, all you are going to do is search for a solution to the simple, 1-D differential equation:
+
+<span style='font-size: 30px;'>$$\dot{x} = a x$$</span>
+
+In the exercises that follow, we are going to specify a numerical value for $a$ (You'll have to set $a$ to the specified value using the little selector underneath the equation in the left-hand panel of the app). `r mark(6450)`
+
+You may have already memorized the solution to this differential equation. But for now, let's pretend that you have not and that you are going to find a solution by the ansatz method.
+
+The equipment you have to aid in your search is:
+
+1. A selector for the **form** of ansatz (e.g. sinusoidal, exponential, etc.). Note that each form has one or two **parameters**.
+2. A slider control for each of the parameters in (1).
+
+The action plays out this way:
+
+a. Pick one of the ansatze on offer. The exercises will tell you which one to use. **There is no guarantee that the one we tell you to use will provide a successful solution.** That might seem mean, but we want you to be able to tell when a proposed solution doesn't work out.
+b. Gradually move the parameter slider(s). This will change the shape of the candidate function shown in blue in the top graph.
+c. Observe the two functions shown in the bottom graph.
+    i. The red function is simply the time derivative of the blue function in the top graph. That is, the red function is what goes on the left-hand side of the differential equation.
+    ii. The green function is $a x$, that is, the right side of the differential equation.
+d. To satisfy the differential equation, the left and the right sides must be the same function. You can easily see if this is the case when the red and green functions lie exactly on top of one another. `r mark(6455)`
+
+It might be that no matter how you set the parameters, you cannot get the red and green functions to align. This signals that the ansatz being used is not appropriate for this differential equation.
+
+```{r bside1, echo=FALSE, results="markup"}
+askMC(
+  "Using the ansatz $x(t) = \\sin(\\omega t)$, confirm that the red function is indeed $\\partial_t x$ (a.k.a. $\\dot{x}$). Which of the following is **not** a reason to support this confirmation? (You will want to vary the $\\omega$ slider to see which statements remain true regardless of $\\omega$.)",
+  "The period of the blue function is the same as the period of the red function.",
+  "+The amplitude of the blue function is the same as the amplitude of the red function.+",
+  "The red function is shifted 1/4 cycle in time from the blue function.",
+  "The red function has amplitude $\\omega$ compared to the amplitude 1 of the blue function"
+)
+```
+
+```{r bside2, echo=FALSE, results="markup"}
+askMC(
+  "Still using the ansatz $x(t) = \\sin(\\omega t)$, confirm that the green function is what it is supposed to be, namely $a x(t)$. You will want to vary $a$ to see which statements are true regardless of $a$. Which of the following statements is **not** a reason to support the confirmation?",
+  "When $a < 0$, the green function is flipped upside-down compared to the blue function.",
+  "The green function has the same period as the blue function.",
+  "+The red function is shifted 1/4 cycle in time from the blue function.+",
+  "The amplitude of the blue function is 1, but the amplitude of the green function is $a$."
+)
+```
+
+
+
+```{r bside3, echo=FALSE, results="markup"}
+askMC(
+  "Still using the ansatz $x(t) = \\sin(\\omega t)$, search for a value of the parameter $\\omega$ that leads to the blue function and the red function to be the same. What did you find?",
+  "$\\omega = 0.27$ leads to a red/blue match.",
+  "There's a red/blue match for some $\\omega > 1.0$.",
+  "Large $\\omega$ is heading in the right direction, but the slider doesn't give enough range to make sure.",
+  "+It's impossible!+"
+)
+```
+
+
+```{r bside4, echo=FALSE, results="markup"}
+askMC(
+  "Still using the ansatz $x(t) = \\sin(\\omega t)$, modify the differential equation by changing the constant of proportionality $a$. Search for an $(\\omega, a$) combination that balances the red and green functions. What did you find?",
+  "When $a=1$, there is an $\\omega$ that does the job.",
+  "When $a=0$, any choice of $\\omega$ will work.",
+  "+There's no such combination to be found.+"
+)
+```
+
+```{r bside5, echo=FALSE, results="markup"}
+askMC(
+ "What's your conclusion after trying out a sinusoidal ansatz?",
+ "A sinusoid *almost* works.",
+ "A sinusoid is an appropriate ansatz.",
+ "+A sinusoid is inappropriate form for a solution.+"
+)
+```
+
+```{r bside6, echo=FALSE, results="markup"}
+askMC(
+  "Shift to the sigmoidal ansatz. There are two parameters, `center` and `width`. Finding settings for those parameters that will balance the red and green functions. (You might have to change the value of $a$ to be successful.) What do you conclude?",
+  "+A sigmoidal is never an appropriate form for the solution to $\\dot{x} = a x$.+",
+  "A sigmoidal is *always* and appropriate form for the solution to $\\dot{x} = a x$.",
+  "A sigmoidal works when $a < 0$, but not for $a > 0$."
+)
+```
+
+```{r bside7, echo=FALSE, results="markup"}
+askMC(
+  "Shift to the exponentially growing/decaying ansatz. There are two parameters, $k$ and $\\omega$. Finding settings for those parameters that will balance the red and green functions. What do you conclude?",
+  "+An exponentially growing/decaying sinusoid is never an appropriate form for the solution to $\\dot{x} = a x$.+",
+  "The exponentially growing/decaying sinusoid will work if $k$ and $\\omega$ are carefully chosen.",
+  "The exponentially growing/decaying sinusoid will work for all $k$ so long as  $\\omega$ omega is set to a specific value."
+)
+```
+
+```{r bside8, echo=FALSE, results="markup"}
+askMC(
+  "To wrap up, shift to the simple exponential ansatz. There is only one parameter: $k$. The good news is that you can make the exponential ansatz work. What is the relationship between $a$ and $k$ that red and green functions that match?",
+  "It doesn't depend on $a$, just on $k$.",
+  "It doesn't depend on $k$, just on $a$.",
+  "When $k = \\ln(a)$ the red and green match.",
+  "+When $k = a$ the red and green match.+",
+  "When $k = e^a$, the red and green match."
+)
+```
+
+
+In this section we'll return to exploring finding a solution to a differential equation by searching for a viable ansatz. Previously, we looked at the differential equation $\dot{x} = a x$. Now we'll change the dynamical function to `r mark(6460)`
+
+<span style='font-size: 36px;'><span style='color: red'>$\dot{x}$</span> $=$ <span style='color: green'>$r\, x(1-x)$</span>
+
+This is the logistic system, but we've simplified the searching a bit by making the carrying capacity $K=1$.
+
+You're going to use a slightly different app than the one you had for $\dot{x} = a x$. Here, use
+
+<a href="https://maa-statprep.shinyapps.io/142Z-balance-logistic/" target="_blank"><img src='www/balance-logistic.png' width="50%"></a>
+
+As usual, click on the picture of the app to open it in another browser tab, then arrange this tab and that to be side by side on your screen.
+
+Since you already have experience searching for matches between the red and green functions, we'll handle this quickly.
+
+```{r blog1, echo=FALSE, results="markup"}
+askMC(
+  "Of the several candidates for an ansatz, only one will work. Go through them one at a time quickly. What you're looking for is a candidate for which the green function is proportional to the red function, even if they don't yet match. Which is the candidate that makes the red function proportional to the blue function?",
+  "sinusoid", "exponential", "exponentially decaying sinusoid", "+sigmoid+",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r blog2, echo=FALSE, results="markup"}
+askMC(
+  "Even once you've found the correct answer to the previous question, it still may be the case that no settings for the parameters (center and width) will produce red and green functions that both are concave down. But there is a range of the growth-rate $r$ that will work. What is that range?",
+  "+$0 < r$+",
+  "$r < 0$",
+  "$1 < |r|$",
+  "$|r| < 1$"
+)
+```
+
+We're going to work with $r$ only in the correct range from the previous question. So pick one such $r$ and then find values for the parameters that lead to a balance between the red and green functions. (For reasons we'll explain later, success will be signalled by the message "Close enough.") `r mark(6465)`
+
+```{r blog3, echo=FALSE, results="markup"}
+askMC(
+  "What values for `center` can provide a solution?",
+  "+any `center` will do+",
+  "`center` < 4",
+  "`center` > 4",
+  "3 < `center` < 7$"
+)
+```
+
+```{r blog4, echo=FALSE, results="markup"}
+askMC(
+  "Using some $r = 0.25$, find a value of `width` that gives a match between the red and green functions that is \"close enough\".  When you have done this, increase $r$ and do it again. And once more.   What is the relationship between $r$ and `width` that leads to valid solutions?",
+  "No relationship. A successful value of `width` doesn't depend on $r$.",
+  "+As $r$ gets bigger, `width` needs to get smaller.+",
+  "As $r$ gets bigger, `width` also needs to get bigger.",
+  "For the largest values of $r$ available in the app, there is no `width` that is successful."
+)
+```
+
+```{r blog5, echo=FALSE, results="markup"}
+askMC(
+  "Recall that in the equation $\\dot{x} = r x (1-x/K)$, the $r$ represents the growth rate when $x > 0$ but much less than the carrying capacity $K$. Which of these statements does **not** contribute to explaining the relationship between $r$ and successful `width` in the previous question?",
+  "When $r$ is bigger, growth proceeds more quickly.",
+  "A steeper sigmoid corresponds to smaller `width`.",
+  "+When $r$ is smaller, growth proceeds more quickly.+"
+)
+```
+
+::: {.why  data-latex=""}
+**Why isn't there an *exact* line-up between the red and green functions?**
+
+There's universal agreement about what a sine or cosine or exponential or log or power-law function is. In contrast, the sigmoidal/hump functions do not have unique, agreed-upon forms that are used in all situations. Although all sigmoids are S-shaped and all humps are U-shaped, different fields prefer different exact shapes of hump functions and, consequently, the corresponding sigmoid. (Remember, the hump is the derivative of the sigmoid.) `r mark(6470)`
+
+The shape we have been using in CalcZ reflects the choice made in statistics and generally in physics and engineering. It also has two parameters, `center` and `width` whose meaning is easy to understand. `r mark(6475)`
+
+The differential equation $\dot{x} = r\, x (1-x/K)$ has a solution that is sigmoidal, but it is not precisely the form of sigmoid most used in statistics, physics, and engineering. That's why the red and green functions can't be made to match exactly. We could make the match exact if we provided the other form of sigmoid or if we tweaked the differential equation a bit. You wouldn't notice either of these changes, except that the red and blue curves would match precisely. `r mark(6480)`
+
+Keep in mind that the differential equation $\dot{x} = r\, x (1-x/K)$ is meant to be a **model** of some situation. Using it is aligned with the calculus strategy of building models from low-order polynomial approximations. (This one is a quadratic.) Similarly, our choice of standard sigmoid is an approximation to the general idea of a sigmoid. The use of an approximation to the idea of sigmoid and an approximation to model real-world dynamics of limited growth, leads in this case to a slight mis-match between our solution and the differential equation. Think of it as round-off error. But for any precise form of the differential equation (which in the spirit of modeling would be arbitrary) there is a correspondingly precise form for the solution. `r mark(6485)`
+
+:::

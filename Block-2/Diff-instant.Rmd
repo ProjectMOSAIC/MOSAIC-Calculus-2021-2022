@@ -1,0 +1,223 @@
+# Instantaneous rate of change
+
+## From average to instant
+
+::: {.objectives}
+```{r echo=FALSE, results="asis"}
+state_objective("Deriv-2b",
+                "Understand how calculating the slope (using a small value of h) of a function reflects the instantaneous rate of change of the function at that point."
+)
+```
+:::
+
+You have known how to calculate an average rate of change for a long time. But possibly you don't yet fully know what the **use** of such a calculation is other than to help you pass a math test. In this section, we're going to show how to calculate the ***instantaneous rate of change*** function and show some of the many things this is useful for.
+
+To orient you to what's going to happen ...
+
+1. We're going to set up the familiar average-rate-of-change calculation in a new framework.
+2. Using that framework, you'll be able to calculate an average-rate-of-change *function*.
+3. Then, by turning a knob on the calculation in (2), you'll be able to calculate the ***instantaneous*** rate of change function. By the way, the knob is called $h$.
+
+In short, this section will introduce you to the operation called ***differentiation***.
+
+## The $h$ framework
+
+Calculating an average rate of change involved specifying an interval of the function domain: the left side $t_A$ and the right side $t_B$. Let's change this notation a little:
+
+- Left endpoint of domain: $t_0$
+- Right endpoint of domain: $t_0 + h$
+
+There is nothing fundamentally new here. The interval is still specified by two numbers, but now they are called $t_0$ and $h$. The width of the interval is just $h$, which is a little easier to write than $t_B - t_A$, but is still just the width.
+
+The ***average rate of change*** in the new notation is $$\frac{f(t_0 + h) - f(t_0)}{h}\ \ \text{rather than}\ \ \frac{f(t_B) - f(t_A)}{t_B - t_A}$$
+
+::: {.todo}
+Write an app showing a function, the derivative of the function at a given point, and a finite-difference with $h$ defined by dragging the mouse.  Click on a point and enter that point in a plot of the derivative. Checkbox to show whole derivative function.
+:::
+
+
+::: {.why data-latex=""}
+Why are you using $t$ instead of $x$?
+
+Remember, the *name* of an input can be anything at all so long as you use it consistently on the left side of $\equiv$ and on the right side. All of these are the same definition:
+$$g(t) \equiv e^{kt},\ \ g(x) \equiv e^{kx},\ \ g(y) \equiv e^{ky},\ \ g(\text{altitude}) \equiv e^{k\,{\small{\text{altitude}}}}$$
+When we work with functions of two or more variables, it will be essential to give easily distinguished names to the inputs. We're trying to get you in the habit of paying attention to the names of inputs and break a *bad habit* from high-school math of calling the input $x$ and the output $y$.
+:::
+
+Now we are going to make a small, subtle, and important change. Instead of thinking of the average rate of change *at a specific interval* $t_0$ to $t_0 + h$, we're going to write an average-rate-of-change ***function***. And since we're in the habit of giving *names* to functions, we'll be careful to name average-rate-of-change functions in a way that makes explicit the connection to the function $f(t)$ whose rate of change is being calculated. 
+
+Our convention will be to use two additional components in the names of average-rate-of-change functions. The first component is to lead with a "D" in a caligraphic font: $\cal D$. The second component will be the name of the input whose interval is being used in calculating the rate of change. So ...
+
+$${\cal D}_t\, f(t) \equiv \frac{f(t + h) - f(t)}{h}$$
+You can pronounce ${\cal D}_t$ as "difference with respect to $t$." But remember that the function name is the whole deal, ${\cal D}_t\, f()$, which is to be read as "difference with respect to $t$ of $f()$." Admittedly a long name. Don't be surprised later when we start using *nicknames* like Liz (for Elizabeth) or Bill (for William). For instance, later we'll save ink and breath by using the nickname $\dot{f}()$ instead of ${\cal D}_t\, f()$.
+
+From the way we've defined ${\cal D}_t f(t)$, it's reasonable to assume that $h$ is a ***parameter***: a symbol naming a numerical value that has to be specified before ${\cal D}_t\, f(t)$ can be evaluated at a specific $t$. 
+
+::: {.workedexample data-latex=""}
+Find a formula for ${\cal D}_x\, g(t)$the average-rate-of-change function with respect to $x$ of $g(x) \equiv x^2$. 
+
+$${\cal D}_x g(x) = \frac{(x + h)^2 - x^2}{h}\\
+= \frac{x^2 + 2 x h + h^2 - x^2}{h}\\
+= \frac{2 x h + h^2}{h} = 2 x + h$$
+:::
+
+
+I like to think of $h$ as a kind of *tire iron*, a small tool used to stretch the bead of a bicycle tire in order to pull it over the wheel rim. 
+
+```{r echo=FALSE, out.width="30%", fig.cap="A tire iron in use", fig.align="center"}
+knitr::include_graphics("www/tire-iron.png")
+```
+
+Once the tire iron has done its job, it's removed and you would never know that it was ever there (except that the tire is now successfully mounted on the wheel).
+
+::: {.workedexample data-latex=""}
+Find an average-rate-of-change function with respect to $x$ of $g(x) \equiv x^2$, but remove the tire iron $h$ when you're done. 
+
+$${\cal D}_x g(x) 
+= \frac{(x + h)^2 - x^2}{h}\ \ \text{stretch $x$ a bit}\\
+= \frac{x^2 + 2 x h + h^2 - x^2}{h}\ \ \text{pull over rim}\\
+= \frac{2 x h + h^2}{h} \ \ \text{still pulling ...}\\
+= 2 x + h \ \ \text{success!}$$
+
+Now remove the tire iron to get $${\cal D}_x g(x) = 2x$$.
+:::
+
+But this is calculus, not bicycle mechanics. How do we know that removing the tire iron isn't damaging the mathematical wheel? Historically, this has been a serious debate, resolved only with great difficulty more than a century after calculus started being used successfully. 
+
+Still in the spirit of having fun, let's try a more serious metaphor... imagining $h$ is actually a central character in a calculus play. The character $h$ is in the middle of the story but *never appears in the play*, like the missing character Godot in the famous play *[Waiting for Godot](https://en.wikipedia.org/wiki/Waiting_for_Godot#Godot)*. 
+
+::: {.workedexample data-latex=""}
+We said that $h$ in the finite rate of change function ${\cal D}_x g()$, so long as $h$ is small, plays both a central role and has hardly any effect. An economizing director re-writes the play to take $h$ out of it, setting $h=0$: a non-speaking, offstage role.
+
+We've already seen using legitimate algebra that $${\cal D}_x g(x) = 2 x + h$$ Re-writing by replacing $h$ with 0 streamlines the play, turning $\Delta g()$ from a dialog involving both $x$ and $h$ into a monologue with $h$ absent: $${\cal D}_x g(x) = 2 x$$ Simple.
+
+And yet ... the director gets a letter from the Bit Players Union. 
+
+> *We observe that you have eliminated the role of $h$ in the final production version of ${\cal D}_x g(x)$. This is a violation of Union regulations. Recall that the rate-of-change function ${\cal D}_x g(x)$ is defined as a ratio: $${\cal D}_x g(x) \equiv \frac{g(x+h) - g(x)}{h}$$ Although the name $h$ does not need to appear in the argument list of ${\cal D}_x g(x)$, eliminating $h$ entirely by replacing her with zero is a **division by zero error** forbidden by Article 3.16§B¶2 of the Unified Laws of Arithmetic. We ask that you comply with this Article by re-instating the role of $h$ in all evaluations of ${\cal D} g(x)$.*
+
+Reading this, the director calls her lawyer. Is there a loophole for removing $h$ without breaking the mathematical prohibition on dividing by zero? 
+:::
+
+## The derivative operator
+
+Let's put aside for the moment the issue of the disappearing $h$. 
+
+::: {.intheworld data-latex=""}
+Historically, such "putting aside" has incurred a great deal of criticism. In 1734, famous philosopher [George Berkeley](https://en.wikipedia.org/wiki/George_Berkeley) (1685-1753) published a long-titled book: *The Analyst: A Discourse Addressed to an Infidel Mathematician: Wherein It Is Examined Whether the Object, Principles, and Inferences of the Modern Analysis Are More Distinctly Conceived, or More Evidently Deduced, Than Religious Mysteries and Points of Faith*. In *The Analyst*, Berkeley took issue with the arguments of that time that it is legitimate to divide by $h$ when, ultimately, $h$ will be replaced by zero. Calling $h$ an "evanescent increment," he asked, 
+
+> *"And what are these same evanescent Increments? They are neither finite Quantities nor Quantities infinitely small, nor yet nothing. May we not call them the ghosts of departed quantities?"*
+
+Interesting, Berkeley believed that the ghost of $h$ yielded correct results. His objection was that the framers of calculus had made two, canceling errors. 
+
+> *"[B]y virtue of a two fold mistake you arrive, though not at science, yet truth."*
+
+Berkeley was saying that calculus had not yet been put on a solid logical foundation. It was to be more than a century after Berkeley's death until this work was accomplished. Once accomplished, the results that had been claimed true all along were confirmed.
+
+I propose that we start with the results, which is what everyone *uses*. Later, we can introduce the new concepts on which the new logic was based. The names of the concepts---continuity, smoothness, singularity---are widely and effectively used in talking about functions, but the names, like many words in English, can be put to good and accurate use without memorizing the precise definitions.
+:::
+
+On to the results ...
+
+1. Every "smooth" function $h(x)$ has a corresponding function that is its derivative $\partial_x h(x)$.
+2. Finding the algorithm for $\partial_x h(x)$, called ***differentiating $h()$***, is *automatic* in the sense that it can be done by computer without human intervention or judgment. 
+3. When there is an algebraic formula for $h(x)$, the computer can find the algebraic formula for $\partial_x h(x)$. This is called ***symbolic differentiation***.
+4. When there is no algebraic formula for $h()$, the computer can use ***numerical differentiation*** which involves a non-zero $h$. The results of numerical differentiation on functions with formulas can differ subtly from the results from symbolic differentiation. Usually the difference is too small to notice, but in extreme cases it is not. It's important for the user of numerical differentiation to know how to identify extreme cases and deal with them.
+5. The derivatives of each of the basic modeling functions ^[aside from $\text{hump}()$] can be expressed in terms of a basic modeling function.
+
+## A derivative is a function
+
+First and foremost, remember that a derivative $\partial_x f(x)$ is a ***function***. The process of constructing the derivative from the original function is called ***differentiation*** as in "differentiate $f(x)$ with respect to $x$ in order to produce the function $\partial_x f(x)$. 
+
+Just as we have words to describe classes of functions---exponential, sinusoid, power-law, sigmoid---we have a word to refer to a function created by differentiation. That word, ***derivative***, comes from a more general word, "derive," which means to obtain something from a source.
+
+The use of the word "derivative" in mathematics to refer to a particular sort of derivation is at once clever and incredibly confusing. Insofar as calculus textbooks feature extensive drill on deriving the formula for a differentiated function, "derivative" is natural. And perhaps the connection is reinforced by a similarity in sound: "deriv" is like "differ" turned inside out. "Deriv" has the f-sound at the end and the r-sound in the middle, "differ" has it the other way round. 
+
+Unfortunately, the calculus text drill on the algebraic properties used in derivations creates an entirely misleading impression. Students routinely draw the conclusion that a derivative is *made* or *constructed* or *derived* from another function. That may be true in textbooks, but it's more broadly true that **every function is a derivative**. There's no genuine need, except in textbook exercises, to insist that "derivative" is anything other than a synonym for "function."
+
+Rather than setting a narrow focus on the algebraic and numerical processes for differentiation, you should look at the big picture: there are functions galore and some of those functions are related to each other in a specific way that turns out, in the development of science and mathematics, to be especially important for describing real-world relationships.
+
+A nice, everyday framework to summarize the sorts of relationship involved in differentiation is the relationship between parent and child. Imagine that every person corresponds to a particular function. A mother and father pair is two almost identical functions, functions that differ by a constant. Their child is the derivative of those functions---both of them. 
+
+Children have parents, parents have parents, everybody has parents. The parent/child relationship connects two generations, but there are also grandparent/child relationships, great-grandparent/child relationships and so on.  Similarly there is a relationship between a function $f(x)$ and its derivative $\partial_x f(x)$, and between a function and the "derivative of the derivative" which we write $\partial_{xx} f(x)$ and call a "second derivative." There are third derivatives (great-grandchildren), fourth derivatives (great-great-grandchildren) and so on down the line.
+
+Every child is a person, every parent is a person, every grandparent is a person. Similarly, every function is a function, every derivative is a function. Since a derivative is a function, it can also have a derivative.
+
+There are important and instructive ways that derivative relationships between mathematical functions differ from the relationships within biological families. For instance, a function can be its own derivative. Any parent function has only one child function; there are not two different functions that are children of the same parent. And child functions have many parent functions that look astoundingly alike. They differ only by a constant, such as $x^2$ and $x^2 + 5$, which have the same child (which, as you will see, is $2 x$).
+
+Many a drama involves a parent looking for a lost child. Functions are in the happy situation that finding a child is a matter of turning a crank and is easily automated. Proving that a person is the child of another is nowadays done with genetic testing. For functions it's much more straightforward: turn the crank and if you get that person as a result, you've established the relationship.
+
+As you can imagine, just as there is a mathematical process for finding the child of a function, there is another process for finding a parent of a function. Finding the child from the parent is ***differentiation***; finding a parent from the child is ***anti-differentiation***.
+
+Calculus is important and useful because many processes and properties of real-world objects and situations are related to one another in the same parent-child manner as functions and their derivatives and anti-derivatives. The metaphysics of why this is the case is a matter of speculation. Perhaps "calculus" is like evolution: the techniques we call calculus reflect the "survival of the fittest" for constructing models of the real world.
+
+To explore the .../parent/child/grandchild/... relationship for functions, you need a technology for finding the child of any parent. There are several technologies for turning the crank that lets us find a parent's child ... that is, the derivative of a function. For now, we'll give you just one such technology that lets a computer turn the crank.
+
+In R/mosaic, differentiation can be accomplished using the `D()` function. Give a tilde expression as the argument in the same manner as you do for `slice_plot()` or `contour_plot()`. To illustrate: Suppose you have a function `f(x)`. The derivative of that function can be located and given a name for later use by a simple R command:
+
+```{r eval=FALSE}
+dx_f <- D(f(x) ~ x)
+```
+
+The `~ x` can be pronounced "with respect to $x$."
+
+We're using the name `dx_f` in this example to remind you of the mathematical notation $\partial_x f(x)$. But, as always, you could use any name you like for the output of `D()` and use whatever name is appropriate in the tilde expression. For instance, if you are modeling Greek mythology^[A mathematical function has only one derivative. Greek gods had many children. That's why it's mythology and not mathology.], you might encounter
+
+```{r eval=FALSE}
+Athena <- D(Zeus(x) ~ x)
+```
+
+::: {.workedexample data-latex=""}
+
+Like the leagues of Marvel superheroes in comics and movies, the Basic Modeling Functions (BMF) are an assembled collection. In the back story of how the BMFs came together, you'll read that the derivative of each of the BMFs is itself a BMF. This is no accident. 
+
+Back in the days of ancient Greece and before, the mysteries of the World were attributed to gods and their children. Gods had many children because there were many connections among phenomena, for instance, rain, wind, and thunder are all different things but closely related.
+
+Science generally describes relationships between different things in the natural world---position, velocity, acceleration, force, energy---using derivatives and anti-derivatives. The BMFs are the superheroes of calculus because they exemplify the relationships that drive the process of the world, just as did the mythological gods and their mythological children. 
+
+Which BMF is the ~~~child~~~ derivative of the exponential function?
+
+We can turn the crank with the `D()` function.
+```{r warning=FALSE}
+child_of_exp <- D(exp(x) ~ x)
+slice_plot(child_of_exp(x) ~ x, domain(x=c(-2, 2)))
+slice_plot(child_of_exp(x) ~ x, domain(x=c(-2, 2))) %>%
+  gf_refine(scale_y_log10()) %>%
+  gf_labs(title="Semi-log plot")
+slice_plot(child_of_exp(x) ~ x, domain(x=c(-2, 2))) %>%
+  gf_refine(scale_y_log10(), scale_x_log10()) %>%
+  gf_labs(title="Log-log plot")
+```
+
+The `child_of_exp()` looks very much like `exp()` itself. On semi-log axes, `child_of_exp()` the graph is a straight line  confirming the relationship. On log-log axes, the graph of a power-law function will be a straight line: `child_of_exp()` isn't.
+:::
+
+
+
+
+
+
+
+::: {.todo}
+
+ROUGH ROUGH ROUGH
+
+Lidar measured distance to ground. The function value doesn't really matter. What matters is how the value at a point relates to the values at nearby points. Seeing this difference is how you can spot the Maya ruins.
+
+
+```{r echo=FALSE}
+knitr::include_graphics("www/mayan-ruins.jpg")
+```
+
+
+Instituto Nacional de Estadística y Geografía/Nacional Center for Airborne Laser Mapping
+
+"The map, published in 2011 by Mexico’s National Institute of Statistics and Geography, covered 4,440 square miles in the Mexican states of Tabasco and Chiapas. It was made as part of the institute’s mission to create accurate maps to be used by businesses and researchers.
+
+"Dr. Inomata learned about the map from Rodrigo Liendo, an archaeologist at the National Autonomous University of Mexico. The resolution of the map was low. But the outlines of countless archaeological sites stood out to Dr. Inomata. So far, he has used it to identify the ruins of 27 previously unknown Maya ceremonial centers that contain a type of construction that archaeologists had never seen before. These sites may hold insights into the origins of Maya civilization."
+
+
+[NYTimes article](https://www.nytimes.com/2019/10/08/science/archaeology-lidar-maya.html)
+:::
+
+
+

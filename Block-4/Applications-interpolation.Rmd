@@ -1,0 +1,227 @@
+# Interpolating functions
+
+A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. Low-order polynomial functions are useful for expressing general modeling ideas such as growth, interaction, and optimality. Sinusoids and their imaginary cousin, exponentials, are often the go-to forms for constructing a function that meets the mandate given by a differential equation. Taylor polynomials were historically an important technique for working with functions; much of their actual utility in today's world is captured by the idea of low-order polynomial models.  `r mark(4100)`
+
+We considered several techniques for constructing functions that are a good match to data: use of log-log and semi-log axes in graphics, solving the "target problem" of linear combinations (which is conventionally called "least squares fitting"). `r mark(4105)`
+
+Today's topic is yet another important method for constructing functions that match with data. What's different here from least squares is that we do not consider the data as a "cloud" of points that we want our eventual function to stay close to. Today, each data point will be a **mandate**; the function is required to go through each and every point exactly. `r mark(4110)`
+
+As a motivating example, consider the programming of robotic arms as in the video:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0L7Xk5_s3QQ?start=81" title="Robotic arms" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> `r mark(4115)`
+
+This isn't a robots course, so we'll simplify. The arm has a resting position. When a car frame comes into place, the arm moves so that it's welding electrodes are at a specific, known place in space near the car body. Then it moves in sequence to other places where a weld is using and eventually back to its resting position. `r mark(4120)`
+
+Programming the robot might come down to listing in sequence the specific locations where the weld is to be made. This might include helper points to avoid coliding with the work piece when moving between welds. The movement is governed by various joints, gears, and wheels as well as actuators: hydraulics, [stepping motors](https://en.wikipedia.org/wiki/Stepper_motor), etc. We need to tell those actuators what position they should be in at each moment of time. `r mark(4125)`
+
+The problem of converting the discrete list of weld and helper points into a continuous signal for the actuator is an instance of a mathematical process called **interpolation**. Generally, there will be multiple signals going to multiple actuators, but to simplify we'll consider the problem with just one variable $x$ for position and $t$ for time. `r mark(4130)`
+
+Another example ... In [computer-aided design](https://en.wikipedia.org/wiki/Computer-aided_design) (CAD) systems, curved shapes are usually described by a person's placement of isolated points which are then automatically combined into a smooth form. For instance, the outline of a letter in a computer font is often specified by a series of knot points with specified levels of smoothness (or lack thereof), as in this construction of a lower-case "e". `r mark(4135)`
+
+![](www/bezier-e.png)
+
+Humans have a natural ability to generate smooth movements. In drawing, there can be artistic value in a lack of smoothness, as illustrated in celebrated artist David Hockney's drawing of his mother. 
+
+```{r echo=FALSE, fig.align="center", out.width="70%"}
+knitr::include_graphics("www/T11897_10.jpg")
+```
+
+[Source](https://www.tate.org.uk/art/images/work/T/T11/T11897_10.jpg)
+
+Before the era of digital design and manufacturing, smooth curves were described by clay or wooden models hand-crafted by skilled workers. Material was removed to conform to the models by machine tools directed by cams running over the models, by hand sanding and polishing, as shown in this video of propeller manufacture during World War II. `r mark(4140)`
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BwU9quwgYRo?start=190" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> `r mark(4145)`
+
+Spline functions and digital actuators have largely replaced such analog models.
+
+## Data and interpolation
+
+
+```{r echo=FALSE}
+kepler_sample <- function(n=6, seed=101) {
+  set.seed(seed)
+  Kepler %>% sample_n(size=n) %>%
+    select(time, kepler.angle, kepler.radius)
+}
+```
+
+There are often occasions when we measure a continuous process at discrete points in time and space. In this section, we're going to explore the data Johannes Kepler (1571-1630) used in discovering and formulating his famous theory of planets in elliptical orbits. For about half the year, other planets are on the other side of the Sun from Earth, and so not directly observable.  `r mark(4150)`
+
+Here is a graph of Kepler's calculations of the distance of Mars from the Sun. (See "Background" section at the bottom of the page.) The sandbox makes a somewhat intricate plot, so read carefully the following: `r mark(4155)`
+
+* There are 28 observations in Kepler's data. The plot shows all of them as gray dots. 
+* A handful of the 28 have been selected for emphasis: the big black dots.
+* The interpolating functions have been made only with respect to the handful; the others are entirely made up.
+* The cubic spline interpolant is drawn in black, the global polynomial in red.
+
+```{r rdi1-1, exercise=TRUE, exercise.cap="Connecting Mars", exercise.nlines=10}
+Observations <- kepler_sample(seed=NULL)
+connector <- spliner(kepler.radius ~ kepler.angle, 
+                     data = Observations)
+polynomial <- makeFun(lm(kepler.radius ~ poly(kepler.angle, 2), 
+                         data = Observations))
+gf_point(kepler.radius ~ kepler.angle, 
+         data = Kepler, alpha=0.25) %>%
+gf_point(kepler.radius ~ kepler.angle, 
+         data = Observations, size=3) %>%
+  slice_plot(connector(kepler.angle) ~ kepler.angle) %>%
+  slice_plot(polynomial(kepler.angle) ~ kepler.angle, color="orange3") 
+```
+
+<div class="explanation-note">
+**Code-reading questions**
+
+```{r rdi1-2, echo=FALSE, results="markup"}
+askMC(
+  "The data are stored in an object named `Kepler`. What kind of object is `Kepler`?",
+  "+A data frame+",
+  "A matrix",
+  "A vector",
+  "A function"
+)
+```
+
+```{r rdi1-3, echo=FALSE, results="markup"}
+askMC(
+  "There are two variables from Kepler's data used in the code. What are their names?", 
+  "`time` and `angle`",
+  "`distance` and `angle`",
+  "+`kepler.radius` and `kepler.angle`+",
+  "`kepler.distance` and `kepler.angle`"
+)
+```
+
+```{r rdi1-4, echo=FALSE, results="markup"}
+askMC(
+  "The object `connector` is defined on lines 2 and 3 of the sandbox code. What kind of R object is `connector`? (Hint, you may need to read further along in the code to figure this out.)",
+  "A data frame",
+  "A number",
+  "A vector",
+  "+A function+"
+)
+```
+
+
+
+```{r rdi1-5, echo=FALSE, results="markup"}
+askMC(
+  "What kind of R object is `kepler.radius ~ kepler.angle`?",
+  "+A tilde expression+",
+  "An arithmetic expression",
+  "A function",
+  "A character string" = "Character strings always involve quotation marks."
+)
+```
+```{r rdi1-6, echo=FALSE, results="markup"}
+askMC(
+  "The R function `gf_point()` as used here has how many arguments?",
+  1, 2, 3, 4, right_one = 3, random_answer_order = FALSE
+)
+```
+
+```{r rdi1-7, echo=FALSE, results="markup"}
+askMC(
+  "What's the give away that `polynomial` (as used here) is a **function**?",
+  "+The name `polynomial` is followed by open and close parentheses.+",
+  "The name `polynomial` begins with a `p`.",
+  "The name `polynomial` is an English verb." = "This is a nice programming style to use natural-language verbs to name functions, but it is not at all required by the language. (And \"polynomial\" isn't a verb anyway.)" `r mark(4160)`
+)
+```
+
+```{r rdi1-8, echo=FALSE, results="markup"}
+askMC(  
+  "Why are there quotation marks in `'red'`?",
+  "Because the color is only sort of red-ish, not pure red.",
+  "Because Mars is the \"Red Planet\"",
+  "+Because the word is a literal set of characters, not the name of a function or other R object.+"
+)
+```
+
+</div>
+
+The black curve in the graphic drawn by the sandbox is a "cubic spline" interpolating function. Remember that the spline was constructed referencing **only** the selected points drawn as large dots. The other points from Kepler's data are there only to show how well the interpolant provides a match `r mark(4165)`
+
+```{r di2-1, echo=FALSE, results="markup"}
+askMC(
+  "Does the spline go through the selected points?",
+  "+Yes, right through the middle of the dot.+",
+  "Pretty close, but tangent to the edge of the dots.",
+  "Exactly through some, but not others.",
+  "Exactly through the ones in the middle of the domain, but not so well through the ones at the extremes."
+)
+```
+
+The red curve in the graphic is a "global" polynomial. Here, "global" means "the same polynomial at all points in the domain."
+
+```{r di2-2, echo=FALSE, results="markup"}
+askMC(
+  "To judge from the shape of the polynomial, what is the order of the polynomial? (Make sure the sandbox is reset to the original code before you form your answer.)",
+  "Fries and a chocolate shake" = "Just kidding.",
+  0, 1, "+2+" = "Right, it's a downward facing parabola.", 3, 4, 5, 6, random_answer_order = FALSE
+)
+``` 
+
+```{r di2-3, echo=FALSE, results="markup"}
+askMC(
+  "Does the global polynomial go through the selected points?",
+  "Yes, through all of them.",
+  "It runs tangent to the dots.",
+  "+It misses almost all of them.+" = "The polynomial needn't run through any of the data points. That it goes through one here is just a coincidence."
+)
+```
+
+The 2nd-order polynomial is **not** a function that interpolates these data. This is simply because the six selected data points do not lie on a parabola. 
+
+```{r di2-4, echo=FALSE, results="markup"}
+askMC(
+  "The six selected points used to construct the spline and the parabola were selected at random. When you rerun the code, a new random sample will be used. Repeatedly run the code to get some idea of the amount of random variation. This will help you see whether the spline method always constructs an interpolating function and whether the 2nd-order polynomial ever gives an interpolating function for these data.   `r mark(4170)`
+  
+Which of these is true as you look at different samples of data?",
+  "+The cubic spline *always* goes through all the data points but the global, 2nd-order polynomial *hardly ever* goes exactly through all of them.+",
+  "The cubic spline *often but not always* goes exactly through all the data points but the global, 2nd-order polynomial *sometimes but not often* goes through all of them."
+)
+```
+Actually, it's possible to get a global polynomial to act as an interpolating function. The problem we've had is with the 2nd-order polynomial. By increasing the order of the polynomial you can make it go closer and closer to the data points. At some order, the global cubic will go exactly through the selected points. `r mark(4175)`
+
+Change the order of the polynomial used by changing the integer argument in `poly(kepler.angle, 2)`. If you make the integer too large, you'll get an error message. If you make the integer too small, the global polynomial won't go exactly through the data.  `r mark(4180)`
+
+```{r di2-5, echo=FALSE, results="markup"}
+askMC(
+  "What order of polynomial *always* goes exactly through the six selected points.",
+  3, 4, "+5+", 6, 7, 
+  random_answer_order = FALSE
+)
+```
+
+Let's try making functions based on more data. To do this, in the `kepler_sample()` function use an argument `n`. For instance, `n=10` will select ten instead of the default six points. You can leave the `seed=NULL` argument. `r mark(4185)`
+
+```{r di2-6, echo=FALSE, results="markup"}
+askMC(
+  "What order of polynomial *always* goes exactly through 10 randomly selected points. Try several different random samples of data.",
+  6, 7, 8, "+9+", 10,  
+  random_answer_order = FALSE
+)
+```
+
+The global polynomial is a linear combination of power-law functions, e.g. $$p(x) = a_0 + a_1 x + a_2 x^2 + \cdots$$
+
+The R function `lm()`, which we used last semester, finds the particular coefficients $a_0, a_1, \ldots$ to best match the polynomial to the data. But we could do the same thing by using any other functions we like, e.g. $\sqrt{x}$, $e^x$, $\sin(x/1.2)$, and so on. `r mark(4190)`
+
+A consequence of this is that we always have an infinite number of different interpolating functions. Which one to choose? In the next sections we'll explore the properties which so often make the cubic spline the preferred method. `r mark(4195)`
+
+Another question is whether we should use any interpolating function in the first place. Perhaps "getting close" to the data is good enough? This is the difference between *interpolating* data and *smoothing* data. The answer to the question, "interpolate or smooth," depends on the modeling context for which the function is being constructed. Smoothing is based on statistical ideas that we don't have time to cover in this course, but a core skill of expert modelers is to know when to use interpolation and when to use smoothing.  `r mark(4200)`
+
+
+**Background** (Optional): The raw measurements (not included here) that Kepler used in his calculation were made by Tycho Brahe (1546-1601). Those raw measurements were of the angle of Mars with respect to Earth. Kepler estimated the orbital period of Mars to be 687 Earth days. (The current accepted value is 686.980 days.) Knowing the period, Kepler could find pairs of Earth days separated by multiples of the period. In each pair, the Earth would be in a different position, but Mars would be in the same position. Thus the distance of Mars from Earth could be estimated by triangulation. `r mark(4205)`
+
+The angle was not directly measured for each occasion. Instead, knowing the radius versus time Kepler was able to discern when Mars was at its greatest and closest distance to the Sun. The angle tells where Mars is along its orbit. An angle of 0 is the position when Mars is closest to the Sun. An angle of 3.14 is when Mars is farthest from the Sun. `r mark(4210)`
+
+The `time` is time of the observation given as an interval in Earth days from 8:15am Greenwich time on 9 March 1584.
+
+-----
+
+**Interpolation explorer**
+
+`r insert_calcZ_exercise("XX.XX", "roycC0", "Exercises/Applications/giraffe-dig-radio.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "BtFXyD", "Exercises/Applications/elephant-fight-ship.Rmd")`

@@ -1,0 +1,83 @@
+# Systems of differential equations
+
+This unit is about linear differential equations with a two-dimensional state, the sort that describe motion near fixed points. These have an outsize importance in applied work and, happily, they are relatively easy to deal with. This is especially true because you've already been introduced to eigenvectors and eigenvalues in the context of discrete-time systems. Treat this as an opportunity to review and reinforce your understanding of eigen-stuff.
+
+This is a good time to lay out the sequence of topics that will follow, as we complete our tour of dynamics.
+
+* The next unit will be about force-balance equations, the specific form of differential equations used to describe physical processes.
+* Then we will move away from fixed points to global patterns of flow. You'll see how using simple nonlinear dynamical functions enables the construction of models that are surprisingly informative.
+* Finally, we will return to dynamics around fixed points but with a twist: rather than systems that evolve in time autonomously on their own, we'll "force" the systems with inputs that "drive them" away from equivibrium.
+
+Returning to today ... The form of equation we will be working with is
+<div style="font-size: 30px; text-align:center;">$$\partial_t x = a x + b y\\
+\partial_t y = c x + d y$$</div>
+
+We're going to simplify this in two ways. First, we'll use Newton's "dot notation" for derivatives (that is very much in use today in physics), where $\partial_t x$ is replaced with $\dot{x}$. Let's make that bigger so you can see the dot and put it beside other notations that signify **exactly the same thing**:
+<div style="font-size: 36px; text-align:center;">$$\dot{x} \ \ \ \ \ \ \ \partial_t\, x\ \ \ \ \ \ \ \ \frac{dx}{dt}$$</div>
+
+Second, we'll reduce the four parameters of the [abcd] matrix to just two and use a form [ab10] that can still produce all the generic forms of behavior. The result will be a **vector** equation that's admirably compact:
+
+<div style="font-size: 30px; text-align:center;">$$\dot{\mathbf X} = \left[\begin{array}{cc}a & b\\1 & 0\end{array}\right] {\mathbf X}$$</div>
+In this form, the formula for eigenvalues is particularly simple. It also aligns with the force-balance style of equation we'll see in the next unit.
+
+The most important single fact you can learn about differential equations is the solution to the one-dimensional linear equation:
+
+<div style="font-size: 30px; text-align:center;">$$\underbrace{\dot{x} = k x\strut}_\text{dynamics}\ \ \ \ \implies\ \ \ \ \underbrace{x(t) = x(0) e^{kt}}_\text{solution}$$</div> where, of course, $x(0)$ is the value of $x$ at time 0.
+
+Happily, the solution to the two-dimensional linear equation is almost as simple:
+
+<div style="font-size: 30px; text-align:center;">
+$$\dot{\mathbf X} = \left[\begin{array}{cc}a & b\\1 & 0\end{array}\right] {\mathbf X}\ \ \ \implies\ \ \ \ x(t) = C e^{\lambda_1 t} + D e^{\lambda_2 t}$$</div>
+
+$C$ and $D$ are constants which are related to the initial conditions. For instance, you should be able to look at the solution equation and deduce $x(0) = C + D$.
+
+$\lambda_1$ and $\lambda_2$ are, of course, the eigenvalues of the [ab10] matrix. For easy reference, here is the formula for those eigenvalues in terms of $a$ and $b$:
+
+$$\lambda_{1,2} = \frac{1}{2} \left[a^2 \pm \sqrt{\strut a^2 + 4 b} \right]$$
+
+::: {.why  data-latex=""}
+We're often asked why we don't give the solution $y(t)$ alongside $x(t)$. It's a reasonable question. We don't, because you can deduce the solution $y(t)$ simply by $\int_0^t x(t) dt$. That will be clearer when we get to the force-balance format for differential equations.
+:::
+
+
+::: {.intheworld  data-latex=""}
+Public health officials issue recommendations to help avoid epidemics and, when one occurs, to mitigate their spread. The preventive actions are embedded in vaccine recommendations and requirements, food safety protocols for processors and restaurants, and even in building and occupancy codes, particularly in the HVAC (heating, ventilation, air conditioning) standards that building inspectors are empowered to enforce.
+
+The COVID-19 pandemic points to a massive insufficiency of HVAC standards. This is not a criticism of those standards. Greater HVAC efficiency has substantial costs; designing optimal systems almost always involves a trade-off of benefits and costs.
+
+For students and teachers, the HVAC-related COVID change that's most visible is the reduction in allowed occupancy and the physical distancing of desks, etc. The six-foot rule was proposed in 1897 by a German bacteriologist, Carl Flügge. His focus was on the spread of visible fluid droplets. Scientifically, this rule is obsolete. The earliest hints of the existence of viruses were in the 1890s, and, as we know now, COVID is spread largely by minuscule, invisible particles with the infectious agent being invisible even under the microscopes of bacteriologists.
+
+Let's look at some modern work to understand the physics of airborne transmission and to evaluate possible interventions to reduce it. This is reported [here, in the New York Times](https://www.nytimes.com/interactive/2021/02/26/science/reopen-schools-safety-ventilation.html), in an easy to read and graphically compelling story. One video from the story is reproduced below. It's a complex visualization that is built up, one step at a time in the Times article.
+
+<video width="480" height="360" controls>
+  <source src="www/92072_1_classroom-covid-hp-promo_wg_720p.mp4" type="video/mp4">
+</video>
+
+The tool behind such research is ... you guessed it ... differential equations. The particular differential-equation model involved is called the Navier-Stokes equation, invented in 1822. Unlike the linear differential equations we are studying, there is no *ansatz*, and massive computational resources are routinely expended to find an approximate solution that applies in a setting of interest. Here, that setting is a conventional classroom.
+
+The flow fields display in the research graphics is fundamentally the same as those we will use in this section of CalcZ. As always, since their invention by Newton, differential equations play a fundamental role in science.
+
+It may seem overkill to use the apparatus of the Navier-Stokes equation to come to the sensible conclusion, "Open the window, please." But details matter, such as the location of the air filter in the classroom or the use of an out-blowing fan.
+
+The numerical solution to the equations in this example uses a state of tens of millions of numbers. But understanding differential equations can start with something as simple as a two-dimensional state.
+:::
+
+
+
+
+
+
+
+`r insert_calcZ_exercise("XX.XX", "Rdc7vE", "Exercises/Dynamics/beech-ride-bowl.Rmd")`
+
+Eigenflows app:
+
+
+`r insert_calcZ_exercise("XX.XX", "PD3CiZ", "Exercises/Dynamics/panda-teach-door.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "6OL44y", "Exercises/Dynamics/sheep-bend-sheet.Rmd")`
+
+A sketch of an exercise:
+`rr insert_calcZ_exercise("XX.XX", "OwCtGH", "Exercises/Dynamics/child-buy-drawer.Rmd")`
+
+
