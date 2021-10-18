@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 12 Functions with multiple inputs |  </title>
+  <meta name="description" content="MOSAIC Calculus Block 1" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 12 Functions with multiple inputs |  " />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="MOSAIC Calculus Block 1" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 12 Functions with multiple inputs |  " />
+  
+  <meta name="twitter:description" content="MOSAIC Calculus Block 1" />
+  
+
+
+
+<meta name="date" content="2021-10-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="fun-assembling.html"/>
+<link rel="next" href="fun-piecewise.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><span style="font-size: 150%; color: blue;"><strong><a href="../index.html">MOSAIC Calculus</a></strong></span></li>
+<li><em><a>Calculus for the 21st century</a></em></li>
+<li><a>Daniel Kaplan</a></li>
+<hr>
+<li><a href="../index.html"><span style="color: blue;">Welcome to calculus</span></li>
+<li><strong><a href="../block-1/change.html">Block 1: Functions & quantities</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="change.html"><a href="change.html"><i class="fa fa-check"></i><b>1</b> Change</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="change.html"><a href="change.html#quantity-vs-number"><i class="fa fa-check"></i><b>1.1</b> Quantity vs number</a></li>
+<li class="chapter" data-level="1.2" data-path="change.html"><a href="change.html#functions"><i class="fa fa-check"></i><b>1.2</b> Functions</a></li>
+<li class="chapter" data-level="1.3" data-path="change.html"><a href="change.html#fundamental-model-of-change"><i class="fa fa-check"></i><b>1.3</b> Fundamental model of change</a></li>
+<li class="chapter" data-level="1.4" data-path="change.html"><a href="change.html#exercises"><i class="fa fa-check"></i><b>1.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pattern-book.html"><a href="pattern-book.html"><i class="fa fa-check"></i><b>2</b> Functions for modeling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pattern-book.html"><a href="pattern-book.html#pattern-book-functions"><i class="fa fa-check"></i><b>2.1</b> Pattern-book functions</a></li>
+<li class="chapter" data-level="2.2" data-path="pattern-book.html"><a href="pattern-book.html#the-power-law-family"><i class="fa fa-check"></i><b>2.2</b> The power-law family</a></li>
+<li class="chapter" data-level="2.3" data-path="pattern-book.html"><a href="pattern-book.html#constructing-functions"><i class="fa fa-check"></i><b>2.3</b> Constructing functions</a></li>
+<li class="chapter" data-level="2.4" data-path="pattern-book.html"><a href="pattern-book.html#function-shapes"><i class="fa fa-check"></i><b>2.4</b> Function shapes</a></li>
+<li class="chapter" data-level="2.5" data-path="pattern-book.html"><a href="pattern-book.html#exercises-1"><i class="fa fa-check"></i><b>2.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html"><i class="fa fa-check"></i><b>3</b> Structure of a function</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#inputs-to-output"><i class="fa fa-check"></i><b>3.1</b> Inputs to output</a></li>
+<li class="chapter" data-level="3.2" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#bureaucratic"><i class="fa fa-check"></i><b>3.2</b> A bureaucratic analogy</a></li>
+<li class="chapter" data-level="3.3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#domain-input-space"><i class="fa fa-check"></i><b>3.3</b> Domain: input space</a></li>
+<li class="chapter" data-level="3.4" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#range-output-space"><i class="fa fa-check"></i><b>3.4</b> Range: output space</a></li>
+<li class="chapter" data-level="3.5" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#formulas-in-r"><i class="fa fa-check"></i><b>3.5</b> Formulas in R</a></li>
+<li class="chapter" data-level="3.6" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#exercises-2"><i class="fa fa-check"></i><b>3.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="fun-describing.html"><a href="fun-describing.html"><i class="fa fa-check"></i><b>4</b> Describing functions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="fun-describing.html"><a href="fun-describing.html#slice-plot-intro"><i class="fa fa-check"></i><b>4.1</b> Graphing a function</a></li>
+<li class="chapter" data-level="4.2" data-path="fun-describing.html"><a href="fun-describing.html#tables-of-inputs-and-outputs"><i class="fa fa-check"></i><b>4.2</b> Tables of inputs and outputs</a></li>
+<li class="chapter" data-level="4.3" data-path="fun-describing.html"><a href="fun-describing.html#word-descriptions"><i class="fa fa-check"></i><b>4.3</b> Word descriptions</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="fun-describing.html"><a href="fun-describing.html#concavity"><i class="fa fa-check"></i><b>4.3.1</b> Concavity</a></li>
+<li class="chapter" data-level="4.3.2" data-path="fun-describing.html"><a href="fun-describing.html#continuity-intro"><i class="fa fa-check"></i><b>4.3.2</b> Continuity</a></li>
+<li class="chapter" data-level="4.3.3" data-path="fun-describing.html"><a href="fun-describing.html#monotonicity"><i class="fa fa-check"></i><b>4.3.3</b> Monotonicity</a></li>
+<li class="chapter" data-level="4.3.4" data-path="fun-describing.html"><a href="fun-describing.html#periodicity"><i class="fa fa-check"></i><b>4.3.4</b> Periodicity</a></li>
+<li class="chapter" data-level="4.3.5" data-path="fun-describing.html"><a href="fun-describing.html#asymptotic-behavior"><i class="fa fa-check"></i><b>4.3.5</b> Asymptotic behavior</a></li>
+<li class="chapter" data-level="4.3.6" data-path="fun-describing.html"><a href="fun-describing.html#local-extremes"><i class="fa fa-check"></i><b>4.3.6</b> Locally extreme points</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="fun-describing.html"><a href="fun-describing.html#computer-function-names"><i class="fa fa-check"></i><b>4.4</b> Computer function names</a></li>
+<li class="chapter" data-level="4.5" data-path="fun-describing.html"><a href="fun-describing.html#mathematical-notation"><i class="fa fa-check"></i><b>4.5</b> Mathematical notation</a></li>
+<li class="chapter" data-level="4.6" data-path="fun-describing.html"><a href="fun-describing.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fun-notation.html"><a href="fun-notation.html"><i class="fa fa-check"></i><b>5</b> Notation for functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fun-notation.html"><a href="fun-notation.html#a-notation-for-computing"><i class="fa fa-check"></i><b>5.1</b> A notation for computing</a></li>
+<li class="chapter" data-level="5.2" data-path="fun-notation.html"><a href="fun-notation.html#words-for-using-functions"><i class="fa fa-check"></i><b>5.2</b> Words for using functions</a></li>
+<li class="chapter" data-level="5.3" data-path="fun-notation.html"><a href="fun-notation.html#algorithms"><i class="fa fa-check"></i><b>5.3</b> Formulas and algorithms</a></li>
+<li class="chapter" data-level="5.4" data-path="fun-notation.html"><a href="fun-notation.html#algorithms-without-formulas"><i class="fa fa-check"></i><b>5.4</b> Algorithms without formulas</a></li>
+<li class="chapter" data-level="5.5" data-path="fun-notation.html"><a href="fun-notation.html#computer-notation"><i class="fa fa-check"></i><b>5.5</b> Computer notation</a></li>
+<li class="chapter" data-level="5.6" data-path="fun-notation.html"><a href="fun-notation.html#calcz-naming-conventions"><i class="fa fa-check"></i><b>5.6</b> CalcZ naming conventions</a></li>
+<li class="chapter" data-level="5.7" data-path="fun-notation.html"><a href="fun-notation.html#functions-in-r"><i class="fa fa-check"></i><b>5.7</b> Functions in R</a></li>
+<li class="chapter" data-level="5.8" data-path="fun-notation.html"><a href="fun-notation.html#foursigns"><i class="fa fa-check"></i><b>5.8</b> <span class="math inline">\(=\)</span>, <span class="math inline">\(\equiv\)</span>, <span class="math inline">\(\rightarrow\)</span>, <code>&lt;-</code></a></li>
+<li class="chapter" data-level="5.9" data-path="fun-notation.html"><a href="fun-notation.html#exercises-4"><i class="fa fa-check"></i><b>5.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html"><i class="fa fa-check"></i><b>6</b> Graphics &amp; function graphs</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#the-graphics-frame"><i class="fa fa-check"></i><b>6.1</b> The graphics frame</a></li>
+<li class="chapter" data-level="6.2" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-graphics-the-point-plot"><i class="fa fa-check"></i><b>6.2</b> Data graphics: the point plot</a></li>
+<li class="chapter" data-level="6.3" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#function-graphs"><i class="fa fa-check"></i><b>6.3</b> Function graphs</a></li>
+<li class="chapter" data-level="6.4" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#graphics-layers"><i class="fa fa-check"></i><b>6.4</b> Graphics layers</a></li>
+<li class="chapter" data-level="6.5" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-and-functions"><i class="fa fa-check"></i><b>6.5</b> Data and functions</a></li>
+<li class="chapter" data-level="6.6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#inputs-to-output-1"><i class="fa fa-check"></i><b>6.6</b> Inputs to output</a></li>
+<li class="chapter" data-level="6.7" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#outputs-to-inputs"><i class="fa fa-check"></i><b>6.7</b> Outputs to inputs</a></li>
+<li class="chapter" data-level="6.8" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#surface-plot"><i class="fa fa-check"></i><b>6.8</b> Graphs of functions with two inputs</a></li>
+<li class="chapter" data-level="6.9" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#contour-plots"><i class="fa fa-check"></i><b>6.9</b> Contour plots</a></li>
+<li class="chapter" data-level="6.10" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#slice-plots"><i class="fa fa-check"></i><b>6.10</b> Slice plots</a></li>
+<li class="chapter" data-level="6.11" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#exercises-5"><i class="fa fa-check"></i><b>6.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="params-intro.html"><a href="params-intro.html"><i class="fa fa-check"></i><b>7</b> Parameters for functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="params-intro.html"><a href="params-intro.html#parallel-scales"><i class="fa fa-check"></i><b>7.1</b> Parallel scales</a></li>
+<li class="chapter" data-level="7.2" data-path="params-intro.html"><a href="params-intro.html#scaling-the-input"><i class="fa fa-check"></i><b>7.2</b> Scaling the input</a></li>
+<li class="chapter" data-level="7.3" data-path="params-intro.html"><a href="params-intro.html#scale-the-output"><i class="fa fa-check"></i><b>7.3</b> Scale the output</a></li>
+<li class="chapter" data-level="7.4" data-path="params-intro.html"><a href="params-intro.html#linear-combinations"><i class="fa fa-check"></i><b>7.4</b> Linear combinations</a></li>
+<li class="chapter" data-level="7.5" data-path="params-intro.html"><a href="params-intro.html#exercises-6"><i class="fa fa-check"></i><b>7.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="process-of-modeling.html"><a href="process-of-modeling.html"><i class="fa fa-check"></i><b>8</b> Finding parameters for the basic modeling functions</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="process-of-modeling.html"><a href="process-of-modeling.html#variations-from-scaling"><i class="fa fa-check"></i><b>8.1</b> Variations from scaling</a></li>
+<li class="chapter" data-level="8.2" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-periodic"><i class="fa fa-check"></i><b>8.2</b> Curve fitting a periodic function</a></li>
+<li class="chapter" data-level="8.3" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-exponential"><i class="fa fa-check"></i><b>8.3</b> Curve fitting an exponential function</a></li>
+<li class="chapter" data-level="8.4" data-path="process-of-modeling.html"><a href="process-of-modeling.html#curve-fitting-a-power-law-function"><i class="fa fa-check"></i><b>8.4</b> Curve fitting a power-law function</a></li>
+<li class="chapter" data-level="8.5" data-path="process-of-modeling.html"><a href="process-of-modeling.html#gaussian-and-sigmoid-functions"><i class="fa fa-check"></i><b>8.5</b> Gaussian and sigmoid functions</a></li>
+<li class="chapter" data-level="8.6" data-path="process-of-modeling.html"><a href="process-of-modeling.html#exercises-7"><i class="fa fa-check"></i><b>8.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="fun-slopes.html"><a href="fun-slopes.html"><i class="fa fa-check"></i><b>9</b> Slope function</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="fun-slopes.html"><a href="fun-slopes.html#change-and-slope"><i class="fa fa-check"></i><b>9.1</b> Change and slope</a></li>
+<li class="chapter" data-level="9.2" data-path="fun-slopes.html"><a href="fun-slopes.html#continuous-change"><i class="fa fa-check"></i><b>9.2</b> Continuous change</a></li>
+<li class="chapter" data-level="9.3" data-path="fun-slopes.html"><a href="fun-slopes.html#slope"><i class="fa fa-check"></i><b>9.3</b> Slope</a></li>
+<li class="chapter" data-level="9.4" data-path="fun-slopes.html"><a href="fun-slopes.html#the-fitted-line"><i class="fa fa-check"></i><b>9.4</b> The fitted line</a></li>
+<li class="chapter" data-level="9.5" data-path="fun-slopes.html"><a href="fun-slopes.html#average-rate-of-change"><i class="fa fa-check"></i><b>9.5</b> Average rate of change</a></li>
+<li class="chapter" data-level="9.6" data-path="fun-slopes.html"><a href="fun-slopes.html#instantaneous-rate-of-change"><i class="fa fa-check"></i><b>9.6</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="9.7" data-path="fun-slopes.html"><a href="fun-slopes.html#exercises-8"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html"><i class="fa fa-check"></i><b>10</b> Function inverses and “solving”</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#function-inverses"><i class="fa fa-check"></i><b>10.1</b> Function inverses</a></li>
+<li class="chapter" data-level="10.2" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#solving-graphically"><i class="fa fa-check"></i><b>10.2</b> Solving graphically</a></li>
+<li class="chapter" data-level="10.3" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#zero-finding"><i class="fa fa-check"></i><b>10.3</b> Zero-finding</a></li>
+<li class="chapter" data-level="10.4" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#exercises-9"><i class="fa fa-check"></i><b>10.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="fun-assembling.html"><a href="fun-assembling.html"><i class="fa fa-check"></i><b>11</b> Assembling functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="fun-assembling.html"><a href="fun-assembling.html#linear-combination"><i class="fa fa-check"></i><b>11.1</b> Linear combination</a></li>
+<li class="chapter" data-level="11.2" data-path="fun-assembling.html"><a href="fun-assembling.html#function-composition"><i class="fa fa-check"></i><b>11.2</b> Function composition</a></li>
+<li class="chapter" data-level="11.3" data-path="fun-assembling.html"><a href="fun-assembling.html#modeling-polynomial-1"><i class="fa fa-check"></i><b>11.3</b> The modeling polynomial</a></li>
+<li class="chapter" data-level="11.4" data-path="fun-assembling.html"><a href="fun-assembling.html#function-multiplication"><i class="fa fa-check"></i><b>11.4</b> Function multiplication</a></li>
+<li class="chapter" data-level="11.5" data-path="fun-assembling.html"><a href="fun-assembling.html#all-together-now"><i class="fa fa-check"></i><b>11.5</b> All together now!</a></li>
+<li class="chapter" data-level="11.6" data-path="fun-assembling.html"><a href="fun-assembling.html#exercises-10"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html"><i class="fa fa-check"></i><b>12</b> Functions with multiple inputs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#fx-times-gt"><i class="fa fa-check"></i><b>12.1</b> f(x) times g(t)</a></li>
+<li class="chapter" data-level="12.2" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#two-variable-modeling-polynomial"><i class="fa fa-check"></i><b>12.2</b> Two-variable modeling polynomial</a></li>
+<li class="chapter" data-level="12.3" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#exercises-11"><i class="fa fa-check"></i><b>12.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="fun-piecewise.html"><a href="fun-piecewise.html"><i class="fa fa-check"></i><b>13</b> Piecewise functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="fun-piecewise.html"><a href="fun-piecewise.html#splitting-the-domain"><i class="fa fa-check"></i><b>13.1</b> Splitting the domain</a></li>
+<li class="chapter" data-level="13.2" data-path="fun-piecewise.html"><a href="fun-piecewise.html#basic-piecewise-functions"><i class="fa fa-check"></i><b>13.2</b> Basic piecewise functions</a></li>
+<li class="chapter" data-level="13.3" data-path="fun-piecewise.html"><a href="fun-piecewise.html#exercises-12"><i class="fa fa-check"></i><b>13.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="modeling-cycle.html"><a href="modeling-cycle.html"><i class="fa fa-check"></i><b>14</b> Modeling cycle</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-cooling-water"><i class="fa fa-check"></i><b>14.1</b> Example: Cooling water</a></li>
+<li class="chapter" data-level="14.2" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-the-tides"><i class="fa fa-check"></i><b>14.2</b> Example: The tides</a></li>
+<li class="chapter" data-level="14.3" data-path="modeling-cycle.html"><a href="modeling-cycle.html#modeling-project"><i class="fa fa-check"></i><b>14.3</b> Modeling project</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="magnitudes.html"><a href="magnitudes.html"><i class="fa fa-check"></i><b>15</b> Magnitudes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="magnitudes.html"><a href="magnitudes.html#counting-digits"><i class="fa fa-check"></i><b>15.1</b> Counting digits</a></li>
+<li class="chapter" data-level="15.2" data-path="magnitudes.html"><a href="magnitudes.html#using-digit-to-understand-magnitude"><i class="fa fa-check"></i><b>15.2</b> Using digit() to understand magnitude</a></li>
+<li class="chapter" data-level="15.3" data-path="magnitudes.html"><a href="magnitudes.html#quantity-and-magnitude"><i class="fa fa-check"></i><b>15.3</b> Quantity and magnitude</a></li>
+<li class="chapter" data-level="15.4" data-path="magnitudes.html"><a href="magnitudes.html#composing-ln"><i class="fa fa-check"></i><b>15.4</b> Composing <span class="math inline">\(\ln()\)</span></a></li>
+<li class="chapter" data-level="15.5" data-path="magnitudes.html"><a href="magnitudes.html#magnitude-graphics"><i class="fa fa-check"></i><b>15.5</b> Magnitude graphics</a></li>
+<li class="chapter" data-level="15.6" data-path="magnitudes.html"><a href="magnitudes.html#reading-log-axes"><i class="fa fa-check"></i><b>15.6</b> Reading logarithmic scales</a></li>
+<li class="chapter" data-level="15.7" data-path="magnitudes.html"><a href="magnitudes.html#fractional-digits"><i class="fa fa-check"></i><b>15.7</b> Fractional digits (optional)</a></li>
+<li class="chapter" data-level="15.8" data-path="magnitudes.html"><a href="magnitudes.html#exercises-13"><i class="fa fa-check"></i><b>15.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="dimensions.html"><a href="dimensions.html"><i class="fa fa-check"></i><b>16</b> Dimensions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="dimensions.html"><a href="dimensions.html#mathematics-of-quantity"><i class="fa fa-check"></i><b>16.1</b> Mathematics of quantity</a></li>
+<li class="chapter" data-level="16.2" data-path="dimensions.html"><a href="dimensions.html#compound-dimensions"><i class="fa fa-check"></i><b>16.2</b> Compound dimensions</a></li>
+<li class="chapter" data-level="16.3" data-path="dimensions.html"><a href="dimensions.html#arithmetic-with-dimensions"><i class="fa fa-check"></i><b>16.3</b> Arithmetic with dimensions</a></li>
+<li class="chapter" data-level="16.4" data-path="dimensions.html"><a href="dimensions.html#pendulum-dimensions"><i class="fa fa-check"></i><b>16.4</b> Example: Dimensional analysis</a></li>
+<li class="chapter" data-level="16.5" data-path="dimensions.html"><a href="dimensions.html#conversion-flavors-of-1"><i class="fa fa-check"></i><b>16.5</b> Conversion: Flavors of 1</a></li>
+<li class="chapter" data-level="16.6" data-path="dimensions.html"><a href="dimensions.html#dimensions-and-linear-combinations"><i class="fa fa-check"></i><b>16.6</b> Dimensions and linear combinations</a></li>
+<li class="chapter" data-level="16.7" data-path="dimensions.html"><a href="dimensions.html#exercises-14"><i class="fa fa-check"></i><b>16.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html"><i class="fa fa-check"></i>Projects and review</a>
+<ul>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#block-1-project-1-ebola-in-guinea-part-i"><i class="fa fa-check"></i>Block 1 Project 1: Ebola in Guinea, part I</a>
+<ul>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#data"><i class="fa fa-check"></i>Data</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#exploring-the-data"><i class="fa fa-check"></i>Exploring the Data</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#data-wrangling"><i class="fa fa-check"></i>Data Wrangling</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#analysis-of-the-outbreak"><i class="fa fa-check"></i>Analysis of the outbreak</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#more-data-smoothing"><i class="fa fa-check"></i>More data smoothing</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#final-thoughts"><i class="fa fa-check"></i>Final thoughts</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#block-1-project-2-orbit-dimensions"><i class="fa fa-check"></i>Block 1 Project 2: Orbit dimensions</a>
+<ul>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#the-theory"><i class="fa fa-check"></i>The theory</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#the-data"><i class="fa fa-check"></i>The data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#block-1-review"><i class="fa fa-check"></i>Block 1 Review</a></li>
+</ul></li>
+<li class="divider"></li>
+<hr>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/linear-forms.html">Block 5: Linear combinations</a></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"> </a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="fun-multiple-inputs" class="section level1" number="12">
+<h1><span class="header-section-number">Chapter 12</span> Functions with multiple inputs</h1>
+<p>We can use <strong><em>linear combination</em></strong> and <strong><em>function multiplication</em></strong> to build up custom functions from the basic modeling functions. Similarly, linear combination and function multiplication provide ways to construct functions of multiple inputs. <span style="float: right; padding-left: 50px;"><a name="1400" href="#1400"><img src="www/icons8-signpost.png" title="Location: 1400" width="12px"/></a><span style="color: red; font-size: 6pt;">1400</red></span></p>
+<div id="fx-times-gt" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> f(x) times g(t)</h2>
+<p>For example, when a guitar string is at rest it forms a straight line connecting its two fixed ends: one set by finger pressure along the neck of the guitar and the other at the bridge near the center of the guitar body. When a guitar string is plucked, its oscillations follow a sinusoid pattern of <strong>displacement</strong>. With the right camera and lighting setup, we can see these oscillations in action:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/F0NsJ7J8rYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p>For a string of length <span class="math inline">\(L\)</span>, the string displacement is a function of position <span class="math inline">\(x\)</span> along the string and is a linear combination of functions of the form <span class="math display">\[g_k(x) \equiv \sin(k \pi x /L)\]</span> where <span class="math inline">\(k\)</span> is an integer. A few of these functions are graphed in Figure <a href="fun-multiple-inputs.html#fig:guitar-string-modes">12.1</a> with <span class="math inline">\(k=1\)</span>, <span class="math inline">\(k=2\)</span>, and <span class="math inline">\(k=3\)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:guitar-string-modes"></span>
+<img src="MOSAIC_Calculus_files/figure-html/guitar-string-modes-1.png" alt="Vibrational modes of a guitar string." width="90%" /><img src="MOSAIC_Calculus_files/figure-html/guitar-string-modes-2.png" alt="Vibrational modes of a guitar string." width="90%" />
+<p class="caption">
+Figure 12.1: Vibrational modes of a guitar string.
+</p>
+</div>
+<p>Shapes of the sort in Figure <a href="fun-multiple-inputs.html#fig:guitar-string-modes">12.1</a> are a stop-motion flash snapshot of the string. The string’s shape also changes in time, so the string’s displacement is a function of both <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span>. The displacement itself is a sinusoid whose time period depends on the length and tension of the string as well as the number of cycles of the spatial sine:
+<span class="math display">\[g_k(x, t) \equiv \sin(\frac{k \pi}{L} x) \ \sin(\frac{k \pi}{P}t)\]</span> Figure <a href="fun-multiple-inputs.html#fig:string-motion">12.2</a> shows a few snapshots of the 1.5 cycle string at different moments in time, and the motion of the linear combination.<span style="float: right; padding-left: 50px;"><a name="1410" href="#1410"><img src="www/icons8-signpost.png" title="Location: 1410" width="12px"/></a><span style="color: red; font-size: 6pt;">1410</red></span></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:string-motion"></span>
+<img src="MOSAIC_Calculus_files/figure-html/string-motion-1.png" alt="String position changes over time." width="90%" /><img src="MOSAIC_Calculus_files/figure-html/string-motion-2.png" alt="String position changes over time." width="90%" />
+<p class="caption">
+Figure 12.2: String position changes over time.
+</p>
+</div>
+</div>
+<div id="two-variable-modeling-polynomial" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> Two-variable modeling polynomial</h2>
+<p>In Section <a href="fun-assembling.html#modeling-polynomial-1">11.3</a> we introduced the low-order polynomial, either <span class="math inline">\(g_1(x) \equiv a_0 + a_1 x\)</span> or <span class="math inline">\(g_1(x) \equiv b_0 + b_1 x + b_2 x^2\)</span> as a general-purpose way of generating a function with a smoothly curved shape. The same applies in constructing simple functions of two variables.</p>
+<p>Almost always, you should use at least a first-order polynomial, which is:
+<span class="math display">\[h_1(x, y) \equiv a_0 + a_x x + a_y y\]</span>
+But there is an important extension of this, using what’s called a <strong><em>bilinear term</em></strong> or, more evocatively in statistics, an <strong><em>interaction term</em></strong>. This is
+<span class="math display">\[h_2(x, y) \equiv \underbrace{b_0}_\text{intercept} + \underbrace{b_x\, x + b_y\, y}_\text{linear terms} + \underbrace{b_{xy}\,x\, y}_\text{bilinear term}\]</span></p>
+<p>The bilinear term arises in models of phenemona such as the spread of epidemics, the population dynamics of predator and prey animals, and the rates of chemical reactions. In each of these situations one thing is interacting with another: a predator killing a prey animal, an infective individual meeting a person susceptible to the disease, one chemical compound reacting with another. <span style="float: right; padding-left: 50px;"><a name="1420" href="#1420"><img src="www/icons8-signpost.png" title="Location: 1420" width="12px"/></a><span style="color: red; font-size: 6pt;">1420</red></span></p>
+<p>Under certain circumstances, modelers include one or both <strong><em>quadratic terms</em></strong>, as in
+<span class="math display">\[h_3(x, y) \equiv c_0 + c_x\, x + c_y\, y + c_{xy}\,x\, y + \underbrace{c_{yy}\, y^2}_\text{quadratic in y}\]</span>
+The skilled modeler can often deduce which terms to include from basic facts about the system being modeled. We’ll need some additional calculus concepts before we can explain this in a straightforward way.</p>
+<div class="why">
+<p>In writing polynomials like <span class="math display">\[h_1(x, y) \equiv a_0 + a_x x + a_y y\]</span> or <span class="math display">\[h_3(x, y) \equiv c_0 + c_x x + c_y\ y + c_{xy} x\ y\]</span>
+we are using <strong>letters</strong> as subscripts on the coefficients. Think of <span class="math inline">\(c_x\)</span> as saying, “I am the coefficient on the <span class="math inline">\(x\)</span> term in the polynomial.” Using this style lets us use different letters from the start of the alphabet for the names of coefficients in the different polynomials while still making it clear which term each coefficient is scaling.</p>
+</div>
+<div class="why">
+<p>We left function <strong><em>composition</em></strong> out of the list of ways to build multivariable functions out of simpler functions with a single input.</p>
+<p>For instance, consider the two functions <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(t)\)</span>. The composition <span class="math inline">\(f(g(t))\)</span> has only <strong>one</strong> input: <span class="math inline">\(t\)</span>. Similarly, <span class="math inline">\(g(f(x))\)</span> has only one input: <span class="math inline">\(x\)</span>.</p>
+</div>
+</div>
+<div id="exercises-11" class="section level2" number="12.3">
+<h2><span class="header-section-number">12.3</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise 12.1</strong>: <span><a name="File: Exercises/NOAA.Rmd" href="#ICLSE"><img src="www/icons8-signpost.png" title="Location: Exercises/NOAA.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ICLSE</red></span>
+</summary>
+<p>Many printed tables are meant to be used as functions; you plug in the input values and read off the output. Here’s a table published by the National Oceanic and Atmospheric Administration for the <a href="https://en.wikipedia.org/wiki/Heat_index">heat index</a>, a way of summarizing the perceived comfort (or discomfort) of summer-like weather conditions.</p>
+<p><img src="Exercises/www/heat-index.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question A</strong> What are the inputs to the heat-index function</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">temperature and relative humidity<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">temperature and wind speed<span class="mcanswer">︎✘ Those are the inputs to the wind-chill function, not the heat index.</span></span><br />
+</li>
+<li><span class="Zchoice">temperature, latitude, and longitude<span class="mcanswer">︎✘ The heat index doesn’t depend on location.</span></span></li>
+</ol>
+<p>The table actually shows three different functions:</p>
+<ol style="list-style-type: decimal">
+<li>The heat index in <span class="math inline">\(^\circ\)</span> F.</li>
+<li>The heat index in <span class="math inline">\(^\circ\)</span> C.</li>
+<li>A caution warning level.</li>
+</ol>
+<p><strong>Question B</strong> For inputs of 70% relative humidity and <span class="math inline">\(88^{\circ}\)</span> F, what are the outputs of the three functions?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(100^{\circ}\)</span> F, <span class="math inline">\(38^\circ\)</span> C, and “extreme caution”.<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(100^\circ\)</span> F, <span class="math inline">\(38^\circ\)</span> C, and “danger”.<span class="mcanswer">︎✘ Check again!</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(100^\circ\)</span> F, <span class="math inline">\(33^\circ\)</span> C, and “extreme caution”.<span class="mcanswer">︎✘ 33C does is not the same temperature as 100F.</span></span></li>
+</ol>
+<p><strong>Question C</strong> Holding the relative humidity at 70%, how much would the ambient temperature have to increase (from <span class="math inline">\(88^\circ\)</span> F) to change the caution-level output to “dangerous”?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Increase by <span class="math inline">\(2^\circ\)</span> F<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice">Increase by <span class="math inline">\(6^\circ\)</span> F<span class="mcanswer">︎✘ It looks like you’re increasing the humidity to the point where the heat index is <span class="math inline">\(106^circ\)</span> F. But we asked you how much the temperature <em>input</em> has to change, not the heat-index output.</span></span><br />
+</li>
+<li><span class="Zchoice">Increase relative humidity to 80%.<span class="mcanswer">︎✘ It’s true that at <span class="math inline">\(100^\circ\)</span> F and 80% humidity, the caution-index is “dangerous”. But the problem specified holding humidity constant.</span></span></li>
+</ol>
+<p><strong>Question D</strong> From a starting point of <span class="math inline">\(88^\circ\)</span> F and 70% humidity, what is the slope of the increase in heat index when moving to 80% humidity.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(6^\circ\)</span> F per 10 percentage points humidity<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(6^\circ\)</span> F<span class="mcanswer">︎✘ A slope is always “rise over run”. You’ve got the rise right, but what about the run?</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(6^\circ\)</span> F per 80% humidity.<span class="mcanswer">︎✘ The slope is the change in output divided by the change in input, i.e. “rise over run”. 80% is the humidity at the endpoint, but the run is the change in humidity from the starting point to the endpoint.</span></span></li>
+</ol>
+<p><strong>Question E</strong> What is the heat-index output when the inputs are 52% relative humidity and <span class="math inline">\(91^\circ\)</span> F? Choose the best answer.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(98.4^\circ\)</span> F<span class="mcanswer">Right! Of course, the 4 in the last digit is sketchy, but it’s reasonable to calculate the interpolated output by averaging over neighboring outputs.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(101^\circ\)</span> F<span class="mcanswer">︎✘ That’s the output at 55% humidity and <span class="math inline">\(92^\circ\)</span> F.</span></span><br />
+</li>
+<li><span class="Zchoice">The table doesn’t say.<span class="mcanswer">︎✘ While it’s true that there is no table entry specifically for 52% and <span class="math inline">\(91^\circ\)</span> F, you can make a very reasonable guess by <em>interpolation</em>, that is, reading between the rows and columns.</span></span></li>
+</ol>
+<p><strong>Question F</strong> True or false: The caution-level output could have been presented as a function of just one variable, rather than needing both temperature and humidity both.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">TRUE<span class="mcanswer">Excellent! The caution-level output is not a function of ambient temperature alone or of humidity alone. But if you know the heat-index, you know that caution level exactly.</span></span><br />
+</li>
+<li><span class="Zchoice">FALSE<span class="mcanswer">︎✘ Notice that the caution-level output is the same for any given level of the heat index, regardless of the ambient temperature or humidity separately.</span></span></li>
+</ol>
+<p>The US National Weather Service also publishes a heat index graphic, the one below.</p>
+<p><img src="Exercises/www/weather-service-heatindex.png" width="90%" style="display: block; margin: auto;" /></p>
+<a href="https://www.weather.gov/images/oun/wxsafety/summerwx/heatindex.gif">Source link</a>
+</details>
+<details>
+<summary>
+<strong>Exercise 12.2</strong>: <span><a name="File: Exercises/pythagorus-two.Rmd" href="#EDKKW"><img src="www/icons8-signpost.png" title="Location: Exercises/pythagorus-two.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">EDKKW</red></span>
+</summary>
+<p>Recall the Pythagorean theorem: <span class="math inline">\(C^2 = A^2 + B^2\)</span>. Let’s write this as a function that takes as inputs the lengths of the two legs and produces as output the length of the hypotenuse.</p>
+<p><span class="math display">\[\text{hypotenuse}(a, b) \equiv \sqrt{\strut a^2 + b^2}\]</span></p>
+<p>This can be seen as a <strong>composition</strong> of a function <span class="math inline">\(f(x) \equiv \sqrt{x}\)</span> into a linear combination of square functions of different inputs: <span class="math inline">\(g(a, b) \equiv a^2 + b^2\)</span>.</p>
+<p><strong>Question A</strong> What is the function <span class="math inline">\(f()\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(f(x) \equiv a^2\)</span><span class="mcanswer">︎✘ This wouldn’t make sense. The output of <span class="math inline">\(f()\)</span> doesn’t depend on its input.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) \equiv \sqrt{x}\)</span><span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) \equiv x^2\)</span><span class="mcanswer">︎✘ This is part of the interior function, not the outer function.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) \equiv +\)</span><span class="mcanswer">︎✘ Sorry, but the output of the hypothenuse() function needs to be a quantity, and <span class="math inline">\(+\)</span> is not a quantity. </span></span></li>
+</ol>
+<p><strong>Question B</strong> What is the function <span class="math inline">\(g()\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(g(x) \equiv a^2\)</span><span class="mcanswer">︎✘ This wouldn’t make sense. The output of <span class="math inline">\(f()\)</span> doesn’t depend on its input.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g(a) \equiv x^2\)</span><span class="mcanswer">︎✘ This wouldn’t make sense. The output of <span class="math inline">\(f()\)</span> doesn’t depend on its input.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g(x) \equiv x^2\)</span><span class="mcanswer">Excellent! Right, a power-law function. It doesn’t matter what we call the input, so long as it’s used consistently in the definition.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g(x) \equiv a^2 + b^2\)</span><span class="mcanswer">︎✘ Sorry, but the input name is <span class="math inline">\(x\)</span> and the formula on the right side of the tilde expression has <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in it.</span></span></li>
+</ol>
+<p><strong>Question C</strong> There are two functions in the linear combination. What are they?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(g(a)\)</span> and <span class="math inline">\(g(b)\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(f(b)\)</span> and <span class="math inline">\(g(b)\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question D</strong> What are the scalars in the linear combination?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(1\)</span> and <span class="math inline">\(1\)</span><span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(1\)</span> and <span class="math inline">\(-1\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">There are no scalars.<span class="mcanswer">︎✘ I think I know what you’re getting at. The tradition in mathematics is that when a scalar is <span class="math inline">\(1\)</span>, we don’t write it down. But still, the scalar is <span class="math inline">\(1\)</span>.</span></span></li>
+</ol>
+<div class="why">
+<p>You used <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> as the names of the inputs to hypotenuse(). Aren’t <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> meant to be parameters, not input names?</p>
+<p>You can use whatever you want as input names, so long as they are used consistently between the left and right sides of the <span class="math inline">\(\\equiv\)</span>. Names like <span class="math inline">\(x\)</span>, <span class="math inline">\(t\)</span>, and <span class="math inline">\(y\)</span> scream out to be recognized as input names, so these are what we use most of the time. But the Pythagorean theorem is usually written using A, B, and C. I’m honoring that convention so that a human reader gets a cultural hint what the inputs stand for. I’m unapologetic about this, since you got fair warning by the left side of the <span class="math inline">\(\\equiv\)</span> what the argument names are.</p>
+</div>
+</details>
+<details>
+<summary>
+<strong>Exercise 12.4</strong>: <span><a name="File: Exercises/spider-tear-plant.Rmd" href="#dB1r5F"><img src="www/icons8-signpost.png" title="Location: Exercises/spider-tear-plant.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">dB1r5F</red></span>
+</summary>
+<p>Auckland, New Zealand is in a field of dormant volcanos. The highest, at 193 meters above sea level, is <a href="https://en.wikipedia.org/wiki/Maungawhau_/_Mount_Eden">Maungawhau</a>. Formerly, tourists could drive to the peak and look down into the crater, as seen in the picture.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:Maungawhau"></span>
+<img src="Exercises/www/800px-Mt_Eden_Panorama_December_2012.jpg" alt="The crater of Maungawhau, near Auckland, New Zealand. [Source](https://commons.wikimedia.org/wiki/File:Mt._Eden_Panorama_December_2012.jpg)" width="90%" />
+<p class="caption">
+Figure 12.3: The crater of Maungawhau, near Auckland, New Zealand. <a href="https://commons.wikimedia.org/wiki/File:Mt._Eden_Panorama_December_2012.jpg">Source</a>
+</p>
+</div>
+<p>The initial creator of R, Ross Ihaka, teaches at the University of Auckland. His digitization of a topographic map is easily plotted, as here:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:Maungawhau-plot"></span>
+<div id="htmlwidget-8429549f53237f455665" style="width:90%;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8429549f53237f455665">{"x":{"visdat":{"6d895747dd9f":["function () ","plotlyVisDat"]},"cur_data":"6d895747dd9f","attrs":{"6d895747dd9f":{"z":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"surface","contours":{"z":{"show":true,"usecolormap":true,"highlightcolor":"#ff0000","project":{"z":true}}},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"camera":{"eye":{"x":1.87,"y":0.88,"z":-0.64}},"zaxis":{"title":"volcano"}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"colorbar":{"title":"volcano","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666666","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"z":[[100,100,101,101,101,101,101,100,100,100,101,101,102,102,102,102,103,104,103,102,101,101,102,103,104,104,105,107,107,107,108,108,110,110,110,110,110,110,110,110,108,108,108,107,107,108,108,108,108,108,107,107,107,107,106,106,105,105,104,104,103],[101,101,102,102,102,102,102,101,101,101,102,102,103,103,103,103,104,105,104,103,102,102,103,105,106,106,107,109,110,110,110,110,111,112,113,114,116,115,114,112,110,110,110,109,108,109,109,109,109,108,108,108,108,107,107,106,106,105,105,104,104],[102,102,103,103,103,103,103,102,102,102,103,103,104,104,104,104,105,106,105,104,104,105,106,107,108,110,111,113,114,115,114,115,116,118,119,119,121,121,120,118,116,114,112,111,110,110,110,110,109,109,109,109,108,108,107,107,106,106,105,105,104],[103,103,104,104,104,104,104,103,103,103,103,104,104,104,105,105,106,107,106,106,106,107,108,110,111,114,117,118,117,119,120,121,122,124,125,126,127,127,126,124,122,120,117,116,113,111,110,110,110,109,109,109,109,108,108,107,107,106,106,105,105],[104,104,105,105,105,105,105,104,104,103,104,104,105,105,105,106,107,108,108,108,109,110,112,114,115,118,121,122,121,123,128,131,129,130,131,131,132,132,131,130,128,126,122,119,115,114,112,110,110,110,110,110,109,109,108,107,107,107,106,106,105],[105,105,105,106,106,106,106,105,105,104,104,105,105,106,106,107,109,110,110,112,113,115,116,118,119,121,124,126,126,129,134,137,137,136,136,135,136,136,136,135,133,129,126,122,118,116,115,113,111,110,110,110,110,109,108,108,108,107,107,106,106],[105,106,106,107,107,107,107,106,106,105,105,106,106,107,108,109,111,113,114,116,118,120,121,122,123,125,127,129,130,135,140,142,142,142,141,140,140,140,140,139,137,134,129,125,121,118,116,114,112,110,110,110,111,110,109,109,108,108,107,107,106],[106,107,107,108,108,108,108,107,107,106,106,107,108,108,110,113,115,117,118,120,122,124,125,127,128,129,131,134,135,141,146,147,146,146,145,144,144,144,143,142,141,139,135,130,126,122,118,116,114,112,112,113,112,110,110,109,109,108,108,107,106],[107,108,108,109,109,109,109,108,108,107,108,108,110,111,113,116,118,120,123,125,127,129,130,132,134,135,137,139,142,146,152,152,151,151,150,149,148,148,146,145,143,142,139,135,131,127,122,119,117,115,115,115,114,112,110,110,109,109,108,107,107],[108,109,109,110,110,110,110,109,109,108,110,110,113,116,118,120,122,125,127,129,133,136,138,140,141,142,148,150,151,156,158,159,158,157,158,158,154,151,149,148,146,144,141,137,134,130,125,122,120,118,117,117,115,113,111,110,110,109,108,107,107],[109,110,110,111,111,111,111,110,110,110,112,114,118,121,123,125,127,129,133,137,141,143,145,146,148,150,154,156,159,161,162,163,164,163,164,164,160,157,154,151,149,146,144,140,137,133,129,126,124,121,119,118,116,114,112,111,110,109,108,107,106],[110,110,111,113,112,111,113,112,112,114,116,119,121,124,127,129,133,138,143,146,149,149,151,153,154,157,159,160,163,165,166,167,168,168,168,168,166,162,159,157,154,152,149,144,140,136,133,131,128,125,122,119,117,115,113,111,110,109,108,107,106],[110,111,113,115,114,113,114,114,115,117,119,121,124,126,129,133,140,145,150,154,155,155,157,159,161,162,164,165,167,168,169,170,172,174,172,172,171,169,166,163,161,158,153,148,143,140,137,134,131,128,125,120,118,116,114,112,110,109,108,107,105],[111,113,115,117,116,115,116,117,117,119,121,124,126,128,132,137,143,151,156,161,161,162,163,165,166,167,168,170,171,173,175,177,179,178,177,176,176,174,171,169,165,161,156,152,148,144,140,138,135,131,127,123,119,117,115,113,111,110,108,106,105],[114,115,117,117,117,118,119,119,120,121,124,126,128,131,137,143,150,156,160,163,165,168,170,171,172,173,174,175,177,179,180,182,183,183,183,183,180,178,177,172,168,164,160,156,152,148,144,141,138,134,130,126,121,117,114,112,110,110,108,106,104],[116,118,118,118,120,121,121,122,122,123,125,128,130,134,141,147,152,156,160,165,168,170,174,176,179,180,181,181,182,182,183,184,186,187,187,184,184,181,180,176,172,168,165,161,157,153,149,145,142,138,133,129,125,120,115,111,110,110,108,106,104],[118,120,120,121,122,123,124,124,125,126,127,129,132,135,142,149,153,157,161,166,170,174,178,180,182,183,184,184,185,186,186,187,189,189,189,189,189,186,182,179,175,171,168,165,162,157,152,149,145,141,137,131,125,120,116,111,110,110,108,106,104],[120,121,122,123,124,125,126,127,127,128,130,132,134,137,142,151,155,158,162,169,172,176,181,183,184,186,187,188,189,189,189,189,190,190,191,190,190,188,186,183,180,175,171,168,165,161,157,152,149,145,141,134,127,121,116,112,110,110,108,106,104],[120,122,125,126,126,127,128,129,130,130,132,134,136,139,145,152,157,160,167,172,175,178,181,185,186,188,190,191,192,193,193,192,192,191,192,191,191,190,190,187,184,181,177,172,169,165,161,156,152,147,143,139,131,123,119,115,111,110,108,106,105],[121,124,126,128,129,129,130,131,132,133,135,137,139,143,150,154,159,164,170,173,176,179,184,186,189,190,191,192,193,194,195,194,193,192,191,191,191,191,190,190,188,184,181,177,173,169,165,160,155,149,145,142,136,129,123,118,114,110,108,108,107],[122,125,127,130,130,131,133,134,135,136,137,140,143,147,154,158,162,166,171,174,177,181,186,189,190,190,191,192,191,191,190,189,188,189,190,190,191,190,190,190,189,186,184,181,177,173,169,164,158,152,148,144,140,134,125,118,115,111,110,108,107],[122,125,128,130,132,133,135,136,137,139,140,143,147,152,157,161,164,168,172,175,179,182,186,190,190,190,190,189,187,184,184,183,182,182,183,183,183,184,185,186,187,186,185,184,181,177,173,169,163,157,149,145,141,136,130,119,116,112,110,108,106],[123,126,129,131,133,135,137,138,139,141,143,147,150,156,161,164,167,170,173,177,181,184,187,188,190,189,187,185,183,179,176,174,174,174,174,174,176,177,179,180,182,183,182,181,181,180,176,171,166,160,152,147,142,138,133,126,121,115,110,106,105],[124,127,130,132,135,137,138,140,142,144,147,149,154,157,161,165,168,171,175,178,181,184,186,187,187,184,184,181,179,175,171,169,168,168,168,169,170,172,174,177,178,179,180,181,181,180,179,174,167,161,155,148,144,139,134,128,121,115,110,106,105],[123,128,131,133,136,138,140,142,144,146,149,151,154,157,160,164,168,172,175,178,181,183,184,184,185,183,180,177,174,170,167,165,164,164,164,165,166,168,171,175,176,178,180,181,180,180,179,177,170,163,157,150,144,139,134,128,121,115,110,108,107],[123,127,131,134,136,138,140,142,144,147,149,151,154,157,160,164,168,171,174,178,180,181,181,182,183,181,178,173,169,166,163,161,161,160,160,161,163,165,168,173,176,178,179,180,181,180,180,175,173,166,159,152,145,139,134,127,121,115,110,109,108],[120,124,128,131,134,137,139,142,144,146,149,151,153,156,160,163,167,171,174,178,180,180,180,180,180,180,175,171,167,162,160,158,157,157,157,158,159,162,166,170,175,177,178,180,181,181,180,178,175,169,160,154,148,140,134,128,121,115,110,110,109],[118,121,125,129,132,134,137,140,142,145,147,149,151,155,159,163,166,169,173,177,179,180,180,180,180,179,174,169,166,161,158,156,154,153,153,154,156,159,163,169,173,175,178,180,181,180,180,179,175,170,160,154,149,142,135,128,122,116,111,110,110],[117,120,121,125,129,132,135,138,140,143,145,147,149,153,157,160,163,166,171,174,177,179,180,180,180,179,172,168,164,160,157,154,151,149,150,150,154,158,164,169,174,178,180,180,180,180,178,177,175,170,161,153,148,142,135,129,123,116,113,112,110],[115,118,120,122,126,130,133,136,138,141,143,145,148,151,154,157,160,163,168,171,174,177,179,179,179,176,171,167,164,160,156,153,149,148,149,151,155,158,163,170,173,177,179,180,180,180,178,175,173,171,162,154,147,141,136,130,124,117,115,112,110],[114,116,118,120,122,127,131,133,136,138,141,143,146,148,151,154,157,160,164,168,171,174,178,178,179,177,173,169,165,161,157,154,151,149,150,152,155,159,166,171,175,177,179,180,180,179,176,174,171,168,159,151,146,141,135,129,124,119,116,113,110],[115,114,116,118,120,122,127,129,132,136,139,141,143,146,148,151,153,156,160,164,167,172,174,176,177,176,173,170,166,162,159,157,154,153,154,155,158,161,169,172,174,176,178,178,178,178,175,172,169,162,156,149,144,140,134,128,123,118,115,112,110],[113,113,114,116,118,120,122,125,129,133,136,138,141,143,146,149,150,153,156,160,165,170,173,176,176,176,173,172,169,165,163,160,158,157,158,159,161,166,170,170,173,175,176,178,176,173,171,168,164,158,153,146,140,137,132,127,121,117,113,111,110],[111,112,113,114,116,118,120,122,126,130,133,136,139,142,145,147,148,151,155,158,163,168,173,176,177,177,176,174,171,169,166,164,161,161,162,164,165,167,170,170,171,173,173,173,170,168,165,163,160,155,149,143,138,134,130,125,119,116,112,110,109],[110,112,113,113,114,116,118,120,123,127,131,134,137,141,143,145,148,150,154,157,161,166,171,176,178,178,178,176,174,172,170,167,167,167,166,168,170,169,168,167,168,168,168,168,167,165,163,160,156,152,146,140,136,131,128,122,118,114,110,110,109],[109,110,111,112,114,116,118,119,120,124,128,131,136,140,142,145,147,150,153,157,160,165,170,174,178,179,179,178,178,176,174,171,170,170,170,168,167,166,164,163,161,162,163,163,163,161,160,157,153,148,142,136,130,127,124,120,117,113,110,110,109],[108,109,111,112,114,116,117,118,120,121,125,128,132,138,142,144,147,149,153,156,160,164,170,174,178,180,180,179,179,178,176,172,170,170,170,168,166,164,162,160,157,156,157,158,158,156,153,151,149,144,139,130,127,124,121,118,115,112,110,110,109],[108,109,111,113,114,116,117,118,119,120,122,126,130,135,139,143,147,149,152,156,160,164,169,173,177,180,180,180,180,179,178,174,170,170,168,167,165,163,161,157,154,153,152,152,152,149,148,147,144,140,134,128,125,122,119,117,114,110,110,109,109],[107,108,111,112,114,115,116,117,119,120,121,124,128,133,137,141,145,149,152,156,160,164,168,172,176,179,180,180,180,179,178,174,170,168,166,165,163,161,158,154,150,149,148,146,145,143,143,143,140,136,130,126,123,120,118,115,112,110,110,109,109],[107,108,110,112,113,113,115,116,118,120,122,125,128,132,136,140,145,148,150,155,160,164,167,170,174,177,179,179,178,176,176,173,169,166,164,163,161,159,155,152,148,145,143,141,140,139,139,138,136,132,128,124,121,118,116,114,111,110,110,109,108],[107,108,109,111,113,114,116,117,119,120,122,125,128,132,137,141,144,146,149,152,157,162,166,168,171,173,175,175,173,172,172,171,168,165,162,160,158,156,153,149,145,142,139,138,137,136,135,133,131,129,126,122,119,117,114,112,110,110,109,108,107],[108,109,110,112,114,115,116,117,119,120,122,126,129,133,137,141,143,146,148,151,155,160,164,167,168,169,170,170,169,168,167,168,166,163,160,158,155,153,150,147,143,140,137,136,134,133,132,130,129,127,125,121,118,115,112,110,110,110,108,107,107],[109,110,111,113,115,116,117,118,120,121,123,126,129,133,138,141,143,146,148,150,155,159,163,165,166,167,168,168,166,165,164,161,160,159,158,155,152,149,147,144,141,138,135,134,132,130,129,128,126,124,122,120,117,113,111,110,110,110,108,107,107],[110,111,112,113,116,117,118,119,120,122,125,127,130,133,138,141,143,146,148,150,154,159,162,163,164,166,166,166,165,163,161,159,157,156,155,153,150,146,143,140,138,136,133,132,130,129,128,125,124,122,120,119,117,114,111,110,110,109,108,107,107],[111,112,113,114,116,117,118,119,120,123,125,128,130,134,139,141,144,146,148,151,154,158,161,164,166,167,168,166,165,163,161,158,156,154,152,150,146,142,139,137,135,133,131,130,129,128,127,125,123,121,120,118,116,113,111,110,110,109,108,107,106],[111,112,113,115,117,118,118,120,121,124,126,128,131,135,139,142,144,146,148,151,155,160,164,165,168,169,169,168,166,163,160,158,156,153,151,148,145,142,139,137,135,132,130,129,127,126,125,124,123,120,120,117,116,114,112,110,110,108,107,106,106],[112,113,114,116,117,118,119,120,122,124,127,129,132,135,139,142,144,146,149,152,157,162,167,169,170,170,170,168,165,163,161,159,157,155,151,148,145,141,139,136,134,132,130,128,127,126,124,123,122,120,119,117,116,114,112,111,109,107,106,106,105],[113,114,115,116,117,119,119,120,122,125,127,129,132,135,139,142,144,147,149,154,159,164,169,170,170,170,170,170,168,165,163,161,158,155,151,148,145,142,139,137,135,132,131,128,126,125,124,122,121,120,119,117,115,113,111,110,109,106,105,105,104],[113,114,115,117,118,119,120,121,123,125,127,130,132,135,139,142,145,148,150,156,161,166,170,170,170,170,170,170,169,166,163,161,159,155,151,148,146,143,140,138,135,134,132,130,127,125,123,121,120,120,119,116,114,112,110,110,108,106,105,104,104],[114,115,116,117,118,119,120,121,123,126,128,130,133,136,139,142,145,148,152,157,161,166,168,170,170,170,170,168,166,164,163,160,159,155,151,148,146,143,141,138,136,134,132,130,128,125,123,121,120,120,118,116,113,111,110,110,109,106,105,104,104],[115,116,117,118,119,120,121,121,123,126,128,131,134,136,139,142,145,149,152,157,161,163,164,166,168,167,166,164,163,161,160,158,156,152,149,147,144,143,141,139,136,134,132,130,128,125,122,120,120,119,117,115,113,110,110,109,107,106,105,104,104],[115,116,117,118,119,120,121,122,123,125,128,131,134,137,139,142,145,149,152,156,159,159,160,162,162,161,161,160,159,158,157,155,153,150,148,146,145,143,142,140,137,134,131,129,126,124,122,120,119,117,115,113,111,110,109,109,107,106,105,104,104],[114,115,116,116,118,119,120,121,122,126,129,132,135,137,140,143,146,149,152,155,156,157,158,159,159,159,158,158,157,155,153,151,150,149,147,146,145,144,142,141,138,135,132,128,125,122,120,118,117,115,113,112,110,109,108,108,106,105,105,104,104],[113,114,115,116,117,118,119,120,123,126,129,132,135,138,140,143,146,148,151,153,154,156,157,157,157,157,156,155,154,152,150,149,148,147,146,145,144,142,141,140,139,136,132,129,125,121,118,116,115,113,111,110,109,108,108,107,106,105,104,104,104],[112,113,114,115,116,117,119,120,122,126,130,133,136,138,141,143,146,148,150,152,154,155,155,155,155,155,154,152,152,150,148,147,146,145,145,143,142,141,140,140,140,137,133,129,125,120,117,115,111,110,110,109,108,107,107,106,105,105,104,104,103],[111,112,114,115,116,117,118,120,122,125,131,134,137,139,142,144,146,148,150,152,153,153,153,153,153,153,153,151,149,147,146,144,144,143,143,142,141,140,140,140,140,138,134,130,123,120,118,111,110,110,110,108,107,106,108,105,105,104,104,103,103],[111,112,113,115,115,116,117,119,121,126,131,135,138,140,142,144,146,148,150,151,151,151,151,151,151,151,151,150,148,146,144,142,141,141,142,141,140,140,140,140,140,140,136,132,126,120,115,110,110,110,109,107,106,105,107,105,104,104,104,103,103],[112,113,113,114,115,116,117,119,122,127,132,135,139,141,143,145,147,149,150,150,150,150,150,150,150,150,150,149,147,144,142,141,140,140,140,140,140,140,140,140,140,140,137,133,128,120,117,110,110,110,108,106,105,105,106,105,104,104,103,103,103],[112,113,114,114,116,117,118,120,122,128,132,136,139,141,144,146,147,149,150,150,150,150,150,150,150,150,150,149,146,143,141,140,140,139,139,139,140,140,140,140,140,140,137,133,129,121,118,110,110,109,107,106,105,105,105,104,104,103,103,103,102],[112,114,114,115,116,117,119,120,122,128,133,136,140,142,144,146,148,150,150,150,150,150,150,150,150,150,150,148,145,142,140,138,138,138,137,138,140,140,140,140,140,140,137,134,130,122,118,110,110,108,106,105,103,104,104,104,104,103,103,102,102],[113,114,115,116,116,117,118,120,123,129,133,137,140,142,144,146,149,150,150,150,150,150,150,150,150,150,150,147,143,141,139,137,136,136,135,136,138,140,140,140,140,139,136,134,130,123,119,113,109,108,106,104,103,104,104,104,103,103,102,102,101],[114,115,115,116,117,118,118,120,123,129,133,137,140,143,145,147,150,150,150,150,150,150,150,150,150,150,148,145,142,139,138,136,135,134,134,134,136,138,137,138,139,137,134,132,125,122,117,114,109,107,105,103,102,104,104,103,103,102,102,101,101],[114,115,116,117,117,119,118,120,123,128,132,136,139,142,145,148,150,150,150,150,150,150,150,150,150,150,147,144,141,139,136,135,134,133,132,132,134,134,134,134,135,133,131,128,124,120,116,113,110,107,104,102,102,103,103,103,102,102,102,101,100],[115,116,116,117,118,119,119,120,124,128,132,136,139,142,145,148,150,150,150,150,150,150,150,150,150,149,146,143,140,138,135,134,133,131,131,131,131,131,131,131,130,127,124,122,119,117,115,112,109,106,104,101,102,103,103,102,102,102,101,100,100],[115,116,117,118,118,119,120,123,125,128,131,135,138,141,145,148,150,150,150,150,150,150,150,150,150,147,145,142,139,137,134,132,131,130,129,128,128,128,128,128,126,123,121,119,116,114,112,110,108,105,103,101,103,103,103,102,102,101,100,100,100],[116,117,118,118,119,120,122,123,125,128,131,134,137,141,145,148,149,150,150,150,150,150,150,150,148,145,143,141,138,135,133,130,129,128,127,126,125,125,125,124,123,120,118,116,114,111,109,107,106,104,102,100,101,101,102,102,101,100,100,100,100],[116,117,118,119,120,121,123,124,126,128,130,133,137,140,144,145,147,148,149,150,149,149,147,146,144,141,139,136,133,131,129,128,127,126,125,124,123,123,122,121,120,118,116,114,112,108,107,105,103,102,100,100,100,100,101,101,100,100,100,100,100],[117,118,119,119,120,121,123,124,126,128,129,131,135,139,142,143,145,146,147,147,147,146,144,142,140,138,135,133,130,128,127,126,125,124,123,122,121,120,119,118,117,115,114,112,110,106,105,102,101,100,100,100,100,100,100,100,100,99,99,99,99],[117,118,119,120,120,121,123,124,125,126,128,129,132,137,140,142,143,143,144,144,144,143,141,139,137,135,133,130,128,127,126,125,123,122,121,120,119,117,116,115,114,112,111,108,107,105,100,100,100,100,100,100,100,99,99,99,99,99,99,99,98],[116,117,118,120,120,121,122,123,124,125,126,128,130,134,139,140,141,141,141,141,141,140,138,136,134,133,131,129,127,125,124,123,122,120,119,118,117,116,114,112,111,108,109,106,106,100,100,100,100,100,99,99,99,99,99,99,99,98,98,98,97],[114,115,116,117,119,119,120,121,122,123,125,127,129,133,136,134,134,136,138,138,137,137,135,133,132,130,129,127,125,124,122,121,120,119,117,116,115,114,112,110,109,108,107,105,105,100,100,100,100,99,99,99,98,98,98,98,98,97,97,97,97],[112,113,114,115,116,116,117,119,120,122,124,126,127,129,129,128,127,129,132,133,133,133,133,131,129,127,126,125,124,122,121,119,118,117,116,114,113,112,110,109,108,106,106,105,100,100,100,98,98,98,98,98,98,97,97,97,97,97,97,97,96],[109,111,112,112,113,113,113,114,116,119,121,123,124,125,124,123,123,123,125,127,129,129,128,128,127,125,124,123,122,121,119,118,117,116,114,113,112,110,109,108,107,106,105,100,100,100,97,97,97,97,97,97,97,96,96,96,96,96,96,96,96],[106,107,108,108,109,110,110,112,113,114,117,119,120,121,119,117,117,117,118,120,123,124,125,125,125,123,121,120,120,119,118,117,116,115,114,113,111,109,109,107,106,105,100,100,100,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96],[104,105,105,106,106,107,108,108,109,109,111,115,116,114,113,112,111,110,111,113,116,119,122,122,122,121,120,119,118,118,117,116,115,114,113,112,111,108,108,106,105,100,100,100,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96],[102,103,103,104,104,105,106,106,107,108,109,111,112,110,109,108,108,108,108,109,110,112,116,117,117,118,118,118,117,116,116,115,114,113,112,111,110,107,107,105,100,100,100,97,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96],[101,102,103,103,104,105,105,106,106,107,108,109,109,107,106,106,105,105,105,106,107,108,109,110,111,113,114,115,115,115,114,113,112,111,110,108,108,106,105,100,100,100,97,97,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96],[100,101,102,102,103,103,104,104,105,106,106,107,106,106,106,105,105,104,103,103,104,105,107,108,110,111,111,112,112,113,113,112,111,110,108,107,106,105,100,100,100,98,97,97,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96],[100,101,101,102,102,103,103,104,104,105,105,105,105,106,105,105,104,103,102,101,102,103,104,106,107,110,111,111,111,112,112,112,110,107,107,106,105,102,100,100,99,98,97,97,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,95],[99,100,101,102,102,103,103,103,104,104,104,104,103,104,104,104,104,102,101,101,102,103,104,105,107,110,111,111,111,111,111,111,108,106,105,105,102,101,100,99,99,98,97,97,96,96,96,96,96,96,96,96,96,96,96,96,96,96,96,95,95],[99,100,100,101,101,102,102,102,103,103,103,103,102,103,103,104,103,102,101,101,101,102,103,104,106,109,110,111,111,111,110,110,107,105,103,104,100,100,99,99,98,98,97,97,96,96,96,96,96,96,96,96,96,96,95,95,95,95,95,95,95],[99,100,100,100,101,101,101,102,102,103,102,102,101,102,102,103,103,101,101,100,101,101,102,103,105,109,110,110,111,110,110,109,106,105,100,102,100,99,99,99,98,98,97,97,96,96,96,96,96,96,95,95,95,95,95,95,95,95,95,95,94],[99,99,99,99,100,100,101,101,102,102,101,101,101,101,101,102,102,101,100,100,101,101,101,103,104,107,109,109,110,110,109,108,105,102,100,100,99,99,99,98,98,98,97,96,96,96,96,96,95,95,95,95,95,95,95,94,94,94,94,94,94],[98,99,99,99,99,100,100,101,101,102,101,100,100,100,101,101,101,100,100,100,100,101,101,101,103,106,107,109,109,109,109,107,104,101,100,99,99,99,98,98,98,97,96,96,96,96,95,95,95,95,95,95,95,94,94,94,94,94,94,94,94],[98,98,98,99,99,99,100,100,101,101,100,100,99,99,100,100,100,100,100,100,100,101,101,101,102,105,106,109,108,109,107,105,102,100,100,99,99,98,98,98,97,96,96,96,96,95,95,95,95,95,95,94,94,94,94,94,94,94,94,94,94],[97,98,98,98,99,99,99,100,100,100,100,100,99,99,99,100,100,100,100,100,100,100,101,101,101,103,104,105,106,105,104,101,100,100,99,99,98,98,97,97,97,96,96,96,95,95,95,95,95,94,94,94,94,94,94,94,94,94,94,94,94],[97,97,97,98,98,99,99,99,100,100,100,99,99,99,99,99,100,100,100,100,100,100,101,101,100,100,100,100,100,100,100,100,100,100,99,99,98,97,97,97,96,96,96,95,95,95,95,94,94,94,94,94,94,94,94,94,94,94,94,94,94]],"type":"surface","contours":{"z":{"show":true,"usecolormap":true,"highlightcolor":"#ff0000","project":{"z":true}}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 12.4: A combination surface and contour plot of the topography of Maungawhau.
+</p>
+</div>
+<p>The z-axis is height and is in meters. The x- and y-axes are latitude and longitude, measured in 10-meter units from a reference point. (So, <span class="math inline">\(x=10\)</span> is 100 meters from <span class="math inline">\(x=20\)</span>.)</p>
+<p>Get used to the presentation of the surface plot and how to rotate it and zoom in. To see the crater clearly, you can rotate the surface plot to look straight downwards, effectively presenting you with a color-coded contour plot. Moving the cursor over the surface will display the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates, as well as the <span class="math inline">\(z\)</span>-value at that coordinate point.</p>
+<p><strong>Question A</strong> What is the <span class="math inline">\((x, y)\)</span> location of the low-point of the crater? (Choose the closest answer.)</p>
+<p>    <span class="Zchoice"><span class="math inline">\((x=34, y=29)\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\((x=31, y=25)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\((x=25, y=34)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\((x=29, y=34)\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> What color is used to designate the <strong>lowest</strong> elevations?</p>
+<p>    <span class="Zchoice">dark blue<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">green<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">yellow<span class="mcanswer">︎✘ </span></span></p>
+<p>If you were to climb up Maungawhau, at some point you would be at the same elevation as the low-point of the crater, even though you are <em>outside</em> the crater. Think of the contour that corresponds to that elevation. Let’s call it the “half-way” contour since it’s roughly half-way up the volcano.</p>
+<p><strong>Question C</strong> What is the shape of the “half-way” contour?</p>
+<p>    <span class="Zchoice">a line segment<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">a crescent<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">a closed curve<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">a cross<span class="mcanswer">︎✘ </span></span></p>
+<p>Imagine that you are filling up the crater with water. At some point, the water rises to a level where it will spill over the lip of the crater.</p>
+<p><strong>Question D</strong> What is the elevation at which the water will start to spill over the crater lip? (Pick the closest answer.)</p>
+<p>    <span class="Zchoice">169 meters<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">172 meters<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">175 meters<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">178 meters<span class="mcanswer">︎✘ </span></span></p>
+<strong>Question E</strong> Explain in terms of the shapes of contours how you can identify the elevation at which the water would spill over the rim.
+</details>
+<details>
+<summary>
+<strong>Exercise 12.5</strong>: <span><a name="File: Exercises/drawing.Rmd" href="#drawing"><img src="www/icons8-signpost.png" title="Location: Exercises/drawing.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">drawing</red></span>
+</summary>
+<p>We’ve created a function named <span class="math inline">\(\text{twins}(x,y)\)</span> to help you practice making contour plots. You’ll need to open a sandbox to draw the plot.</p>
+<p>Here is some scaffolding for the command:</p>
+<div class="scaffolding">
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="fun-multiple-inputs.html#cb64-1" aria-hidden="true" tabindex="-1"></a>twins <span class="ot">&lt;-</span> mosaic<span class="sc">::</span><span class="fu">rfun</span>(<span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">seed =</span> <span class="dv">302</span>, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb64-2"><a href="fun-multiple-inputs.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">twins</span>(x, y) <span class="sc">~</span> x <span class="sc">+</span> y, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)))</span></code></pre></div>
+<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-161-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<p><strong>Question A</strong> The domain of the plot should be large enough to show a mountain next to a deep hole. Which of these domains will do the job?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><code>domain(x=c(-5, 5), y=c(-5, 5)</code><span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice"><code>domain(x=c(1, 5), y=c(1, 5)</code><span class="mcanswer">︎✘ This shows the mountain, but not the hole.</span></span><br />
+</li>
+<li><span class="Zchoice"><code>domain(x=c(1,1), y=c(-1,1)))</code><span class="mcanswer">︎✘ Some of the hole is shown, but none of the mountain.</span></span><br />
+</li>
+<li><span class="Zchoice"><code>domain(x=c(5,10), y=c(0,10)))</code><span class="mcanswer">︎✘ There’s hardly anything going on in this domain. The function here is pretty flat except for a dip in the lower left.</span></span></li>
+</ol>
+<p>In a different sandbox (so you can still see the contour plot in the first sandbox), draw a <strong>slice</strong> through the function along the line <span class="math inline">\(y=0\)</span>. Use the same <span class="math inline">\(x\)</span>-domain as in the correct answer to the previous question.</p>
+<p>In the <code>slice_plot()</code> command below, you will need to replace <code>__tilde-expression___</code> and <code>__domain__</code> with the correct syntax.</p>
+<div class="{.scaffolding">
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="fun-multiple-inputs.html#cb65-1" aria-hidden="true" tabindex="-1"></a>twins <span class="ot">&lt;-</span> mosaic<span class="sc">::</span><span class="fu">rfun</span>(<span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">seed =</span> <span class="dv">302</span>, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb65-2"><a href="fun-multiple-inputs.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(__tilde<span class="sc">-</span>expression__, __domain__)</span></code></pre></div>
+</div>
+<p><strong>Question B</strong> Which of these expressions will accomplish the task?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><code>slice_plot(twins(x, y=0) ~ x, domain(x=c(-5,5)))</code><span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice"><code>slice_plot(twins(x) ~ x, domain(y=c(-5, 5)))</code><span class="mcanswer">︎✘ The domain should be over <span class="math inline">\(x\)</span>, not <span class="math inline">\(y\)</span>. And <code>twins()</code> takes two inputs, even if one of them is fixed at zero.</span></span><br />
+</li>
+<li><span class="Zchoice"><code>slice_plot(twins(x, y=0) ~ x, domain(x=c(-5, 5), y=c(-5, 5)))</code><span class="mcanswer">︎✘ A slice plot has a domain that includes only one input.</span></span><br />
+</li>
+<li><span class="Zchoice"><code>slice_plot(twins(x, y=0) ~ x + y, domain(x=c(-5, 5), y=c(-5, 5)))</code><span class="mcanswer">︎✘ A slice plot has only one input on the right side of the tilde expression.</span></span>
+</details></li>
+</ol>
+<details>
+<summary>
+<strong>Exercise 12.6</strong>: <span><a name="File: Exercises/length-of-day.Rmd" href="#daylength"><img src="www/icons8-signpost.png" title="Location: Exercises/length-of-day.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">daylength</red></span>
+</summary>
+<p>Consider this graph of the length of the day at different levels of latitude and different days of the year. <a href="File:Hours_of_daylight_vs_latitude_vs_day_of_year_with_tropical_and_polar_circles">Source</a>.</p>
+<p><img src="/Users/kaplan/KaplanFiles/USAFA/Block-1/Exercises/Fun/www/Hours_of_daylight.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>First, orient yourself to the graph and what the contours mean. Note the vertical lines indicating the days of the equinoxes and solstices.</p>
+<p><strong>Question A</strong> True or False: There is a place on the equator when the day length is <em>exactly</em> 12 hours at some time of year.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">TRUE<span class="mcanswer">︎✘ If there were, the horizontal (dashed) line denoting the equator would cross the 12-hour contour. It doesn’t.</span></span><br />
+</li>
+<li><span class="Zchoice">FALSE<span class="mcanswer">Nice! Since the dashed equator line no where overlaps with the 12-hour contour line, there is no time of year when the length of day on the equator is exactly 12 hours. Presumably this is because daylight starts somewhat before the sun rises above the horizon and ends somewhat after the sun goes below the horizon.</span></span></li>
+</ol>
+<p>The word “equinox” comes from the Latin for “equal night.”</p>
+<p><strong>Question B</strong> True or False: To judge from the contour plot, on the equinox every latitude has a length of day somewhat longer than the length of night.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">TRUE<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">FALSE<span class="mcanswer">︎✘ Note that neither of the lines for the March or September equinoxes cross the 12-hour length-of-day contour.</span></span></li>
+</ol>
+<p><strong>Question C</strong> US Air Force Academy is at latitude 38.9983° N. Reading from the contour plot, roughly what is the length (in hours) of the <em>longest</em> day of the year?</p>
+    <span class="Zchoice">13<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">14<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">15<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">16<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">17<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">18<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">19<span class="mcanswer">︎✘ </span></span>
+</details>
+<details>
+<summary>
+<strong>Exercise 12.7</strong>: <span><a name="File: Exercises/gradient-field-pink.Rmd" href="#kelxlB"><img src="www/icons8-signpost.png" title="Location: Exercises/gradient-field-pink.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">kelxlB</red></span>
+</summary>
+<p>The contour plot below is marked with several colored lines which represent <em>slices</em> through the surface. Your job is to match these up with the slice plots presented below.</p>
+<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-166-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-167-1.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-167-2.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>In the slice plots, the input <span class="math inline">\(t\)</span> reflects the position on the slice. At <span class="math inline">\(t=0\)</span>, position is at the leftmost point of the slice, while at <span class="math inline">\(t=1\)</span> position is at the right terminus of the slice.</p>
+<p><strong>Question A</strong> Which color line corresponds to slice 1?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">gray<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">blue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">tan<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">yellow<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> Which color line corresponds to slice 2?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">gray<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">blue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">tan<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">yellow<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question C</strong> Which color line corresponds to slice 3?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">gray<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">blue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">tan<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">yellow<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question D</strong> Which color line corresponds to slice 4?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">gray<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">blue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">tan<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">yellow<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 12.8</strong>: <span><a name="File: Exercises/gradient-field-violet.Rmd" href="#ticlw"><img src="www/icons8-signpost.png" title="Location: Exercises/gradient-field-violet.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ticlw</red></span>
+</summary>
+<p>The gradient plot below is marked with several colored lines which represent <em>slices</em> through the surface. Your job is to match these up with the slice plots presented below.</p>
+<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-169-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-170-1.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-170-2.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>In the slice plots, the input <span class="math inline">\(t\)</span> reflects the position on the slice. At <span class="math inline">\(t=0\)</span>, position is at the leftmost point of the slice, while at <span class="math inline">\(t=1\)</span> position is at the right terminus of the slice.</p>
+<p><strong>Question A</strong> Which color line corresponds to slice 1?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">gray<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">blue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">tan<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">yellow<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> Which color line corresponds to slice 2?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">gray<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">blue<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">tan<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">yellow<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question C</strong> Which color line corresponds to slice 3?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">gray<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">blue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">tan<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">yellow<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question D</strong> Which color line corresponds to slice 4?</p>
+    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">gray<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">blue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">tan<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">yellow<span class="mcanswer">︎✘ </span></span>
+</details>
+<!-- Add an aside about how + - * / ^ are really all functions of two variables. Use R to demonstrate this. -->
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="fun-assembling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="fun-piecewise.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/12-multiple-inputs.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/12-multiple-inputs.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

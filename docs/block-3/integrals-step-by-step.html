@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 30 Integrals step-by-step | CalcZ-notes.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 30 Integrals step-by-step | CalcZ-notes.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 30 Integrals step-by-step | CalcZ-notes.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="net-change.html"/>
+<link rel="next" href="accum-symbolic.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><span style="font-size: 150%;><strong><a href="../index.html">MOSAIC Calculus</a></strong></span></li>
+<li><em><a>Calculus for the 21st century</a></em></li>
+<li><a>Daniel Kaplan</a></li>
+<hr>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><strong><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="27" data-path="change-accumulation.html"><a href="change-accumulation.html"><i class="fa fa-check"></i><b>27</b> Change &amp; accumulation</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="change-accumulation.html"><a href="change-accumulation.html#accumulation"><i class="fa fa-check"></i><b>27.1</b> Accumulation</a></li>
+<li class="chapter" data-level="27.2" data-path="change-accumulation.html"><a href="change-accumulation.html#notation-for-anti-differentiation"><i class="fa fa-check"></i><b>27.2</b> Notation for anti-differentiation</a></li>
+<li class="chapter" data-level="27.3" data-path="change-accumulation.html"><a href="change-accumulation.html#rmosaic-notation"><i class="fa fa-check"></i><b>27.3</b> R/mosaic notation</a></li>
+<li class="chapter" data-level="27.4" data-path="change-accumulation.html"><a href="change-accumulation.html#dimension-and-anti-differentiation"><i class="fa fa-check"></i><b>27.4</b> Dimension and anti-differentiation</a></li>
+<li class="chapter" data-level="27.5" data-path="change-accumulation.html"><a href="change-accumulation.html#preliminary-terrors"><i class="fa fa-check"></i><b>27.5</b> From <em>Calculus Made Easy</em></a></li>
+<li class="chapter" data-level="27.6" data-path="change-accumulation.html"><a href="change-accumulation.html#exercises"><i class="fa fa-check"></i><b>27.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="totaling-bits.html"><a href="totaling-bits.html"><i class="fa fa-check"></i><b>28</b> Totaling the little bits</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="totaling-bits.html"><a href="totaling-bits.html#the-notation-of-little-bits"><i class="fa fa-check"></i><b>28.1</b> The notation of little bits</a></li>
+<li class="chapter" data-level="28.2" data-path="totaling-bits.html"><a href="totaling-bits.html#exercises-1"><i class="fa fa-check"></i><b>28.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="net-change.html"><a href="net-change.html"><i class="fa fa-check"></i><b>29</b> Integration</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="net-change.html"><a href="net-change.html#net-change-1"><i class="fa fa-check"></i><b>29.1</b> Net change</a></li>
+<li class="chapter" data-level="29.2" data-path="net-change.html"><a href="net-change.html#the-definite-integral"><i class="fa fa-check"></i><b>29.2</b> The “definite” integral</a></li>
+<li class="chapter" data-level="29.3" data-path="net-change.html"><a href="net-change.html#initial-value-of-the-quantity"><i class="fa fa-check"></i><b>29.3</b> Initial value of the quantity</a></li>
+<li class="chapter" data-level="29.4" data-path="net-change.html"><a href="net-change.html#integrals-from-bottom-to-top"><i class="fa fa-check"></i><b>29.4</b> Integrals from bottom to top</a></li>
+<li class="chapter" data-level="29.5" data-path="net-change.html"><a href="net-change.html#exercises-2"><i class="fa fa-check"></i><b>29.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html"><i class="fa fa-check"></i><b>30</b> Integrals step-by-step</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#euler-method"><i class="fa fa-check"></i><b>30.1</b> Euler method</a></li>
+<li class="chapter" data-level="30.2" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#area"><i class="fa fa-check"></i><b>30.2</b> Area</a></li>
+<li class="chapter" data-level="30.3" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#the-euler-step"><i class="fa fa-check"></i><b>30.3</b> The Euler Step</a></li>
+<li class="chapter" data-level="30.4" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#better-numerics-optional"><i class="fa fa-check"></i><b>30.4</b> Better numerics (optional)</a></li>
+<li class="chapter" data-level="30.5" data-path="integrals-step-by-step.html"><a href="integrals-step-by-step.html#exercises-3"><i class="fa fa-check"></i><b>30.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="accum-symbolic.html"><a href="accum-symbolic.html"><i class="fa fa-check"></i><b>31</b> Symbolic anti-differentiation</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="accum-symbolic.html"><a href="accum-symbolic.html#cataloged-functions"><i class="fa fa-check"></i><b>31.1</b> The cataloged functions</a></li>
+<li class="chapter" data-level="31.2" data-path="accum-symbolic.html"><a href="accum-symbolic.html#differentials"><i class="fa fa-check"></i><b>31.2</b> Differentials</a></li>
+<li class="chapter" data-level="31.3" data-path="accum-symbolic.html"><a href="accum-symbolic.html#u-substitution"><i class="fa fa-check"></i><b>31.3</b> U-substitution</a></li>
+<li class="chapter" data-level="31.4" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integration-by-parts"><i class="fa fa-check"></i><b>31.4</b> Integration by parts</a></li>
+<li class="chapter" data-level="31.5" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integrating-polynomials"><i class="fa fa-check"></i><b>31.5</b> Integrating polynomials</a></li>
+<li class="chapter" data-level="31.6" data-path="accum-symbolic.html"><a href="accum-symbolic.html#polynomials"><i class="fa fa-check"></i><b>31.6</b> Polynomials</a></li>
+<li class="chapter" data-level="31.7" data-path="accum-symbolic.html"><a href="accum-symbolic.html#exercises-4"><i class="fa fa-check"></i><b>31.7</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/linear-forms.html">Block 5: Linear combinations</a></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="integrals-step-by-step" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 30</span> Integrals step-by-step</h1>
+<p>The setting for anti-differentiation (and it’s close cousin, integration) is that we have a function <span class="math inline">\(F(t)\)</span> which we do not yet know, but we do have access to some information about it: its slope as a function of time <span class="math inline">\(f(t) \equiv \partial_t F(t)\)</span> and, perhaps, its value <span class="math inline">\(F(t_0)\)</span> at some definite input value.</p>
+<p>Chapter <a href="totaling-bits.html#totaling-bits">28</a> showed some ways to visualize the construction of an <span class="math inline">\(F(t)\)</span> by accumulating short segments of slope. The idea is that we know <span class="math inline">\(f(t)\)</span> which tells us, at any instant, the slope of <span class="math inline">\(F(t)\)</span>. So, in drawing a graph of <span class="math inline">\(F(t)\)</span>, we put our pen to paper at some input value <span class="math inline">\(t_0\)</span> and then move forward in <span class="math inline">\(t\)</span>, setting the instantaneous slope of our curve according to <span class="math inline">\(f(t)\)</span>.</p>
+<p>In Chapter <a href="net-change.html#net-change">29</a>, we dealt with one of the limitations of finding <span class="math inline">\(F(t)\)</span> by anti-differentiation of <span class="math inline">\(f(t)\)</span>; the anti-derivative is not unique. This is because to start drawing <span class="math inline">\(F(t)\)</span> we need pick a <span class="math inline">\(t_0\)</span> and an initial value of <span class="math inline">\(F(t_0)\)</span>. If we had picked a a different starting point <span class="math inline">\(t_1\)</span> or a different initial value <span class="math inline">\(F(t_1)\)</span>, the new curve would be different than the one drawn through <span class="math inline">\((t_0, F(t_0))\)</span>, although it would have the same shape, just shifted up or down according to our choice. We summarize this situation algebraically by writing <span class="math display">\[\int f(t) dt = F(t) + C\ ,\]</span> where <span class="math inline">\(C\)</span> is the <strong><em>constant of integration</em></strong>, that is, the vertical shift of the curve.</p>
+<p>The non-uniqueness of <span class="math inline">\(F(t)\)</span> does not invalidate its usefulness. In particular, the quantity <span class="math inline">\(F(b) - F(a)\)</span>, will be the same regardless of which starting point we used to draw <span class="math inline">\(F(t)\)</span>. We have two names for <span class="math inline">\(F(b) - F(a)\)</span></p>
+<ol style="list-style-type: decimal">
+<li>The <strong><em>net change</em></strong> in <span class="math inline">\(F()\)</span> from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>.</li>
+<li>The <strong><em>definite integral</em></strong> of <span class="math inline">\(f()\)</span> from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>, written <span class="math inline">\(\int_a^b f(t) dt\)</span>.</li>
+</ol>
+<p>These two things, the net change and the definite integral, are really one and the same, a fact we describe by writing <span class="math display">\[\int_a^b f(t) dt = F(b) - F(a)\ .\]</span></p>
+<p>In this chapter, we’ll introduce a simple numerical method for calculating from <span class="math inline">\(f()\)</span> the net change/definite integral. This will be a matter of trivial but tedious arithmetic: adding up lots of little bits of <span class="math inline">\(f(t)\)</span>. Later, in Chapter <a href="accum-symbolic.html#accum-symbolic">31</a>, we’ll see how to avoid the tedious arithmetic by use of algebraic, symbolic transformations. This symbolic approach has great advantages, and is the dominant method of anti-differentiation found in college-level science textbooks. However, there are many common <span class="math inline">\(f(t)\)</span> for which the symbolic approach is not possible, whereas the numerical method works for any <span class="math inline">\(f(t)\)</span>. Even more important, the numerical technique has a simple natural extension to some commonly encountered accumulation problems that look superficially like they can be solved by anti-differentiation but rarely can be in practice. We’ll meet one such problem and solve it numerically, but a broad approach to the topic, called <strong><em>dynamics</em></strong> or <strong><em>differential equations</em></strong>, will have to wait until Block 6.</p>
+<div id="euler-method" class="section level2" number="4.1">
+<h2><span class="header-section-number">30.1</span> Euler method</h2>
+<p>The starting point for this method is the definition of the derivative of <span class="math inline">\(F(t)\)</span>. Reaching back to Chapter 8,</p>
+<p><span class="math display">\[\partial_t F(t) \equiv \lim_{h\rightarrow 0} \frac{F(t+h) - F(t)}{h}\]</span>
+To translate this into a numerical method for computing <span class="math inline">\(F(t)\)</span>, let’s write things a little differently.</p>
+<ul>
+<li>First, since the problem setting is that we don’t (yet) know <span class="math inline">\(F(t)\)</span>, let’s refer to things we do know. In particular, we know <span class="math inline">\(f(t) = \partial_t F(t)\)</span>.</li>
+<li>Again, recognizing that we don’t yet know <span class="math inline">\(F(t)\)</span>, let’s re-write the expression using something that we do know: <span class="math inline">\(F(t_0)\)</span>. Stated more precisely, <span class="math inline">\(F(t_0)\)</span> is something we get to make up to suit our convenience. (A common choice is <span class="math inline">\(F(t_0)=0\)</span>.)</li>
+<li>Let’s replace the symbol <span class="math inline">\(h\)</span> with the symbol <span class="math inline">\(dt\)</span>. Both of them mean “a little bit of” and <span class="math inline">\(dt\)</span> makes explicit that we mean “a little bit of <span class="math inline">\(t\)</span>.”</li>
+<li>We’ll substitute the limit <span class="math inline">\(\lim_{h\rightarrow 0}\)</span> with an understanding that <span class="math inline">\(dt\)</span> will be something “small.” How small? We’ll deal with that question when we have to tools to answer it.</li>
+</ul>
+<p>With these changes, we have <span class="math display">\[f(t_0) = \frac{F(t_0+dt) - F(t_0)}{dt}\ .\]</span>
+The one quantity in this relationship that we do not yet know is <span class="math inline">\(F(t_0 + dt)\)</span>. So re-arrange the equation so that we can calculate the unknown in terms of the known. <span class="math display">\[F(t_0 + dt) = F(t_0) + f(t_0)\, dt\ .\]</span></p>
+<div class="example">
+<p><span id="exm:unlabeled-div-2" class="example"><strong>Example 30.1  </strong></span>Let’s consider finding the anti-derivative of <span class="math inline">\(\dnorm()\)</span>, that is, <span class="math inline">\(\int_0^t \dnorm(x) dx\)</span>. In one sense, you already know the answer, since <span class="math inline">\(\partial_x \pnorm(x) = \dnorm(x)\)</span>. In reality, however, we know <span class="math inline">\(\pnorm()\)</span> only because it has been numerically constructed by integrating <span class="math inline">\(\dnorm()\)</span>. The <span class="math inline">\(\pnorm()\)</span> function is so important that the numerically constructed answer has been memorized by software.</p>
+</div>
+</div>
+<div id="area" class="section level2" number="4.2">
+<h2><span class="header-section-number">30.2</span> Area</h2>
+<p>The quantity <span class="math display">\[\Large \color{magenta}{f(t_0)}\, \color{orange}{dt}\]</span>
+gives rise to a visualization that has been learned by generations of calculus students. The visualization is so compelling and powerful that many students (and teachers, and textbook authors) mistake the visualization for integration and anti-differentiation themselves.</p>
+<p>We’ll start the visualization with a simple graph of <span class="math inline">\(f(t)\)</span>, which is called the <strong><em>integrand</em></strong> in the integral <span class="math inline">\(\int_a^b f(t) dt\)</span>. Figure <a href="integrals-step-by-step.html#fig:area-integrand">30.1</a> shows the graph of <span class="math inline">\(f(t)\)</span>. A specific point <span class="math inline">\(t_0\)</span> has been marked on the horizontal axis. Next to it is another mark at <span class="math inline">\(t_0 + dt\)</span>. Of course, the distance between these marks is <span class="math inline">\(\color{orange}{dt}\)</span>.</p>
+<pre><code>## Warning in is.na(x): is.na() applied to non-(list or vector) of type
+## &#39;expression&#39;</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:area-integrand"></span>
+<img src="CalcZ-notes_files/figure-html/area-integrand-1.png" alt="Illustrating the interpretation of $f(t_0) dt$ as an &quot;area&quot;." width="90%" />
+<p class="caption">
+Figure 30.1: Illustrating the interpretation of <span class="math inline">\(f(t_0) dt\)</span> as an “area”.
+</p>
+</div>
+<p>Per the usual graphical convention, a position along the vertical axis corresponds to a possible output of <span class="math inline">\(f(t)\)</span>. The output for <span class="math inline">\(t=t_0\)</span> is <span class="math inline">\(\color{magenta}{f(t_0)}\)</span>. That same quantity corresponds to the length of the vertical orange segment connecting <span class="math inline">\((t_0, 0)\)</span> to <span class="math inline">\((t_0, f(t_0))\)</span>.</p>
+<p>The <span class="math inline">\(\color{orange}{dt}\)</span> line segment and the <span class="math inline">\(\color{magenta}{f(t_0)}\)</span> segment constitute two sides of a rectangle, shown as a shaded zone. The “area” of that rectangle is the product <span class="math inline">\(\color{magenta}{f(t_0)}\ \color{orange}{dt}\)</span>.</p>
+<p>In this sort of visualization, an integral is the accumulation of many of these <span class="math inline">\(f(t) dt\)</span> rectangles. For instance, Figure <a href="integrals-step-by-step.html#fig:bars-0-3">30.2</a> the visualization of the integral <span class="math display">\[\int_{0}^3 f(t) dt\ .\]</span></p>
+<pre><code>## Warning in is.na(x): is.na() applied to non-(list or vector) of type
+## &#39;expression&#39;
+
+## Warning in is.na(x): is.na() applied to non-(list or vector) of type
+## &#39;expression&#39;
+
+## Warning in is.na(x): is.na() applied to non-(list or vector) of type
+## &#39;expression&#39;</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:bars-0-3"></span>
+<img src="CalcZ-notes_files/figure-html/bars-0-3-1.png" alt="Visualizing the integral $\int_0^3 f(t) dt$ as the total &quot;area&quot; of several $f(t) dt$ bars. The width of each of the bars is $dt$. The height depends on the value of the function $f(t)$ at the bar. For illustration, two of the bars are marked with vertical and horizontal line segments." width="90%" />
+<p class="caption">
+Figure 30.2: Visualizing the integral <span class="math inline">\(\int_0^3 f(t) dt\)</span> as the total “area” of several <span class="math inline">\(f(t) dt\)</span> bars. The width of each of the bars is <span class="math inline">\(dt\)</span>. The height depends on the value of the function <span class="math inline">\(f(t)\)</span> at the bar. For illustration, two of the bars are marked with vertical and horizontal line segments.
+</p>
+</div>
+<p>As always in calculus, we imagine <span class="math inline">\(dt\)</span> as a “small” quantity. In Figure <a href="integrals-step-by-step.html#fig:bars-0-3B">30.3</a> you can see that the function output changes substantially over the sub-domain spanned by a single rectangle. Using smaller and smaller <span class="math inline">\(dt\)</span>, as in Figure <a href="#fig:bars-0-3-small"><strong>??</strong></a> brings the visualization closer and closer to the actual meaning of an anti-derivative.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:bars-0-3B"></span>
+<img src="CalcZ-notes_files/figure-html/bars-0-3B-1.png" alt="Visualizing the integral $\int_0^3 f(t) dt$ as the total &quot;area&quot; of several $f(t) dt$ bars. The width of each of the bars is $dt$. The height depends on the value of the function $f(t)$ at the bar. For illustration, two of the bars are marked with vertical and horizontal line segments." width="90%" />
+<p class="caption">
+Figure 30.3: Visualizing the integral <span class="math inline">\(\int_0^3 f(t) dt\)</span> as the total “area” of several <span class="math inline">\(f(t) dt\)</span> bars. The width of each of the bars is <span class="math inline">\(dt\)</span>. The height depends on the value of the function <span class="math inline">\(f(t)\)</span> at the bar. For illustration, two of the bars are marked with vertical and horizontal line segments.
+</p>
+</div>
+<div class="why">
+<p>Why do you keep putting “area” in quotes?</p>
+<p>When <span class="math inline">\(f(t_i) &lt; 0\)</span>, then <span class="math inline">\(f(t_i) dt\)</span> will be negative. There is no such thing as a negative area, but in constructing an integral the <span class="math inline">\(f(t_i)dt\)</span>, being negative, diminishes the accumulated area.</p>
+<pre><code>## Warning in is.na(x): is.na() applied to non-(list or vector) of type
+## &#39;expression&#39;</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:neg-area"></span>
+<img src="CalcZ-notes_files/figure-html/neg-area-1.png" alt="The $\int_{-2}^3 g(t) dt$ covers subdomains where $g(t) &gt; 0$ and where $g(t) &lt; 0$. In those latter subdomains, the &quot;area&quot; is negative, and shown in light orange here." width="90%" />
+<p class="caption">
+Figure 30.4: The <span class="math inline">\(\int_{-2}^3 g(t) dt\)</span> covers subdomains where <span class="math inline">\(g(t) &gt; 0\)</span> and where <span class="math inline">\(g(t) &lt; 0\)</span>. In those latter subdomains, the “area” is negative, and shown in light orange here.
+</p>
+</div>
+<p>Another problem is that area is a physical quantity, with dimension L<span class="math inline">\(^2\)</span>. The quantity produced by integration will have physical dimension <span class="math inline">\([f(t)][t]\)</span>, the product of the dimension of the with-respect-to quantity and the output of the function.</p>
+<p>“Area” is an effective metaphor for visualizing integration, but the goal of integration is not to calculate an area but, typically, some other kind of quantity.</p>
+</div>
+</div>
+<div id="the-euler-step" class="section level2" number="4.3">
+<h2><span class="header-section-number">30.3</span> The Euler Step</h2>
+<p>The previous section a visualization of an integral in terms of an area on a graph. As you know, a definite integral <span class="math inline">\(\int_a^b f(t) dt\)</span> can also be computed by constructing the anti-derivative <span class="math inline">\(F(t) \equiv \int f(t) dt\)</span> and evaluating it at the upper and lower bounds of integration: <span class="math inline">\(F(b) - F(a)\)</span>. In this section, we’ll look at the numerical process of constructing an anti-derivative function, which uses many of the same concepts as those involved in finding an integral by combining areas of rectangles.</p>
+<p>A definite integral produces a <strong>quantity</strong>, not a function. The anti-derivative function constructed by using quantities like <span class="math inline">\(f(t) dt\)</span> will be a <strong><em>series of quantities</em></strong> rather than a formula. In particular, it will have the form of a data table, something like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(t\)</span></th>
+<th><span class="math inline">\(F(t)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-2</td>
+<td>10.62</td>
+</tr>
+<tr class="even">
+<td>-1.5</td>
+<td>6.47</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>3.51</td>
+</tr>
+<tr class="even">
+<td>-0.5</td>
+<td>2.02</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>2.4</td>
+</tr>
+<tr class="even">
+<td>0.5</td>
+<td>3.18</td>
+</tr>
+<tr class="odd">
+<td>1.0</td>
+<td>5.14</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td><span class="math inline">\(\vdots\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>To start, we’ll need to create a series of <span class="math inline">\(t\)</span> values. We’ll do this by specifying a starting value for <span class="math inline">\(t\)</span> and then creating successive values by adding a numerical increment <span class="math inline">\(dt\)</span> to the entries one after the other until we reach a terminating value. For instance, in the above table, the starting value for <span class="math inline">\(t\)</span> is <span class="math inline">\(-2\)</span>, the numerical increment is <span class="math inline">\(dt=0.5\)</span>, and the terminating value is <span class="math inline">\(1\)</span>.</p>
+<p>In previous chapters of this book we have worked with data tables, but always the data table was <em>given</em> to us, we did not have to construct it.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> Now we need to construct the data frame with the <span class="math inline">\(t\)</span> column containing appropriate values. Computer languages provide many ways to accomplish this task. We’ll use a simple R/mosaic function <code>Picket()</code>, which constructs a data table like the one shown above. You provide two arguments: the domain for <span class="math inline">\(t\)</span>, that is, the desired upper and lower bounds of integration; the interval size <span class="math inline">\(dt\)</span> (which is called <code>h</code> in the argument list). For instance, to construct the <span class="math inline">\(t\)</span> column of the table shown above, you can use <code>Picket()</code> this way:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="integrals-step-by-step.html#cb15-1" aria-hidden="true" tabindex="-1"></a>Pts <span class="ot">&lt;-</span> <span class="fu">Picket</span>(<span class="fu">domain</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>), <span class="at">h=</span><span class="fl">0.5</span>)</span>
+<span id="cb15-2"><a href="integrals-step-by-step.html#cb15-2" aria-hidden="true" tabindex="-1"></a>Pts</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##       t preweight weight
+##   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+## 1  -2           1    0.5
+## 2  -1.5         1    0.5
+## 3  -1           1    0.5
+## 4  -0.5         1    0.5
+## 5   0           1    0.5
+## 6   0.5         1    0.5</code></pre>
+<p>As you can see, the data table produced by <code>Picket()</code> has the <span class="math inline">\(t\)</span> column, as well as a second column named <code>weight</code>. We haven’t explained <code>weight</code> yet, but you can see that it is the same value we specified as <code>h</code>.</p>
+<p>The name <code>Picket()</code> is motivated by the shape of a picket fence. The pickets are evenly spaced, which keeps things simple but is not a requirement.</p>
+<p>Note that the picket does not say anything at all about the function <span class="math inline">\(f(t)\)</span> being anti-differentiated. The picket can be applied to any function although precision might require a smaller <span class="math inline">\(dt\)</span> for functions that have a lot going on in a small domain.</p>
+<p>The next step in using the picket to perform anti-differentiation is to apply the function <span class="math inline">\(f()\)</span> to the pickets. That is, we’ll add a new column, perhaps called <code>vals</code> to the data table.</p>
+<p>Adding a new column is a common task when dealing with data. We’ll do this with a new function, <code>mutate()</code>, whose specific function is adding new columns (or modifying old ones). Here’s the command to apply <span class="math inline">\(f()\)</span> to <code>t</code> and call the new column <code>vals</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="integrals-step-by-step.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the height of the pickets</span></span>
+<span id="cb17-2"><a href="integrals-step-by-step.html#cb17-2" aria-hidden="true" tabindex="-1"></a>Pts <span class="ot">&lt;-</span> Pts <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="integrals-step-by-step.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vals =</span> <span class="fu">f</span>(t))</span></code></pre></div>
+<p>With this modification, the data table looks like:</p>
+<pre><code>## # A tibble: 6 × 4
+##       t preweight weight  vals
+##   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1  -2           1    0.5 -9.12
+## 2  -1.5         1    0.5 -7.27
+## 3  -1           1    0.5 -4.50
+## 4  -0.5         1    0.5 -1.46
+## 5   0           1    0.5  1.28
+## 6   0.5         1    0.5  3.31</code></pre>
+<p>Now that we know the value of the function at each of the pickets, the next step is to multiply the value by the spacing between pickets. That spacing, which we set with the argument <code>h = 0.5</code> in our original call to <code>Picket()</code> is in the column called <code>weight</code>. We’ll call the result of the multiplication <code>step</code>. Note that the following R command incorporates the previous calculation of <code>vals</code>; we’re looking to build up a single command that will do all the work.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="integrals-step-by-step.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiply the height by the picket spacing</span></span>
+<span id="cb19-2"><a href="integrals-step-by-step.html#cb19-2" aria-hidden="true" tabindex="-1"></a>Pts <span class="ot">&lt;-</span> Pts <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="integrals-step-by-step.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vals =</span> <span class="fu">f</span>(t),</span>
+<span id="cb19-4"><a href="integrals-step-by-step.html#cb19-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">step =</span> vals <span class="sc">*</span> weight)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="integrals-step-by-step.html#cb20-1" aria-hidden="true" tabindex="-1"></a>Pts</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##       t preweight weight  vals   step
+##   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1  -2           1    0.5 -9.12 -4.56 
+## 2  -1.5         1    0.5 -7.27 -3.63 
+## 3  -1           1    0.5 -4.50 -2.25 
+## 4  -0.5         1    0.5 -1.46 -0.732
+## 5   0           1    0.5  1.28  0.639
+## 6   0.5         1    0.5  3.31  1.66</code></pre>
+<p>We used the name <code>step</code> to identify the product of the height and spacing of the pickets to help you think about the overall calculation as accumulating a series of steps. Each step provides a little more information about the anti-derivative that we will now calculate. In terms of the area metaphor for integration, each step is the area of one vertical bar of the sort presented in the previous section.</p>
+<p>We’ll call these <strong><em>Euler steps</em></strong>, a term that will be especially appropriate when, in Block 6, we use integration to calculate the trajectories of systems—such as a ball in flight—that change in time.</p>
+<p>The final step in constructing the anti-derivative is to add up the steps. This is simple addition. But we’ll arrange the addition one step at a time. That is, for the second row, the result will be the sum of the first <em>two</em> steps. For the third row, the result will be the sum of the first <em>three</em> steps. And so on. The name for this sort of accumulation of the previous steps is called a <strong><em>cumulative sum</em></strong>. Another name for a cumulative sum is a “running sum”: the sum-so-far as we move down the column of steps. Cumulative sums are computed in R by using <code>cumsum()</code>. Here, we’re calling the result of the cumulative sum <code>F</code> to emphasize that it is the result of anti-differentiating <span class="math inline">\(f()\)</span>. But keep in mind that the anti-derivative is not just the <code>F</code> column, but the table with both <code>t</code> and <code>F</code> columns. That is, the table has a column for the input as well as the output. That’s what it takes to be a function.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="integrals-step-by-step.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Doing everything in one command</span></span>
+<span id="cb22-2"><a href="integrals-step-by-step.html#cb22-2" aria-hidden="true" tabindex="-1"></a>Pts <span class="ot">&lt;-</span> </span>
+<span id="cb22-3"><a href="integrals-step-by-step.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Picket</span>(<span class="fu">domain</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>), <span class="at">h=</span><span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="integrals-step-by-step.html#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vals =</span> <span class="fu">f</span>(t),</span>
+<span id="cb22-5"><a href="integrals-step-by-step.html#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">step =</span> vals <span class="sc">*</span> weight,</span>
+<span id="cb22-6"><a href="integrals-step-by-step.html#cb22-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">F =</span> <span class="fu">cumsum</span>(step))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##       t preweight weight  vals   step      F
+##   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1  -2           1    0.5 -9.12 -4.56   -4.56
+## 2  -1.5         1    0.5 -7.27 -3.63   -8.19
+## 3  -1           1    0.5 -4.50 -2.25  -10.4 
+## 4  -0.5         1    0.5 -1.46 -0.732 -11.2 
+## 5   0           1    0.5  1.28  0.639 -10.5 
+## 6   0.5         1    0.5  3.31  1.66   -8.88</code></pre>
+<p>We can summarize the steps in this Euler approach to numerical integration graphically:</p>
+<pre><code>## Scale for &#39;y&#39; is already present. Adding another scale for &#39;y&#39;, which will
+## replace the existing scale.</code></pre>
+<p><img src="CalcZ-notes_files/figure-html/euler-integration1-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:euler-integration2"></span>
+<img src="CalcZ-notes_files/figure-html/euler-integration2-1.png" alt="Steps in a numerical construction of an anti-derivative. (1) Create a set of picket locations over the domain of interest. The locations are spread horizontally by amount dt, so each picket will be dt units wide. (2) evaluate the original function at the picket points to give picket heights. (3) Multiply the picket height by the picket width to create an &quot;area&quot;. (4) Starting at zero for the left-most picket, add in successive picket areas to construct the points on the anti-derivative function (green). Note that the vertical axis in (4) has a different dimension and units than in steps (1)-(3). In (4) the vertical scale is in the units of the anti-derivative function output." width="90%" />
+<p class="caption">
+Figure 30.5: Steps in a numerical construction of an anti-derivative. (1) Create a set of picket locations over the domain of interest. The locations are spread horizontally by amount dt, so each picket will be dt units wide. (2) evaluate the original function at the picket points to give picket heights. (3) Multiply the picket height by the picket width to create an “area”. (4) Starting at zero for the left-most picket, add in successive picket areas to construct the points on the anti-derivative function (green). Note that the vertical axis in (4) has a different dimension and units than in steps (1)-(3). In (4) the vertical scale is in the units of the anti-derivative function output.
+</p>
+</div>
+<p>Figure <a href="integrals-step-by-step.html#fig:dynamic-anti-d">30.6</a> shows a dynamic version of the process of constructing an anti-derivative by Euler steps. The integrand <span class="math inline">\(f(t)\)</span> is shown in the top panel, the anti-derivative <span class="math inline">\(F(t)\)</span> is shown being built up in the bottom panel. The <span class="math inline">\(\color{magenta}{\text{magenta}}\)</span> bar in the top plot is the current Euler step. That step is added to the previously accumulated steps to construct <span class="math inline">\(F(t)\)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:dynamic-anti-d"></span>
+<img src="www/area-plot.gif" alt="A dynamic view of building $F(t)$ from $f(t)$ by accumulating Euler steps." width="90%" />
+<p class="caption">
+Figure 30.6: A dynamic view of building <span class="math inline">\(F(t)\)</span> from <span class="math inline">\(f(t)\)</span> by accumulating Euler steps.
+</p>
+</div>
+</div>
+<div id="better-numerics-optional" class="section level2" number="4.4">
+<h2><span class="header-section-number">30.4</span> Better numerics (optional)</h2>
+<p>Except as a textbook exercise, you will likely never have to compute a numerical anti-derivative from scratch as we did in the previous section. This is a good thing. To understand why, you have to know one of the important features of modern technical work. That feature is: We never work alone in technical matters. There is always a set of people whose previous work we are building on, even if we never know the names of those people. This is because technology is complicated and it is evidently beyond the reach of any human to master all the salient aspects of each piece of technology being incorporated into the work we consider our own.</p>
+<p>Of course this is true for computers, since no individual can build a useful computer from first principles. It’s also true for software. One detail in particular is relevant to us here. Computer arithmetic of the sort used in the previous section—particularly addition—is prone to error when adding up lots and lots of small bits. This means that it is not always sensible to choose very small <span class="math inline">\(dt\)</span> in order to get a very accurate approximation to the anti-derivative.</p>
+<p>Fortunately, there are specialists in numerical mathematics who work on ways to improve the accuracy of calculations for mid-sized <span class="math inline">\(dt\)</span>. Their work has been incorporated into the results of <code>antiD()</code> and <code>Integrate()</code> and so the details are, for us, unimportant. But they are only unimportant because they have been taken care of.</p>
+<p>To illustrate how considerably more accuracy can be gained in calculating an anti-derivative, consider that the rectangular bars drawn in the previous sections are intended to approximate the “area” under the function. With this in mind, we can replace the rectangular bars with more suitable shapes that stay closer to the function over the finite extend of each <span class="math inline">\(dt\)</span> domain. The rectangular bars model the function as piecewise constant. A better job can be done with piecewise linear approximations or piecewise quadratic approximations. Often, such refinements can be implemented merely by changing the weight column in the picket data frame used to start off the process.</p>
+<p>One widely used method, called <strong><em>Gauss-Legendre quadrature</em></strong> can calculate a large segment of an integral accurately (under conditions that are common in practice) with just five evaluations of the integrand <span class="math inline">\(f(t)\)</span>. For the integral <span class="math inline">\(\int_a^b f(t) dt\)</span> the picket locations and weights have these values:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">location</th>
+<th align="left">weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(c - 0.90618 w\)</span></td>
+<td align="left"><span class="math inline">\(0.236927 \times w\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(c - 0.53847 w\)</span></td>
+<td align="left"><span class="math inline">\(0.478629 \times w\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(c\)</span></td>
+<td align="left"><span class="math inline">\(0.568889 \times w\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(c + 0.53847 w\)</span></td>
+<td align="left"><span class="math inline">\(0.478629 \times w\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(c + 0.90618 w\)</span></td>
+<td align="left"><span class="math inline">\(0.236927 \times w\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math inline">\(c = \frac{a+b}{2}\)</span> and <span class="math inline">\(w = (b-a)/2\)</span>.</p>
+<p>The locations and weights may seem like a wizard parody of mathematics, but those precise values are founded in an advanced formulation of polynomials rooted in the theory of linear combinations to which you’ll be introduced in Block 5. Needless to say, you can hardly be expected to have any idea where they come from. That’s why it’s useful to build on the work of experts in specialized areas. It’s particularly helpful when such expertise is incorporated into software that faithfully and reliably implements the methods. The lesson to take to heart: Use professional software systems that have been extensively vetted.</p>
+</div>
+<div id="exercises-3" class="section level2" number="4.5">
+<h2><span class="header-section-number">30.5</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise 30.02</strong>: <span><a name="File: Exercises/monkey-light-stove.Rmd" href="#ady5Fh"><img src="www/icons8-signpost.png" title="Location: Exercises/monkey-light-stove.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ady5Fh</red></span>
+</summary>
+<p>The output of a function, being a quantity, has dimension and units. Suppose the dimension of the output of a function <span class="math inline">\(v(t)\)</span> is <span class="math inline">\(L/T\)</span>, for instance, meters-per-second.</p>
+<p>The anti-derivative function <span class="math inline">\(V(t) \equiv \int v(t) dt\)</span> will also have dimension and units.</p>
+<p>Recall that in constructing the anti-derivative using the Euler method, we multiply the values of <span class="math inline">\(v(t)\)</span> times some small increment in the input, <span class="math inline">\(h\)</span>. Therefore the dimension of the output of <span class="math inline">\(V(t)\)</span> will be <span class="math inline">\([v(t)] [t]\)</span>. So if <span class="math inline">\([v(t)] = L/T\)</span>, the dimension <span class="math inline">\([V(t)] [t] = L T/T = L\)</span>. Units for such a dimension would be, for instance, meters. This makes sense, since if you accumulate velocity (meters-per-sec) over an interval of time (sec) you end up with the distance travelled (meters).</p>
+<p>Suppose you know the acceleration <span class="math inline">\(a(t)\)</span> of an object as a function of time. The dimension of acceleration is <span class="math inline">\(L/T^2\)</span>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="integrals-step-by-step.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb25-2"><a href="integrals-step-by-step.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;What is the dimension of $$</span><span class="sc">\\</span><span class="st">int a(t) dt</span><span class="sc">\\</span><span class="st"> </span><span class="sc">\\</span><span class="st">text{?}$$&quot;</span>,</span>
+<span id="cb25-3"><a href="integrals-step-by-step.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$L/T^3$&quot;</span>, <span class="st">&quot;$L$&quot;</span>, <span class="st">&quot;$LT$&quot;</span>, <span class="st">&quot;+$L/T$+&quot;</span>, <span class="st">&quot;$LT^2$&quot;</span></span>
+<span id="cb25-4"><a href="integrals-step-by-step.html#cb25-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question A</strong> What is the dimension of <span class="math display">\[\int a(t) dt\ \text{?}\]</span></p>
+<p>    <span class="Zchoice"><span class="math inline">\(L/T^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(L\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(LT\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(L/T\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(LT^2\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p>Suppose you know the power consumed by an appliance <span class="math inline">\(p(t)\)</span> as a function of time. Typically appliances have a cycle and use different amounts of power during different parts of the cycle. (Think of a clothes washer.)</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="integrals-step-by-step.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb26-2"><a href="integrals-step-by-step.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;What will be the dimension of $</span><span class="sc">\\</span><span class="st">int p(t) dt</span><span class="sc">\\</span><span class="st"> </span><span class="sc">\\</span><span class="st">text{?}$&quot;</span>,</span>
+<span id="cb26-3"><a href="integrals-step-by-step.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+energy+&quot;</span>, <span class="st">&quot;force&quot;</span>, <span class="st">&quot;acceleration&quot;</span>, <span class="st">&quot;length&quot;</span></span>
+<span id="cb26-4"><a href="integrals-step-by-step.html#cb26-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question B</strong> What will be the dimension of <span class="math inline">\(\int p(t) dt\ \text{?}\)</span></p>
+    <span class="Zchoice">energy<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">force<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">acceleration<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">length<span class="mcanswer">︎✘ </span></span>
+</details>
+<details>
+<summary>
+<strong>Exercise 30.04</strong>: <span><a name="File: Exercises/tiger-tug-shoe.Rmd" href="#CCwWGB"><img src="www/icons8-signpost.png" title="Location: Exercises/tiger-tug-shoe.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">CCwWGB</red></span>
+</summary>
+<p>In this activity, you are going to use the “Graph-antiD” web app which enables you to visualize the anti-derivative function in terms of areas. To use the app, click-drag-and-release to mark part of the domain of the function being displayed.</p>
+<div class="todo">
+<p>Add a picture of the app and a link to it.</p>
+</div>
+<p>To answer these questions correctly, <strong>you must set the “Shape of function” box to 864</strong>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="integrals-step-by-step.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb27-2"><a href="integrals-step-by-step.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A. From the graph, roughly estimate $$</span><span class="sc">\\</span><span class="st">int_0^3 f(t)dt$$ Choose the closest numerical value from the following. You could use either graph for this caclulation, but $F(t)$ will be simpler algebra.&quot;</span>,</span>
+<span id="cb27-3"><a href="integrals-step-by-step.html#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">46</span>, <span class="sc">-</span><span class="dv">26</span>, <span class="st">&quot;0&quot;</span><span class="ot">=</span><span class="st">&quot;F(t) has a net change over the interval&quot;</span>, <span class="st">&quot;3&quot;</span><span class="ot">=</span><span class="st">&quot;there is more stock at F(3) than F(0)&quot;</span>, <span class="st">&quot;19&quot;</span><span class="ot">=</span><span class="st">&quot;there is more stock at F(3) than F(0)&quot;</span>, <span class="st">&quot;26&quot;</span><span class="ot">=</span><span class="st">&quot;F(t) at the right end of the interval is lower than at the left end&quot;</span>, <span class="at">right_one =</span> <span class="sc">-</span><span class="dv">26</span>,</span>
+<span id="cb27-4"><a href="integrals-step-by-step.html#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb27-5"><a href="integrals-step-by-step.html#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question A</strong> A. From the graph, roughly estimate <span class="math display">\[\int_0^3 f(t)dt\]</span> Choose the closest numerical value from the following. You could use either graph for this caclulation, but <span class="math inline">\(F(t)\)</span> will be simpler algebra.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">-46<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">-26<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice">0<span class="mcanswer">︎✘ F(t) has a net change over the interval</span></span><br />
+</li>
+<li><span class="Zchoice">3<span class="mcanswer">︎✘ there is more stock at F(3) than F(0)</span></span><br />
+</li>
+<li><span class="Zchoice">19<span class="mcanswer">︎✘ there is more stock at F(3) than F(0)</span></span><br />
+</li>
+<li><span class="Zchoice">26<span class="mcanswer">︎✘ F(t) at the right end of the interval is lower than at the left end</span></span></li>
+</ol>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="integrals-step-by-step.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb28-2"><a href="integrals-step-by-step.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B. In order to construct the anti-derivative whose value at time $t=-3$ will be zero, what constant of integration $C$ should you **add** to the $F(t)$ shown.&quot;</span>,</span>
+<span id="cb28-3"><a href="integrals-step-by-step.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;-120&quot;</span><span class="ot">=</span> <span class="st">&quot;Would adding this to F(-3) be equal to 0?&quot;</span>, <span class="st">&quot;-80&quot;</span><span class="ot">=</span> <span class="st">&quot;Would adding this to F(-3) be equal to 0?&quot;</span>, <span class="st">&quot;-50&quot;</span><span class="ot">=</span> <span class="st">&quot;Would adding this to F(-3) be equal to 0?&quot;</span>, <span class="st">&quot;0&quot;</span><span class="ot">=</span> <span class="st">&quot;Would adding this to F(-3) be equal to 0?&quot;</span>, <span class="st">&quot;50&quot;</span> <span class="ot">=</span> <span class="st">&quot;Would adding this to F(-3) be equal to 0?&quot;</span>, </span>
+<span id="cb28-4"><a href="integrals-step-by-step.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;80&quot;</span> <span class="ot">=</span> <span class="st">&quot;Are you sure you have the sign right?&quot;</span>,</span>
+<span id="cb28-5"><a href="integrals-step-by-step.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;120&quot;</span> <span class="ot">=</span> <span class="st">&quot;Would adding this to F(-3) be equal to 0?&quot;</span>,</span>
+<span id="cb28-6"><a href="integrals-step-by-step.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">right_one =</span> <span class="sc">-</span><span class="dv">80</span>,</span>
+<span id="cb28-7"><a href="integrals-step-by-step.html#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb28-8"><a href="integrals-step-by-step.html#cb28-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question B</strong> B. In order to construct the anti-derivative whose value at time <span class="math inline">\(t=-3\)</span> will be zero, what constant of integration <span class="math inline">\(C\)</span> should you <strong>add</strong> to the <span class="math inline">\(F(t)\)</span> shown.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">-120<span class="mcanswer">︎✘ Would adding this to F(-3) be equal to 0?</span></span><br />
+</li>
+<li><span class="Zchoice">-80<span class="mcanswer">Correct. Would adding this to F(-3) be equal to 0?</span></span><br />
+</li>
+<li><span class="Zchoice">-50<span class="mcanswer">︎✘ Would adding this to F(-3) be equal to 0?</span></span><br />
+</li>
+<li><span class="Zchoice">0<span class="mcanswer">︎✘ Would adding this to F(-3) be equal to 0?</span></span><br />
+</li>
+<li><span class="Zchoice">50<span class="mcanswer">︎✘ Would adding this to F(-3) be equal to 0?</span></span><br />
+</li>
+<li><span class="Zchoice">80<span class="mcanswer">︎✘ Are you sure you have the sign right?</span></span><br />
+</li>
+<li><span class="Zchoice">120<span class="mcanswer">︎✘ Would adding this to F(-3) be equal to 0?</span></span></li>
+</ol>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="integrals-step-by-step.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb29-2"><a href="integrals-step-by-step.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;C. Examining the stock at time $t=0$, you observe that there are 40 units. Roughly how much stock will there be at $t=5$?&quot;</span>,</span>
+<span id="cb29-3"><a href="integrals-step-by-step.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;-25&quot;</span> <span class="ot">=</span> <span class="st">&quot;Did you shift the curve in the right direction?&quot;</span>, <span class="st">&quot;-15&quot;</span> <span class="ot">=</span> <span class="st">&quot;That would be the answer if there had been 0 units of stock at time $t=0$.&quot;</span>,<span class="st">&quot;0&quot;</span><span class="ot">=</span><span class="st">&quot;Imagine F(t) being shifted by the difference of 40 and F(0)&quot;</span>, <span class="st">&quot;15&quot;</span><span class="ot">=</span><span class="st">&quot;Imagine F(t) being shifted by the difference of 40 and F(0)&quot;</span>,  <span class="dv">25</span>, <span class="at">right_one=</span><span class="dv">25</span>,</span>
+<span id="cb29-4"><a href="integrals-step-by-step.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb29-5"><a href="integrals-step-by-step.html#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question C</strong> C. Examining the stock at time <span class="math inline">\(t=0\)</span>, you observe that there are 40 units. Roughly how much stock will there be at <span class="math inline">\(t=5\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">-25<span class="mcanswer">︎✘ Did you shift the curve in the right direction?</span></span><br />
+</li>
+<li><span class="Zchoice">-15<span class="mcanswer">︎✘ That would be the answer if there had been 0 units of stock at time <span class="math inline">\(t=0\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice">0<span class="mcanswer">︎✘ Imagine F(t) being shifted by the difference of 40 and F(0)</span></span><br />
+</li>
+<li><span class="Zchoice">15<span class="mcanswer">︎✘ Imagine F(t) being shifted by the difference of 40 and F(0)</span></span><br />
+</li>
+<li><span class="Zchoice">25<span class="mcanswer">Right! </span></span></li>
+</ol>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="integrals-step-by-step.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb30-2"><a href="integrals-step-by-step.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;D. You start with a stock of 100 units at time $t = -2$. At roughly what time $t$ will the stock be half of this?&quot;</span>,</span>
+<span id="cb30-3"><a href="integrals-step-by-step.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;-1.2&quot;</span><span class="ot">=</span><span class="st">&quot;$F(t)$-$F(a)$=50, what is the value of a?&quot;</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="st">&quot;0.5&quot;</span><span class="ot">=</span><span class="st">&quot;$F(t)$-$F(a)$=50, what is the value of a?&quot;</span>, <span class="st">&quot;1.2&quot;</span><span class="ot">=</span><span class="st">&quot;$F(t)$-$F(a)$=50, what is the value of a?&quot;</span>, <span class="st">&quot;1.8&quot;</span><span class="ot">=</span><span class="st">&quot;$F(t)$-$F(a)$=50, what is the value of a?&quot;</span>,</span>
+<span id="cb30-4"><a href="integrals-step-by-step.html#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;The stock will never fall so low.&quot;</span>,</span>
+<span id="cb30-5"><a href="integrals-step-by-step.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">right_one =</span> <span class="sc">-</span><span class="fl">0.3</span>,</span>
+<span id="cb30-6"><a href="integrals-step-by-step.html#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb30-7"><a href="integrals-step-by-step.html#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question D</strong> D. You start with a stock of 100 units at time <span class="math inline">\(t = -2\)</span>. At roughly what time <span class="math inline">\(t\)</span> will the stock be half of this?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">-1.2<span class="mcanswer">︎✘ <span class="math inline">\(F(t)\)</span>-<span class="math inline">\(F(a)\)</span>=50, what is the value of a?</span></span><br />
+</li>
+<li><span class="Zchoice">-0.3<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice">0.5<span class="mcanswer">︎✘ <span class="math inline">\(F(t)\)</span>-<span class="math inline">\(F(a)\)</span>=50, what is the value of a?</span></span><br />
+</li>
+<li><span class="Zchoice">1.2<span class="mcanswer">︎✘ <span class="math inline">\(F(t)\)</span>-<span class="math inline">\(F(a)\)</span>=50, what is the value of a?</span></span><br />
+</li>
+<li><span class="Zchoice">1.8<span class="mcanswer">︎✘ <span class="math inline">\(F(t)\)</span>-<span class="math inline">\(F(a)\)</span>=50, what is the value of a?</span></span><br />
+</li>
+<li><span class="Zchoice">The stock will never fall so low.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="integrals-step-by-step.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb31-2"><a href="integrals-step-by-step.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;E. Your stock finally runs out at time $t=2.5$. When did you have 120 units in stock?&quot;</span>,</span>
+<span id="cb31-3"><a href="integrals-step-by-step.html#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+$t=-4$+&quot;</span>, <span class="st">&quot;$t=-3$&quot;</span><span class="ot">=</span><span class="st">&quot;This uses a similiar approach to the last question.&quot;</span>, <span class="st">&quot;$t=0$&quot;</span><span class="ot">=</span><span class="st">&quot;This uses a similiar approach to the last question.&quot;</span>, </span>
+<span id="cb31-4"><a href="integrals-step-by-step.html#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;There was never such a time.&quot;</span></span>
+<span id="cb31-5"><a href="integrals-step-by-step.html#cb31-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question E</strong> E. Your stock finally runs out at time <span class="math inline">\(t=2.5\)</span>. When did you have 120 units in stock?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(t=-4\)</span><span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(t=-3\)</span><span class="mcanswer">︎✘ This uses a similiar approach to the last question.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(t=0\)</span><span class="mcanswer">︎✘ This uses a similiar approach to the last question.</span></span><br />
+</li>
+<li><span class="Zchoice">There was never such a time.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="integrals-step-by-step.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb32-2"><a href="integrals-step-by-step.html#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;F. After decreasing for a long time, the stock finally starts to increase from about $t=2.5$ onward. What about $f(t=2.5)$ tells you that $F(t=2.5)$ is increasing?&quot;</span>,</span>
+<span id="cb32-3"><a href="integrals-step-by-step.html#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;The derivative is at a minimum.&quot;</span><span class="ot">=</span><span class="st">&quot;Does this mean $F(t)$ must be increasing?&quot;</span>,</span>
+<span id="cb32-4"><a href="integrals-step-by-step.html#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;The derivative is negative&quot;</span><span class="ot">=</span><span class="st">&quot;Does this mean $F(t)$ must be increasing?&quot;</span>,</span>
+<span id="cb32-5"><a href="integrals-step-by-step.html#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;The derivative is near zero.&quot;</span> <span class="ot">=</span> <span class="st">&quot;Kind of. For the stock $F(t)$ to increase, what has to be true of the derivative at that instant.&quot;</span>,</span>
+<span id="cb32-6"><a href="integrals-step-by-step.html#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+The derivative becomes positive and stays positive.+&quot;</span>,</span>
+<span id="cb32-7"><a href="integrals-step-by-step.html#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;The derivative is at a maximum.&quot;</span><span class="ot">=</span><span class="st">&quot;Does this mean $F(t)$ must be increasing?&quot;</span>,</span>
+<span id="cb32-8"><a href="integrals-step-by-step.html#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb32-9"><a href="integrals-step-by-step.html#cb32-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question F</strong> F. After decreasing for a long time, the stock finally starts to increase from about <span class="math inline">\(t=2.5\)</span> onward. What about <span class="math inline">\(f(t=2.5)\)</span> tells you that <span class="math inline">\(F(t=2.5)\)</span> is increasing?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The derivative is at a minimum.<span class="mcanswer">︎✘ Does this mean <span class="math inline">\(F(t)\)</span> must be increasing?</span></span><br />
+</li>
+<li><span class="Zchoice">The derivative is negative<span class="mcanswer">︎✘ Does this mean <span class="math inline">\(F(t)\)</span> must be increasing?</span></span><br />
+</li>
+<li><span class="Zchoice">The derivative is near zero.<span class="mcanswer">︎✘ Kind of. For the stock <span class="math inline">\(F(t)\)</span> to increase, what has to be true of the derivative at that instant.</span></span><br />
+</li>
+<li><span class="Zchoice">The derivative becomes positive and stays positive.<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice">The derivative is at a maximum.<span class="mcanswer">︎✘ Does this mean <span class="math inline">\(F(t)\)</span> must be increasing?</span></span></li>
+</ol>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="integrals-step-by-step.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb33-2"><a href="integrals-step-by-step.html#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;G. Find the argmin $t^</span><span class="sc">\\</span><span class="st">star$ of $f(t)$ and note the sign of $f(t^</span><span class="sc">\\</span><span class="st">star).$  What does this tell you about $F(t^</span><span class="sc">\\</span><span class="st">star)$.&quot;</span>,</span>
+<span id="cb33-3"><a href="integrals-step-by-step.html#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$t^</span><span class="sc">\\</span><span class="st">star$ is also the argmin of $F()$.&quot;</span><span class="ot">=</span><span class="st">&quot;look at the corresponding point on $F(t)$.&quot;</span>,</span>
+<span id="cb33-4"><a href="integrals-step-by-step.html#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+$F(t^</span><span class="sc">\\</span><span class="st">star)$ is decreasing at its steepest rate.+&quot;</span>,</span>
+<span id="cb33-5"><a href="integrals-step-by-step.html#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$F(t^</span><span class="sc">\\</span><span class="st">star)$ is increasing at it&#39;s slowest rate.&quot;</span><span class="ot">=</span><span class="st">&quot;look at the corresponding point on $F(t)$.&quot;</span>,</span>
+<span id="cb33-6"><a href="integrals-step-by-step.html#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$F(t^</span><span class="sc">\\</span><span class="st">star)$ is increasing at its steepest rate.&quot;</span><span class="ot">=</span><span class="st">&quot;look at the corresponding point on $F(t)$.&quot;</span>,</span>
+<span id="cb33-7"><a href="integrals-step-by-step.html#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$t^</span><span class="sc">\\</span><span class="st">star$ is the argmax of $F()$&quot;</span><span class="ot">=</span><span class="st">&quot;look at the corresponding point on $F(t)$.&quot;</span></span>
+<span id="cb33-8"><a href="integrals-step-by-step.html#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question G</strong> G. Find the argmin <span class="math inline">\(t^\star\)</span> of <span class="math inline">\(f(t)\)</span> and note the sign of <span class="math inline">\(f(t^\star).\)</span> What does this tell you about <span class="math inline">\(F(t^\star)\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(t^\star\)</span> is also the argmin of <span class="math inline">\(F()\)</span>.<span class="mcanswer">︎✘ look at the corresponding point on <span class="math inline">\(F(t)\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(F(t^\star)\)</span> is decreasing at its steepest rate.<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(F(t^\star)\)</span> is increasing at it’s slowest rate.<span class="mcanswer">︎✘ look at the corresponding point on <span class="math inline">\(F(t)\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(F(t^\star)\)</span> is increasing at its steepest rate.<span class="mcanswer">︎✘ look at the corresponding point on <span class="math inline">\(F(t)\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(t^\star\)</span> is the argmax of <span class="math inline">\(F()\)</span><span class="mcanswer">︎✘ look at the corresponding point on <span class="math inline">\(F(t)\)</span>.</span></span></li>
+</ol>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="integrals-step-by-step.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb34-2"><a href="integrals-step-by-step.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;H. What is the average flow into stock over the period $-5 </span><span class="sc">\\</span><span class="st">leq t </span><span class="sc">\\</span><span class="st">leq 1$. (If the flow is *outward from stock*, that&#39;s the same as a negative inward flow.)&quot;</span>,</span>
+<span id="cb34-3"><a href="integrals-step-by-step.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">30</span>, <span class="sc">-</span><span class="dv">20</span>, <span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;But you can see that the stock is diminishing steadily during $-5 </span><span class="sc">\\</span><span class="st">leq t </span><span class="sc">\\</span><span class="st">leq 1$, so how could the average flow be zero.&quot;</span>, <span class="st">&quot;10&quot;</span>, <span class="at">right_one =</span> <span class="sc">-</span><span class="dv">20</span>,</span>
+<span id="cb34-4"><a href="integrals-step-by-step.html#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb34-5"><a href="integrals-step-by-step.html#cb34-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question H</strong> H. What is the average flow into stock over the period <span class="math inline">\(-5 \leq t \leq 1\)</span>. (If the flow is <em>outward from stock</em>, that’s the same as a negative inward flow.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">-30<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">-20<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">0<span class="mcanswer">︎✘ But you can see that the stock is diminishing steadily during <span class="math inline">\(-5 \leq t \leq 1\)</span>, so how could the average flow be zero.</span></span><br />
+</li>
+<li><span class="Zchoice">10<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="integrals-step-by-step.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb35-2"><a href="integrals-step-by-step.html#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;I. Which of the following is an interval when the average flow is approximately zero?&quot;</span>,</span>
+<span id="cb35-3"><a href="integrals-step-by-step.html#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$-1.3 </span><span class="sc">\\</span><span class="st">leq t </span><span class="sc">\\</span><span class="st">leq 1.1$&quot;</span><span class="ot">=</span><span class="st">&quot;The area appears to be negative.&quot;</span>,</span>
+<span id="cb35-4"><a href="integrals-step-by-step.html#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+$0.8 </span><span class="sc">\\</span><span class="st">leq t </span><span class="sc">\\</span><span class="st">leq 5$+&quot;</span>,</span>
+<span id="cb35-5"><a href="integrals-step-by-step.html#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$-5 </span><span class="sc">\\</span><span class="st">leq t </span><span class="sc">\\</span><span class="st">leq 0$&quot;</span><span class="ot">=</span><span class="st">&quot;The area appears to be negative.&quot;</span>,</span>
+<span id="cb35-6"><a href="integrals-step-by-step.html#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;None of the above&quot;</span>,</span>
+<span id="cb35-7"><a href="integrals-step-by-step.html#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb35-8"><a href="integrals-step-by-step.html#cb35-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question I</strong> I. Which of the following is an interval when the average flow is approximately zero?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(-1.3 \leq t \leq 1.1\)</span><span class="mcanswer">︎✘ The area appears to be negative.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(0.8 \leq t \leq 5\)</span><span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(-5 \leq t \leq 0\)</span><span class="mcanswer">︎✘ The area appears to be negative.</span></span><br />
+</li>
+<li><span class="Zchoice">None of the above<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="integrals-step-by-step.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb36-2"><a href="integrals-step-by-step.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;J. From the graph, estimate $$</span><span class="sc">\\</span><span class="st">int_2^{-4} f(t)dt$$ Choose the closest numerical value from the following.&quot;</span>,</span>
+<span id="cb36-3"><a href="integrals-step-by-step.html#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;-120&quot;</span> <span class="ot">=</span> <span class="st">&quot;Pay attention to the order of the limits of integration.&quot;</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">120</span>, </span>
+<span id="cb36-4"><a href="integrals-step-by-step.html#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;None of these answers are close to being right.&quot;</span>, </span>
+<span id="cb36-5"><a href="integrals-step-by-step.html#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">right_one =</span> <span class="dv">120</span>,</span>
+<span id="cb36-6"><a href="integrals-step-by-step.html#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb36-7"><a href="integrals-step-by-step.html#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question J</strong> J. From the graph, estimate <span class="math display">\[\int_2^{-4} f(t)dt\]</span> Choose the closest numerical value from the following.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">-120<span class="mcanswer">︎✘ Pay attention to the order of the limits of integration.</span></span><br />
+</li>
+<li><span class="Zchoice">-60<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">60<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">120<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">None of these answers are close to being right.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 30.06</strong>: <span><a name="File: Exercises/seahorse-choose-canoe.Rmd" href="#rk5PPK"><img src="www/icons8-signpost.png" title="Location: Exercises/seahorse-choose-canoe.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">rk5PPK</red></span>
+</summary>
+<p>Consider this function, <span class="math inline">\(f(t)\)</span>:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="integrals-step-by-step.html#cb37-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">rfun</span>(<span class="sc">~</span> t, <span class="at">seed =</span> <span class="dv">2304</span>)</span>
+<span id="cb37-2"><a href="integrals-step-by-step.html#cb37-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( <span class="fu">tmp</span>( (t<span class="dv">-5</span>)) <span class="sc">-</span> <span class="dv">15</span> <span class="sc">~</span> t)</span>
+<span id="cb37-3"><a href="integrals-step-by-step.html#cb37-3" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">antiD</span>(<span class="fu">f</span>(t) <span class="sc">~</span> t)</span>
+<span id="cb37-4"><a href="integrals-step-by-step.html#cb37-4" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb37-5"><a href="integrals-step-by-step.html#cb37-5" aria-hidden="true" tabindex="-1"></a>Slabs <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb37-6"><a href="integrals-step-by-step.html#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">t =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">by =</span> dt),</span>
+<span id="cb37-7"><a href="integrals-step-by-step.html#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tend =</span> t <span class="sc">+</span> dt,</span>
+<span id="cb37-8"><a href="integrals-step-by-step.html#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">f</span>(t),</span>
+<span id="cb37-9"><a href="integrals-step-by-step.html#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ymid =</span> <span class="fu">f</span>(t <span class="sc">+</span> dt<span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb37-10"><a href="integrals-step-by-step.html#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;dodgerblue&quot;</span>)</span>
+<span id="cb37-11"><a href="integrals-step-by-step.html#cb37-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-12"><a href="integrals-step-by-step.html#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="integrals-step-by-step.html#cb37-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-14"><a href="integrals-step-by-step.html#cb37-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_rect</span>(<span class="dv">0</span> <span class="sc">+</span> ymid <span class="sc">~</span> t <span class="sc">+</span> tend, <span class="at">data =</span> Slabs, </span>
+<span id="cb37-15"><a href="integrals-step-by-step.html#cb37-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="sc">~</span> color, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>,</span>
+<span id="cb37-16"><a href="integrals-step-by-step.html#cb37-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">inherit=</span><span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-17"><a href="integrals-step-by-step.html#cb37-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_path</span>(y <span class="sc">~</span> t, <span class="at">group=</span><span class="cn">NA</span>, <span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-18"><a href="integrals-step-by-step.html#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">&quot;orange3&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-19"><a href="integrals-step-by-step.html#cb37-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gf_refine</span>(</span>
+<span id="cb37-20"><a href="integrals-step-by-step.html#cb37-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb37-21"><a href="integrals-step-by-step.html#cb37-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">20</span>), </span>
+<span id="cb37-22"><a href="integrals-step-by-step.html#cb37-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;neg&quot;</span>, <span class="st">&quot;pos&quot;</span>, <span class="st">&quot;&quot;</span>)),</span>
+<span id="cb37-23"><a href="integrals-step-by-step.html#cb37-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb37-24"><a href="integrals-step-by-step.html#cb37-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_fill_identity</span>()</span>
+<span id="cb37-25"><a href="integrals-step-by-step.html#cb37-25" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb37-26"><a href="integrals-step-by-step.html#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">y=</span><span class="st">&quot;f(t)&quot;</span>, <span class="at">title=</span><span class="st">&quot;Black curve shows f(t)&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-27"><a href="integrals-step-by-step.html#cb37-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gf_theme</span>(<span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>))</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-36-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Assume that the “area” of each small box on the graph is the product of 1 Watt <span class="math inline">\(\times\)</span> 1 second.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="integrals-step-by-step.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb38-2"><a href="integrals-step-by-step.html#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;What is $$</span><span class="sc">\\</span><span class="st">int_1^2 f(t) dt</span><span class="sc">\\</span><span class="st"> </span><span class="sc">\\</span><span class="st">text{?}$$ (Choose the closest answer. The units are in Watt-seconds.)&quot;</span>,</span>
+<span id="cb38-3"><a href="integrals-step-by-step.html#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fl">3.2</span>, <span class="st">&quot;-1.4&quot;</span><span class="ot">=</span><span class="st">&quot;Count the boxes in the interval&quot;</span>, <span class="st">&quot;0&quot;</span><span class="ot">=</span><span class="st">&quot;Count the boxes in the interval&quot;</span>, <span class="st">&quot;2.5&quot;</span><span class="ot">=</span><span class="st">&quot;Count the boxes in the interval&quot;</span>, <span class="st">&quot;3.3&quot;</span> <span class="ot">=</span> <span class="st">&quot;That&#39;s a pretty good count of boxes, but still not the right answer.&quot;</span>, <span class="fl">6.1</span>, <span class="at">right_one =</span> <span class="sc">-</span><span class="fl">3.2</span>,</span>
+<span id="cb38-4"><a href="integrals-step-by-step.html#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb38-5"><a href="integrals-step-by-step.html#cb38-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question A</strong> What is <span class="math display">\[\int_1^2 f(t) dt\ \text{?}\]</span> (Choose the closest answer. The units are in Watt-seconds.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">-3.2<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">-1.4<span class="mcanswer">︎✘ Count the boxes in the interval</span></span><br />
+</li>
+<li><span class="Zchoice">0<span class="mcanswer">︎✘ Count the boxes in the interval</span></span><br />
+</li>
+<li><span class="Zchoice">2.5<span class="mcanswer">︎✘ Count the boxes in the interval</span></span><br />
+</li>
+<li><span class="Zchoice">3.3<span class="mcanswer">︎✘ That’s a pretty good count of boxes, but still not the right answer.</span></span><br />
+</li>
+<li><span class="Zchoice">6.1<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><span class="math display">\[\text{Let}\ \ A = \int_1^3 f(x) dx\ \ \ \text{and}\ \ \ B = \int_2^4 f(x) dx\]</span></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="integrals-step-by-step.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb39-2"><a href="integrals-step-by-step.html#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Which is bigger, A or B?&quot;</span>,</span>
+<span id="cb39-3"><a href="integrals-step-by-step.html#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;They are the same size&quot;</span>, <span class="at">right_one =</span> <span class="st">&quot;B&quot;</span>,</span>
+<span id="cb39-4"><a href="integrals-step-by-step.html#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb39-5"><a href="integrals-step-by-step.html#cb39-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question B</strong> Which is bigger, A or B?</p>
+<p>    <span class="Zchoice">A<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">B<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">They are the same size<span class="mcanswer">︎✘ </span></span></p>
+<p><span class="math display">\[\text{Let}\ \ A = \int_3^1 f(t) dt\ \ \ \text{and}\ \ \ B = \int_4^2 f(t) dt\]</span></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="integrals-step-by-step.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb40-2"><a href="integrals-step-by-step.html#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Which is bigger, A or B?&quot;</span>,</span>
+<span id="cb40-3"><a href="integrals-step-by-step.html#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;They are the same size&quot;</span>, <span class="at">right_one =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb40-4"><a href="integrals-step-by-step.html#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb40-5"><a href="integrals-step-by-step.html#cb40-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question C</strong> Which is bigger, A or B?</p>
+<p>    <span class="Zchoice">A<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">B<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">They are the same size<span class="mcanswer">︎✘ </span></span></p>
+<p>Consider the function <span class="math display">\[g(x) \equiv \int_4^x f(t) dt\]</span> for the next three questions</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="integrals-step-by-step.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb41-2"><a href="integrals-step-by-step.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Which is bigger, $g(8)$ or $g(9)$?&quot;</span>,</span>
+<span id="cb41-3"><a href="integrals-step-by-step.html#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+$g(8)$+&quot;</span>, <span class="st">&quot;$g(9)$&quot;</span><span class="ot">=</span><span class="st">&quot;the interval from 8 to 9 decreases the total size&quot;</span>, <span class="st">&quot;They are the same size&quot;</span>, </span>
+<span id="cb41-4"><a href="integrals-step-by-step.html#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Trick question! There can be no such function $g(x)$ since $f()$ is a function of $t$&quot;</span> <span class="ot">=</span> <span class="st">&quot;Try plugging in $x=8$ on the right side of the definition and see if it makes sense.&quot;</span></span>
+<span id="cb41-5"><a href="integrals-step-by-step.html#cb41-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question D</strong> Which is bigger, <span class="math inline">\(g(8)\)</span> or <span class="math inline">\(g(9)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(g(8)\)</span><span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g(9)\)</span><span class="mcanswer">︎✘ the interval from 8 to 9 decreases the total size</span></span><br />
+</li>
+<li><span class="Zchoice">They are the same size<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Trick question! There can be no such function <span class="math inline">\(g(x)\)</span> since <span class="math inline">\(f()\)</span> is a function of <span class="math inline">\(t\)</span><span class="mcanswer">︎✘ Try plugging in <span class="math inline">\(x=8\)</span> on the right side of the definition and see if it makes sense.</span></span></li>
+</ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="integrals-step-by-step.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb42-2"><a href="integrals-step-by-step.html#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Is $g(2.5)$ positive or negative?&quot;</span>,</span>
+<span id="cb42-3"><a href="integrals-step-by-step.html#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;positive&quot;</span> <span class="ot">=</span> <span class="st">&quot;The function being integrated, $f(t)$, is positive over the interval $2.5 </span><span class="sc">\\</span><span class="st">leq t </span><span class="sc">\\</span><span class="st">leq 4$. Since the lower limit $t=4$ is larger than the upper limit $t=2.5$, the $</span><span class="sc">\\</span><span class="st">int_4^{2.5} f(t)dt$ is negative.&quot;</span>, <span class="st">&quot;zero&quot;</span>, <span class="st">&quot;+negative+&quot;</span></span>
+<span id="cb42-4"><a href="integrals-step-by-step.html#cb42-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question E</strong> Is <span class="math inline">\(g(2.5)\)</span> positive or negative?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">positive<span class="mcanswer">︎✘ The function being integrated, <span class="math inline">\(f(t)\)</span>, is positive over the interval <span class="math inline">\(2.5 \leq t \leq 4\)</span>. Since the lower limit <span class="math inline">\(t=4\)</span> is larger than the upper limit <span class="math inline">\(t=2.5\)</span>, the <span class="math inline">\(\int_4^{2.5} f(t)dt\)</span> is negative.</span></span><br />
+</li>
+<li><span class="Zchoice">zero<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">negative<span class="mcanswer">Right! </span></span></li>
+</ol>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="integrals-step-by-step.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb43-2"><a href="integrals-step-by-step.html#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;At what value of $x$ is $g(x) = 0$?&quot;</span>,</span>
+<span id="cb43-3"><a href="integrals-step-by-step.html#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;2&quot;</span><span class="ot">=</span><span class="st">&quot;There is still area under the curve for this interval&quot;</span>, <span class="st">&quot;3&quot;</span><span class="ot">=</span><span class="st">&quot;There is still area under the curve for this interval&quot;</span>, <span class="st">&quot;4&quot;</span> <span class="ot">=</span> <span class="st">&quot;When the two limits of integration are the same, the definite integral is *always* zero.&quot;</span>, <span class="st">&quot;5&quot;</span><span class="ot">=</span><span class="st">&quot;There is still area under the curve for this interval&quot;</span>, <span class="st">&quot;6&quot;</span><span class="ot">=</span><span class="st">&quot;There is still area under the curve for this interval&quot;</span>, <span class="st">&quot;7&quot;</span><span class="ot">=</span><span class="st">&quot;There is still area under the curve for this interval&quot;</span>, <span class="st">&quot;8&quot;</span><span class="ot">=</span><span class="st">&quot;There is still area under the curve for this interval&quot;</span>, <span class="at">right_one =</span> <span class="dv">4</span>,</span>
+<span id="cb43-4"><a href="integrals-step-by-step.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb43-5"><a href="integrals-step-by-step.html#cb43-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question F</strong> At what value of <span class="math inline">\(x\)</span> is <span class="math inline">\(g(x) = 0\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">2<span class="mcanswer">︎✘ There is still area under the curve for this interval</span></span><br />
+</li>
+<li><span class="Zchoice">3<span class="mcanswer">︎✘ There is still area under the curve for this interval</span></span><br />
+</li>
+<li><span class="Zchoice">4<span class="mcanswer">Right! When the two limits of integration are the same, the definite integral is <em>always</em> zero.</span></span><br />
+</li>
+<li><span class="Zchoice">5<span class="mcanswer">︎✘ There is still area under the curve for this interval</span></span><br />
+</li>
+<li><span class="Zchoice">6<span class="mcanswer">︎✘ There is still area under the curve for this interval</span></span><br />
+</li>
+<li><span class="Zchoice">7<span class="mcanswer">︎✘ There is still area under the curve for this interval</span></span><br />
+</li>
+<li><span class="Zchoice">8<span class="mcanswer">︎✘ There is still area under the curve for this interval</span></span></li>
+</ol>
+<p><span class="math display">\[\text{Let}\ \ h(x) \equiv \int_0^x f(t) dt\]</span></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="integrals-step-by-step.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb44-2"><a href="integrals-step-by-step.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;At what value of $x$ is $h(x) </span><span class="sc">\\</span><span class="st">approx 0$?&quot;</span>,</span>
+<span id="cb44-3"><a href="integrals-step-by-step.html#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;1&quot;</span><span class="ot">=</span><span class="st">&quot;consider when positive and negative areas are equal in magnitude.&quot;</span>, <span class="st">&quot;2&quot;</span><span class="ot">=</span><span class="st">&quot;consider when positive and negative areas are equal in magnitude.&quot;</span>, <span class="st">&quot;3&quot;</span><span class="ot">=</span><span class="st">&quot;consider when positive and negative areas are equal in magnitude.&quot;</span>, <span class="dv">4</span>, <span class="st">&quot;5&quot;</span><span class="ot">=</span><span class="st">&quot;consider when positive and negative areas are equal in magnitude.&quot;</span>, <span class="st">&quot;6&quot;</span><span class="ot">=</span><span class="st">&quot;consider when positive and negative areas are equal in magnitude.&quot;</span>, <span class="at">right_one =</span> <span class="dv">4</span>,</span>
+<span id="cb44-4"><a href="integrals-step-by-step.html#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb44-5"><a href="integrals-step-by-step.html#cb44-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question G</strong> At what value of <span class="math inline">\(x\)</span> is <span class="math inline">\(h(x) \approx 0\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">1<span class="mcanswer">︎✘ consider when positive and negative areas are equal in magnitude.</span></span><br />
+</li>
+<li><span class="Zchoice">2<span class="mcanswer">︎✘ consider when positive and negative areas are equal in magnitude.</span></span><br />
+</li>
+<li><span class="Zchoice">3<span class="mcanswer">︎✘ consider when positive and negative areas are equal in magnitude.</span></span><br />
+</li>
+<li><span class="Zchoice">4<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">5<span class="mcanswer">︎✘ consider when positive and negative areas are equal in magnitude.</span></span><br />
+</li>
+<li><span class="Zchoice">6<span class="mcanswer">︎✘ consider when positive and negative areas are equal in magnitude.</span></span></li>
+</ol>
+<p><span class="math inline">\(\partial_x h(x)\)</span> is a function. When we write <span class="math inline">\(\partial_x h(3)\)</span> we mean to evaluate that function for an input value of <span class="math inline">\(x=3\)</span>.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="integrals-step-by-step.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb45-2"><a href="integrals-step-by-step.html#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Which is bigger, $</span><span class="sc">\\</span><span class="st">partial_x h(3)$ or $</span><span class="sc">\\</span><span class="st">partial_x h(4)$?&quot;</span>,</span>
+<span id="cb45-3"><a href="integrals-step-by-step.html#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">partial_x h(3)$&quot;</span><span class="ot">=</span><span class="st">&quot;remember $f(t) is essentially the derivative of $h(x)$ with respect to x.&quot;</span>,<span class="st">&quot;+$</span><span class="sc">\\</span><span class="st">partial_x h(4)$+&quot;</span>, <span class="st">&quot;Can&#39;t tell.&quot;</span></span>
+<span id="cb45-4"><a href="integrals-step-by-step.html#cb45-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question H</strong> Which is bigger, <span class="math inline">\(\partial_x h(3)\)</span> or <span class="math inline">\(\partial_x h(4)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\partial_x h(3)\)</span><span class="mcanswer">︎✘ remember $f(t) is essentially the derivative of <span class="math inline">\(h(x)\)</span> with respect to x.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\partial_x h(4)\)</span><span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">Can’t tell.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><span class="math display">\[\text{Let}\ \ y(x) \equiv \int_4^x f(t) dt\]</span></p>
+<p>Here are four different graphs.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="integrals-step-by-step.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">F</span>(x) <span class="sc">-</span> <span class="fu">F</span>(<span class="dv">4</span>) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="integrals-step-by-step.html#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">&quot;(A)&quot;</span>)</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-37-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="integrals-step-by-step.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">F</span>(<span class="dv">4</span>) <span class="sc">-</span> <span class="fu">F</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="integrals-step-by-step.html#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">&quot;(B)&quot;</span>)</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-37-2.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="integrals-step-by-step.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">F</span>(<span class="dv">6</span>) <span class="sc">-</span> <span class="fu">F</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="integrals-step-by-step.html#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">&quot;(C)&quot;</span>)</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-37-3.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="integrals-step-by-step.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">abs</span>(<span class="fu">F</span>(<span class="dv">4</span>) <span class="sc">-</span> <span class="fu">F</span>(x)) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb49-2"><a href="integrals-step-by-step.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">title =</span> <span class="st">&quot;(D)&quot;</span>)</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/unnamed-chunk-37-4.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="integrals-step-by-step.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">askMC</span>(</span>
+<span id="cb50-2"><a href="integrals-step-by-step.html#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Which of the graphs shows $y(x)$?&quot;</span>,</span>
+<span id="cb50-3"><a href="integrals-step-by-step.html#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span><span class="ot">=</span><span class="st">&quot;Should it increase or decrease after the point crosses the x-axis?&quot;</span>, <span class="st">&quot;C&quot;</span><span class="ot">=</span><span class="st">&quot;Should it increase or decrease after the point crosses the x-axis?&quot;</span>, <span class="st">&quot;D&quot;</span><span class="ot">=</span><span class="st">&quot;When should the graph equal 0?&quot;</span>, <span class="at">right_one =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb50-4"><a href="integrals-step-by-step.html#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random_answer_order =</span> <span class="cn">FALSE</span></span>
+<span id="cb50-5"><a href="integrals-step-by-step.html#cb50-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Question I</strong> Which of the graphs shows <span class="math inline">\(y(x)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">A<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">B<span class="mcanswer">︎✘ Should it increase or decrease after the point crosses the x-axis?</span></span><br />
+</li>
+<li><span class="Zchoice">C<span class="mcanswer">︎✘ Should it increase or decrease after the point crosses the x-axis?</span></span><br />
+</li>
+<li><span class="Zchoice">D<span class="mcanswer">︎✘ When should the graph equal 0?</span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 30.08</strong>: <span><a name="File: Exercises/euler-step.Rmd" href="#9W6VB"><img src="www/icons8-signpost.png" title="Location: Exercises/euler-step.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">9W6VB</red></span>
+</summary>
+<p>Using the Euler method find <span class="math inline">\(\int f(t) dt\)</span> over the interval <span class="math inline">\(t_0=0\)</span> to <span class="math inline">\(t_{end}=1\)</span>. The <span class="math inline">\(t\)</span> quantity is in steps of <span class="math inline">\(h=0.01\)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(t\)</span></th>
+<th><span class="math inline">\(\partial_t f(t)\)</span></th>
+<th><span class="math inline">\(\int f(t) dt\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.399</td>
+<td>0.5</td>
+</tr>
+<tr class="even">
+<td>0.01</td>
+<td>0.242</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>0.02</td>
+<td>0.054</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+0.03 | 0.399 |
+</details>
+<details>
+<summary>
+<strong>Exercise 30.10</strong>: <span><a name="File: Exercises/cumsum.Rmd" href="#3IU9R"><img src="www/icons8-signpost.png" title="Location: Exercises/cumsum.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">3IU9R</red></span>
+</summary>
+<p>Consider this sequence: 4, 5, 3, 1, 2</p>
+<p><strong>Question A</strong> What is the sum?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">14<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">15<span class="mcanswer">Excellent! Yes, we know you can add. We just wanted you to keep in mind what the sum is for the next question, which is just about as easy.</span></span><br />
+</li>
+<li><span class="Zchoice">16<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">17<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question B</strong> What is the cumulative sum?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The sequence 4, 9, 12, 13, 15<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice">The sequence 2, 3, 6, 11, 15<span class="mcanswer">︎✘ That’s backwards!</span></span><br />
+</li>
+<li><span class="Zchoice">The sequence 0, 4, 9, 13, 15<span class="mcanswer">︎✘ The first number in the original sequence is 4, so the cumulative sum will start with that.</span></span></li>
+</ol>
+<p><strong>Question C</strong> Which entry in the cumulative sum matches the sum?</p>
+<p>    <span class="Zchoice">The first<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">The last<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">None of them<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">All of them<span class="mcanswer">︎✘ </span></span></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 30.12</strong>: <span><a name="File: Exercises/rhinosaurus-mute-tv.Rmd" href="#ljCxcH"><img src="www/icons8-signpost.png" title="Location: Exercises/rhinosaurus-mute-tv.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ljCxcH</red></span>
+</summary>
+<p>The result of applying the Euler method to a function is also another function, but it comes in the form of a vector of numbers all ready to be displayed graphically. So keep in mind the the function produced by Euler will be known only over a specified domain, just as the graph of a function covers only the specified domain. For instance, here is the graph of the natural logarithm function over the domain <span class="math inline">\(1 \leq x \leq 21\)</span>.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="integrals-step-by-step.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">log</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">21</span>)), <span class="at">npts=</span><span class="dv">11</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="integrals-step-by-step.html#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_point</span>()</span></code></pre></div>
+<p><img src="CalcZ-notes_files/figure-html/dots0-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The command in the sandbox is a little different than the usual <code>slice_plot()</code>. We’ve added on two things:</p>
+<ol style="list-style-type: decimal">
+<li><p>An argument <code>npts=11</code> which says to use 11 discrete values of the input in plotting the graph.</p></li>
+<li><p>A second graphics layer that shows a dot at each input point where <code>slice_plot()</code> evaluated the function. Behind the seemingly smooth curves that <code>slice_plot()</code> produces is really a discrete set of points each of which is the output of the function at some numerical input.</p></li>
+</ol>
+<p>In our typical use of <code>slice_plot()</code> we leave out the dots and show only the straight line segments that connect the positions where the dots would be plotted. If the positions are spaced closely enough, your eye will not see the joints between successive straight lines and you will perceive the graph as a smooth curve.</p>
+<p><strong>Question A</strong> For the graph of the log function over the domain <span class="math inline">\(1 \leq x \leq 21\)</span> with <code>npts=11</code> (that is, the initial command shown in the sandbox), what is the horizontal spacing between the discrete <span class="math inline">\(x\)</span> values?</p>
+<p>    <span class="Zchoice">0.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">2<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">4<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">5<span class="mcanswer">︎✘ </span></span></p>
+<p>Now take away the <code>npts=</code> argument. This will implicitly set <code>npts</code> to a default value, which is what we have been using for most plots in this course.</p>
+<p><strong>Question B</strong> What is the default value of <code>npts</code> in <code>slice_plot()</code>?</p>
+<p>    <span class="Zchoice">25<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">50<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">100<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">200<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">500<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1000<span class="mcanswer">︎✘ </span></span></p>
+<p>We could use a much larger value for <code>npts</code>, but there is no reason so long as a smaller value produces a graph faithful to the function being graphed.</p>
+<p>Keeping the domain the same, <span class="math inline">\(1 \leq x \leq 21\)</span>, plot out a sinusoid with a period of 0.3 using the default <code>npts</code>: <span class="math inline">\(g(x) \equiv \sin(2\pi x/0.3)\)</span>. The graph, which shows about 67 cycles of the sinusoid, will not look much like a sinusoid. In particular, although the sine function should reach from -1 to 1 over each cycle, the graph does not.</p>
+<p><strong>Question C</strong> How large should <code>npts</code> be in order for each of the 67 cycles in the graph to come close enough to -1 and 1 that you cannot easily see the discrepancy?</p>
+    <span class="Zchoice">125<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">150<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">200<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">400<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">800<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">1600<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">3200<span class="mcanswer">︎✘ </span></span>
+</details>
+<details>
+<summary>
+<strong>Exercise 30.14</strong>: <span><a name="File: Exercises/falcon-hurt-pot.Rmd" href="#rfO0EG"><img src="www/icons8-signpost.png" title="Location: Exercises/falcon-hurt-pot.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">rfO0EG</red></span>
+</summary>
+<p>Methods such as Euler are tedious, ideal for the computer. So let’s look at some basic R functions for implementing the Euler Method when we know the function to be anti-differentiated <span class="math inline">\(f(x)\)</span>, the step size <span class="math inline">\(h\)</span>, and the domain <span class="math inline">\(a \leq x \leq b\)</span>. At the heart of the implementation is a function <code>cumsum()</code>, the “cumulative sum.” This does something very simple. The cumulative sum of the sequence 1, 2, 3, 4 is another sequence: 1, 3, 6, 10.</p>
+<p>The following code has commands for using <code>cumsum()</code> to approximate the anti-derivative of a function <span class="math inline">\(f()\)</span> over the domain <span class="math inline">\(a \leq x \leq b\)</span></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="integrals-step-by-step.html#cb52-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>x<span class="sc">/</span><span class="fl">0.3</span>) <span class="sc">~</span> x) <span class="co"># the function to be anti-differentiated.</span></span>
+<span id="cb52-2"><a href="integrals-step-by-step.html#cb52-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># the lower bound.</span></span>
+<span id="cb52-3"><a href="integrals-step-by-step.html#cb52-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># the upper bound.</span></span>
+<span id="cb52-4"><a href="integrals-step-by-step.html#cb52-4" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fl">0.01</span> <span class="co"># the step size</span></span>
+<span id="cb52-5"><a href="integrals-step-by-step.html#cb52-5" aria-hidden="true" tabindex="-1"></a>x_discrete <span class="ot">&lt;-</span> <span class="fu">seq</span>(a, b, <span class="at">by =</span> h) <span class="co"># all of the discrete x values based on a, b, and h</span></span>
+<span id="cb52-6"><a href="integrals-step-by-step.html#cb52-6" aria-hidden="true" tabindex="-1"></a>f_discrete <span class="ot">&lt;-</span> <span class="fu">f</span>(x_discrete) <span class="co"># all of the values of f(x) when the discrete x values are used as the input</span></span>
+<span id="cb52-7"><a href="integrals-step-by-step.html#cb52-7" aria-hidden="true" tabindex="-1"></a>F_discrete <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(h <span class="sc">*</span> f_discrete) <span class="co"># the discrete values of the anti-derivative, F(x)</span></span>
+<span id="cb52-8"><a href="integrals-step-by-step.html#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(F_discrete <span class="sc">~</span> x_discrete) <span class="sc">%&gt;%</span></span>
+<span id="cb52-9"><a href="integrals-step-by-step.html#cb52-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">f</span>(x) <span class="sc">~</span> x, <span class="at">color =</span> <span class="st">&quot;gray&quot;</span>, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(a,b)))</span></code></pre></div>
+<p>Here is a function:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="integrals-step-by-step.html#cb53-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.2</span><span class="sc">*</span>(x<span class="sc">^</span><span class="dv">2</span>))<span class="sc">~</span>x)</span></code></pre></div>
+<p>Using a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>, find and plot the anti-derivative of <span class="math inline">\(g(x)\)</span> over the domain <span class="math inline">\(-6 \leq x \leq 6\)</span>.</p>
+Your task: Describe the shape of <span class="math inline">\(G(x)\)</span>. Your description can be one word from earlier in the book, if you choose it carefully. If your graph looks like a straight line, you did not appropriately change the domain above.
+</details>
+<p>ECONOMIST PICTURES</p>
+<ul>
+<li><a href="https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_EUC776.png" class="uri">https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_EUC776.png</a></li>
+</ul>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="integrals-step-by-step.html#cb54-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;www/sputnik.png&quot;</span>)</span></code></pre></div>
+<p><img src="www/sputnik.png" width="90%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><a href="https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_BRC783.png" class="uri">https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_BRC783.png</a></li>
+</ul>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="integrals-step-by-step.html#cb55-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;www/NHS.png&quot;</span>)</span></code></pre></div>
+<p><img src="www/NHS.png" width="90%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><a href="https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_EUC775.png" class="uri">https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_EUC775.png</a></li>
+</ul>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="integrals-step-by-step.html#cb56-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;www/Turkish-lira.png&quot;</span>)</span></code></pre></div>
+<p><img src="www/Turkish-lira.png" width="90%" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>The root of the word “data” is the Latin for “given”.<a href="integrals-step-by-step.html#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="net-change.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="accum-symbolic.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/30-euler.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/30-euler.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

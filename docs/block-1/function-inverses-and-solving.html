@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 10 Function inverses and “solving” |  </title>
+  <meta name="description" content="MOSAIC Calculus Block 1" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 10 Function inverses and “solving” |  " />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="MOSAIC Calculus Block 1" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 10 Function inverses and “solving” |  " />
+  
+  <meta name="twitter:description" content="MOSAIC Calculus Block 1" />
+  
+
+
+
+<meta name="date" content="2021-10-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="fun-slopes.html"/>
+<link rel="next" href="fun-assembling.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><span style="font-size: 150%; color: blue;"><strong><a href="../index.html">MOSAIC Calculus</a></strong></span></li>
+<li><em><a>Calculus for the 21st century</a></em></li>
+<li><a>Daniel Kaplan</a></li>
+<hr>
+<li><a href="../index.html"><span style="color: blue;">Welcome to calculus</span></li>
+<li><strong><a href="../block-1/change.html">Block 1: Functions & quantities</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="change.html"><a href="change.html"><i class="fa fa-check"></i><b>1</b> Change</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="change.html"><a href="change.html#quantity-vs-number"><i class="fa fa-check"></i><b>1.1</b> Quantity vs number</a></li>
+<li class="chapter" data-level="1.2" data-path="change.html"><a href="change.html#functions"><i class="fa fa-check"></i><b>1.2</b> Functions</a></li>
+<li class="chapter" data-level="1.3" data-path="change.html"><a href="change.html#fundamental-model-of-change"><i class="fa fa-check"></i><b>1.3</b> Fundamental model of change</a></li>
+<li class="chapter" data-level="1.4" data-path="change.html"><a href="change.html#exercises"><i class="fa fa-check"></i><b>1.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pattern-book.html"><a href="pattern-book.html"><i class="fa fa-check"></i><b>2</b> Functions for modeling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pattern-book.html"><a href="pattern-book.html#pattern-book-functions"><i class="fa fa-check"></i><b>2.1</b> Pattern-book functions</a></li>
+<li class="chapter" data-level="2.2" data-path="pattern-book.html"><a href="pattern-book.html#the-power-law-family"><i class="fa fa-check"></i><b>2.2</b> The power-law family</a></li>
+<li class="chapter" data-level="2.3" data-path="pattern-book.html"><a href="pattern-book.html#constructing-functions"><i class="fa fa-check"></i><b>2.3</b> Constructing functions</a></li>
+<li class="chapter" data-level="2.4" data-path="pattern-book.html"><a href="pattern-book.html#function-shapes"><i class="fa fa-check"></i><b>2.4</b> Function shapes</a></li>
+<li class="chapter" data-level="2.5" data-path="pattern-book.html"><a href="pattern-book.html#exercises-1"><i class="fa fa-check"></i><b>2.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html"><i class="fa fa-check"></i><b>3</b> Structure of a function</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#inputs-to-output"><i class="fa fa-check"></i><b>3.1</b> Inputs to output</a></li>
+<li class="chapter" data-level="3.2" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#bureaucratic"><i class="fa fa-check"></i><b>3.2</b> A bureaucratic analogy</a></li>
+<li class="chapter" data-level="3.3" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#domain-input-space"><i class="fa fa-check"></i><b>3.3</b> Domain: input space</a></li>
+<li class="chapter" data-level="3.4" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#range-output-space"><i class="fa fa-check"></i><b>3.4</b> Range: output space</a></li>
+<li class="chapter" data-level="3.5" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#formulas-in-r"><i class="fa fa-check"></i><b>3.5</b> Formulas in R</a></li>
+<li class="chapter" data-level="3.6" data-path="structure-of-a-function.html"><a href="structure-of-a-function.html#exercises-2"><i class="fa fa-check"></i><b>3.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="fun-describing.html"><a href="fun-describing.html"><i class="fa fa-check"></i><b>4</b> Describing functions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="fun-describing.html"><a href="fun-describing.html#slice-plot-intro"><i class="fa fa-check"></i><b>4.1</b> Graphing a function</a></li>
+<li class="chapter" data-level="4.2" data-path="fun-describing.html"><a href="fun-describing.html#tables-of-inputs-and-outputs"><i class="fa fa-check"></i><b>4.2</b> Tables of inputs and outputs</a></li>
+<li class="chapter" data-level="4.3" data-path="fun-describing.html"><a href="fun-describing.html#word-descriptions"><i class="fa fa-check"></i><b>4.3</b> Word descriptions</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="fun-describing.html"><a href="fun-describing.html#concavity"><i class="fa fa-check"></i><b>4.3.1</b> Concavity</a></li>
+<li class="chapter" data-level="4.3.2" data-path="fun-describing.html"><a href="fun-describing.html#continuity-intro"><i class="fa fa-check"></i><b>4.3.2</b> Continuity</a></li>
+<li class="chapter" data-level="4.3.3" data-path="fun-describing.html"><a href="fun-describing.html#monotonicity"><i class="fa fa-check"></i><b>4.3.3</b> Monotonicity</a></li>
+<li class="chapter" data-level="4.3.4" data-path="fun-describing.html"><a href="fun-describing.html#periodicity"><i class="fa fa-check"></i><b>4.3.4</b> Periodicity</a></li>
+<li class="chapter" data-level="4.3.5" data-path="fun-describing.html"><a href="fun-describing.html#asymptotic-behavior"><i class="fa fa-check"></i><b>4.3.5</b> Asymptotic behavior</a></li>
+<li class="chapter" data-level="4.3.6" data-path="fun-describing.html"><a href="fun-describing.html#local-extremes"><i class="fa fa-check"></i><b>4.3.6</b> Locally extreme points</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="fun-describing.html"><a href="fun-describing.html#computer-function-names"><i class="fa fa-check"></i><b>4.4</b> Computer function names</a></li>
+<li class="chapter" data-level="4.5" data-path="fun-describing.html"><a href="fun-describing.html#mathematical-notation"><i class="fa fa-check"></i><b>4.5</b> Mathematical notation</a></li>
+<li class="chapter" data-level="4.6" data-path="fun-describing.html"><a href="fun-describing.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fun-notation.html"><a href="fun-notation.html"><i class="fa fa-check"></i><b>5</b> Notation for functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="fun-notation.html"><a href="fun-notation.html#a-notation-for-computing"><i class="fa fa-check"></i><b>5.1</b> A notation for computing</a></li>
+<li class="chapter" data-level="5.2" data-path="fun-notation.html"><a href="fun-notation.html#words-for-using-functions"><i class="fa fa-check"></i><b>5.2</b> Words for using functions</a></li>
+<li class="chapter" data-level="5.3" data-path="fun-notation.html"><a href="fun-notation.html#algorithms"><i class="fa fa-check"></i><b>5.3</b> Formulas and algorithms</a></li>
+<li class="chapter" data-level="5.4" data-path="fun-notation.html"><a href="fun-notation.html#algorithms-without-formulas"><i class="fa fa-check"></i><b>5.4</b> Algorithms without formulas</a></li>
+<li class="chapter" data-level="5.5" data-path="fun-notation.html"><a href="fun-notation.html#computer-notation"><i class="fa fa-check"></i><b>5.5</b> Computer notation</a></li>
+<li class="chapter" data-level="5.6" data-path="fun-notation.html"><a href="fun-notation.html#calcz-naming-conventions"><i class="fa fa-check"></i><b>5.6</b> CalcZ naming conventions</a></li>
+<li class="chapter" data-level="5.7" data-path="fun-notation.html"><a href="fun-notation.html#functions-in-r"><i class="fa fa-check"></i><b>5.7</b> Functions in R</a></li>
+<li class="chapter" data-level="5.8" data-path="fun-notation.html"><a href="fun-notation.html#foursigns"><i class="fa fa-check"></i><b>5.8</b> <span class="math inline">\(=\)</span>, <span class="math inline">\(\equiv\)</span>, <span class="math inline">\(\rightarrow\)</span>, <code>&lt;-</code></a></li>
+<li class="chapter" data-level="5.9" data-path="fun-notation.html"><a href="fun-notation.html#exercises-4"><i class="fa fa-check"></i><b>5.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html"><i class="fa fa-check"></i><b>6</b> Graphics &amp; function graphs</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#the-graphics-frame"><i class="fa fa-check"></i><b>6.1</b> The graphics frame</a></li>
+<li class="chapter" data-level="6.2" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-graphics-the-point-plot"><i class="fa fa-check"></i><b>6.2</b> Data graphics: the point plot</a></li>
+<li class="chapter" data-level="6.3" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#function-graphs"><i class="fa fa-check"></i><b>6.3</b> Function graphs</a></li>
+<li class="chapter" data-level="6.4" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#graphics-layers"><i class="fa fa-check"></i><b>6.4</b> Graphics layers</a></li>
+<li class="chapter" data-level="6.5" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#data-and-functions"><i class="fa fa-check"></i><b>6.5</b> Data and functions</a></li>
+<li class="chapter" data-level="6.6" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#inputs-to-output-1"><i class="fa fa-check"></i><b>6.6</b> Inputs to output</a></li>
+<li class="chapter" data-level="6.7" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#outputs-to-inputs"><i class="fa fa-check"></i><b>6.7</b> Outputs to inputs</a></li>
+<li class="chapter" data-level="6.8" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#surface-plot"><i class="fa fa-check"></i><b>6.8</b> Graphs of functions with two inputs</a></li>
+<li class="chapter" data-level="6.9" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#contour-plots"><i class="fa fa-check"></i><b>6.9</b> Contour plots</a></li>
+<li class="chapter" data-level="6.10" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#slice-plots"><i class="fa fa-check"></i><b>6.10</b> Slice plots</a></li>
+<li class="chapter" data-level="6.11" data-path="graphs-and-graphics.html"><a href="graphs-and-graphics.html#exercises-5"><i class="fa fa-check"></i><b>6.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="params-intro.html"><a href="params-intro.html"><i class="fa fa-check"></i><b>7</b> Parameters for functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="params-intro.html"><a href="params-intro.html#parallel-scales"><i class="fa fa-check"></i><b>7.1</b> Parallel scales</a></li>
+<li class="chapter" data-level="7.2" data-path="params-intro.html"><a href="params-intro.html#scaling-the-input"><i class="fa fa-check"></i><b>7.2</b> Scaling the input</a></li>
+<li class="chapter" data-level="7.3" data-path="params-intro.html"><a href="params-intro.html#scale-the-output"><i class="fa fa-check"></i><b>7.3</b> Scale the output</a></li>
+<li class="chapter" data-level="7.4" data-path="params-intro.html"><a href="params-intro.html#linear-combinations"><i class="fa fa-check"></i><b>7.4</b> Linear combinations</a></li>
+<li class="chapter" data-level="7.5" data-path="params-intro.html"><a href="params-intro.html#exercises-6"><i class="fa fa-check"></i><b>7.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="process-of-modeling.html"><a href="process-of-modeling.html"><i class="fa fa-check"></i><b>8</b> Finding parameters for the basic modeling functions</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="process-of-modeling.html"><a href="process-of-modeling.html#variations-from-scaling"><i class="fa fa-check"></i><b>8.1</b> Variations from scaling</a></li>
+<li class="chapter" data-level="8.2" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-periodic"><i class="fa fa-check"></i><b>8.2</b> Curve fitting a periodic function</a></li>
+<li class="chapter" data-level="8.3" data-path="process-of-modeling.html"><a href="process-of-modeling.html#fit-exponential"><i class="fa fa-check"></i><b>8.3</b> Curve fitting an exponential function</a></li>
+<li class="chapter" data-level="8.4" data-path="process-of-modeling.html"><a href="process-of-modeling.html#curve-fitting-a-power-law-function"><i class="fa fa-check"></i><b>8.4</b> Curve fitting a power-law function</a></li>
+<li class="chapter" data-level="8.5" data-path="process-of-modeling.html"><a href="process-of-modeling.html#gaussian-and-sigmoid-functions"><i class="fa fa-check"></i><b>8.5</b> Gaussian and sigmoid functions</a></li>
+<li class="chapter" data-level="8.6" data-path="process-of-modeling.html"><a href="process-of-modeling.html#exercises-7"><i class="fa fa-check"></i><b>8.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="fun-slopes.html"><a href="fun-slopes.html"><i class="fa fa-check"></i><b>9</b> Slope function</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="fun-slopes.html"><a href="fun-slopes.html#change-and-slope"><i class="fa fa-check"></i><b>9.1</b> Change and slope</a></li>
+<li class="chapter" data-level="9.2" data-path="fun-slopes.html"><a href="fun-slopes.html#continuous-change"><i class="fa fa-check"></i><b>9.2</b> Continuous change</a></li>
+<li class="chapter" data-level="9.3" data-path="fun-slopes.html"><a href="fun-slopes.html#slope"><i class="fa fa-check"></i><b>9.3</b> Slope</a></li>
+<li class="chapter" data-level="9.4" data-path="fun-slopes.html"><a href="fun-slopes.html#the-fitted-line"><i class="fa fa-check"></i><b>9.4</b> The fitted line</a></li>
+<li class="chapter" data-level="9.5" data-path="fun-slopes.html"><a href="fun-slopes.html#average-rate-of-change"><i class="fa fa-check"></i><b>9.5</b> Average rate of change</a></li>
+<li class="chapter" data-level="9.6" data-path="fun-slopes.html"><a href="fun-slopes.html#instantaneous-rate-of-change"><i class="fa fa-check"></i><b>9.6</b> Instantaneous rate of change</a></li>
+<li class="chapter" data-level="9.7" data-path="fun-slopes.html"><a href="fun-slopes.html#exercises-8"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html"><i class="fa fa-check"></i><b>10</b> Function inverses and “solving”</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#function-inverses"><i class="fa fa-check"></i><b>10.1</b> Function inverses</a></li>
+<li class="chapter" data-level="10.2" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#solving-graphically"><i class="fa fa-check"></i><b>10.2</b> Solving graphically</a></li>
+<li class="chapter" data-level="10.3" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#zero-finding"><i class="fa fa-check"></i><b>10.3</b> Zero-finding</a></li>
+<li class="chapter" data-level="10.4" data-path="function-inverses-and-solving.html"><a href="function-inverses-and-solving.html#exercises-9"><i class="fa fa-check"></i><b>10.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="fun-assembling.html"><a href="fun-assembling.html"><i class="fa fa-check"></i><b>11</b> Assembling functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="fun-assembling.html"><a href="fun-assembling.html#linear-combination"><i class="fa fa-check"></i><b>11.1</b> Linear combination</a></li>
+<li class="chapter" data-level="11.2" data-path="fun-assembling.html"><a href="fun-assembling.html#function-composition"><i class="fa fa-check"></i><b>11.2</b> Function composition</a></li>
+<li class="chapter" data-level="11.3" data-path="fun-assembling.html"><a href="fun-assembling.html#modeling-polynomial-1"><i class="fa fa-check"></i><b>11.3</b> The modeling polynomial</a></li>
+<li class="chapter" data-level="11.4" data-path="fun-assembling.html"><a href="fun-assembling.html#function-multiplication"><i class="fa fa-check"></i><b>11.4</b> Function multiplication</a></li>
+<li class="chapter" data-level="11.5" data-path="fun-assembling.html"><a href="fun-assembling.html#all-together-now"><i class="fa fa-check"></i><b>11.5</b> All together now!</a></li>
+<li class="chapter" data-level="11.6" data-path="fun-assembling.html"><a href="fun-assembling.html#exercises-10"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html"><i class="fa fa-check"></i><b>12</b> Functions with multiple inputs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#fx-times-gt"><i class="fa fa-check"></i><b>12.1</b> f(x) times g(t)</a></li>
+<li class="chapter" data-level="12.2" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#two-variable-modeling-polynomial"><i class="fa fa-check"></i><b>12.2</b> Two-variable modeling polynomial</a></li>
+<li class="chapter" data-level="12.3" data-path="fun-multiple-inputs.html"><a href="fun-multiple-inputs.html#exercises-11"><i class="fa fa-check"></i><b>12.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="fun-piecewise.html"><a href="fun-piecewise.html"><i class="fa fa-check"></i><b>13</b> Piecewise functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="fun-piecewise.html"><a href="fun-piecewise.html#splitting-the-domain"><i class="fa fa-check"></i><b>13.1</b> Splitting the domain</a></li>
+<li class="chapter" data-level="13.2" data-path="fun-piecewise.html"><a href="fun-piecewise.html#basic-piecewise-functions"><i class="fa fa-check"></i><b>13.2</b> Basic piecewise functions</a></li>
+<li class="chapter" data-level="13.3" data-path="fun-piecewise.html"><a href="fun-piecewise.html#exercises-12"><i class="fa fa-check"></i><b>13.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="modeling-cycle.html"><a href="modeling-cycle.html"><i class="fa fa-check"></i><b>14</b> Modeling cycle</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-cooling-water"><i class="fa fa-check"></i><b>14.1</b> Example: Cooling water</a></li>
+<li class="chapter" data-level="14.2" data-path="modeling-cycle.html"><a href="modeling-cycle.html#example-the-tides"><i class="fa fa-check"></i><b>14.2</b> Example: The tides</a></li>
+<li class="chapter" data-level="14.3" data-path="modeling-cycle.html"><a href="modeling-cycle.html#modeling-project"><i class="fa fa-check"></i><b>14.3</b> Modeling project</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="magnitudes.html"><a href="magnitudes.html"><i class="fa fa-check"></i><b>15</b> Magnitudes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="magnitudes.html"><a href="magnitudes.html#counting-digits"><i class="fa fa-check"></i><b>15.1</b> Counting digits</a></li>
+<li class="chapter" data-level="15.2" data-path="magnitudes.html"><a href="magnitudes.html#using-digit-to-understand-magnitude"><i class="fa fa-check"></i><b>15.2</b> Using digit() to understand magnitude</a></li>
+<li class="chapter" data-level="15.3" data-path="magnitudes.html"><a href="magnitudes.html#quantity-and-magnitude"><i class="fa fa-check"></i><b>15.3</b> Quantity and magnitude</a></li>
+<li class="chapter" data-level="15.4" data-path="magnitudes.html"><a href="magnitudes.html#composing-ln"><i class="fa fa-check"></i><b>15.4</b> Composing <span class="math inline">\(\ln()\)</span></a></li>
+<li class="chapter" data-level="15.5" data-path="magnitudes.html"><a href="magnitudes.html#magnitude-graphics"><i class="fa fa-check"></i><b>15.5</b> Magnitude graphics</a></li>
+<li class="chapter" data-level="15.6" data-path="magnitudes.html"><a href="magnitudes.html#reading-log-axes"><i class="fa fa-check"></i><b>15.6</b> Reading logarithmic scales</a></li>
+<li class="chapter" data-level="15.7" data-path="magnitudes.html"><a href="magnitudes.html#fractional-digits"><i class="fa fa-check"></i><b>15.7</b> Fractional digits (optional)</a></li>
+<li class="chapter" data-level="15.8" data-path="magnitudes.html"><a href="magnitudes.html#exercises-13"><i class="fa fa-check"></i><b>15.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="dimensions.html"><a href="dimensions.html"><i class="fa fa-check"></i><b>16</b> Dimensions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="dimensions.html"><a href="dimensions.html#mathematics-of-quantity"><i class="fa fa-check"></i><b>16.1</b> Mathematics of quantity</a></li>
+<li class="chapter" data-level="16.2" data-path="dimensions.html"><a href="dimensions.html#compound-dimensions"><i class="fa fa-check"></i><b>16.2</b> Compound dimensions</a></li>
+<li class="chapter" data-level="16.3" data-path="dimensions.html"><a href="dimensions.html#arithmetic-with-dimensions"><i class="fa fa-check"></i><b>16.3</b> Arithmetic with dimensions</a></li>
+<li class="chapter" data-level="16.4" data-path="dimensions.html"><a href="dimensions.html#pendulum-dimensions"><i class="fa fa-check"></i><b>16.4</b> Example: Dimensional analysis</a></li>
+<li class="chapter" data-level="16.5" data-path="dimensions.html"><a href="dimensions.html#conversion-flavors-of-1"><i class="fa fa-check"></i><b>16.5</b> Conversion: Flavors of 1</a></li>
+<li class="chapter" data-level="16.6" data-path="dimensions.html"><a href="dimensions.html#dimensions-and-linear-combinations"><i class="fa fa-check"></i><b>16.6</b> Dimensions and linear combinations</a></li>
+<li class="chapter" data-level="16.7" data-path="dimensions.html"><a href="dimensions.html#exercises-14"><i class="fa fa-check"></i><b>16.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html"><i class="fa fa-check"></i>Projects and review</a>
+<ul>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#block-1-project-1-ebola-in-guinea-part-i"><i class="fa fa-check"></i>Block 1 Project 1: Ebola in Guinea, part I</a>
+<ul>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#data"><i class="fa fa-check"></i>Data</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#exploring-the-data"><i class="fa fa-check"></i>Exploring the Data</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#data-wrangling"><i class="fa fa-check"></i>Data Wrangling</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#analysis-of-the-outbreak"><i class="fa fa-check"></i>Analysis of the outbreak</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#more-data-smoothing"><i class="fa fa-check"></i>More data smoothing</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#final-thoughts"><i class="fa fa-check"></i>Final thoughts</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#block-1-project-2-orbit-dimensions"><i class="fa fa-check"></i>Block 1 Project 2: Orbit dimensions</a>
+<ul>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#the-theory"><i class="fa fa-check"></i>The theory</a></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#the-data"><i class="fa fa-check"></i>The data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="projects-and-review.html"><a href="projects-and-review.html#block-1-review"><i class="fa fa-check"></i>Block 1 Review</a></li>
+</ul></li>
+<li class="divider"></li>
+<hr>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/linear-forms.html">Block 5: Linear combinations</a></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"> </a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="function-inverses-and-solving" class="section level1" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Function inverses and “solving”</h1>
+<p>Very much in the spirit of naming common tasks, the process of turning an output from a function into the corresponding input is called <strong><em>solving</em></strong>. In high-school mathematics, you may have heard the phrases “solve for <span class="math inline">\(x\)</span>” or “find <span class="math inline">\(x\)</span>.” Generally what was mean can be expressed using functions this way: Given an output <span class="math inline">\(g(x_0)\)</span> find the input <span class="math inline">\(x_0\)</span> that would produce that output.</p>
+<p>In computer programming, “solving” is sometimes called <strong><em>zero finding</em></strong>. As is often the case, computer programming often involves re-arranging things to fit in a standard format. Here, the standard format is to find the input that corresponds to an output of <em>zero</em>. In other words, given only the output <span class="math inline">\(A = g(x_0)\)</span> and not <span class="math inline">\(x_0\)</span> itself, find a value for <span class="math inline">\(x_0\)</span> that satisfies look for the input <span class="math inline">\(x_0\)</span> at which <span class="math inline">\(g(x_0) - A = 0\)</span>.</p>
+<div id="function-inverses" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> Function inverses</h2>
+<p>This may sound like a familiar word problem from your high-school algebra course:</p>
+<blockquote>
+<p>You are a facilities manager for a small town. The town contains
+approximately 400 miles of road that must be plowed following a significant snowfall. How many plows must be used in order to complete the job in one day if the plows can travel at approximately 7 miles per hour when engaged? — <a href="https://www.ams.org/notices/201005/rtx100500608p.pdf">Source</a></p>
+</blockquote>
+<p>The task of answering such a question is often called <strong><em>solving</em></strong> a <strong><em>word problem</em></strong>.</p>
+<p>You don’t need calculus to solve this problem, but insofar as the format is familiar to you, it might help to depict how it would be addressed as a modeling task and how to use the model created to guide the mathematical work of getting a numerical answer to the problem.</p>
+<p><strong>Modeling Phase</strong>: The objective is to create a function that represents snow plowing and that will let us answer the question about how much plowing activity is needed. Here’s a function that takes as input <span class="math inline">\(x\)</span> a number of plows and provides as output the number of miles that can be serviced in a day.
+<span class="math display">\[\text{miles.plowed}(x) \equiv 7 \ \text{mph} \times 24 \ \text{hours-per-day}\times x\ \text{plows}\]</span>
+In reality, “miles plowed” depends on the amount of snow, the safe speed limit of the plows, the number of rest breaks needed by the drivers, how far the snowplow terminus is from the road system, how many cars are parked on the road and the available number of tow trucks, and the day of the week and the time of day. (Remember, there might be other traffic on the road. Plowing at rush hour is bound to be slow! And the reduced visibility at night calls for extra care!) It seems that textbook “word problems” never mention such issues, having been written in a world where plowing snow is exactly the same as doing simple arithmetic.</p>
+<p>Likely, we’re going to have to use the <strong><em>modeling cycle</em></strong> to end up with a genuinely useful model. Still, we have to start somewhere, so let’s start with <span class="math inline">\(7 \times 24 \times x\)</span>.</p>
+<p>We can use this function to solve the problem: How many plows are needed to get the 400-miles of road serviced in 1 day? It’s a matter of choosing a suitable method for applying the function to guide us to the answer. <span style="float: right; padding-left: 50px;"><a name="1210" href="#1210"><img src="www/icons8-signpost.png" title="Location: 1210" width="12px"/></a><span style="color: red; font-size: 6pt;">1210</red></span></p>
+<p>One simple method, which sometimes is called <strong><em>guess and check</em></strong> is to propose some answers and see what happens. Being experts in snow plowing, we know that you can’t have negative or fractional plows, so our guesses for <span class="math inline">\(x\)</span> will be integers. Let’s do this systematically:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Number of plows <span class="math inline">\(x\)</span></th>
+<th>Miles plowed in a day</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="math inline">\(7 \times 24 \times 1 = 168\)</span></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><span class="math inline">\(7 \times 24 \times 2 = 336\)</span></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><span class="math inline">\(7 \times 24 \times 3 = 504\)</span></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><span class="math inline">\(7 \times 24 \times 4 = 672\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\vdots\)</span></td>
+<td>… and so on.</td>
+</tr>
+</tbody>
+</table>
+<p>We really don’t need all the scratch work crowding up the table, so let’s streamline it, keeping the essentials:</p>
+<table>
+<thead>
+<tr class="header">
+<th>input <span class="math inline">\(x\)</span></th>
+<th>output <span class="math inline">\(\text{miles.plowed}(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>168</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>336</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>504</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>672</td>
+</tr>
+</tbody>
+</table>
+<p>The domain of the miles_plowed() function is <span class="math inline">\(x = 0, 1, 2, 3, \ldots\)</span>, so our table covers only a bit of the domain.</p>
+<p>Our purpose in constructing miles_plowed() is not to figure out the output given the input, but to do the opposite: given the output, find the input. The information we have is in the form of the output: 400 miles. The mathematical operation of <strong><em>solving</em></strong> consists of looking up what we do know in the <strong>output</strong> column of the table, then reading off the corresponding <strong>input</strong> as our answer. Since 400 doesn’t appear in the output column, we’ll look for an interval that includes 400. Of course, that’s the interval from 336 to 504. So the answer will be something bigger than <span class="math inline">\(x=2\)</span> but doesn’t need to be any larger than <span class="math inline">\(x=3\)</span>. You’ve been in the facilities management business for many years, so you know to choose the answer <span class="math inline">\(x=3\)</span>.</p>
+<p>If you have a graph of a function, it can be easy to calculate what the input should be for a given output. Just reverse the finger action, looking up the output on the vertical axis, tracing horizontally to the function graph, then reading off the result from the input axis.</p>
+<p>Now let’s write the problem using math notation rather than a table. We’re looking for a value of <span class="math inline">\(x\)</span> such that <span class="math display">\[\text{miles.plowed}(x) = 400\]</span> This is an <strong><em>equation</em></strong> as opposed to a <strong><em>function definition</em></strong>. We write equations with <span class="math inline">\(=\)</span> and definitions with <span class="math inline">\(\equiv\)</span>. The point of writing equations is often to signal to us that the task is to “solve for <span class="math inline">\(x\)</span>.”</p>
+<p>An algebraic solution relies on replacing miles_plowed(<span class="math inline">\(x\)</span>) with the function’s formula and then re-arranging numbers and possibly other symbols until we have an equation of the form <span class="math inline">\(x = \ldots\)</span>. Here, that’s easy:</p>
+<p><span class="math display">\[7 \times 24 \times x = 400\ \ \implies\ \ x = 400/(7\times 24)\]</span></p>
+<p>Apply some arithmetic and we find <span class="math inline">\(x = 2.381\)</span>. Apply some common sense and we translate this into “three plows.”</p>
+<p>An industrious facilities manager might go further. “Today there is 400 miles of road. But next year there will be more, although I don’t yet know the exact number. While I’m doing all this math work, I’ll write up a memo with a formula so that next year, when I know how much road there will be, my assistant can find the answer with simple arithmetic.” <span style="float: right; padding-left: 50px;"><a name="1220" href="#1220"><img src="www/icons8-signpost.png" title="Location: 1220" width="12px"/></a><span style="color: red; font-size: 6pt;">1220</red></span></p>
+<p>You likely learned how to set up and solve the manager wants to put in her memo. The key is to replace 400 with a symbol standing for the number of miles of road. We’ll use <span class="math inline">\(M\)</span>. Then you do the re-arrangement with <span class="math inline">\(M\)</span> in place of 400.</p>
+<p><span class="math display">\[7 \times 24\, x = M\ \ \implies\ \ x = M/168\]</span></p>
+<p>All that remains is to give a more informative name in place of <span class="math inline">\(x\)</span> and to write it as a proper function: <span class="math inline">\(n_{plows}(M) \equiv M/168\)</span>.</p>
+<p>This process of starting with a function like <span class="math inline">\(\text{miles.plowed(x)}\)</span> and transforming it into a function in a more convenient format for the task at hand <span class="math inline">\(n_{plows}(M)\)</span> is called <strong><em>inverting the function</em></strong>.</p>
+<p>High-school algebra emphasizes techniques for inverting functions by moving symbols around. This is great when it can be done, but it’s often impossible in real science and engineering problems. The <strong><em>guess and check</em></strong> method that was used in the snowplow mileage table is very simple. particularly when it’s paired with a process for refining the guess after every check. <strong><em>Newton’s method</em></strong> is one such method, it makes use of the idea of slope functions, particularly those introduced in Block 2.</p>
+<p>Another common strategy for inverting functions that are beyond our own reach algebraically is to rely on a specialist to develop the inverse function, give it a name, write down a formula in mathematical notation or, sometimes more usefully, write a computer program that implements the inverse function’s algorithm. With this strategy, all that’s needed to invert a function is to know the name or formula of the function’s inverse. Here’s a table of such names and formulas, most of which is likely familiar to you.</p>
+<table>
+<thead>
+<tr class="header">
+<th>function</th>
+<th>inverse function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Exponential: <span class="math inline">\(e^x\)</span></td>
+<td>Logarithm (“natural”): <span class="math inline">\(\ln(x)\)</span></td>
+</tr>
+<tr class="even">
+<td>Exponential: <span class="math inline">\(2^x\)</span></td>
+<td>Log base 2: <span class="math inline">\(\log_2(x)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Exponential: <span class="math inline">\(10^x\)</span></td>
+<td>Log base 10: <span class="math inline">\(\log_{10}(x)\)</span>.</td>
+</tr>
+<tr class="even">
+<td>Power law: <span class="math inline">\(x^2\)</span></td>
+<td>Square root/power-law: <span class="math inline">\(\sqrt{x} = x^{1/2}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Power law: <span class="math inline">\(x^{-1}\)</span></td>
+<td>Power law: <span class="math inline">\(x^{-1}\)</span></td>
+</tr>
+<tr class="even">
+<td>Trig: <span class="math inline">\(\sin(x)\)</span></td>
+<td>Trig: <span class="math inline">\(\arcsin(x)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Trig: <span class="math inline">\(\tan(x)\)</span></td>
+<td>Trig: <span class="math inline">\(\arctan(x)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>You can of course read this table either from left to right or from right to left. For instance, the inverse of <span class="math inline">\(\ln(x)\)</span> is <span class="math inline">\(e^x\)</span>.</p>
+<p>As you know, for a function <span class="math inline">\(g(x)\)</span>, the set of valid values of <span class="math inline">\(x\)</span> is called the <strong><em>domain</em></strong> of the function. The set of possible outputs from the function is called the <strong><em>range</em></strong> of the function. The inverse function to <span class="math inline">\(g()\)</span> has a domain which is the range of <span class="math inline">\(g()\)</span> and a range which is the domain of <span class="math inline">\(g()\)</span>.</p>
+<p>Sometimes the notation <span class="math inline">\(g^{-1}(x)\)</span> is used for "the inverse function of <span class="math inline">\(g()\)</span>. This is potentially confusing, since <span class="math inline">\(g^{-1}(x)\)</span> might reasonable be interpretted as <span class="math inline">\(1/g(x)\)</span> and, in general, those two things are not equal.</p>
+<p>Straight-line (with non-zero slope), exponential (<span class="math inline">\(e^{kt}\)</span> where <span class="math inline">\(k\neq 0\)</span>), and logarithm functions aways have inverse functions. For power-law and sinusoid functions, there can be several (or many) different inverse functions. We’ll get to this when we need to. <span style="float: right; padding-left: 50px;"><a name="1230" href="#1230"><img src="www/icons8-signpost.png" title="Location: 1230" width="12px"/></a><span style="color: red; font-size: 6pt;">1230</red></span></p>
+<p>There’s an easy graphical test for whether there is a unique inverse function or not. Draw the graph, then see if any horizontal line touches the graph of the function in more than one place. If so, there is no unique inverse function.</p>
+<p><img src="MOSAIC_Calculus_files/figure-html/Fun-3a2-1-1.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC_Calculus_files/figure-html/Fun-3a2-1-2.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC_Calculus_files/figure-html/Fun-3a2-1-3.png" width="50%" style="display: block; margin: auto;" /></p>
+<hr />
+<!-- the "What 3 words?" problem from Fall 2020
+`rrr insert_calcZ_exercise(10.2, "KELXI", "Exercises/Fun/invertible.Rmd")`
+-->
+</div>
+<div id="solving-graphically" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> Solving graphically</h2>
+<p>Most readers are familiar with the sort of high-school math problem where you are presented with an equation written in terms of <span class="math inline">\(x\)</span> and asked to “find <span class="math inline">\(x\)</span>” or “find the solution.” For instance, the problem might be</p>
+<p><span class="math display">\[\text{Let}\ \ 3x - 2 = 7 x^2 .\ \ \  \text{Find} \ x .\]</span></p>
+<p>The above problem falls into one class of such tasks, the class of “finding roots of polynomials.” Here’s another problem in that same class:</p>
+<blockquote>
+<p><em>An investment club decided to buy
+$9000 worth of stock with each
+member paying an equal share. But
+two members left the club, and the
+remaining members had to pay $50
+more apiece. How many members
+are in the club?</em><a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a></p>
+</blockquote>
+<p>Let’s pose the problem in terms of a function, money_raised<span class="math inline">\((x)\)</span> where <span class="math inline">\(x\)</span> is the original number of members in the investment club. Originally, the members were each going to pay <span class="math inline">\(9000/x\)</span>. But after the two people drop out, each of the remaining members has to pay <span class="math inline">\(9000/x + 50\)</span>. Since there are <span class="math inline">\(x-2\)</span> remaining members, the total amount raised is <span class="math display">\[\text{money.raised}(x) \equiv (x-2) \left(\frac{9000}{x} + 50\right)\]</span>
+Figure <a href="#fig:money-raised"><strong>??</strong></a> graphs <span class="math inline">\(\text{money.raised}(x)\)</span></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="function-inverses-and-solving.html#cb53-1" aria-hidden="true" tabindex="-1"></a>money_raised <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((x<span class="dv">-2</span>)<span class="sc">*</span>(<span class="dv">9000</span><span class="sc">/</span>x <span class="sc">+</span> <span class="dv">50</span>) <span class="sc">~</span> x)</span>
+<span id="cb53-2"><a href="function-inverses-and-solving.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">money_raised</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">25</span>)))</span></code></pre></div>
+<p><img src="MOSAIC_Calculus_files/figure-html/money-raised-1.png" width="90%" style="display: block; margin: auto;" />
+The function tells us, for any number of members <span class="math inline">\(x\)</span>, how much money will be raised. So what’s <span class="math inline">\(x\)</span> for the club? The function doesn’t tell us … until we add in a new fact. The club raised $9000. So look up $9000 on the vertical axis, trace horizontally over to the graph, and read off the resulting input that generates an output of $9000.</p>
+<p>This inverse way of using functions—we know the output and we need to calculate the input—is very common. One reason is that sometimes it’s relatively easy to construct a model that takes input <span class="math inline">\(x\)</span> to an output, but the problem at hand is to figure out from a value of the output what is the corresponding value of the input.</p>
+<div class="intheworld">
+<p>Seismograms and electrocardiograms</p>
+</div>
+<p>Suppose that you have a function <span class="math inline">\(f(x)\)</span> and you also know the inverse of that function. We’ll call the inverse <span class="math inline">\(g(x)\)</span> for this example, but a more typical notation is <span class="math inline">\(f^{-1}(x)\)</span> where the function name is <span class="math inline">\(f^{-1}\)</span>.</p>
+<p>Composing a function and its inverse gives back the input: <span class="math inline">\(f(g(x)) = x\)</span> and <span class="math inline">\(g(f(x)) = x\)</span>.</p>
+<p>As part of your high-school mathematics education, you learned the inverses to several functions. For instance, <span class="math inline">\(e^x\)</span> and <span class="math inline">\(\ln(x)\)</span> are inverses, meaning that <span class="math inline">\(\ln(e^x) = x\)</span> and <span class="math inline">\(e^{\ln(x)} = x\)</span>. The identity function is its own inverse. The inverse of the square function is the square root: <span class="math inline">\(\sqrt{x^2} = x\)</span> and <span class="math inline">\((\sqrt{x})^2 = x\)</span>.</p>
+<p>It’s helpful to keep in mind that if you have a function <span class="math inline">\(f(x)\)</span> there is some other function—although you may not know its form yet—that is the inverse to <span class="math inline">\(f()\)</span>.</p>
+<p>There are two caveats:</p>
+<ol style="list-style-type: lower-roman">
+<li><p>Mathematicians will say that for functions like <span class="math inline">\(\sin(x)\)</span> or <span class="math inline">\(\dnorm(x)\)</span> which fail the horizontal line test the inverse does not exist. That’s because mathematicians want the inverse to have a single, unique value, while functions like <span class="math inline">\(\dnorm()\)</span> have two inputs that generate any output in the function’s range. <span class="math inline">\(\sin()\)</span> has an infinite number of inputs that generate any output in the function’s range.</p>
+<p>But in practice, the problem is to find <strong>some</strong> input that will generate the known output. If there is more than one such input, we just have to choose one.</p>
+<p>We can even satisfy the mathematician’s insistence that there be a unique inverse if we restrict the domain of the forward function to a region where it is monotonically increasing or monotonically decreasing.</p></li>
+<li><p>There is always an algorithm to that can be applied to find a solution to any inverse problem. But this algorithm is rarely a simple formula. Not having a formula, we play a name game. For instance, the inverse of the square function is called the “square root,” but there is no simple formula for finding the square root of a number. Similarly, the inverse to <span class="math inline">\(\sin(x)\)</span> is called <span class="math inline">\(\arcsin(x)\)</span>, but there is no simple formula for <span class="math inline">\(\arcsin()\)</span>. Almost invariably we use such inverse functions not by doing arithmetic to calculate their output, but by using a calculator button or a software function that carries out the algorithm.</p></li>
+</ol>
+<p>For now, it suffices that you can compute the inverse to any function (over some sub-domain where the function is monotonically increasing or decreasing) by graphing the function and then reading from the vertical axis to the horizontal. As we encounter more concepts from calculus and computing, we’ll develop additional methods for evaluating an inverse function without first having to construct that function.</p>
+</div>
+<div id="zero-finding" class="section level2" number="10.3">
+<h2><span class="header-section-number">10.3</span> Zero-finding</h2>
+<p><strong><em>Zero-finding</em></strong> is the name of a process for finding a function input that produces a function output of zero. Usually, zero isn’t a an output value of interest. (If the snow-plow manager asked her assistant to figure out how many plows are needed to cover 0 miles in one day, the assistant would wonder if someone has lost their mind.)</p>
+<p>However, any solving problem can be translated into a zero-finding problem. For example, if the problem is to solve <span class="math inline">\(g(x) = M\)</span>, we can equally well state the problem as finding a zero of <span class="math inline">\(h(x) \equiv g(x) - M\)</span>.</p>
+<div class="why">
+<p>Why would anyone want to do this?</p>
+<p>Often, mathematical algorithms in computer languages are written to accept a <strong><em>function</em></strong> as an input rather than an <strong><em>equation</em></strong>. For instance the R/mosaic operator <code>findZeros()</code> takes as it’s primary argument a tilde expression describing a function.</p>
+</div>
+<p>For example, the investment-club problem given earlier in this chapter can be re-stated as a zero-finding problem.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="function-inverses-and-solving.html#cb54-1" aria-hidden="true" tabindex="-1"></a>money_raised <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((x<span class="dv">-2</span>)<span class="sc">*</span>(<span class="dv">9000</span><span class="sc">/</span>x <span class="sc">+</span> <span class="dv">50</span>) <span class="sc">~</span> x)</span>
+<span id="cb54-2"><a href="function-inverses-and-solving.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">findZeros</span>(<span class="fu">money_raised</span>(x) <span class="sc">-</span> <span class="dv">9000</span> <span class="sc">~</span> x)</span></code></pre></div>
+<pre><code>##          x
+## 1 -18.0000
+## 2  -0.0001
+## 3  20.0000</code></pre>
+<p>It turns out that there are three zeros for `money_raised(x) - 9000$. Only one of them has any sensible interpretation as the number of investors in the club.</p>
+</div>
+<div id="exercises-9" class="section level2" number="10.4">
+<h2><span class="header-section-number">10.4</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise 10.1</strong>: <span><a name="File: Exercises/inverse-flip-1.Rmd" href="#IWLDN1"><img src="www/icons8-signpost.png" title="Location: Exercises/inverse-flip-1.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">IWLDN1</red></span>
+</summary>
+<p>The graphs of functions and their inverses are related by a flip around the <strong><em>line of identity</em></strong>, shown in green in the following graph.</p>
+<p><img src="MOSAIC_Calculus_files/figure-html/if1-1-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The black curve is the graph of <span class="math inline">\(e^x\)</span>.</p>
+<p><strong>Question A</strong> Is the magenta curve the graph of a function? (Hint: Does it pass the vertical line test?)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Yes<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">No<span class="mcanswer">︎✘ The magenta curve has a vertical asymptote at <span class="math inline">\(x=0\)</span>, but since it never reaches that asymptote, it passes the vertical line test.</span></span></li>
+</ol>
+<p><strong>Question B</strong> Which of these functions is graphed in magenta?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(1/x\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\ln(x)\)</span><span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sqrt{x}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(e^{-x}\)</span><span class="mcanswer">︎✘ Sorry, but this would be the reflection of the black curve around the vertical line at <span class="math inline">\(x=0\)</span></span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(-e^{x}\)</span><span class="mcanswer">︎✘ No. This would be the reflection of the black curve around the horizontal line at output <span class="math inline">\(f(x)=0\)</span></span></span>
+</details></li>
+</ol>
+<details>
+<summary>
+<strong>Exercise 10.3</strong>: <span><a name="File: Exercises/titmouse-throw-sofa.Rmd" href="#1kZXxT"><img src="www/icons8-signpost.png" title="Location: Exercises/titmouse-throw-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">1kZXxT</red></span>
+</summary>
+<p>Consider the problem of finding a value of <span class="math inline">\(x\)</span> such that <span class="math inline">\(cos(x) = x^2\)</span>. This is easy to do graphically: find the input where the graphs of <span class="math inline">\(cos(x)\)</span> and <span class="math inline">\(x^2\)</span> cross.</p>
+<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-139-1.png" width="90%" style="display: block; margin: auto;" />
+In a sandbox, create a function <span class="math inline">\(h(x)\)</span> that is zero when the equation is satisfied. Pass the tilde expression <code>h(x) ~ x</code> to the R/mosaic <code>findZeros()</code> operator to find a precise numerical answer to the problem:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="function-inverses-and-solving.html#cb56-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( __define_your_h_function__ )</span>
+<span id="cb56-2"><a href="function-inverses-and-solving.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">findZeros</span>(<span class="fu">h</span>(x) <span class="sc">~</span> x)</span></code></pre></div>
+</details>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="16">
+<li id="fn16"><p>This translates to an equation, where <span class="math inline">\(x\)</span> is the number of members: <span class="math display">\[(x-2)(9000/x + 50) = 9000\]</span> <a href="https://www.ams.org/notices/201005/rtx100500608p.pdf">Source</a><a href="function-inverses-and-solving.html#fnref16" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="fun-slopes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="fun-assembling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/10-inverse.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/10-inverse.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
