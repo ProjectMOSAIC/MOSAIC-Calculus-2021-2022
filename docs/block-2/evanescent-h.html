@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 18 Evanescent h | CalcZ-notes.knit</title>
+  <title>Chapter 18 Evanescent h | MOSAIC-Calculus.knit</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 18 Evanescent h | CalcZ-notes.knit" />
+  <meta property="og:title" content="Chapter 18 Evanescent h | MOSAIC-Calculus.knit" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 18 Evanescent h | CalcZ-notes.knit" />
+  <meta name="twitter:title" content="Chapter 18 Evanescent h | MOSAIC-Calculus.knit" />
   
   
   
@@ -149,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+<link rel="stylesheet" href="mosaic-calc-style.css" type="text/css" />
 </head>
 
 <body>
@@ -247,8 +247,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="25.1" data-path="local-approximations.html"><a href="local-approximations.html#eight-simple-shapes"><i class="fa fa-check"></i><b>25.1</b> Eight simple shapes</a></li>
 <li class="chapter" data-level="25.2" data-path="local-approximations.html"><a href="local-approximations.html#low-order-polynomials"><i class="fa fa-check"></i><b>25.2</b> Low-order polynomials</a></li>
 <li class="chapter" data-level="25.3" data-path="local-approximations.html"><a href="local-approximations.html#low-order-two"><i class="fa fa-check"></i><b>25.3</b> The low-order polynomial with two inputs</a></li>
-<li class="chapter" data-level="25.4" data-path="local-approximations.html"><a href="local-approximations.html#finding-coefficients-from-data"><i class="fa fa-check"></i><b>25.4</b> Finding coefficients from data</a></li>
-<li class="chapter" data-level="25.5" data-path="local-approximations.html"><a href="local-approximations.html#exercises-7"><i class="fa fa-check"></i><b>25.5</b> Exercises</a></li>
+<li class="chapter" data-level="25.4" data-path="local-approximations.html"><a href="local-approximations.html#partial-thought"><i class="fa fa-check"></i><b>25.4</b> Thinking partially</a></li>
+<li class="chapter" data-level="25.5" data-path="local-approximations.html"><a href="local-approximations.html#finding-coefficients-from-data"><i class="fa fa-check"></i><b>25.5</b> Finding coefficients from data</a></li>
+<li class="chapter" data-level="25.6" data-path="local-approximations.html"><a href="local-approximations.html#exercises-7"><i class="fa fa-check"></i><b>25.6</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="26" data-path="polynomials.html"><a href="polynomials.html"><i class="fa fa-check"></i><b>26</b> Polynomials</a>
 <ul>
@@ -295,7 +296,7 @@ Figure 18.1: Vanishing <span class="math inline">\(h\)</span> in the form of the
 </div>
 <p>Start our story with two of the basic modeling functions that, like the characters from <em>Alice in Wonderland</em>, have considerable “personality”: the sinusoid (<code>sin()</code>) and the sigmoid (<code>pnorm()</code>).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:sign-sig"></span>
-<img src="CalcZ-notes_files/figure-html/sign-sig-1.png" alt="The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input $t=0$" width="50%" /><img src="CalcZ-notes_files/figure-html/sign-sig-2.png" alt="The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input $t=0$" width="50%" />
+<img src="MOSAIC-Calculus_files/figure-html/sign-sig-1.png" alt="The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input $t=0$" width="50%" /><img src="MOSAIC-Calculus_files/figure-html/sign-sig-2.png" alt="The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input $t=0$" width="50%" />
 <p class="caption">
 Figure 18.2: The pattern-book sinusoid and sigmoidal functions. A vertical blue line has been added to mark the input <span class="math inline">\(t=0\)</span>
 </p>
@@ -312,7 +313,7 @@ Figure 18.2: The pattern-book sinusoid and sigmoidal functions. A vertical blue 
 ## (pnorm(t + h) - pnorm(t))/h</code></pre>
 <p>This is a nuisance, since when using the slope functions we will always need to think about <code>h</code>, a number that we’d like to describe simply as “small,” but for which we always need to provide a numerical value. A surprisingly important question in the development of calculus is, “What can we do to avoid this nuisance?” To find out, let’s look at <code>Dsin()</code> and <code>Dsigma()</code> for a range of values of <code>h</code>, as in Figure <a href="evanescent-h.html#fig:sin-sig-many-h">18.3</a>. <span style="float: right; padding-left: 50px;"><a name="2372" href="#2372"><img src="www/icons8-signpost.png" title="Location: 2372" width="12px"/></a><span style="color: red; font-size: 6pt;">2372</red></span></p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:sin-sig-many-h"></span>
-<img src="CalcZ-notes_files/figure-html/sin-sig-many-h-1.png" alt="The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of `h`. Both panels show $h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001$." width="90%" /><img src="CalcZ-notes_files/figure-html/sin-sig-many-h-2.png" alt="The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of `h`. Both panels show $h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001$." width="90%" />
+<img src="MOSAIC-Calculus_files/figure-html/sin-sig-many-h-1.png" alt="The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of `h`. Both panels show $h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001$." width="90%" /><img src="MOSAIC-Calculus_files/figure-html/sin-sig-many-h-2.png" alt="The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of `h`. Both panels show $h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001$." width="90%" />
 <p class="caption">
 Figure 18.3: The slope functions of the sinusoid and sigmoid. Each curve shows the slope function for a particular numerical choice of <code>h</code>. Both panels show <span class="math inline">\(h=2, 1, 0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001\)</span>.
 </p>
@@ -334,7 +335,7 @@ Admittedly, the last one is hard to read.</p>
 </div>
 <p>Now consider the slope functions of the logarithm and exponential functions.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:log-exp-many-h"></span>
-<img src="CalcZ-notes_files/figure-html/log-exp-many-h-1.png" alt="The slope functions of the logarithm and exponential." width="90%" /><img src="CalcZ-notes_files/figure-html/log-exp-many-h-2.png" alt="The slope functions of the logarithm and exponential." width="90%" />
+<img src="MOSAIC-Calculus_files/figure-html/log-exp-many-h-1.png" alt="The slope functions of the logarithm and exponential." width="90%" /><img src="MOSAIC-Calculus_files/figure-html/log-exp-many-h-2.png" alt="The slope functions of the logarithm and exponential." width="90%" />
 <p class="caption">
 Figure 18.4: The slope functions of the logarithm and exponential.
 </p>
@@ -388,7 +389,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/18-evanescent-h.Rmd",
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/18-evanescent-h.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -396,7 +397,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/18-evanescent-h.Rmd",
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/18-evanescent-h.Rmd",
 "text": null
 },
 "download": null,

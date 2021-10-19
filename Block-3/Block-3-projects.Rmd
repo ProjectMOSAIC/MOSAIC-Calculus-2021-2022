@@ -2,11 +2,17 @@
 
 ## Missile intelligence
 
-On April 12, 2012, North Korea tested its first candidate for an intercontinental missile, the three-stage Unha-3 rocket (pictured on the launch pad). Since then, there have been several successful tests.  But according to news reports, the 2012 rocket broke up at an altitude of 100 miles after about 1 minute of flight. The burn time for the first stage of the rocket is approximately 120 seconds, so the break-up occurred during the first-stage burn. Let's see what we can figure out about the rocket from this test result along with some background.
+On April 12, 2012, North Korea tested its first candidate for an intercontinental missile, the three-stage Unha-3 rocket (pictured on the launch pad). Since then, there have been several successful tests.  But according to news reports, the 2012 rocket broke up at an altitude of 100 miles after about 1 minute of flight. The burn time for the first stage of the rocket is approximately 120 seconds, so the break-up occurred during the first-stage burn. Let's see what we can figure out about the rocket from this test result.
 
 ```{r echo=FALSE, out.width="30%", fig.align="center"}
 knitr::include_graphics("www/Unha-3-rocket.png")
 ```
+
+As you'll see further on in this project, rockets have to be highly optimized in order to fly successfully. Most of the mass of a rocket will be fuel. From the photograph, it's possible to estimate the geometrical dimensions of the rocket, and since it's mostly fuel, the mass can be estimated. The estimate for the Unha-3 was 85,000 kg.
+
+Rocket engines can be more or less efficient. The efficiency is quantified by the ***specific impulse***, $I_s$ a quantity with dimension L/T, that is, velocity. You can conceptualize a rocket engine as a machine for accelerating fuel from velocity zero to a final velocity; the engine hurtles fuel backwards (and in the process burns the fuel to create the pressure that leads to the acceleration).
+
+Suppose an engine is burning $b$ kilograms of fuel per second. Multiplying $b$ by the specific impulse $I_s$ gives the ***thrust of the engine.*** (demonstrate that this has the dimension of force.)
 
 To help you understand the problem, here is some background.
 
@@ -17,6 +23,16 @@ That may not seem very much, but as the fuel burns, the rocket mass is reduced w
 The goal of this problem is to find the acceleration at the time of the rocket’s break-up at t = 60s.
 
 The acceleration versus time of the rocket can be approximated by a linear function, since fuel is being consumed at a steady rate, meaning mass is being burned off at a steady rate.
+
+```{r echo=FALSE}
+accel <- makeFun(b*SI/(m - b*t) - g ~ t, g=9.8, SI=3200, m=9e4, b=800)
+slice_plot(accel(t) ~ t, domain(t=0:100))
+velocity <- antiD(accel(t) ~ t, C=0)
+position <- antiD(velocity(t) ~ t, C=0)
+slice_plot(position(t)/160900 ~ t, domain(t=0:100))
+```
+
+
 
 ```{r echo=FALSE, fig.align="center", out.width="40%"}
 knitr::include_graphics("www/Unha-acceleration.png")
