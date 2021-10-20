@@ -8,55 +8,95 @@ On April 12, 2012, North Korea tested its first candidate for an intercontinenta
 knitr::include_graphics("www/Unha-3-rocket.png")
 ```
 
-As you'll see further on in this project, rockets have to be highly optimized in order to fly successfully. Most of the mass of a rocket will be fuel. From the photograph, it's possible to estimate the geometrical dimensions of the rocket, and since it's mostly fuel, the mass can be estimated. The estimate for the Unha-3 was 85,000 kg.
+Rockets have to be highly optimized in order to fly successfully. Most of the mass of a rocket will be fuel. From the photograph, it's possible to estimate the geometrical dimensions of the rocket, and since it's mostly fuel, the mass can be estimated. The estimate for the Unha-3 was 85,000 kg.
 
-Rocket engines can be more or less efficient. The efficiency is quantified by the ***specific impulse***, $I_s$ a quantity with dimension L/T, that is, velocity. You can conceptualize a rocket engine as a machine for accelerating fuel from velocity zero to a final velocity; the engine hurtles fuel backwards (and in the process burns the fuel to create the pressure that leads to the acceleration).
+In order to lift the rocket from the ground, the upward acceleration due to thrust must be more than the downward acceleration from gravity. North Korea, as secretive as it is, has the same acceleration due to gravity as everywhere else on Earth's surface, about 9.8 m/s$^2$.
 
-Suppose an engine is burning $b$ kilograms of fuel per second. Multiplying $b$ by the specific impulse $I_s$ gives the ***thrust of the engine.*** (demonstrate that this has the dimension of force.)
+> Question 1: *What's the minimum thrust of the rocket engine that will lift the rocket from the launchpad? Remember that thrust divided by mass is acceleration. Make sure to give units for your answer.*
 
-To help you understand the problem, here is some background.
+<!-- Answer: thrust is roughly 10 * 85,000 = 850,000 kg m / s$^2$ -->
 
-The thrust (force) of the first stage engine was estimated to be 1,200,000 Newtons (m kg / s${^2}$), while the mass of the entire rocket was 85,000 kg. On its own, the upward 1,200,000 N force on 85,000 kg mass would give an acceleration of $1,200,000/85,000 = 14.1$ m/s$^2$. But there is also the downward force of gravity, corresponding to an acceleration of 9.8 m/s$^2$. Taken together, the initial acceleration of the rocket, at the moment of launch, is 14.1 − 9.8 m/s$^2$, or roughly 4 m/s$^2$ upward.
+> Question 2: *Assuming for the sake of convenience that that the mass of the Unha-3 is 90% fuel and that four-fifths of the fuel is burned at an even rate in the first 100 seconds, what will be the numeric value of $b$ (in kg/s). 
 
-That may not seem very much, but as the fuel burns, the rocket mass is reduced while the engine thrust remains constant, so acceleration increases in a steady fashion. 
+<!-- Answer: b = 4/5 * 0.9 * 85,000 kg / 100 s = 612 kg/s -->
 
-The goal of this problem is to find the acceleration at the time of the rocket’s break-up at t = 60s.
+Rocket engines can be more or less efficient. The efficiency is quantified by the ***specific impulse***, $I_s$ a quantity with dimension L/T, that is, velocity. You can conceptualize a rocket engine as a machine for accelerating fuel from velocity zero to a final velocity; the engine hurtles fuel backwards, the combustion creates the energy that gives the fuel its velocity.
 
-The acceleration versus time of the rocket can be approximated by a linear function, since fuel is being consumed at a steady rate, meaning mass is being burned off at a steady rate.
+Suppose an engine is burning $b$ kilograms of fuel per second. Multiplying $b$ by the specific impulse $I_s$ gives the ***thrust of the engine.*** 
 
-```{r echo=FALSE}
-accel <- makeFun(b*SI/(m - b*t) - g ~ t, g=9.8, SI=3200, m=9e4, b=800)
-slice_plot(accel(t) ~ t, domain(t=0:100))
-velocity <- antiD(accel(t) ~ t, C=0)
-position <- antiD(velocity(t) ~ t, C=0)
-slice_plot(position(t)/160900 ~ t, domain(t=0:100))
+> Question 3: *Demonstrate that $b I_s$ has the dimension of force (which is called thrust in this context).*
+
+
+> Question 4: *Given your answers to (1) and (2) above, estimate what the specific impulse $I_s$ would have to be to generate the thrust needed to barely lift the rocket from the pad? Check your answer to make sure that you have the correct dimension and units for specific impulse.*
+
+<!-- Thrust = I_s * b, so I_s = Thrust/b = 850,000 kg m / s$^{-2}$ / 612 kg /s = 1389 m/s-->
+
+It might be obvious that a rocket that can barely overcome the force of gravity is unlikely to get very far in 100 seconds. But we can figure out how far. The overall acceleration of the rocket is thrust divided by mass, minus the 9.8 m/s$^2$ due to gravity. We'll write thrust as $b I_s$, which will become two of the parameters in the problem. 
+
+We have preliminary estimates for $b$ and $I_s$ from your answers to Questions (2) and (4). Another important parameter is the starting mass of the system, for which we have the estimate $m_0=85,000$ kg.
+
+A crucial aspect of rocket physics is that the mass of the rocket gets smaller as fuel is burned. That is, mass is a function of time: $m(t) \equiv m_0 - b\, t$. This implies that the acceleration of the rocket is also a function of time:
+$$\text{accel}(t) \equiv \frac{b I_s}{m_0 - b\,t} - 9.8\ .$$
+Here is an implementation of $\text{accel}(t)$:
+
+```{r}
+accel <- makeFun(b * Is / (m0 - b * t) - 9.8 ~ t, m0 = 85000, Is=2000, b = 700)
+```
+(The values we're giving for $I_s$ and $b$ are not the ones you should have gotten from answering questions (2) and (4). We don't want to give those answers away! But you can start with these.)
+
+The anti-derivative of $\text{accel}(t)$ is an important step toward finding the rocket velocity as a function of time. It's simple to compute:
+```{r}
+antiDaccel <- antiD(accel(t) ~ t)
 ```
 
+Why use the awkward name `antiDaccel()` rather than simply "velocity?" Because we haven't yet found the correct ***constant of integration*** that, when added to `antiDaccel()` will give us the velocity.  To find that constant of integration, we need an additional fact about velocity: its value at a known instant. If we take that instant to be the moment of launch, we know the velocity is 0 m/s; the rocket is standing still as the engine ignites. We can find the correct constant of integration by evaluating `antiDaccel(0)` and setting the constant to the negative of that number. 
 
+```{r}
+antiDaccel(0)
+```
+Now we know velocity, subtract zero from `antiDaccel(t)`.
 
-```{r echo=FALSE, fig.align="center", out.width="40%"}
-knitr::include_graphics("www/Unha-acceleration.png")
+```{r}
+velocity <- antiDaccel
 ```
 
-We don't know the peak acceleration $a_{\text{breakup}}$. But we can figure it out from what we do know: the position, $p(t)$ was 100 mi at t = 60s.
+> Question 5: *Find the rocket position `pos(t)` as the anti-derivative of `velocity(t)` plus the appropriate constant of integration. To find the constant of integration, we can refer to the fact that at $t=0$, the rocket's position is zero; it's still on the launch pad.
 
-Better to do the calculations using position in meters rather than miles. There are 1609 meters in a mile.
+```{r echo=FALSE, results="hide}
+antiDvelocity <- antiD(velocity(t) ~ t)
+antiDvelocity(0) # the constant of integration
+pos <- antiDvelocity
+```
 
-Here is a chain of functions of time and their derivatives with respect to time. Note that the coefficients like 23 carry units, so that each quantity is dimensionally consistent. When $t$ is in seconds, the units of position will be m, velocity m/s, and so on.
+If we have the parameters $b$ and $I_s$ set appropriately, the rocket will reach an altitude of 100 miles (=160900 m) at $t=100$. Graph the position over the domain $0 < t < 100$.
 
-$$\newcommand{\dd}{\underset{\scriptsize \text{anti-diff}}{{\stackrel{\text{diff}}{\ \ \ \ {\Huge\rightleftharpoons}\ \ \ }}}}
+```{r eval=FALSE}
+slice_plot(pos(t) ~ t, domain(t=0:100))
+```
 
-\frac{8}{3} t^3  + \frac{1}{24} b\, t^4 \dd 8 t^2 + \frac{1}{6} b\, t^3 \dd 4 t + \frac{1}{2} b\, t^2 \dd 4 + b t \dd b \dd 0$$
+You will see from your graph that for $b=700$ kg/s and $I_s = 2000$ m/s that the rocket does not reach 160900 meters at $t=100$. So our parameters must be wrong. We're limited in how much we can change our estimate of $b$. If **all** the fuel were burned up at $t=100$ then $b$ would be no larger than $b \leq 0.9 \times 85,000$ kg / 100 s $=765$ kg/s. 
 
-a. Circle the function that corresponds to the model of the Unha-3 rocket acceleration. Label it clearly “accel.”
-b. Circle the function that corresponds to the position of the Unha-3 rocket. Label it clearly “pos.”
-c. Using the fact that the position was 100 miles at the breakup time t = 60s, find a numerical value for the parameter $b$. Make sure to state clearly what are the units of $b$. Write down the numerical value in a form such that “meters” and not “miles” are involved.
-d. Using the numerical value for $b$, find the acceleration of the rocket at the time of break-up.
+> Question 6: *Keeping the specific impulse at $I_s = 2000$, but increasing $b$ to 765 kg/s, does the rocket reach 160,900 m altitude at $t=100$?*  <!-- no --> 
+
+> Question 7: *Keeping $b=765$kg/s, find the specific impulse $I_s$ that will bring the rocket to an altitude of 160900 at $t=100$. What is that specific impulse?* <!-- about 3000 m/s -->
+
+```{r echo=FALSE, results="hide"}
+accel <- makeFun(b * Is / (m0 - b * t) - 9.8 ~ t, m0 = 85000, Is=3500, b = 765)
+velocity <- antiD(accel(t) ~ t)
+pos <- antiD(velocity(t) ~ t)
+slice_plot(pos(t)/160900 ~ t, domain(t=0:100))
+```
+
+> Question 8: *Given the value of $I_s$ that brought the rocket to 160900 kg, what was the velocity and acceleration of the rocket at $t=100$, when it broke up. <!-- velocity= 5928 m/s and acceleration 260 m/s^2. -->
+
+```{r echo=FALSE, results="hide"}
+velocity(100)
+accel(100)
+```
+
 e. A standard way to measure acceleration of planes and rockets is in terms of “g”, the acceleration due to gravity. An acceleration of 30 m/s$^2$ corresponds to 30/9.8 = 3.06 g. Untrained people loose consciousness at around 5 g, while trained pilots can stay conscious at up to 10 g. A sustained acceleration of around 20 g is considered life- threatening. 
 
-> *How many g’s was the acceleration of the Unha-3 missile at the time of break-up?*
-
-
+> *How many g’s was the acceleration of the Unha-3 missile at the time of break-up?* <!-- 26.5 g -->
 
 
 ## Review
