@@ -2,7 +2,11 @@
 
 ## Internal combustion engines
 
-As often in case in modeling projects, it's important to know something about the systems you are modeling. You might want to follow these links to learn the basic mechanics and functionality of internal combustion engines. 
+The data frame `Engines`  records the characteristics of 39 different internal combustion engines ranging in weight from 2 ounces to 100,000 pounds and for applications ranging from model airplanes to massive ships.
+
+In this project, you are  going to uncover some basic physical power-law principles about internal combustion engines from the `Engines` data. 
+
+As generally the case in modeling projects, it's important to know something about the systems you are modeling. You might want to follow these links to learn the basic mechanics and functionality of internal combustion engines. 
 
 - [Two-stroke engine cycle](https://en.wikipedia.org/wiki/Two-stroke_engine) animation
 - [Four-stroke engine cycle](https://en.wikipedia.org/wiki/Four-stroke_engine) animation
@@ -125,3 +129,102 @@ Engines <- Engines %>% mutate(c_shape = stroke / bore)
 ```
 
 > Essay 5: *What (if anything) accounts for the variation in cylinder shape?*
+
+
+## Body fat
+
+The original code shows a model I built with `chest` circumference and `bmi` as explanatory variables. In a bit, you'll change this to build your own models. But before we go there, examine the output produced by my `bodyfat ~ chest + bmi` model in the Sandbox that follows these questions, perhaps comparing it to the earlier models. Then come back and answer these questions:
+
+```{r daily-digital-20-QA1, echo=FALSE}
+askMC(
+  prompt = "Using R$^2$ as a basis for judgment, does `~ chest + bmi` as  explanatory variables improve the model compared to `~ bmi`?",
+      "`check` improves the model a lot" = "But the R$^2$ for the `~ bmi` model is practically the same as the R$^2$ for the `~ chest + bmi` model.",
+    "+`chest` doesn't add much to `bmi`+" = "Right. The R$^2$ for the `~ bmi` and the `~ chest + bmi` models are almost exactly the same.",
+    "`chest` makes the model much *worse*." = "",
+  random_answer_order = FALSE
+)
+```
+
+```{r daily-digital-20-QA2, echo=FALSE}
+
+askMC(
+  prompt = "The slice plot produced by the code box that follows shows `bodyfat` as a function of `chest` circumference, holding `bmi` at 30. What's the relationship between `chest` circumference and `bodyfat` shown by the slice plot?",
+    "`bodyfat` increases strongly with `chest`." = "",
+    "`bodyfat` increases, but weakly, with `chest`" = "",
+    "No relationship whatsoever" = "",
+    "+`bodyfat` decreases, but weakly, with `chest`+" = "",
+    "`bodyfat` decreases strongly with `chest`." = "",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r}
+mod <- lm(bodyfat ~ chest + bmi,  data  = Body_fat)
+fun  <-  makeFun(mod)
+contour_plot(
+  fun(chest = chest, bmi = bmi) ~ chest + bmi,
+  domain(chest =  c(80, 130), bmi =  c(15,35))) 
+rsquared(mod)
+slice_plot(fun(bmi=30,  chest = chest)  ~ chest, 
+           domain(chest =  c(80, 130)))  
+```
+
+Use the technique implemented in the above Sandbox to find one of the circumferences that is strongly predictive of percent body fat when holding `bmi` constant. Remember that when you change `chest` to some other variable, you need to change it *everywhere* it appears in the code block. You also need to set the domain for your new variable appropriately. Here are the variable names in the `Body_fat` data frame. Most of these are circumferences around the named body area. The others, e.g. `age`, `weight`, `height`, `bmi`, are self-explanatory.
+
+```{r}
+names(Body_fat)
+```
+
+Below these questions are a few extra fill-in-the-blanks sandboxes, so you can build several models and compare them.
+
+
+> Question X: *Which variable (or variables) you examined did the best job of predicting percent body fat when added to `bmi`?*
+
+> Question XX: *How did that variable (or variables) do if `bmi` were excluded from the model?*
+
+```{r eval=FALSE}
+mod <- lm(bodyfat ~ __variable__ + bmi,  data  = Body_fat)
+fun  <-  makeFun(mod)
+contour_plot(
+  fun(__variable__ = __variable__, bmi = bmi) ~ __variable__ + bmi,
+  domain(__variable__ =  c(80, 130), bmi =  c(15,35))) 
+rsquared(mod)
+slice_plot(fun(bmi=30,  __variable__ = __variable__)  ~ __variable__, 
+           domain(__variable__ =  __appropriate_domain__))  
+```
+
+```{r eval=FALSE}
+mod <- lm(bodyfat ~ __variable__ + bmi,  data  = Body_fat)
+fun  <-  makeFun(mod)
+contour_plot(
+  fun(__variable__ = __variable__, bmi = bmi) ~ __variable__ + bmi,
+  domain(__variable__ =  c(80, 130), bmi =  c(15,35))) 
+rsquared(mod)
+slice_plot(fun(bmi=30,  __variable__ = __variable__)  ~ __variable__, 
+           domain(__variable__ =  __appropriate_domain__))  
+```
+
+
+```{r eval=FALSE}
+mod <- lm(bodyfat ~ __variable__ + bmi,  data  = Body_fat)
+fun  <-  makeFun(mod)
+contour_plot(
+  fun(__variable__ = __variable__, bmi = bmi) ~ __variable__ + bmi,
+  domain(__variable__ =  c(80, 130), bmi =  c(15,35))) 
+rsquared(mod)
+slice_plot(fun(bmi=30,  __variable__ = __variable__)  ~ __variable__, 
+           domain(__variable__ =  __appropriate_domain__))  
+```
+
+```{r eval=FALSE}
+mod <- lm(bodyfat ~ __variable__ + bmi,  data  = Body_fat)
+fun  <-  makeFun(mod)
+contour_plot(
+  fun(__variable__ = __variable__, bmi = bmi) ~ __variable__ + bmi,
+  domain(__variable__ =  c(80, 130), bmi =  c(15,35))) 
+rsquared(mod)
+slice_plot(fun(bmi=30,  __variable__ = __variable__)  ~ __variable__, 
+           domain(__variable__ =  __appropriate_domain__))  
+```
+
