@@ -98,9 +98,9 @@ In previous  we have found the `x` for a given `M` and `b` using the R function 
 
 One example of this re-packaging is the `lm()` function in R. "`lm`" stands for "linear modeling," and not only finds the `x` that solves M x ≈ b, but also calculates numerous indicators of the statistical reliability of the result. The `lm()` function is one of the most widely used in R, and R is one of the most widely used software systems for data science, so we're going to spend a little time with it.
 
-The `Car_facts` data frame shown below records several aspects of the design and performance of some classic cars from 50 years ago.
+The `mtcars` data frame shown below records several aspects of the design and performance of some classic cars from 50 years ago.
 ```{r echo=FALSE}
-DT::datatable(Car_facts)
+DT::datatable(mtcars)
 ```
 
 The variables include such things as fuel economy (`mpg`), the cylinder displacement (`disp`), whether the car had an automatic transmission (`am`) or a V-shaped engine (`vs`), and the number of carburetors. (`carb`. Ask your grandparent what a carburetor is.) We won't be concerned here with the mechanics of how these cars worked. (But I do point out how poor the fuel economy was compared to today's cars. A Datsun 710 is a small, low-performance car and it got just 22.8 mpg, not much better than a Maserati Bora.) Our interest here is just with the mechanics and meaning of solving $\overrightarrow{\mathbf M}\cdot \vec{x} \approx \vec{b}$.
@@ -108,9 +108,9 @@ The variables include such things as fuel economy (`mpg`), the cylinder displace
 As an example, let's consider the time it takes each car to go one-quarter mile from a standing start: the variable `qsec`. And let's suppose we hypothesize that the engine power (`hp`: horsepower) is a major factor. A starting analysis might look like this: a graph of the data with a sketch of a straight-line model, then quantitative calculation of the model using `lm()`. As you will see when you run the code in the following sandbox `qsec` tends to go down (that is, get faster) with increasing horsepower. The coefficients give the slope and intercept of the least-squares straight-line model: for every 100 extra horsepower, the quarter-second time goes down (on average) by 1.8 seconds.
 
 ```{r}
-gf_point(qsec ~ hp, data = Car_facts) %>%
+gf_point(qsec ~ hp, data = mtcars) %>%
   gf_lm(interval = "confidence")
-model <- lm(qsec ~ hp, data = Car_facts)
+model <- lm(qsec ~ hp, data = mtcars)
 coef(model) # report model coefficients
 rsquared(model) # report R-squared
 ```
@@ -119,7 +119,7 @@ rsquared(model) # report R-squared
 
 Turn this question into an example.
 ```{r daily-digital-18-QA1, echo=FALSE}
-askMZC(
+askMC(
   prompt = "What about the coefficients indicates that `qsec` goes down (on average) with `hp`?",
       "+The sign of the `hp` coefficient.+" = "",
     "Nothing about the coefficients. It's the graph that shows this." = "The graph does indeed show the going-down pattern. In fact, the straight line shown on the graph is exactly that represented by the coefficients. But the coefficients contain all the information we need to draw the line in the `gf_lm()` layer",
@@ -134,8 +134,8 @@ askMZC(
 In this section, we're going to see how `qr.solve()` is the essential engine of `lm()`. The following sandbox repeats the model-building command and omits the graphic (to save space). You're going to add additional commands to translate the model into its `qr.solve()` equivalent.
 
 ```{r daily-digital-18-sandbox2, exercise=TRUE, exercise.cap="Sandbox", exercise.eval=FALSE, exercise.lines=8, exercise.completion=FALSE, exercise.startover=TRUE, exercise.diagnostics=TRUE}
-model <- lm(qsec ~ hp, data = Car_facts)
-M <- model.matrix(qsec ~ hp, data = Car_facts)
+model <- lm(qsec ~ hp, data = mtcars)
+M <- model.matrix(qsec ~ hp, data = mtcars)
 M
 ```
 
@@ -165,21 +165,13 @@ g(x) \equiv A \sin(\frac{2\pi}{P}t) + C\\
 h(x) \equiv A e^{k t} + C$$
 
 
-```{r daily-digital-18-Essay2, echo=FALSE}
-etude::essay_response(
-  prompt = "Explain how an `(Intercept)` vector relates to one of the coefficients in each of these functions."
-)
-```
+> Question: *Explain how an `(Intercept)` vector relates to one of the coefficients in each of these functions.*
 
 Now for $\vec{b}$. To create the target vector $\vec{b}$, the `lm()` function looks to the variable named on the left side of the tilde expression (namely, `qsec`). It simply grabs that variable, unaltered, from the data frame. You can do this directly by adding the following command to the end of the sandbox:
 
-    b <- Car_facts$qsec
+    b <- mtcars$qsec
     
-```{r daily-digital-18-Essay3, echo=FALSE}
-etude::essay_response(
-  prompt = "Once you have constructed `M` and `b` as described above, use them to find the `\vec{x}` that satisfies `M\vec{x}≈\vec{b}`. Explain what `x` matches in the `model` created by `lm()`."
-)
-```
+> Question: *Once you have constructed `M` and `b` as described above, use them to find the `\vec{x}` that satisfies `M\vec{x}≈\vec{b}`. Explain what `x` matches in the `model` created by `lm()`.*
 
 ## R$^2$, Residuals, etc.
 
@@ -190,8 +182,8 @@ Little - r
 The sandbox below recapitulates the commands used to create `M` and `b` for the `qsec ~ hp` model and from them to calculate `x`.
 
 ```{r daily-digital-18-sandbox3, exercise=TRUE, exercise.cap="b-hat and R-squared",  exercise.eval=FALSE, exercise.lines=10, exercise.completion=FALSE, exercise.startover=TRUE, exercise.diagnostics=TRUE}
-M <- model.matrix(qsec ~ hp, data = Car_facts)
-b <- Car_facts$qsec
+M <- model.matrix(qsec ~ hp, data = mtcars)
+b <- mtcars$qsec
 x <- qr.solve(M, b)
 ```
 

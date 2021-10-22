@@ -82,6 +82,7 @@ Chaps <- list(
   dimension = 16,
   fun_notation = 5,
   slope_function = 9,
+  gradient = 24,
   foobar = NA
 )
 
