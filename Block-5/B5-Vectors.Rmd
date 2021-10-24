@@ -4,6 +4,10 @@
 library(Znotes)
 ```
 
+https://c3d.libretexts.org/CalcPlot3D/index.html?type=vectorfield;vectorfield=vf;m=x-xy;n=x-y;p=xy;visible=true;view=undefined;scale=10;nx=9;ny=9;nz=9;mode=0;twod=false;constcol=true;color=rgb(0,0,255);norm=false;desystem=false&type=z;z=x+y;visible=true;umin=-2;umax=2;vmin=-2;vmax=2;grid=30;format=normal;alpha=88;hidemyedges=false;constcol=rgb(255,0,0);view=0;contourcolor=red;fixdomain=false;contourplot=true;showcontourplot=false;firstvalue=-1;stepsize=0.2;numlevels=11;list=;xnum=46;ynum=46;show2d=false;hidesurface=false;hidelabels=true;showprojections=false;surfacecontours=true;projectioncolor=rgba(255,0,0,1);showxygrid=false;showxygridonbox=false;showconstraint=false&type=window;hsrmode=0;nomidpts=true;anaglyph=-1;center=-3.359899854971251,2.6147167762128465,9.048443465301307,1;focus=0,0,0,1;up=-0.6616125461701643,0.6182379979257367,-0.4243237168377568,1;transparent=false;alpha=140;twoviews=false;unlinkviews=false;axisextension=0.7;xaxislabel=x;yaxislabel=y;zaxislabel=z;edgeson=true;faceson=true;showbox=true;showaxes=true;showticks=true;perspective=true;centerxpercent=0.5;centerypercent=0.5;rotationsteps=30;autospin=true;xygrid=false;yzgrid=false;xzgrid=false;gridsonbox=true;gridplanes=false;gridcolor=rgb(128,128,128);xmin=-2;xmax=2;ymin=-2;ymax=2;zmin=-2;zmax=2;xscale=1;yscale=1;zscale=1;zcmin=-4;zcmax=4;xscalefactor=1;yscalefactor=1;zscalefactor=1;tracemode=0;keep2d=false;zoom=1.023333
+
+
+
 Until now, our presentation of calculus has featured functions, sometimes expressed as formulas involving combinations of the basic modeling functions, sometimes generated directly from data by smoothing or splines. Now we turn to a new framework for expressing functions, the inputs on which they operate, and the kind of outputs they generate.
 
 This framework is central to technical work in a huge range of fields. The usual name given to it by mathematicians is ***linear algebra***, although only the word "linear" conveys useful information about the subject. The physicists developing the first workable quantum theory called it ***matrix mechanics***. The framework is fundamental to scientific computation and is often the approach of choice even to non-linear problems. Application of the framework to problems of information access was the spark the ignited the modern era of search engines. 
@@ -83,140 +87,36 @@ $$\left[\begin{array}{r}6.4\\3.0\\-2.5\\17.3\end{array}\right]\ \ \ \left[\begin
 
 Sensible people may consider it mathematical tomfoolery to promote of an everyday column of numbers into a vector in high-dimensional space, but there is a good reason. It encourages us to think about the arithmetic we are about to do on vectors in terms of familiar geometrical concepts: lengths, angles, alignment, and so on. Perhaps unexpectedly, it also guides us to think about data---which consists of columns of numbers in a data frame---using our powerful geometrical intuition.
 
-## Geometry as arithmetic
+## Geometry & arithmetic
 
-Computers are the technological innovation  that makes it possible for us to work with  high-dimensional vectors.  
+In Chapter \@ref(target-problem) we will apply a mathematical apparatus based on vectors to using data in models and to a deeper understanding of technological systems such as radio and spectroscopy based on sinusoidal oscillations. In applied work, there may be dozens or thousands of vectors involved. But three simple geometric properties will lay the foundation for even advanced techniques:
 
-A starting  point  is creating a vector on the computer. In  some sense this a vector is just a collection  of numbers, but it's helpful  to  be disciplined  and  remember that, for our purposes, a  vector is  a **column** of numbers. R knows about such columns and will  handle them appropriately.
+1. The ***length*** of a vector.
+2. The ***scaling*** of a vector to make it longer or shorter or point in the opposite direction.
+3. The ***angle*** between two vectors.
 
-One way to create a column vector is with  the  `rbind()` function.
+You can measure the length of a vector with a ruler. For instance, Figure \@ref(fig:vector-graph-paper) shows a green vector on ruled paper; the spacing between adjacent lines in the graph paper is 0.2 inches. If you place your index finger on the eraser and your little finger on the tip, and hold that distance, you can bring your fingers into alignment with the graph paper and see that the vector is roughly 5.2 inches long.
 
-use the  `rbind()` function applied to individual arguments. Here,  for instance,  is a command that makes a three-dimensional vector we are calling `b`.
+Another way to find the length of the distance is with arithmetic. Recall that by counting squares between tip and tail, we found:
+$$\overset{\longrightarrow}{\text{green}} \equiv \left[\begin{array}{c}20\\16\end{array}\right]\ .$$
+Applying the Pythagorean theorem, we can calculate the vector length as 
 
-```{r}
-b <- rbind(4, -2, 6)
-b
-```
+$$\| \overset{\longrightarrow}{\text{green}} \| =
+0.2\, \text {inches} \sqrt{\strut 20^2 + 16^2} = \\0.2\, \text{inches} \times 25.6125 = \\\strut5.12\,\text{inches}\ .$$
+The notation  $\| \vec{v} \|$ should be read, "the length of $\vec{v}$."
 
-Notice that in  printing out a  vector, R  includes a series of indices  (e.g. `[1,]` or `[3,]`) to help the reader identify the location  of any element in  the vector. It also  prints a header (`[,1]`) which  is helpful later when we work with  collections of vectors.
+For simplicity, we generally leave the length in the same units as the numbers specifying the vector, so 
+$$\| \overset{\longrightarrow}{\text{green}} \| =
+\sqrt{\strut 20^2 + 16^2} =  25.6125\ .$$
 
-## Matrix
+For a vector with $n$ components, $$\vec{w} = \left[\begin{array}{c}w_1\\w_2\\\vdots\\w_n\end{array}\right]\ ,$$
+the length is $\|\vec{w}\| \equiv \sqrt{\strut w_1^2 + w_2^2 + \cdots + w_n^2}$. This arithmetic formula for length allows us to find the length even of those vectors in 4- or higher-dimensional space, where we would be hard pressed to find a ruler.
 
-You are going to hear the word "matrix" a lot.  Later in  this tutorial we will use the term "matrix multiplication." A matrix is a collection  of  vectors, all of the same dimension. We'll get to them  in good time.  
+To ***scale a vector*** $\vec{w}$ means more or less to change the vector's length. Perhaps a better way to think about this is to think about the vector as a step of length $\|\vec{w}\|$ in the vector's direction. Scaling the vector by 2 means to take two steps, scaling it by 10 means to take 10 steps. Fractional steps and backward steps are also allowed, so scaling $\vec{w}$ by -2.5 means to take two and a half steps backward from the direction in which the vector points. 
 
-## Scalar multiplication
-
-You  can multiply a vector times  a  number. The result is a new vector with exactly the  same direction as  the original, but with  a different length. The  arithmetic  is  very  simple: do ordinary multiplication  of the number by  each of the elements  of the  vector. Examples:
-
-$$2 \left(\begin{array}{c}4\\7\end{array}\right) = \left(\begin{array}{c}8\\14\end{array}\right)$$
-
-This  simple  multiplication is called "scalar multiplication" for two  reasons:
-
-1. The result is to "scale" the vector, in the sense of a  "scale  model",  that  is, to make the vector bigger or smaller.
-2. There is another important form of vector  arithmetic called "matrix multiplication." By  saying  "scalar multiplication,"  we avoid the  confusion  that might arise if  we  used "multiplication" alone.
-
-In R, scalar multiplication of a vector is  done with `*`, just like ordinary multiplication   with numbers:
-
-```{r echo=TRUE}
-b <- rbind(4, -2, 6)
-2.3 * b
-```
-
-::: {.example data-latex=""}
-In a `r sandbox_link()`, Write  the  R  code to create a vector named `w` with  components 4, -1,  and -3.5.  Then scalar multiply `w` by 6.3.
-
-```{r echo=TRUE, eval=FALSE} 
-w <- _______
-6.3 _______ w
-```
-
-<details>
-<summary>Solution</summary>
-```{r}
-w <- rbind(4,  -1,  -3.5)
-6.3 *  w
-```
-</details>
-:::
-
-## Dot product and `%*%`
-
-Now to  introduce  a new R arithmetic function, written `%*%`. This symbol is pronounced "matrix multiply."  In traditional mathematical notation, matrix multiplication is indicated by putting the two quantities next to one another, like this: $\vec{\mathbf m}^T \vec{\mathbf x}$, or sometimes with a dot $\vec{\mathbf m}T\cdot \vec{\mathbf x}$. The superscript $^T$ means "transpose." For us, this  is merely a  book-keeping convention.
-
-The operation `%*%` will do several  different types  of  arithmetic  with  vectors. The one we will work with here is  called  a *dot product*.  (There are  also "matrix products"  and "outer products".)
-
-The R notation for a dot product very  much echoes the  traditional matrix  notation,  at least  with  respect to $^T$.  We'll  illustrate by creating  two vectors `u`  and `v` and then calculating their dot  product.
-
-```{r}
-u <- rbind(6, -3,  7)
-v <- rbind(2,  1,  3)
-t(u) %*%  v
-```
-
-Notice  that the  output  of a dot product is  a single number: a scalar. (R prints the output as if the scalar were  a vector in one-dimension.)
-
-Arithmetically, the dot product is calculated by multiplying the corresponding components in the two vectors  (e.g.  $6  \times 2$ and  $-3 \times 1$ and  $7 \times 3$) and adding up the  result. You can see why the dot product always involves two vectors with the same number of elements.
-
-The R `t()` function corresponds to  the mathematical notation for the transpose: $^T$. So `t(u)` would be written, mathematically, as $\vec{u}^T$. The  purpose of `t()` is to turn columns (like our vector `u`) into rows,  and vice versa.  If you  like,  try the command `t(u)` in  the sandbox to see how it  is printed.
-
-For us,  the purpose of writing `t(u)` is  to signal  to  the `%*%`  matrix multiplication  operation that we want a particular operation: the dot product.
-
-The  dot product always involves the transpose of a column vector on  the left side of  `%*%`  and a column vector on  the right side.
-
-You  can  also  write a command  `u %*% t(v)`,  but  this is not a  dot product. It is  called  an "outer product" and we will not need it in this course. Try it out in  the sandbox.
-
-::: {.caution}
-The ***dot product*** and the ***outer product*** are written in very similar ways but produce completely different results. We won't have much use for outer products in this course, but you should be aware what they look like so that you can diagnose the problem if your attempt at a dot product goes wrong.
-
-**Dot products**
-```{r}
-t(u) %*% v
-t(v) %*% u
-```
-
-**Outer product**
-```{r}
-u %*% t(v)
-v %*% t(u)
-```
-:::
-
-
-## Vector lengths
-
-For  a vector $\vec{v}$, the  length is denoted $|| \vec{v} ||$. Vector length can  be measured with  a ruler ...  so long as you have physical access to  the vector. But often, all we have  is the numerical representation. So, we use arithmetic---the dot product---to calculate vector length: 
-$$|| \vec{v}  || \equiv \sqrt{\ \vec{v}^T \cdot \vec{v}}$$
-
-::: {.example data-latex=""}
-Consider the two vectors 
-$$\vec{u} \equiv \left(\begin{array}{c}3\\4\end{array}\right) \  \  \ \mbox{and}  \ \ \ \vec{w} \equiv \left(\begin{array}{c}1\\1\\1\\1\end{array}\right)
-$$
-
-The length of $\vec{u}$ is $|| \vec{u} || = \sqrt{\strut 3^2 + 4^2} = \sqrt{\strut 25} = 5$.
-
-The length of $\vec{w}$ is $|| \vec{w} || = \sqrt{\strut 1^2 + 1^2 + 1^2 + 1^2} = \sqrt{\strut 4} = 2$.
-
-Using a `r sandbox_link()`, use R commands to create the vectors $\vec{u}$ and $\vec{w}$ and find their lengths using the `dot-product operator`%*%` operator.
-
-```{r eval=FALSE}
-u <- rbind( ____ )
-# length of u
-sqrt( ____ %*% ____ )
-
-v <- rbind( ______ )
-# length of v
-sqrt( ____ %*% ____ )
-```
-
-<details>
-<summary>Solution</summary>
-```{r}
-u <- rbind(3, 4)
-sqrt(t(u) %*% u)
-w <- rbind(1, 1, 1, 1)
-sqrt(t(w) %*% w)
-```
-</details>
+Arithmetically, scaling a vector is accomplished simply by multiplying each of the vector's components by the same number. For instance, scaling $\vec{w}$ by -2.5 gives:
+$$-2.5\, \vec{w} \equiv \left[\begin{array}{c}-2.5\,w_1\\-2.5\,w_2\\\vdots\\-2.5\,w_n\end{array}\right]$$ 
+The number doing the scaling is called a ***scalar***, and the multiplication by a scalar is called ***scalar multiplication***. 
 
 ## Angles
 
@@ -224,51 +124,39 @@ Any two vectors of the same dimension have a distinct ***angle*** between them. 
 
 In describing the angle between two vectors, we always measure the short way round. So angles between vectors are always between 0 and 180 degrees. Any larger angle, say 260 degrees, will be identified with its circular complement: 100 degrees is the complement of a 260 degree angle.
 
-A worthwhile experiment is to pick up two pencils pointing in different directions. Place the eraser ends together, pinched between thumb and forefinger. You can point the whole rigid assembly in any direction you like. The angle between them will remain the same. 
+In 2- and 3-dimensional spaces, we can measure the angle between two vectors using a protractor: arrange the vectors so they are tail to tail, align the baseline of the protractor with one of the vectors and read off the angle marked by the second vector.
 
-Place a card on top of the pencils, slipping it between your pressed fingers to hold it tightly in place. The card is another kind of geometrical object: a planar surface. The orientation of two vectors together determine the orientation of the surface. This simple fact will be extremely important later on.
+It's also possible to measure the angle using arithmetic. Suppose we have vectors $\vec{v}$ and $\vec{w}$ that are in the same dimensional space. That is, $\vec{v}$ and $\vec{w}$ have the same number of components:
 
-You could replace the pencils with line segments drawn on the card underneath each pencil. Now you have the angle readily measurable in two dimensions. The angle between two vectors in three dimensions is the same as the angle drawn on the two-dimension surface that rests on the vectors.
+$$\vec{v} = \left[\begin{array}{c}v_1\\v_2\\\vdots\\v_n\end{array}\right]\ \ \ \text{and}\ \ \ \vec{w} = \left[\begin{array}{c}w_1\\w_2\\\vdots\\w_n\end{array}\right]\ ,$$
 
-Notice that you can also lay a card along a *single* vector. What's different here is that you can roll the card around the pencil; there are many different orientations for such a card even while the vector stays fixed. So a single fixed vector does not determine uniquely the orientation of the planar surface in which the two vectors can reside. But with two fixed vectors, there is only one such surface.
+There is a straightforward arithmetic formula for the cosine of the angle $\theta$ between $\vec{v}$ and $\vec{w}$:
 
-A pencil is a physical object that does a good job representing a vector in three dimensional space. Three-dimensional space is all around us and it's easy---indeed, inevitable---to situate a pencil in it. We have no such physical access to 4-dimensional space or higher-dimensional spaces. Instead of a physical representation, we need to rely on a mathematical one: a column of numbers. And we can't use a protractor to measure the angle between two vectors in 4- or higher-dimensional space. Instead, we calculate the angle using arithmetic. But to define the numerical process for calculating an angle, we need to make sure that the result follows the familiar conventions for angles, specifically that they be between 0 and 180 degrees, that the angle between two vectors with the same orientation is 0, and that the angle between two opposite-pointing vectors is 180 degrees.
+$$\cos(\theta) = \frac{v_1\, w_1 \ + \ v_2\, w_2 \ + \  \cdots\  + \ v_n\, w_n}{\sqrt{\strut v_1^2 + v_2^2 + \cdots + v_n^2}\  \sqrt{\strut w_1^2 + w_2^2 + \cdots + w_n^2}}$$
+You might recognize the two quantities in the denominator of the ratio as the lengths $\|\vec{v}\|$ and $\|\vec{w}\|$ respectively. 
 
-The arithmetic formula for computing the angle between two vectors is simple. Or, rather, it's simple if we allow ourselves to calculate the cosine of the angle rather than the angle $\theta$ itself. The underlying quantity can be calculated using dot products: 
-$$\cos(\theta) \equiv \frac{\vec{v}^T \cdot \vec{w}}{\sqrt{\strut (\vec{v}^T\cdot \vec{v})(\vec{w}^T\cdot \vec{w})}}$$
+There's also a special notation and name for the quantity in the numerator. The ***dot product*** between $\vec{v}$ and $\vec{w}$ is written $\vec{v}\cdot\vec{w}$ and the sum of pairwise products of the vectors components:
+$$\text{dot product:}\ \ \ \ \ \vec{v}\cdot\vec{w} \equiv v_1\, w_1 + v_2\, w_2 +  \cdots + v_n\, w_n\ .$$
+Using the dot-product and length notation, we can write the formula for the cosine of the angle between two vectors as 
+$$\cos(\theta) \equiv \frac{\vec{v}\cdot\vec{w}}{\|\vec{v}\|\ \|\vec{w}\|}\ .$$
 
-If you insist on knowing $\theta$ rather than $\cos(\theta)$, there is a function that will do the conversion show in in Figure \@ref(fig:cosine-conversion).
+If you insist on knowing the angle $\theta$ rather than $\cos(\theta)$, there is a function that will do the conversion show in in Figure \@ref(fig:cosine-conversion).
 
 ```{r cosine-conversion, echo=FALSE, fig.cap="The $\\arccos()$ function converts $\\cos(\\theta)$ to $\\theta$."}
 slice_plot(180*acos(theta)/pi ~ theta, domain(theta=-1:1), npts=300) %>%
     gf_labs(x="cos(theta)", y = "theta (degrees)") %>%
     gf_refine(scale_y_continuous(breaks=c(0,15, 30,45,60,75, 90,105, 120,135,150,165, 180)))
 ```
+::: {.intheworld data-latex=""}
+What does the angle $\theta$ between two vectors tell us?
 
-## Orthogonality
+In geometrical terms, the angle tells us how strongly aligned the vectors are. An angle of 0 tells us the vectors point in exactly the same direction, and angle of 180 degrees means that the vectors point in exactly opposing directions. Either of these---0 or 180 degrees---indicates that the two vectors are perfectly aligned. Such alignment means that by appropriate scalar multiplication, the two vectors could be made exactly equal to one another and, consequently, that the scaled vectors would be one and the same.
 
-Two vectors are said to be ***orthogonal*** when the angle between them is 90 degrees. In everyday speech we call a 90 degree angle a "right angle." The word "orthogonal" is really just a literal translation of "right angle." The syllable "gon" indicates an angle, as in the five-angled pentagon or six angled hexagon. "Ortho" means "right" or "correct," as in "orthodox" (right beliefs) or "orthodontics" (right teeth) or "orthopedic" (right feet).
+Angles such as 5 or 175 degrees indicate that the two vectors are mostly aligned, but imperfectly. When the angle is 90 degrees of course---a right angle---the two vectors are perpendicular.
 
-Two vectors are at right angles---we prefer "orthogonal" since "right" has many meanings not related to angles---when the dot product between them is zero.
+The vector alignment has a particularly important meaning in terms of data. Suppose the two vectors are two columns in a data frame: two different variables. In statistics there is an important quantity called the ***correlation coefficient***, denoted $r$. To say that two variables are correlated means that the variables are connected to one another in some way. For instance, among children, height and age are correlated. Since height tends to increase along with age (for children), the two variables are said to be ***positively correlated***. The largest possible correlation is $r=1$. 
 
-::: {.example data-latex=""}
-Find a vector that's orthogonal to $(1,2)$. 
-
-The arithmetic trick is to reverse the order of the components and put a minus sign in front of one of them, so $(-2, 1)$.
-
-We can confirm the orthogonality by calculating the dot product: $(-2, 1)^T \cdot (1,2) = -2\times1 + 1 \times 2 = 0$.
-:::
-
-::: {.example data-latex=""}
-Find a vector orthogonal to $(1,2,3)$.
-
-We have a little more scope here. A simple approach is to insert a zero component in the new vector and then use the two-dimensional trick to fill in the remaining components.
-
-For instance, starting with $(0, __, __)^T$ the only non-zero components of the dot product will involve the 2 and 3 of the original vector. So $(0, -3, 2)$ is orthogonal. Or, if we start with $(1,0,3)$ we would construct $(-3, 0, 1)$. 
-
-In addition to the two vectors we constructed with the arithmetic trick, any vector that is a linear combination of those two vectors will also be orthogonal to $(1,2,3)$.
-:::
-
+A ***negative correlation*** means that as one variable increases the other tends to decrease. Temperature and elevation are negatively correlated, as are the pressure and volume of a gas at a given temperature. The most negative possible correlation is $r=-1$.
 ## Exercises
 
 `r insert_calcZ_exercise("XX.XX", "Of7QlW", "Exercises/snake-choose-ring.Rmd")`
