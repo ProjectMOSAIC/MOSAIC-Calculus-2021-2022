@@ -1,8 +1,41 @@
 # Linear combinations of vectors
 
-Adding vectors. The result is a vector
+In the previous chapter, we suggested that you think of a vector as a "step" in a given direction and of a given magnitude: for example 1 foot to the northeast. This interpretation highlights the mathematical structure of vectors: just a direction and a length, nothing else. 
 
-Scaling and adding vectors: a linear combination of vectors.
+The "step"-interpretation is also faithful to an important reason why vectors are useful. We use steps to get from one place to another. Similarly, a central use for the formalism of vectors is to guide our thinking and our algorithms for figuring out how best to get from one "place" to another. We've used quotation marks around "place" because we are not necessarily referring to a physical destination. We'll get to what else we might mean by "place" later in this chapter.
+
+For now, let's focus on the word "steps." Notice that it's plural. Generally, you cannot get to the desired destination with just one step. For instance, a pirate's treasure map might contain an instruction, "Dig 10 paces to the east of the tall tree." East is the direction of the vector. "Pace" is the length of the vector (about 3 feet). And 10 is the number of steps to take. 
+
+If pirates wrote in vector notation, those directions might have been given like this: $$\text{Let}\ \vec{p} \equiv \left[\begin{array}\,1\,\text{pace}\\0\end{array}\strut\right]\ .\ \  \text{Then}, \ 
+\text{treasure spot} \equiv \text{tall tree} \ + 10 \vec{p}\ .$$ 
+
+The count of steps is the ***scalar*** that multiplies the vector. It tells you the length of the journey in units of 1 vector. 
+
+In a typical journey, there can be more than one vector involved. For instance, the vector pointing from the hidden cove to the tall tree might be identified as 1 nautical mile to the north-west. We'll call this vector $\overset{\longrightarrow}{\text{tree}}$. The full directions to the treasure might then be, "Start from the hidden cove. Then march $3.2\, \overset{\longrightarrow}{\text{tree}} + 10\, \vec{p}$.
+
+This is a description of a journey as a ***linear combination of vectors***. The vectors themselves are $\vec{p}$ and $\overset{\longrightarrow}{\text{tree}}$. The vector $3.2\, \overset{\longrightarrow}{\text{tree}}$ is a scaled version of $\overset{\longrightarrow}{\text{tree}}$; it points in the same direction as $\overset{\longrightarrow}{\text{tree}}$, but it has length 3.2 nautical miles. Similarly, $10\, \vec{p}$ is a vector of length 10 paces, pointing the the same direction of $\vec{p}$. When we scale a set of vectors and then add them, we have a linear combination, just as in Block 1 we created a linear combination of functions by scaling them and adding the results together. 
+
+Pirates and other mariners use direction terms like "one point north of north-north-east." Their maps are annotated with compass roses that translate the words into a direction.
+
+```{r compass-rose,echo=FALSE, fig.caption="A compass rose from the map in the children's classic book *Treasure Island*. One point north of north-north-east is the direction of the radial line passing through the 'd' in \"Skeleton Island\".", out.width="20%", fig.align="center"}
+knitr::include_graphics("www/compass-rose.png")
+```
+Mathematicians can replace a compass rose with just two vectors, say, $\overset{\longrightarrow}{\text{North}}$ and $\overset{\longrightarrow}{\text{East}}$. Other directions can be given as a linear combination. For instance, the compass rose's "north-north-west" is the linear combination $0.9239\,\overset{\longrightarrow}{\text{North}} -0.3827\,\overset{\longrightarrow}{\text{East}}$.
+
+Geometrically, that is, in terms of arrows or pencils, the scaling of a vector is stretching or shrinking, without changing the direction. (Scaling with a negative number means to reverse the tip and tail of the vector.) For a linear combination of two or more vectors, choose one of the vectors as a start, then move the tail of the second vector to the tip of the first, as in Figure \@ref(fig:add-yellow-green).
+
+```{r add-yellow-green, echo=FALSE, fig.cap="Adding two vectors, yellow and green, by placing them tail to tip. The result is the vector going from the tail of yellow to the tip of green. This resultant is equivalent to the blue vector."}
+knitr::include_graphics("www/pencils/addition.png")
+```
+
+Subtraction is similar. For $\vec{v} - \vec{w}$, 
+$\vec{v}$ and $\vec{w}$ tail-to-tail. Read out the result as the vector running from the tip of $\vec{v}$ to the tip of $\vec{w}$. In Figure \@ref(fig:subtract-blue-from-yellow), the yellow vector is $\vec{v}$, the blue vector is $\vec{w}$. The result of the subtraction is the green vector.
+
+```{r subtract-blue-from-yellow, echo=FALSE, fig.cap="Subtracting blue from yellow gives green."}
+knitr::include_graphics("www/pencils/subtraction.png")
+```
+
+## Sub-spaces
 
 ## Sub-spaces
 
@@ -14,14 +47,102 @@ You could replace the pencils with line segments drawn on the card underneath ea
 
 Notice that you can also lay a card along a *single* vector. What's different here is that you can roll the card around the pencil; there are many different orientations for such a card even while the vector stays fixed. So a single fixed vector does not determine uniquely the orientation of the planar surface in which the two vectors can reside. But with two fixed vectors, there is only one such surface.
 
+## Functions as vectors
+
+In Section `r Section$exp_curve-fitting` we looked at the use of the exponential function to describe the temperature of hot water cooling to room temperature. The exponential decreasing function is of course $e^{-kt}$ and we can find $k$ by estimating the half-life of exponential decay, which is about 36 minutes in the data we used. (Figure \@ref(fig:water-scaled-exp)).
+
+In this section, we're going to think about functions in terms of vectors. There are huge advantages to thinking in this way, but it will take some time for you to see them clearly.
+
+Recall the data on cooling water gave the temperature (in degrees C) versus time (in minutes). Economy on the page argues against showing all the rows of the `CoolingWater` data frame, but you have access to it in the `r sandbox_link()`.
+
+```{r echo=FALSE}
+CW <- CoolingWater[c(1,3,5,7,10,15,20,30,40,50, 75, 100, 125, 150, 175, 200),]
+row.names(CW) <- NULL
+knitr::kable(CW) %>% kableExtra::kable_minimal()
+```
+
+The `temp` column of the data frame is a set of numbers, hence interpretable as a vector. As a vector in 15 dimensions, there's not much to be said about its *direction*, but the length is easy enough: take the square root of the sum of squares of the components. That comes to 251.3 degrees C. This is merely an arithmetic fact, the consequence of adding together 15 numbers. It has the dimension of temperature T, but has nothing to do with the hot-oven-like 251 C temperature.
+
+This `temp` vector is playing to role of the buried treasure; it's the destination we want to reach. What have we got to reach it with?
+
+This is where our basic modeling function $e^{-kt}$ comes in. By evaluating $e^{-kt}$ at each of the values of $t$ in the `time` column, we create another column, which we'll call `expkt`. Knowing that the half-life is about 36 minutes, we'll use $k=\ln(2)/36 \approx 0.02$. At the same time, anticipating what is to come, we'll add another column which we'll call, following statistical practice, the `intercept` column and which represents the constant function (evaluated at each of the times).
+
+```{r}
+CW <- CW %>% 
+  mutate(expkt = exp(-0.02*time),
+         intercept = 1)
+```
+
+```{r echo=FALSE}
+knitr::kable(CW) %>% kableExtra::kable_minimal()
+```
+
+Confirm for yourself that the `expkt` column really does match an exponential decay with a half-life of about 36 minutes. You can see that at time zero the value of expkt, just as expected for an exponential. At time 36, somewhere between the rows for times 29 and 39, the value is about 0.5. At time 72---two half-lives after the start---the value should be 0.25, closely matching the recorded temperature at time 74. 
+
+Our goal is to scale the `expkt` vector so that the scaled numbers will be as close as possible to our destination, namely, `temp`. Comparing the two columns of numbers, you might anticipate that the scalar will be about 100. We'll see how to calculate it exactly in the next chapter. The result turns out to be 99.23. The resulting model will be $$T(t) = 99.23\, e^{-0.02 t}\ .$$
+
+How are we to judge whether this is a good model or not? Common sense suggests plotting out the model function along with the data, as in Figure \@ref(fig:just-exp).
+
+```{r just-exp, echo=FALSE, fig.cap="Comparing the model $99.23\\, e^{-0.02 t}$ to the recorded data in `CoolingWater."}
+gf_point(temp ~ time, data = CW) %>%
+  slice_plot(99.23*exp(-0.02*time) ~ time, color="magenta")
+
+```
+
+Judge for yourself whether this is a good model. The obvious deficiency is that the model falls, as decaying exponentials will do, toward a temperature of 0, whereas the water is cooling to a room temperature of about 25 degrees.
+
+Let's return to the model seen in terms of vectors. The advantage of doing this is to develop a general procedure we can use for interpreting models of all sorts, rather than just the particular situation of the cooling-water data.
+
+What are the geometric facts? We know that the `temp` vector has length 251.3 deg C. Similarly we can calculate the length of the `expkt` vector: 2.46 deg C. 
+
+It might seem that the "direction" of the vector is meaningless, because it's a direction in an abstract, hard-to-envision 15-dimensional space. (There are 15 components to each of `temp` and `expkt`.) Even so, we can calculate the ***angle*** between the two vectors, using the formula $\cos(\theta) = \frac{\vec{v}\cdot \vec{w}}{\|\vec{v}\|\ \|\vec{w}\|}$. Doing the arithmetic gives $$\cos{\theta} = \frac{599.8}{251.3 \times 2.46} = 0.9708\ \ \implies \ \ \ \theta = 13.88^\circ$$
+
+```{r temp-expkt-picture, echo=FALSE, fig.cap="The vectors `temp` and `expkt` have an angle of 13.88 deg between them. Here, `expkt` has been drawn 10x it's actual size."}
+gvec(from = c(0,0), to = c(250, 25.1), color = "black") %>%
+  gf_segment(0 + 3*28.8 ~ 0 + 3*116.5, 
+             color="magenta", linetype = "dotted") %>%
+  gvec(from=c(0,0), to = 2*c(11.6, 2.88), color="magenta") %>%
+  gf_refine(coord_fixed())
+```
+
+With these geometrical facts, we can draw a picture. Figure \@ref(fig:temp-expkt-picture) shows `temp` in black and `expkt` in magenta. (We've drawn it 10 times as long as it really is so that you can see it well.) For the `expkt` vector to be a good model of `temp`, we need to scale it so that the result, which must be on the dotted line in the picture, is as close as possible to the tip of `temp`. You can count off yourself how many `expkt` steps will bring you close to `temp`. (Remember to multiply your result by 10, since in the picture we drew `expkt` ten times longer than its arithmetic length.)
+
+One reasonable way to quantify how good a model of `temp` can be made by a properly scaled version of vector `expkt` is the angle between them: 13.88 degrees. 
+
+Likewise, we can scale the vector `intercept` to make it match `temp` as well as possible. The angle between `intercept` and `temp` works out to be 75.7 degrees; the vectors are not very well aligned. Scaling by 58.2 will bring `intercept` as close as it is ever going to get to `temp`, which is not very close at all.
+
+The idea of a linear combination is to scale and add multiple vectors. As a **very rough start**, let's look at the combination 58.2 `intercept` + 99.23 `expkt`, the combination of the two individual models we constructed by vector analogy. CAUTION: The model will be poor. That's not because the vector analogy is poor but because we still have to work out, as we will in the next two chapters, how properly to work with vectors. 
+
+```{r}
+CW <- CW %>% 
+  mutate(model = 99.23*expkt + 58.2*intercept)
+```
+
+```{r echo=FALSE}
+knitr::kable(CW) %>% kableExtra::kable_minimal()
+```
+
+The resulting model is ... well, terrible! Figure \@ref(fig:two-temp-models) shows the linear combination 
+
+```{r two-temp-models, echo=FALSE}
+gf_point(temp ~ time, data = CW) %>%
+  gf_point(model ~ time, data = CW, color="magenta") %>%
+  slice_plot(58.2+ 99.23*exp(-0.02*time) ~ time, color="magenta")
+```
+
+EXERCISE: Repeat the calculations for the entire `CoolingData` data frame.
+
+
+Adding vectors. The result is a vector
+
+Scaling and adding vectors: a linear combination of vectors.
+
+
+
 ## MOVED FROM VECTORS
 
 
 
-A ***zero correlation*** indicates that there is no simple relationship between the two variables.
-
-In terms of vectors, that is, the columns in the data frame, the correlation coefficient $r$ is exactly the same quantity as the cosine of the angle between the vectors. At the time the correlation coefficient was invented in the 1880s, it was not widely appreciated that $r$ is simply the cosine of an angle. Perhaps the several generations of statistics students who have studied correlation would have had a better grasp on the subject if it had been called ***alignment*** and measured in degrees.
-:::
 
 A pencil is a physical object that does a good job representing a vector in three dimensional space. Three-dimensional space is all around us and it's easy---indeed, inevitable---to situate a pencil in it. We have no such physical access to 4-dimensional space or higher-dimensional spaces. Instead of a physical representation, we need to rely on a mathematical one: a column of numbers. And we can't use a protractor to measure the angle between two vectors in 4- or higher-dimensional space. Instead, we calculate the angle using arithmetic. But to define the numerical process for calculating an angle, we need to make sure that the result follows the familiar conventions for angles, specifically that they be between 0 and 180 degrees, that the angle between two vectors with the same orientation is 0, and that the angle between two opposite-pointing vectors is 180 degrees.
 

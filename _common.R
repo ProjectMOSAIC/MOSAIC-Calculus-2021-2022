@@ -86,6 +86,10 @@ Chaps <- list(
   foobar = NA
 )
 
+Sections <- list(
+  exp_curve_fitting = "8.3"
+)
+
 
 # For gradescope output
 # askMC <- Znotes::askGS
