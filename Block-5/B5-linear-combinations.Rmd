@@ -35,11 +35,51 @@ $\vec{v}$ and $\vec{w}$ tail-to-tail. Read out the result as the vector running 
 knitr::include_graphics("www/pencils/subtraction.png")
 ```
 
-## Sub-spaces
+## Scaling
+
+As you know, scaling a vector changes it's length. If the scalar is negative, the vector tip and tail are swapped. Figure \@ref(fig:single-scale) shows a vector $\vec{v}$ and, as a dotted line, all of the possible results of scaling the vector. For instance, the tip of the vector $-\frac{1}{2} \vec{v}$ is located at the point marked (a). The vector $\frac{4}{5} \vec{v}$ has its tip at (b) and $2.5 \vec{v}$ has the tip at (c). For any point on the dotted line, there is some numerical scalar $\alpha$ such that the scaled vector $\alpha \vec{v}$ will have its tip at that point.
+
+The dotted line, that is, all the points that can be "reached" by scaling $\vec{v}$ is called a ***subspace***: the subspace ***spanned*** by $\vec{v}$. You can think of the subspace as all of the "destinations" that can be reached by stepping in the direction of $\vec{v}$. (Steps backward steps are also legitimate.) 
+
+```{r single-scale, echo=FALSE, fig.cap="With a suitable scalar multiplying the vector $\\vec{v}$, any point on the dotted line can be reached. The dotted line is the subspace spanned by the vector."}
+Pts <- tibble(
+  x = c(-2, 1/2, 4),
+  y = c(1, -1.5, -5),
+  lab = c("a", "b", "c")
+)
+gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
+  gvec(from=c(-1,0), to=c(1, -2), color="magenta") %>%
+  gf_text(y ~ x, label= ~ lab, data = Pts) %>%
+  gf_refine(coord_fixed(), 
+            scale_y_continuous(breaks=NULL),
+            scale_x_continuous(breaks=NULL)) %>%
+  gf_labs(y="", x="")
+
+```
+Every vector is associated with a subspace that is ***one-dimensional***; you can only reach the points on a line by stepping in the direction of a vector.
 
 ## Sub-spaces
 
-A worthwhile experiment is to pick up two pencils pointing in different directions. Place the eraser ends together, pinched between thumb and forefinger. You can point the whole rigid assembly in any direction you like. The angle between them will remain the same. 
+Figure \@ref(fig:two-vecs) includes a second vector $\vec{w}$ along with the vector $\vec{v}$ seen in Figure \@ref(fig:single-scale). Each vector has its own subspace, again shown as dotted lines.
+
+```{r two-vecs, echo=FALSE, fig.cap="The subspaces spanned by each of two vectors $\\vec{v}$ and $\\vec{w}$$."}
+gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
+  gvec(from=c(-1,0), to=c(1, -2), color="magenta") %>%
+  gvec(from=c(0,-3), to=c(1,-1), color="brown") %>%
+  gf_segment(-5 + 3 ~ -1 + 3, color="brown", linetype="dotted") %>%
+  gf_refine(coord_fixed(), 
+            scale_y_continuous(breaks=NULL),
+            scale_x_continuous(breaks=NULL)) %>%
+  gf_labs(y="", x="")
+```
+
+
+
+Things get interesting when we consider not just the subspace spanned by the vectors individually, but the subspace spanned by them ***jointly***. Recall that the subspace spanned by $\vec{v}$ is all the vectors that can be created by scalar multiplication of $\vec{v}$, that is, all the vectors $\alpha \vec{v}$ for $-\infty < \alpha < \infty$. 
+
+With two vectors, the subspace is all the vectors that can be created by a linear combination of the two, that is $$\alpha \vec{v} + \beta \vec{w}$$ where $-\infty < \alpha < \infty$ and $-\infty < \beta < \infty$. The entire plane is spanned by such linear combination; any vector at all in the plane can be generated.
+
+Figure \@ref(fig:two-vecs), lying as it does on the two-dimensional surface of your screen or paper, fails to indicate clearly that even in three- or higher-dimensional space, two (non-aligned) vectors will span a plane with a particular orientation. To see this better, a worthwhile experiment is to pick up two pencils pointing in different directions. Place the eraser ends together, pinched between thumb and forefinger. You can point the whole rigid assembly in any direction you like. The angle between them will remain the same. 
 
 Place a card on top of the pencils, slipping it between your pressed fingers to hold it tightly in place. The card is another kind of geometrical object: a planar surface. The orientation of two vectors together determine the orientation of the surface. This simple fact will be extremely important later on.
 
@@ -56,7 +96,7 @@ In this section, we're going to think about functions in terms of vectors. There
 Recall the data on cooling water gave the temperature (in degrees C) versus time (in minutes). Economy on the page argues against showing all the rows of the `CoolingWater` data frame, but you have access to it in the `r sandbox_link()`.
 
 ```{r echo=FALSE}
-CW <- CoolingWater[c(1,3,5,7,10,15,20,30,40,50, 75, 100, 125, 150, 175, 200),]
+CW <- CoolingWater[c(1,3,5,7,10,15,20,30,40,50, 75, 100, 125, 150, 175),]
 row.names(CW) <- NULL
 knitr::kable(CW) %>% kableExtra::kable_minimal()
 ```
@@ -77,7 +117,88 @@ CW <- CW %>%
 knitr::kable(CW) %>% kableExtra::kable_minimal()
 ```
 
-Confirm for yourself that the `expkt` column really does match an exponential decay with a half-life of about 36 minutes. You can see that at time zero the value of expkt, just as expected for an exponential. At time 36, somewhere between the rows for times 29 and 39, the value is about 0.5. At time 72---two half-lives after the start---the value should be 0.25, closely matching the recorded temperature at time 74. 
+Confirm for yourself that the `expkt` column really does match an exponential decay with a half-life of about 36 minutes. You can see that at time zero the value of expkt, just as expected for an exponential. At time 36, somewhere between the rows for times 29 and 39, the value is about 0.5. At time 72---two half-lives after the start---the value should be 0.25, closely matching the recorded temperature at time 74.
+
+The two vectors `expkt` and `intercept`, like any two (non-aligned) vectors, span a planar subspace. Since `expkt` and `intercept` are embedded in a 15-dimensional space---this is just saying that there are 15 rows in the data frame---the plane is a subspace of the 15-dimensional space. This statement can seem hopelessly abstract, so let's try to give a more concrete visualization. For the visualization, we'll move onto the familiar ground of a graph of temperature versus time. 
+
+In the domain of temperature vs time, each of the linear combinations $\alpha$`expkt`$\ + \beta$`intercept`, appears as a set of 15 dots. Figure \@ref(fig:water-dots) shows three such sets of 15 does in three different colors, along with the 15 points of the actual temperature data. To show more than the three sets of dots would be visually confusing. Instead, we'll add to the graph functions of the form $\alpha\, e^{-0.02 t} + \beta\, 1$.
+
+```{r water-dots, echo=FALSE, fig.cap="Some of the possible linear combinations of the vectors `expkt` and `intercept`. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination."}
+CW <- CW %>%
+  mutate(one = -51*expkt + 80*intercept,
+         two = -36*expkt + 120*intercept,
+         three = 100*expkt + 15*intercept,
+         )
+colors <- rainbow(10)
+gf_point(temp ~ time, data = CW) %>%
+  gf_point(one ~ time, color = "magenta") %>%
+  gf_point(two ~ time, color = "brown") %>%
+  gf_point(three ~ time, color = "tomato") %>%
+  slice_plot(80 - 51*exp(-0.02*time) ~ time, color="magenta") %>%
+  slice_plot(120 - 36*exp(-0.02*time) ~ time, color="brown") %>%
+  slice_plot(15 + 100*exp(-0.02*time) ~ time, color="tomato") %>%
+  slice_plot(35 - 20*exp(-0.02*time) ~ time, color=colors[1]) %>%
+  slice_plot(45 - 70*exp(-0.02*time) ~ time, color=colors[2]) %>%
+  slice_plot(55 + 45*exp(-0.02*time) ~ time, color=colors[4]) %>%
+  slice_plot(65 - 40*exp(-0.02*time) ~ time, color=colors[5]) %>%
+  slice_plot(75 + 30*exp(-0.02*time) ~ time, color=colors[6]) %>%
+  slice_plot(95 + 10*exp(-0.02*time) ~ time, color=colors[7]) %>%
+  slice_plot(25.4 + 65.7*exp(-0.02*time) ~ time, color = "black") %>%
+  gf_lims(y = c(0,125))
+  
+  
+```
+
+We we to plot *all* the linear combinations of `expkt` and `intercept`, the graphics frame would be completely covered with ink. But each individual vector produced by a linear combination will look much of a kind with the ten shown here.
+
+The functions shown in Figure \@ref(fig:water-dots) all inhabit the two-dimensional subspace spanned by `expkt` and `intercept`. But there is a lot more to the 15 dimensional space. What do functions look like that inhabit the space outside of the two-dimensional `expkt`&`intercept` subspace? Figure \@ref(fig:13-handful) shows a handful of them. Each is different in kind from the functions shown in Figure \@ref(fig:water-dots).
+
+```{r 13-handful, echo=FALSE, fig.cap="A handful of the vectors in the 15-dimensional space outside of the 2-dimensional `expkt`&`intercept` subspace."}
+P <- ggplot() + geom_blank()
+
+for (k in 1:8) {
+  Pts <- tibble(time = CW$time + runif(15,0, 25)) 
+  Pts <- Pts %>%
+    mutate(y=runif(15,20,80))
+  f <- spliner(y ~ time, data = Pts)
+  P <- P %>% 
+    slice_plot(f(time) ~ time, color = colors[k], 
+               domain(time=0:200), npts=200)
+}
+P %>% gf_lims(y=c(0,125))
+```
+There are a lot of crazy-looking functions out there in 15-dimensional space!
+
+Look back at Figure \@ref(fig:water-dots) and focus your attention on the function drawn in black. That function is a reasonable match to the data (plotted as black dots). The question we face now is how to find such a function by searching through a 15-dimensional space. That's the task we take on in the next chapter.
+
+::: {.intheworld}
+It's pretty easy to visualize the length of a vector and the arithmetic is straightforward even in n-dimensional space. For a vector $\vec{v}$ with components $$\vec{v} \equiv \left[\strut \begin{array}{c}v_1\\v_2\\\vdots\\v_n\end{array}\right]$$ the length is $\sqrt{\strut v_1^2 + v_2^2 + \cdots + v_n^2}$. Similarly, the ***dot product*** between $\vec{v}$ and $\vec{w}$ is $\vec{v} \cdot \vec{w} \equiv v_1 w_1 + v_2 w_2 + \cdots + v_n w_n$. In terms of the dot product, the vector length is $\sqrt{\strut\vec{v} \cdot \vec{v}}$. And by combining the dot products, we can calculate the angle between two vectors: $$\cos(\theta_{v,w}) = \frac{\vec{v}\cdot\vec{w}}{\sqrt{\strut (\vec{v}\cdot\vec{v})\ (\vec{w}\cdot\vec{w}})}$$
+
+As you know, a vector has two properties: length and direction. Both of these can be calculated using the dot product.
+
+This suggests a way to consider other mathematical objects, such as functions, as vectors. All we need is a reasonable definition for a dot product. Suppose we have two functions, $f(t)$ and $g(t)$ defined on some domain, say $0 < t < 2\pi$. A dot product multiplies the objects together and accumulates the products. When the vectors are sets of numbers, the accumulation is to add up component-by-component products. By analogy, to take the dot product of $f(t)$ and $g(t)$ over the domain, we can do an integral: $$f() \cdot g() \equiv \int_0^{2\pi} f(t) g(t) dt\ .$$
+
+To illustrate, consider these two functions: $f(t) \equiv \sin(t)$ and $g(t) \equiv \sin(2 t)$, plotted below.
+
+```{r}
+slice_plot(sin(t) ~ t, domain(t=0:(2*pi)),
+           label_text = "f(t)", label_x=.92) %>%
+slice_plot(sin(2*t) ~ t, color="magenta", label_text = "g(t)", label_x=.25, nudge_x=1)
+```
+How "long" are $f(t)$ and $g(t)$?
+```{r}
+Integrate(sin(t)*sin(t) ~ t, domain(t=0:(2*pi))) %>% sqrt()
+Integrate(sin(2*t)*sin(2*t) ~ t, domain(t=0:(2*pi))) %>% sqrt()
+```
+They are both the same "length", which you might recognize as $\sqrt{\strut\pi}$.
+
+What's the cosine of the angle between them?
+```{r}
+Integrate(sin(t) * sin(2*t) ~ t, domain(t=0:(2*pi))) / pi
+```
+The cosine of the angle is zero---`1.3e-16` is just a round-off error. That means that the functions $\sin(t)$ and $\sin(2t)$ are **orthogonal** on the domain $0 < t < 2\pi$.
+:::
+
 
 Our goal is to scale the `expkt` vector so that the scaled numbers will be as close as possible to our destination, namely, `temp`. Comparing the two columns of numbers, you might anticipate that the scalar will be about 100. We'll see how to calculate it exactly in the next chapter. The result turns out to be 99.23. The resulting model will be $$T(t) = 99.23\, e^{-0.02 t}\ .$$
 
