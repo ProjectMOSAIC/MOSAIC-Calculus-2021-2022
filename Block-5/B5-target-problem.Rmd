@@ -1,6 +1,98 @@
 # The target problem {#target-problem}
 
-a. Write a target problem in the form Mx = b
+In Chapter \@ref(projection-residual), we solve the problem of finding the scalar multiple $\alpha^\star$ such that $\alpha^\star\, \vec{u}$ is as close as possible to another vector $\vec{b}$. In this chapter, we'll generalize that method to let us finding the particular ***linear combination*** of any set of vectors $\vec{u}$, $\vec{v}$, $\vec{w}, \ldots$ that is a close as possible to $\vec{b}$. We call this the ***target problem***. For clarity, we'll always write the target as $\vec{b}$: the place we want to get to.
+
+## Properties of the solution
+
+As you might expect, there is a known solution to the target problem. We'll start by using a computer implementation of this solution to demonstrate some simple properties of the solution. As an example, we'll use three vectors in a 5-dimensional space as the "screen" to be projected onto, and another vector $\vec{b}$ as the object being projected. 
+
+The notation $$\overset{\longrightarrow}{{b}\|_{u,v,w}}$$ is expressive of the solution we seek. But it's more concise to place $\vec{u}$, $\vec{v}$, and $\vec{w}$ into a matrix ${\mathbf A}$:
+$${\mathbf A} \equiv \left[\strut \begin{array}{ccc}|&|&|\\\vec{u} & \vec{v} & \vec{w}\\|&|&|\end{array}\right]$$ so that we can write the solution as 
+$$\overset{\longrightarrow}{{b}\|_{\mathbf A}}\ .$$
+
+Such notation, lovely and expressive though it may be, is hardly suited for a computer expression, which has to be constructed from typewriter characters. So, we'll adopt another convention by writing `b_hat` on the computer to stand for $\overset{\longrightarrow}{{b}\|_{\mathbf A}}$. 
+
+In the same spirit, we'll write `b_resid` to stand for $\overset{\longrightarrow}{b\!\perp_{\mathbf A}}$.
+
+```{r}
+# the three vectors
+u <- rbind(6, 4, 9, 3, 1)
+v <- rbind(1, 5,-2, 0, 7)
+w <- rbind(3,-5, 2, 8, 4)
+A <- cbind(u, v, w)
+# the target
+b <- rbind(8, 2,-5, 7, 0)
+# the solution and residual
+b_hat <- b %onto% A
+b_hat
+b_resid <- b %perp% A
+b_resid
+```
+How can we confirm that this really is the solution to the target problem for this set of vectors? One check is that `b_hat + b_resid` should be identical to the original `b`:
+```{r}
+b - (b_hat + b_resid)
+```
+So far, so good.
+
+Another check is that `b_hat` be perpendicular to `b_resid`. If so, the dot product of `b_hat` and `b_resid` should be 0.
+```{r}
+b_hat %dot% b_resid
+```
+Close enough! (Round-off error in computer arithmetic has created this slight deviation from 0.)
+
+An interesting consequence of the residual being perpendicular to `b_hat` is that the residual will also be perpendicular to each and every one of the vectors being projected onto, and to any linear combination of those vectors.
+
+```{r}
+b_resid %dot% u
+b_resid %dot% v
+b_resid %dot% w
+# examples of linear combinations
+b_resid %dot% (2*u - 4.7*v + pi*w)
+b_resid %dot% (-5.4*u - 0.7*v + 8.3*w)
+```
+Check!
+
+Although we know `b_hat` and `b_resid`, we still don't know what particular linear combination of the columns in `A` produces `b_hat`. Here's how to find out:
+```{r}
+x <- qr.solve(A, b)
+x
+```
+
+`x` contains the coefficients for the linear combination. To demonstrate, let's compare `b_hat` to the linear combination:
+```{r}
+b_hat - (0.03835171*u + 0.33478133*v + 0.48849968*w)
+b_hat / (0.03835171*u + 0.33478133*v + 0.48849968*w)
+```
+Ideally, the result should be all ones. It's not because of round-off error and because we copied only the first several digits of the coefficients into the calculation. It would have been better not to copy. Instead, we can calculate the linear combination by matrix multiplication:
+
+```{r}
+b_hat - (A %*% x)
+b_hat / (A %*% x)
+```
+
+::: {.takenote data-latex=""}
+You should add `qr.solve()` to your computational toolbox of R functions. It carries out the projection calculations, but instead of returning `b_hat` or $\overset{\longrightarrow}{{b}\|_{\mathbf A}}$ or whatever we want to call the shadow of $\vec{b}$ onto ${\mathbf A}$, it returns the coefficients for the linear combination of the vectors in ${\mathbf A}$ to produce $\overset{\longrightarrow}{{b}\|_{\mathbf A}}$.
+:::
+
+## The geometry of `qr.solve()`
+
+
+
+
+## Finding the target with QR 
+
+Start with the very simple example of the identity matrix and reaching a target with that.
+
+Show that the vectors in the identity matrix are mutually orthogonal.
+
+Show that we can find a mutually orthogonal basis set for any matrix.
+
+
+
+
+-----
+
+a. Write a target problem in the form A x = b
 b. Relationship between $\vec{b}$, $\hat{b}$, and the residual.
 c. Compose linear combination problems and solve using R/`qr.solve()`
 d. Applications of projection
