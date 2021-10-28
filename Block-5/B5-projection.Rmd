@@ -1,4 +1,4 @@
-# Projection & decomposition
+# Projection & residual
 
 In the previous chapter, we took linear combinations of vectors. Using the notation of ***matrices***, we solved the problem
 $$\text{previous chapter:}\ \ {\mathbf A}\, \vec{x} = \vec{?}$$ where $\vec{x}$ is a column of coefficients, one coefficient for each of the columns in the matrix ${\mathbf A}$. Finding $\vec{?}$ is a simple, if somewhat tedious, matter of multiplication. 
@@ -8,9 +8,157 @@ In other words, the task of this chapter is to show how to solve ${\mathbf A} \v
 
 As motivation for this "find $\vec{x}$" problem, we refer you to Figure \@ref(fig:water-dots) which showed the temperature-vs-time data from the `CoolingWater` data frame. That figure shows several possible linear combinations of the vectors $u(t) \equiv e^{-0.02 t}$ (we called this `expkt`) and $v(t) \equiv 1$ (we called this `intercept`. Suppose we seek to find the particular linear combination of $u(t)$ and $v(t)$ that comes as close as possible to the black dots in the figure. That is, we know ${\mathbf A}$: the two columns `expkt` and `intercept` from the data frame, and we know $\vec{b}$: the column `temp` from the data frame. 
 
-This sort of problem is extremely common and important throughout quantitative fields of all sorts, from astronomy to zoology, and is one of the foundation techniques in statistics and data science. We'll present the approach both graphically and algorithmically. 
+This sort of problem is extremely common and important throughout quantitative fields of all sorts, from astronomy to zoology, and is one of the foundation techniques in statistics and data science. We'll present the approach graphically, algorithmically, and computationally.
 
-## The residual vector
+::: {.takenote data-latex=""}
+Let's highlight the three different modes in which we're going to introduce the topic of projection and residual. Ultimately, in your professional work, you will rely on
+
+***computation***, getting the computer to do the work. For us in this chapter, the basic R functions you will use are `rbind()`, `cbind()`, `qr.solve()`, and "matrix multiplication" `%*%`, as well as the usual addition, subtraction, division, square root, and scalar multiplication.^[Scalar multiplication is just the regular sort of multiplication that you grew up with, as in $3 \times 4 \rightarrow 12$. We call it "scalar multiplication" to make it clear that we are not talking about "matrix multiplication." Terms such as "scalar multiplication are called [retronyms](https://www.merriam-webster.com/dictionary/retronym), a modification to a long-existing word that has become ambiguous because of the introduction of a new equivalent. Example: the existing "mail" was at first supplemented by "e-mail". Now that e-mail is more common than the old-fashioned postal kind, the retronym "snail mail" is used to indicate the kind delivered by postal workers.] 
+
+As we introduce them, you will want to make sure you know exactly what each of `rbind()`, `cbind()`, `qr.solve()`, and `%*%` are used for. In the world of linear combinations, these are fundamental operations.
+
+**algorithmic** describes a process of carrying out an operation. The R operators `qr.solve()` and `%*%` (and others!) are implemented as software. That software describes a series of steps to accomplish the operation. With linear combinations, most of those steps are **arithmetic** as with the dot product and vector length.
+
+We will show the arithmetic steps for the vector operations in the simple case of one, two, or three vectors. The generalization to more vectors requires the organizational principles provided by computer languages, and this is not a course in computer programming. By rendering the operations of linear combinations in arithmetic, we hope to provide a better understanding of what's happening in the operations so you can be an aware consumer of the output of computer programmers.
+
+**geometrically** in two and three dimensions. We humans have powerful intuitive abilities to make sense of simple geometric constructions. Since many people are able to assimilate simple geometry more readily than arithmetic, the geometric presentation provides a good alternative route to understanding the mathematics of linear combinations, even though it's restricted to the simple situations of two and three dimensional space.
+
+Again, ultimately professionals use the **computational** tools for working out tasks in linear combinations. You will use those tools better if you can think about them in terms of arithmetic and geometry. 
+:::
+
+
+## Projecting a vector onto another vector
+
+We'll start with one of the most fundamental operations: projecting one vector onto another. The geometric situation is shown in Figure \@ref(fig:proj1). In our notation, we will **always** write the vector being projected as $\vec{b}$ or some variation of the letter "b." The vectors onto which $\vec{b}$ is being projected will be written $\vec{u}$, $\vec{v}$, and so on. In this section, there is only a single vector being projected onto, and we're calling it $\vec{u}$.
+
+```{r proj1, echo=FALSE, fig.cap="Two vectors. Vector $\\vec{b}$ is to be projected onto vector $\\vec{u}$."}
+knitr::include_graphics("www/drawings/projection-1.png")
+```
+
+A physical analogy for projection is the casting of shadows on a screen in the same manner as an old-fashioned slide projector or movie projector. The vector $\vec{u}$ is the screen. The light source is arranged to generate parallel rays which arrive perpendicularly to the screen. In this situation, the shadow cast by $\vec{b}$ on the screen $\vec{u}$ is the "projection of $\vec{b}$ onto $\vec{u}$."
+
+In terms of vector-language, the projection of $\vec{b}$ onto $\vec{u}$ is the vector $\alpha\,\vec{u}$ where the scalar multiplier $\alpha$ is selected to place $\alpha\,\vec{u}$ as **close as possible** to $\vec{b}$.
+
+What do we mean exactly by "as close as possible?" We need to render this into vector-language. We'll do this by a combination of length and vector subtraction. For any scalar value of $\alpha$, there is a vector $\vec{b} - \alpha\, \vec{u}$. Figure \@ref(fig:proj-2) shows the situation for a handful of candidates for $\alpha$. As always, the vector $\alpha\,\vec{u}$ lies on the linear subspace defined by $\vec{u}$. Supposing that $\alpha = 2$, corresponding to the blue dot in Figure \@ref(fig:proj-2), the vector $\vec{b} - \alpha\,\vec{u}$ is the vector extending from the blue dot to the tip of $\vec{b}$.
+
+```{r proj-2, echo=FALSE, fig.cap="The vector $\\alpha\\,\\vec{u}$ is shown for several values of $\\alpha$$, each value being marked by a colored dot. (The values shown are roughly $\alpha =\ $1.1 (orange), 1.3 (yellow), 1.6 (red), and 2.0 (blue).) The vector $\\vec{b} - \\alpha\\,\\vec{u}$ for each of the colors is indicated by a dashed line connecting the tip of $\\alpha\\,\\vec{u}$ to the tip of $\\vec{b}$."}
+knitr::include_graphics("www/drawings/projection-2.png")
+```
+
+In this context, "as close as possible" means the value of $\alpha$ that makes the length $\| \vec{b} - \alpha\,\vec{u} \|$ as small as possible. It's possible for many people to find the argmin $\alpha^\star$ by eye. In the Figure, the orange and blue dots are clearly not the best. Yellow and red are about the same length, with yellow winning by a hair.
+
+The vector $\vec{b} - \alpha^\star\,\vec{u}$ will always be perpendicular to $\vec{u}$. In other words, the three vectors $\vec{b}$, $\alpha^\star\,\vec{u}$, and $\vec{b}-\alpha^\star\,\vec{u}$ will constitute the sides of a ***right triangle***, with $\vec{b}$ as the hypothenuse. This gives an important clue to finding $\alpha^\star$ arithmetically. The **length** of $\alpha^\star\, u$ will be, using the trigonometry of right triangles, $\|\vec{b}\| \cos(\theta)$, where $\theta$ is the angle between $\vec{u}$ and $\vec{b}$. Recall that
+$$\cos(\theta) = \frac{\vec{u}\cdot \vec{b}}{\|\vec{u}\|\ \|\vec{b}\|}\ .$$
+
+Consequently, $$\|\vec{b}\| \cos(\theta) = \frac{\vec{u}\cdot \vec{b}}{\|\vec{u}\|}$$
+
+The above quantity is a length. But the projection of $\vec{b}$ onto $\vec{u}$ will be a vector. Since we know $\vec{u}$, we know the direction of the result of the projection. and the previous formula gives  the length. We can create the ***unit-length vector*** pointing in the direction of $\vec{u}$ by appropriate scaling: $\vec{u} / \|\vec{u} \|$. So the projection of $\vec{b}$ onto $\vec{u}$, which we'll denote by $\overset{\longrightarrow}{b \|_{u}}$ is
+$$\overset{\longrightarrow}{{b}\|_{u}} = \underbrace{\frac{\vec{u}\cdot\vec{b}}{\|\vec{u}\|}}_\text{length}\underbrace{\frac{\vec{u}}{\|\vec{u} \|}}_\text{direction} = \frac{\vec{u}\cdot\vec{b}}{\vec{u}\cdot\vec{u}} \vec{u} = \alpha^\star\,\vec{u}$$
+
+Read $\overset{\longrightarrow}{b \|_{u}}$ as "the component of $\vec{b}$ parallel to $\vec{u}$," or as "$\vec{b}$ projected onto $\vec{u}$."
+
+Remember that the vector $\vec{b} - \alpha^\star\, \vec{u}$ is perpendicular to $\vec{u}$ and connects $\overset{\longrightarrow}{b \|_{u}}$ to $\vec{b}$. This vector, called the ***residual vector*** in statistics, we will denote with 
+$$\overset{\longrightarrow}{b\! \perp_u}$$
+which you can pronounce as "the component of $\vec{b}$ **perpendicular** to $\vec{u}$," or as "the residual from projecting $\vec{b}$ onto $\vec{u}$." Adding up the projection of $\vec{b}$ onto $\vec{u}$ and the residual vector from that projection reproduces the original $\vec{b}$:
+
+$$\overset{\longrightarrow}{b\|_u}\ +\ \overset{\longrightarrow}{b\! \perp_u} = \vec{b}\ .$$
+
+::: {.todo}
+MOVE THESE FUNCTIONS to `{mosaicCalc}`. We're going to give the students some training wheels
+```{r}
+`%dot%` <- function(u, v) {
+  sum(u * v)
+}
+`%onto%` <- function(b, A) {
+  A %*% qr.solve(A, b)
+}
+`%perp%` <- function(b, A) {
+  b - (b %onto% A)
+}
+as_unit <- function(A) {
+  helper <- function(v) { v / sqrt(sum(v^2)) }
+  apply(A, 2, helper)
+}
+as_mag <- function(A, method=c("2", "O", "I", "F", "M")) {
+  method <- match.arg(method)
+  helper <- function(v) {Matrix::norm(v, type=method)}
+  
+  apply(A, 2, helper)
+}
+```
+
+Using the geometry of vectors and a little bit of trigonometry, we have now created the arithmetic formulas needed to:
+
+i. **Project a vector $\vec{b}$ onto another vector $\vec{u}$**, and
+ii. **Find the residual vector from the projection.**
+
+To help you make the transition from arithmetic to computation, we provide you with two training-wheel functions, `%onto%` and `%perp`. Use them like this:
+
+```{r}
+b <- rbind(3, 1, 7, 4)
+u <- rbind(1,1,1,1)
+b %onto% u
+b %perp% u
+```
+:::
+
+::: {.example data-latex=""}
+Using `%dot%`, `%perp%` and `%onto%` and two vectors $\vec{b}$ and $\vec{u}$ of your own choosing, demonstrate that 
+$$\overset{\longrightarrow}{b\|_u}\ +\ \overset{\longrightarrow}{b\! \perp_u} = \vec{b}\|$$ and that $\overset{\longrightarrow}{b\|_u}$ is perpendicular to $\overset{\longrightarrow}{b\! \perp_u}$.
+
+For instance, 
+```{r}
+# create your own vectors!
+b <- rbind(8, -3, 2, 1, 4)
+u <- rbind(1,  2, 1, 2, 3)
+# demonstrate properties
+projected <- b %onto% u
+residual <- b %perp% u
+projected + residual
+projected %dot% residual
+```
+:::
+
+::: {.example data-latex=""}
+Show that $\overset{\longrightarrow}{b\|_u}$ is parallel to $\vec{u}$.
+
+Two vectors are parallel if one of them is a scalar multiple of the other. 
+For instance, suppose we have three vectors $\vec{u}$, $\vec{v}$, and $\vec{w}$, like this:
+```{r}
+u <- rbind(1, 2, 3)
+v <- rbind(2, 4, 6)
+b <- rbind(3, 1, 2)
+```
+
+Notice that $\vec{v} = 2 \vec{u}$, that is, $\vec{u}$ and $\vec{v}$ are parallel. Here's what we get when we divide $\vec{v}$ by $\vec{u}$ on a component-by-component basis:
+```{r}
+v / u
+```
+
+Every component of $\vec{v}$ is the same multiple of the corresponding component of $\vec{u}$.
+
+On the other hand, $\vec{b}$ is not a scalar multiple of $\vec{u}$. Consequently:
+```{r}
+b / u
+```
+The component-by-component multipliers are not all the same.
+
+Now to show $\overset{\longrightarrow}{b\|_u}$ is parallel to $\vec{u}$. First, we'll compute $\overset{\longrightarrow}{b\|_u}$ and then divide it, component-by-component, by $\vec{u}$
+```{r}
+(b %onto% u) / u
+```
+In contrast, $\overset{\longrightarrow}{b\!\perp_u}$ is, obviously, not parallel to $\vec{u}$:
+```{r}
+(b %perp% u) / u
+```
+:::
+
+
+::: {.takenote data-latex=""}
+You should commit the commands used in the previous demonstrations to memory, making sure you understand what each of the commands in the demonstration is doing.
+:::
+
+
 
 
 
