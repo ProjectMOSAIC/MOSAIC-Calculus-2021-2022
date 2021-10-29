@@ -183,9 +183,66 @@ Now we take on the problem of projecting the target $\vec{b}$ onto a **set of ve
 
 Of course, a set of vectors is simply a ***matrix***, so we'll cast the problem as one of projecting $\vec{b}$ onto a matrix $\mathbf A$.
 
-There is one case that is extremely simple: when the vectors in $\mathbf A$ are ***mutually orthogonal***. Let's make sure we understand this case well. 
+There is one case that is extremely simple: when the vectors in $\mathbf A$ are ***mutually orthogonal***. Let's make sure we understand this case well. The geometry is simple, as in Figure \@ref(fig:orthog-A).
 
+```{r orthog-A, echo=FALSE, fig.cap="Projecting $\\vec{b}$ onto two orthogonal vectors. REPLACE THIS WITH THE ACTUAL IMAGE."}
+knitr::include_graphics("www/compass-rose.png")
+```
 
+To demonstrate the projection a bit more generally, let's set up 3 orthogonal vectors in a four-dimensional space as $\mathbf A$:
+```{r}
+u <- rbind(2, 3, 0, 6)
+v <- rbind(0,-2,-2, 1)
+w <- rbind(3,-2, 2, 0)
+b <- rbind(1, 1, 1, 1)
+A <- cbind(u, v, w)
+```
+You should be able to confirm with simple arithmetic that $\vec{u}$ is orthogonal to $\vec{v}$, that $\vec{u}$ is orthogonal to $\vec{w}$, and that $\vec{w}$ is orthogonal to $\vec{v}$. (Hint: Use the dot product.) You can also see that $\vec{b}$ is not parallel to any one of the three columns in ${\mathbf A}$.
+
+We'll compute the correct answer and then see how we could do it with simple arithmetic.
+```{r}
+b %onto% A
+qr.solve(A, b)
+```
+This is telling us that 
+$$\overset{\longrightarrow}{b\|_{\mathbf A}} = \left[\begin{array}{r}0.9783914
+\\0.9871949
+\\1.0196078
+\\1.0136054\end{array}\right] = 0.2244898 \vec{u} - 0.3333333 \vec{v} + 0.1764706 \vec{w}$$
+
+We can find the coefficients of the linear combination with simple, independent uses of the formula for projecting $\vec{b}$ onto each of the columns of ${\mathbf A}$ one at a time:
+```{r}
+(b %dot% u) / (u %dot% u)
+(b %dot% v) / (v %dot% v)
+(b %dot% w) / (w %dot% w)
+```
+
+This simple procedure of independent projections **does not work** if the columns of $\mathbf A$ are **not mutually orthogonal***. For instance:
+```{r}
+u <- rbind(1,2,3,4)
+v <- rbind(4,3,2,5)
+w <- rbind(2,4,7,3)
+A2 <- cbind(u, v, w)
+# The right coefficients
+qr.solve(A2, b)
+# Independent projections give a different result
+(b %dot% u) / (u %dot% u)
+(b %dot% v) / (v %dot% v)
+(b %dot% w) / (w %dot% w)
+```
+
+Since independent projections won't solve the target problem (when the columns of $\mathbf A$ are not mutually orthogonal), how do we solve it.
+
+The strategy is two simplify the problem by constructing from $\mathbf A$ another matrix $\mathbf Q$ which spans exactly the same subspace as $\mathbf A$ but which has mutually orthogonal columns.
+
+To start, well set the first column of $\mathbf Q$ to be any one of the vectors in $\mathbf A$. We'll use $\vec{u}$ for the example.
+
+The second column of $\mathbf Q$ will be based on one of the remaining vectors, say $\vec{v}$. But $\vec{v}$ is not orthogonal 
+
+ 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
+ 
+ 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
+ 
 ## Exercises
 
 `r insert_calcZ_exercise("XX.XX", "wniqMc", "Exercises/panda-begin-shoe.Rmd")`
