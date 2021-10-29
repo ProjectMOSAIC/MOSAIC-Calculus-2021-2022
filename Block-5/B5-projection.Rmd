@@ -221,27 +221,68 @@ This simple procedure of independent projections **does not work** if the column
 ```{r}
 u <- rbind(1,2,3,4)
 v <- rbind(4,3,2,5)
-w <- rbind(2,4,7,3)
-A2 <- cbind(u, v, w)
+A2 <- cbind(u, v)
 # The right coefficients
 qr.solve(A2, b)
 # Independent projections give a different result
 (b %dot% u) / (u %dot% u)
 (b %dot% v) / (v %dot% v)
-(b %dot% w) / (w %dot% w)
 ```
 
-Since independent projections won't solve the target problem (when the columns of $\mathbf A$ are not mutually orthogonal), how do we solve it.
+Since independent projections won't solve the target problem (when the columns of $\mathbf A$ are not mutually orthogonal), how do we solve it?
 
-The strategy is two simplify the problem by constructing from $\mathbf A$ another matrix $\mathbf Q$ which spans exactly the same subspace as $\mathbf A$ but which has mutually orthogonal columns.
+The strategy is two simplify the problem by constructing from $\mathbf A$ another matrix that we'll call  $\mathbf Q$ which spans exactly the same subspace as $\mathbf A$ but which has mutually orthogonal columns.
 
 To start, well set the first column of $\mathbf Q$ to be any one of the vectors in $\mathbf A$. We'll use $\vec{u}$ for the example.
 
-The second column of $\mathbf Q$ will be based on one of the remaining vectors, say $\vec{v}$. But $\vec{v}$ is not orthogonal 
+The second column of $\mathbf Q$ will be based on one of the remaining vectors, say $\vec{v}$. But $\vec{v}$ is not orthogonal to $\vec{u}$. For the second column of $\mathbf Q$ we'll insert not $\vec{v}$ itself, but the component of $\vec{v}$ that is orthogonal to $\vec{u}$, that is:
+$$\overset{\longrightarrow}{v\!\perp_u} = \vec{v} - \frac{\vec{u}\cdot\vec{v}}{\vec{u}\cdot\vec{u}} \vec{u}$$
+In computer notation, we'll refer to $\overset{\longrightarrow}{v\!\perp_u}$ with the name `v_perp_u`.
 
+```{r}
+coef <- ((u %dot% v) / (u %dot% u))
+coef
+v_perp_u <- v - coef * u
+```
+
+Now the ${\mathbf Q}$ matrix is
+$${\mathbf Q} \equiv \left[\begin{array}{cc}|&|\\ \vec{u}&\overset{\longrightarrow}{v\!\perp_u}\\|&|\end{array}\right]$$
+Caution: The next few paragraphs are rough going. It suffices to follow the flow of the argument and to note that the only operations used are scalar multiplication, addition, subtraction, and the simple dot-product form for the coefficient produced by projecting one vector onto another vector.
+
+Since $\vec{u}$ and $\overset{\longrightarrow}{v\!\perp_u}$ are orthogonal, we can easily calculate the coefficients on the two vectors for projecting $\vec{b}$ onto the subspace spanned by $\mathbf Q$.
+
+```{r}
+alpha1 <- (u %dot% b) / (u %dot% u)
+alpha1
+alpha2 <- (v_perp_u %dot% b) / (v_perp_u %dot% v_perp_u)
+alpha2
+```
+
+These coefficients---$\alpha_1 =\ $`r alpha1` and $\alpha_2 =\ $`r alpha2` respectively, when multiplied by $\vec{u}$ and $\overset{\longrightarrow}{v\!\perp_u}$ will give us the projection of $\vec{b}$ onto the subspace spanned by ${\mathbf Q}$. Since the subspace spanned by ${\mathbf Q}$ is exactly the same as the subspace spanned by ${\mathbf A}$, we have the answer for $\overset{\longrightarrow}{b\|_{\mathbf A}}$ and consequently for $$\overset{\longrightarrow}{b\!\perp_{\mathbf A}} = \vec{b} - \overset{\longrightarrow}{b\|_{\mathbf A}}\ .$$
+
+In terms of the coefficients, the projection of $\vec{b}$ onto $\mathbf A$ is 
+$$\overset{\longrightarrow}{b\|_{\mathbf A}} = 0.3333333 \vec{u} + 0.1851852 \overset{\longrightarrow}{v\!\perp_u}$$
+These are not the coefficients on $\vec{u}$ and $\vec{v}$ that we originally sought. But recognizing that $\overset{\longrightarrow}{v\!\perp_u} = v - 1.2 \vec{u}$, we have 
+$$\overset{\longrightarrow}{b\|_{\mathbf A}} = 0.3333333 \vec{u} + 0.1851852 \left[\strut \vec{v} - 1.2 \vec{u}\right] \\= [0.3333333 - 1.2\times0.1851852] \vec{u} + 0.1851852 \vec{v}\\= 0.1111111 \vec{u} + 0.1851852 \vec{v}$$
+These coefficients on $\vec{u}$ and $\vec{v}$ are the ones we sought and the ones produced by the professional software.
+```{r}
+qr.solve(A2, b)
+```
+
+
+
+Of course, nobody would want to undertake the process described above in the step-by-step fashion we've followed. In addition to being hard to follow, it's hard to avoid making mistakes along the way. Fortunately, expert programmers have done the work for us and encapsulated the process in a software function. For us using R, that function is `qr.solve()`.
+
+The result is that we now have a way to solve the target problem, finding the coefficients on for the linear combination of a set of vectors that will bring us as close as possible to a target $\vec{b}$.
+
+In the next chapter, we'll use this capability to solve real-world modeling problems. 
+
+for dtkaplan
  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
  
- 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
+for project mosaic 
+ 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
+ 
  
 ## Exercises
 
@@ -249,6 +290,11 @@ The second column of $\mathbf Q$ will be based on one of the remaining vectors, 
 
 `r insert_calcZ_exercise("XX.XX", "yeY17y", "Exercises/kangaroo-light-bowl.Rmd")`
 
+Exercises confirming that `qr.solve()` produces results that are as they should be: residual orthogonal to every vector in A, projected + residual = $\vec{b}$.
+
+Exercises confirming that adding more columns to A produces a smaller residual.
+
+Demonstration that even random vectors can be combined to exactly equal $\vec{b}$, so long as we have enough of them.
 
 `r insert_calcZ_exercise("XX.XX", "p209w8", "Exercises/beech-build-shirt.Rmd")`
 
