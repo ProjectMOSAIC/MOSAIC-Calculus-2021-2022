@@ -179,7 +179,50 @@ THERE'S SOMETHING MISSING. A FORGOTTEN PUSH from the laptop?
 
 As we have just seen, projecting a target $\vec{b}$ onto a single vector is a matter of arithmetic:
 $$\overset{\longrightarrow}{b\|_u} = \frac{\vec{u}\cdot\vec{b}}{\vec{u}\cdot\vec{u}} \vec{u}$$
-Now we take on the problem of projecting the target $\vec{b}$ onto a **set of vectors**. 
+Now we take on the problem of projecting the target $\vec{b}$ onto a **set of vectors**. Figure \@ref(fig:telescope) shows the general case with vector $\vec{b}$ to be approached by a linear combination of $\vec{u}$ and $\vec{v}$.
+
+An early variation of this problem appears in Robert Louis Stevenson's famous novel, *Treasure Island*. The story is about the discovery of a treasure map indicating the location of buried treasure on the eponymous Island. There is a red X on the map labelled "bulk of treasure here," but that is hardly sufficient to guide the dig for treasure. But on the back of the map is written a cryptic clue to the precise location:
+
+> Tall tree, Spy-glass shoulder, bearing a point to the N. of N.N.E.     
+Skeleton Island E.S.E. and by E.    
+Ten feet.
+
+Skeleton Island is clearly marked on the map, as is Spy-glass Hill. The plateau marked by the red X "was dotted thickly with pine-trees of varying height. Every here and there, one of a different species rose forty or fifty feed clear above its neighbours." But which of these was the "tall tree" mentioned in the clue.
+
+Long John Silver, obviously an accomplished mathematician, starts near Skeleton Island, moving on along the vector that keeps Skeleton Island to the compass bearing one point east of east-south-east. While on the march, he keeps a telescope trained on the shoulder of Spy-glass Hill. The goal  When that telescope points one point north of north-north-east, they are in the vicinity of a tall tree. That's the tree matching the crew.
+
+A similar strategy works for the general problem of projection. As in Figure \@ref(fig:telescope), you walk along vector $\vec{u}$. As you walk, you keep a telescope trained in the direction marked by vector $\vec{v}$. When the tip of $\vec{b}$ falls on the telescope's cross-hairs, you can mark the projection coefficient on $\vec{u}$. All that remains is to measure the distance from there to $\vec{b}$. In Figure \@ref(fig:telescope), two steps along $\vec{u}$ brings you to a spot on the $\vec{u}$-subspace where the telescope aligned with $\vec{v}$ points at the tip of $\vec{b}$. From there, you will need -1 step along $\vec{v}$ to reach $\vec{b}$. Thus, the linear combination that matches $\vec{b}$ is
+$$\vec{b} = 2 \vec{u} - 1 \vec{v}\ .$$
+
+
+```{r telescope, echo=FALSE, fig.cap="The telescope method of solving projection onto two vectors."}
+knitr::include_graphics("www/drawings/projection-4.png")
+```
+
+With two vectors $\vec{u}$ and $\vec{v}$ in two-dimensional space, there is a linear combination that will match *any* $\vec{b}$ in that space.
+
+A more general situation is an $n$-dimensional space with only $p < n$ vectors to form the linear combination. Typically, the target $\vec{b}$ will not be in the subspace spanned by the p vectors. We can illustrate using 3-dimensional space and two vectors $\vec{u}$ and $\vec{v}$ to be linearly combined.
+
+```{r echo=FALSE}
+# the vectors in the following plot
+u <- rbind(-1, 1, 0)
+v <- rbind(2, 1, 0)
+b <- rbind(.5, 2, 2.5)
+A <- cbind(u, v)
+b %onto% A
+b %perp% A
+
+```
+
+<p style="text-align:center">
+<iframe frameborder="0" height="480px" 
+        src="https://c3d.libretexts.org/CalcPlot3D/dynamicFigure/index.html?type=jaxlabel;position=middle;math=%255Cpsi_%257Bn_x%252Cn_y%257D;textonly=false&type=vector;vector=%3C2,1,0%3E;visible=true;color=rgb(17,109,192);size=2;initialpt=(0,0,0)&type=vector;vector=%3C-1,1,0%3E;visible=true;color=rgb(208,20,240);size=2;initialpt=(0,0,0)&type=vector;vector=%3C1/2,2,2.5%3E;visible=true;color=rgb(106,168,79);size=2;initialpt=(0,0,0)&type=parametric;parametric=2;x=2sin(v)*cos(u);y=2sin(v)*sin(u);z=2cos(v);visible=false;umin=0;umax=2pi;usteps=30;vmin=0;vmax=pi;vsteps=15;alpha=-1;hidemyedges=false;view=0;format=normal;constcol=rgb(255,0,0)&type=z;z=0;visible=true;umin=-2;umax=2;vmin=-2;vmax=2;grid=30;format=normal;alpha=51;hidemyedges=true;constcol=rgb(255,0,0);view=0;contourcolor=red;fixdomain=false;contourplot=true;showcontourplot=false;firstvalue=-1;stepsize=0.2;numlevels=11;list=;xnum=46;ynum=46;show2d=false;hidesurface=false;hidelabels=true;showprojections=false;surfacecontours=true;projectioncolor=rgba(255,0,0,1);showxygrid=false;showxygridonbox=true;showconstraint=false&type=vector;vector=%3C.5,2,0%3E;visible=true;color=rgb(173,255,0);size=2;initialpt=(0,0,0)&type=vector;vector=%3C0,0,2.5%3E;visible=true;color=rgb(255,0,0);size=2;initialpt=(.5,2,0)&type=text;text=Target%3A%20b;visible=true;point=(1/2,1,1.4);color=rgb(106,168,79);font=Arial;fontsize=14pt;bold=true;italic=false;fontmath=true;align=Lower-right&type=text;text=Residual;visible=true;point=(.5,2,1);color=rgb(255,0,0);font=Arial;fontsize=11pt;bold=false;italic=false;fontmath=true;align=Upper-right&type=text;text=u;visible=true;point=(1,.6,0);color=rgb(17,109,192);font=Arial;fontsize=14pt;bold=true;italic=false;fontmath=true;align=Upper-right&type=text;text=v;visible=true;point=(-.6,.4,.1);color=rgb(208,20,240);font=Arial;fontsize=14pt;bold=true;italic=false;fontmath=true;align=Upper-right&type=window;hsrmode=0;nomidpts=true;anaglyph=-1;center=-0.4822344390871397,-2.5892131963621314,9.64693863199627,1;focus=0,0,0,1;up=-0.2643040221980104,0.9346987625406009,0.2376585936906613,1;transparent=false;alpha=140;twoviews=false;unlinkviews=false;axisextension=0.7;xaxislabel=x;yaxislabel=y;zaxislabel=z;edgeson=true;faceson=true;showbox=false;showaxes=false;showticks=true;perspective=true;centerxpercent=0.5;centerypercent=0.5;rotationsteps=30;autospin=true;xygrid=false;yzgrid=false;xzgrid=false;gridsonbox=true;gridplanes=true;gridcolor=rgb(128,128,128);xmin=-2;xmax=2;ymin=-2;ymax=2;zmin=-2;zmax=2;xscale=1;yscale=1;zscale=1;zcmin=-4;zcmax=4;xscalefactor=1;yscalefactor=1;zscalefactor=1;tracemode=0;keep2d=false;zoom=1.088235"
+        width="90%">
+</iframe>
+</p>
+🔗
+
+
 
 Of course, a set of vectors is simply a ***matrix***, so we'll cast the problem as one of projecting $\vec{b}$ onto a matrix $\mathbf A$.
 
@@ -277,12 +320,6 @@ The result is that we now have a way to solve the target problem, finding the co
 
 In the next chapter, we'll use this capability to solve real-world modeling problems. 
 
-for dtkaplan
- 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
- 
-for project mosaic 
- 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
- 
  
 ## Exercises
 
