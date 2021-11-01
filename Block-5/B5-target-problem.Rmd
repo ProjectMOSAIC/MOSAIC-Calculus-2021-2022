@@ -24,51 +24,63 @@ A <- cbind(u, v, w)
 b <- rbind(8, 2,-5, 7, 0)
 # the solution and residual
 b_hat <- b %onto% A
-b_hat
 b_resid <- b %perp% A
-b_resid
 ```
+
+
+`r {b_hat} |> matrix_block()`
+
+`r {b_resid} |> matrix_block()`
+
 How can we confirm that this really is the solution to the target problem for this set of vectors? One check is that `b_hat + b_resid` should be identical to the original `b`:
-```{r}
-b - (b_hat + b_resid)
-```
+
+`r {b - (b_hat + b_resid)} |> matrix_block()`
+
 So far, so good.
 
 Another check is that `b_hat` be perpendicular to `b_resid`. If so, the dot product of `b_hat` and `b_resid` should be 0.
-```{r}
-b_hat %dot% b_resid
-```
+
+`r {b_hat %dot% b_resid} |> matrix_block(inline=FALSE)`
+
 Close enough! (Round-off error in computer arithmetic has created this slight deviation from 0.)
 
 An interesting consequence of the residual being perpendicular to `b_hat` is that the residual will also be perpendicular to each and every one of the vectors being projected onto, and to any linear combination of those vectors.
 
-```{r}
-b_resid %dot% u
-b_resid %dot% v
-b_resid %dot% w
-# examples of linear combinations
-b_resid %dot% (2*u - 4.7*v + pi*w)
-b_resid %dot% (-5.4*u - 0.7*v + 8.3*w)
-```
+`r {b_resid %dot% u} |> matrix_block(inline=FALSE)`
+
+`r {b_resid %dot% v} |> matrix_block(inline=FALSE)`
+
+`r {b_resid %dot% w} |> matrix_block(inline=FALSE)`
+
+Examples of linear combinations
+
+`r {b_resid %dot% (2*u - 4.7*v + pi*w)} |> matrix_block(inline=FALSE, width="80%")`
+
+`r {b_resid %dot% (-5.4*u - 0.7*v + 8.3*w)} |> matrix_block(inline=FALSE, width="80%")`
+
 Check!
 
 Although we know `b_hat` and `b_resid`, we still don't know what particular linear combination of the columns in `A` produces `b_hat`. Here's how to find out:
-```{r}
+
+```{r echo=FALSE}
+# just to create `x` so it's available later on.
 x <- qr.solve(A, b)
-x
 ```
+
+`r {x <- qr.solve(A, b); x} |> matrix_block()`
 
 `x` contains the coefficients for the linear combination. To demonstrate, let's compare `b_hat` to the linear combination:
-```{r}
-b_hat - (0.03835171*u + 0.33478133*v + 0.48849968*w)
-b_hat / (0.03835171*u + 0.33478133*v + 0.48849968*w)
-```
+
+`r {b_hat - (0.03835171*u + 0.33478133*v + 0.48849968*w)}  |> matrix_block(width="80%")`
+
+`r {b_hat / (0.03835171*u + 0.33478133*v + 0.48849968*w)}  |> matrix_block(width="80%")`
+
 Ideally, the result should be all ones. It's not because of round-off error and because we copied only the first several digits of the coefficients into the calculation. It would have been better not to copy. Instead, we can calculate the linear combination by matrix multiplication:
 
-```{r}
-b_hat - (A %*% x)
-b_hat / (A %*% x)
-```
+`r {b_hat - (A %*% x)} |> matrix_block()`
+
+`r {b_hat / (A %*% x)} |> matrix_block()`
+
 
 ::: {.takenote data-latex=""}
 You should add `qr.solve()` to your computational toolbox of R functions. It carries out the projection calculations, but instead of returning `b_hat` or $\overset{\longrightarrow}{{b}\|_{\mathbf A}}$ or whatever we want to call the shadow of $\vec{b}$ onto ${\mathbf A}$, it returns the coefficients for the linear combination of the vectors in ${\mathbf A}$ to produce $\overset{\longrightarrow}{{b}\|_{\mathbf A}}$.
