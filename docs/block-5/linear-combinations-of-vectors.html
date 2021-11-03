@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 42 Linear combinations of vectors | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 42 Linear combinations of vectors | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 42 Linear combinations of vectors | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="vectors-draft.html"/>
+<link rel="next" href="projection-residual.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="../docs/welcome-to-calculus.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relatonships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
+<hr>
+<li><strong><a href="./">Block 5: Linear combinations</strong></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="41" data-path="vectors-draft.html"><a href="vectors-draft.html"><i class="fa fa-check"></i><b>41</b> Vectors Draft</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="vectors-draft.html"><a href="vectors-draft.html#length-direction"><i class="fa fa-check"></i><b>41.1</b> Length &amp; direction</a></li>
+<li class="chapter" data-level="41.2" data-path="vectors-draft.html"><a href="vectors-draft.html#the-nth-dimension"><i class="fa fa-check"></i><b>41.2</b> The n<sup>th</sup> dimension</a></li>
+<li class="chapter" data-level="41.3" data-path="vectors-draft.html"><a href="vectors-draft.html#geometry-arithmetic"><i class="fa fa-check"></i><b>41.3</b> Geometry &amp; arithmetic</a></li>
+<li class="chapter" data-level="41.4" data-path="vectors-draft.html"><a href="vectors-draft.html#angles"><i class="fa fa-check"></i><b>41.4</b> Angles</a></li>
+<li class="chapter" data-level="41.5" data-path="vectors-draft.html"><a href="vectors-draft.html#orthogonality"><i class="fa fa-check"></i><b>41.5</b> Orthogonality</a></li>
+<li class="chapter" data-level="41.6" data-path="vectors-draft.html"><a href="vectors-draft.html#exercises"><i class="fa fa-check"></i><b>41.6</b> Exercises</a></li>
+<li class="chapter" data-level="41.7" data-path="vectors-draft.html"><a href="vectors-draft.html#outline"><i class="fa fa-check"></i><b>41.7</b> Outline</a></li>
+</ul></li>
+<li class="chapter" data-level="42" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html"><i class="fa fa-check"></i><b>42</b> Linear combinations of vectors</a>
+<ul>
+<li class="chapter" data-level="42.1" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#scaling"><i class="fa fa-check"></i><b>42.1</b> Scaling</a></li>
+<li class="chapter" data-level="42.2" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#sub-spaces"><i class="fa fa-check"></i><b>42.2</b> Sub-spaces</a></li>
+<li class="chapter" data-level="42.3" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#functions-as-vectors"><i class="fa fa-check"></i><b>42.3</b> Functions as vectors</a></li>
+<li class="chapter" data-level="42.4" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#matrices"><i class="fa fa-check"></i><b>42.4</b> Matrices</a></li>
+<li class="chapter" data-level="42.5" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#exercises-1"><i class="fa fa-check"></i><b>42.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="43" data-path="projection-residual.html"><a href="projection-residual.html"><i class="fa fa-check"></i><b>43</b> Projection &amp; residual</a>
+<ul>
+<li class="chapter" data-level="43.1" data-path="projection-residual.html"><a href="projection-residual.html#projecting-a-vector-onto-another-vector"><i class="fa fa-check"></i><b>43.1</b> Projecting a vector onto another vector</a></li>
+<li class="chapter" data-level="43.2" data-path="projection-residual.html"><a href="projection-residual.html#projection-onto-a-set-of-vectors"><i class="fa fa-check"></i><b>43.2</b> Projection onto a set of vectors</a></li>
+<li class="chapter" data-level="43.3" data-path="projection-residual.html"><a href="projection-residual.html#exercises-2"><i class="fa fa-check"></i><b>43.3</b> Exercises</a></li>
+<li class="chapter" data-level="43.4" data-path="projection-residual.html"><a href="projection-residual.html#moved-from-vectors"><i class="fa fa-check"></i><b>43.4</b> MOVED FROM VECTORS</a></li>
+<li class="chapter" data-level="43.5" data-path="projection-residual.html"><a href="projection-residual.html#matrix"><i class="fa fa-check"></i><b>43.5</b> Matrix</a></li>
+<li class="chapter" data-level="43.6" data-path="projection-residual.html"><a href="projection-residual.html#scalar-multiplication"><i class="fa fa-check"></i><b>43.6</b> Scalar multiplication</a></li>
+<li class="chapter" data-level="43.7" data-path="projection-residual.html"><a href="projection-residual.html#dot-product-and"><i class="fa fa-check"></i><b>43.7</b> Dot product and <code>%*%</code></a></li>
+<li class="chapter" data-level="43.8" data-path="projection-residual.html"><a href="projection-residual.html#vector-lengths"><i class="fa fa-check"></i><b>43.8</b> Vector lengths</a></li>
+<li class="chapter" data-level="43.9" data-path="projection-residual.html"><a href="projection-residual.html#outline-1"><i class="fa fa-check"></i><b>43.9</b> Outline</a></li>
+</ul></li>
+<li class="chapter" data-level="44" data-path="target-problem.html"><a href="target-problem.html"><i class="fa fa-check"></i><b>44</b> The target problem</a>
+<ul>
+<li class="chapter" data-level="44.1" data-path="target-problem.html"><a href="target-problem.html#properties-of-the-solution"><i class="fa fa-check"></i><b>44.1</b> Properties of the solution</a></li>
+<li class="chapter" data-level="44.2" data-path="target-problem.html"><a href="target-problem.html#the-geometry-of-qr.solve"><i class="fa fa-check"></i><b>44.2</b> The geometry of <code>qr.solve()</code></a></li>
+<li class="chapter" data-level="44.3" data-path="target-problem.html"><a href="target-problem.html#finding-the-target-with-qr"><i class="fa fa-check"></i><b>44.3</b> Finding the target with QR</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="linear-combinations-of-vectors" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 42</span> Linear combinations of vectors</h1>
+<p>In the previous chapter, we suggested that you think of a vector as a “step” in a given direction and of a given magnitude: for example 1 foot to the northeast. This interpretation highlights the mathematical structure of vectors: just a direction and a length, nothing else.</p>
+<p>The “step”-interpretation is also faithful to an important reason why vectors are useful. We use steps to get from one place to another. Similarly, a central use for the formalism of vectors is to guide our thinking and our algorithms for figuring out how best to get from one “place” to another. We’ve used quotation marks around “place” because we are not necessarily referring to a physical destination. We’ll get to what else we might mean by “place” later in this chapter.</p>
+<p>For now, let’s focus on the word “steps.” Notice that it’s plural. Generally, you cannot get to the desired destination with just one step. For instance, a pirate’s treasure map might contain an instruction, “Dig 10 paces to the east of the tall tree.” East is the direction of the vector. “Pace” is the length of the vector (about 3 feet). And 10 is the number of steps to take.</p>
+<p>If pirates wrote in vector notation, those directions might have been given like this: <span class="math display">\[\text{Let}\ \vec{p} \equiv \left[\begin{array}\,1\,\text{pace}\\0\end{array}\strut\right]\ .\ \  \text{Then}, \ 
+\text{treasure spot} \equiv \text{tall tree} \ + 10 \vec{p}\ .\]</span></p>
+<p>The count of steps is the <strong><em>scalar</em></strong> that multiplies the vector. It tells you the length of the journey in units of 1 vector.</p>
+<p>In a typical journey, there can be more than one vector involved. For instance, the vector pointing from the hidden cove to the tall tree might be identified as 1 nautical mile to the north-west. We’ll call this vector <span class="math inline">\(\overset{\longrightarrow}{\text{tree}}\)</span>. The full directions to the treasure might then be, "Start from the hidden cove. Then march <span class="math inline">\(3.2\, \overset{\longrightarrow}{\text{tree}} + 10\, \vec{p}\)</span>.</p>
+<p>This is a description of a journey as a <strong><em>linear combination of vectors</em></strong>. The vectors themselves are <span class="math inline">\(\vec{p}\)</span> and <span class="math inline">\(\overset{\longrightarrow}{\text{tree}}\)</span>. The vector <span class="math inline">\(3.2\, \overset{\longrightarrow}{\text{tree}}\)</span> is a scaled version of <span class="math inline">\(\overset{\longrightarrow}{\text{tree}}\)</span>; it points in the same direction as <span class="math inline">\(\overset{\longrightarrow}{\text{tree}}\)</span>, but it has length 3.2 nautical miles. Similarly, <span class="math inline">\(10\, \vec{p}\)</span> is a vector of length 10 paces, pointing the the same direction of <span class="math inline">\(\vec{p}\)</span>. When we scale a set of vectors and then add them, we have a linear combination, just as in Block 1 we created a linear combination of functions by scaling them and adding the results together.</p>
+<p>Pirates and other mariners use direction terms like “one point north of north-north-east.” Their maps are annotated with compass roses that translate the words into a direction.</p>
+<p><img src="www/compass-rose2.png" width="20%" style="display: block; margin: auto;" />
+Mathematicians can replace a compass rose with just two vectors, say, <span class="math inline">\(\overset{\longrightarrow}{\text{North}}\)</span> and <span class="math inline">\(\overset{\longrightarrow}{\text{East}}\)</span>. Other directions can be given as a linear combination. For instance, the compass rose’s “north-north-west” is the linear combination <span class="math inline">\(0.9239\,\overset{\longrightarrow}{\text{North}} -0.3827\,\overset{\longrightarrow}{\text{East}}\)</span>.</p>
+<p>Geometrically, that is, in terms of arrows or pencils, the scaling of a vector is stretching or shrinking, without changing the direction. (Scaling with a negative number means to reverse the tip and tail of the vector.) For a linear combination of two or more vectors, choose one of the vectors as a start, then move the tail of the second vector to the tip of the first, as in Figure <a href="linear-combinations-of-vectors.html#fig:add-yellow-green">42.1</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:add-yellow-green"></span>
+<img src="www/pencils/addition.png" alt="Adding two vectors, yellow and green, by placing them tail to tip. The result is the vector going from the tail of yellow to the tip of green. This resultant is equivalent to the blue vector." width="90%" />
+<p class="caption">
+Figure 42.1: Adding two vectors, yellow and green, by placing them tail to tip. The result is the vector going from the tail of yellow to the tip of green. This resultant is equivalent to the blue vector.
+</p>
+</div>
+<p>Subtraction is similar. For <span class="math inline">\(\vec{v} - \vec{w}\)</span>,
+<span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> tail-to-tail. Read out the result as the vector running from the tip of <span class="math inline">\(\vec{v}\)</span> to the tip of <span class="math inline">\(\vec{w}\)</span>. In Figure <a href="linear-combinations-of-vectors.html#fig:subtract-blue-from-yellow">42.2</a>, the yellow vector is <span class="math inline">\(\vec{v}\)</span>, the blue vector is <span class="math inline">\(\vec{w}\)</span>. The result of the subtraction is the green vector.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:subtract-blue-from-yellow"></span>
+<img src="www/pencils/subtraction.png" alt="Subtracting blue from yellow gives green." width="90%" />
+<p class="caption">
+Figure 42.2: Subtracting blue from yellow gives green.
+</p>
+</div>
+<div id="scaling" class="section level2" number="2.1">
+<h2><span class="header-section-number">42.1</span> Scaling</h2>
+<p>As you know, scaling a vector changes it’s length. If the scalar is negative, the vector tip and tail are swapped. Figure <a href="linear-combinations-of-vectors.html#fig:single-scale">42.3</a> shows a vector <span class="math inline">\(\vec{v}\)</span> and, as a dotted line, all of the possible results of scaling the vector. For instance, the tip of the vector <span class="math inline">\(-\frac{1}{2} \vec{v}\)</span> is located at the point marked (a). The vector <span class="math inline">\(\frac{4}{5} \vec{v}\)</span> has its tip at (b) and <span class="math inline">\(2.5 \vec{v}\)</span> has the tip at (c). For any point on the dotted line, there is some numerical scalar <span class="math inline">\(\alpha\)</span> such that the scaled vector <span class="math inline">\(\alpha \vec{v}\)</span> will have its tip at that point.</p>
+<p>The dotted line, that is, all the points that can be “reached” by scaling <span class="math inline">\(\vec{v}\)</span> is called a <strong><em>subspace</em></strong>: the subspace <strong><em>spanned</em></strong> by <span class="math inline">\(\vec{v}\)</span>. You can think of the subspace as all of the “destinations” that can be reached by stepping in the direction of <span class="math inline">\(\vec{v}\)</span>. (Steps backward steps are also legitimate.)</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:single-scale"></span>
+<img src="MOSAIC-Calculus_files/figure-html/single-scale-1.png" alt="With a suitable scalar multiplying the vector $\vec{v}$, any point on the dotted line can be reached. The dotted line is the subspace spanned by the vector." width="90%" />
+<p class="caption">
+Figure 42.3: With a suitable scalar multiplying the vector <span class="math inline">\(\vec{v}\)</span>, any point on the dotted line can be reached. The dotted line is the subspace spanned by the vector.
+</p>
+</div>
+<p>Every vector is associated with a subspace that is <strong><em>one-dimensional</em></strong>; you can only reach the points on a line by stepping in the direction of a vector.</p>
+</div>
+<div id="sub-spaces" class="section level2" number="2.2">
+<h2><span class="header-section-number">42.2</span> Sub-spaces</h2>
+<p>Figure <a href="linear-combinations-of-vectors.html#fig:two-vecs">42.4</a> includes a second vector <span class="math inline">\(\vec{w}\)</span> along with the vector <span class="math inline">\(\vec{v}\)</span> seen in Figure <a href="linear-combinations-of-vectors.html#fig:single-scale">42.3</a>. Each vector has its own subspace, again shown as dotted lines.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:two-vecs"></span>
+<img src="MOSAIC-Calculus_files/figure-html/two-vecs-1.png" alt="The subspaces spanned by each of two vectors $\vec{v}$ and $\vec{w}$." width="90%" />
+<p class="caption">
+Figure 42.4: The subspaces spanned by each of two vectors <span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span>.
+</p>
+</div>
+<p>Things get interesting when we consider not just the subspace spanned by the vectors individually, but the subspace spanned by them <strong><em>jointly</em></strong>. Recall that the subspace spanned by <span class="math inline">\(\vec{v}\)</span> is all the vectors that can be created by scalar multiplication of <span class="math inline">\(\vec{v}\)</span>, that is, all the vectors <span class="math inline">\(\alpha \vec{v}\)</span> for <span class="math inline">\(-\infty &lt; \alpha &lt; \infty\)</span>.</p>
+<p>With two vectors, the subspace is all the vectors that can be created by a linear combination of the two, that is <span class="math display">\[\alpha \vec{v} + \beta \vec{w}\]</span> where <span class="math inline">\(-\infty &lt; \alpha &lt; \infty\)</span> and <span class="math inline">\(-\infty &lt; \beta &lt; \infty\)</span>. The entire plane is spanned by such linear combination; any vector at all in the plane can be generated.</p>
+<p>Figure <a href="linear-combinations-of-vectors.html#fig:two-vecs">42.4</a>, lying as it does on the two-dimensional surface of your screen or paper, fails to indicate clearly that even in three- or higher-dimensional space, two (non-aligned) vectors will span a plane with a particular orientation. To see this better, a worthwhile experiment is to pick up two pencils pointing in different directions. Place the eraser ends together, pinched between thumb and forefinger. You can point the whole rigid assembly in any direction you like. The angle between them will remain the same.</p>
+<p>Place a card on top of the pencils, slipping it between your pressed fingers to hold it tightly in place. The card is another kind of geometrical object: a planar surface. The orientation of two vectors together determine the orientation of the surface. This simple fact will be extremely important later on.</p>
+<p>You could replace the pencils with line segments drawn on the card underneath each pencil. Now you have the angle readily measurable in two dimensions. The angle between two vectors in three dimensions is the same as the angle drawn on the two-dimension surface that rests on the vectors.</p>
+<p>Notice that you can also lay a card along a <em>single</em> vector. What’s different here is that you can roll the card around the pencil; there are many different orientations for such a card even while the vector stays fixed. So a single fixed vector does not determine uniquely the orientation of the planar surface in which the two vectors can reside. But with two fixed vectors, there is only one such surface.</p>
+</div>
+<div id="functions-as-vectors" class="section level2" number="2.3">
+<h2><span class="header-section-number">42.3</span> Functions as vectors</h2>
+<p>In Section 8.3 we looked at the use of the exponential function to describe the temperature of hot water cooling to room temperature. The exponential decreasing function is of course <span class="math inline">\(e^{-kt}\)</span> and we can find <span class="math inline">\(k\)</span> by estimating the half-life of exponential decay, which is about 36 minutes in the data we used. (Figure <a href="#fig:water-scaled-exp"><strong>??</strong></a>).</p>
+<p>In this section, we’re going to think about functions in terms of vectors. There are huge advantages to thinking in this way, but it will take some time for you to see them clearly.</p>
+<p>Recall the data on cooling water gave the temperature (in degrees C) versus time (in minutes). Economy on the page argues against showing all the rows of the <code>CoolingWater</code> data frame, but you have access to it in the <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>.</p>
+<table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+time
+</th>
+<th style="text-align:right;">
+temp
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+98.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+91.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+86.9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+83.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+78.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+71.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+66.3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+58.6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+53.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+48.8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+41.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+36.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+32.7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+149
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+174
+</td>
+<td style="text-align:right;">
+28.2
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>temp</code> column of the data frame is a set of numbers, hence interpretable as a vector. As a vector in 15 dimensions, there’s not much to be said about its <em>direction</em>, but the length is easy enough: take the square root of the sum of squares of the components. That comes to 251.3 degrees C. This is merely an arithmetic fact, the consequence of adding together 15 numbers. It has the dimension of temperature T, but has nothing to do with the hot-oven-like 251 C temperature.</p>
+<p>This <code>temp</code> vector is playing to role of the buried treasure; it’s the destination we want to reach. What have we got to reach it with?</p>
+<p>This is where our basic modeling function <span class="math inline">\(e^{-kt}\)</span> comes in. By evaluating <span class="math inline">\(e^{-kt}\)</span> at each of the values of <span class="math inline">\(t\)</span> in the <code>time</code> column, we create another column, which we’ll call <code>expkt</code>. Knowing that the half-life is about 36 minutes, we’ll use <span class="math inline">\(k=\ln(2)/36 \approx 0.02\)</span>. At the same time, anticipating what is to come, we’ll add another column which we’ll call, following statistical practice, the <code>intercept</code> column and which represents the constant function (evaluated at each of the times).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="linear-combinations-of-vectors.html#cb2-1" aria-hidden="true" tabindex="-1"></a>CW <span class="ot">&lt;-</span> CW <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="linear-combinations-of-vectors.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">expkt =</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.02</span><span class="sc">*</span>time),</span>
+<span id="cb2-3"><a href="linear-combinations-of-vectors.html#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">intercept =</span> <span class="dv">1</span>)</span></code></pre></div>
+<table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+time
+</th>
+<th style="text-align:right;">
+temp
+</th>
+<th style="text-align:right;">
+expkt
+</th>
+<th style="text-align:right;">
+intercept
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+98.2
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+91.4
+</td>
+<td style="text-align:right;">
+0.9607894
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+86.9
+</td>
+<td style="text-align:right;">
+0.9231163
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+83.1
+</td>
+<td style="text-align:right;">
+0.8869204
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+78.0
+</td>
+<td style="text-align:right;">
+0.8352702
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+71.4
+</td>
+<td style="text-align:right;">
+0.7557837
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+66.3
+</td>
+<td style="text-align:right;">
+0.6838614
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+58.6
+</td>
+<td style="text-align:right;">
+0.5598984
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+53.0
+</td>
+<td style="text-align:right;">
+0.4584060
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+48.8
+</td>
+<td style="text-align:right;">
+0.3753111
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+41.2
+</td>
+<td style="text-align:right;">
+0.2276377
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+36.2
+</td>
+<td style="text-align:right;">
+0.1380692
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+32.7
+</td>
+<td style="text-align:right;">
+0.0837432
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+149
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+<td style="text-align:right;">
+0.0507928
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+174
+</td>
+<td style="text-align:right;">
+28.2
+</td>
+<td style="text-align:right;">
+0.0308074
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>Confirm for yourself that the <code>expkt</code> column really does match an exponential decay with a half-life of about 36 minutes. You can see that at time zero the value of expkt, just as expected for an exponential. At time 36, somewhere between the rows for times 29 and 39, the value is about 0.5. At time 72—two half-lives after the start—the value should be 0.25, closely matching the recorded temperature at time 74.</p>
+<p>The two vectors <code>expkt</code> and <code>intercept</code>, like any two (non-aligned) vectors, span a planar subspace. Since <code>expkt</code> and <code>intercept</code> are embedded in a 15-dimensional space—this is just saying that there are 15 rows in the data frame—the plane is a subspace of the 15-dimensional space. This statement can seem hopelessly abstract, so let’s try to give a more concrete visualization. For the visualization, we’ll move onto the familiar ground of a graph of temperature versus time.</p>
+<p>In the domain of temperature vs time, each of the linear combinations <span class="math inline">\(\alpha\)</span><code>expkt</code><span class="math inline">\(\ + \beta\)</span><code>intercept</code>, appears as a set of 15 dots. Figure <a href="linear-combinations-of-vectors.html#fig:water-dots">42.5</a> shows three such sets of 15 does in three different colors, along with the 15 points of the actual temperature data. To show more than the three sets of dots would be visually confusing. Instead, we’ll add to the graph functions of the form <span class="math inline">\(\alpha\, e^{-0.02 t} + \beta\, 1\)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:water-dots"></span>
+<img src="MOSAIC-Calculus_files/figure-html/water-dots-1.png" alt="Some of the possible linear combinations of the vectors `expkt` and `intercept`. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination." width="90%" />
+<p class="caption">
+Figure 42.5: Some of the possible linear combinations of the vectors <code>expkt</code> and <code>intercept</code>. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination.
+</p>
+</div>
+<p>We we to plot <em>all</em> the linear combinations of <code>expkt</code> and <code>intercept</code>, the graphics frame would be completely covered with ink. But each individual vector produced by a linear combination will look much of a kind with the ten shown here.</p>
+<p>The functions shown in Figure <a href="linear-combinations-of-vectors.html#fig:water-dots">42.5</a> all inhabit the two-dimensional subspace spanned by <code>expkt</code> and <code>intercept</code>. But there is a lot more to the 15 dimensional space. What do functions look like that inhabit the space outside of the two-dimensional <code>expkt</code>&amp;<code>intercept</code> subspace? Figure <a href="linear-combinations-of-vectors.html#fig:13-handful">42.6</a> shows a handful of them. Each is different in kind from the functions shown in Figure <a href="linear-combinations-of-vectors.html#fig:water-dots">42.5</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:13-handful"></span>
+<img src="MOSAIC-Calculus_files/figure-html/13-handful-1.png" alt="A handful of the vectors in the 15-dimensional space outside of the 2-dimensional `expkt`&amp;`intercept` subspace." width="90%" />
+<p class="caption">
+Figure 42.6: A handful of the vectors in the 15-dimensional space outside of the 2-dimensional <code>expkt</code>&amp;<code>intercept</code> subspace.
+</p>
+</div>
+<p>There are a lot of crazy-looking functions out there in 15-dimensional space!</p>
+<p>Look back at Figure <a href="linear-combinations-of-vectors.html#fig:water-dots">42.5</a> and focus your attention on the function drawn in black. That function is a reasonable match to the data (plotted as black dots). The question we face now is how to find such a function by searching through a 15-dimensional space. That’s the task we take on in the next chapter.</p>
+<div class="intheworld">
+<p>It’s pretty easy to visualize the length of a vector and the arithmetic is straightforward even in n-dimensional space. For a vector <span class="math inline">\(\vec{v}\)</span> with components <span class="math display">\[\vec{v} \equiv \left[\strut \begin{array}{c}v_1\\v_2\\\vdots\\v_n\end{array}\right]\]</span> the length is <span class="math inline">\(\sqrt{\strut v_1^2 + v_2^2 + \cdots + v_n^2}\)</span>. Similarly, the <strong><em>dot product</em></strong> between <span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> is <span class="math inline">\(\vec{v} \cdot \vec{w} \equiv v_1 w_1 + v_2 w_2 + \cdots + v_n w_n\)</span>. In terms of the dot product, the vector length is <span class="math inline">\(\sqrt{\strut\vec{v} \cdot \vec{v}}\)</span>. And by combining the dot products, we can calculate the angle between two vectors: <span class="math display">\[\cos(\theta_{v,w}) = \frac{\vec{v}\cdot\vec{w}}{\sqrt{\strut (\vec{v}\cdot\vec{v})\ (\vec{w}\cdot\vec{w}})}\]</span></p>
+<p>As you know, a vector has two properties: length and direction. Both of these can be calculated using the dot product.</p>
+<p>This suggests a way to consider other mathematical objects, such as functions, as vectors. All we need is a reasonable definition for a dot product. Suppose we have two functions, <span class="math inline">\(f(t)\)</span> and <span class="math inline">\(g(t)\)</span> defined on some domain, say <span class="math inline">\(0 &lt; t &lt; 2\pi\)</span>. A dot product multiplies the objects together and accumulates the products. When the vectors are sets of numbers, the accumulation is to add up component-by-component products. By analogy, to take the dot product of <span class="math inline">\(f(t)\)</span> and <span class="math inline">\(g(t)\)</span> over the domain, we can do an integral: <span class="math display">\[f() \cdot g() \equiv \int_0^{2\pi} f(t) g(t) dt\ .\]</span></p>
+<p>To illustrate, consider these two functions: <span class="math inline">\(f(t) \equiv \sin(t)\)</span> and <span class="math inline">\(g(t) \equiv \sin(2 t)\)</span>, plotted below.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
+How “long” are <span class="math inline">\(f(t)\)</span> and <span class="math inline">\(g(t)\)</span>? `</p>
+<pre class='r'  style='width:90%;overflow:auto;'>Integrate(sin(t) * sin(t) ~ t, domain(t = 0:(2 * pi))) %>% sqrt()</pre>
+<p>       <span class="math inline">\(1.7725\)</span></br></p>
+<pre class='r'  style='width:90%;overflow:auto;'>Integrate(sin(2 * t) * sin(2 * t) ~ t, domain(t = 0:(2 * pi))) %>% sqrt()</pre>
+<p>       <span class="math inline">\(1.7725\)</span></br></p>
+<p>They are both the same “length”, which you might recognize as <span class="math inline">\(\sqrt{\strut\pi}\)</span>.</p>
+<p>What’s the cosine of the angle between them?</p>
+<pre class='r'  style='width:90%;overflow:auto;'>Integrate(sin(t) * sin(2 * t) ~ t, domain(t = 0:(2 * pi)))/pi</pre>
+<p>       <span class="math inline">\(0\)</span></br></p>
+<p>The cosine of the angle is zero—<code>1.3e-16</code> is just a round-off error. That means that the functions <span class="math inline">\(\sin(t)\)</span> and <span class="math inline">\(\sin(2t)\)</span> are <strong>orthogonal</strong> on the domain <span class="math inline">\(0 &lt; t &lt; 2\pi\)</span>.</p>
+</div>
+</div>
+<div id="matrices" class="section level2" number="2.4">
+<h2><span class="header-section-number">42.4</span> Matrices</h2>
+<p>We have been writing linear combinations of vectors in this format, where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>are <strong><em>scalars</em></strong>: <span class="math display">\[a \vec{u} + b \vec{v}\ .\]</span>
+It’s helpful to have a standard notation that makes it evident which things are being combined.</p>
+<p>A <strong><em>matrix</em></strong> is a collection of vectors, all of which live in the same dimensional space. For instance, the matrix containing <span class="math inline">\(\vec{u}\)</span> and <span class="math inline">\(\vec{v}\)</span> looks like
+<span class="math display">\[\left[\begin{array}{cc}|&amp;|\\\vec{u} &amp; \vec{v} \\|&amp;|\\ \end{array}\right]\]</span>
+The vertical lines are meant to indicate that each of <span class="math inline">\(\vec{u}\)</span> and <span class="math inline">\(\vec{v}\)</span> are a column in the matrix. For instance, supposing <span class="math display">\[\vec{u} \equiv \left[\begin{array}{r}2\\5\\-3\end{array}\right]\ \ \text{and}\ \ \ \vec{v} \equiv \left[\begin{array}{r}1\\-4\\0\end{array}\right]\ ,\]</span>
+the matrix <span class="math inline">\(\mathbf A\)</span> containing <span class="math inline">\(\vec{u}\)</span> and <span class="math inline">\(\vec{v}\)</span> consists of two columns:
+<span class="math display">\[ {\mathbf A} \equiv \left[\overset{\strut}{\left[\begin{array}{r}2\\5\\-3\end{array}\right]}\ \left[\begin{array}{r}1\\-4\\0\end{array}\right]\ \right]\]</span>
+In this book, when we write the name of a matrix, we’ll use a CAPITAL <strong>bold-face</strong> letter, as <strong>M</strong>. Conventionally, we do without the interior square brackets, writing
+<span class="math display">\[ {\mathbf A} \equiv \left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right]\]</span></p>
+<p>In scientific computing languages, there is almost always a type of object called a “matrix” or an “array.” The one shown here, <span class="math inline">\({\mathbf A}\)</span> has 3 rows and 2 columns. (Columns always run vertically, as with the columns in a building.)</p>
+<p>Also, as a matter of convention, the linear combination of the vectors in a matrix is indicated by placing to the right of the matrix a column containing the coefficients of the combination <span class="math inline">\(3 \vec{u} + 1 \vec{v}\)</span>, as with</p>
+<p><span class="math display">\[ {\mathbf A} \left[\begin{array}{c}3\\1\end{array}\right] = \left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right] \left[\begin{array}{c}3\\1\end{array}\right] = \left[\begin{array}{r}7\\11\\-9\end{array}\right]\]</span>
+In R, we make vectors with the <code>rbind()</code> command, that places its arguments in a row. We’ll make matrices with the <code>cbind()</code> command, which places its arguments in a column. Of course, the <code>r</code> in <code>rbind()</code> stands for “row” while the <code>c</code> in <code>cbind()</code> stands for “column.”</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="linear-combinations-of-vectors.html#cb3-1" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb3-2"><a href="linear-combinations-of-vectors.html#cb3-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">0</span>)</span>
+<span id="cb3-3"><a href="linear-combinations-of-vectors.html#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(u, v)</span>
+<span id="cb3-4"><a href="linear-combinations-of-vectors.html#cb3-4" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    2    1
+## [2,]    5   -4
+## [3,]   -3    0</code></pre>
+<p>We take a linear combination of the vectors in a matrix by writing down the coefficients in the same style as a vector and multiplying using <code>%*%</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="linear-combinations-of-vectors.html#cb5-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb5-2"><a href="linear-combinations-of-vectors.html#cb5-2" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> c</span></code></pre></div>
+<pre><code>##      [,1]
+## [1,]    7
+## [2,]   11
+## [3,]   -9</code></pre>
+<p>Often, we’ll want to make several different linear combinations of the vectors in a matrix. Since each individual linear combination is specified with a column of coefficients, the convention is to place the several sets of coefficients as side-by-side columns, that is, as a matrix.</p>
+<p>For example, consider these three different linear combinations of the two vectors <span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span>:
+<span class="math display">\[\left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right] \left[\begin{array}{rr}3 &amp; 0 &amp; -1\\1 &amp; 2 &amp; 0\end{array}\right] = \left[\begin{array}{r}7 &amp;2 &amp;-2\\11 &amp; -8 &amp; -5\\-9 &amp; 0 &amp; 3\end{array}\right]\]</span>
+In R, the left-hand side of the equation would involve constructing a matrix with the three pairs of coefficients:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="linear-combinations-of-vectors.html#cb7-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb7-2"><a href="linear-combinations-of-vectors.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(<span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb7-3"><a href="linear-combinations-of-vectors.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(<span class="dv">0</span>, <span class="dv">2</span>),</span>
+<span id="cb7-4"><a href="linear-combinations-of-vectors.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb7-5"><a href="linear-combinations-of-vectors.html#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="linear-combinations-of-vectors.html#cb7-6" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> X</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    7    2   -2
+## [2,]   11   -8   -5
+## [3,]   -9    0    3</code></pre>
+<div class="intheworld">
+<p>A CATEGORICAL VARIABLE AND HOW IT TRANSLATES INTO A SET OF VECTORS.</p>
+</div>
+</div>
+<div id="exercises-1" class="section level2" number="2.5">
+<h2><span class="header-section-number">42.5</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/cat-understand-car.Rmd" href="#9bAVr2"><img src="www/icons8-signpost.png" title="Location: Exercises/cat-understand-car.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">9bAVr2</red></span>
+</summary>
+<p><strong>Locating WW I aircraft</strong></p>
+<p>The photograph shows part of an aircraft detection system from World War I. The concrete block is an “acoustic mirror.” Its purpose is to collect and reflect sounds from an aircraft, concentrating them at a point where they can be picked up by a microphone. Moving the microphone to a point where the concentrated sound is strongest allows the aircraft’s bearing to be identified, helping observers acquire the aircraft visually.</p>
+<p><img src="www/WW1AcousticMirrorKilnsea-Jan2007.jpg" /></p>
+<p><a href="https://en.wikipedia.org/wiki/Acoustic_mirror#/media/File:WW1AcousticMirrorKilnsea(PaulGlazzard)Jan2007.jpg">Source</a></p>
+<p>With two or more such acoustic mirrors, the location of the aircraft can be identified.</p>
+<p><img src="www/mirror-vectors.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><strong>Question A</strong> Give the position of the aircraft as a multiple of <span class="math inline">\(\vec{a}\)</span> from sound mirror A and as a multiple of <span class="math inline">\(\vec{b}\)</span> from sound mirror B. (Choose the closest answer)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(3 \vec{a}\)</span> and <span class="math inline">\(4.5 \vec{b}\)</span><span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(4 \vec{a}\)</span> and <span class="math inline">\(6 \vec{b}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(3\vec{a}\)</span> and <span class="math inline">\(2 \vec{b}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(4\vec{a}\)</span> and <span class="math inline">\(4.5\vec{b}\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/rabbit-buy-hamper.Rmd" href="#dIobrt"><img src="www/icons8-signpost.png" title="Location: Exercises/rabbit-buy-hamper.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">dIobrt</red></span>
+</summary>
+<p>Each of the diagrams below consists of two vectors and a target point (denoted with a bull’s eye). Being a point, the target has a definite location relative to the coordinate axes.</p>
+<p>“Solving” this sort of system amounts to finding a linear combination of the two vectors whose result is a vector that can connect the origin to the target. (We call this a <strong><em>target problem</em></strong>.)</p>
+<p><img src="www/4targets.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Copy over each diagram to your paper. (Any reasonable approximation will do.) Then, for each diagram, find the linear combination of the two vectors that will reach from the origin to the target. Show your work, meaning that you should draw the scaled vectors in a proper position that demonstrates that they do indeed connect the origin to the target. Underneath the diagram, write down the numerical value of the scalars in the linear combination. (Again, any reasonable approximation will do.)</p>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/crow-cut-mug.Rmd" href="#DPY4Ue"><img src="www/icons8-signpost.png" title="Location: Exercises/crow-cut-mug.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">DPY4Ue</red></span>
+</summary>
+<p>In this exercise, you are going to use R to find solutions to the target problem. Each question poses one target problem. You could solve these problems by eye, but we want to get you started on the computer solution so that you’ll be ready to solve harder problems that must be worked on the computer.</p>
+<p>The vectors you will be working with are:
+<span class="math display">\[\vec{a} \equiv \left(\begin{array}{c}1\\2\end{array}\right)\ \ \ \ \vec{b}  \equiv \left(\begin{array}{c}1\\1\end{array}\right)\ \ \ \ \vec{c}  \equiv \left(\begin{array}{c}1\\-2\end{array}\right)\ \ \ \ \vec{d}  \equiv \left(\begin{array}{c}-6\\2\end{array}\right)\ \ \ \ \vec{T}  \equiv \left(\begin{array}{c}3\\-1\end{array}\right)\ \ \ \ \]</span></p>
+<p>To make your life easier, here are the commands for defining these vectors. <strong>One of the commands is wrong</strong>. You’ll have to correct it before moving on the the rest of the problem.</p>
+<p>NEED TO BREAK ONE OF THESE</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="linear-combinations-of-vectors.html#cb9-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb9-2"><a href="linear-combinations-of-vectors.html#cb9-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="linear-combinations-of-vectors.html#cb9-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb9-4"><a href="linear-combinations-of-vectors.html#cb9-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="sc">-</span><span class="dv">6</span>, <span class="dv">2</span>)</span>
+<span id="cb9-5"><a href="linear-combinations-of-vectors.html#cb9-5" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div>
+<p><strong>Question A</strong> What what is the correct linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> to reach the target $ec{T}?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(-4 \vec{a} + 7 \vec{b}\)</span><span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(-2 \vec{a} + 5 \vec{b}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(2 \vec{a} -7 \vec{b}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(4 \vec{a} - 5 \vec{b}\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question B</strong> What what is the correct linear combination of <span class="math inline">\(\vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> to reach the target $ec{T}?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\frac{5}{3}\vec{b} + \frac{4}{3} \vec{c}\)</span><span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{4}{3}\vec{b} + \frac{7}{2} \vec{c}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{5}{2}\vec{b} + \frac{4}{5} \vec{c}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{2}{3}\vec{b} + \frac{9}{4} \vec{c}\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question C</strong> What what is the correct linear combination of <span class="math inline">\(\vec{c}\)</span> and <span class="math inline">\(\vec{d}\)</span> to reach the target $ec{T}?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\frac{0}{3}\vec{c} + \frac{4}{5} \vec{d}\)</span><span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{1}{3}\vec{c} + \frac{1}{3} \vec{d}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{1}{2}\vec{c} + \frac{5}{7} \vec{d}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{0}{3}\vec{c} + \frac{1}{2} \vec{d}\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question D</strong> What what is the correct linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{c}\)</span> to reach the target $ec{T}?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\frac{5}{4}\vec{a} + \frac{7}{4} \vec{c}\)</span><span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{5}{4}\vec{a} + \frac{5}{4} \vec{c}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{7}{4}\vec{a} + \frac{9}{4} \vec{c}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{3}{4}\vec{a} + \frac{7}{4} \vec{c}\)</span><span class="mcanswer">︎✘ </span></span>
+</details></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="vectors-draft.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="projection-residual.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B5-linear-combinations.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B5-linear-combinations.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

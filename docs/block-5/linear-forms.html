@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>MOSAIC Calculus: Block 5</title>
+  <meta name="description" content="Block 5 of the MOSAIC Calculus textbook" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="MOSAIC Calculus: Block 5" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Block 5 of the MOSAIC Calculus textbook" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="MOSAIC Calculus: Block 5" />
+  
+  <meta name="twitter:description" content="Block 5 of the MOSAIC Calculus textbook" />
+  
+
+<meta name="author" content="Daniel Kaplan" />
+
+
+<meta name="date" content="2021-10-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="../docs/welcome-to-calculus.html">Welcome to calculus</li>
+<li><a href="../docs/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../docs/prolog/differentiation-and-birth.html">Block 2: Differentiation</a></li>
+<li><a href="../docs/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
+<hr>
+<li><strong><a href="./">Block 5: Linear combinations</strong></a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Block 5: Vectors and linear combinations</b></span></li>
+<li class="chapter" data-level="1" data-path="B5-introduction.html"><a href="#linear-forms"><i class="fa fa-check"></i><b>1</b> Linear forms</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="B5-introduction.html"><a href="#vectors"><i class="fa fa-check"></i><b>1.1</b> Vectors</a></li>
+<li class="chapter" data-level="1.2" data-path="B5-introduction.html"><a href="#the-embedding-space"><i class="fa fa-check"></i><b>1.2</b> The embedding space</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MOSAIC Calculus: Block 5</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">MOSAIC Calculus: Block 5</h1>
+<p class="author"><em>Daniel Kaplan</em></p>
+<p class="date"><em>2021-10-12</em></p>
+</div>
+<div id="linear-forms" class="section level1" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Linear forms</h1>
+<p>Up until now, the action has featured functions, sometimes expressed as formulas involving combinations of the basic modeling functions, sometimes generated directly from data by smoothing or splines. Now we turn to a new framework for expressing functions, the inputs on which they operate, and the kind of outputs they generate.</p>
+<p>This framework is central to technical work in a huge range of fields. The usual name given to it by mathematicians is <strong><em>linear algebra</em></strong>, although only the word “linear” conveys useful information about the subject. The physicists developing the first workable quantum theory called it <strong><em>matrix mechanics</em></strong>. The framework is fundamental to scientific computation and is often the approach of choice even to non-linear problems. Application of the framework to problems of information access was the spark the ignited the modern era of search engines.</p>
+<p>Although the words “algebra” and “quantum” may suggest that conceptual difficulties are in store, in fact human intuition is well suited to establishing a useful understanding.</p>
+<p>We will introduce the framework in two different but equivalent forms. The <strong><em>geometric form</em></strong> is readily grasped by many students, even those with a modest mathematical background. The geometry would have been easily grasped by the mathematicians of antiquity, who might even have regarded it as so trivial to be beneath their notice. They also could not possibly have understood the many important applications of the form which became apparent only in the last half of the 20th century with the emergence of statistics, data science, and computing generally. It can fairly be said that some of the most important developments in computer technology stem from algorithms developed from geometric properties of the form.</p>
+<p>The other, equivalent way of describing the mathematics is via <strong><em>simple arithmetic and numbers</em></strong>. This form is lacks the concreteness and visibility of the geometric approach, but more than makes up for this by the ways it makes the mathematics amenable to exact computation and to extending the applications in ways that transcend the limitations of our human, geometrical intuition.</p>
+<div id="vectors" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Vectors</h2>
+<p>The foundation of the mathematics of linear forms is a simple mathematical object: the <strong><em>vector</em></strong>. An everyday word that’s a close equivalent is “arrow,” but we need to be clear about which features of the archer’s projectile are unrelated to a vector. The archer’s arrow has mass, a shaft, and a head, with feathers at the back to keep it on course. And of course, it has a position in space, the changing nature of which is essential to the arrow’s function.</p>
+<p>The mathematical arrow—that is, a vector—has only <strong>two</strong> properties: <strong><em>length</em></strong> and <strong><em>direction</em></strong>. The position of a vector is completely irrelevant to its identity and function.</p>
+<p>Drawing a simple arrow on paper or screen is a good way to represent a vector. Figure <a href="#fig:arrows"><strong>??</strong></a> shows several examples. Some of them have the same length, some have the same direction, but every unique vector, regardless of where you draw it on the plane, has a distinct length and/or direction from every other vector. The drawn head of the arrow is important to conveying the direction, but the shape or size of the head conveys no information at all. Two arrows with the same direction and magnitude are merely different drawings of the same vector.</p>
+<pre><code>## [1] &quot;DRAWING OF VECTORS&quot;</code></pre>
+<p>Another common way to represent a vector is a set of numbers, the location of the head of the vector in Cartesian coordinates relative to tail at the origin of the coordinate system. That <strong>relative</strong> location of head and tail tells us the length and direction of the vector. That we choose the origin as a reference point is merely a human convention and says nothing at all about the vector itself.</p>
+<p>Still another possible representation of a vector is a compass direction augmented by the additional information about the length. “Head north-northwest at a speed of 400 kts,” is a competent description of a vector, the sort of vector that represents <strong><em>velocity</em></strong>.</p>
+<p>Up until now, we’ve dealt with quantities as inputs to functions and outputs from them, treating each of them as a single number together with units (and therefore, dimension). But vectors are also legitimate and important inputs to and outputs from functions. And, as we’ll see, the function itself can be represented itself as a set of vectors.</p>
+</div>
+<div id="the-embedding-space" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> The embedding space</h2>
+<p>When we draw a vector ….</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/B5-introduction.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/B5-introduction.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -22,7 +22,7 @@ This is a description of a journey as a ***linear combination of vectors***. The
 Pirates and other mariners use direction terms like "one point north of north-north-east." Their maps are annotated with compass roses that translate the words into a direction.
 
 ```{r compass-rose,echo=FALSE, fig.caption="A compass rose from the map in the children's classic book *Treasure Island*. One point north of north-north-east is the direction of the radial line passing through the 'd' in \"Skeleton Island\".", out.width="20%", fig.align="center"}
-knitr::include_graphics("www/compass-rose.png")
+knitr::include_graphics("www/compass-rose2.png")
 ```
 Mathematicians can replace a compass rose with just two vectors, say, $\overset{\longrightarrow}{\text{North}}$ and $\overset{\longrightarrow}{\text{East}}$. Other directions can be given as a linear combination. For instance, the compass rose's "north-north-west" is the linear combination $0.9239\,\overset{\longrightarrow}{\text{North}} -0.3827\,\overset{\longrightarrow}{\text{East}}$.
 
@@ -127,7 +127,7 @@ The two vectors `expkt` and `intercept`, like any two (non-aligned) vectors, spa
 
 In the domain of temperature vs time, each of the linear combinations $\alpha$`expkt`$\ + \beta$`intercept`, appears as a set of 15 dots. Figure \@ref(fig:water-dots) shows three such sets of 15 does in three different colors, along with the 15 points of the actual temperature data. To show more than the three sets of dots would be visually confusing. Instead, we'll add to the graph functions of the form $\alpha\, e^{-0.02 t} + \beta\, 1$.
 
-```{r water-dots, echo=FALSE, fig.cap="Some of the possible linear combinations of the vectors `expkt` and `intercept`. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination."}
+```{r water-dots, echo=FALSE, fig.cap="Some of the possible linear combinations of the vectors `expkt` and `intercept`. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination.",warning=FALSE}
 CW <- CW %>%
   mutate(one = -51*expkt + 80*intercept,
          two = -36*expkt + 120*intercept,
@@ -189,17 +189,18 @@ slice_plot(sin(t) ~ t, domain(t=0:(2*pi)),
            label_text = "f(t)", label_x=.92) %>%
 slice_plot(sin(2*t) ~ t, color="magenta", label_text = "g(t)", label_x=.25)
 ```
-How "long" are $f(t)$ and $g(t)$?
-```{r}
-Integrate(sin(t)*sin(t) ~ t, domain(t=0:(2*pi))) %>% sqrt()
-Integrate(sin(2*t)*sin(2*t) ~ t, domain(t=0:(2*pi))) %>% sqrt()
-```
+How "long" are $f(t)$ and $g(t)$? `
+
+`r {Integrate(sin(t)*sin(t) ~ t, domain(t=0:(2*pi))) %>% sqrt()} |> matrix_block(inline=FALSE, width="90%")`
+
+`r {Integrate(sin(2*t)*sin(2*t) ~ t, domain(t=0:(2*pi))) %>% sqrt()} |> matrix_block(inline=FALSE, width="90%")`
+
 They are both the same "length", which you might recognize as $\sqrt{\strut\pi}$.
 
 What's the cosine of the angle between them?
-```{r}
-Integrate(sin(t) * sin(2*t) ~ t, domain(t=0:(2*pi))) / pi
-```
+
+`r {Integrate(sin(t) * sin(2*t) ~ t, domain(t=0:(2*pi))) / pi} |> matrix_block(inline=FALSE, width="90%")`
+
 The cosine of the angle is zero---`1.3e-16` is just a round-off error. That means that the functions $\sin(t)$ and $\sin(2t)$ are **orthogonal** on the domain $0 < t < 2\pi$.
 :::
 
