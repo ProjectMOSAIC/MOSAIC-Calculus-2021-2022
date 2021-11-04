@@ -2,6 +2,7 @@
 
 **Objectives**
 
+* Functions for curves in space
 * Recognize interpolation as the process of building a continuous function that connects a series of $(x, y)$ data points.
 * Understand the standard types of functions constructed to interpolate data points.
 * Be able to characterize the smoothness of those different types of function.
@@ -36,6 +37,8 @@ Path <- tibble(x = xf(t), y = yf(t))
 gf_path(y ~ x, data = Path)
 ```
 
+
+Need to explain how to trace out this curve: add in a new variable to index the position on the curve.
 
 A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. Low-order polynomial functions are useful for expressing general modeling ideas such as growth, interaction, and optimality. 
 
@@ -136,18 +139,156 @@ But we already have the ingredients we need to find an proper mathematical solut
 
 ## Piecewise but smooth
 
-Introduce the idea of a low-order polynomial segment between adjacent points. It needs to connect the points and have the same first and second derivative as the neighboring segments.
+The approach we will take to smoothly connect the points on the path is based on ideas of derivatives and on the construction of low-order polynomials.  In Block 2, we emphasized low-order polynomials up to the square term, and we'll pick that up again here for demonstration purposes.
+
+Suppose our task is to find a function to interpolate the discrete points in Figure \@ref(fig:quadratic-spline). The discrete points are called ***knots***^[Called such possibly because the curves are tied together at each of the knots.] in the language of interpolating functions. 
+
+A piecewise linear interpolating function is easily constructed and is shown as a dotted curve, but that has a discontinuous first derivative. We would like something smoother, that has a **continuous** first derivative. A curve such as the one we seek is shown as the multi-colored function.
+
+```{r quadratic-spline, echo=FALSE, fig.cap="Two piecewise interpolating functions of the four discrete points (orange). One is piecewise linear (dotted curve), the other is piecewise quadratic (multi-color curve)."}
+Pts <- tibble(
+  x = 1:4,
+  y = c(0, 2, 0.5, 1.7)
+)
+quad_spline <- function(free = 0, data = Pts) {
+  M <- rbind(
+    cbind(1, 0, 0, 1, 0, 0),
+    cbind(0, 1, 0, 0, 1, 0),
+    cbind(0, 0, 1, 0, 0, 1),
+    cbind(1,-1, 0, 2, 0, 0),
+    cbind(0, 1,-1, 0, 2, 0),
+    cbind(0, 0, 1, 0, 0, 2)
+  ) 
+  b <- cbind(c(Pts$y[2:4] - Pts$y[1:3], c(0, 0, free)))
+  x <- qr.solve(M, b)
+  p1 <- makeFun(a1 + b1*(x-1) + c1*(x-1)^2 ~ x,
+                b1 = x[1], c1 = x[4])
+  p2 <- makeFun(a2 + b2*(x-2) + c2*(x-2)^2 ~ x,
+                b2 = x[2], c2 = x[5])
+  p3 <- makeFun(a3 + b3*(x-3) + c3*(x-3)^2 ~ x,
+                b3 = x[3], c3 = x[6])
+  
+  makeFun(ifelse(x < 2, p1(x),
+                    ifelse(x < 3, p2(x), p3(x))) ~ x)
+}
+f <- quad_spline(0, data=Pts)
 
 
-Programming the robot might come down to listing in sequence the specific locations where the weld is to be made. This might include helper points to avoid colliding with the work piece when moving between welds. The movement is governed by various joints, gears, and wheels as well as actuators: hydraulics, [stepping motors](https://en.wikipedia.org/wiki/Stepper_motor), etc. We need to tell those actuators what position they should be in at each moment of time.
+gf_point(y ~ x, data = Pts, 
+         color="orange", size=6, alpha=0.5) %>%
+  gf_line(y ~ x, color="black", linetype="dotted") %>%
+  gf_labs(y = "f(x)") %>%
+  slice_plot(f(x) ~ x, domain(x=1:2)) %>%
+  slice_plot(f(x) ~ x, domain(x=2:3), color="red") %>%
+  slice_plot(f(x) ~ x, domain(x=3:4), color="blue")
+```
+
+The framework we will adopt for the smooth interpolating function is piecewise quadratic segments between adjacent knots. There are four knots, requiring three segments. We'll call the segment $p_1(x)$ connecting the first knot to the second, with $p_2(x)$ connecting the second to the third knot and $p_3(x)$ connecting the third to the fourth knot. Each of those segments will be a second-order polynomial. To keep things organized, we'll use coefficient names systematically:
+
+$$p_1(x) \equiv a_1 + b_1 \left[x - x_1\right] + c_1 \left[x - x_1\right]^2\\
+p_2(x) \equiv a_2 + b_2 \left[x - x_1\right] + c_2 \left[x - x_1\right]^2\\
+p_3(x) \equiv a_3 + b_3 \left[x - x_1\right] + c_3 \left[x - x_1\right]^2\\$$
+The four knots are
+$$\left[\begin{array}{c}\left(x_1, y_1\right)\\
+\left(x_2, y_2\right)\\
+\left(x_3, y_3\right)\\
+\left(x_4, y_4\right)\\
+\end{array}\right]$$ which you can think of as two columns of a data frame, one with the $x$-coordinates of the knots and the other with the $y$-coordinates.
+
+Constructing the interpolating function is a matter of making good choices for $a_1$, $a_2$, $a_3$, $b_1$, $b_2$, $b_3$, $c_1$, $c_2$, and $c_3$.
+
+We require these things of the interpolating function:
+
+1. It passes exactly through each of the knots.
+2. At the interior knots where two polynomials join, the left-hand polynomial and the right-hand polynomial should exactly match both the function value and the derivative (with respect to $x$). Thus, the function we want to build will be $C^1$, that is, have a continuous first derivative.
+
+How to accomplish (1) and (2)?
+
+Notice first that the way we wrote down the polynomials, the values are $$p_1(x_1) = a_1 = y_1\\p_2(x_2) = a_2 = y_2\\p_3(x_3) = a_3 = y_3\\$$
+A good start! We already know three of the coefficients from the condition that the left end of each segment match the left knot point for that segment.
+
+We can find other coefficients by imposing the conditions that the right side of each segment pass through the knot on that side. This gives:
+
+$$p_1(x_2) = y_2 = a_1 + b_1 \left[x_2-x_1\right] + c_1\left[x_2-x_1\right]^2\\
+p_2(x_c) = y_3 = a_2 + b_2 \left[x_3-x_2\right] + c_2\left[x_3-x_2\right]^2\\
+p_3(x_c) = y_4 = a_3 + b_3 \left[x_4-x_3\right] + c_3\left[x_4-x_3\right]^2$$ (Notice that $x_2 - x_1$ and the like are simply numbers that can be computed from the known knot points.)
+
+Another two conditions are that the derivatives of the polynomials from either side of each interior knot point must match at the knot point. Finding the derivatives of the segments is a simple exercise:
+
+$$\partial_x p_1(x) = b_1 + 2 c_1 \left[x - x_1\right]\\
+\partial_x p_1(x) = b_2 + 2 c_2 \left[x - x_2\right]\\
+\partial_x p_1(x) = b_3 + 2 c_3 \left[x - x_3\right]$$
+Matching them up at the $x2$ and $x_3$ knot points---the interior knots where two segments come together---gives two more equations:
+$$b_1 + 2 c_1 \left[x_2 - x_1\right] = b_2\\
+b_2 + 2 c_2 \left[x_3 - x_2\right] = b_3$$
+All together, we have **five** equations in **six** unknowns: $b_1, b_2, b_3$ and $c_1, c_2, c_3$.
+
+This is not the place to go into the details of solving the equations to find the unknowns. (Block 5 introduces the mathematics of such things, which turns out to the came math used to find model parameters to "fit" data.)
+But there are some simple things to say about the task. 
+
+First, you may recall from high-school mathematics being told that to find six unknown you need six equations. We have only five equations to work with. But it is far from true that there is no solution for six unknowns with five equations; there are in fact an infinite number of solutions. (Again, Block 5 will show the mathematics behind this statement.) Essentially, all we need to do is make up a sixth equation to identify a particular one of the infinite number of solutions. It's nice if this made-up equation reflects something interpretable about the curve. 
+
+We'll choose to have the sixth equation specify what the derivative of the interpolating function should be at the far right end of the graph. That right-most derivative value will be $$\partial_x p_3(x_4) = b_3 + 2 c_3 \left[x_4 - x_3\right]\ .$$
+We can set this value to anything we like. For instance, in Figure \@ref(fig:quadratic-spline) the right-most derivative is set to zero; you can see this from the curve being flat at the right-most knot point.
 
 
 
+```{r four-quads, echo=FALSE, fig.cap="For different $C^1$ piecewise quadratic functions that interpolate the knot points. Each has a unique value of the derivative at the right end of the domain."}
+free_slopes <- c(-5, -1, 2, 5)
+P <- list()
+for (k in 1:4) {
+  f <- quad_spline(free_slopes[k], data = Pts)
+  P[[k]] <- slice_plot(f(x) ~ x, domain(x=1:2)) %>%
+  slice_plot(f(x) ~ x, domain(x=2:3), color="red") %>%
+  slice_plot(f(x) ~ x, domain(x=3:4), color="blue") %>%
+  gf_point(y ~ x, data = Pts, color="orange", size=4, alpha=0.5) %>%
+    gf_lims(y=c(-1.5,4.5))
+}
+gridExtra::grid.arrange(P[[1]], P[[2]], P[[3]], P[[4]], nrow=2)
+```
 
+## Bezier splines
 
+Each point on the curve is associated with a control point. So each segment is specified by four points, two of which will be on the segment (at the endpoints) and two that generally will not be.
 
+$\left[\begin{array}{c}x_0\\y_0\end{array}\right]$
 
+$$\left[\begin{array}{c}x(t)\\y(t)\end{array}\right]  \equiv \left[1-t\right]^3 \left[\begin{array}{c}x_0\\y_0\end{array}\right] +
+3\left[1-t\right]^2 t \left[\begin{array}{c}x_1\\y_1\end{array}\right] +
+3\left[1-t\right] t^2 \left[\begin{array}{c}x_2\\y_2\end{array}\right] +
+t^3 \left[\begin{array}{c}x_3\\y_3\end{array}\right] $$
 
+```{r}
+Pts <- tibble(
+  x = c(1,5),
+  y = c(0,0),
+  xc = c(1.5, 2),
+  yc = c(3, 0)
+)
+
+bezier <- function(Pts, npts=100) {
+  p0 <- Pts[1,1:2] %>% as.numeric()
+  p1 <- Pts[1,3:4] %>% as.numeric()
+  p3 <- Pts[2,1:2] %>% as.numeric()
+  p2 <- Pts[2,3:4] %>% as.numeric()
+  t <- seq(0,1,length=npts)
+  B <- outer((1-t)^3, p0) +
+    3*outer((1-t)^2 * t, p1) +
+    3*outer((1-t)*t^2, p2) +
+    outer(t^3, p3) %>% 
+    as_tibble()
+  names(B) <- names(Pts)[1:2]
+  
+  B
+}
+
+foo <- bezier(Pts)
+gf_path(y ~ x, data = foo) %>%
+  gf_point(y ~ x, data = Pts, color="orange", size=2) %>%
+  gf_point(yc ~ xc, data = Pts, color = "red", size=2) %>%
+  gf_segment(y + yc ~ x + xc, data = Pts, linetype="dotted") %>%
+  gf_refine(coord_fixed())
+```
 
 
 
