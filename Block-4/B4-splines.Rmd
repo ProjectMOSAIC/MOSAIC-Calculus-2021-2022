@@ -1,18 +1,49 @@
 # Data-driven functions
 
-## Objectives
+**Objectives**
 
 * Recognize interpolation as the process of building a continuous function that connects a series of $(x, y)$ data points.
 * Understand the standard types of functions constructed to interpolate data points.
 * Be able to characterize the smoothness of those different types of function.
 
-## Custom-built functions
+```{r echo = FALSE}
+Stations <- tibble::tribble(
+  ~ x, ~ y,
+  496, 1109,
+  1037, 1162,
+  1251,1109,
+  1226,889,
+  902,564,
+  1034,432,
+  1197,648,
+  1389,459,
+  1170,245,
+  521,325,
+  327,541,
+  277, 948,
+  492,731,
+  710,811,
+  928,868,
+  737,1060
+) %>%
+  mutate(t=row_number(), y=1300-y) %>%
+  select(t, x, y)
 
-A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. Low-order polynomial functions are useful for expressing general modeling ideas such as growth, interaction, and optimality. Sinusoids and their imaginary cousin, exponentials, are often the go-to forms for constructing a function that meets the mandate given by a differential equation. Taylor polynomials were historically an important technique for working with functions; much of their actual utility in today's world is captured by the idea of low-order polynomial models. 
+xf <- spliner(x ~ t, data = Stations)
+yf <- spliner(y ~ t, data = Stations)
+t <- seq(1,16,length=1000)
+Path <- tibble(x = xf(t), y = yf(t))
+gf_path(y ~ x, data = Path)
+```
 
-We considered several techniques for constructing functions that are a good match to data: use of log-log and semi-log axes in graphics, solving the "target problem" of linear combinations (which is conventionally called "least squares fitting").
 
-Today's topic is yet another important method for constructing functions that match with data. What's different here from least squares is that we do not consider the data as a "cloud" of points that we want our eventual function to stay close to. Today, each data point will be a **mandate**; the function is required to go through each and every point exactly.
+A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. Low-order polynomial functions are useful for expressing general modeling ideas such as growth, interaction, and optimality. 
+
+As early as Chapter 3 of this book, we noted that a function can be described as a table where each row stands for one set of input values together with a corresponding output value. We did not, however, make much use of the table-as-function concept. Instead, we used data tables to motivate the choice of parameters, generally in linear combinations of the basic modeling functions. We called this ***function fitting***, an important topic we will elaborate on in Block 5 where we'll introduce new tools for treating functions as geometrical objects. 
+
+This chapter is yet another important method for constructing functions that match with data. What's different here from function fitting is that we do not consider the data as a "cloud" of points that we want our eventual function to stay close to. Today, each data point will be a **mandate**; the function is required to go through each and every point exactly.
+
+## Generating smooth motion
 
 As a motivating example, consider the programming of robotic arms as in the video:
 
@@ -20,9 +51,105 @@ As a motivating example, consider the programming of robotic arms as in the vide
 
 This isn't a robots course, so we'll simplify. The arm has a resting position. When a car frame comes into place, the arm moves so that it's welding electrodes are at a specific, known place in space near the car body. Then it moves in sequence to other places where a weld is using and eventually back to its resting position.
 
-Programming the robot might come down to listing in sequence the specific locations where the weld is to be made. This might include helper points to avoid coliding with the work piece when moving between welds. The movement is governed by various joints, gears, and wheels as well as actuators: hydraulics, [stepping motors](https://en.wikipedia.org/wiki/Stepper_motor), etc. We need to tell those actuators what position they should be in at each moment of time.
+The problem of converting the discrete list of weld and helper points into a continuous signal for the actuator is an instance of a mathematical process called **interpolation**. In real robot arms, there are multiple joints that need to be controlled simultaneously. For our illustration, we'll use a simple setup where the robot hand rolls along a set of rails in the y-direction and another x-rail running crosswise to the y direction.
 
-The problem of converting the discrete list of weld and helper points into a continuous signal for the actuator is an instance of a mathematical process called **interpolation**. Generally, there will be multiple signals going to multiple actuators, but to simplify we'll consider the problem with just one variable $x$ for position and $t$ for time.
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+knitr::include_graphics("www/x-y-cnc.png")
+```
+
+
+The task for our example robot will be to visit the points shown in Figure \@ref(fig:robot-points) in order, taking 15 seconds to traverse the whole path.
+
+```{r robot-points, echo=FALSE, fig.cap="The stations on a path the robot hand is supposed to follow. All the action is taking place in roughly 1x1 meter area."}
+nudges <- rep(40, 16)
+nudges[c(3,12)] <- -40
+gf_path(y ~ x, data = Stations, size = 2) %>%
+  gf_point(y ~ x, size=8, color="orange", alpha=.5) %>%
+  gf_text(y ~ x, label= ~ t, nudge_y=nudges) %>%
+  gf_refine(coord_fixed()) %>%
+  gf_labs(x="x (mm)", y="y (mm)")
+```
+The trajectory of the robot arm consists of two functions, $x(t)$ and $y(t)$. Our starting representation is as a table:
+
+```{r}
+head(Loop)
+```
+
+The $x(t)$ and $y(t)$ functions in this table aren't complete enough to operate the robot. We need to provide the $x,y$-location data in the form of a **continuous** two functions of $t$ so that the robot, at any time $t$, can look up where it is supposed to be.
+
+One strategy is to construct the functions as piecewise linear functions of $t$, like this:
+
+```{r piecewise-linear-path,echo=FALSE}
+xl <- mosaic::connector(x ~ t, data = Stations)
+yl <- mosaic::connector(y ~ t, data = Stations)
+P1 <- slice_plot(xl(t) ~ t, domain(t=1:16), npts=500) %>% gf_labs(y="x position", x="")
+P2 <- slice_plot(yl(t) ~ t, domain(t=1:16), npts=500) %>% gf_labs(y="y position", x = "t (time)")
+gridExtra::grid.arrange(P1, P2, nrow=2)
+```
+It can be difficult to see the relationship between the $x(t)$ and $y(t)$ functions and the path shown in \@ref(fig:robot-points). You might want to follow the path with your finger, focusing on the series of $x$-coordinates to confirm that the $x(t)$ function reproduces the path.
+
+The function shown in \@ref(fig:piecewise-linear-path) is an example of an ***interpolating function***. You're entitled to think of the $x(t)$ function as connecting with lines the sequence of $x$ versus $t$ coordinates from the table. Each of the two functions is clearly continuous. But you have a richer set of concepts for interpreting those two functions.
+
+For instance, let's look at $\partial_t x(t)$. Since $x$ is a position along the cross rail, $\partial_t x(t)$ is the velocity in that direction. Figure \@ref(fig:x-velocity) shows the velocity versus time for both the $x$ and $y$ components of the movement.
+
+```{r x-velocity, echo=FALSE}
+dt_xl <- D(xl(t) ~ t)
+dt_yl <- D(yl(t) ~ t)
+P1 <- slice_plot(dt_xl(t) ~ t, domain(t=1:16), npts=901, singularities = 1:16) %>% 
+  gf_labs(y="x velocity (mm/s)", x="")
+P2 <- slice_plot(dt_yl(t) ~ t, domain(t=1:16), npts=901,, singularities = 1:16) %>%
+  gf_labs(y="y velocity (mm/s)", x = "t (time)")
+gridExtra::grid.arrange(P1, P2, nrow=2)
+```
+The speed of the robot arm maxes out at about 400 mm-per-second. You can get a sense for this by moving your finger along the length of a piece of paper in 1 second; it's a normal human speed of movement.
+
+
+Since the original $x(t)$ and $y(t)$ functions are piecewise linear, it makes sense that the derivatives with respect to time are piecewise constant. But the robot hand is a physical thing; it has to have a velocity at every instant in time. It can't instantaneously have an undefined velocity. 
+
+Think about what it is that causes the change from one velocity step to another. There's a motor that's spinning and changing it's rate of spin, perhaps using a pulley and a belt to more the robot hand to the right position at any instant of time. Changing the velocity requires a **force** to create an acceleration. We can differentiate the velocity to see what the acceleration must be to create the simple piecewise linear function shown in Figure \@ref(fig:piecewise-linear-path).
+
+```{r x-acceleration, echo=FALSE}
+ddt_xl <- D(xl(t) ~ t & t, .hstep=0.1)
+ddt_yl <- D(yl(t) ~ t & t, .hstep=0.1)
+P1 <- slice_plot(ddt_xl(t) ~ t, domain(t=1:16), npts=901) %>% gf_labs(y="x acceleration (mm/s^2)", x="")
+P2 <- slice_plot(ddt_yl(t) ~ t, domain(t=1:16), npts=901) %>%
+  gf_labs(y="y acceleration (mm/s^2)", x = "t (time)")
+gridExtra::grid.arrange(P1, P2, nrow=2)
+```
+
+Mathematically, the second derivatives $\partial_{tt} x(t)$ and $\partial_{tt} y(t)$ do not exist, because $\partial_{t} x(t)$ and $\partial_{t} y(t)$ are discontinuous. There is no physical amount of force that will change the velocity in an instant. 
+
+As an accommodation to the physical existence of the robot hand, we've softened the transition between consecutive velocity segments to allow it to take 0.2 seconds, ramping up from zero force 0.1 second before the hand reaches the station, to maximum force at the station, then back down to zero 0.1 second after the hand reaches the station. Consequently the actual motion is smoother and the maximum acceleration is about half that of gravity. Figure \@ref(fig:ramp-force) shows the resulting trajectory which can be likened to that of a baseball player rounding a base.
+
+```{r ramp-force, echo=FALSE, fig.cap="A smoothed x-trajectory near station 2. The position of the station is marked with a dot."}
+vx <- antiD(ddt_xl(t) ~ t)
+xx <- antiD(vx(t) ~ t)
+slice_plot(xx(t) + 500 ~ t, domain(t=1.9:2.1)) %>% 
+  gf_point(x ~ t, data = Stations[2,])
+```
+
+A consequence of smoothing the trajectory is that the robot hand comes near, but doesn't actually touch the station. It misses by about 2 mm. For many human tasks that might be good enough, but for precision manufacturing a miss by 2 mm is about 1000 times more than allowed.
+
+If you like working with practical problems, you might find a simple solution to the problem. For instance, we could have aimed the robot hand 2 mm further to the right than the actual station. In falling short by 2mm, the hand would miss the target but cross right over the originally intended station. 
+
+But we already have the ingredients we need to find an proper mathematical solution that keeps relatively small the forces involved in steering the robot but takes it exactly where it needs to go.
+
+## Piecewise but smooth
+
+Introduce the idea of a low-order polynomial segment between adjacent points. It needs to connect the points and have the same first and second derivative as the neighboring segments.
+
+
+Programming the robot might come down to listing in sequence the specific locations where the weld is to be made. This might include helper points to avoid colliding with the work piece when moving between welds. The movement is governed by various joints, gears, and wheels as well as actuators: hydraulics, [stepping motors](https://en.wikipedia.org/wiki/Stepper_motor), etc. We need to tell those actuators what position they should be in at each moment of time.
+
+
+
+
+
+
+
+
+
+
 
 Another example ... In [computer-aided design](https://en.wikipedia.org/wiki/Computer-aided_design) (CAD) systems, curved shapes are usually described by a person's placement of isolated points which are then automatically combined into a smooth form. For instance, the outline of a letter in a computer font is often specified by a series of knot points with specified levels of smoothness (or lack thereof), as in this construction of a lower-case "e".
 
@@ -31,7 +158,7 @@ Another example ... In [computer-aided design](https://en.wikipedia.org/wiki/Com
 Humans have a natural ability to generate smooth movements. In drawing, there can be artistic value in a lack of smoothness, as illustrated in celebrated artist David Hockney's drawing of his mother. 
 
 ```{r echo=FALSE, fig.align="center", out.width="70%"}
-knitr::include_graphics("www/T11897_10.jpg")
+knitr::include_graphics("www/T11897_10.png")
 ```
 
 [Source](https://www.tate.org.uk/art/images/work/T/T11/T11897_10.jpg)
@@ -45,17 +172,19 @@ Spline functions and digital actuators have largely replaced such analog models.
 
 ## Data and interpolation
 
-There are often occasions when we measure a continuous process at discrete points in time and space. In this section, we're going to explore the data Johannes Kepler (1571-1630) used in discovering and formulating his famous theory of planets in elliptical orbits. For about half the year, other planets are on the other side of the Sun from Earth, and so not directly observable. 
+There are often occasions when we measure a continuous process at discrete points in time and space. In this section, we're going to explore the data Johannes Kepler (1571-1630) used in discovering and formulating his famous theory of planets in elliptical orbits. For about half the year, other planets are on the opposite side of the Sun from Earth, and so not directly observable. 
 
 Here is a graph of Kepler's calculations of the distance of Mars from the Sun. (See "Background" section at the bottom of the page.) The sandbox makes a somewhat intricate plot, so read carefully the following:
 
 * There are 28 observations in Kepler's data. The plot shows all of them as gray dots. 
 * A handful of the 28 have been selected for emphasis: the big black dots.
 * The interpolating functions have been made only with respect to the handful; the others are entirely made up.
-* The cubic spline interpolant is drawn in black, the global polynomial in red.
+* The cubic spline interpolant is drawn in black, the global polynomial in tan.
 
-```{r rdi1-1, exercise=TRUE, exercise.cap="Connecting Mars", exercise.nlines=10}
-Observations <- kepler_sample(seed=NULL)
+::: {.sandbox}
+```{r}
+Observations <- Kepler %>% sample_n(size=6) %>%
+    select(time, kepler.angle, kepler.radius)
 connector <- spliner(kepler.radius ~ kepler.angle, 
                      data = Observations)
 polynomial <- makeFun(lm(kepler.radius ~ poly(kepler.angle, 2), 
@@ -67,91 +196,23 @@ gf_point(kepler.radius ~ kepler.angle,
   slice_plot(connector(kepler.angle) ~ kepler.angle) %>%
   slice_plot(polynomial(kepler.angle) ~ kepler.angle, color="orange3") 
 ```
-
-<div class="explanation-note">
-**Code-reading questions**
-
-```{r rdi1-2, echo=FALSE, results="markup"}
-askMC(
-  "The data are stored in an object named `Kepler`. What kind of object is `Kepler`?",
-  "+A data frame+",
-  "A matrix",
-  "A vector",
-  "A function"
-)
-```
-
-```{r rdi1-3, echo=FALSE, results="markup"}
-askMC(
-  "There are two variables from Kepler's data used in the code. What are their names?", 
-  "`time` and `angle`",
-  "`distance` and `angle`",
-  "+`kepler.radius` and `kepler.angle`+",
-  "`kepler.distance` and `kepler.angle`"
-)
-```
-
-```{r rdi1-4, echo=FALSE, results="markup"}
-askMC(
-  "The object `connector` is defined on lines 2 and 3 of the sandbox code. What kind of R object is `connector`? (Hint, you may need to read further along in the code to figure this out.)",
-  "A data frame",
-  "A number",
-  "A vector",
-  "+A function+"
-)
-```
+:::
 
 
-
-```{r rdi1-5, echo=FALSE, results="markup"}
-askMC(
-  "What kind of R object is `kepler.radius ~ kepler.angle`?",
-  "+A tilde expression+",
-  "An arithmetic expression",
-  "A function",
-  "A character string" = "Character strings always involve quotation marks."
-)
-```
-```{r rdi1-6, echo=FALSE, results="markup"}
-askMC(
-  "The R function `gf_point()` as used here has how many arguments?",
-  1, 2, 3, 4, right_one = 3, random_answer_order = FALSE
-)
-```
-
-```{r rdi1-7, echo=FALSE, results="markup"}
-askMC(
-  "What's the give away that `polynomial` (as used here) is a **function**?",
-  "+The name `polynomial` is followed by open and close parentheses.+",
-  "The name `polynomial` begins with a `p`.",
-  "The name `polynomial` is an English verb." = "This is a nice programming style to use natural-language verbs to name functions, but it is not at all required by the language. (And \"polynomial\" isn't a verb anyway.)"
-)
-```
-
-```{r rdi1-8, echo=FALSE, results="markup"}
-askMC(  
-  "Why are there quotation marks in `'red'`?",
-  "Because the color is only sort of red-ish, not pure red.",
-  "Because Mars is the \"Red Planet\"",
-  "+Because the word is a literal set of characters, not the name of a function or other R object.+"
-)
-```
-
-</div>
 
 The black curve in the graphic drawn by the sandbox is a "cubic spline" interpolating function. Remember that the spline was constructed referencing **only** the selected points drawn as large dots. The other points from Kepler's data are there only to show how well the interpolant provides a match
 
 ```{r di2-1, echo=FALSE, results="markup"}
 askMC(
   "Does the spline go through the selected points?",
-  "+Yes, right through the middle of the dot.+",
+  "+Yes, right through the middle of the big dots.+",
   "Pretty close, but tangent to the edge of the dots.",
   "Exactly through some, but not others.",
   "Exactly through the ones in the middle of the domain, but not so well through the ones at the extremes."
 )
 ```
 
-The red curve in the graphic is a "global" polynomial. Here, "global" means "the same polynomial at all points in the domain."
+The tan curve in the graphic is a "global" polynomial. Here, "global" means "the same polynomial at all points in the domain."
 
 ```{r di2-2, echo=FALSE, results="markup"}
 askMC(
@@ -181,7 +242,7 @@ Which of these is true as you look at different samples of data?",
   "The cubic spline *often but not always* goes exactly through all the data points but the global, 2nd-order polynomial *sometimes but not often* goes through all of them."
 )
 ```
-Actually, it's possible to get a global polynomial to act as an interpolating function. The problem we've had is with the 2nd-order polynomial. By increasing the order of the polynomial you can make it go closer and closer to the data points. At some order, the global cubic will go exactly through the selected points.
+Actually, it's possible to get a global polynomial to act as an interpolating function. The problem we've had is with the 2nd-order polynomial. By increasing the order of the polynomial you can make it go closer and closer to the data points. At some order, the global polynomial will go exactly through the selected points.
 
 Change the order of the polynomial used by changing the integer argument in `poly(kepler.angle, 2)`. If you make the integer too large, you'll get an error message. If you make the integer too small, the global polynomial won't go exactly through the data. 
 
@@ -193,7 +254,7 @@ askMC(
 )
 ```
 
-Let's try making functions based on more data. To do this, in the `kepler_sample()` function use an argument `n`. For instance, `n=10` will select ten instead of the default six points. You can leave the `seed=NULL` argument.
+Let's try making functions based on more data. To do this, in the `sample_n()` function change the argument `n`. For instance, `n=10` will select ten instead of the default six points. 
 
 ```{r di2-6, echo=FALSE, results="markup"}
 askMC(
@@ -636,3 +697,7 @@ gf_point(kepler.radius ~ phase, data = Kepler) %>%
 
 With the data spaced more evenly over the orbital cycle, both the cubic spline and the polynomial provide a smooth match to the data, while the sinusoid shows systematic deviations.
 
+## Exercises
+
+Code-reading
+`r insert_calcZ_exercise("XX.XX", "DP2hxD", "Exercises/ash-fly-canoe.Rmd")`
