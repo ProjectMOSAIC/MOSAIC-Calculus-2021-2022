@@ -21,29 +21,31 @@ USPop <- USPop %>%
 
 In the 230 years spanned by the census data, the US population has grown 100-fold, from about 4 million in 1790 to about 330,000,000 in 2020.
 
-```{r pop-graph, echo=FALSE, fig.cap="US population since 1790.", fig.margin=TRUE}
+```{r pop-graph, echo=FALSE, fig.cap="US population since 1790. Left: linear axes. Right: semi-log axes", fig.margin=TRUE}
 popfun <- spliner(population ~ year, data = USPop)
 USPop <- USPop %>%
   mutate(yearly_growth_rate = 100*((1+growth_rate/100)^(1/10) - 1))
 mod <- lm(population ~ poly(year, 2), data = USPop)
 modf <- makeFun(mod)
-gf_point(population ~ year, data = USPop) %>%
+P1 <-gf_point(population ~ year, data = USPop) %>%
   gf_line(population ~ year) %>%
   gf_labs(y="Population (millions)") %>%
   gf_lims(x = c(1790, 2100), y=c(0,500))
+P2 <- gf_point(population ~ year, data = USPop) %>%
+  gf_line(population ~ year) %>%
+  gf_labs(y="Population (millions)") %>%
+  gf_refine(scale_y_log10())
+gridExtra::grid.arrange(P1, P2, ncol=2)
 ```
 
 
 
 
-It's tempting to look for simple patterns in such data. Perhaps the US population has been growing exponentially. A semi-log plot of the same data suggests that the growth is only very roughly exponential. (See Figure \@ref(fig:pop-graph-log).) A truly exponential process would present as a curve with a constant derivative, but the derivative of the function in the graphed is decreasing over the centuries. 
+It's tempting to look for simple patterns in such data. Perhaps the US population has been growing exponentially. A semi-log plot of the same data suggests that the growth is only very roughly exponential. A truly exponential process would present as a curve with a constant derivative, but the derivative of the function in the graph is decreasing over the centuries. 
 
 
 ```{r pop-graph-log, echo=FALSE, fig.cap="Population since 1790.", fig.margin=TRUE}
-P <- gf_point(population ~ year, data = USPop) %>%
-  gf_line(population ~ year) %>%
-  gf_labs(y="Population (millions)") %>%
-  gf_refine(scale_y_log10())
+
 ```
 
 Insofar as the slope over the semi-log graph is informative, it amounts to this quantity:
@@ -61,11 +63,11 @@ gf_point(yearly_growth_rate ~ year, data = USPop) %>%
 
 The dots in the graph are a direct calculation from the census data.  There's a lot of fluctuation, but an overall trend stands out: the population growth rate has been declining since the mid-to late 1800s. The deviations from the trend are telling and correspond to historical events. There's a relatively low growth rate seen from 1860 to 1870: that's the effect of the US Civil War. The Great depression is seen in the very low growth from 1930 to 1940. Baby Boom: look at the growth from 1950-1960. The bump from 1990 to 2000? Not coincidentally, the 1990 Immigration Act substantially increased the yearly rate of immigration. 
 
-If the trend in the growth rate continues, the US will reach zero net growth about 2070, then continue with negative growth. Of course, negative growth is just decline. A simple prediction from Figure \@ref(fig:pop-growth) is that the argmax of the US population will be around 2070.
+If the trend in the growth rate continues, the US will reach zero net growth about 2070, then continue with negative growth. Of course, negative growth is just decline. A simple prediction from Figure \@ref(fig:pop-growth) is that the argmax of the US population---that is, the year that the growth rate reaches zero---will occur around 2070.
 
 How large will the population be when it reaches its maximum? 
 
-In Block 2, we dealt with situations where we know the function $f(t)$ and want to find the rate of change $\partial_t f(t)$. Here, we know the rate of change of the population and we need to figure out the population itself, in other words to figure out from a known $\partial_t f(t)$ what is the (as yet) unknown function $f(t)$.  
+In Block 2, we dealt with situations where we know the function $f(t)$ and want to find the rate of change $\partial_t f(t)$. Here, we know the rate of change of the population and we need to figure out the population itself, in other words to figure out from a known $\partial_t f(t)$ what is the unknown function $f(t)$.  
 
 The process of figuring out $f(t) \longrightarrow \partial_t f(t)$ is, of course, called ***differentiation***. The opposite process, $\partial_t f(t) \longrightarrow f(t)$ is called ***anti-differentiation***. 
 
@@ -129,40 +131,48 @@ Remember that just as $\partial_x f(x)$ is a function, so is $\int f(x) dx$.
 
 ## R/mosaic notation
 
-Recall that the notation for differentiation in R/mosaic is `D(f(x) ~ x)`.
+Recall that the notation for differentiation in R/mosaic is `D(f(x) ~ x)`. The R/mosaic notation for anti-differentiation is very similar: 
+
+```r
+D(f(x) ~ x)
+```
 
 This has the same three pieces of information as $\partial_x f(x)$
 
-1. `D()` signifies differentiation.
+1. `D()` signifies differentiation whereas `antiD()` signifies anti-differentiation.
 2. `~ x` identifies the with-respect-to variable.
 3. `f(x) ~ ` is the function on which the operation is to be performed. 
-
-This style of notation extends beautifully to anti-differentiation: `antiD(f(x) ~ x)`
 
 Remember that just as `D(f(x) ~ x)` creates a new function out of `f(x) ~ x`, so does `antiD(f(x) ~ x)`.
 
 ## Dimension and anti-differentiation
 
-This entire block will be about anti-differentiation, its properties, and its uses. You already know that anti-differentiation (as the name suggests) is the inverse of differentiation. There is one consequence of this that it's helpful to keep in mind as we move on to other chapters.
-
-This being calculus, the functions that we construct and operator upon have inputs that are quantities and outputs that are also quantities. Every quantity has a dimension, as discussed in Chapter `r Chaps$dimension`. When you are working with any quantity, you should be sure that you know its dimension and its units.
+This entire block will be about anti-differentiation, its properties and its uses. You already know that anti-differentiation (as the name suggests) is the inverse of differentiation. There is one consequence of this that is helpful to keep in mind as we move on to other chapters. This being calculus, the functions that we construct and operate upon have inputs that are quantities and outputs that are also quantities. Every quantity has a dimension, as discussed in Chapter `r Chaps$dimension`. When you are working with any quantity, you should be sure that you know its dimension and its units.
 
 The dimension of the input to a function does not by any means have to be the same as the dimension of the output. For instance, we have been using many functions where the input has dimension **time** and the output is position (dimension L) or velocity (dimension L/T) or acceleration (dimension L/T$^2$).
 
-Imagine working with some function $f(y)$ that's relevant to some modeling project of interest to you. Returning to the bracket notation that we used in Chapter `r Chaps$dimension`, the dimension of the input quantity will be [$y$]. The dimension of the output quantity is [$f(y)$]. 
+Imagine working with some function $f(y)$ that's relevant to some modeling project of interest to you. Returning to the bracket notation that we used in Chapter `r Chaps$dimension`, the dimension of the input quantity will be [$y$]. The dimension of the output quantity is [$f(y)$]. (Remember from `r Chaps$dimension` that [$y$] means "the dimension of quantity $y$" and that [$f(y)$] means "the dimension of the *output* from $f(y)$.")
 
-The function $\partial_y f(y)$ has the same input dimension $[y]$ but the output will be $[f(y)] / [y]$. For example, suppose $f(y)$ is the mass of fuel in a rocket as a function of time $y$. The input dimension $[y]$ is T. The output dimension is M.  The output of the function $\partial_y f(y)$ will be different; it has dimension $[f(y)] / [y]$, which in this case will be M / T. (Less abstractly, if the fuel mass is given in kg, and time is measured in seconds, then $\partial_y f(y)$ will have units of kg-per-second.)
+The function $\partial_y f(y)$ has the same input dimension $[y]$ but the output will be $[f(y)] / [y]$. For example, suppose $f(y)$ is the mass of fuel in a rocket as a function of time $y$. The output of $f(y)$ has dimension M. The input dimension $[y]$ is T.  
 
-How about the dimension of the anti-derivative $F(y) = \int f(y) dy$? The input still has input dimension T. The output ... well, whatever [$F(y)$] is, we know the dimension of $[f(y)] = [\partial_y F(y)]$ will have dimension $[F(y)]\, /\, [y] =$ M. Since the dimension $[y]$ = T, it must be that $[F(y)]$ = M T. 
+The output of the function $\partial_y f(y)$ has dimension $[f(y)] / [y]$, which in this case will be M / T. (Less abstractly, if the fuel mass is given in kg, and time is measured in seconds, then $\partial_y f(y)$ will have units of kg-per-second.)
+
+How about the dimension of the anti-derivative $F(y) = \int f(y) dy$? Since $F(y)$ is the anti-derivative of $f(y)$ (with respect to $y$), we know that $\partial_y F(y) = f(y)$. Taking the dimension of both sides
+$$[\partial_y F(y)] = \frac{[F(y)]}{[y]} = \frac{[F(y)]}{\text{T}} = [f(y)] = \text{M}$$
+Consequently, $[F(y)] = \text{M}$. 
 
 To summarize: 
 
 - The dimension of derivative $\partial_y f(y)$ will be $[f(y)] / [y]$.
 - The dimension of the anti-derivative $\int f(y) dy$ will be $[f(y)]\times [y]$.
 
-Paying attention to the dimensions (and units!) of input and output can be a boon to the calculus student. Often students have some function $f(y)$ and they are wondering which of the several calculus operations---differentiation, anti-differentiation, finding a maximum, finding an argmax or a zero---they are supposed to do. The thing to do is figure out what will be the dimension of the quantity you want. From that, you can often figure out which operation is appropriate.
+Or, more concisely: 
 
-To illustrate, imagine that you have constructed $f(y)$ for you task and you know, say, $[f(y)]$ = M and $[y]$ = T$.  Look things up in the following table:
+> Differentiation is like division, anti-differentiation is like multiplication.
+
+Paying attention to the dimensions (and units!) of input and output can be a boon to the calculus student. Often students have some function $f(y)$ and they are wondering which of the several calculus operations they are supposed to do: differentiation, anti-differentiation, finding a maximum, finding an argmax or a zero. Start by figuring out the dimension of the quantity you want. From that, you can often figure out which operation is appropriate.
+
+To illustrate, imagine that you have constructed $f(y)$ for your task and you know, say, $$[f(y)] = \text{M       and} \  \ \ \ \ [y] = \text{T}\ .$$  Look things up in the following table:
 
 Dimension of result | Calculus operation
 --------------------|--------------------
@@ -179,7 +189,7 @@ For example, suppose the output of the accelerometer on your rocket has dimensio
 
 [*Calculus Made Easy* ](https://en.wikipedia.org/wiki/Calculus_Made_Easy), by Silvanus P. Thompson, is a classic, concise, and elegant textbook from 1910. It takes a common-sense approach, sometimes lampooning the traditional approach to teaching calculus.
 
-> *Some calculus-tricks are quite easy. Some are enormously difficult. The fools who write the textbooks of advanced mathematics---and they are mostly clever fools---seldom take the trouble to show you how easy the easy calculations are. On the contrary, they seem to desire to impress you with their tremendous cleverness by going about it in the most difficult way.* --- from the preface
+> *Some calculus-tricks are quite easy. Some are enormously difficult. The fools who write the textbooks of advanced mathematics---and they are mostly clever fools---seldom take the trouble to show you how easy the easy calculations are. On the contrary, they seem to desire to impress you with their tremendous cleverness by going about it in the most difficult way.* --- From the preface
 
 Thompson's first chapter starts with the notation of accumulation, which he calls "the preliminary terror."
 
@@ -193,7 +203,7 @@ These dreadful symbols are:
 
 Thus $dx$ means a little bit of $x$; or $du$ means a little bit of $u$. Ordinary mathematicians think it more polite to say "an element of," instead of "a little bit of." Just as you please. But you will find that these little bits (or elements) may be considered to be indefinitely small.
 
-(2) $\ \ \Large\int$ which is merely a long $S$, and may be called (if you like) "the sum of."
+(2) $\ \ \large\int$ which is merely a long $S$, and may be called (if you like) "the sum of."
 
 Thus $\ \int dx$ means the sum of all the little bits
 of $x$; or $\ \int dt$ means the sum of all the little bits of $t$. Ordinary mathematicians call this symbol "the integral of." Now any fool can see that if $x$ is
@@ -214,6 +224,8 @@ are now to perform the operation (if you can) of
 totaling up all the little bits that are indicated by
 the symbols that follow.
 :::
+
+<hr>
 
 The next chapter shows what it means to "total up all the little bits" of a function.
 
