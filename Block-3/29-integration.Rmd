@@ -294,33 +294,29 @@ This complicated-looking identity has a fancy name: the ***first fundamental the
 ::: {.intheworld}
 Backtracking the stars.
 
-In the 1920s, astronomers and cosmologists started to question the idea that the large-scale universe is static and unchanging. This traditional belief was undermined both by theory (e.g. General Relativity) and observations. The most famous of these were collected and published by Edwin Hubble, starting in 1929 and continuing over the next decade as improved techniques and larger telescopes became available. In recent years, with the availability of the space telescope named in honor of Hubble data has expanded in availability and quality. Figure \@ref(fig:hubble-curve) shows a version of [Hubble's 1929 graph](https://www.pnas.org/content/15/3/168) based on [contemporary data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC314128/).
+In the 1920s, astronomers and cosmologists questioned the idea that the large-scale universe is static and unchanging. This traditional belief was undermined both by theory (e.g. General Relativity) and observations. The most famous of these were collected and published by Edwin Hubble, starting in 1929 and continuing over the next decade as improved techniques and larger telescopes became available. In recent years, with the availability of the space telescope named in honor of Hubble data has expanded in availability and quality. Figure \@ref(fig:hubble-curve) shows a version of [Hubble's 1929 graph](https://www.pnas.org/content/15/3/168) based on [contemporary data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC314128/).
 
 ```{r hubble-curve, echo=FALSE, fig.cap="The relationship between velocity and distance of stars, using contemporary data in the same format at Edwin Hubble's 1929 publication.", out.width="60%", fig.align="center"}
 knitr::include_graphics("www/hubble-curve.png")
 ```
 Each dot in Figure \@ref(fig:hubble-curve) is an exploding star called a *supernova*. The graph shows the relationship between the distance of the star from our galaxy and the outward velocity of that star. The velocities are large, $3 \times 10^4 = 30,000$ km/s is about one-tenth the speed of light. Similarly, the distances are big; 600 Mpc is the same as 2 billion light years or $1.8 \times 10^{22} \text{km}$. The slope of the line in Figure \@ref(fig:hubble-curve) is $\frac{3.75 \times 10^4\, \text{km/s}}{1.8 \times 10^{22}\, \text{km}} = 2.1 \times 10^{-18}\, \text{s}^{-1}$. For ease of reading, we'll call this slope $\alpha$ and therefore the velocity of a start distance $D$ from Earth is $$v(D) \equiv \alpha D\ .$$
-Earlier in the history of the universe each star was a different distance from Earth. We'll call this function $D(t)$.
+
+Earlier in the history of the universe each star was a different distance from Earth. We'll call this function $D(t)$, distance as a function of time in the universe.
 
 The distance travelled by each star from time $t$ (billions of years ago) to the present is 
-$$\int_t^\text{now} v(t) dt  = D_\text{now} - D(t)$$ or, equivalently $$D(t) = D_\text{now} - \int_t^\text{now} v(t) dt .$$ Assuming that $v(t)$ for each star has remained constant at $\alpha D_\text{now}$, the position of each star at time $t$ is FIX THIS TO FOLLOW PREVIOUS EQUATION.... $$\int_t^\text{now} v(t) dt = \int_t^\text{now} \left[ \alpha D_\text{now}\right]\, dt = \alpha D_\text{now}\left[\text{now} - t\right]$$
-For each star, we know the "current" velocity and the "current" position.^["Current" is in quotes because the measurements reflect the situation 100s of millions of years ago, when the light was emitted from the star.] For cosmologists constructing theories of the origin of the universe, an important question is the location of the star in the remote past. 
+$$\int_t^\text{now} v(t) dt  = D_\text{now} - D(t)$$ 
+which can be re-arranged to give
+$$D(t) = D_\text{now} - \int_t^\text{now} v(t) dt .$$
+Assuming that $v(t)$ for each star has remained constant at $\alpha D_\text{now}$, the distance travelled by each star since time $t$ depends on it's current distance like this:
+$$\int_t^\text{now} v(t) dt = \int_t^\text{now} \left[ \alpha D_\text{now}\right]\, dt = \alpha D_\text{now}\left[\text{now} - t\right]$$
+Thus, the position of each star at time $t$ is 
+$$D(t) = D_\text{now} - \alpha D_\text{now}\left[\text{now} - t\right] = D(t)$$ or, 
+$$D(t) = D_\text{now}\left({\large\strut} 1-\alpha \left[\text{now} - t\right]\right)$$
 
-The location of each star can be found by integrating the velocity backwards in time.
-
-$$D(t) = D_\text{now} - \int_t^\text{now} v(t) dt$$
-
-Ideally we would have measurements of the function $v(t)$, but nobody was around to record them 500 million years ago. So, to model $v(t)$ we can use theories of the evolution of the universe or ... we can start simply and imagine that $v(t)$ is constant. Let's play out the consequences of that assumption.
-
-From the Hubble diagram, we can compute $v$ as a function of $D$---the data show a simple straight-line relationship. The slope is (as always) rise-over-run: the rise is 40000 km/s and the run is 700 megaparsecs, which is $2.2 \times 10^{22}$ km, so the slope is $1.8 \times 10^{-18}\ \text{s}^{-1}$. Consequently, the straight-line relationship is $$v(D_{now}) = 1.8 \times 10^{-18}\ D_{now}\ \ \text{with dimension km/s} .$$
-
-Since $v$ is assumed not to depend on $t$, the anti-derivative itself is trivial: $\int_t^\text{now} v dt = vt v$. Evaluating the anti-derivative at the limits of integration gives, for each star, 
-$$D(t) = D_\text{now} - 1.8\times 10^{-18} D_\text{now} \left[\text{now} - t\right]$$
-Let's define now$=0$ and ask what might be a obvious question for people interested in the origin of the universe: At what $t+0$ was each star at distance zero from the Milky Way? That is, what is the $t_0$ at which $D(t_0) = 0$?
-
-Re-arranging the equation gives $$0 = D_\text{now} \left[1 - 1.8\times 10^{-18} t_0\right]\ \ \implies \ \ t_0 = \frac{1}{1.8\times 10^{-18}} \approx 5.5 \times 10^{17} \text{seconds}.$$
-
-Notice that time $t_0$ does not depend on $D_\text{now}$. According to the theory that the star's velocity $v(t)$ is constant, all of the stars, now spaced apart across 2 billion light years, were at the same position at $t_0 = 5.5 \times 10^{17}$ seconds ago. Converting seconds to years, we get that this grand (but hypothetical) meeting of the stars occurred 17 billion years ago. Pretty crowded to have all the mass in the universe in one place at the same time. No wonder they call it the Big Bang! 
+According to this model, there was a common time $t_0$ when  when all the stars were at the same place: $D(t_0) = 0$. This happened when $$\text{now} - t_0 = \frac{1}{\alpha} = \frac{1}{2.1 \times 10^{-18}\, \text{s}^{-1}} = 4.8 \times 10^{17} \text{s}\ .$$
+It seems fair to call such a time, when all the stars where at the same place at the same time, as the origin of the universe. If so, $\text{now} - t_0$ corresponds to the ***age of the universe*** and our estimate of that age is $4.8\times 10^{17}\text{s}$. Conventionally, this age is reported in years. To get that, we multiply by the ***flavor of one*** that turns seconds into years:
+$$\frac{60\, \text{seconds}}{1\, \text{minute}} \cdot \frac{60\, \text{minutes}}{1\, \text{hour}} \cdot \frac{24\, \text{hours}}{1\, \text{day}} \cdot \frac{365\, \text{days}}{1\, \text{year}} = 31,500,000 \frac{\text{s}}{\text{year}}$$
+The grand (but hypothetical) meeting of the stars therefore occurred $4.8 \times 10^{17} \text{s} / 3.15 \times 10^{7} \text{s/year} = 15,000,000,000$ years ago. Pretty crowded to have all the mass in the universe in one place at the same time. No wonder they call it the Big Bang! 
 :::
 
 ## Exercises
