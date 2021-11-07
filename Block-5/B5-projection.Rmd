@@ -322,6 +322,27 @@ We can find the coefficients of the linear combination with simple, independent 
 
 `r {(b %dot% w) / (w %dot% w)} |> matrix_block(inline=FALSE)`
 
+::: {.example data-latex=""}
+Let's return for a moment to the Lagrange polynomials introduced in Chapter \@ref(linear-combs-vectors). Recall that a Lagrange polynomial is set up to pass exactly through $k$ knot points with a $k-1$-order polynomial. The Lagrange polynomial is a linear combination of $k$ simple but ingenious functions, one for each knot point. Each of the functions being combined has a similar form:
+
+$$p_i(x) = \frac{(x-x_1)(x-x_2)}{(x_i -x_1)(x_i-x_2)}\left[\strut\cdots\right]\frac{(x-x_k)}{(x_i -x_k)}$$ where the $\left[\strut\cdots\right]$ means to include all the intermediate terms in the sequence **except** the term $\frac{(x-x_i)}{(x_i - x_i)}$. 
+
+Evaluate any of the $p_i(x)$ at the set of knot inputs $(x_j, y_j)$ gives a vector consisting of a single 1 and all zeros otherwise. For instance:
+$$p_1\left(\begin{array}{c}x_1\\x_2\\x_3\\\vdots\\x_k\end{array}\right) = \left[\begin{array}{c}1\\0\\0\\\vdots\\0\end{array}\right]\ \ \ \ \ \ \ \ \ p_2\left(\begin{array}{c}x_1\\x_2\\x_3\\\vdots\\x_k\end{array}\right) = \left[\begin{array}{c}0\\1\\0\\\vdots\\0\end{array}\right] \ \ \ \ \ \ \ \ p_3\left(\begin{array}{c}x_1\\x_2\\x_3\\\vdots\\x_k\end{array}\right) = \left[\begin{array}{c}0\\0\\1\\\vdots\\0\end{array}\right]\ \ \text{and so on.}$$
+Notice that each of the functions $p_i()$, when applied to this set of $x$-coordinates of the knot points, will produce a vector output that is orthogonal to every other one of the functions. That is, the whole set $p_1(x_{knots}), p_2(x_{knots}), \cdots, p_k(x_{knots})$ creates a set of vectors (a **matrix**) whose columns are to be combined linearly to reach produce the $y$-values of the knots. For the system of six knot points shown in Figure \@ref(fig:lagrange-sine), the matrix, coefficients, and target are related this way:
+
+$$\!\!\!\begin{array}{rrrrrr}p_1\!\!&\!p_2&\!\!p_3&\!\!\!p_4&\!\!\!p_5&\!\!p_6& & & & & & \end{array}\\\left[\begin{array}{rrrrrr}1&0&0&0&0&0\\
+0&1 &0& 0 & 0 & 0\\0&0&1&0&0&0\\
+0&0&0&1&0&0\\
+0&0&0&0&1&0\\
+0&0&0&0&0&1\end{array}\right]\cdot
+\left[\begin{array}{c}\strut a_1\\a_2\\a_3\\a_4\\a_5\\a_6\end{array}\right] = \left[\begin{array}{c}\strut y_1\\y_2\\y_3\\y_4\\y_5\\y_k\end{array}\right]\ .$$
+Since the vectors in the matrix are mutually orthogonal, to find any of the $a_i$ we need only project the target onto the corresponding $i$th column in the matrix.
+
+MAYBE ILLUSTRATE THIS WITH COMPUTER CODE?
+:::
+
+
 
 This simple procedure of independent projections **does not work** if the columns of $\mathbf A$ are **not mutually orthogonal***. For instance:
 ```{r}
