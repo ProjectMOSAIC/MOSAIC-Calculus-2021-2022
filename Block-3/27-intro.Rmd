@@ -32,9 +32,11 @@ P1 <-gf_point(population ~ year, data = USPop) %>%
   gf_labs(y="Population (millions)") %>%
   gf_lims(x = c(1790, 2100), y=c(0,500))
 P2 <- gf_point(population ~ year, data = USPop) %>%
+  gf_point(500 ~ 2100, alpha=0) %>%
   gf_line(population ~ year) %>%
   gf_labs(y="Population (millions)") %>%
-  gf_refine(scale_y_log10())
+  gf_refine(scale_y_log10(breaks=100*(0:5))) %>%
+  gf_lims(x = c(1790, 2100))
 gridExtra::grid.arrange(P1, P2, ncol=2)
 ```
 
