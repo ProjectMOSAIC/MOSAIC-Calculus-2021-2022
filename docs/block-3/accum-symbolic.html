@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 31 Symbolic anti-differentiation | MOSAIC-Calculus.knit</title>
   <meta name="description" content="" />
-  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 31 Symbolic anti-differentiation | MOSAIC-Calculus.knit" />
   <meta property="og:type" content="book" />
@@ -33,7 +33,6 @@
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
 
 
 
@@ -190,9 +190,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="31.1" data-path="accum-symbolic.html"><a href="accum-symbolic.html#cataloged-functions"><i class="fa fa-check"></i><b>31.1</b> The cataloged functions</a></li>
 <li class="chapter" data-level="31.2" data-path="accum-symbolic.html"><a href="accum-symbolic.html#differentials"><i class="fa fa-check"></i><b>31.2</b> Differentials</a></li>
 <li class="chapter" data-level="31.3" data-path="accum-symbolic.html"><a href="accum-symbolic.html#u-substitution"><i class="fa fa-check"></i><b>31.3</b> U-substitution</a></li>
-<li class="chapter" data-level="31.4" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integration-by-parts"><i class="fa fa-check"></i><b>31.4</b> Integration by parts</a></li>
-<li class="chapter" data-level="31.5" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integrating-polynomials"><i class="fa fa-check"></i><b>31.5</b> Integrating polynomials</a></li>
-<li class="chapter" data-level="31.6" data-path="accum-symbolic.html"><a href="accum-symbolic.html#exercises-3"><i class="fa fa-check"></i><b>31.6</b> Exercises</a></li>
+<li class="chapter" data-level="31.4" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integration-by-parts-standard-presentation"><i class="fa fa-check"></i><b>31.4</b> Integration by parts (standard presentation)</a></li>
+<li class="chapter" data-level="31.5" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integration-by-parts-optional-alternative-presentation"><i class="fa fa-check"></i><b>31.5</b> Integration by parts (optional alternative presentation)</a></li>
+<li class="chapter" data-level="31.6" data-path="accum-symbolic.html"><a href="accum-symbolic.html#didnt-work"><i class="fa fa-check"></i><b>31.6</b> Didn’t work?</a></li>
+<li class="chapter" data-level="31.7" data-path="accum-symbolic.html"><a href="accum-symbolic.html#integrating-polynomials"><i class="fa fa-check"></i><b>31.7</b> Integrating polynomials</a></li>
+<li class="chapter" data-level="31.8" data-path="accum-symbolic.html"><a href="accum-symbolic.html#exercises-3"><i class="fa fa-check"></i><b>31.8</b> Exercises</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
@@ -417,8 +419,56 @@ Saving this fact in your diary is helpful. The next time you need to find <span 
 </blockquote>
 </div>
 </div>
-<div id="integration-by-parts" class="section level2" number="5.4">
-<h2><span class="header-section-number">31.4</span> Integration by parts</h2>
+<div id="integration-by-parts-standard-presentation" class="section level2" number="5.4">
+<h2><span class="header-section-number">31.4</span> Integration by parts (standard presentation)</h2>
+<p>If you do a lot of symbolic anti-differentation, you will often come across functions that you don’t recognize as being the derivative of an already known function. Consider, for instance, <span class="math display">\[\int x \cos(x) dx\ .\]</span></p>
+<p>Even though the integrand <span class="math inline">\(x \cos(x)\)</span> is a simple product of two pattern book functions it is likely not a function that you have previously produced by differentiation. Thus, it’s not yet in your diary of anti-derivatives. The purpose of integration by parts is to provide a standard way to re-organize anti-derivatives like <span class="math inline">\(\int x \cos(x) dx\)</span>, where the integrand is a product of two simple functions, into another form. Being able to do this is no guarantee that the other form will be something you can anti-differentiate, but it’s worth rolling the dice to see if you get lucky.</p>
+<p>The re-organization rule is based on two fundamental properties of differentiation and anti-differentiation.</p>
+<ol style="list-style-type: lower-roman">
+<li><p><span class="math inline">\(\int f&#39;(x) dx = f(x)\)</span>. This is saying nothing more than if <span class="math inline">\(f&#39;(x)\)</span> is the derivative of <span class="math inline">\(f(x)\)</span>, then <span class="math inline">\(f(x)\)</span> must be an anti-derivative of <span class="math inline">\(f&#39;(x)\)</span>.</p></li>
+<li><p><span class="math inline">\(\partial_x \left[\strut u(x)\cdot v(x) \right] = u&#39;(x)\cdot v(x) + v&#39;(x)\cdot u(x)\)</span>: the product rule of differentiation.</p></li>
+</ol>
+<p>Let’s integrate both sides of the statement of the product rule. For the left side, applying rule (i), we get a simple result:</p>
+<p><span class="math display">\[\int\left[\strut\partial_x \left[\strut u(x)\cdot v(x) \right]\right] dx = u(x) \cdot v(x)\]</span></p>
+<p>As for the right side, all we get is two anti-derivatives:
+<span class="math display">\[\int\left[\strut u&#39;(x)\cdot v(x) + v&#39;(x)\cdot u(x)\right]dx =
+\int\left[\strut u&#39;(x)\cdot v(x)\right]dx + \int\left[\strut u(x)\cdot v&#39;(x)\right]dx\]</span>
+Putting together the previous two expressions and re-arranging gives:
+<span class="math display">\[\int u(x)\cdot v&#39;(x)\, dx = u(x) \cdot v(x) - \int  v(x)\cdot u&#39;(x)dx\ \ \ \mathbf{ \text{parts re-arrangment}}\]</span>
+Now, consider a problem like <span class="math inline">\(\int x \cdot \cos(x) dx\)</span> that we don’t yet know how to solve. Let’s associate this problem with the left side of the parts re-arrangement equation. With luck, we will recognize a problem that we’ll know how to do on the right-hand side.</p>
+<p>To implement the re-arrangement, we need to split our as yet unknown anti-derivative into two pieces: <span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v&#39;(x) dx\)</span>. There are many possible ways to do this but the most obvious is
+<span class="math display">\[\int \underbrace{\strut x}_{u(x)} \cdot \underbrace{\cos(x) dx}_{v&#39;(x) dx}\]</span>
+According to this proposed splitting, we have <span class="math inline">\(u(x) = x\)</span> and <span class="math inline">\(v&#39;(x) dx = \cos(x) dx\)</span>. To plug things into the right side of the parts re-arrangement we’ll need to find <span class="math inline">\(v(x)\)</span> and <span class="math inline">\(u&#39;(x) dx\)</span>. Since we know <span class="math inline">\(u(x) = x\)</span> it’s easy to take the differential,
+<span class="math inline">\(du = dx\)</span>. Similarly, we know <span class="math inline">\(v&#39;(x) dx = \cos(x) dx\)</span> so we can integrate both sides:
+<span class="math display">\[v(x) = \underbrace{\int v&#39;(x) dx = \int \cos(x) dx}_{\text{from }\ v&#39;(x)\,dx\ =\ \cos(x)\,dx} = \sin(x)\]</span>
+Now that we know the <span class="math inline">\(v(x)\)</span> that’s consistent with our original splitting of the anti-derivative into <span class="math inline">\(\int u(x) \cdot v&#39;(x) dx\)</span> we can plug in our results to the right side of the parts re-arrangement equation:</p>
+<p><span class="math display">\[\int x \cdot \cos(x)dx = x \sin(x) - \int \underbrace{\sin(x)}_{v(x)}\  \underbrace{\ 1\ dx\ \strut}_{u&#39;(x) dx}\]</span>
+We’re in luck, because we already know the anti-derivative <span class="math inline">\(\int \sin(x) dx = -\cos(x)\)</span>, giving us the result
+<span class="math display">\[\int x \cdot \cos(x)dx = x \sin(x) + \cos(x)\ .\]</span></p>
+<p>The key creative step in using integration by parts effectively is to choose a helpful split of the original integral into the <span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v&#39;(x) dx\)</span> parts. This is usually based on a solid knowledge of derivatives and anti-derivatives of basic functions as well as insight into the downstream consequences of any choice. In this sense, picking <span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v&#39;(x)dx\)</span> is like making a move in chess. Some players can see two or three moves ahead and so can pick the first move to improve their position. Without such foresight, the best most people can do is to pick a first move that seems attractive and accept that their fate might be either victory or checkmate.</p>
+<p>For the calculus student learning integration by parts, there is an irony. Gaining enough experience to make good choices of <span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v&#39;(x)dx\)</span> means that you will solve, or read about solving, many anti-differentiation problems. You can, of course, enter the solutions into your diary of anti-derivatives, obviating to that extent the need to actually perform integration by parts in the future.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-6" class="example"><strong>Example 31.3  </strong></span>In demonstrating that <span class="math display">\[\int x \cdot \cos(x)dx = x \sin(x) + \cos(x)\]</span> we followed a number of steps each of which might be subject to error. Best to confirm our solution before accepting it. This can be done by <em>differentiating</em> both sides of our solution: <span class="math display">\[\partial_x \int x \cdot \cos(x)dx = x \cos(x) = \partial_x \left[\strut x \sin(x) + \cos(x)\right] = \underbrace{\sin(x) + x \cos(x)}_{\partial_x \left[x\cdot\sin(x)\right]}\  \underbrace{- \sin(x)}_{\partial_x \cos(x)}= x\cos(x)\]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 31.4  </strong></span>What would happen in the previous example if we had made a <em>bad</em> choice for <span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v&#39;(x) dx\)</span>? For instance, we might have split <span class="math inline">\(x \cos(x) dx\)</span> into <span class="math inline">\(u(x) = \cos(x)\)</span> and <span class="math inline">\(v&#39;(x)\,dx = x\, dx\)</span>. Working out <span class="math inline">\(u&#39;(x)\,dx\)</span> and <span class="math inline">\(v(x)\)</span> is easy: <span class="math inline">\(u&#39;(x)\, dx = -\sin(x)\, dx\)</span> and <span class="math inline">\(v(x) = \frac{1}{2} x^2\)</span>. Plugging into the re-arrangement formula gives:</p>
+<p><span class="math display">\[\int x \cdot \cos(x)\,dx = \frac{1}{2} x^2 \cos(x) - \int \frac{1}{2} x^2 \left[\strut - \sin(x)\right]\,dx = \frac{1}{2} x^2 \cos(x) + \int \frac{1}{2} x^2  \sin(x)\,dx\]</span>
+Unless you know <span class="math inline">\(\int x^2 \sin(x) dx\)</span>, this re-arrangement leaves you no better off than at the beginning.</p>
+<p>On the other hand … if you are in the business of compiling diaries of anti-derivatives, you could use this situation to chalk up another entry based on already knowing <span class="math inline">\(\int x \cdot \cos(x) dx\)</span>:
+<span class="math display">\[\int x^2 \sin(x) dx = 2 \int x\cdot \cos(x)dx - x^2\cos(x) = 2x\sin(x) + 2\cos(x) - x^2 \cos(x)\]</span></p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-8" class="example"><strong>Example 31.5  </strong></span>Find <span class="math inline">\(\int x \ln(x) dx\)</span>.</p>
+<p>Let <span class="math inline">\(u(x) = \ln(x)\)</span> and <span class="math inline">\(v&#39;(x)dx = x dx\)</span>.</p>
+<p>Then, <span class="math inline">\(u&#39;(x)dx = \frac{1}{x} dx\)</span> and <span class="math inline">\(v(x) = \frac{1}{2} x^2\)</span>.</p>
+<p>Using the parts re-arrangement formula …</p>
+<p><span class="math display">\[\int x \ln(x) dx = \frac{1}{2} x^2 \cdot \ln(x) - \int \frac{1}{2} x^2\cdot \frac{1}{x}\, dx \\
+\frac{1}{2} x^2 \cdot \ln(x) - \frac{1}{4} x^2\]</span>
+And don’t forget, after all this work, to add the constant of integration <span class="math inline">\(C\)</span>!</p>
+</div>
+</div>
+<div id="integration-by-parts-optional-alternative-presentation" class="section level2" number="5.5">
+<h2><span class="header-section-number">31.5</span> Integration by parts (optional alternative presentation)</h2>
 <p>Integration by parts applies to integrals that are recognizably of the form
 <span class="math display">\[\int f(x) g(x) dx\]</span>
 Step 1: Split up the integrand into an <span class="math inline">\(f(x)\)</span> and a <span class="math inline">\(g(x)\)</span> multiplied together. That is, split the integrand into <strong><em>parts</em></strong> that are multiplied together. The way we wrote the integrand, this was trivial.</p>
@@ -436,7 +486,7 @@ Putting together the left and right sides of the equation, and re-arranging give
 <span class="math display">\[\text{Integration by parts re-arrangement}\\\underbrace{\int f(x) g(x) dx}_\text{The original integral we sought.} = \underbrace{f(x) g(x)}_\text{We know this!}  - \underbrace{\int \partial_x f(x) \cdot G(x) dx}_\text{Some NEW integral!}\]</span>
 It may seem that we haven’t accomplished much with this re-organization. But we have done something. We took a problem we didn’t otherwise know how to solve (that is <span class="math inline">\(\int f(x) g(x) dx\)</span>) and broke it down into two parts. One is very simple. The other is an integral. If we’re clever in picking <span class="math inline">\(g()\)</span> and lucky, we’ll be able to figure out the new integral and, thereby, we’ll have computed the original integral. But everything depends on cleverness and luck!</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-6" class="example"><strong>Example 31.3  </strong></span>Task: Find <span class="math inline">\(\int x \cos(x) dx\)</span>.</p>
+<p><span id="exm:unlabeled-div-9" class="example"><strong>Example 31.6  </strong></span>Task: Find <span class="math inline">\(\int x \cos(x) dx\)</span>.</p>
 <p>An obvious choice for the two parts is <span class="math inline">\(x\)</span> and <span class="math inline">\(\cos(x)\)</span>. But which one to call <span class="math inline">\(g(x)\)</span>. We’ll just guess and say <span class="math inline">\(g(x)\equiv \cos(x)\)</span> which implies <span class="math inline">\(G(x) = \sin(x)\)</span>. The helper function is <span class="math inline">\(h(x) \equiv f(x) G(x) = x \sin(x)\)</span>.</p>
 <p>Differentiating <span class="math inline">\(h(x)\)</span> can be done by the product rule.
 <span class="math display">\[\partial_x h(x) = \sin(x) + x \cos(x)\ .\]</span>
@@ -450,11 +500,11 @@ The constant of integration <span class="math inline">\(C\)</span> needs to be i
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="accum-symbolic.html#cb56-1" aria-hidden="true" tabindex="-1"></a>F1 <span class="ot">&lt;-</span> <span class="fu">antiD</span>(x<span class="sc">*</span><span class="fu">cos</span>(x) <span class="sc">~</span> x)</span>
 <span id="cb56-2"><a href="accum-symbolic.html#cb56-2" aria-hidden="true" tabindex="-1"></a>F2 <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(x<span class="sc">*</span><span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">cos</span>(x) <span class="sc">~</span> x)</span>
 <span id="cb56-3"><a href="accum-symbolic.html#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">F1</span>(x) <span class="sc">-</span> <span class="fu">F2</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)))</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-23-1.png" width="50%" style="display: block; margin: auto;" />
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-22-1.png" width="50%" style="display: block; margin: auto;" />
 Yes! The graph shows a constant function: <span class="math inline">\(C\)</span>.</p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 31.4  </strong></span>Task: Find <span class="math inline">\(\int \ln(x) dx\)</span>.</p>
+<p><span id="exm:unlabeled-div-10" class="example"><strong>Example 31.7  </strong></span>Task: Find <span class="math inline">\(\int \ln(x) dx\)</span>.</p>
 <p>The easy solution is to recognize that the anti-derivative of <span class="math inline">\(\ln(x)\)</span> is contained in the table at the top of the chapter. But let’s try doing it by parts as an example (and to show you how it got into the table in the first place).</p>
 <p>It’s hard to see a separate <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> in the integrand <span class="math inline">\(\ln(x)\)</span>. But sometimes you need to be clever. We’ll set <span class="math inline">\(f(x) \equiv \ln(x)\)</span> and <span class="math inline">\(g(x) \equiv 1\)</span>. This means that <span class="math inline">\(G(x) = x\)</span>. The helper function is therefore <span class="math inline">\(h(x) = x\ln(x)\)</span></p>
 <p>Differentiating the helper function gives (by the product rule):
@@ -465,7 +515,7 @@ Re-arranging, we have
 <span class="math display">\[\underbrace{\int \ln(x) dx}_\text{The original integral} = x \ln(x) - x\ \  =\ \  x\left[\strut \ln(x) - 1\right]\]</span></p>
 </div>
 <div class="example">
-<p><span id="exm:unlabeled-div-8" class="example"><strong>Example 31.5  </strong></span>Task: Find <span class="math inline">\(\int \sin(x) e^x dx\)</span>.</p>
+<p><span id="exm:unlabeled-div-11" class="example"><strong>Example 31.8  </strong></span>Task: Find <span class="math inline">\(\int \sin(x) e^x dx\)</span>.</p>
 <p>This isn’t the integral of a pattern book or basic modeling function, and substitution didn’t work, so we try integration by parts.</p>
 <p>The obvious choice for the two parts is <span class="math inline">\(\sin(x)\)</span> and <span class="math inline">\(e^x\)</span>. Both are really easy to anti-differentiate. Let’s choose <span class="math inline">\(g(x) = \sin(x)\)</span>, giving <span class="math inline">\(G(x) = -\cos(x)\)</span>. The re-arrangement of the original integral will be
 <span class="math display">\[\sin(x) e^x + \int \cos(x) e^x dx\]</span>
@@ -478,12 +528,15 @@ Rearranging gives
 And don’t forget the constant of integration.</p>
 </div>
 <p>[The presentation of integration by parts in this section was formulated by Prof. Michael Brilleslyper.]</p>
+</div>
+<div id="didnt-work" class="section level2" number="5.6">
+<h2><span class="header-section-number">31.6</span> Didn’t work?</h2>
 <p>If integration by parts doesn’t work … and it doesn’t always work! … there is a variety of possibilities such as asking a math professor (who has a much larger set of functions at hand than you), looking through a table of integrals (which is to say, the collective calculus diary of generations of math professors), using a computer algebra system, or using numerical integration. One of these will work. <span style="float: right; padding-left: 50px;"><a name="3765" href="#3765"><img src="www/icons8-signpost.png" title="Location: 3765" width="12px"/></a><span style="color: red; font-size: 6pt;">3765</red></span></p>
 <p>If you have difficulty using u-substitution or integration by parts, you will be in the same league as the vast majority of calculus students. Think of your fellow students who master the topic in the way you think of ice dancers. It’s beautiful to watch, but you need a special talent and it hardly solves every problem. People who would fall on their face if strapped to a pair of skates have nonetheless made huge contributions in technical fields, even those that involve ice.</p>
 <p>Prof. Kaplan once had a heart-to-heart with a 2009 Nobel-prize winner who confessed to always feeling bad and inadequate as a scientist because he had not done well in introductory calculus. It was only when he was nominated for the Nobel that he felt comfortable admitting to his “failure.” Even if you don’t master u-substitution or integration by parts, remember that you can integrate any function using easily accessible resources. <span style="float: right; padding-left: 50px;"><a name="3840" href="#3840"><img src="www/icons8-signpost.png" title="Location: 3840" width="12px"/></a><span style="color: red; font-size: 6pt;">3840</red></span></p>
 </div>
-<div id="integrating-polynomials" class="section level2" number="5.5">
-<h2><span class="header-section-number">31.5</span> Integrating polynomials</h2>
+<div id="integrating-polynomials" class="section level2" number="5.7">
+<h2><span class="header-section-number">31.7</span> Integrating polynomials</h2>
 <p>One of the most famous settings for integration comes from the physics of free fall under gravity.</p>
 <p>Here’s the setting. An object—a ball, let’s imagine—is being held at height <span class="math inline">\(x_0\)</span>. At <span class="math inline">\(t=0\)</span> the ball is released. Perhaps the ball is released from a standstill in which case it’s velocity at release is <span class="math inline">\(v_0 = v(t=0) =0\)</span>. Or perhaps the ball has been tossed upward so that <span class="math inline">\(v_0 &gt; 0\)</span>, or downward so that <span class="math inline">\(v_0 &lt; 0\)</span>. Whichever it is, the initial velocity will be labelled <span class="math inline">\(v_0\)</span>.</p>
 <p>On release, the force that held the ball steady is removed and the object moves under the influence of only one factor: gravity. The effect of gravity near the Earth’s surface is easy to describe: it accelerates the object at a constant rate of about 9.8 m/s<span class="math inline">\(^2\)</span>.</p>
@@ -516,15 +569,15 @@ Figure 31.3: Before the computer software era, some functions could only be pres
 <p>In addition to software being more compact and easier to use than printed tables, the interface to numerical integrals can be presented in the same format as any other mathematical function. That’s enabled us to include <span class="math inline">\(\pnorm()\)</span> among the pattern book functions.</p>
 </div>
 </div>
-<div id="exercises-3" class="section level2" number="5.6">
-<h2><span class="header-section-number">31.6</span> Exercises</h2>
+<div id="exercises-3" class="section level2" number="5.8">
+<h2><span class="header-section-number">31.8</span> Exercises</h2>
 <details>
 <summary>
 <strong>Exercise 31.03</strong>: <span><a name="File: Exercises/owl-give-closet.Rmd" href="#HoQaaq"><img src="www/icons8-signpost.png" title="Location: Exercises/owl-give-closet.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">HoQaaq</red></span>
 </summary>
 <p><strong>Question A</strong> What is the differential of <span class="math inline">\(u = x + 5\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(du = dx\)</span><span class="mcanswer">Good. Since <span class="math inline">\(\partial_x (x+5) = 1\)</span>.</span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(du = dx\)</span><span class="mcanswer">Excellent! Since <span class="math inline">\(\partial_x (x+5) = 1\)</span>.</span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(du = (x+5)dx\)</span><span class="mcanswer">︎✘ You should have used <span class="math inline">\(\partial_x (x+5)\)</span> instead of <span class="math inline">\((x+5)\)</span> on the right side.</span></span><br />
 </li>
@@ -534,7 +587,7 @@ Figure 31.3: Before the computer software era, some functions could only be pres
 </ol>
 <p><strong>Question B</strong> What is the differential of <span class="math inline">\(u = \sin(2x + 5)\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(du = 2 \cos(2x + 5) dx\)</span><span class="mcanswer">Excellent! Since <span class="math inline">\(\partial_x \sin(2x + 5) = 2 \cos(2x + 5)\)</span>.</span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(du = 2 \cos(2x + 5) dx\)</span><span class="mcanswer">Correct. Since <span class="math inline">\(\partial_x \sin(2x + 5) = 2 \cos(2x + 5)\)</span>.</span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(du = (2x+5)dx\)</span><span class="mcanswer">︎✘ You should have used <span class="math inline">\(\partial_x \sin(2x+5)\)</span> instead of <span class="math inline">\((2x+5)\)</span> on the right side.</span></span><br />
 </li>
@@ -546,7 +599,7 @@ Figure 31.3: Before the computer software era, some functions could only be pres
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice"><span class="math inline">\(du = e^x dx\)</span><span class="mcanswer">︎✘ The name of the function here is <span class="math inline">\(v()\)</span>, not <span class="math inline">\(u\)</span>. So the differential should be written <span class="math inline">\(dv\)</span>.</span></span><br />
 </li>
-<li><span class="Zchoice"><span class="math inline">\(dv = e^x dx\)</span><span class="mcanswer">Correct. Since <span class="math inline">\(\partial_x e^x = 1\)</span>.</span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(dv = e^x dx\)</span><span class="mcanswer">Excellent! Since <span class="math inline">\(\partial_x e^x = 1\)</span>.</span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(du = x dx\)</span><span class="mcanswer">︎✘ The name of the function here is <span class="math inline">\(v()\)</span>, not <span class="math inline">\(u\)</span>. So the differential should be written <span class="math inline">\(dv\)</span>.</span></span><br />
 </li>
@@ -554,7 +607,7 @@ Figure 31.3: Before the computer software era, some functions could only be pres
 </ol>
 <p><strong>Question D</strong> What is the differential of <span class="math inline">\(f = \cos(\ln(t))\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(df = -\frac{\sin(\ln(t))}{t} dt\)</span><span class="mcanswer">Excellent! Since the chain rule tells us <span class="math inline">\(\partial_t\cos(\ln(t)) = -\sin(\ln(t))/x\)</span>.</span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(df = -\frac{\sin(\ln(t))}{t} dt\)</span><span class="mcanswer">Right! Since the chain rule tells us <span class="math inline">\(\partial_t\cos(\ln(t)) = -\sin(\ln(t))/x\)</span>.</span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(du = -\frac{\sin(\ln(t))}{t} dt\)</span><span class="mcanswer">︎✘ There’s no <span class="math inline">\(u\)</span> in sight in this problem. It’s <span class="math inline">\(f\)</span>.</span></span><br />
 </li>
@@ -565,95 +618,13 @@ Figure 31.3: Before the computer software era, some functions could only be pres
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/frog-pitch-clock.Rmd" href="#Y7ecmI"><img src="www/icons8-signpost.png" title="Location: Exercises/frog-pitch-clock.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Y7ecmI</red></span>
-</summary>
-<p><strong>Question A</strong> In <span class="math inline">\(h(x) = 2x/(x^2 + 2)\)</span> which of the following is a plausible candidate for an interior function <span class="math inline">\(g(x)\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\sin(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\ln(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(2x\)</span><span class="mcanswer">︎✘ In order for this to be an interior function <span class="math inline">\(g(x)\)</span> there has to be some other function embracing it. <span class="math inline">\(2x\)</span> is standing proudly on its own, so it’s not a good choice for <span class="math inline">\(g(x)\)</span></span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(x^2 + 2\)</span><span class="mcanswer">Right! </span></span></li>
-</ol>
-<p><strong>Question B</strong> Continuing with the integral of <span class="math inline">\(h(x) = 2x/(x^2 + 2)\)</span> and the working guess that <span class="math inline">\(g(x) = x^2 + 2\)</span>, do you see any part of <span class="math inline">\(h()\)</span> which is a match to <span class="math inline">\(\partial_x g()\)</span>?</p>
-<p>    <span class="Zchoice"><span class="math inline">\(1/x\)</span><span class="mcanswer">︎✘ But that’s not anything like <span class="math inline">\(\partial_x g(x)\)</span>.</span></span>       <span class="Zchoice"><span class="math inline">\(\ln(x)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(2x\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
-<p><strong>Question C</strong> Taking seriously the progress we made in the previous two questions, we now need to write <span class="math inline">\(h(x)\)</span> as <span class="math inline">\(f(x^2 + 2) 2x\)</span>? What should <span class="math inline">\(f()\)</span> be to make this match <span class="math inline">\(h(x)\)</span>?</p>
-<p>    <span class="Zchoice"><span class="math inline">\(f(x) = \sin(x)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(f(x) = \ln(x)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(f(x) = 1/x\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(x^2 + 2\)</span><span class="mcanswer">︎✘ </span></span></p>
-Now that you have found both <span class="math inline">\(g()\)</span> and <span class="math inline">\(f()\)</span>, you simply need to find a function <span class="math inline">\(F(x)\)</span> such that <span class="math inline">\(\partial_x F(x) = f(x)\)</span>. Since <span class="math inline">\(\partial_x \ln(x) = 1/x\)</span>, we know that <span class="math inline">\(F(x) = \ln(x)\)</span>. Thus, <span class="math inline">\(\int h(x) dx = F(g(x)) = F(x^2 + 2) = \ln(x^2 + 2)\)</span>.
-</details>
-<details>
-<summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/lamb-mean-pan.Rmd" href="#LPlcgV"><img src="www/icons8-signpost.png" title="Location: Exercises/lamb-mean-pan.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">LPlcgV</red></span>
-</summary>
-<p><strong>Question A</strong> <span class="math display">\[\text{Find a plausible interior g(x) in} \ x \exp(x^2 + 3)\]</span></p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\exp(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(x\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(x^2 + 3\)</span><span class="mcanswer">Good. </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(x^2\)</span><span class="mcanswer">︎✘ The interior function has to be <em>everything</em> embraced by the parentheses of the exterior function <span class="math inline">\(f()\)</span>.</span></span></li>
-</ol>
-<p><strong>Question B</strong> Using your candidate for <span class="math inline">\(g()\)</span> from the previous question, which of these is a <em>exterior</em> f(x) in <span class="math inline">\(x \exp(x^2 + 3)\)</span></p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(f(x) = \exp(x)\)</span><span class="mcanswer">Correct. </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(f(x) = x\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(f(x) = x \exp(x)\)</span><span class="mcanswer">︎✘ If this were so, the resulting <span class="math inline">\(h()\)</span> would have something like <span class="math inline">\((x^2 + 3) \exp(x^2 + 3)\)</span> in it.</span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(f(x) = \ln(x)\)</span><span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<p>Confirm that <span class="math inline">\(h(x) = f(g(x)) \partial_x g(x)\)</span> and you win. The answer will be <span class="math inline">\(F(g(x)) + C\)</span></p>
-</details>
-<details>
-<summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/shark-dive-hamper.Rmd" href="#A0u94a"><img src="www/icons8-signpost.png" title="Location: Exercises/shark-dive-hamper.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">A0u94a</red></span>
-</summary>
-<p><strong>Question A</strong> Which of these candidates for <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> will produce <span class="math display">\[f(g(x))\, \partial_x g(x) = x^3 \cos(x^4)\ ?\]</span></p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(f(x) = \cos(x)/4\)</span> and <span class="math inline">\(g(x) = x^4\)</span><span class="mcanswer">Nice! The 1/4 cancels out the 4 produced by <span class="math inline">\(\partial_x g(x)\)</span>.</span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(f(x) = \cos(x)\)</span> and <span class="math inline">\(g(x) = x^4\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(f(x) = x^4\)</span> and <span class="math inline">\(g(x) = \cos(x)\)</span><span class="mcanswer">︎✘ But <span class="math inline">\(h(x)\)</span> involves <span class="math inline">\(\cos(x^4)\)</span> not <span class="math inline">\(cos^4(x)\)</span>.</span></span></li>
-</ol>
-Once again, <span class="math inline">\(\int h(x) dx = F(g(x))\)</span>, where <span class="math inline">\(\partial_x F(x) = f(x)\)</span>.
-</details>
-<details>
-<summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/pine-fight-painting.Rmd" href="#kay2zx"><img src="www/icons8-signpost.png" title="Location: Exercises/pine-fight-painting.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">kay2zx</red></span>
-</summary>
-<p><strong>Question A</strong> What is <span class="math display">\[\int \frac{\sin(x)}{\cos^5(x)}dx\ ?\]</span></p>
-    <span class="Zchoice"><span class="math inline">\(\ln(cos(x))\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(- \frac{1}{4} \cos^{-4}(x)\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(\frac{1}{6} \cos^{-6}(x)\)</span><span class="mcanswer">︎✘ </span></span>
-</details>
-<details>
-<summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/cat-go-window.Rmd" href="#nef1lB"><img src="www/icons8-signpost.png" title="Location: Exercises/cat-go-window.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">nef1lB</red></span>
-</summary>
-<p><strong>Question A</strong> Use u-substitution to find <span class="math display">\[\int \frac{4 e^{4x} + 4}{e^{4x}}dx\]</span></p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\ln(e^{4x} + 4)\)</span><span class="mcanswer">Excellent! </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(1/(e^{4x} + 4)\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\frac{1}{4} e^{4x} + 4\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\frac{1}{2} 1/(e^{4x} + 4)^2\)</span><span class="mcanswer">︎✘ </span></span>
-</details></li>
-</ol>
-<details>
-<summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/bird-hold-jacket.Rmd" href="#1qDQZz"><img src="www/icons8-signpost.png" title="Location: Exercises/bird-hold-jacket.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">1qDQZz</red></span>
+<strong>Exercise 31.05</strong>: <span><a name="File: Exercises/bird-hold-jacket.Rmd" href="#1qDQZz"><img src="www/icons8-signpost.png" title="Location: Exercises/bird-hold-jacket.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">1qDQZz</red></span>
 </summary>
 <p>Go through the steps above to find the anti-derivative of <span class="math inline">\(g(x) \equiv x \cos(x)\)</span>.</p>
 <p>Step 1 hint: We know the anti-derivative of <span class="math inline">\(\cos(x)\)</span> is <span class="math inline">\(\sin(x)\)</span>, so an appropriate helper function is the function <span class="math inline">\(x\, \sin(x)\)</span>. Now do steps (2) and (3): (2) take the derivative of the helper function and then (3) integrate each term in the result.</p>
 <p><strong>Question A</strong> What is the derivative of the helper function with respect to <span class="math inline">\(x\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\partial_x \text{helper}(x) = \sin(x) + x \cos(x)\)</span><span class="mcanswer">Nice! </span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(\partial_x \text{helper}(x) = \sin(x) + x \cos(x)\)</span><span class="mcanswer">Good. </span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(\partial_x \text{helper}(x) = \sin(x) + x \sin(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -663,7 +634,7 @@ Once again, <span class="math inline">\(\int h(x) dx = F(g(x))\)</span>, where <
 </ol>
 <p><strong>Question B</strong> What is <span class="math display">\[\int \partial_x \text{helper}(x)\ ?\]</span></p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\text{helper}(x) + C\)</span><span class="mcanswer">Excellent! We included the constant of integration <span class="math inline">\(C\)</span> just as a reminder.</span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(\text{helper}(x) + C\)</span><span class="mcanswer">Correct. We included the constant of integration <span class="math inline">\(C\)</span> just as a reminder.</span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(\frac{1}{2} \text{helper}^2(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -694,14 +665,14 @@ Once again, <span class="math inline">\(\int h(x) dx = F(g(x))\)</span>, where <
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/chicken-cost-coat.Rmd" href="#YMuG92"><img src="www/icons8-signpost.png" title="Location: Exercises/chicken-cost-coat.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">YMuG92</red></span>
+<strong>Exercise 31.07</strong>: <span><a name="File: Exercises/chicken-cost-coat.Rmd" href="#YMuG92"><img src="www/icons8-signpost.png" title="Location: Exercises/chicken-cost-coat.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">YMuG92</red></span>
 </summary>
 <p>Use the same procedure to find the anti-derivative of <span class="math inline">\(x\, \cos(2x)\)</span>. Since <span class="math display">\[\cos(2x) = \frac{1}{2}\partial_x \sin(2 x)\]</span> a reasonable guess for a helper function will be <span class="math inline">\(x \sin(2x)\)</span>.</p>
 <p>(We have intentionally dropped the <span class="math inline">\(1/2\)</span> to simplify the rest of the procedure. You’ll see that such multiplicative constants don’t matter, since they will be on both sides of the equation showing the derivative of the helper function. You can see this by keeping the <span class="math inline">\(1/2\)</span> in the helper function and watching what happens to it.)</p>
 <p>As you work through the steps be very careful about the constants and make sure you check your final answer by differentiating.</p>
 <p><strong>Question A</strong> What is <span class="math inline">\(\partial_x x\, \sin(x)\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\sin(x) + x\, \cos(x)\)</span><span class="mcanswer">Good. </span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(\sin(x) + x\, \cos(x)\)</span><span class="mcanswer">Nice! </span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(\sin(x) + x\, \sin(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -721,7 +692,7 @@ Once again, <span class="math inline">\(\int h(x) dx = F(g(x))\)</span>, where <
 </ol>
 <p><strong>Question C</strong> What is <span class="math inline">\(\int x\, \cos(x) dx\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(x\, \sin(x) + \cos(x)\)</span><span class="mcanswer">Excellent! </span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(x\, \sin(x) + \cos(x)\)</span><span class="mcanswer">Nice! </span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(x\, \cos(x) + \cos(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -732,7 +703,78 @@ Once again, <span class="math inline">\(\int h(x) dx = F(g(x))\)</span>, where <
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/crow-eat-bottle.Rmd" href="#LpYZy4"><img src="www/icons8-signpost.png" title="Location: Exercises/crow-eat-bottle.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">LpYZy4</red></span>
+<strong>Exercise 31.08</strong>: <span><a name="File: Exercises/frog-pitch-clock.Rmd" href="#Y7ecmI"><img src="www/icons8-signpost.png" title="Location: Exercises/frog-pitch-clock.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Y7ecmI</red></span>
+</summary>
+<p><strong>Question A</strong> In <span class="math inline">\(h(x) = 2x/(x^2 + 2)\)</span> which of the following is a plausible candidate for an interior function <span class="math inline">\(g(x)\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\sin(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\ln(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(2x\)</span><span class="mcanswer">︎✘ In order for this to be an interior function <span class="math inline">\(g(x)\)</span> there has to be some other function embracing it. <span class="math inline">\(2x\)</span> is standing proudly on its own, so it’s not a good choice for <span class="math inline">\(g(x)\)</span></span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(x^2 + 2\)</span><span class="mcanswer">Excellent! </span></span></li>
+</ol>
+<p><strong>Question B</strong> Continuing with the integral of <span class="math inline">\(h(x) = 2x/(x^2 + 2)\)</span> and the working guess that <span class="math inline">\(g(x) = x^2 + 2\)</span>, do you see any part of <span class="math inline">\(h()\)</span> which is a match to <span class="math inline">\(\partial_x g()\)</span>?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(1/x\)</span><span class="mcanswer">︎✘ But that’s not anything like <span class="math inline">\(\partial_x g(x)\)</span>.</span></span>       <span class="Zchoice"><span class="math inline">\(\ln(x)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(2x\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question C</strong> Taking seriously the progress we made in the previous two questions, we now need to write <span class="math inline">\(h(x)\)</span> as <span class="math inline">\(f(x^2 + 2) 2x\)</span>? What should <span class="math inline">\(f()\)</span> be to make this match <span class="math inline">\(h(x)\)</span>?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(f(x) = \sin(x)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(f(x) = \ln(x)\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(f(x) = 1/x\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(x^2 + 2\)</span><span class="mcanswer">︎✘ </span></span></p>
+Now that you have found both <span class="math inline">\(g()\)</span> and <span class="math inline">\(f()\)</span>, you simply need to find a function <span class="math inline">\(F(x)\)</span> such that <span class="math inline">\(\partial_x F(x) = f(x)\)</span>. Since <span class="math inline">\(\partial_x \ln(x) = 1/x\)</span>, we know that <span class="math inline">\(F(x) = \ln(x)\)</span>. Thus, <span class="math inline">\(\int h(x) dx = F(g(x)) = F(x^2 + 2) = \ln(x^2 + 2)\)</span>.
+</details>
+<details>
+<summary>
+<strong>Exercise 31.09</strong>: <span><a name="File: Exercises/lamb-mean-pan.Rmd" href="#LPlcgV"><img src="www/icons8-signpost.png" title="Location: Exercises/lamb-mean-pan.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">LPlcgV</red></span>
+</summary>
+<p><strong>Question A</strong> <span class="math display">\[\text{Find a plausible interior g(x) in} \ x \exp(x^2 + 3)\]</span></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\exp(x)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(x\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(x^2 + 3\)</span><span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(x^2\)</span><span class="mcanswer">︎✘ The interior function has to be <em>everything</em> embraced by the parentheses of the exterior function <span class="math inline">\(f()\)</span>.</span></span></li>
+</ol>
+<p><strong>Question B</strong> Using your candidate for <span class="math inline">\(g()\)</span> from the previous question, which of these is a <em>exterior</em> f(x) in <span class="math inline">\(x \exp(x^2 + 3)\)</span></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(f(x) = \exp(x)\)</span><span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) = x\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) = x \exp(x)\)</span><span class="mcanswer">︎✘ If this were so, the resulting <span class="math inline">\(h()\)</span> would have something like <span class="math inline">\((x^2 + 3) \exp(x^2 + 3)\)</span> in it.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) = \ln(x)\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>Confirm that <span class="math inline">\(h(x) = f(g(x)) \partial_x g(x)\)</span> and you win. The answer will be <span class="math inline">\(F(g(x)) + C\)</span></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 31.10</strong>: <span><a name="File: Exercises/wolf-speak-oven.Rmd" href="#v1ktnB"><img src="www/icons8-signpost.png" title="Location: Exercises/wolf-speak-oven.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">v1ktnB</red></span>
+</summary>
+<p>Using integration by parts, show that
+<span class="math display">\[\int x^2 \, e^{-x}\, dx = e^{-x} \left(2 - 2 x - x^2\right)\]</span>
+Hint: The 2’s in <span class="math inline">\(2 - 2x - x^2\)</span> are a hint that you don’t need to integrate <span class="math inline">\(x^2\)</span>.</p>
+Show your work.
+</details>
+<details>
+<summary>
+<strong>Exercise 31.11</strong>: <span><a name="File: Exercises/aspen-give-canoe.Rmd" href="#gzLEo6"><img src="www/icons8-signpost.png" title="Location: Exercises/aspen-give-canoe.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">gzLEo6</red></span>
+</summary>
+<p>The integral <span class="math display">\[\int x \sin(x) dx = -x \cos(x) + \sin(x) + C\ .\]</span></p>
+<p>Confirm this result by differentiating both side of the above equation.</p>
+<p>As well, use the given result to figure out what was the choice of <span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v&#39;(x)dx\)</span> when <span class="math inline">\(\int x \sin(x) dx\)</span> was integrated by parts.</p>
+Show your work.
+</details>
+<details>
+<summary>
+<strong>Exercise 31.12</strong>: <span><a name="File: Exercises/rhinosaurus-beat-screen.Rmd" href="#4vJNnj"><img src="www/icons8-signpost.png" title="Location: Exercises/rhinosaurus-beat-screen.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">4vJNnj</red></span>
+</summary>
+<p>Use integration by parts to find <span class="math display">\[\int x^2 \ln(x) dx\ .\]</span>
+Show your choices of <span class="math inline">\(u(x)\)</span> and <span class="math inline">\(v&#39;(x) dx\)</span>.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 31.13</strong>: <span><a name="File: Exercises/crow-eat-bottle.Rmd" href="#LpYZy4"><img src="www/icons8-signpost.png" title="Location: Exercises/crow-eat-bottle.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">LpYZy4</red></span>
 </summary>
 <p>A giant tortoise (with very good eyesight and standing on an unobstructed plane!) spies a head of lettuce on the ground 65 meters away. Being hungry (and knowing the shortest path between two points on the plane!), the tortoise takes off in a straight line for the lettuce. She pretty quickly reaches her top speed, but then starts to tire. If her velocity as a function of time (in meters per minute) is modeled by <span class="math inline">\(v(t) = 7 t e^{-0.3t}\)</span>, how long does it take the tortoise to reach her lunch? Answer this question by finding an calculus/algebra formula for the tortoise’s displacement and then use it to approximate how long it takes to get to the lettuce. <span style="float: right; padding-left: 50px;"><a name="3775" href="#3775"><img src="www/icons8-signpost.png" title="Location: 3775" width="12px"/></a><span style="color: red; font-size: 6pt;">3775</red></span></p>
 <p>We’re going to be looking at <span class="math inline">\(\int v(t) dt = 7 \int t e^{-0.3 t} dt\)</span>.</p>
@@ -744,10 +786,69 @@ Use integration by parts to find displacement(t) as a simple formula in <span cl
 <p><strong>Question A</strong> At what time <span class="math inline">\(t^\star\)</span> does the tortoise reach the cabbage?</p>
 <p>    <span class="Zchoice">5.95 sec<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">10.85 sec<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">15.75 sec<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Never! (That is, <span class="math inline">\(t^\star\)</span> is infinite.)<span class="mcanswer">︎✘ </span></span></p>
 </details>
+<details>
+<summary>
+<strong>Exercise 31.14</strong>: <span><a name="File: Exercises/pine-sing-scarf.Rmd" href="#Wo7Elt"><img src="www/icons8-signpost.png" title="Location: Exercises/pine-sing-scarf.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Wo7Elt</red></span>
+</summary>
+Use integration by parts to find <span class="math inline">\(\int \ln(x) dx\)</span>. Show your work.
+</details>
+<details>
+<summary>
+<strong>Exercise 31.15</strong>: <span><a name="File: Exercises/shark-dive-hamper.Rmd" href="#A0u94a"><img src="www/icons8-signpost.png" title="Location: Exercises/shark-dive-hamper.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">A0u94a</red></span>
+</summary>
+<p><strong>Question A</strong> Which of these candidates for <span class="math inline">\(f()\)</span> and <span class="math inline">\(g()\)</span> will produce <span class="math display">\[f(g(x))\, \partial_x g(x) = x^3 \cos(x^4)\ ?\]</span></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(f(x) = \cos(x)/4\)</span> and <span class="math inline">\(g(x) = x^4\)</span><span class="mcanswer">Excellent! The 1/4 cancels out the 4 produced by <span class="math inline">\(\partial_x g(x)\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) = \cos(x)\)</span> and <span class="math inline">\(g(x) = x^4\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(f(x) = x^4\)</span> and <span class="math inline">\(g(x) = \cos(x)\)</span><span class="mcanswer">︎✘ But <span class="math inline">\(h(x)\)</span> involves <span class="math inline">\(\cos(x^4)\)</span> not <span class="math inline">\(cos^4(x)\)</span>.</span></span></li>
+</ol>
+Once again, <span class="math inline">\(\int h(x) dx = F(g(x))\)</span>, where <span class="math inline">\(\partial_x F(x) = f(x)\)</span>.
+</details>
+<details>
+<summary>
+<strong>Exercise 31.16</strong>: <span><a name="File: Exercises/wolf-jump-sofa.Rmd" href="#xVaQOh"><img src="www/icons8-signpost.png" title="Location: Exercises/wolf-jump-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">xVaQOh</red></span>
+</summary>
+<p>Compute the value of the definite integral <span class="math display">\[\int_0^1 x \ln(x)\, dx .\]</span> First, compute the anti-derivative using integration by parts, then evaluate the anti-derivative at the lower and upper bounds of integration.</p>
+<p>As part of your work, you will need to evaluate <span class="math inline">\(\left.x^2 \ln(x) {\Large\strut}\right|_{x=0}\)</span>. This is an indeterminate form, since <span class="math inline">\(x=0\)</span> is not in the domain of <span class="math inline">\(\ln(x)\)</span>. So use <span class="math inline">\(\lim_{x\rightarrow0} \left[{\large\strut} x^2 \ln(x)\right]\)</span> instead Plotting out <span class="math inline">\(x^2 \ln(x)\)</span> over the domain <span class="math inline">\(0 &lt; x \leq 10^{-4}\)</span> will guide your answer.</p>
+<p><strong>Question A</strong> What is the value of <span class="math inline">\(\int_0^1 x \ln(x)\, dx\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(x^2(2\ln(x) - 1)/4\)</span><span class="mcanswer">︎✘ It’s a definite integral, so the result should be a quantity, not a function.</span></span><br />
+</li>
+<li><span class="Zchoice">-0.25<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">0<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">0.25<span class="mcanswer">︎✘ </span></span>
+</details></li>
+</ol>
+<details>
+<summary>
+<strong>Exercise 31.17</strong>: <span><a name="File: Exercises/pine-fight-painting.Rmd" href="#kay2zx"><img src="www/icons8-signpost.png" title="Location: Exercises/pine-fight-painting.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">kay2zx</red></span>
+</summary>
+<p><strong>Question A</strong> What is <span class="math display">\[\int \frac{\sin(x)}{\cos^5(x)}dx\ ?\]</span></p>
+    <span class="Zchoice"><span class="math inline">\(\ln(cos(x))\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(- \frac{1}{4} \cos^{-4}(x)\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(\frac{1}{6} \cos^{-6}(x)\)</span><span class="mcanswer">︎✘ </span></span>
+</details>
+<details>
+<summary>
+<strong>Exercise 31.19</strong>: <span><a name="File: Exercises/cat-go-window.Rmd" href="#nef1lB"><img src="www/icons8-signpost.png" title="Location: Exercises/cat-go-window.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">nef1lB</red></span>
+</summary>
+<p><strong>Question A</strong> Use u-substitution to find <span class="math display">\[\int \frac{4 e^{4x} + 4}{e^{4x}}dx\]</span></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\ln(e^{4x} + 4)\)</span><span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(1/(e^{4x} + 4)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{1}{4} e^{4x} + 4\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\frac{1}{2} 1/(e^{4x} + 4)^2\)</span><span class="mcanswer">︎✘ </span></span>
+</details></li>
+</ol>
 <!-- table of integrals -->
 <details>
 <summary>
-<strong>Exercise 31.07</strong>: <span><a name="File: Exercises/wolf-come-room.Rmd" href="#f6C4Ia"><img src="www/icons8-signpost.png" title="Location: Exercises/wolf-come-room.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">f6C4Ia</red></span>
+<strong>Exercise 31.22</strong>: <span><a name="File: Exercises/wolf-come-room.Rmd" href="#f6C4Ia"><img src="www/icons8-signpost.png" title="Location: Exercises/wolf-come-room.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">f6C4Ia</red></span>
 </summary>
 <p><strong>Tables of integrals</strong></p>
 <p>Although any function has an anti-derivative, that anti-derivative cannot always be presented in algebraic notation. This poses no fundamental problem to the construction of the anti-derivative, particularly when a computer is available to handle the book-keeping of numerical integration. <span style="float: right; padding-left: 50px;"><a name="3845" href="#3845"><img src="www/icons8-signpost.png" title="Location: 3845" width="12px"/></a><span style="color: red; font-size: 6pt;">3845</red></span></p>
@@ -770,7 +871,7 @@ people who are considered to be especially well informed about a particular subj
 <p>Some exercises:</p>
 <p><strong>Question A</strong> Which of these is <span class="math inline">\(\int \frac{1}{az}dz\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\frac{1}{a} \ln(z)\)</span><span class="mcanswer">Nice! The level of the DLMF is such that you would be expected to know on your own that <span class="math inline">\(\int \frac{1}{az} dz = \frac{1}{a}\int \frac{1}{z}dz\)</span>. In other words, the <span class="math inline">\(\frac{1}{a}\)</span> here is a scalar multiple of the function <span class="math inline">\(\frac{1}{z}\)</span> and “the integral of a scalar multiple of a function is the scalar multiple of the integral of the function.”. Really.</span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(\frac{1}{a} \ln(z)\)</span><span class="mcanswer">Good. The level of the DLMF is such that you would be expected to know on your own that <span class="math inline">\(\int \frac{1}{az} dz = \frac{1}{a}\int \frac{1}{z}dz\)</span>. In other words, the <span class="math inline">\(\frac{1}{a}\)</span> here is a scalar multiple of the function <span class="math inline">\(\frac{1}{z}\)</span> and “the integral of a scalar multiple of a function is the scalar multiple of the integral of the function.”. Really.</span></span><br />
 </li>
 <li><span class="Zchoice">There is no anti-derivative of <span class="math inline">\(1/az\)</span>.<span class="mcanswer">︎✘ Every function has an anti-derivative.</span></span><br />
 </li>
@@ -784,7 +885,7 @@ people who are considered to be especially well informed about a particular subj
 <span id="cb59-6"><a href="accum-symbolic.html#cb59-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p><strong>Question B</strong> Use Section 4.10 of DLMF to find <span class="math inline">\(\int \frac{1}{e^{3 t} + 5}dt\)</span></p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\frac{1}{15}(3t - \ln(e^{3t} + 5))\)</span><span class="mcanswer">Excellent! </span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(\frac{1}{15}(3t - \ln(e^{3t} + 5))\)</span><span class="mcanswer">Correct. </span></span><br />
 </li>
 <li><span class="Zchoice">There’s no such function listed in Section 4.10.<span class="mcanswer">︎✘ Although DLFM wrote the function using the variable name <span class="math inline">\(z\)</span>, using <span class="math inline">\(t\)</span> instead is perfectly legitimate.</span></span><br />
 </li>
@@ -798,7 +899,7 @@ people who are considered to be especially well informed about a particular subj
 <span id="cb60-6"><a href="accum-symbolic.html#cb60-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p><strong>Question C</strong> Is <span class="math inline">\(\frac{1}{e^{az} + b}\)</span> different from <span class="math inline">\(e^{-(az + b)}\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">Yes<span class="mcanswer">Good. <span class="math inline">\(e^{-(az + b)}\)</span> is a simple exponential with the linear interior function <span class="math inline">\(-(az + b)\)</span>.</span></span><br />
+<li><span class="Zchoice">Yes<span class="mcanswer">Right! <span class="math inline">\(e^{-(az + b)}\)</span> is a simple exponential with the linear interior function <span class="math inline">\(-(az + b)\)</span>.</span></span><br />
 </li>
 <li><span class="Zchoice">No<span class="mcanswer">︎✘ They look similar, but <span class="math inline">\(1/(e^{az} + b)\)</span> is not an exponential function and it’s not <span class="math inline">\(1/e^{az} + 1/b\)</span> either.</span></span><br />
 </li>
@@ -812,7 +913,7 @@ people who are considered to be especially well informed about a particular subj
 <span id="cb61-6"><a href="accum-symbolic.html#cb61-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p><strong>Question D</strong> Using section 4.26, find <span class="math inline">\(\int \tan(\theta) d\theta\)</span>.</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(-\ln\left(\strut\cos(\theta)\right)\)</span><span class="mcanswer">Correct. </span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(-\ln\left(\strut\cos(\theta)\right)\)</span><span class="mcanswer">Right! </span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(\tan(\theta)\)</span> doesn’t have an anti-derivative.<span class="mcanswer">︎✘ All functions have an anti-derivative.</span></span><br />
 </li>
@@ -852,6 +953,7 @@ people who are considered to be especially well informed about a particular subj
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -882,7 +984,7 @@ gitbook.start({
 },
 "download": null,
 "search": {
-"engine": "fuse",
+"engine": "lunr",
 "options": null
 },
 "toc": {
