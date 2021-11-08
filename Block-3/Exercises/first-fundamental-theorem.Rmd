@@ -1,18 +1,19 @@
 ---
 id: "first-fundamental-theorem"
 author: "Daniel Kaplan"
+global-id: "gDSeX"
 ---
 
 
 Remember our conventions for notation:
 
-- Numerical constants (perhaps with units)
+- Fixed quantities (perhaps with units)
     - Symbols: e.g. $a$, $b$, $c$, $x_0$, $t^{\star}$
     - Examples: 3.2, 4.8 meters, 17 feet/sec$^2$
-- Quantities that can vary (perhaps with units)
+- Names of inputs to functions
     - Symbols: e.g. $x$, $t$, $y$, $u$, $v$
     - Examples: position, time, velocity
-- Functions of a variable
+- Functions of an input
     - Symbols: e.g. $f(x)$, $g(t)$, $h(x, t)$
     - Examples: position as a function of time, density as a function of position
 - Functions evaluated at a specific numerical input
@@ -21,33 +22,30 @@ Remember our conventions for notation:
 
 In particular, take care to distinguish between these two kinds of symbolic items:
 
-1. $f(x)$, $f()$ as a function of $x$
-2. $f(x_0)$, the function $f()$ evaluated at the specific input $x_0$, producing (typically) a quantity like 3.5 meters/sec.
+1. $f(x)$, which means $f()$ as a **function** of $x$
+2. $f(x_0)$, which means the function $f()$ evaluated at the specific input $x_0$, producing a **quantity** (e.g., 3.5 meters/sec.)
 
 A major source of confusion for students is that $a$ is a constant, even though we are not yet saying specifically which numerical value that constant has. Think of $a$ as meaning "insert constant here." In terms of derivatives ...
 
-LIST TAKEN OUT TO GET TUFTE TO WORK
-
-<!--
 i. $\partial_x f(a) = 0$
 ii. $\partial_x f(x)$ is a function
 iii. $\partial_u f(x) = 0$, since $u$ and $x$ are different variables.
 iv. $\partial_u f(u)$ is a function, the exact same function as in (ii).
 
--->
 
-With this in mind, turn to our three perspectives on a definite integral $$\int_a^b f(x) dx \ \ =\ \  \left. F(x) \right|_a^b\ \  =\ \  F(b) - F(a)$$
 
-- $a$ and $b$ are numerical constants
--$f(x)$  and $F(x)$ are functions of $x$
--$F(a)$ is the function $F()$ evaluated at the specific input $a$, producing a quantity. Likewise $F(b)$.
+With this in mind, turn to our three perspectives on a definite integral $$\large \int_{\color{brown}{a}}^{\color{brown}{b}} {\color{blue}{f(x)}}\, dx = {\color{magenta}{F(x)}}\left.{\LARGE\strut}\right|_{\color{brown}{a}}^{\color{brown}{b}} = {\color{magenta}{F}({\color{brown}{b}})} -{\color{magenta}{F}({\color{brown}{a}})}$$
+
+- $\color{brown}{a}$ and $\color{brown}{b}$ are numerical constants
+- $\color{blue}{f}(x)$  and $\color{magenta}{F}(x)$ are functions of $x$
+- $\color{magenta}{F}(\color{brown}{a})$ is the function $\color{magenta}{F}()$ evaluated at the specific input $\color{brown}{a}$, producing a quantity. Likewise $\color{magenta}{F}(\color{brown}{b})$.
 
 ```{r fft1, echo=FALSE}
 askMC(
-  "What kind of a thing is $F(u)$, according to our notation convention?",
-"a number" = "Is $u$ a number in our notation?",
+  "What kind of a thing is $F(u)$, according to our notation convention? (Hint: First figure out what kind of thing is $u$, according to the notation conventions.)",
+"a fixed quantity" = "Is $u$ a quantity in our notation?",
 "a function of $x$" = "Close, but not $x$.",
-"+a function of $u$+",
+"+a function of $u$+" = "$u$ is the name of an input, according to our convention.",
 "a definite integral" = "A definite integral would be something like $\\int_a^b f(x) dx$ or $\\left. F(x) \\right|_a^b$ or $F(b) - F(a)$."
   )
 ```
@@ -56,7 +54,7 @@ askMC(
 explain <- "A function always has one or more variables as input. $a$ is not a variable but a numerical constant."
 askMC(
   "What kind of a thing is $F(a)$, according to our notation convention?",
-"+a number+" = "We're evaluating $F()$ at a specific numerical value of the input, namely $a$.",
+"+a quantity+" = "We're evaluating $F()$ at a specific numerical value of the input, namely $a$.",
 "a function of $x$" = explain,
 "a function of $u$" = explain,
 "a definite integral" = "A definite integral would be something like $\\int_a^b f(x) dx$ or $\\left. F(x) \\right|_a^b$ or $F(b) - F(a)$."
@@ -66,7 +64,7 @@ askMC(
 ```{r fft3, echo=FALSE}
 askMC(
   "What kind of a thing is $F(u) - F(a)$, according to our notation convention?",
-"a number" = "Is $u$ a number in our notation?",
+"a quantity" = "According to our conventions, while $F(a)$ is a quantity, $F(u)$ is not",
 "a function of $x$" = "Close, but not $x$.",
 "+a function of $u$+" = "Since $F(u)$ is a function of $u$, and $F(a)$ is a constant, $F(u) - F(a)$ is a function of $u$ minus a constant, or, in other words, a function of $u$.",
 "a definite integral" = "A definite integral would be something like $\\int_a^b f(x) dx$ or $\\left. F(x) \\right|_a^b$ or $F(b) - F(a)$."
@@ -77,8 +75,8 @@ askMC(
 ```{r fft4, echo=FALSE}
 askMC(
   "According to our notation convention, what kind of a thing is $$\\int_a^u f(x) dx \\text{?}$$, ",
-"a number",
-"a function of both x and u",
+"a quantity" = "According to our conventions, while $F(a)$ is a quantity, $F(u)$ is not",
+"a function of both $x$ and $u$" = "The $x$ is just a placeholder name for the \"with respect to\" input.",
 "a function of $x$" = "Close, but not $x$.",
 "+a function of $u$+" = "You can see this by referring to the three perspectives equation. $$\\int_a^u f(x)dx = F(u) - F(a)$$ which is a function of $u$.",
 "a definite integral" = "Certainly it looks a lot like a definite integral. But $u$ is a variable, not a constant."

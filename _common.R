@@ -80,9 +80,11 @@ drill_link <- function() {
 
 Chaps <- list(
   dimension = 16,
+  pattern_book_derivs = 19,
   fun_notation = 5,
   slope_function = 9,
   gradient = 24,
+  taylor = 26,
   foobar = NA
 )
 

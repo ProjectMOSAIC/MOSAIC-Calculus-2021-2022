@@ -1,4 +1,4 @@
-# Linear combinations of vectors
+# Linear combinations of vectors {#linear-combs-vectors}
 
 ```{r include=FALSE}
 library(Znotes)
@@ -258,6 +258,69 @@ A CATEGORICAL VARIABLE AND HOW IT TRANSLATES INTO A SET OF VECTORS.
 :::
 
 
+::: {.example data-latex=""}
+**From Talyor to Lagrange**
+
+In Chapter `r Chaps$taylor` we met a method introduced by Brook Taylor (1685–1731) to construct a polynomial of order-$n$ that approximates any smooth function $f(x)$ close enough to some center $x_0$. The method made use of the ability to differentiate $f(x)$ at $x_0$ and produced the general formula:
+$$f(x) \approx f(x_0) + \frac{f'(x_0)}{1} \left[x-x_0\right] + \frac{f''(x_0)}{2!} \left[x-x_0\right]^2 + \frac{f'''(x_0)}{3!} \left[x-x_0\right]^3 + \cdots + \frac{f^{(n)}(x_0)}{n!} \left[x-x_0\right]^n$$ where $f'(x_0) \equiv \partial_x f(x)\left.{\Large\strut}\right|_{x=x_0}$ and so on.
+
+Using polynomials as approximating functions has been an important theme in mathematics history. Brook Taylor was neither the first nor the last to take on the problem. 
+
+In 1795, [Joseph-Louis Lagrange](https://en.wikipedia.org/wiki/Joseph-Louis_Lagrange)
+(1736 – 1813) published another method for constructing an approximating polynomial of order $n$. Whereas the Taylor polynomial builds the polynomial that exactly matches the first $n$ derivatives at the center point $x_0$, the Lagrange polynomial has a different objective: to match exactly the values of the target function $f(x)$ at a set of ***knots*** (input values) $x_0$, $x_1$, $x_2$, $\ldots, x_n$. Figure \@ref(fig:lagrange-sine) shows the situation with the knots shown as orange dots.
+
+```{r lagrange-sine, echo=FALSE, fig.cap="The Lagrange polynomial of order $n$ is arranged to pass exactly through $n+1$ points on the graph of a function $f(x)$."}
+f <- sin
+make_lagrange_unit <- function(x, x0) {
+  bottom <- paste("(",
+                  paste(
+                    paste0("(", x0," - ", setdiff(x, x0), ")"), collapse = "*"),
+                  ")")
+  top <- paste(paste0("(x - ", setdiff(x, x0), ")"), collapse = "*")
+  f <- function(x) {}
+  body(f) <- parse(text=paste(top, "/", bottom))
+  
+  f
+}
+make_lagrange_poly <- function(xs, ys) {
+  funs <- lapply(xs, function(p) make_lagrange_unit(xs, p))
+  f <- function(x) {
+    res <- 0
+    vals <- lapply(funs, function(f) do.call(f, list(x)))
+    for (k in 1:length(vals))
+      res <- res + vals[[k]]*ys[k]
+    
+    return(res)
+  }
+  f
+}
+tp <- makeFun(x - x^3/6 + x^5/120 ~ x)
+Pts <- tibble(x=c(-1, 0, 1, 3, 5, 7), y=f(x))
+lp <- make_lagrange_poly(Pts$x, Pts$y)
+  slice_plot(tp(x) ~ x, domain(x=-3:8), color="green", size=2, alpha=0.7,
+             label_text="Taylor polynomial", label_x=0.1) %>%
+  slice_plot(f(x) ~ x, domain(x=-3:8), label_text="f(x)") %>%
+  slice_plot(lp(x) ~ x, domain(x=-3:8), color="magenta", size=2, alpha=0.5,
+             label_text="Lagrange polynomial", label_x = 0.8) %>%
+  gf_point(y ~ x, data = Pts, color="orange", size=6, alpha=0.5) %>%
+  gf_lims(y=c(-1.5, 1.5))
+```
+
+The Lagrange polynomial is constructed of a linear combinations of functions, one for each of the knots. In the example of Figure \@ref(fig:lagrange-sine), there are 6 knots, hence six functions being combined. For knot 2, for instance, has coordinates $\left(\strut x_2, f(x_2)\right)$ and the corresponding function is:
+
+$$p_2(x) = \frac{(x-x_1)}{(x_2 -x_1)}\left[\strut\cdot\right]\frac{(x-x_3)(x-x_4)(x-x_5)(x-x_6)}{(x_2 -x_3)(x_2 -x_4)(x_2 -x_5)(x_2 -x_6)}$$
+The gap indicated by $\left[\strut\cdot\right]$ marks where a term being excluded. For $p_2(x)$ that excluded term is $\frac{(x-x_2)}{(x_2 - x_2)}$. The various functions $p_1(x)$, $p_2(x)$, $p_3(x)$ and so on each leave out an analogous term.
+
+Three important facts to notice about these ingenious polynomial functions:
+
+i. They all have the same polynomial order. For $k$ knots, the order is $k-1$.
+i. Evaluated at $x_i$, the value of $p_i(x_i) = 1$. For instance, $p_2(x_2) = 1$.
+i. Evaluated at $x_j$, where $j\neq i$, the value of $p_j(x_i) = 0$. For example, $p_2(x_3) = 0$.
+
+The overall polynomial will be the linear combination $$p(x) = y_1\, p_1(x) + 
+y_2\, p_2(x) + \cdots + y_k\, p_k(x)\ .$$
+Can you see why?
+:::
 
 
 ## Exercises

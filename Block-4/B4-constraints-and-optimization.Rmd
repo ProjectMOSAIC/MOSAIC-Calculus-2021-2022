@@ -1,5 +1,173 @@
 # Constraints and optimization
 
+Objectives
+
+* Understand how to formula an optimization problem in terms of an objective function and (possibly) constraints.
+* Be able to solve constrained optimization problems with two input variables and potentially several constraints.
+* Be able to calculate the "shadow price" of a constraint.
+* Understand the role played by the gradient of the objective function in solving optimization problems.
+* Be able to translate constrained optimization problems into comparing gradients of the objective and constraint functions.
+
+
+## Study hard
+
+Based on an extensive but fictive observation of activity and grades of college students, the model shown in the figure was constructed to give GPA as a function of the number of hours each weekday (Monday-Friday) spent studying and spent in social activity and play. (Activity during the weekend was not monitored.)
+
+```{r f-graph,echo=FALSE}
+f <- rfun( ~x&y, seed=294 )
+nletters <- 10
+set.seed(101)
+Labels <- tibble::tibble(
+  Play = c(6, 8, 4, runif(nletters, 2, 14)),
+  Study = c(10.3, 13.8, 8, runif(nletters, 2, 14)),
+) %>%
+  arrange(desc(Play+Study)) %>%
+  mutate(Letter = LETTERS[1:nrow(.)]) %>%
+  head(12)
+GPA = makeFun(pmax(0,-2+.08*(f(Play/3,Study/3) + 10*Play^.3*Study^.7 +pmin(0,11*(12-(Study+Play)))))~Study&Play)
+P <- contour_plot( GPA(Study/1.3, Play/1.5) ~ Study & Play,
+  domain(Study=c(0,16), Play=c(0,16)), npts=300,
+  filled=FALSE) %>%
+  gf_labs(x="Study Time (hr/day)",y="Play Time (hrs/day)",
+  title="GPA versus Study and Play time") %>%
+  gf_refine(coord_fixed())
+P %>% gf_text(Play ~ Study, label=~Letter, data = Labels,
+              color="orange3")
+```
+
+Several points in the graphic frame have been marked with red letters. Refer to these letters when answering the following questions.
+
+```{r sh1-1, echo=FALSE, results="markup"}
+askMC(
+  "According to the model, what's the optimal combination of Study and Play to achieve a high GPA?",
+  "F", "+G+", "H", "I",
+  random_answer_order = FALSE
+)
+```
+
+
+
+```{r sh1-2, echo=FALSE, results="markup"}
+askMC(
+  "Which of these letters marks a place on the graph where the partial derivative of GPA with respect to Play is positive?",
+  "B", "C", "+K+", "L",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r sh1-3, echo=FALSE, results="markup"}
+askMC(
+  "Which if these ketters marks a place on the graph where the partial derivative of GPA with respect to Play is negative.",
+  "+A+", "F", "H", "K",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r sh1-4, echo=FALSE, results="markup"}
+askMC(
+  "Where is the partial derivative with respect to Study is negative?",
+  "Nowhere. $\\partial_{study} GPA()$ is always positive. More study = better grades.",
+  "+E+", "F", "L",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r sh1-5, echo=FALSE, results="markup"}
+askMC(
+  "Study and Play are not the only activities possible.  Sleep is important, too, as are meals, personal care, etc. In the study, students were observed who spent up to 22 hours per day in Study or Play.  Presumably, such students crashed on the weekend.
+
+Suppose you decide to budget 12 hours each weekday day in activities other than Study and Play.  Which letter labels the constrained optimal mix (argmax) of Study and Play.", 
+  "I",  "J", "+K+", "L",
+  random_answer_order = FALSE
+)
+```
+
+
+
+```{r sh1-6, echo=FALSE, results="markup"}
+askMC(
+  "What is the \"shadow price\" of GPA with respect to the budget for a budget constraint of 12 hours?  Give both an estimated numerical value as well as units.",
+  "-0.8 hour/gradepoints",
+  "+0.3 gradepoints/hour+",
+  "+0.9 gradepoints/hour",
+  "+1.3 hour/gradepoints",
+  random_answer_order = FALSE
+)
+```
+
+```{r sh1-7, echo=FALSE, results="markup"}
+askMC(
+  "Consider a student who budgets 22 hours per day for Study and Play. Which letter is closest to the constrained argmax with a 22-hour constraint?",
+  "A", "+B+", "C", "D",
+  random_answer_order = FALSE
+)
+```
+
+
+
+```{r sh1-8, echo=FALSE, results="markup"}
+askMC(
+  "What is the \"shadow price\" of GPA with respect to the budget constraint of 22 hours?  Give the estimated numerical value.",
+  "+-0.5 gradepoints/hour+",
+  "0 gradepoints/hour",
+  "+0.5 gradepoints/hour",
+  "+1.0 gradepoints/hour",
+  random_answer_order = FALSE
+)
+```
+
+```{r sh1-9, echo=FALSE, results="markup"}
+askMC(
+  "Based on the shadow price from the previous question, which of these is the best advice to give the student (who seeks to maximize GPA)?",
+  "You're hopeless. There aren't enough hours in the day for you to get a good GPA.",
+  "You've got to squeeze out more effort studying. Give it your all!",
+  "Play more, study less!",
+  "Study less",
+  "+Study less, play less. Sleep!+",
+  random_answer_order = FALSE
+)
+
+```
+
+```{r echo=FALSE, eval=FALSE}
+P %>% gf_text(Play ~ Study, label=~Letter, data = Labels,
+              color="orange3") %>%
+  contour_plot(Play + Study ~ Play + Study, filled=FALSE, 
+               contours_at = c(12,13, 22, 23, 24), contour_color = "dodgerblue")
+```
+
+
+
+## Optimization or design?
+
+There is a calculus problem that has been part of the standard curriculum since Newton's first work. It appears in Section III of the very first calculus textbook, published in 1696. (English: "Use of the calculus of differences to find the biggest and smallest values, or the reduction of questions *De maximis & minimis.*" )
+
+```{r echo=FALSE, out.width="48%", fig.show="hold"}
+knitr::include_graphics("www/lHopital-cover-page.png")
+knitr::include_graphics("www/lHopital-optimization.png")
+```
+
+*[Source](https://archive.org/details/analysedesinfini00lhos/page/56/mode/2up). This is the 1763 edition and is the personal copy of Founding Father and 2nd US President, John Adams.*
+
+The calculus perspective on *optimization* involves functions whose output is a scalar quantity: a single number. The problem of maximization is to find the input(s) to the function that produce the largest possible output from the function and similarly for minimization: that is, to find the argmax or argmin.
+
+An analogous problem, suited for an elementary-school pupil, is to take a deck of cards, each with a number written on it, and find the card that has the largest number on it. In calculus, we substitute for the discrete domain of the deck of individual cards the continuous domain of the number line (or higher dimensional vector space).
+
+With such a long textbook history, there is a large variety of textbook problems written to illustrate the application of optimization to "real-world" situations. For instance, a famous problem is to find the shape of a tin can (mathematically, a cylinder) that contains a given volume using the least amount of metal (mathematically, the smallest surface area).
+
+It's important to distinguish between the two distantly related problems of *optimization* and of *design*. Optimization is about finding the single best scalar output of a function. Design is about finding a configuration that suits the needs of a situation. Generally, design involves evaluating trade-offs among multiple objectives. In optimization, there is only a single objective. 
+
+Optimization is a far easier problem than design, but design is a far more widely applicable process. Regrettably, generations of students, having been given only the optimization hammer as a tool have been induced to treat design as a nail. The simple concept of "best" applies well to comparing scalar outputs of a function, but when the output is a vector or another function, one can only meaningfully speak of "best for a specific purpose."
+
+There are several strategies for transforming design problems into optimization problems, but inevitably something is lost in the process. One process is to consider only one dimension of the output. For example, in selecting the "best" electric car, you might reasonably look at the car's range. But other criteria are important too, for instance the speed with which the batteries can be recharged or the cost of the vehicle. Throughout your professional life, you will likely encounter situations where the criteria for making a design decision have been reduced unnecessarily to low dimension. For instance, in the history of bomber design the criteria "bigger, higher, faster, farther" have been emphasized (example: B-1 bomber). Taking into consideration other criteria can considerably change the design, as with "stealth" (the B-2 bomber) or suitability to mission (the A-10 for close air support). 
+
+There are some situations, however, where there is a strong logical or economic basis for converting a vector/function output into a scalar. This day's lesson is about two of those methods, one related particularly to finance and the other to outcomes that are uncertain. (Later on, we'll examine mathematical techniques for dealing with genuine design-related problems.)
+
+
+
 EXAMPLE FROM CHAPTER 25
 
 Previously, in Section \@ref(partial-thinking), we constructed a model of the effectiveness and tutoring on exam performance.
@@ -10,3 +178,1211 @@ contour_plot(P(S, T) ~ S & T, domain(S=0:1, T=0:1))
 ```
 
 There are only so many hours in the day. There's a constraint on the amount of time you have to study and to be tutored. A very basic model of this constraint is $S + T = 1$. Since there are no units attached to $S$ and $T$ in the graph, we can't be sure that the slope of the constraint is really $-1$, but we know it will be negative. What are the implications of this constraint in terms of optimal choices for $S$ and $T$. [That you do some of each, not all of one and none of the other.]
+
+
+* Given an algebraically simple constraint in the problem formulation, be able to use that constraint to reduce the dimension of an optimization problem. (Later we'll use constraints in a different way when finding argmaxes and argmins.)
+
+Consider these easy optimization problems:
+
+- Build a road costing $10M per mile. How long should it be to minimize costs.
+    * Answer: Zero miles
+- Choose the length of the front wall and side walls of a room to maximize the room area.
+    * Answer: Make the walls infinitely long.
+- Build a spherical tank sliced in a way to have a flat bottom. The goal is to choose how far away from the sphere's center to make the slice in order to maximize the volume.
+    * Answer: Don't make any slice; it reduces the volume!
+- Provide funding to a portfolio of public health interventions in order to maximize the number of lives saved.
+    * Answer: Spend an infinite amount on each intervention.
+
+Each of these problems has an objective function---cost, room area, volume, lives saved. Each also has inputs to that objective function---road length, front and side wall lengths, slice position, funding for the different interventions. `r mark(4800)`
+
+In your career, you may occasionally encounter optimization problems like this, where the answer is obvious. All of them fall into the category of "more is better" (or "less is better").
+
+Nontrivial decisions generally involve resolving trade-offs: more is better **up to a point** and then it's worse. Or, "more $x$ is better" except that bigger $x$ means smaller $y$ and smaller $y$ makes things worse. `r mark(4805)`
+
+An example of a "bigger $x$ means smaller $y$" is the cardboard box problem often found in calculus textbooks. You're given a rectangular piece of cardboard as in the diagram. From the rectangle, you will cut out four squares in the corners (marked in yellow). This creates a central rectangle with four flaps. When we fold these up we get an open-topped box. `r mark(4810)`
+
+```{r echo=FALSE, fig.cap="Creating a box by cutting corners out of a rectangle. (Image from [Khan Academy video](https://www.khanacademy.org/math/ap-calculus-ab/ab-diff-analytical-applications-new/ab-5-11/v/optimizing-box-volume-graphically)) Length units are inches."}
+knitr::include_graphics("www/folded-box.png")
+```
+
+The problem is to choose $x$ to maximize the volume of the box.  By making $x$ large, we increase the height of the box. A taller box is a more voluminous box ... at least if all other things are equal. But by making the box taller, we also make the bottom smaller because we still have the same amount of cardboard. `r mark(4815)`
+
+The volume of the box will be height x length x width, or
+$$V = x (30-x) (20-x)$$
+```{r cf2-1, exercise=TRUE, exercise.cap="Sandbox", exercise.nlines=6, eval=FALSE}
+
+
+
+
+```
+
+```{r cf1-1, echo=FALSE, results="markup"}
+askMC(
+  "What is the value of $x$ and the corresponding $V(x)$ that produces the maximum volume for the box? You can use the sandbox for your calculations (make sure your parentheses match the provided equation).",
+  "$x = 7.8 \\text{in}, V = 2112.55 \\text{in}^3$",
+  "+$x = 7.85 \\text{in}, V = 2112.61 \\text{in}^3$+",
+  "$x = 7.90 \\text{in}, V = 2112.73 \\text{in}^3$",
+  "$x = 7.95 \\text{in}, V = 2112.59 \\text{in}^3$",
+  random_answer_order = FALSE
+)
+```
+
+A somewhat richer problem is to find the edge length $y$ square of cardboard that will produce the maximum volume when square corners of edge length $x$ are cut out. Here, the volume is $V = x(y-2x)(y-2x)$. `r mark(4820)`
+
+As stated, maximum $V$ is infinite. There's no trade-off between $x$, $y$, and $z$. If a problem is to have a finite argmax, we need to introduce a trade-off. Let's suppose the trade-off is that the area of the initial piece of cardboard should be 600 square-inches, as in the previous problem. Now we have an objective function and a constraint $$\text{find argmax}\ \ V(x,y) = (y-2x)^2 x\  \text{subject to the constraint}\  y^2 = 600\ \text{in}^2$$ `r mark(4825)`
+
+One perfectly legitimate way to solve this problem is to use the constraint to find a value for $y$, then substitute this value into the objective function, giving $$V(x) = (\sqrt{600} - 2x)^2 x$$
+
+```{r cf1-2, echo=FALSE, results="markup"}
+askMC(
+  "Use the sandbox to find the optimal value of $x$ in the square-bottomed box problem. Which of these is it?",
+  "+$x=4.083$+",
+  "$x=4.186$",
+  "$x=4.189$",
+  "$x=4.210$",
+  random_answer_order = FALSE
+)
+```
+
+We're now going to see a different way of using the constraint in the optimization problem. The idea is to graph the objective function without any constraint, then graph the constraint on top. The sandbox has the appropriate graphing commands for the  square-bottomed box. `r mark(4830)`
+
+```{r cf2-2, exercise=TRUE, exercise.cap="Contours and constraints", exercise.nlines=10, warning=FALSE, message=FALSE}
+V <- makeFun(x*(y - 2*x)^2 ~ x)
+constraint <- makeFun(y^2 ~ x + y)
+contour_plot(V(x, y) ~ x + y, domain(x=c(0,10), y=c(20,30))) %>%
+  gf_labs(title="Volume") %>%
+  contour_plot(constraint(x, y) ~ x + y,
+               filled=FALSE, contour_color = "orange3",
+               contours_at = 600)
+```
+
+
+Here, the constraint is like a straight road going up and over the flank of a hill. To find the argmax "subject to the constraint," imagine you are riding a bike along the red road. If you start on the left side of the graphic frame and go to the right you will be going uphill. As you approach the crest, the road will level out and then you'll be riding downhill. `r mark(4835)`
+
+```{r cf1-3, echo=FALSE, results="markup"}
+askMC(
+  "What is the relationship between the constraint (road) and the objective function (contours) that indicates you are on the crest?",
+  "The road intersects a contour at right angles." = "If so, you would be riding in the steepest direction. Remember, the gradient at each point is perpendicular to the contour at that point.",
+  "There's no fixed relationship between the road and the steepness of the objective function." = "Yet, ask any bicyclist and they can easily tell you when they have reached the top point on a road.",
+  "At the crest, the road is parallel to the nearest contour." = "Almost, but remember that we draw only some of the contours and not others simply to prevent flooding the graph with ink.",
+  "+At the crest, the road is parallel to the contour passing through that point on the road.+",
+  random_answer_order = FALSE
+)
+```
+
+```{r cf1-4, echo=FALSE, results="markup"}
+askMC(
+  "At the optimal point on the road, what is the value of the objective function $V(x,y)$?",
+  1000, "+1100+" = "Right. The point is about half-way between the 1000 and 1200 contours.",
+  1200, 1400,
+  random_answer_order = FALSE
+)
+```
+
+Now you have see two completely equivalent approaches to using the constraint
+
+1. Solve the constraint for one variable in terms of the others.
+2. Use the constraint to restrict the domain of optimization to those values that satisfy the constraint. (We did this graphically, but it can be done other ways if a graph can't be made, for instance, if there are more than two inputs to the objective function.) `r mark(4840)`
+
+One reason to introduce (2) is to help you develop an intuition about the relationship between a constraint and the objective function. But it turns out that (2) lets us add features to optimization problems that can be important in practice. These are `r mark(4845)`
+
+a. Add additional constraints to the problem.
+
+    For example, in the cardboard box problem we didn't mention two constraints that are so obvious that we left it to common sense: $x > 0$ and $y > 0$. You can't have negative cardboard.
+
+b. Examine what happens if the constraint is changed in some way.
+
+    Suppose you were trying to convince the cardboard providers to allow a bit more cardboard for the box. How would the output of the objective function respond to this change?
+
+    Often, the effect of changing a constraint is described in terms of a ratio: the change in output of the objective function divided by the change in the constraint value. This is sometimes called a **shadow price** of the constraint. The synonym **Lagrange multiplier** is also widely used. `r mark(4850)`
+
+The next two sections will deal with (a) and (b) in turn.
+
+
+`r insert_calcZ_exercise("XX.XX", "VHn3UG", "Exercises/Diff/snake-walk-knife.Rmd")`
+
+
+`r insert_calcZ_exercise("XX.XX", "Yb6tVr", "Exercises/Diff/duck-tell-laundry.Rmd")`
+
+## Constraints graphically
+
+::: {.todo}
+Turn this into an exercise?  Where should it go?
+:::
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+f <- rfun( ~ x + y, seed=101)
+g <- rfun( ~ x + y, seed=201)
+h <- rfun( ~ x + y, seed=302)
+dom <- domain(x=c(-3, 3), y=c(-3, 3))
+contour_plot(f(x,y) ~ x + y, dom, skip=0) %>%
+  contour_plot(g(x,y)  ~ x + y, filled=FALSE, 
+               contours_at = 3, npts=300,
+               contour_color="orange3", size=2, labels=FALSE) %>%
+  contour_plot(h(x,y)  ~ x + y, dom, size=15, 
+               contour_color="dodgerblue", alpha=0.1,
+               contours_at = seq(-20, -11, length=60),
+               labels=FALSE) %>%
+  contour_plot(h(x,y)  ~ x + y, dom, size=3, 
+               contour_color="dodgerblue", alpha=0.75,
+               contours_at = -10,
+               labels=FALSE) %>% 
+  gf_labs(title="(A)")
+```
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+f <- rfun( ~ x + y, seed=221)
+g <- rfun( ~ x + y, seed=331)
+h <- rfun( ~ x + y, seed=312)
+dom <- domain(x=c(-3, 3), y=c(-3, 3))
+contour_plot(f(x,y) ~ x + y, dom, skip=0) %>%
+  contour_plot(g(x,y)  ~ x + y, filled=FALSE, 
+               contours_at = 0, npts=300,
+               contour_color="orange3", size=2, labels=FALSE) %>%
+  contour_plot(h(x,y)  ~ x + y, dom, size=15, 
+               contour_color="dodgerblue", alpha=0.1,
+               contours_at = seq(-20, -11, length=60),
+               labels=FALSE) %>%
+  contour_plot(h(x,y)  ~ x + y, dom, size=3, 
+               contour_color="dodgerblue", alpha=0.75,
+               contours_at = -10,
+               labels=FALSE) %>% 
+  gf_labs(title="(B)")
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+f <- rfun( ~ x + y, seed=421)
+g <- rfun( ~ x + y, seed=451)
+h <- rfun( ~ x + y, seed=463)
+dom <- domain(x=c(-3, 3), y=c(-3, 3))
+contour_plot(f(x,y) ~ x + y, dom, skip=0) %>%
+  contour_plot(g(x,y)  ~ x + y, filled=FALSE, 
+               contours_at = 0, npts=300,
+               contour_color="orange3", size=2, labels=FALSE) %>%
+  contour_plot(h(x,y) +3  ~ x + y, dom, size=6, 
+               contour_color="dodgerblue", alpha=0.1,
+               contours_at = seq(14, 23, length=40),
+               labels=FALSE) %>%
+  contour_plot(h(x,y) +3  ~ x + y, dom, size=3, 
+               contour_color="dodgerblue", alpha=0.75,
+               contours_at = 14,
+               labels=FALSE, filled=FALSE)%>% 
+  gf_labs(title="(C)")
+```
+
+
+## Multiple constraints
+
+Economists are familiar with the concept of a [production function](https://en.wikipedia.org/wiki/Production_function). This relates the amount of various inputs used in production to the amount of the product. There are all sorts of inputs: materials of different sorts, labor, specialized machinery, and so on. We'll look at just two types of inputs: labor and capital. As an example, consider clothing manufacture. A factory could get by with simple needles and a lot of labor, or (as is more typical) with sewing machines and less labor. Which mix is best depends on the relative costs of labor and equipment. `r mark(4855)`
+
+There's a standard model production function that's based on a simple but meaningful observation: if both labor and capital are, say, doubled, the output should double as well. Just this principle leads to a formulation of the production function $P(L, K)$ as a power-law function: $$P(L, K) \equiv b L^{a} K^{1-a}$$ This is called the [Cobb-Douglas production function](https://en.wikipedia.org/wiki/Cobb%E2%80%93Douglas_production_function) and, whether realistic or not, will illustrate the principles at work. `r mark(4860)`
+
+```{r mc2-1, exercise=TRUE, exercise.cap="Cobb-Douglas Production Function", exercise.nlines=8}
+P <- makeFun(b*L^a*K^(1-a) ~ K + L, a = 0.33, b=100)
+budget_constraint <- makeFun(K + L ~ K + L)
+g_union <- makeFun(L ~ K + L)
+g_invest <- makeFun(K/L ~ K + L)
+contour_plot(P(K, L) ~ K + L, domain(K=c(0.01,1), L=c(0.01,1))) %>%
+  contour_plot(budget_constraint(K, L) ~ K + L,
+               filled=FALSE, contour_color = "orange3",
+               contours_at = c(1, 1.01)) %>%
+  # TAKE OUT THE FOLLOWING LINES BEFORE DEPLOYING
+  ## TAKE OUT
+  ### TAKE OUT
+  contour_plot(g_union(K, L) >= 0.5 ~ K + L, contour_at = 0.5,
+              contour_color = "dodgerblue", n_fill=3,
+               fill_alpha = 0.25)  %>%
+  contour_plot(K/L > 2 ~ K + L, contour_at = 0.5,
+               contour_color = "green", n_fill=3,
+               fill_alpha = 0.25)
+```
+
+In the graph we've scaled L and K to have units of $1M and $1M is "all the money that's available." You can see that production output increases with both L and K, reaching 100 widgets in the upper right corner of the graph. `r mark(4865)`
+
+What's the optimal mix of labor and capital? As stated so far, we're in a "more is better" situation. What creates the possibility for a finite argmax is a constraint: you can only spend the money that's available. For instance, we could spend the budget only on labor or, alternatively, only on capital. The production output will be zero however. Better to spend on a mix of labor and capital. `r mark(4870)`
+
+The constraint here is of a very common sort: a budget constraint. We have one unit of money to spend; we could spend 30% on labor and 70% on capital, or any other mixture. The budget function has a very simple form: $g_{budget}(K, L) \equiv K + L$, the sum of the two expenditures. Our budget of one unit of money implies the constraint $g_{budget}(K, L) = 1$. You can draw this on the graph by adding a contour plot of $g_{budget}$, drawing the contour at level 1 (we'll . `r mark(4875)`
+
+Add the constraint contour to the graph made by the sandbox by uncommenting the appropriate lines in the sandbox.
+
+```{r mc1-1, echo=FALSE, results="markup"}
+askMC(
+  "Given the budget constraint, what's the largest level of production that's possible? (Choose the closest answer.)",
+  "About 48 widgets",
+  "+About 53 widgets+",
+  "About 61 widgets",
+  "About 67 widgets",
+  random_answer_order = TRUE
+)
+```
+
+```{r mc1-2, echo=FALSE, results="markup"}
+askMC(
+  "Reading from the graph, where's the argmax of the production function subject to the constraint?",
+  "+About $K=0.66, L=0.34$+",
+  "About $K=0.34, L=0.66$",
+  "About $K=0.5, L=0.4$",
+  "About $K=0.4, L=0.6$",
+  random_answer_order = FALSE
+)
+```
+
+The problem as stated involves just one constraint: $g_{budget}(K, L) = 1\$$M.
+
+Now we'll imagine a situation where more constraints might come into play.
+
+    * **Scenario 1)** In negotiating with the worker's union, the company has promised to spend at least $500,000 on labor next year.
+
+    The constraint function here is $g_{union}(K, L) = L$ and you need to operate such that $g_{union}(K, L) >= $ $500,000.
+
+    * **Scenario 2)** The US Department of Commerce has an "Re-invest in American Manufacturing" program. This provides an incentive of $50,000 so long as you use capital intensively, say at a level of at least 2 parts capital to one part labor. `r mark(4880)`
+
+    The constraint function here is $g_{invest}(K, L) = K/L$ and, to qualify for the $50,000 incentive, you need to operate such that $g_{invest} \geq 3$.
+
+Both of these are **inequality** constraints.  In contrast, the budget constraint is an **equality** contraint: It's only satisfied when you are in a lower-dimensional part (the red budget line) of the K-L space. Inequality constraints can be satisfied at a continuum of points. `r mark(4885)`
+
+Plotting the inequality constraints uses some special features of `contour_plot()`, so we'll show you how to do it. For $g_{union}()$, use the following in the sandbox
+
+```r
+# Pipe the previous graphics into
+contour_plot(g_union(K, L) >= 0.5 ~ K + L, contour_at = 0.5,
+               contour_color = "dodgerblue", n_fill=3,
+               fill_alpha = 0.25)
+```
+
+When you plot $g_{union}(K, L) > 0.4$ you will see a blue line at the frontier where the constraint is just barely satisfied. The **dark** region is where the constraint is **not** satisfied.
+
+The **feasible set** is the points in $(K, L)$-space which is simultaneously in a region that satisfies $g_{union}(K, L) > 0.5$ as well as the budget constraint. So, along the red budget constraint but only that part in the **light** region that satisfied $g_{union}(K,L) > 0.5$. `r mark(4890)`
+
+The **constrained argmax** is the point in the feasible set that maximizes the production output. The **constrained max** the the value of the production function at the constrained argmax.
+
+```{r mc1-3, echo=FALSE, results="markup"}
+askMC(
+  "What is the constrainted max that satisfies the budget constraint as well as $g_{union}(K, L) > 0.5?",
+  "46",
+  "+50+" = "Right. At the intersection of the red and blue contours.",
+  "53",
+  "56" = "Constraints *never* point to a higher output than without the constraint.",
+  random_answer_order = FALSE
+)
+```
+
+Notice that the $g_{union}(K, L) > 0.5$ constraint prevents being able to operate at the point we reached with just the budget constraint. The cost of the union constraint to the company is 3 widgets.
+
+Now comment out the union constraint and let's look at the investment incentive constraint. For $g_{invest}()$, use
+
+```r
+# Pipe the previous graphics into
+contour_plot(K/L > 2 ~ K + L, contour_at = 0.5,
+             contour_color = "green", n_fill=3,
+             fill_alpha = 0.25)
+```
+
+You'll see that the feasible set is below the green contour, in the lower right part of the (K, L)-space. The cost of satisfying the investment constraint is practically zero: If the factory operates at the intersection of the red and green the output will still be 53 widgets.  This is an example of a constraint that doesn't change behavior. So far as this company is concerned, the Treasury Department is just giving away the incentive with no actual benefit. `r mark(4895)`
+
+```{r mc1-4, echo=FALSE, results="markup"}
+askMC(
+  "Is there any place where all three constraints---budget, union, investment---are all satisfied?",
+  "Yes",
+  "+No+",
+  random_answer_order = FALSE
+)
+```
+
+
+`r insert_calcZ_exercise("XX.XX", "LiJkK2", "Exercises/Applications/cat-show-mug.Rmd")`
+
+
+`r insert_calcZ_exercise("XX.XX", "h05BsT", "Exercises/Applications/crow-trim-laundry.Rmd")`
+
+
+
+## Changing constraints
+
+Imagine now that you are the factory manager and are briefing your company's Board of Directors about the planned production for next year. You say, "Production next year will be 53 widgets." A gruff member of the Board insists this isn't adequate, claiming, "We have a market for more widgets than that! And they sell for $10,000 each!" `r mark(4900)`
+
+Spend a minute to think what would have to change in order to increase production beyond 53 widgets. Then think about how you would decide whether $10,000 per widget is a good reason to increase production. `r mark(4905)`
+
+Now let's do it mathematically. A sensible response to the gruff member of the Board is, "We'll need to increase the production budget. Let's see if that's worthwhile."
+
+Here's a sandbox to graph out a constraint along with the Cobb-Douglas production function.
+
+```{r sp2-1, exercise=TRUE, exercise.cap="Cobb-Douglas Production Function", exercise.nlines=8, warning=FALSE, message=FALSE}
+P <- makeFun(b*L^a*K^(1-a) ~ K + L, a = 0.33, b=100)
+g_budget <- makeFun(K + L ~ K + L)
+contour_plot(P(K, L) ~ K + L, domain(K=c(.6,.7), L=c(.3,.4))) %>%
+  contour_plot(g_budget(K, L) ~ K + L,
+               filled=FALSE, contour_color = "orange3",
+## GET RID OF THE 1.01 contour before deploying
+               contours_at = c(1, 1.01))
+```
+
+This is exactly the same graph as in the previous section but this time zoomed in around the argmax. Notice that the production function contours, which were curved in the previous section, now are practically straight lines. Yet another example of the principle in calculus that if you look closely enough around a point on a curve, the curve will seem like a straight line. `r mark(4910)`
+
+```{r sp1-1, echo=FALSE, results="markup"}
+askMC(
+  "Maybe we were mistaken in claiming that the graph made by the code in the sandbox zooms in around the argmax. Which of these tests would allow you to determine if indeed the argmax is in the graphics frame?",
+  "+The constraint contour is tangent to a production function contour.+",
+  "The constraint contour crosses a production function contour." = "If so, then the path of the constraint function is heading either uphill or downhill, not level.",
+  "The constraint contour appears in the graphics frame." = "But this doesn't rule out the frame being somewhere other than around the argmax.",
+  "The production 53 contour appears in the graphics frame." = "But there are many places away from the argmax where the 53 contour appears."
+)
+```
+
+Here's a process for determining if increasing the budget is worthwhile. It draws on information about the production function and the value of an additional widget.
+
+1. Add a new constraint contour at a somewhat bigger budget, say $1.01M. You can do this by changing the argument `contours_at = 1` to be `contours_at = c(1, 1.01)`.
+2. Calculate the production output at the new budget level.
+3. Find out how much the production **output** increased from the original budget level to the new $1.01M budget level.
+4. Divide the increase in the budget by the change in production (3). This is the **shadow price**/**Lagrange multiplier**. It has units of dollars/widget.
+
+```{r sp1-2, echo=FALSE, results="markup"}
+askMC(
+  "What's the optimal production level when the budget is $1.01M?",
+  "53.1",
+  "+53.5+",
+  "54",
+  "55.5",
+  random_answer_order = FALSE
+)
+```
+
+```{r sp1-3, echo=FALSE, results="markup"}
+askMC(
+  "What's the shadow price of producing another widget",
+  "$1000 per widget",
+  "$5000 per widget",
+  "$15,000 per widget",
+  "+$20,000 per widget+",
+  random_answer_order = FALSE
+)
+```
+
+```{r sp1-4, echo=FALSE, results="markup"}
+askMC(
+  "Is it worthwhile to increase the production budget?",
+  "Yes" = "So you're willing to spend $20,000 to produce something that sells for $10,000?",
+  "+No+" = "Right. Who would spend $20,000 to produce something that sells for $10,000?",
+  "Not enough information is available" = "Really? You know the cost and the benefit. That's enough to make a decision.",
+  random_answer_order = FALSE
+)
+```
+
+## Incommensurate objectives
+
+Just as the word "cooperate" means to "work together" ("co" + "operate"), the word "commensurate" means to "measure together" or to measure in the same way. Since you already know about different units and dimensions, an example in that domain can make the meaning concrete. An inch and a mile are commensurate quantities. Obviously, an inch and a mile are not equal, but you can *compare* them in an objective way. (An inch is 0.000015783 miles.) Similarly, a litre and a gallon are commensurate, but having the dimension L^3^, neither is commensurate with a quantity of dimension L. `r mark(4915)`
+
+A large number of decisions involve money in some way. It's routine to decide whether a purchase is "worth the money." But we do this by applying a judgment that is subjective, e.g. is it worthwhile to buy the more expensive chocolate? The decision involves comparing two *incommensurate* things: the money vs the good feelings that come from eating or giving a fine treat. `r mark(4920)`
+
+That things are incommensurate does not at all mean that you can't make decisions that put one against the other, just that there is no ready, objective means to do the comparison.
+
+As an example of how incommensurability can frustrate decision making ... In the 1990s the Federal Aviation Administration (FAA) was considering a policy of requiring safety seats for infants and children on flying. (For infants, the standard was "babe in arms": the infant could be carried on the plane and held by the caretaker, without needing a separate seat for the baby.) As you might expect, the issue was the extra costs for parents versus the increased safety of the child safety seat. The American College of Pediatrics lobbied in favor of the safety seats, travel agents lobbied against the requirement. The FAA could not reach a decision. That's somewhat surprising because the FAA necessarily makes decisions that compare money and safety, for instance in the requirements for a passenger evacuation system or life rafts. I guess nobody is objective about babies! `r mark(4925)`
+
+After a decade or so, the FAA decided *not* to require the safety seats. What broke the log-jam of incommensurability was a study done of how parents would respond to the increase in cost of flying with babies. It was determined that the increased cost would push parents to drive rather than fly for short- or mid-distance trips. Driving is much more dangerous than commercial aviation and so the expected number of injuries or deaths would be larger were the safety-seat requirement instituted than if not. In other words, the comparison of lives to lives (driving risk versus flying risk) was easy, but the comparison of baby lives to money was impossible. `r mark(4930)`
+
+Over the next few classes, you will learn some mathematical techniques for decision-making in the face of incommensurate objectives (e.g. save money versus save lives). It's important to note that there is no mathematical *solution* to the problem. Rather, mathematics can provide tools to clarify the trade-offs and, in much the same way as the resolution of the FAA's policy problem, can sometimes offer a sensible way forward. `r mark(4935)`
+
+It's worth mentioning some of the common, non-mathematical ways that people deal with incommensurates. I'll call these "heuristics." The [Wikipedia definition of "heuristic"](https://en.wikipedia.org/wiki/Heuristic) is pretty good: `r mark(4940)`
+
+> *[A]ny approach to problem solving ... that employs a practical method that is not guaranteed to be optimal, perfect, or rational, but is nevertheless sufficient for reaching an immediate, short-term goal or approximation. Where finding an optimal solution is impossible or impractical, heuristic methods can be used to speed up the process of finding a satisfactory solution. Heuristics can be mental shortcuts that ease the cognitive load of making a decision.* `r mark(4945)`
+
+A very common heuristic is to simply deny that any trade-off exists. This is seen most clearly in the dispute about climate change. The trade-off here is the cost of climate remediation policies (such as a carbon tax) versus the disruption and dislocation caused by the changing climate. One one side of the debate are people who deny that climate change is happening or that it is caused by human activity that can be mitigated. On the other side of the debate are people who insist that the economic changes called for will not only reduce climate-change harm but will positively affect the economy, create jobs, etc. The rest of us are in the middle, recognizing both sides of the problem. `r mark(4950)`
+
+Another heuristic is to play the trump cards of morality and human rights. Once someone claims the the issue is fundamentally one of morality, it's hard to have conversation about the trade-offs involved. (If everyone agreed about morality, it would be easier. But one person's divine truth is another person's opinion.) In the US, the debate about health-care policy is not a measured discussion of how available resources should be distributed to best effect but a competition between perceived moral or ethical stances: "the government has no business making medical decisions for me" versus "affordable health care is a human right." `r mark(4955)`
+
+It is not our place in CalcZ to enter into deep conversation about political or moral philosophy. Rather, by introducing the concepts of incommensurability and heuristic, we intend to guide the mathematical discussion toward a framework for making impossible decisions in a thoughtful and responsible manner. `r mark(4960)`
+
+## Multiple objectives
+
+It often happens that decisions involve multiple simultaneous objectives. In one context or another, each of these considerations can play a role in decision making:
+
+- safety
+- cost
+- human life
+- animal welfare
+- collateral damage
+- public or political reaction
+
+This is by no means an exclusive list. 
+
+In specialized domains more specific competing objectives are often part of the design goal. For instance, consider aircraft design: 
+
+- range
+- payload or cargo capacity
+- short take-off and landing
+- maneuverability 
+- mission suitability
+- multi-mission capability
+- maintenability
+- stealth
+
+Over the next few lessons, we're going to introduce concepts that are important to effective thinking about designing with multiple objectives as well as mathematical tools that help in balancing conflicting objectives. As you will see, there is no single "correct" or "best" solution to such problems. Indeed, there is a mathematical theorem about when there **cannot** be a best solution. However---and this may seem contractictory at first---some solutions are better than others. Mathematics also provides a framework for a systematic and documentable process which provides a role for the inevitable elements of human, subjective values. `r mark(4965)`
+
+First, we'll cover elementary mathematical principles that demonstrate both that there is no single "best" solution while yet allowing some solutions to be better than others. Important vocabulary here includes **"incommensuate"**, **dominating** and **non-dominating** solutions(along with **pareto optimality**), **decision frontier**, and **social utility function**. `r mark(4970)`
+
+Second, we'll briefly discuss some **heuristics** that people and groups often use, without necessarily realizing it, in solving multi-objective optimization problems. Awareness of such heuristics helps in identifying (often unstated) objectives implicit in the decision and enables you, by making them **explicit**, to clarify the problem and potentially open it up to useful discussion and **negotiation**.  `r mark(4975)`
+
+Later, we'll use the mathematics of **constraints** and **constraint functions** to support a process of rational decision making that nonetheless leaves space for subjectivity in valuing outcomes.
+
+::: {.todo}
+MAYBE TRANSCLUDE THIS INTO THE TEXT?
+:::
+
+`r insert_calcZ_exercise("XX.XX", "iqek0m", "Exercises/Applications/daisy-mean-clock.Rmd")`
+
+
+
+
+## Multi-objective decision making
+
+
+Recall that we described a strategy for working with **incommensurate** objectives, that is, objectives such as "minimize money spent" and "maximize lives saved" that have no generally agreed common scale on which they can be compared. ("Mensurate" comes from the Latin for "measure." "Commensurate" means measured on the same scale.) We call that strategy **multi-objective** optimization. This is by no means a magical way of pulling ethical values or human preferences out of the universe. It is instead a mathematical framework for setting up the task to quantify correctly the tradeoffs between objectives. What use one makes of this information is entirely a matter for human decision making. `r mark(4980)`
+
+The setting for multi-objective optimization is this:
+
+i. You have a set of *policy alternatives* from amongst which you want to choose the "best." Sometimes these policy alternatives are discrete, e.g. whether to buy something or not. In this calculus course, we emphasize *continuous* policy alternatives, those that are represented by one or more numbers. Examples: How much money to spend on each of several modes of providing health care; How to set the length and diameter of a cylindrical tank.
+ii. You have a set of *objective functions*, each corresponding to one of the incommensurate objectives. Each objective function takes any of the policy alternatives as input and produces an output on its own scale. Examples: Lived saved; Money spent; Cardboard box volume; Area of cardboard used to create the box. `r mark(4985)`
+
+The process is this:
+
+i. You, the decision maker, select *one* of the objective functions to be *the* objective function. Mathematically, it doesn't matter which one.
+ii. The other objective functions become **constraint functions**. You, the decision maker, select a **level** for each constraint. Examples: The money available for health care (budget constraint); The volume that the cardboard box must contain.
+iii. Find the argmax of the objective function in (i) subject to the constraint in (ii). This is an entirely automatic operation; there are no value judgments involved.
+iv. Find the shadow price (also called the Lagrange multiplier) for each of the constraints in (ii). This is the change in output of the objective function in (i) when the *level* of the constraint is changed slightly. This also is an entirely automatic operation with no value judgments involved.
+v. Now you again step in to make some decisions. Examine each of the shadow prices, one for each constraint. Your job is to decide whether the shadow price is worthwhile, in much the same way that you might decide whether the price of a snack is worthwhile. But, whereas your you make a go/no-go decision with the snack, with the shadow price you make a more graded decision. The possibilities are: 
+    a. the price is not worthwhile. Response: *lower* the *level* of the constraint. 
+    b. the price is just right. Response: leave the *level* of the constraint along. 
+    c. the price is well worthwhile. Response: *raise* the *level* of the constraint.
+vi. Repeat the process by going back to step (iii) until either the price is just right or the level of the constraint is zero.
+
+Understanding (vi) is where your newly gained understanding of calculus comes in. Throughout CalcZ, we have encountered situations where we gradually build a solution by taking a series of **Euler steps**. You've seen this, for instance, in constructing the definite integral of a function or in finding a solution to a differential equation or by locating an argmax by taking small steps in the direction of the gradient vector. `r mark(4990)`
+
+Now, let's examine a small but important part of the procedure for multi-objective optimization:
+
+> i. You, the decision maker, select *one* of the objective functions to be *the* objective function. **Mathematically, it doesn't matter which one.**
+
+Although we may think of objective functions and constraint functions as different kinds of things, the way they are used in constrained optimization gives them symmetrical roles. 
+
+In earlier exercises, we've looked at step (iii) in the multi-objective optimization procedure graphically, as in this diagram depicting as an objective function the *volume* of a cardboard box and depicting as a constraint the surface area of cardboard used in the box. `r mark(4995)`
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+V <- makeFun(x*(y - 2*x)^2 ~ x)
+constraint <- makeFun(y^2 ~ x + y)
+contour_plot(V(x, y) ~ x + y, domain(x=c(3,7), y=c(22,28))) %>%
+  gf_labs(title="Volume") %>%
+  contour_plot(constraint(x, y) ~ x + y, 
+               filled=FALSE, contour_color = "orange3", 
+               contours_at = 600) 
+```  
+
+The constraint path is the contour of the constraint function at which the output of the constraint function is the set level; here that's 600 square-inches of cardboard.    
+The argmax in this problem is the point at which the constraint path is tangent to a contour of the objective function. Here, we need to **interpolate** visually and imagine the contour where the objective function output is about 1100, which will be tangent to the constraint path at about $x=4.2$.  `r mark(5000)`
+
+Let's take the graphic apart into it's constituent components: the objective function and the constraint function. We'll plot both in the same way: a contour plot with the gradient field superimposed.
+
+```{r echo=FALSE, out.width="50%", fig.show="keep", warning=FALSE, message=FALSE}
+dom <- domain(x=c(3,7), y=c(22,28))
+contour_plot(V(x, y) ~ x + y, dom ) %>%
+gf_labs(title="Box volume") %>%
+  gradient_plot(V(x, y) ~ x + y, npts=10) %>%
+  gf_refine(coord_fixed())
+  
+contour_plot(constraint(x, y) ~ x + y, dom, 
+               contours_at = c(400, 500, 600, 700, 800), skip=0) %>%
+  gf_labs(title="Cardboard area") %>%
+  gradient_plot(constraint(x, y)+0.001*x ~ x + y, npts=10) %>%
+  gf_refine(coord_fixed())
+
+```  
+
+As always, at any point the gradient vector is perpendicular to the contour through that point. This means that wherever the contour of one function is tangent to the contour of the other function, their respective gradient vectors are exactly aligned.  `r mark(5005)`
+
+The next plot shows the gradient vectors of each function along with the **angle** (in degrees) between the gradient vectors at each point. Along the **green line**, the gradient vectors are exactly aligned. `r mark(5010)`
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+f <- V
+g <- constraint
+angle <- function(v1, v2) {
+  180*acos(colSums(v1*v2)/sqrt(colSums(v1*v1)*colSums(v2*v2)))/pi
+}
+dfdx <- D(f(x, y) ~ x)
+dfdy <- D(f(x, y) ~ y)
+gradf <- Vectorize(function(x, y) {
+  c(dfdx(x=x, y=y), dfdy(x=x, y=y))
+})
+gradg <- Vectorize(function(x, y){
+  c(0, 2*y)
+})
+dom <- domain(x=c(3,5), y=c(23.5, 25))
+contour_plot(angle(gradf(x,y), gradg(x,y)) ~ x + y, dom, 
+             contours_at = c(10, 20, 30, 40, 50), 
+             skip=0, npts=500, filled=FALSE) %>%
+  contour_plot(angle(gradf(x,y), gradg(x,y)) ~ x + y, 
+             contours_at = c(.3), contour_color="green", npts=200, filled=FALSE, label_color=NA, size=2) %>%
+  gf_refine(coord_fixed()) %>%
+  gradient_plot(constraint(x, y)+0.001*x ~ x + y, npts=10, color="dodgerblue") %>%
+  gradient_plot(V(x, y)+0.001*x ~ x + y, npts=10, color="black") %>%
+  gf_labs(title="Angle of alignment of objective and constraint function gradients")
+```
+
+Note that nowhere in the construction of the green line have we said anything about which of the two functions is the objective and which is the constraint. The two functions are used in exactly the same way: find the gradient and find the points where the two functions' gradients are aligned. It doesn't matter which function we choose to call the contraint and which the gradient.  `r mark(5015)`
+
+Each point on the green line is an input $(x, y)$ that is optimal at some level of the constraint. Imagine taking points on the green line and, for each point, calculating the box volume and the box surface area. These points are each on the **Pareto frontier** of the multi-objective optimization problem. That is, there are no values of $x$ and $y$ off the green line that dominate a point on the green line in terms of the values of the box volume and the box area.  `r mark(5020)`
+
+```{r echo=FALSE}
+green <- makeFun(5.4*x + 2.4 ~ x)
+frontier <- tibble::tibble(
+  x = seq(3, 5, length=100), 
+  vval = V(x, green(x)),
+  cval = constraint(x, green(x))
+)
+gf_line(vval ~ cval, data = frontier, color="green", size=2) %>%
+  gf_labs(y="Box volume (cubic inches)", x = "Box surface area (sq.inches)",
+          title = "Pareto frontier of cardboard box problem")
+```
+
+```{r mg1-1, echo=FALSE, results="markup"}
+askMC(
+  "The two graphs showing the green line are labeled \"Angle of alignment ...\" and \"Pareto frontier ...\" respectively. The green line in both graphs represents the same set of $x, y$ points. But the graphs are different. Why?",
+  "+The domain in \"Angle ...\" is the inputs $(x,y)$ to the objective functions, whereas the domain in \"Pareto ...\" is the outputs from those objective functions.+",
+  "The domain in \"Pareto ...\" is the inputs $(x,y)$ to the objective functions, whereas the domain in \"Angle ...\" is the outputs from those objective functions.",
+  "The \"Angle ...\" graph shows only the constraint function while the \"Pareto ...\" graph shows only the objective function.",
+  "The \"Angle ...\" graph shows only the constraint function while the \"Pareto ...\" graph shows both the constraint and objective functions."
+)
+```
+
+```{r mg1-2, echo=FALSE, results="markup"}
+askMC(
+  "Recall that the shadow price (a.k.a. Lagrange multiplier) is a ratio: the extent to which the output of the objective function is increased compared to the extent to which the constraint level is increased. Which of these numerical values is approximately the shadow price of volume with respect to area? (Hint: The above graph gives all the information you need!)",
+  "+2.4+",
+  "24",
+  "240",
+  "2400",
+  random_answer_order = FALSE
+)
+```
+
+```{r mg1-3, echo=FALSE, results="markup"}
+askMC(
+  "What's the shadow price of area with respect to volume? (Before we asked about volume with respect to area.)",
+  "0.042",
+  "+0.42+",
+  "4.2",
+  "42",
+  random_answer_order = FALSE
+  
+)
+```
+
+```{r mg1-4, echo=FALSE, results="markup"}
+askMC(
+  "We made a rookie error in posing the two previous questions. The shadow price is a *quantity* and we didn't say what the **units** of that quantity are! So any of the candidate answers to those questions might be right depending on what unit you take the shadow price to be in. (You might have to make up your own unit for this to be exactly right.) We apologize for the mistake and will earnestly try to do better in the future! For now, we'll ask you to figure it out: Given the units shown on the graph, in what units are the shadow price of volume with respect to area?",
+  "+inches+",
+  "square-inches",
+  "cubic-inches",
+  "1/inches",
+  random_answer_order = FALSE
+)
+```
+
+**An application to machine learning**: Large chunks of the field of machine learning consist of relating some outcome to be predicted as a function inputs that can be measured. A discrete example: predict what animal is depicted in a photograph as a function of the million-or-so pixel values.  A continuous example: Find the probability of a person getting a disease as a function of measurements of expression level of each of thousands of genes. `r mark(5025)`
+
+In both cases, a starting point is the collection of a large amount of data, e.g. photographs with various animals in them that have been labeled by some expert; or genetic measurements from people who did and did not come down with the disease. In both cases, the outcome of machine learning is a function that gives an output (which animal? came down with disease?) as a function of the inputs. `r mark(5030)`
+
+One objective in finding the function is to make the results as close as possible to the data: the function should give the right answer as often as possible. But there is another objective: keep the model simple. The optimal model choice involves a trade-off between these two objectives. Techniques for model construction in machine learning therefore involve two objective functions: the probability of a correct output and the complexity of the model (as measured, for instance, by the length of the $\mathbf x$ vector found when solving the linear combination target problem). In statistics, this is called the trade-off between **variance** (how close the model is to the data) and **bias** (how far the $\mathbf x$ vector is from the one we would get by ignoring the objective to keep the model as simple as possible).  `r mark(5035)`
+
+## Commensurate and incommensurate
+
+Just as the word "cooperate" means to "work together" ("co" + "operate"), the word "commensurate" means to "measure together" or to measure in the same way. Since you already know about different units and dimensions, an example in that domain can make the meaning concrete. An inch and a mile are commensurate quantities. Obviously, an inch and a mile are not equal, but you can *compare* them in an objective way. (An inch is 0.000015783 miles.) Similarly, a litre and a gallon are commensurate, but having the dimension L^3^, neither is commensurate with a quantity of dimension L.
+
+A large number of decisions involve money in some way. It's routine to decide whether a purchase is "worth the money." But we do this by applying a judgment that is subjective, e.g. is it worthwhile to buy the more expensive chocolate? The decision involves comparing two *incommensurate* things: the money vs the good feelings that come from eating or giving a fine treat.
+
+That things are incommensurate does not at all mean that you can't make decisions that put one against the other, just that there is no ready, objective means to do the comparison.
+
+As an example of how incommensurability can frustrate decision making ... In the 1990s the Federal Aviation Administration (FAA) was considering a policy of requiring safety seats for infants and children on flying. (For infants, the standard was "babe in arms": the infant could be carried on the plane and held by the caretaker, without needing a separate seat for the baby.) As you might expect, the issue was the extra costs for parents versus the increased safety of the child safety seat. The American College of Pediatrics lobbied in favor of the safety seats, travel agents lobbied against the requirement. The FAA could not reach a decision. That's somewhat surprising because the FAA necessarily makes decisions that compare money and safety, for instance in the requirements for a passenger evacuation system or life rafts. I guess nobody is objective about babies!
+
+After a decade or so, the FAA decided *not* to require the safety seats. What broke the log-jam of incommensurability was a study done of how parents would respond to the increase in cost of flying with babies. It was determined that the increased cost would push parents to drive rather than fly for short- or mid-distance trips. Driving is much more dangerous than commercial aviation and so the expected number of injuries or deaths would be larger were the safety-seat requirement instituted than if not. In other words, the comparison of lives to lives (driving risk versus flying risk) was easy, but the comparison of baby lives to money was impossible.
+
+Over the next few classes, you will learn some mathematical techniques for decision-making in the face of incommensurate objectives (e.g. save money versus save lives). It's important to note that there is no mathematical *solution* to the problem. Rather, mathematics can provide tools to clarify the trade-offs and, in much the same way as the resolution of the FAA's policy problem, can sometimes offer a sensible way forward.
+
+It's worth mentioning some of the common, non-mathematical ways that people deal with incommensurates. I'll call these "heuristics." The [Wikipedia definition of "heuristic"](https://en.wikipedia.org/wiki/Heuristic) is pretty good:
+
+> *[A]ny approach to problem solving ... that employs a practical method that is not guaranteed to be optimal, perfect, or rational, but is nevertheless sufficient for reaching an immediate, short-term goal or approximation. Where finding an optimal solution is impossible or impractical, heuristic methods can be used to speed up the process of finding a satisfactory solution. Heuristics can be mental shortcuts that ease the cognitive load of making a decision.*
+
+A very common heuristic is to simply deny that any trade-off exists. This is seen most clearly in the dispute about climate change. The trade-off here is the cost of climate remediation policies (such as a carbon tax) versus the disruption and dislocation caused by the changing climate. One one side of the debate are people who deny that climate change is happening or that it is caused by human activity that can be mitigated. On the other side of the debate are people who insist that the economic changes called for will not only reduce climate-change harm but will positively affect the economy, create jobs, etc. The rest of us are in the middle, recognizing both sides of the problem.
+
+Another heuristic is to play the trump cards of morality and human rights. Once someone claims the the issue is fundamentally one of morality, it's hard to have conversation about the trade-offs involved. (If everyone agreed about morality, it would be easier. But one person's divine truth is another person's opinion.) In the US, the debate about health-care policy is not a measured discussion of how available resources should be distributed to best effect but a competition between perceived moral or ethical stances: "the government has no business making medical decisions for me" versus "affordable health care is a human right."
+
+It is not our place in CalcZ to enter into deep conversation about political or moral philosophy. Rather, by introducing the concepts of incommensurability and heuristic, we intend to guide the mathematical discussion toward a framework for making impossible decisions in a thoughtful and responsible manner.
+
+
+
+## Multiple objectives
+
+It often happens that decisions involve multiple simultaneous objectives. In one context or another, each of these considerations can play a role in decision making:
+
+- safety
+- cost
+- human life
+- animal welfare
+- collateral damage
+- public or political reaction
+
+This is by no means an exclusive list. 
+
+In specialized domains more specific competing objectives are often part of the design goal. For instance, consider aircraft design: 
+
+- range
+- payload or cargo capacity
+- short take-off and landing
+- maneuverability 
+- mission suitability
+- multi-mission capability
+- maintenability
+- stealth
+
+Over the next few lessons, we're going to introduce concepts that are important to effective thinking about designing with multiple objectives as well as mathematical tools that help in balancing conflicting objectives. As you will see, there is no single "correct" or "best" solution to such problems. Indeed, there is a mathematical theorem about when there **cannot** be a best solution. However---and this may seem contractictory at first---some solutions are better than others. Mathematics also provides a framework for a systematic and documentable process which provides a role for the inevitable elements of human, subjective values.
+
+First, we'll cover elementary mathematical principles that demonstrate both that there is no single "best" solution while yet allowing some solutions to be better than others. Important vocabulary here includes **"incommensuate"**, **dominating** and **non-dominating** solutions(along with **pareto optimality**), **decision frontier**, and **social utility function**.
+
+Second, we'll briefly discuss some **heuristics** that people and groups often use, without necessarily realizing it, in solving multi-objective optimization problems. Awareness of such heuristics helps in identifying (often unstated) objectives implicit in the decision and enables you, by making them **explicit**, to clarify the problem and potentially open it up to useful discussion and **negotiation**. 
+
+Later, we'll use the mathematics of **constraints** and **constraint functions** to support a process of rational decision making that nonetheless leaves space for subjectivity in valuing outcomes.
+
+
+
+## Yours and mine
+
+We start with a simple, everyday situation that illustrates many basic principles. Here's a heads up: People are so adept at applying heuristics to this sort of problem---perhaps because it is so common---that it can be difficult at first to see that there is actually a difficulty involved.
+
+The situation is this: there is a pot of money that you and I are going to split up. You and I have similar objectives. For each of us, getting more money is better than getting less. And our objectives conflict. If you get more, I get less. The concepts we'll introduce apply equally well when there are three, four, or any number of people splitting the pot.
+
+For simplicity and for generalizability to other, less obvious situations,  we'll imagine that we need to choose between several discrete **policy alternatives**, that is, configurations of the split. "Policy" may seem like a high-fallutin word to use for splitting the pot, but in other situations it can be exactly the right word. Moreover, the etymology of the word is right on target for the problem. A contemporary dictionary definition of "policy" is: 
+
+> *Policy: a course or principle of action adopted or proposed by a government, party, business, or individual*
+
+The root of the word is "city" in Greek, "polis" (πόλις---you can recognize the $\pi$ at the beginning of the word and the "lambda" ($\lambda$) in the middle. The last letter is "sigma" ($\sigma$) although you might not recognize it since a somewhat different form is used when the letter is at the end of a word.) From "polis" comes our words "politics," "policy," and "police,"  all of which have to do with relations among people. 
+
+For reference, here is a graph showing some policy alternatives in the yours-and-mine problem.
+
+```{r echo=FALSE, warning=FALSE}
+set.seed(101)
+Policies <- tibble::tibble(
+  mine = runif(26, 20,100),
+  yours = runif(26, 20, 100)
+) %>% 
+  filter(mine + yours < 100) %>%
+  mutate(label = LETTERS[1:nrow(.)])
+Frontier <- Policies %>%
+  filter(label %in% c("A", "C", "D")) %>%
+  arrange(mine)
+gf_path(mine ~ yours, data = Frontier, color="dodgerblue", size=2, alpha=0.5) %>%
+  gf_text(mine ~ yours, data = Policies, label=~label) %>%
+  gf_labs(y="My share of pot ($)", x = "Your share of pot ($)") %>%
+  gf_refine(coord_fixed()) %>%
+  gf_abline(yintercept=0,slope=1)
+  
+```
+For example, in policy alternative A, I would get $50 and you would get $25. Under policy F, I get $38 and you get $47. (We'll get to the blue line in a bit.)
+
+A **dominated solution** is one which both you and I would turn down in favor of a specific alternative (called the **dominating solution**). For instance, C dominates G: we're both better off under C than G.
+
+```{r ym1-1, echo=FALSE, results="markup"}
+askMC(
+  "Which solution dominates F?",
+  "A" = "I would be better off under A, but you would be worse off than under F.", "B", "+C+", "D", "E",
+  random_answer_order = FALSE
+)
+```
+
+```{r ym1-2, echo=FALSE, results="markup"}
+askMC(
+  "Which solutions dominate G?",
+  "+BCDF+",
+  "CDF",
+  "ACD",
+  "CB"
+)
+```
+
+```{r ym1-3, echo=FALSE, results="markup"}
+askMC(
+  "Which solutions dominate E?",
+  "C",
+  "CDF",
+  "CD",
+  "+None+"
+)
+```
+
+```{r ym1-4, echo=FALSE, results="markup"}
+askMC(
+  "Which solutions dominate B?",
+  "+C+",
+  "CDF",
+  "CD",
+  "None"
+)
+```
+
+A mathematical, but not psychological, principle is that a dominated solution is never optimal. So, we can rule out any dominated solution.
+
+```{r ym1-5, echo=FALSE, results="markup"}
+askMC(
+  "Which solutions can be ruled out as dominated by some other solution?",
+  "+BFG+",
+  "BG",
+  "ABFG",
+  "AFG"
+)
+```
+
+An important **heuristic** for making a decision is *fairness*. In this case, fairness might be interpreted as "split the pot as evenly as possible." 
+
+The diagonal line shows exactly even splits: you and I each get the same amount. There is no policy alternative that is exactly even, but D is the closest. So many people will claim that D is the best of all the policy alternatives, that other alternatives are "greedy" or "unethical." 
+
+Fairness is a very attractive property of a selected policy solution, but it's relatively easy to see that fairness is not essential.
+
+```{r ym1-6, echo=FALSE, results="markup"}
+askMC(
+  "Suppose that policy alternative D does not exist. Of the other policy alternatives, which is the fairest?",
+  "A",
+  "C",
+  "+F+", 
+  random_answer_order = FALSE
+)
+```
+
+```{r ym1-7, echo=FALSE, results="markup"}
+askMC(
+  "Suppose that policy alternative D does not exist. Does any policy alternative dominate the fairest solution?",
+  "Yes, A",
+  "+Yes, C+" = "So we both would prefer C to F. That means that F is not the optimal solution for either of us.",
+  "No", 
+  random_answer_order = FALSE
+)
+```
+
+The answers to the previous two questions point to the reasoning behind calling "fairness" a heuristic rather than a coherent basis for policy choice. To make fairness coherent, we would have to change the rule, "Be fair!" to one like, "If there's a fairer, non-dominated solution, go for that."
+
+Another heuristic is can be applied if it's possible to average between policy alternatives. Imagine if we were making the decision not just for one payout, but for many payouts in series. We might agree to pick solution D most of the time but every once in a while pick solution A to let me catch up with you. 
+
+The blue line shows the non-dominated solutions when such averaging is available. This set of non-dominated solutions is sometimes called the **solution frontier**. Notice that solution E, which is not dominated by any other solution, is dominated by an average between A and F.
+
+Still other heuristics are available. Under **compensation**, we could agree to a choice that enables one of us to pay the other in order to balance out the take. The trajectory of a compensatory solution is along the lines of slope -1 from the non-dominated solutions.
+
+```{r ym1-8, echo=FALSE, results="markup"}
+askMC(
+  "One of the following is the best solution when compensation is possible. Which one?",
+  "A", "+C+"="Since both parties will walk away with more money than D", "D", 
+  random_answer_order = FALSE
+)
+```
+
+In some settings, for instance the "economic theory of law," the best solution under compensation is also the right choice *even if compensation is not paid*.
+
+
+## QALY and life years
+
+In this exercise, you will work with an optimization problem. First, we'll ask about a mathematical solution to the problem. Next, we'll show that the mathematical solution is not necessarily the best real-world solution, because of multiple objectives in decision making. Then we'll show you a real-world decision-making rubric that's widely accepted, at least among people who listen to the whole story with an open mind.
+
+The graph shows the estimated number of lives saved by three different health-care related interventions -- A, B, C -- as a function of the amount of money spent on each.
+
+```{r qaly,echo=FALSE}
+money <- seq(0,1000,length=1000)
+A <- makeFun(
+  500*pnorm(money, mean=300, sd=150) + .05*money - baseline ~ money, baseline=11.375)
+B <- makeFun(350*pnorm(money,mean=0, sd=100) + .05*money - baseline ~ money, baseline = 175)
+C <- makeFun(money/1.6 ~ money)
+slice_plot(A(x) ~ x, domain(x=c(0,1000)), label_text="(A)") %>%
+  slice_plot(B(x) ~ x, label_text="(B)", color="orange3") %>%
+  slice_plot(C(x) ~ x, label_text="(C)", color="dodgerblue") %>%
+  gf_labs(x = "Expenditure ($M)", y = "Lives saved")
+```
+
+You have $1,000,000,000 to spend altogether on these interventions. Your policy alternatives are all the different combinations of spending on (A), (B), and (C) that add up to $1B (or less). 
+
+How should you split up the money among the interventions? For example, we could spend $125M on B, $125M on C, and $750M on A. This would save an estimated 346 lives. Can we do better? 
+
+Imagine that we use $x$, $y$ and $z$ to denote expenditure, with $x$ spent on intervention A, $y$ on intervention B, and $z$ on intervention C. Altogether, the budget is $x + y + z = \$1B$.
+
+```{r tp1-1, echo=FALSE, results="markup"}
+askMC(
+  "Suppose $x = 750$, $y = 125$, and $z=125$, where units are millions of dollars. It's suggested that reducing $x$ by $1M in order to increase $z$ by that amount will produce a better outcome in terms of the total number of lives saved. That is, move some money from intervention A to intervention C. Is this suggestion correct? Why or why not?",
+  "Not correct. The number of lives saved by spending $750M on A is larger than the number that would be saved by spending that much on B or C." = "We're only talking about moving a small amount from A to C",
+  "Not correct. We will want to move the money to B instead." = "Be that as it may, the question was whether to move money from A to C.",
+  "+Correct. The derivative $\\partial_x A(x)$ at $x=750$ is smaller than the derivative $\\partial_z C(z)$ at $z=125$.+" = "Reducing $x$ by a small amount will reduce the output $A(x)$, but since $\\partial_z C(z=125)$ is greater, the loss in output due to a reduction in spending on A will be more than made up by an increase in output from spending more on C.",
+  "Correct. We should spend equally on all three interventions. That is, set $x = y = z = 333.33....$" = "This is intuitively attractive, but still doesn't address the question of whether the outcome would be improved by moving money from A to C."
+)
+```
+
+A general principle is this: If spending a little more on one intervention increases the output more than the loss due to spending less on another intervention, the shift in funding is worthwhile. 
+
+```{r tpt1-2, echo=FALSE, results="markup"}
+askMC(
+  "If you follow the above logic, you will continue to move money from A to C until it is no longer beneficial to do so. What will be the maximum amount of spending on A makes it not worthwhile to move additional money from A to C? (Choose the closest answer.)",
+  "$250M",
+  "$375M",
+  "+$500M+",
+  "$625M",
+  random_answer_order = FALSE
+)
+```
+
+```{r tpt1-3, echo=FALSE, results="markup"}
+askMC(
+  "Imagine that you have moved all the money from A to C that it's worthwhile to do . Which of these statements is true at those values $x_0$, $z_0$?",
+  "+$\\partial_x A(x_0) = \\partial_z C(z_0)$+",
+  "$A(x_0) = C(z_0)$",
+  "$C(x_0) = A(z_0)$",
+  "$\\partial_x A(x_0) = 0$ and $\\partial_z C(z_0) = 0$."
+)
+```
+
+We found it worthwhile to move expenditure from A to C to optimize the sum of their outputs and are operating at about $x_0 = \$500M$ and $z_0 = \$375M$, leaving $y=\$125M$ to spend on intervention B. Is it worthwhile to move money from A or C to B or vice versa? But first, a simpler question.
+
+```{r tpt1-4, echo=FALSE, results="markup"}
+askMC(
+  "If we were going to move a small amount of money from A or C into B, would it be better to take the money from A or from C? Why?",
+  "Take it from A, since we're spending far more on A than C.",
+  "Take it from C, since we're already spending far less on C than on A.",
+  "+Take it from C. The slope $\\partial_z C(z_0)$ compared to $\\partial_x A(z_0)$ is such that a small reduction on spending on C has less impact than a small reduction in spending on A.+",
+  "Take it from A. The slope $\\partial_z C(z_0)$ compared to $\\partial_x A(z_0)$ is such that a small reduction on spending on A has less impact than a small reduction in spending on C."
+  
+)
+```
+
+```{r tpt1-5, echo=FALSE, results="markup"}
+askMC(
+  "Right now in our process, we're planning to spend $125M on B. Is it worthwhile to move money from C to B?",
+  "No, the output of B larger than the output of C at $125M.",
+  "Yes, move most of the money from C to B.",
+  "+Yes, but only move a little money from C to B.+",
+  "No, move money from B to C."
+)
+```
+
+```{r tpt1-6, echo=FALSE, results="markup"}
+askMC(
+  "At the optimal amount of money $y^\\star$ spent on B and $z^\\star$ spent on C, which of these is true about the slopes $\\partial_y B(y^\\star)$ and $\\partial_z C(z^\\star)$?",
+  "There's not any fixed relationship. They are what they are.",
+  "+The two slopes are equal.+",
+  "The slope of B is greater than the slope of C.",
+  "The slope of C is greater than the slope of B."
+)
+```
+
+```{r tpt1-7, echo=FALSE, results="markup"}
+askMC(
+  "Is it more proper to say the \"**slope** $\\partial_z C(z^\\star)$\" rather than the \"**derivative** $\\partial_z C(z^\\star)$?\" (This is a general review problem for the course, not something specifically about optimization.)",
+  "+Yes. A derivative is a function while a slope is a quantity.+",
+  "No. Slope and derivative are the same thing." = "No, the derivative is a function. When you **evaluate** that function at a particular value of $z$ (say, $z^\\star$) the output will be the slope of the original function at that value of $z$.",
+  "Yes. \"Derivative\" sounds fancier than \"slope\"." = "It's not a matter of fancy, it's a matter of being precise.",
+  "No. Slopes measure steepness from right to left, while derivatives give steepness from left to right." = "Where did that come from. The convention for the sign of a slope is always the direction left to right."
+)
+```
+
+
+**Background:** The graphs are fictitious, but let's pretend they are:
+
+* **A** Surgical treatment of congenital heart defects in newborns.
+* **B** Treatment for hemophilia.
+* **C** Memory-care for people with Alzheimers.
+
+Notice that the people being affected are in different, non-overlapping groups. So moving funding from one group to another is effectively "robbing Peter to pay Paul." If you, as a decision maker inherited a situation where $x = \$750M$, $y=\$125M$, and $z=\$125M$, changing the expenditures would make one group better off (no matter how you did it!) and would make another group worse off. And imagine the headlines if you moved money from A to C or B: "Government slashes funding for newborns!". Or perhaps an editorial: "We need to find a way to increase funding for hemophilia without cutting other life-saving spending." This raises an important question: Is it ever worthwhile to forgo spending to save lives? How would anyone decide which lives are worth saving? Most people are uncomfortable with such questions. Yet the decisions taken by leaders, whatever they be, inevitably have a mathematically equivalent formulation which translates to the value of life.
+
+Probably, most people would decline to make a decision comparing two lives, for instance, saving a 10-year old versus saving a 90-year old. But it is not always possible to escape such trade-offs and the people who need to take the decision need guidance about what to do. In an open society, we expect such decisions to be backed by good rationale and so we have to develop means for distinguishing between better and worse rationales.
+
+One example comes from epidemiology and the concept of a "[quality-adjusted life year](https://en.wikipedia.org/wiki/Quality-adjusted_life_year)" (QALY). A QALY is a measure of duration of life adjusted for the health condition of the person --- a year of a person in good health is 1 QALY, but a year in a person in very poor health is less than 1 QALY.
+
+QALYs do not solve the problem of optimizing health-related outcomes. They are an imperfect means of dealing with an impossible problem. Sometimes that is the best we can do.
+
+## Follow the gradient!
+
+The big contribution of calculus to the process of optimization is the **gradient vector**. The gradient vector, as you know, points in the steepest direction uphill. Since functions can have complicated shapes, the gradient does not generally point directly to the maximum. However, if you start at a point and take a small step in the direction of the gradient, the value of the objective function will increase. Then repeat the process and keep repeating until the gradient has zero length (or close to zero).
+
+The sandbox has instructions in R for 
+
+i. generating a function $f(x, y)$ 
+ii. finding the $x$- and $y$-components of the gradient vector
+iii. setting up differential equations whose dynamics are "velocity is the gradient." (Remember, velocity is a vector, as is the gradient.) This system just walks uphill.
+iv. setting up differential equations whose dynamics are "velocity is negative the gradient."
+v. plotting the $f(x,y)$, the gradient field, and the two solutions to the differential equations.
+
+
+```{r fg2-1, exercise=TRUE, exercise.cap="A differential equation to optimize", exercise.nlines = 25}
+f <<- rfun( ~ x + y, seed=103)
+dx_f <<- D(f(x, y) ~ x)
+dy_f <<- D(f(x, y) ~ y)
+soln1 <- integrateODE(dx ~ dx_f(x=x, y=y), 
+                     dy ~ dy_f(x=x, y=y), 
+                     x = 1, y = -3,
+                     tdur = list(from=0, to=10, dt=0.1))
+soln2 <- integrateODE(dx ~ -dx_f(x=x, y=y), 
+                     dy ~ -dy_f(x=x, y=y), 
+                     x = -2, y = 0.75,
+                     tdur = list(from=0, to=10, dt=0.1))
+
+
+contour_plot(f(x, y) ~ x + y, domain(x=c(-5, 5), y=c(-5, 5))) %>%
+  gradient_plot(f(x, y) ~ x + y) %>%
+  traj_plot(y(t) ~ x(t), soln1, color="dodgerblue") %>%
+  traj_plot(y(t) ~ x(t), soln2, color="orange3")
+
+```
+
+```{r fg1-1, echo=FALSE, results="markup"}
+askMC(
+  "The two trajectories are shown in blue and red respectively. Each starts at the point labelled \"0\" and ends at the point labelled \"10\". How does movement along each trajectory correspond to the gradient field?",
+  "red uphill, blue downhill",
+  "+red downhill, blue uphill+",
+  "both downhill",
+  "both uphill",
+  random_answer_order = FALSE
+)
+```
+
+```{r fg1-2, echo=FALSE, results="markup"}
+askMC(
+  "Did the trajectories reach a local maximum or minimum?",
+  "red reached max, blue reached min",
+  "+red reached min, blue reached max+",
+  "both reached max",
+  "both reached min"
+)
+```
+
+```{r fg1-3, echo=FALSE, results="markup"}
+askMC(
+  "There's a local minimum shown on the graph at about $(x=0, y=-1)$. Neither of the trajectories reached this minimum. Imagine starting a new trajectory at a point $(x=2, y=0)$. Will it reach the local minimum near $(x=0, y=-1)$?",
+  "+Yes, so long as you walk **against** the gradient.+",
+  "Yes, so long as you walk **along** the gradient.",
+  "No",
+  random_answer_order = FALSE
+)
+```
+
+In the code originally in the sandbox, the trajectory was constructed with 100 Euler steps; the time interval runs from $t=0$ to $t=10$ and $dt = 0.1$. Practical optimization algorithms are designed to take steps that are as large as feasible. But if the steps are too large, the trajectory can overshoot the target. Dealing with this problem is a major feature of optimization algorithms and is non-trivial.
+
+Purely to illustrate, we can investigate stepsize by changing `dt` in the two `integrateODE()` expressions. 
+
+```{r fg1-4, echo=FALSE, results="markup"}
+askMC(
+  "What happens when you set `dt=1.0`?",
+  "Both trajectories smoothly curve around and reach the maximum or minimum.",
+  "+The trajectories reach the maximum or minimum, but in a clunky, jerkwise fashion.+",
+  "The trajectories oscillate around the maximum or minimum without settling down.",
+  "Everything falls apart and the trajectories leave the domain of interest.",
+  random_answer_order = FALSE
+)
+```
+
+```{r fg1-5, echo=FALSE, results="markup"}
+askMC(
+  "What happens when you set `dt=10.0`?",
+  "Both trajectories smoothly curve around and reach the maximum or minimum.",
+  "The trajectories reach the maximum or minimum, but in a clunky, jerkwise fashion.",
+  "The trajectories oscillate around the maximum or minimum without settling down.",
+  "+Everything falls apart and the trajectories leave the domain of interest.+",
+  random_answer_order = FALSE
+)
+```
+
+### QALY with data
+
+```{r}
+QALY_impact <- tibble::tribble(
+  ~expend, ~A, ~ B,
+  0, 0, 0,
+  10, 40, 30,
+  20, 100, 80,
+  30, 150, 140,
+  40, 170, 160,
+  50, 180, 175
+)
+fA <- spliner( A ~ expend, data=QALY_impact, monotonic=TRUE)
+fB <- spliner( B ~ expend, data=QALY_impact, monotonic=TRUE)
+```
+You are a member of a health-care oversight committee that allocates funds for investment in health-care facilities.  The committee has two proposal before it and needs to decide how best to spend the available $50M budget:
+
+* **Proposal A**: Expansion of the pediatric organ transplant unit.
+* **Proposal B**: Creation of a new rehabilitation center for  traumatic injury patients.
+
+Experts have evaluated each proposal in terms of different cost options and the impact that each will have on health outcomes. Following a standard epidemiological method, the impact is estimated in terms of "Quality Adjusted Life-Years" (QALY), a measure that combines the number of people affected, the number of years of prolonged life, and the improvement in quality of life for those treated.
+
+The expert estimates are available in the data frame `QALY_impact`:
+
+**QALY Impact of the Proposals**
+
+```{r dcb2-1, exercise=TRUE, exercise.cap="Expert conclusions"}
+QALY_impact
+```
+
+Such estimates from experts should be taken with a grain of salt, but they are often the best information you have to inform a model.
+
+You can turn the expert's opinions into functions by using splines. In this case, there is good reason to think that output will increase monotonically with expenditure, so a monotonic spline is a good choice.  The functions were created using these commands and are already available in your sandboxes:
+
+```{r}
+fA <- spliner( A ~ expend, data=QALY_impact, monotonic=TRUE)
+fB <- spliner( B ~ expend, data=QALY_impact, monotonic=TRUE)
+```
+ 
+
+The problem is to find the best values for expenditures on Proposal A and B  --- call these expenditures  $x_A$ and $x_B$ -- given constraint that total expenditure is $x_A + x_B = 50$.
+
+A simple approach is to plot out the total benefit as a function of expenditures on each of A and B:
+```{r tbenefit, exercise=TRUE, exercise.cap="Plotting the objective function.", exercise.nlines=10, eval=FALSE, message=FALSE, warning=FALSE}
+overall <- makeFun( fA(xA) + fB(xB) ~ xA + xB)
+g_budget <- makeFun(xA + xB ~ xA + xB)
+contour_plot(overall(xA, xB) ~ xA  + xB, 
+         domain(xA=range(0,50), xB=range(0,50))) %>%
+  contour_plot(g_budget(xA, xB) ~ xA + xB, filled=FALSE,
+               contours_at=NULL, contour_color="orange3", alpha=0.5)
+```
+ 
+ 
+How can you confirm that the red contours in the plot genuinely represent the budget constraint at the indicated level?
+
+```{r QY1-1, echo=FALSE, results="markup"}
+askMC(
+  "What's the largest number of QALYs that can be produced from combining
+the two proposals with a total budget of $50M?",
+120,160,180,"+240+",300,340,350,360, random_answer_order = FALSE)
+```
+
+
+```{r QY1-2, echo=FALSE, results="markup"}
+askMC(
+  "What is the location of the argmax in the previous graph?",
+  "$(A = 0, B = 50)$",
+  "$(A = 6, B = 44)$",
+  "$(A = 12, B = 38)$",
+  "+$(A = 22, B = 28)$+",
+  "$(A = 34, B = 16)$",
+  "$(A = 41, B = 9)$",
+  "$(A = 50, B = 0)$",
+  random_answer_order = FALSE
+)
+```
+
+
+Another way to look at the problem is to find the total QALY outcome as a function of the amount $x_A$, recognizing that once $x_A$ is set, the remaining money will go to option B, so $x_B = 50-x_A$. The following sandbox makes the plot.
+
+```{r QY2-1, exercise=TRUE, exercise.cap="Reducing dimension of objective.", exercise.nlines=3, eval=FALSE}
+slice_plot( fA(xA) + fB(50-xA) ~xA, domain(xA = c(0,50)))
+```
+
+
+**Changing the Budget**
+
+A broader social question is whether the budget is being set at an appropriate level.  One way to examine this is to look at how the QALY outcome changes as the budget changes.
+
+For this, we're going to find the set of non-dominated solutions, that is, all the values of $x_A$ and $x_B$ at which the derivatives $\partial_{x_A} f_A()$ and $\partial_{x_B} f_B()$ are equal. 
+
+The following sandbox shows the difference between those two derivatives along with a bunch of different constraint paths.
+
+```{r QY2-2, exercise=TRUE, exercise.cap="Difference in derivatives.", exercise.nlines=5, eval=FALSE, message=FALSE, warning=FALSE}
+dfA = D(fA(xA)~xA)
+dfB = D(fB(xB)~xB)
+contour_plot( dfA(xA) - dfB(xB) ~ xA&xB, 
+          domain(xA=range(0,50), xB=range(0,50)),
+          contours_at = c(-2, -4, 0, 4, 2), skip=0) %>%
+  contour_plot(xA + xB ~ xA + xB, contour_color="orange3", skip=0)
+```
+
+**Yet another constraint!**
+
+```{r QY1-3, echo=FALSE, results="markup"}
+askMC(
+  "The American Association of Allergy Activists (AAAA) has lobbied Congress to mandate that, of the 50 units of available funds,  funding for A must be  $x_A \\geq 40$. How much would this constraint reduce the overall output for the two interventions combined? (Remember, if you're spending, say, 45 on A, you can't spend more than the remaining 5 on B.) The challenge for you in answering this question is to pick the appropriate one of the above graphs. Once you have done that, the answer is evident.",
+  "No reduction at all.",
+  "About 10-20 QALYs.",
+  "+About 40-60 QALYs.+",
+  "About 100-120 QALYs.",
+  "It would actually *increase* the output.", 
+  random_answer_order = FALSE 
+)
+```
+
+### More about QALY's: Exercise??
+
+The optimization techniques described above are completely realistic, but it's not so realistic to have specific formulas for the relationship between expenditures and outcomes.  Somewhat more realistically, you might have the opinions of experts about the outcomes, in the form of a table like this.
+
+Expenditure | 0 | 10 | 20 | 30 | 40 | 50
+:----|----:|----:|----:|----:|----:|----:
+A | 0 | 4 | 10 | 15 | 18 | 24
+B | 0 | 3 | 8 | 19 | 25 | 30
+C | 0 | 6 | 12 | 18 | 26 | 31
+
+Such estimates from experts should be taken with a grain of salt, but they are often the best information you have to inform a model.
+
+You can turn the expert's opinions into functions by using splines. In this case, there is good reason to think that output will increase monotonically with expenditure, so a monotonic spline is a good choice.  You can construct the functions like this:
+
+```{r }
+expend=c(0,10,20,30,40,50)
+A = c(0,4,10,15,18,24)
+B = c(0,3,8,19,25,30)
+C = c(0,6,12,18,26,31)
+dat = data.frame(expend=expend,A=A,B=B,C=C)
+fA = spliner( A ~ expend, data=dat, monotonic=TRUE)
+fB = spliner( B ~ expend, data=dat, monotonic=TRUE)
+fC = spliner( C ~ expend, data=dat, monotonic=TRUE)
+```
+ 
+
+#. Find the best values of inputs $x_A$, $x_B$, and $x_C$ given the constraint that total expenditure is $x_A + x_B + x_C = 50$.
+    Choose the closest answer:
+        a. Input to A: $x_A$ {0}{0,5,10,15,21,24,30,34,39,43,50}
+        #. Input to B: $x_B$ {34}{6,11,16,19,25,29,34,41,43,50}
+        #. Input to C: $x_C$ {16}{7,11,16,19,21,25,29,34,39,41,44}
+
+
+<!--begin-answer-->
+```{r splineans,include = TRUE,fig = TRUE}
+overall <- makeFun(fA(A) + fB(B) + fC(50-A-B)  ~ A &  B)
+contour_plot( 
+  overall(A,  B) ~ A  + B,
+  domain(A=range(0,50), B=range(0,50))) %>%
+  gf_labs(x = "A (amount)", y  = "B (amount)")
+```
+ 
+The optimum is near $x_A=0$, $x_B=34$ and therefore $x_C = 50 - 34 - 0 = 16$.  This gives an output of about 31.4 units.
+```{r }
+overall( A=0, B=34 )
+```
+ 
+<!--end-answer-->
+
+The American Association of Allergy Activists (AAAA) has lobbied Congress to mandate that, of the 50 units of available funds,  funding for A must be at least $x_A \geq 30$ with only the remaining 20 units of expenditure available to be allocated to B and C.  
+
+#. How much would this constraint reduce the overall output for the three interventions combined? (Remember, if you're spending 30 on A, you can't spend more than 20 on B.)
+    #. Not at all.
+    #. About zero to 1 output unit
+    #. *About 4 to 5 output units*
+    #. About 10 to 12 output units
+    #. About 14 to 16 output units
+    #. It would actually **increase** the output.
+
+
+<!--begin-answer-->
+     Looking at the contour plot along the path $x_A = 30$ indicates that the best possible outcome will be about 28 units.  This is a reduction of about 3 units from the optimum when $x_A$ is not subject to the proposed Congressional constraint.
+<!--end-answer-->
+
+Good news and bad news.  You've defeated the AAAA initiative to force expenditure on A.  But, regretably, general budget cuts have just been announced!  Now there are only 20 units to spend on the three interventions.  
+
+#. What's the best mixture?
+    a. Input to A: $x_A$ {0}{0,5,10,15,20}
+    #. Input to B: $x_B$ {0}{0,5,10,15,20}
+    #. Input to C: $x_C$ 
+
+#. What's the output that corresponds to the best mixture? {12}{0,3,6,8,12,14,21,29,34,38}
+<!--begin-answer-->
+    The contour plot shows that the maximum occurs when $x_A=0$ and $x_B   = 0$. 
+    ```{r new20}
+overall <- makeFun(fA(xA) + fB(xB) + fC(20-(xA+xB))~xA&xB) 
+contour_plot(overall(xA,  xB) ~ xA + xB,  
+domain(xA=range(0,20), xB=range(0,20)))
+overall( xA=0, xB=0 )
+```
+<!--end-answer-->
