@@ -128,7 +128,7 @@ gridExtra::grid.arrange(P1, P2, P3, nrow=3)
 
 Notice that many of the segments are straight lines. That's understandable, since any function looks like a straight line over a small enough domain. 
 
-Each of those straight-line segments is drawn over a domain $x_i < x < x_i+dx$ that has width $dx$. For $dx$ small enough, the segment is well approximated by a straight line with slope  $\partial_x F(x_i)$. Multiplying slope by width gives the segment height: $h \partial_x F(x_i)$. 
+Each of those straight-line segments is drawn over a domain $x_i < x < x_i+dx$ that has width $dx$. For $dx$ small enough, the segment is well approximated by a straight line with slope  $\partial_x F(x_i)$. Multiplying slope by width $dx$ gives the segment height: $\left[{\large\strut}\partial_x F(x_i)\right]\ dx$. Of course, remember that $\partial_x F(x) = f(x)$ helps us see that each of the little segments is $f(x_i)\ dx$.
 
 Lets review. The standard notation for anti-differentiation can be interpreted in terms of putting together segments, or, in the words of Prof. Thompson in *Calculus Made Easy*, "totaling up all the little bits." (See Section \@ref(preliminary-terrors).)
 
@@ -141,6 +141,13 @@ Lets review. The standard notation for anti-differentiation can be interpreted i
 
 4. Assemble together all the $f(x)dx$ segments from (3) to get $F(x)$. This instruction to assemble is denoted 
 $$\Large \color{blue}\int$$
+
+Altogether, we have:
+
+$$\large \underbrace{\underbrace{\Large\color{magenta}{\int}}_{\color{magenta}{\text{assemble}}} \underbrace{\Large \overbrace{f(x)}^{\small\text{slope of F(x)}}\ \  \overbrace{\strut dx}^{\small \text{bits of}\ x}}_{\color{blue}{\text{the slope segments}}}}_{\text{giving}\ {\Large F(x)+C}\ \text{altogether.}}$$
+
+::: {.example data-latex=""}
+Returning to the example with which we started the chapter, here are the little segments of the slope function shown in Figure \@ref(fig:F-blank-axes2) assembled together to produce the anti-derivative function.
 
 ```{r show-bits2, echo=FALSE, fig.cap="$\\color{blue}{\\int} f(x)dx$ means to assemble the straight-line pieces $f(x) dx$ in the manner described in the previous section."}
 Pts <- Znotes::segmentize(cos(2*pi*x/10) ~ x, h=0.5, domain(x=c(-5,5)), npts=1) %>%
@@ -155,9 +162,9 @@ slice_plot(cos(2*pi*x/10) ~ x, domain(x=-5:5), alpha=0) %>%
   gf_text(0 ~ -2.25, label="dx", color="blue", vjust=-1) %>%
   gf_labs(y="Output of F(x)")
 ```
-Altogether, we have:
+:::
 
-$$\large \underbrace{\underbrace{\Large\color{magenta}{\int}}_{\color{magenta}{\text{assemble}}} \underbrace{\Large \overbrace{f(x)}^{\small\text{slope of F(x)}}\ \  \overbrace{\strut dx}^{\small \text{bits of}\ x}}_{\color{blue}{\text{the slope segments}}}}_{\text{giving}\ {\Large F(x)+C}\ \text{altogether.}}$$
+
 
 <!--
 ## Exercises
