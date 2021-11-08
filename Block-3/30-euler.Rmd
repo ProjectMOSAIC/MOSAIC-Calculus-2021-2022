@@ -277,6 +277,32 @@ Figure \@ref(fig:dynamic-anti-d) shows a dynamic version of the process of const
 knitr::include_graphics("www/area-plot.gif")
 ```
 
+::: {.intheworld data-latex=""}
+
+The following graphic from a well-respected news magazine, *[The Economist](https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_EUC776.png)*, shows the reported number of cases and deaths from Covid-19 during a two-year period in Russia. ("Sputnik" is the name given to a Russian-developed vaccine, named after the [first man-made satellite](https://en.wikipedia.org/wiki/Sputnik_1) in Earth orbit, launched by the Soviet Union on Oct. 4, 1957 and precipitating a Cold-War crisis of confidence in in the US.)
+
+```{r}
+knitr::include_graphics("www/sputnik.png")
+```
+
+The figure caption gives information about the units of the quantities being graphed. Notice the word "daily," which tells us, for example, that in mid-2021 there were about 10,000 new cases of Covid-19 each day and correspondingly about 350 daily deaths. 
+
+How many total cases and total deaths are reported in the graphic?
+
+There are, of course, two distinct ways to present such data which can be easily confused by the casual reader. One important way to present data is as ***cumulative*** cases and deaths as a function of date. We'll call these $C(t)$ and $D(t)$. Another prefectly legitimate presentation is of the rate of change $\partial_t C(t)$ and $\partial_t D(t)$ which, following our informal capital/lower-case-letter convention, we could write $c(t)$ and $d(t)$. Since there is no such thing as a "negative" case or death, we know that $C(t)$ and $D(t)$ are monotonic functions, never decreasing. So the graphs cannot possibly be of $C(t)$ and $D(t)$, since the graphs are far from monotonic. Consequently, the displayed graphs are $c(t)$ and $d(t)$, as confirmed by the word "daily" in the caption.
+
+To find $C(t)$ and $D(t)$ requires integrating $c(t)$ and $d(t)$. The value of $C(t)$ and $D(t)$ at the right-most extreme of the graph can be found by calculating the "area" under the $c(t)$ and $d(t)$ curves. But care needs to be taken in reading the horizontal axis. Although the axes are labelled with the year, the tick marks are actually spaced by one month. (Notice "month" does not appear in the caption.) The far right end of the graph is in early July 2021. The far left end, when the graph moves away from zero cases and deaths, is early April 2020.
+
+You can do a reasonable job estimating the "area" by extending the tick marks on the horizontal axis and counting the resulting rectangles that fall under the curve.
+
+```{r}
+knitr::include_graphics("www/sputnik-bars.png")
+```
+
+For the graph of cases, the "area" of each rectangle is $\frac{5000\, \text{cases}}{\text{ day}}\cdot \text{1 month}$. This has the right dimension, "cases," but the units are screwy. So replace 1 month with 30.5 days (or thereabouts) to get an "area" of each rectangle of 172,500 cases. Similarly, the "area" of the rectangles on the right graph is 3050 deaths.
+:::
+
+
 ## Better numerics (optional)
 
 Except as a textbook exercise, you will likely never have to compute a numerical anti-derivative from scratch as we did in the previous section. This is a good thing. To understand why, you have to know one of the important features of modern technical work. That feature is: We never work alone in technical matters. There is always a set of people whose previous work we are building on, even if we never know the names of those people. This is because technology is complicated and it is evidently beyond the reach of any human to master all the salient aspects of each piece of technology being incorporated into the work we consider our own.
@@ -318,21 +344,7 @@ The locations and weights may seem like a wizard parody of mathematics, but thos
 
 `r insert_calcZ_exercise("30.14", "rfO0EG", "Exercises/falcon-hurt-pot.Rmd")`
 
-ECONOMIST PICTURES
+`r insert_calcZ_exercise("30.16", "fdwgtF", "Exercises/ape-bite-sheet.Rmd")`
 
-- https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_EUC776.png
-```{r}
-knitr::include_graphics("www/sputnik.png")
-```
 
-- https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_BRC783.png
-```{r}
-knitr::include_graphics("www/NHS.png")
-```
-
-- https://www.economist.com/img/b/600/653/90/sites/default/files/images/print-edition/20210710_EUC775.png
-
-```{r}
-knitr::include_graphics("www/Turkish-lira.png")
-```
 

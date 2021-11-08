@@ -154,7 +154,75 @@ In the problem at hand, we can readily see something of the form $f(g(x))$ in th
 
 > If this guess matches the actual $h()$ then you win. The answer to $\int h(x) dx$ will be $f(g(x)) = -\cos(\ln(x))$. If not, see if there is any other plausible guess for $g(x)$ to try. If you can't find one that works, try integration by parts. `r mark(3760)`
 
-## Integration by parts
+## Integration by parts (standard presentation)
+
+If you do a lot of symbolic anti-differentation, you will often come across functions that you don't recognize as being the derivative of an already known function. Consider, for instance, $$\int x \cos(x) dx\ .$$ 
+
+Even though the integrand $x \cos(x)$ is a simple product of two pattern book functions it is likely not a function that you have previously produced by differentiation. Thus, it's not yet in your diary of anti-derivatives. The purpose of integration by parts is to provide a standard way to re-organize anti-derivatives like $\int x \cos(x) dx$, where the integrand is a product of two simple functions, into another form. Being able to do this is no guarantee that the other form will be something you can anti-differentiate, but it's worth rolling the dice to see if you get lucky.
+
+The re-organization rule is based on two fundamental properties of differentiation and anti-differentiation. 
+
+i. $\int f'(x) dx = f(x)$. This is saying nothing more than if $f'(x)$ is the derivative of $f(x)$, then $f(x)$ must be an anti-derivative of $f'(x)$.
+
+ii. $\partial_x \left[\strut u(x)\cdot v(x) \right] = u'(x)\cdot v(x) + v'(x)\cdot u(x)$: the product rule of differentiation.
+
+Let's integrate both sides of the statement of the product rule. For the left side, applying rule (i), we get a simple result:
+
+$$\int\left[\strut\partial_x \left[\strut u(x)\cdot v(x) \right]\right] dx = u(x) \cdot v(x)$$
+
+As for the right side, all we get is two anti-derivatives:
+$$\int\left[\strut u'(x)\cdot v(x) + v'(x)\cdot u(x)\right]dx =
+\int\left[\strut u'(x)\cdot v(x)\right]dx + \int\left[\strut u(x)\cdot v'(x)\right]dx$$
+Putting together the previous two expressions and re-arranging gives:
+$$\int u(x)\cdot v'(x)\, dx = u(x) \cdot v(x) - \int  v(x)\cdot u'(x)dx\ \ \ \mathbf{ \text{parts re-arrangment}}$$
+Now, consider a problem like $\int x \cdot \cos(x) dx$ that we don't yet know how to solve. Let's associate this problem with the left side of the parts re-arrangement equation. With luck, we will recognize a problem that we'll know how to do on the right-hand side. 
+
+To implement the re-arrangement, we need to split our as yet unknown anti-derivative into two pieces: $u(x)$ and $v'(x) dx$. There are many possible ways to do this but the most obvious is
+$$\int \underbrace{\strut x}_{u(x)} \cdot \underbrace{\cos(x) dx}_{v'(x) dx}$$
+According to this proposed splitting, we have $u(x) = x$ and $v'(x) dx = \cos(x) dx$. To plug things into the right side of the parts re-arrangement we'll need to find $v(x)$ and $u'(x) dx$. Since we know $u(x) = x$ it's easy to take the differential, 
+$du = dx$. Similarly, we know $v'(x) dx = \cos(x) dx$ so we can integrate both sides:
+$$v(x) = \underbrace{\int v'(x) dx = \int \cos(x) dx}_{\text{from }\ v'(x)\,dx\ =\ \cos(x)\,dx} = \sin(x)$$
+Now that we know the $v(x)$ that's consistent with our original splitting of the anti-derivative into $\int u(x) \cdot v'(x) dx$ we can plug in our results to the right side of the parts re-arrangement equation:
+
+$$\int x \cdot \cos(x)dx = x \sin(x) - \int \underbrace{\sin(x)}_{v(x)}\  \underbrace{\ 1\ dx\ \strut}_{u'(x) dx}$$
+We're in luck, because we already know the anti-derivative $\int \sin(x) dx = -\cos(x)$, giving us the result 
+$$\int x \cdot \cos(x)dx = x \sin(x) + \cos(x)\ .$$
+
+The key creative step in using integration by parts effectively is to choose a helpful split of the original integral into the $u(x)$ and $v'(x) dx$ parts. This is usually based on a solid knowledge of derivatives and anti-derivatives of basic functions as well as insight into the downstream consequences of any choice. In this sense, picking $u(x)$ and $v'(x)dx$ is like making a move in chess. Some players can see two or three moves ahead and so can pick the first move to improve their position. Without such foresight, the best most people can do is to pick a first move that seems attractive and accept that their fate might be either victory or checkmate.
+
+For the calculus student learning integration by parts, there is an irony. Gaining enough experience to make good choices of $u(x)$ and $v'(x)dx$ means that you will solve, or read about solving, many anti-differentiation problems. You can, of course, enter the solutions into your diary of anti-derivatives, obviating to that extent the need to actually perform integration by parts in the future.
+
+::: {.example data-latex=""}
+In demonstrating that $$\int x \cdot \cos(x)dx = x \sin(x) + \cos(x)$$ we followed a number of steps each of which might be subject to error. Best to confirm our solution before accepting it. This can be done by *differentiating* both sides of our solution: $$\partial_x \int x \cdot \cos(x)dx = x \cos(x) = \partial_x \left[\strut x \sin(x) + \cos(x)\right] = \underbrace{\sin(x) + x \cos(x)}_{\partial_x \left[x\cdot\sin(x)\right]}\  \underbrace{- \sin(x)}_{\partial_x \cos(x)}= x\cos(x)$$
+:::
+
+::: {.example data-latex=""}
+What would happen in the previous example if we had made a *bad* choice for $u(x)$ and $v'(x) dx$? For instance, we might have split $x \cos(x) dx$ into $u(x) = \cos(x)$ and $v'(x)\,dx = x\, dx$. Working out $u'(x)\,dx$ and $v(x)$ is easy: $u'(x)\, dx = -\sin(x)\, dx$ and $v(x) = \frac{1}{2} x^2$. Plugging into the re-arrangement formula gives:
+
+$$\int x \cdot \cos(x)\,dx = \frac{1}{2} x^2 \cos(x) - \int \frac{1}{2} x^2 \left[\strut - \sin(x)\right]\,dx = \frac{1}{2} x^2 \cos(x) + \int \frac{1}{2} x^2  \sin(x)\,dx$$
+Unless you know $\int x^2 \sin(x) dx$, this re-arrangement leaves you no better off than at the beginning.
+
+On the other hand ... if you are in the business of compiling diaries of anti-derivatives, you could use this situation to chalk up another entry based on already knowing $\int x \cdot \cos(x) dx$:
+$$\int x^2 \sin(x) dx = 2 \int x\cdot \cos(x)dx - x^2\cos(x) = 2x\sin(x) + 2\cos(x) - x^2 \cos(x)$$
+:::
+
+::: {.example data-latex=""}
+Find $\int x \ln(x) dx$.
+
+Let $u(x) = \ln(x)$ and $v'(x)dx = x dx$.
+
+Then, $u'(x)dx = \frac{1}{x} dx$ and $v(x) = \frac{1}{2} x^2$.
+
+Using the parts re-arrangement formula ...
+
+$$\int x \ln(x) dx = \frac{1}{2} x^2 \cdot \ln(x) - \int \frac{1}{2} x^2\cdot \frac{1}{x}\, dx \\
+\frac{1}{2} x^2 \cdot \ln(x) - \frac{1}{4} x^2$$
+And don't forget, after all this work, to add the constant of integration $C$!
+:::
+
+
+
+## Integration by parts (optional alternative presentation)
 
 Integration by parts applies to integrals that are recognizably of the form 
 $$\int f(x) g(x) dx$$
@@ -237,7 +305,7 @@ And don't forget the constant of integration.
 
 [The presentation of integration by parts in this section was formulated by Prof. Michael Brilleslyper.]
 
-
+## Didn't work?
 
 
 If integration by parts doesn't work ... and it doesn't always work! ... there is a variety of possibilities such as asking a math professor (who has a much larger set of functions at hand than you), looking through a table of integrals (which is to say, the collective calculus diary of generations of math professors), using a computer algebra system, or using numerical integration. One of these will work. `r mark(3765)`
@@ -304,21 +372,21 @@ In addition to software being more compact and easier to use than printed tables
 
 `r insert_calcZ_exercise("31.03", "HoQaaq", "Exercises/owl-give-closet.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "1qDQZz", "Exercises/bird-hold-jacket.Rmd")`
+`r insert_calcZ_exercise("31.05", "1qDQZz", "Exercises/bird-hold-jacket.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "YMuG92", "Exercises/chicken-cost-coat.Rmd")`
+`r insert_calcZ_exercise("31.07", "YMuG92", "Exercises/chicken-cost-coat.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "Y7ecmI", "Exercises/frog-pitch-clock.Rmd")`
+`r insert_calcZ_exercise("31.09", "Y7ecmI", "Exercises/frog-pitch-clock.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "LPlcgV", "Exercises/lamb-mean-pan.Rmd")`
+`r insert_calcZ_exercise("31.11", "LPlcgV", "Exercises/lamb-mean-pan.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "LpYZy4", "Exercises/crow-eat-bottle.Rmd")`
+`r insert_calcZ_exercise("31.13", "LpYZy4", "Exercises/crow-eat-bottle.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "A0u94a", "Exercises/shark-dive-hamper.Rmd")`
+`r insert_calcZ_exercise("31.15", "A0u94a", "Exercises/shark-dive-hamper.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "kay2zx", "Exercises/pine-fight-painting.Rmd")`
+`r insert_calcZ_exercise("31.17", "kay2zx", "Exercises/pine-fight-painting.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "nef1lB", "Exercises/cat-go-window.Rmd")`
+`r insert_calcZ_exercise("31.19", "nef1lB", "Exercises/cat-go-window.Rmd")`
 
 <!-- table of integrals --> 
-`r insert_calcZ_exercise("31.07", "f6C4Ia", "Exercises/wolf-come-room.Rmd")`
+`r insert_calcZ_exercise("31.22", "f6C4Ia", "Exercises/wolf-come-room.Rmd")`
