@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 44 The target problem | MOSAIC-Calculus.knit</title>
   <meta name="description" content="" />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 44 The target problem | MOSAIC-Calculus.knit" />
   <meta property="og:type" content="book" />
@@ -33,6 +33,7 @@
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -139,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<link rel="stylesheet" href="mosaic-calc-style.css" type="text/css" />
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
 </head>
 
 <body>
@@ -156,7 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
 <li><a href="../block-2/change-relatonships.html">Block 2: Differentiation</a></li>
 <li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
-<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
+<li><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></li>
 <hr>
 <li><strong><a href="./">Block 5: Linear combinations</strong></a></li>
 
@@ -171,13 +171,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="41.6" data-path="vectors-draft.html"><a href="vectors-draft.html#exercises"><i class="fa fa-check"></i><b>41.6</b> Exercises</a></li>
 <li class="chapter" data-level="41.7" data-path="vectors-draft.html"><a href="vectors-draft.html#outline"><i class="fa fa-check"></i><b>41.7</b> Outline</a></li>
 </ul></li>
-<li class="chapter" data-level="42" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html"><i class="fa fa-check"></i><b>42</b> Linear combinations of vectors</a>
+<li class="chapter" data-level="42" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html"><i class="fa fa-check"></i><b>42</b> Linear combinations of vectors</a>
 <ul>
-<li class="chapter" data-level="42.1" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#scaling"><i class="fa fa-check"></i><b>42.1</b> Scaling</a></li>
-<li class="chapter" data-level="42.2" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#sub-spaces"><i class="fa fa-check"></i><b>42.2</b> Sub-spaces</a></li>
-<li class="chapter" data-level="42.3" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#functions-as-vectors"><i class="fa fa-check"></i><b>42.3</b> Functions as vectors</a></li>
-<li class="chapter" data-level="42.4" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#matrices"><i class="fa fa-check"></i><b>42.4</b> Matrices</a></li>
-<li class="chapter" data-level="42.5" data-path="linear-combinations-of-vectors.html"><a href="linear-combinations-of-vectors.html#exercises-1"><i class="fa fa-check"></i><b>42.5</b> Exercises</a></li>
+<li class="chapter" data-level="42.1" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#scaling"><i class="fa fa-check"></i><b>42.1</b> Scaling</a></li>
+<li class="chapter" data-level="42.2" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#sub-spaces"><i class="fa fa-check"></i><b>42.2</b> Sub-spaces</a></li>
+<li class="chapter" data-level="42.3" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#functions-as-vectors"><i class="fa fa-check"></i><b>42.3</b> Functions as vectors</a></li>
+<li class="chapter" data-level="42.4" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#matrices"><i class="fa fa-check"></i><b>42.4</b> Matrices</a></li>
+<li class="chapter" data-level="42.5" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#exercises-1"><i class="fa fa-check"></i><b>42.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="43" data-path="projection-residual.html"><a href="projection-residual.html"><i class="fa fa-check"></i><b>43</b> Projection &amp; residual</a>
 <ul>
@@ -228,87 +228,79 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="math display">\[\overset{\longrightarrow}{{b}\|_{\mathbf A}}\ .\]</span></p>
 <p>Such notation, lovely and expressive though it may be, is hardly suited for a computer expression, which has to be constructed from typewriter characters. So, we’ll adopt another convention by writing <code>b_hat</code> on the computer to stand for <span class="math inline">\(\overset{\longrightarrow}{{b}\|_{\mathbf A}}\)</span>.</p>
 <p>In the same spirit, we’ll write <code>b_resid</code> to stand for <span class="math inline">\(\overset{\longrightarrow}{b\!\perp_{\mathbf A}}\)</span>.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="target-problem.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the three vectors</span></span>
-<span id="cb43-2"><a href="target-problem.html#cb43-2" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
-<span id="cb43-3"><a href="target-problem.html#cb43-3" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">1</span>, <span class="dv">5</span>,<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">7</span>)</span>
-<span id="cb43-4"><a href="target-problem.html#cb43-4" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">3</span>,<span class="sc">-</span><span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
-<span id="cb43-5"><a href="target-problem.html#cb43-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(u, v, w)</span>
-<span id="cb43-6"><a href="target-problem.html#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="co"># the target</span></span>
-<span id="cb43-7"><a href="target-problem.html#cb43-7" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">8</span>, <span class="dv">2</span>,<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">0</span>)</span>
-<span id="cb43-8"><a href="target-problem.html#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="co"># the solution and residual</span></span>
-<span id="cb43-9"><a href="target-problem.html#cb43-9" aria-hidden="true" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> b <span class="sc">%onto%</span> A</span>
-<span id="cb43-10"><a href="target-problem.html#cb43-10" aria-hidden="true" tabindex="-1"></a>b_resid <span class="ot">&lt;-</span> b <span class="sc">%perp%</span> A</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="target-problem.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the three vectors</span></span>
+<span id="cb45-2"><a href="target-problem.html#cb45-2" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb45-3"><a href="target-problem.html#cb45-3" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">1</span>, <span class="dv">5</span>,<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">7</span>)</span>
+<span id="cb45-4"><a href="target-problem.html#cb45-4" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">3</span>,<span class="sc">-</span><span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
+<span id="cb45-5"><a href="target-problem.html#cb45-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(u, v, w)</span>
+<span id="cb45-6"><a href="target-problem.html#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># the target</span></span>
+<span id="cb45-7"><a href="target-problem.html#cb45-7" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">8</span>, <span class="dv">2</span>,<span class="sc">-</span><span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">0</span>)</span>
+<span id="cb45-8"><a href="target-problem.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># the solution and residual</span></span>
+<span id="cb45-9"><a href="target-problem.html#cb45-9" aria-hidden="true" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> b <span class="sc">%onto%</span> A</span>
+<span id="cb45-10"><a href="target-problem.html#cb45-10" aria-hidden="true" tabindex="-1"></a>b_resid <span class="ot">&lt;-</span> b <span class="sc">%perp%</span> A</span></code></pre></div>
 <div>
 <span>
-<pre class='r'  style='width:40%;overflow:auto;float:left;'>b_hat</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}2.0304\\ -0.6152\\ 0.6526\\ 4.0231\\ 4.3358\\\end{array}\right]\)</span>
+<pre class='sourceCode'  style='width:40%;overflow:auto;float:left;'>b_hat</pre>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}2.0304\\ -0.6152\\ 0.6526\\ 4.0231\\ 4.3358\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <div>
 <span>
-<pre class='r'  style='width:40%;overflow:auto;float:left;'>b_resid</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}5.9696\\ 2.6152\\ -5.6526\\ 2.9769\\ -4.3358\\\end{array}\right]\)</span>
+<pre class='sourceCode'  style='width:40%;overflow:auto;float:left;'>b_resid</pre>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}5.9696\\ 2.6152\\ -5.6526\\ 2.9769\\ -4.3358\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <p>How can we confirm that this really is the solution to the target problem for this set of vectors? One check is that <code>b_hat + b_resid</code> should be identical to the original <code>b</code>:</p>
 <div>
 <span>
-<pre class='r'  style='width:40%;overflow:auto;float:left;'>b - (b_hat + b_resid)</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0\\ 0\\ 0\\ 0\\ 0\\\end{array}\right]\)</span>
+<pre class='sourceCode'  style='width:40%;overflow:auto;float:left;'>b - (b_hat + b_resid)</pre>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0\\ 0\\ 0\\ 0\\ 0\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <p>So far, so good.</p>
 <p>Another check is that <code>b_hat</code> be perpendicular to <code>b_resid</code>. If so, the dot product of <code>b_hat</code> and <code>b_resid</code> should be 0.</p>
-<pre class='r'  style='width:40%;overflow:auto;'>b_hat %dot% b_resid</pre>
-<p>       <span class="math inline">\(0\)</span></br></p>
+<pre class='sourceCode'  style='width:40%;overflow:auto;'>b_hat %dot% b_resid</pre>
+<p>       <span class="math inline">\(0\)</span><br></p>
 <p>Close enough! (Round-off error in computer arithmetic has created this slight deviation from 0.)</p>
 <p>An interesting consequence of the residual being perpendicular to <code>b_hat</code> is that the residual will also be perpendicular to each and every one of the vectors being projected onto, and to any linear combination of those vectors.</p>
-<pre class='r'  style='width:40%;overflow:auto;'>b_resid %dot% u</pre>
-<p>       <span class="math inline">\(0\)</span></br></p>
-<pre class='r'  style='width:40%;overflow:auto;'>b_resid %dot% v</pre>
-<p>       <span class="math inline">\(0\)</span></br></p>
-<pre class='r'  style='width:40%;overflow:auto;'>b_resid %dot% w</pre>
-<p>       <span class="math inline">\(0\)</span></br></p>
+<pre class='sourceCode'  style='width:40%;overflow:auto;'>b_resid %dot% u</pre>
+<p>       <span class="math inline">\(0\)</span><br></p>
+<pre class='sourceCode'  style='width:40%;overflow:auto;'>b_resid %dot% v</pre>
+<p>       <span class="math inline">\(0\)</span><br></p>
+<pre class='sourceCode'  style='width:40%;overflow:auto;'>b_resid %dot% w</pre>
+<p>       <span class="math inline">\(0\)</span><br></p>
 <p>Examples of linear combinations</p>
-<pre class='r'  style='width:80%;overflow:auto;'>b_resid %dot% (2 * u - 4.7 * v + pi * w)</pre>
-<p>       <span class="math inline">\(0\)</span></br></p>
-<pre class='r'  style='width:80%;overflow:auto;'>b_resid %dot% (-5.4 * u - 0.7 * v + 8.3 * w)</pre>
-<p>       <span class="math inline">\(0\)</span></br></p>
+<pre class='sourceCode'  style='width:80%;overflow:auto;'>b_resid %dot% (2 * u - 4.7 * v + pi * w)</pre>
+<p>       <span class="math inline">\(0\)</span><br></p>
+<pre class='sourceCode'  style='width:80%;overflow:auto;'>b_resid %dot% (-5.4 * u - 0.7 * v + 8.3 * w)</pre>
+<p>       <span class="math inline">\(0\)</span><br></p>
 <p>Check!</p>
 <p>Although we know <code>b_hat</code> and <code>b_resid</code>, we still don’t know what particular linear combination of the columns in <code>A</code> produces <code>b_hat</code>. Here’s how to find out:</p>
 <div>
 <span>
-<pre class='r'  style='width:40%;overflow:auto;float:left;'>x <- qr.solve(A, b)
+<pre class='sourceCode'  style='width:40%;overflow:auto;float:left;'>x <- qr.solve(A, b)
 x</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0.0384\\ 0.3348\\ 0.4885\\\end{array}\right]\)</span>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0.0384\\ 0.3348\\ 0.4885\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <p><code>x</code> contains the coefficients for the linear combination. To demonstrate, let’s compare <code>b_hat</code> to the linear combination:</p>
 <div>
 <span>
-<pre class='r'  style='width:80%;overflow:auto;float:left;'>b_hat - (0.03835171 * u + 0.33478133 * v + 0.48849968 * w)</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0\\ 0\\ 0\\ 0\\ 0\\\end{array}\right]\)</span>
+<pre class='sourceCode'  style='width:80%;overflow:auto;float:left;'>b_hat - (0.03835171 * u + 0.33478133 * v + 0.48849968 * w)</pre>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0\\ 0\\ 0\\ 0\\ 0\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <div>
 <span>
-<pre class='r'  style='width:80%;overflow:auto;float:left;'>b_hat/(0.03835171 * u + 0.33478133 * v + 0.48849968 * w)</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}1\\ 1\\ 1\\ 1\\ 1\\\end{array}\right]\)</span>
+<pre class='sourceCode'  style='width:80%;overflow:auto;float:left;'>b_hat/(0.03835171 * u + 0.33478133 * v + 0.48849968 * w)</pre>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}1\\ 1\\ 1\\ 1\\ 1\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <p>Ideally, the result should be all ones. It’s not because of round-off error and because we copied only the first several digits of the coefficients into the calculation. It would have been better not to copy. Instead, we can calculate the linear combination by matrix multiplication:</p>
 <div>
 <span>
-<pre class='r'  style='width:40%;overflow:auto;float:left;'>b_hat - (A %*% x)</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0\\ 0\\ 0\\ 0\\ 0\\\end{array}\right]\)</span>
+<pre class='sourceCode'  style='width:40%;overflow:auto;float:left;'>b_hat - (A %*% x)</pre>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}0\\ 0\\ 0\\ 0\\ 0\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <div>
 <span>
-<pre class='r'  style='width:40%;overflow:auto;float:left;'>b_hat/(A %*% x)</pre>
-<span>        <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}1\\ 1\\ 1\\ 1\\ 1\\\end{array}\right]\)</span>
+<pre class='sourceCode'  style='width:40%;overflow:auto;float:left;'>b_hat/(A %*% x)</pre>
+       <span class="math inline">\(\left[\strut\begin{array}{rrrrrrrrrrrrrrrrrrrrrrrrrrrrr}1\\ 1\\ 1\\ 1\\ 1\\\end{array}\right]\)</span></span><br>
 </div>
-<p></br></p>
 <div class="takenote">
 <p>You should add <code>qr.solve()</code> to your computational toolbox of R functions. It carries out the projection calculations, but instead of returning <code>b_hat</code> or <span class="math inline">\(\overset{\longrightarrow}{{b}\|_{\mathbf A}}\)</span> or whatever we want to call the shadow of <span class="math inline">\(\vec{b}\)</span> onto <span class="math inline">\({\mathbf A}\)</span>, it returns the coefficients for the linear combination of the vectors in <span class="math inline">\({\mathbf A}\)</span> to produce <span class="math inline">\(\overset{\longrightarrow}{{b}\|_{\mathbf A}}\)</span>.</p>
 </div>
@@ -354,7 +346,6 @@ x</pre>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -385,7 +376,7 @@ gitbook.start({
 },
 "download": null,
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

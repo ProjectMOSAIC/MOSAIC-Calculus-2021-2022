@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-10-17" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -147,7 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<link rel="stylesheet" href="CalcZ-style.css" type="text/css" />
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
 </head>
 
 <body>
@@ -339,8 +339,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <hr>
 <li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
 <li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
-<li><a href="../block-4/introduction.html">Block 4: Manifestations</a></li>
-<li><a href="../block-5/linear-forms.html">Block 5: Linear combinations</a></li>
+<li><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
 <li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
 
 </ul>
@@ -410,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To illustrate, let’s use computer notation to create a function whose domain is <span class="math inline">\(x &lt; 1\)</span>. To do this, we need a way to write “if,” as in, “If <span class="math inline">\(x\)</span> is 1 or greater, return <code>NaN</code>.” We’ll use a function in R that let’s us ask a TRUE/FALSE question and, depending on the answer, do one or another calculation. The question-answering R function is <code>ifelse()</code> whose name is remarkably descriptive. The <code>ifelse()</code> function takes three arguments. The first is the question to be asked, the second is the value to return if the answer is “yes,” and the third is the value to return for a “no” answer.</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="fun-piecewise.html#cb91-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">1</span>, x, <span class="cn">NaN</span>) <span class="sc">~</span> x)</span>
 <span id="cb91-2"><a href="fun-piecewise.html#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>)))</span></code></pre></div>
-<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-57-1.png" width="90%" style="display: block; margin: auto;" />
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-57-1.png" width="90%" style="display: block; margin: auto;" />
 What takes getting used to here is the expression <code>x &lt; 1</code> which is a <strong><em>question</em></strong> not a statement of fact. There’s no standard traditional mathematical notation for questions, although some people use a question mark as in <span class="math inline">\(x \stackrel{?}{&lt;} 1\)</span>.</p>
 <p>The table shows computer notation for some common sorts of questions. <span style="float: right; padding-left: 50px;"><a name="1520" href="#1520"><img src="www/icons8-signpost.png" title="Location: 1520" width="12px"/></a><span style="color: red; font-size: 6pt;">1520</red></span></p>
 <table>
@@ -463,7 +463,7 @@ Or, in computer notation</p>
 \right.\]</span>
 In computer notation, this is</p>
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="fun-piecewise.html#cb93-1" aria-hidden="true" tabindex="-1"></a>Heaviside <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">~</span> x)</span></code></pre></div>
-<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-60-1.png" width="90%" style="display: block; margin: auto;" />
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-60-1.png" width="90%" style="display: block; margin: auto;" />
 The vertical gap between the two pieces is called a <strong><em>discontinuity</em></strong>. Intuitively, you cannot draw a discontinuous function <strong><em>without lifting the pencil from the paper</em></strong>. The Heaviside function has a discontinuity at <span class="math inline">\(x=0\)</span>.</p>
 <p>Similarly, the <strong><em>ramp function</em></strong> (aka “ReLU”) is a kind of one-sided absolute value:
 <span class="math display">\[\text{ramp}(x) \equiv \left\{ 
@@ -472,15 +472,15 @@ The vertical gap between the two pieces is called a <strong><em>discontinuity</e
 Or, in computer notation:</p>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="fun-piecewise.html#cb94-1" aria-hidden="true" tabindex="-1"></a>ramp <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(<span class="dv">0</span> <span class="sc">&lt;</span> x, x, <span class="dv">0</span>) <span class="sc">~</span> x)</span>
 <span id="cb94-2"><a href="fun-piecewise.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">ramp</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
-<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-61-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-61-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>A linear combination of two input-shifted ramp functions gives a piecewise version of the sigmoid.</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="fun-piecewise.html#cb95-1" aria-hidden="true" tabindex="-1"></a>sig <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ramp</span>(x<span class="fl">+0.5</span>) <span class="sc">-</span> <span class="fu">ramp</span>(x<span class="fl">-0.5</span>) <span class="sc">~</span> x)</span>
 <span id="cb95-2"><a href="fun-piecewise.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">sig</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
-<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-62-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-62-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <div class="intheworld">
 <p>Figure <a href="fun-piecewise.html#fig:gas-use-2">13.1</a> is a graph of monthly natural gas use in the author’s household versus average temperature during the month. (Natural gas is measured in cubic feet, appreviated <em>ccf</em>.) <span style="float: right; padding-left: 50px;"><a name="1530" href="#1530"><img src="www/icons8-signpost.png" title="Location: 1530" width="12px"/></a><span style="color: red; font-size: 6pt;">1530</red></span></p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:gas-use-2"></span>
-<img src="MOSAIC_Calculus_files/figure-html/gas-use-2-1.png" alt="The amount of natural gas used for heating the author's home varies with the outside temperature." width="90%" />
+<img src="MOSAIC-Calculus_files/figure-html/gas-use-2-1.png" alt="The amount of natural gas used for heating the author's home varies with the outside temperature." width="90%" />
 <p class="caption">
 Figure 13.1: The amount of natural gas used for heating the author’s home varies with the outside temperature.
 </p>
@@ -508,7 +508,7 @@ Figure 13.2: The ADSR envelope function used in music synthesis consists of 6 pi
 <p>The function <code>bigger()</code> is defined piecewise in terms of two extremely simple functions. Each of the two simple functions has a contour plot with contours that are parallel. The piecewise combination of the simple functions has a more complicated contour plot, with each simple function’s parallel contours showing up in half of the domain. We’ll call these “pieces” of the domain.</p>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="fun-piecewise.html#cb96-1" aria-hidden="true" tabindex="-1"></a>bigger <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(y <span class="sc">&gt;</span> x, y, x) <span class="sc">~</span> x <span class="sc">+</span> y)</span>
 <span id="cb96-2"><a href="fun-piecewise.html#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">bigger</span>(x,y) <span class="sc">~</span> x<span class="sc">+</span>y, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)))</span></code></pre></div>
-<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-172-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-172-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p><strong>Question A</strong> Which of the following best describes the two pieces of the domain?</p>
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">One is above and to the left of the line of identity (that is, <span class="math inline">\(y=x\)</span>) and the other is below and to the right of that line.<span class="mcanswer">Nice! </span></span><br />
@@ -534,7 +534,7 @@ Figure 13.2: The ADSR envelope function used in music synthesis consists of 6 pi
 <span id="cb99-4"><a href="fun-piecewise.html#cb99-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.02</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb99-5"><a href="fun-piecewise.html#cb99-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">y=</span><span class="st">&quot;Drug availability&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time (hrs)&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:pharma1"></span>
-<img src="MOSAIC_Calculus_files/figure-html/pharma1-1.png" alt="A simple illustrative model of drug availability from taking a unit dose at time zero. The therapeutic threshold depends on the drug: 0.25 is shown here." width="90%" />
+<img src="MOSAIC-Calculus_files/figure-html/pharma1-1.png" alt="A simple illustrative model of drug availability from taking a unit dose at time zero. The therapeutic threshold depends on the drug: 0.25 is shown here." width="90%" />
 <p class="caption">
 Figure 13.3: A simple illustrative model of drug availability from taking a unit dose at time zero. The therapeutic threshold depends on the drug: 0.25 is shown here.
 </p>
@@ -552,7 +552,7 @@ Figure 13.3: A simple illustrative model of drug availability from taking a unit
 <span id="cb100-4"><a href="fun-piecewise.html#cb100-4" aria-hidden="true" tabindex="-1"></a>          A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-24</span>, k) <span class="sc">~</span> t, </span>
 <span id="cb100-5"><a href="fun-piecewise.html#cb100-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">k=</span><span class="fu">log</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="dv">3</span>, <span class="at">A  =</span> <span class="dv">1</span>)</span>
 <span id="cb100-6"><a href="fun-piecewise.html#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">six_hours</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>))</span></code></pre></div>
-<p><img src="MOSAIC_Calculus_files/figure-html/unnamed-chunk-175-1.png" width="90%" style="display: block; margin: auto;" />
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-175-1.png" width="90%" style="display: block; margin: auto;" />
 The graph shows that the drug is above the therapeutic threshold (0.25) for the entire first day.</p>
 <blockquote>
 <p>From the graph of drug availability versus time, do you think continuing the one-pill-every-6-hours regimen will continue to keep the drug level over the therapeutic threshold for the remainder of the course of treatment? Explain why or why not.</p>
@@ -605,7 +605,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/13-piecewise.Rmd",
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/13-piecewise.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -613,7 +613,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/dtkaplan/CalcZ-notes/edit/shared/13-piecewise.Rmd",
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/13-piecewise.Rmd",
 "text": null
 },
 "download": null,
