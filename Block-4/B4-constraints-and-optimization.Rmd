@@ -9,136 +9,6 @@ Objectives
 * Be able to translate constrained optimization problems into comparing gradients of the objective and constraint functions.
 
 
-## Study hard
-
-Based on an extensive but fictive observation of activity and grades of college students, the model shown in the figure was constructed to give GPA as a function of the number of hours each weekday (Monday-Friday) spent studying and spent in social activity and play. (Activity during the weekend was not monitored.)
-
-```{r f-graph,echo=FALSE}
-f <- rfun( ~x&y, seed=294 )
-nletters <- 10
-set.seed(101)
-Labels <- tibble::tibble(
-  Play = c(6, 8, 4, runif(nletters, 2, 14)),
-  Study = c(10.3, 13.8, 8, runif(nletters, 2, 14)),
-) %>%
-  arrange(desc(Play+Study)) %>%
-  mutate(Letter = LETTERS[1:nrow(.)]) %>%
-  head(12)
-GPA = makeFun(pmax(0,-2+.08*(f(Play/3,Study/3) + 10*Play^.3*Study^.7 +pmin(0,11*(12-(Study+Play)))))~Study&Play)
-P <- contour_plot( GPA(Study/1.3, Play/1.5) ~ Study & Play,
-  domain(Study=c(0,16), Play=c(0,16)), npts=300,
-  filled=FALSE) %>%
-  gf_labs(x="Study Time (hr/day)",y="Play Time (hrs/day)",
-  title="GPA versus Study and Play time") %>%
-  gf_refine(coord_fixed())
-P %>% gf_text(Play ~ Study, label=~Letter, data = Labels,
-              color="orange3")
-```
-
-Several points in the graphic frame have been marked with red letters. Refer to these letters when answering the following questions.
-
-```{r sh1-1, echo=FALSE, results="markup"}
-askMC(
-  "According to the model, what's the optimal combination of Study and Play to achieve a high GPA?",
-  "F", "+G+", "H", "I",
-  random_answer_order = FALSE
-)
-```
-
-
-
-```{r sh1-2, echo=FALSE, results="markup"}
-askMC(
-  "Which of these letters marks a place on the graph where the partial derivative of GPA with respect to Play is positive?",
-  "B", "C", "+K+", "L",
-  random_answer_order = FALSE
-)
-```
-
-
-```{r sh1-3, echo=FALSE, results="markup"}
-askMC(
-  "Which if these ketters marks a place on the graph where the partial derivative of GPA with respect to Play is negative.",
-  "+A+", "F", "H", "K",
-  random_answer_order = FALSE
-)
-```
-
-
-```{r sh1-4, echo=FALSE, results="markup"}
-askMC(
-  "Where is the partial derivative with respect to Study is negative?",
-  "Nowhere. $\\partial_{study} GPA()$ is always positive. More study = better grades.",
-  "+E+", "F", "L",
-  random_answer_order = FALSE
-)
-```
-
-
-```{r sh1-5, echo=FALSE, results="markup"}
-askMC(
-  "Study and Play are not the only activities possible.  Sleep is important, too, as are meals, personal care, etc. In the study, students were observed who spent up to 22 hours per day in Study or Play.  Presumably, such students crashed on the weekend.
-
-Suppose you decide to budget 12 hours each weekday day in activities other than Study and Play.  Which letter labels the constrained optimal mix (argmax) of Study and Play.", 
-  "I",  "J", "+K+", "L",
-  random_answer_order = FALSE
-)
-```
-
-
-
-```{r sh1-6, echo=FALSE, results="markup"}
-askMC(
-  "What is the \"shadow price\" of GPA with respect to the budget for a budget constraint of 12 hours?  Give both an estimated numerical value as well as units.",
-  "-0.8 hour/gradepoints",
-  "+0.3 gradepoints/hour+",
-  "+0.9 gradepoints/hour",
-  "+1.3 hour/gradepoints",
-  random_answer_order = FALSE
-)
-```
-
-```{r sh1-7, echo=FALSE, results="markup"}
-askMC(
-  "Consider a student who budgets 22 hours per day for Study and Play. Which letter is closest to the constrained argmax with a 22-hour constraint?",
-  "A", "+B+", "C", "D",
-  random_answer_order = FALSE
-)
-```
-
-
-
-```{r sh1-8, echo=FALSE, results="markup"}
-askMC(
-  "What is the \"shadow price\" of GPA with respect to the budget constraint of 22 hours?  Give the estimated numerical value.",
-  "+-0.5 gradepoints/hour+",
-  "0 gradepoints/hour",
-  "+0.5 gradepoints/hour",
-  "+1.0 gradepoints/hour",
-  random_answer_order = FALSE
-)
-```
-
-```{r sh1-9, echo=FALSE, results="markup"}
-askMC(
-  "Based on the shadow price from the previous question, which of these is the best advice to give the student (who seeks to maximize GPA)?",
-  "You're hopeless. There aren't enough hours in the day for you to get a good GPA.",
-  "You've got to squeeze out more effort studying. Give it your all!",
-  "Play more, study less!",
-  "Study less",
-  "+Study less, play less. Sleep!+",
-  random_answer_order = FALSE
-)
-
-```
-
-```{r echo=FALSE, eval=FALSE}
-P %>% gf_text(Play ~ Study, label=~Letter, data = Labels,
-              color="orange3") %>%
-  contour_plot(Play + Study ~ Play + Study, filled=FALSE, 
-               contours_at = c(12,13, 22, 23, 24), contour_color = "dodgerblue")
-```
-
 
 
 ## Optimization or design?
@@ -299,10 +169,10 @@ b. Examine what happens if the constraint is changed in some way.
 The next two sections will deal with (a) and (b) in turn.
 
 
-`r insert_calcZ_exercise("XX.XX", "VHn3UG", "Exercises/Diff/snake-walk-knife.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "VHn3UG", "Exercises/snake-walk-knife.Rmd")`
 
 
-`r insert_calcZ_exercise("XX.XX", "Yb6tVr", "Exercises/Diff/duck-tell-laundry.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "Yb6tVr", "Exercises/duck-tell-laundry.Rmd")`
 
 ## Constraints graphically
 
@@ -378,7 +248,7 @@ Economists are familiar with the concept of a [production function](https://en.w
 
 There's a standard model production function that's based on a simple but meaningful observation: if both labor and capital are, say, doubled, the output should double as well. Just this principle leads to a formulation of the production function $P(L, K)$ as a power-law function: $$P(L, K) \equiv b L^{a} K^{1-a}$$ This is called the [Cobb-Douglas production function](https://en.wikipedia.org/wiki/Cobb%E2%80%93Douglas_production_function) and, whether realistic or not, will illustrate the principles at work. `r mark(4860)`
 
-```{r mc2-1, exercise=TRUE, exercise.cap="Cobb-Douglas Production Function", exercise.nlines=8}
+```{r mc2-1, warning=FALSE}
 P <- makeFun(b*L^a*K^(1-a) ~ K + L, a = 0.33, b=100)
 budget_constraint <- makeFun(K + L ~ K + L)
 g_union <- makeFun(L ~ K + L)
@@ -430,13 +300,13 @@ askMC(
 
 The problem as stated involves just one constraint: $g_{budget}(K, L) = 1\$$M.
 
-Now we'll imagine a situation where more constraints might come into play.
+Now we'll imagine situations where more constraints might come into play.
 
-    * **Scenario 1)** In negotiating with the worker's union, the company has promised to spend at least $500,000 on labor next year.
+* **Scenario 1)** In negotiating with the worker's union, the company has promised to spend at least $500,000 on labor next year.
 
     The constraint function here is $g_{union}(K, L) = L$ and you need to operate such that $g_{union}(K, L) >= $ $500,000.
 
-    * **Scenario 2)** The US Department of Commerce has an "Re-invest in American Manufacturing" program. This provides an incentive of $50,000 so long as you use capital intensively, say at a level of at least 2 parts capital to one part labor. `r mark(4880)`
+* **Scenario 2)** The US Department of Commerce has an "Re-invest in American Manufacturing" program. This provides an incentive of $50,000 so long as you use capital intensively, say at a level of at least 2 parts capital to one part labor. `r mark(4880)`
 
     The constraint function here is $g_{invest}(K, L) = K/L$ and, to qualify for the $50,000 incentive, you need to operate such that $g_{invest} \geq 3$.
 
@@ -491,10 +361,10 @@ askMC(
 ```
 
 
-`r insert_calcZ_exercise("XX.XX", "LiJkK2", "Exercises/Applications/cat-show-mug.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "LiJkK2", "Exercises/cat-show-mug.Rmd")`
 
 
-`r insert_calcZ_exercise("XX.XX", "h05BsT", "Exercises/Applications/crow-trim-laundry.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "h05BsT", "Exercises/crow-trim-laundry.Rmd")`
 
 
 
@@ -628,11 +498,6 @@ Later, we'll use the mathematics of **constraints** and **constraint functions**
 ::: {.todo}
 MAYBE TRANSCLUDE THIS INTO THE TEXT?
 :::
-
-`r insert_calcZ_exercise("XX.XX", "iqek0m", "Exercises/Applications/daisy-mean-clock.Rmd")`
-
-
-
 
 ## Multi-objective decision making
 
@@ -982,122 +847,6 @@ askMC(
 
 In some settings, for instance the "economic theory of law," the best solution under compensation is also the right choice *even if compensation is not paid*.
 
-
-## QALY and life years
-
-In this exercise, you will work with an optimization problem. First, we'll ask about a mathematical solution to the problem. Next, we'll show that the mathematical solution is not necessarily the best real-world solution, because of multiple objectives in decision making. Then we'll show you a real-world decision-making rubric that's widely accepted, at least among people who listen to the whole story with an open mind.
-
-The graph shows the estimated number of lives saved by three different health-care related interventions -- A, B, C -- as a function of the amount of money spent on each.
-
-```{r qaly,echo=FALSE}
-money <- seq(0,1000,length=1000)
-A <- makeFun(
-  500*pnorm(money, mean=300, sd=150) + .05*money - baseline ~ money, baseline=11.375)
-B <- makeFun(350*pnorm(money,mean=0, sd=100) + .05*money - baseline ~ money, baseline = 175)
-C <- makeFun(money/1.6 ~ money)
-slice_plot(A(x) ~ x, domain(x=c(0,1000)), label_text="(A)") %>%
-  slice_plot(B(x) ~ x, label_text="(B)", color="orange3") %>%
-  slice_plot(C(x) ~ x, label_text="(C)", color="dodgerblue") %>%
-  gf_labs(x = "Expenditure ($M)", y = "Lives saved")
-```
-
-You have $1,000,000,000 to spend altogether on these interventions. Your policy alternatives are all the different combinations of spending on (A), (B), and (C) that add up to $1B (or less). 
-
-How should you split up the money among the interventions? For example, we could spend $125M on B, $125M on C, and $750M on A. This would save an estimated 346 lives. Can we do better? 
-
-Imagine that we use $x$, $y$ and $z$ to denote expenditure, with $x$ spent on intervention A, $y$ on intervention B, and $z$ on intervention C. Altogether, the budget is $x + y + z = \$1B$.
-
-```{r tp1-1, echo=FALSE, results="markup"}
-askMC(
-  "Suppose $x = 750$, $y = 125$, and $z=125$, where units are millions of dollars. It's suggested that reducing $x$ by $1M in order to increase $z$ by that amount will produce a better outcome in terms of the total number of lives saved. That is, move some money from intervention A to intervention C. Is this suggestion correct? Why or why not?",
-  "Not correct. The number of lives saved by spending $750M on A is larger than the number that would be saved by spending that much on B or C." = "We're only talking about moving a small amount from A to C",
-  "Not correct. We will want to move the money to B instead." = "Be that as it may, the question was whether to move money from A to C.",
-  "+Correct. The derivative $\\partial_x A(x)$ at $x=750$ is smaller than the derivative $\\partial_z C(z)$ at $z=125$.+" = "Reducing $x$ by a small amount will reduce the output $A(x)$, but since $\\partial_z C(z=125)$ is greater, the loss in output due to a reduction in spending on A will be more than made up by an increase in output from spending more on C.",
-  "Correct. We should spend equally on all three interventions. That is, set $x = y = z = 333.33....$" = "This is intuitively attractive, but still doesn't address the question of whether the outcome would be improved by moving money from A to C."
-)
-```
-
-A general principle is this: If spending a little more on one intervention increases the output more than the loss due to spending less on another intervention, the shift in funding is worthwhile. 
-
-```{r tpt1-2, echo=FALSE, results="markup"}
-askMC(
-  "If you follow the above logic, you will continue to move money from A to C until it is no longer beneficial to do so. What will be the maximum amount of spending on A makes it not worthwhile to move additional money from A to C? (Choose the closest answer.)",
-  "$250M",
-  "$375M",
-  "+$500M+",
-  "$625M",
-  random_answer_order = FALSE
-)
-```
-
-```{r tpt1-3, echo=FALSE, results="markup"}
-askMC(
-  "Imagine that you have moved all the money from A to C that it's worthwhile to do . Which of these statements is true at those values $x_0$, $z_0$?",
-  "+$\\partial_x A(x_0) = \\partial_z C(z_0)$+",
-  "$A(x_0) = C(z_0)$",
-  "$C(x_0) = A(z_0)$",
-  "$\\partial_x A(x_0) = 0$ and $\\partial_z C(z_0) = 0$."
-)
-```
-
-We found it worthwhile to move expenditure from A to C to optimize the sum of their outputs and are operating at about $x_0 = \$500M$ and $z_0 = \$375M$, leaving $y=\$125M$ to spend on intervention B. Is it worthwhile to move money from A or C to B or vice versa? But first, a simpler question.
-
-```{r tpt1-4, echo=FALSE, results="markup"}
-askMC(
-  "If we were going to move a small amount of money from A or C into B, would it be better to take the money from A or from C? Why?",
-  "Take it from A, since we're spending far more on A than C.",
-  "Take it from C, since we're already spending far less on C than on A.",
-  "+Take it from C. The slope $\\partial_z C(z_0)$ compared to $\\partial_x A(z_0)$ is such that a small reduction on spending on C has less impact than a small reduction in spending on A.+",
-  "Take it from A. The slope $\\partial_z C(z_0)$ compared to $\\partial_x A(z_0)$ is such that a small reduction on spending on A has less impact than a small reduction in spending on C."
-  
-)
-```
-
-```{r tpt1-5, echo=FALSE, results="markup"}
-askMC(
-  "Right now in our process, we're planning to spend $125M on B. Is it worthwhile to move money from C to B?",
-  "No, the output of B larger than the output of C at $125M.",
-  "Yes, move most of the money from C to B.",
-  "+Yes, but only move a little money from C to B.+",
-  "No, move money from B to C."
-)
-```
-
-```{r tpt1-6, echo=FALSE, results="markup"}
-askMC(
-  "At the optimal amount of money $y^\\star$ spent on B and $z^\\star$ spent on C, which of these is true about the slopes $\\partial_y B(y^\\star)$ and $\\partial_z C(z^\\star)$?",
-  "There's not any fixed relationship. They are what they are.",
-  "+The two slopes are equal.+",
-  "The slope of B is greater than the slope of C.",
-  "The slope of C is greater than the slope of B."
-)
-```
-
-```{r tpt1-7, echo=FALSE, results="markup"}
-askMC(
-  "Is it more proper to say the \"**slope** $\\partial_z C(z^\\star)$\" rather than the \"**derivative** $\\partial_z C(z^\\star)$?\" (This is a general review problem for the course, not something specifically about optimization.)",
-  "+Yes. A derivative is a function while a slope is a quantity.+",
-  "No. Slope and derivative are the same thing." = "No, the derivative is a function. When you **evaluate** that function at a particular value of $z$ (say, $z^\\star$) the output will be the slope of the original function at that value of $z$.",
-  "Yes. \"Derivative\" sounds fancier than \"slope\"." = "It's not a matter of fancy, it's a matter of being precise.",
-  "No. Slopes measure steepness from right to left, while derivatives give steepness from left to right." = "Where did that come from. The convention for the sign of a slope is always the direction left to right."
-)
-```
-
-
-**Background:** The graphs are fictitious, but let's pretend they are:
-
-* **A** Surgical treatment of congenital heart defects in newborns.
-* **B** Treatment for hemophilia.
-* **C** Memory-care for people with Alzheimers.
-
-Notice that the people being affected are in different, non-overlapping groups. So moving funding from one group to another is effectively "robbing Peter to pay Paul." If you, as a decision maker inherited a situation where $x = \$750M$, $y=\$125M$, and $z=\$125M$, changing the expenditures would make one group better off (no matter how you did it!) and would make another group worse off. And imagine the headlines if you moved money from A to C or B: "Government slashes funding for newborns!". Or perhaps an editorial: "We need to find a way to increase funding for hemophilia without cutting other life-saving spending." This raises an important question: Is it ever worthwhile to forgo spending to save lives? How would anyone decide which lives are worth saving? Most people are uncomfortable with such questions. Yet the decisions taken by leaders, whatever they be, inevitably have a mathematically equivalent formulation which translates to the value of life.
-
-Probably, most people would decline to make a decision comparing two lives, for instance, saving a 10-year old versus saving a 90-year old. But it is not always possible to escape such trade-offs and the people who need to take the decision need guidance about what to do. In an open society, we expect such decisions to be backed by good rationale and so we have to develop means for distinguishing between better and worse rationales.
-
-One example comes from epidemiology and the concept of a "[quality-adjusted life year](https://en.wikipedia.org/wiki/Quality-adjusted_life_year)" (QALY). A QALY is a measure of duration of life adjusted for the health condition of the person --- a year of a person in good health is 1 QALY, but a year in a person in very poor health is less than 1 QALY.
-
-QALYs do not solve the problem of optimizing health-related outcomes. They are an imperfect means of dealing with an impossible problem. Sometimes that is the best we can do.
-
 ## Follow the gradient!
 
 The big contribution of calculus to the process of optimization is the **gradient vector**. The gradient vector, as you know, points in the steepest direction uphill. Since functions can have complicated shapes, the gradient does not generally point directly to the maximum. However, if you start at a point and take a small step in the direction of the gradient, the value of the objective function will increase. Then repeat the process and keep repeating until the gradient has zero length (or close to zero).
@@ -1189,121 +938,6 @@ askMC(
 )
 ```
 
-### QALY with data
-
-```{r}
-QALY_impact <- tibble::tribble(
-  ~expend, ~A, ~ B,
-  0, 0, 0,
-  10, 40, 30,
-  20, 100, 80,
-  30, 150, 140,
-  40, 170, 160,
-  50, 180, 175
-)
-fA <- spliner( A ~ expend, data=QALY_impact, monotonic=TRUE)
-fB <- spliner( B ~ expend, data=QALY_impact, monotonic=TRUE)
-```
-You are a member of a health-care oversight committee that allocates funds for investment in health-care facilities.  The committee has two proposal before it and needs to decide how best to spend the available $50M budget:
-
-* **Proposal A**: Expansion of the pediatric organ transplant unit.
-* **Proposal B**: Creation of a new rehabilitation center for  traumatic injury patients.
-
-Experts have evaluated each proposal in terms of different cost options and the impact that each will have on health outcomes. Following a standard epidemiological method, the impact is estimated in terms of "Quality Adjusted Life-Years" (QALY), a measure that combines the number of people affected, the number of years of prolonged life, and the improvement in quality of life for those treated.
-
-The expert estimates are available in the data frame `QALY_impact`:
-
-**QALY Impact of the Proposals**
-
-```{r dcb2-1, exercise=TRUE, exercise.cap="Expert conclusions"}
-QALY_impact
-```
-
-Such estimates from experts should be taken with a grain of salt, but they are often the best information you have to inform a model.
-
-You can turn the expert's opinions into functions by using splines. In this case, there is good reason to think that output will increase monotonically with expenditure, so a monotonic spline is a good choice.  The functions were created using these commands and are already available in your sandboxes:
-
-```{r}
-fA <- spliner( A ~ expend, data=QALY_impact, monotonic=TRUE)
-fB <- spliner( B ~ expend, data=QALY_impact, monotonic=TRUE)
-```
- 
-
-The problem is to find the best values for expenditures on Proposal A and B  --- call these expenditures  $x_A$ and $x_B$ -- given constraint that total expenditure is $x_A + x_B = 50$.
-
-A simple approach is to plot out the total benefit as a function of expenditures on each of A and B:
-```{r tbenefit, exercise=TRUE, exercise.cap="Plotting the objective function.", exercise.nlines=10, eval=FALSE, message=FALSE, warning=FALSE}
-overall <- makeFun( fA(xA) + fB(xB) ~ xA + xB)
-g_budget <- makeFun(xA + xB ~ xA + xB)
-contour_plot(overall(xA, xB) ~ xA  + xB, 
-         domain(xA=range(0,50), xB=range(0,50))) %>%
-  contour_plot(g_budget(xA, xB) ~ xA + xB, filled=FALSE,
-               contours_at=NULL, contour_color="orange3", alpha=0.5)
-```
- 
- 
-How can you confirm that the red contours in the plot genuinely represent the budget constraint at the indicated level?
-
-```{r QY1-1, echo=FALSE, results="markup"}
-askMC(
-  "What's the largest number of QALYs that can be produced from combining
-the two proposals with a total budget of $50M?",
-120,160,180,"+240+",300,340,350,360, random_answer_order = FALSE)
-```
-
-
-```{r QY1-2, echo=FALSE, results="markup"}
-askMC(
-  "What is the location of the argmax in the previous graph?",
-  "$(A = 0, B = 50)$",
-  "$(A = 6, B = 44)$",
-  "$(A = 12, B = 38)$",
-  "+$(A = 22, B = 28)$+",
-  "$(A = 34, B = 16)$",
-  "$(A = 41, B = 9)$",
-  "$(A = 50, B = 0)$",
-  random_answer_order = FALSE
-)
-```
-
-
-Another way to look at the problem is to find the total QALY outcome as a function of the amount $x_A$, recognizing that once $x_A$ is set, the remaining money will go to option B, so $x_B = 50-x_A$. The following sandbox makes the plot.
-
-```{r QY2-1, exercise=TRUE, exercise.cap="Reducing dimension of objective.", exercise.nlines=3, eval=FALSE}
-slice_plot( fA(xA) + fB(50-xA) ~xA, domain(xA = c(0,50)))
-```
-
-
-**Changing the Budget**
-
-A broader social question is whether the budget is being set at an appropriate level.  One way to examine this is to look at how the QALY outcome changes as the budget changes.
-
-For this, we're going to find the set of non-dominated solutions, that is, all the values of $x_A$ and $x_B$ at which the derivatives $\partial_{x_A} f_A()$ and $\partial_{x_B} f_B()$ are equal. 
-
-The following sandbox shows the difference between those two derivatives along with a bunch of different constraint paths.
-
-```{r QY2-2, exercise=TRUE, exercise.cap="Difference in derivatives.", exercise.nlines=5, eval=FALSE, message=FALSE, warning=FALSE}
-dfA = D(fA(xA)~xA)
-dfB = D(fB(xB)~xB)
-contour_plot( dfA(xA) - dfB(xB) ~ xA&xB, 
-          domain(xA=range(0,50), xB=range(0,50)),
-          contours_at = c(-2, -4, 0, 4, 2), skip=0) %>%
-  contour_plot(xA + xB ~ xA + xB, contour_color="orange3", skip=0)
-```
-
-**Yet another constraint!**
-
-```{r QY1-3, echo=FALSE, results="markup"}
-askMC(
-  "The American Association of Allergy Activists (AAAA) has lobbied Congress to mandate that, of the 50 units of available funds,  funding for A must be  $x_A \\geq 40$. How much would this constraint reduce the overall output for the two interventions combined? (Remember, if you're spending, say, 45 on A, you can't spend more than the remaining 5 on B.) The challenge for you in answering this question is to pick the appropriate one of the above graphs. Once you have done that, the answer is evident.",
-  "No reduction at all.",
-  "About 10-20 QALYs.",
-  "+About 40-60 QALYs.+",
-  "About 100-120 QALYs.",
-  "It would actually *increase* the output.", 
-  random_answer_order = FALSE 
-)
-```
 
 ### More about QALY's: Exercise??
 
@@ -1378,8 +1012,8 @@ Good news and bad news.  You've defeated the AAAA initiative to force expenditur
 
 #. What's the output that corresponds to the best mixture? {12}{0,3,6,8,12,14,21,29,34,38}
 <!--begin-answer-->
-    The contour plot shows that the maximum occurs when $x_A=0$ and $x_B   = 0$. 
-    ```{r new20}
+The contour plot shows that the maximum occurs when $x_A=0$ and $x_B   = 0$. 
+```{r new20}
 overall <- makeFun(fA(xA) + fB(xB) + fC(20-(xA+xB))~xA&xB) 
 contour_plot(overall(xA,  xB) ~ xA + xB,  
 domain(xA=range(0,20), xB=range(0,20)))

@@ -1,12 +1,4 @@
-In Blocks 1 through 3, you learned how to formulate calculus questions in terms of ***functions*** and the two main operations of calculus, ***differentiation*** and ***anti-differentiation***, which transform one function into another. You also learned the primary use of anti-differentiation, ***integration***, which carries out the accumulation over an interval of the input variable.
-
-There is more mathematics yet to come. In Block 5 you'll meet a major technique for modeling used in essentially all quantitative disciplines and with particularly important applications to data science. In Block 6 we'll start to work with multi-component systems as they evolve in time. 
-
-Here, in Block 4, we're going to step momentarily away from the introduction of new mathematical concepts. Functions, differentiation, and anti-differentiation are impressive and useful in their own right so now we're going to look at how they are used, how they manifest themselves in diverse ways in the world of science and technology. Our emphasis will not be on field-specific applications, although there are many! Instead, we'll explore ways the concepts of calculus appear and are used broadly in quantitative work.
-
-
-
-# Operations on functions
+# Operations on functions {#operations}
 
 ```{r include=FALSE}
 library(Zcalc)
@@ -20,22 +12,22 @@ solve_step <- function(tilde, v, x0) {
 }
 ```
 
-In Block 1, we introduced the idea of ***mathematical modeling***, creating a representation of some aspect of the world out of mathematical "stuff." As you know, for us the relevant "stuff" includes the concept of a ***function*** with its ***inputs*** and output, units and dimensions, frameworks such as the ***basic modeling functions*** and ways of ***combining*** functions via linear combination, composition, and multiplication.
+In Block 1, we introduced the idea of ***mathematical modeling***, creating a representation of some aspect of the world out of mathematical "stuff." As you know, for us the relevant "stuff" includes the concept of a function with its inputs and output, units and dimensions of quantities, frameworks such as the basic modeling functions and ways of combining functions via linear combination, composition, and multiplication.
 
-When we construct functions, the symbol $\equiv$ is appropriately used to mean "is defined to be." We have used the tradition equal sign ($=$) but always to mean "is" or "amounts to" or "happens to equal." For instance, we write $\sin(\pi/2) = 1$.
+When we construct functions, the symbol $\equiv$ is appropriately used to mean "is defined to be." We have used the tradition equal sign ($=$) but always to mean "is" or "amounts to" or "happens to equal." For instance, we write $\sin(\pi/2) = 1$ not as a definition of the sinusoid but to identify the output corresponding to a single specific input..
 
 In high-school algebra, much more emphasis was placed on ***equations***. For instance, you might well see an equation like $${\mathbf{\text{equation:}}}\ \ \ x^2 - 6 x - 3 = 0$$ in a beginning algebra textbook. It pays to think a little about what such an equation means and what information it is intended to convey. In particular, how is it different from a function like $${\mathbf{\text{function:}}}\ \ \ p(x) \equiv x^2 - 6 x - 3 \ .$$
 
 A simple equation like $3 + 4 = 7$ is a statement of fact: three plus four is indeed exactly the same as seven. But $x^2 - 6 x - 3 = 0$ is not a fact. The equality might be true or false, depending on what $x$ happens to be. In an algebra course, is really meant to be an instruction to a person: 
-$$x^2 - 6 x - 3 = 0, \ \ \text{Instruction: Find x.}$$
+$$x^2 - 6 x - 3 = 0, \ \ {\mathbf{\text{Instruction}}}\text{: Find x.}$$
 
-What's meant by "find $x$" is to determine which numerical values (if any) when substituted for $x$ in the equation will produce a true statement. This is called ***solving for $\mathbf x$*** and algebra courses offer a variety of techniques that are effective for different types of problem statements.
+What's meant by "find $x$" is to determine which numerical values (if any) when substituted for $x$ in the equation will produce a true statement. This is also called ***solving for $\mathbf x$***. Algebra courses offer a variety of solving techniques that are effective for different types of problem statements.
 
-"Solving for $x$" is an example of a ***mathematical task***. We undertake such tasks in order to extract useful information from a mathematical object. For instance, in textbook "word problems," you translate a verbal description of a situation---typically involving canoes paddling across a flowing river---into a matching mathematical form and then, having constructed the mathematical form, you apply some mathematical task to the form in order to reveal the answer you seek.
+"Solving for $x$" is an example of a ***mathematical task***. We undertake such tasks in order to extract useful information from a mathematical object. For instance, in high-school textbook "word problems," you translate a verbal description of a situation---typically involving canoes paddling across a flowing river---into a matching mathematical form and then, having constructed the mathematical form, you apply some mathematical task to the form in order to reveal the answer you seek.
 
-In this chapter, we're going to look at the mathematical tasks that are commonly performed on functions, that is, ***operations on functions***. We'll introduce you to algorithms that enable you to construct the task result without having to apply huge mental work or solve puzzles. Importantly, we'll give a name to each task. That way, confronted with a mathematical problem, you will be able to look down the short menu of common tasks to decide which one is applicable to your circumstance. Even better, once the task has a name, you can tell a computer to do it for you.
+In this chapter, we're going to look at the mathematical tasks that are commonly performed on functions, that is, ***operations on functions***. We'll introduce you to algorithms that enable you to construct the task result without having to apply much mental work. Importantly, we'll give a name to each task. That way, confronted with a mathematical problem, you will be able to look down the short menu of common tasks to decide which one is applicable to your circumstance. Even better, once the task has a name, you can tell a computer to do it for you.
 
-Here are some common mathematical tasks that you've already learned about:
+Here are some <a name="common-tasks">common mathematical tasks </a>that you've already learned about:
 
 1. Given a function and specific values for the inputs, ***apply*** the function to the inputs to produce an output. Another name for this is to ***evaluate a function*** on inputs.
 2. Given a function and the name of a with-respect-to input, construct a new function that is the derivative of the given function. The name for this task is to ***differentiate the function***.
@@ -178,7 +170,24 @@ We can think of $x^\star$ as being the result of taking a ***step*** from the st
 ::: {.takenote data-latex=""}
 The process we've presented here is not guaranteed to work. By exploring cases where it fails, ***computational mathematicians***^[A traditional name for such a person is "numerical analyst."] have developed strategies for increasing the range of situations for which it works. 
 
-For instance, consider $x_0$ accidentally picked close to an argmax, that is $f'(x_0) \approx 0$.  The length of the Newton step is proportional to $1/f'(x_0)$, which is large when $f'(x_0) \approx 0$. Such a Newton step can produce $x^\star$ further from the actual solution rather than closer to it. 
+As an example of a difficult situation, consider $x_0$ accidentally picked close to an argmax, that is $f'(x_0) \approx 0$.  (The situation is illustrated in Figure \@ref(fig:newton-too-big).) The length of the Newton step is proportional to $1/f'(x_0)$, which is large when $f'(x_0) \approx 0$. Such a Newton step can produce $x^\star$ further from the actual solution rather than closer to it. 
+
+```{r newton-too-big, echo=FALSE, fig.cap="An unlucky choice (magenta) of $x_0$ near a local maximum has resulted in a Newton step that is too long. The Newton step creates $x^\\star \approx -3$, far to the left of the actual zero crossing which is near $x\approx 0$."}
+raw <- rfun(~ x, seed=835)
+f <- makeFun(raw(x) + x ~ x)
+
+df <- D(f(x) ~ x)
+x0 <- 1.7
+a <- f(x0)
+b <- df(x0)
+approxfun <- makeFun(a + b*(x-x0) ~ x)
+slice_plot(f(x) ~ x, domain(x=-4:4)) %>%
+  slice_plot(approxfun(x) ~ x,  color="magenta", linetype="dotted") %>%
+  gf_hline(yintercept = ~ 0, color="brown") %>%
+  gf_text(0 ~ x0, label="x0", color="blue", vjust=-1, hjust=1) %>%
+  gf_vline(xintercept = ~ x0, color="blue", linetype="dashed")
+
+```
 
 This understanding can be integrated into the `solve_step()` algorithm in several ways  A simple modification is to take not a **full** Newton step, but a fraction of one.
 
@@ -189,12 +198,13 @@ The R/mosaic function `Zeros()` incorporates several good practices, including a
 ```{r}
 g <- makeFun(x^3 - 6 ~ x)
 xstar <- findZeros(g(x) ~ x, domain(x=c(1,6)))
-xstar
 ```
+
+`r {xstar} |> oneline_block()`
+
 How well did this work?
-```{r}
-with(xstar, g(x)) # should be zero
-```
+
+`r {with(xstar, g(x))} |> oneline_block(width="41%", comment="should be zero")`
 :::
 
 Solving a function with two or more inputs can be done in an analogous manner. Pick an initial point $(x_0, y_0, ...)$ and write a first-order polynomial approximation, set it equal to $v$, and find $x^\star, y^\star, ...$. 
@@ -206,49 +216,9 @@ In Block 5, Section \@ref(finding-the-coast) we'll return to this problem of pic
 
 ## Task: Argmax
 
-The task of finding the input value that corresponds to a local maximum  is called ***argmax finding***. We don't need to know the value of the local maximum to solve this problem. Instead, we designate a locale by specifying an initial guess $x_0$ for the argmax. For argmax finding, we seek a $x^\star$ such that $f(x^\star) > f(x_0)$.  
+The task of finding the input value that corresponds to a local maximum  is called ***argmax finding***. We don't need to know the value of the local maximum to solve this problem. Instead, we designate a locale by specifying an initial guess $x_0$ for the argmax. For argmax finding of an objective function $f(x)$, we seek a $x^\star$ such that $f(x^\star) > f(x_0)$.  
 
-One approach to argmax finding is based on the properties of local maxima that we studied in Chapter \@ref(optim-and-shape). Specifically, we know that local maxima will be found for the input where the derivative of the ***objective function*** equals zero, that is, $f'(x^\star) = 0$. This corresponds to a two-step algorithm:
-
-i. Find the derivative $\partial_x f(x)$ of the objective function $f(x)$.
-ii. Carry out the *Solving Task* on $\partial_x f(x)$, with $v=0$ and the given $x_0$.
-
-Here's an implementation with a few bells and whistles.
-
-    i. Rather than just an initial guess $x_0$, you specify a domain over which the search is to be performed.
-    ii. In addition to finding the zeros of the derivative of the objective function, the function value and the sign of the concavity at those zeros is calculated.
-    
-
-```{r}
-local_argM <- function(tilde, domain) {
-  # Tilde sets the objective function
-  f <- makeFun(tilde)
-  # Calculate derivative of objective function
-  df <- D(tilde) 
-  ddf <- D(df(x) ~ x)
-  # Find inputs where the derivative function has value 0
-  Zeros(df(x) ~ x, domain=range(domain)) %>%  
-    filter(is_in_domain(x, domain)) %>%  
-    mutate(.output. = f(x), 
-           concavity = sign(ddf(x))) 
-}
-```
-
-Figure \@ref(fig:argm-ex1) shows the output of `argM()`.
-
-```{r argm-ex1, echo=FALSE}
-f <- rfun(~ x, 3215)
-Xstar <- local_argM(f(x) ~ x, domain = c(-5, 5))
-Xstar
-slice_plot(f(x) ~ x, domain(x=-5:5)) %>%
-  gf_point(.output. ~ x, data = Xstar, color="magenta") %>%
-  gf_lims(x = c(-5,5))
-```
-Notice that `argM()` identified both a local maximum and a local minimum, that is, one argmax and one argmin. Visually, it's easy to tell which one is which. In terms of the data frame returned by `argM()`, the sign of the concavity does the identification for you: positive concavity points to an argmin, negative concavity to an argmax. The name `argM()`, of course, refers to this versatility of finding both argmins and argmaxes.
-
-The R/mosaic function `argM()` is somewhat more sophisticated, but does essentially the same thing as the short program presented above.
-
-Let's look at the argmax problem another way. We have and objective function $f(x)$ and a current guess $x_0$ that we hope is somewhat close to the argmax. We'll approximate $f(x)$ with a low-order polynomial, as we so often do. We'll call the approximation $\widehat{f(x)}$. In the solving task, the approximation was with a first-order polynomial. But first-order polynomials---that is, straight-line functions---don't have a local argmax. We need to use a second-order polynomial. Easy enough: construct the second-order ***Taylor polynomial*** around $x_0$:
+To accomplish this, we'll approximate $f(x)$ with a low-order polynomial, as we so often do. We'll call the approximation $\widehat{f(x)}$. In the solving task, the approximation was with a first-order polynomial. But first-order polynomials---that is, straight-line functions---don't have a local argmax. We need to use a second-order polynomial. Easy enough: construct the second-order ***Taylor polynomial*** around $x_0$:
 
 $$\widehat{f(x)} \equiv f(x_0) + f'(x_0) \left[x - x_0\right] + \frac{1}{2} f''(x_0) \left[x-x_0\right]^2$$
 Remember that $f(x_0)$, $f'(x_0)$ and $f''(x_0)$ are all fixed quantities; they don't depend on $x$. 
@@ -263,7 +233,24 @@ As with all solving-task problems, we seek $x=x^\star$ that will make the above 
 $$x^\star = x_0 - \frac{f'(x_0)}{f''(x_0)}\ .$$
 In other words, our new guess $x^\star$ will be a step away from the old guess $x_0$, with the step being $-f'(x_0) / f''(x_0)$.
 
-Look a bit more carefully at the step, $- f'(x_0) / f''(x_0)$. Suppose $x_0$ is such that the function  at that input has a positive slope. To go uphill, we want to follow the positive slope: make a positive step. To get a positive step from $- f'(x_0) / f''(x_0)$ when $0 < f'(x_0)$  means that $f''(x_0)$ would have to be *negative*. But suppose it isn't. Then the argmax algorithm, recognizing that the calculated step would be downhill, should make sure to take the step in the *opposite* direction.
+::: {.intheworld data-latex=""}
+Use the R/mosaic `argM()` function to find argmaxes and argmins. Like other R/mosaic calculus functions, the first argument is a tilde expression defining the objective function. The second argument is the domain to search.
+
+Figure \@ref(fig:argm-ex1) shows the output of `argM()` applied to a randomly generated function.
+
+```{r argm-ex1, fig.cap="Illustrating the use of `simple_argM()` to find argmaxes and argmins."}
+f <- rfun(~ x, 3215)
+Xstar <- argM(f(x) ~ x, domain(x = -5:5))
+Xstar
+slice_plot(f(x) ~ x, domain(x=-5:5)) %>%
+  gf_point(.output. ~ x, data = Xstar, 
+           color="magenta", size=4, alpha=0.5) 
+```
+
+Notice that `simple_argM()` identified both a local maximum and a local minimum, that is, one argmax and one argmin. Visually, it's easy to tell which one is which. In terms of the data frame returned by `simple_argM()`, the sign of the concavity does the identification for you: positive concavity points to an argmin, negative concavity to an argmax. The name `argM()`, of course, refers to this versatility of finding both argmins and argmaxes.
+
+The R/mosaic function `argM()` is somewhat more sophisticated, but does essentially the same thing as the short program presented above.
+:::
 
 
 ## Task: Iterate
@@ -312,33 +299,43 @@ Supposed you were given an initial guess $x_0 = -2$. You can see from the graph 
 ```{r}
 step_for_f <- 
   NewtonStepFun(f(x) ~ x, v = 5)
-step_for_f(-2) # should be about + 1
-step_for_f(4)  # should be about - 0.5
 ```
+
+
+`r {step_for_f(-2)} |> oneline_block(width="50%", comment="should be about + 1")`
+`r {step_for_f(4)} |>  oneline_block(width="50%", comment="should be about - 0.5")`
+
 
 Now that we have an expression for the step, we package it up into the function $g()$ to be used for the iteration and then iterate $g()$ from a starting guess.
 ```{r}
 g <- function(x) x + step_for_f(x)
-
-g(-2)
-g(g(-2))
-g(g(g(-2)))
-g(g(g(g(-2))))
-g(g(g(g(g(-2)))))
 ```
+
+`r {g(-2)} |> oneline_block()`
+
+
+`r {g(g(-2))} |> oneline_block()`
+
+
+`r {g(g(g(-2)))} |> oneline_block()` 
+
+
+`r {g(g(g(g(-2))))} |> oneline_block()`    
+
+`r {g(g(g(g(g(-2)))))} |> oneline_block()`
+
 
 The first iteration brought us from the $x_0 = -2$ starting point a little closer to the solution. A double iteration brought us further to the right. the successive iterations show little or now change from the output to the input, a good sign that we've done enough work and can declare ourselves done.
 
-Of course, you always want to make sure that the answer gotten, $x^\star = -0.8661108$ is right. For this, we compute $f(x^\star)$
-```{r}
-f(-0.8661108) # should be 5
-```
+Of course, you always want to make sure that the answer gotten, $x^\star = -0.8661$ is right. For this, we compute $f(x^\star)$,
+
+`r {f(-0.8661108)} |> oneline_block(width="40%", comment="should be 5")`
 
 Other than the exercises in this chapter, you will not have much need in this course to build your own functions for iterative improvement. But it is the mathematical technology behind the operators that perform the solving-task and the argmax-task.
 
 ## Software for the tasks
 
-Evaluation of a function---number one in the list at the head of this chapter---is so central to the use of computer languages generally that every language provides a direct means for doing so. In R, as you know, the evaluation syntax involves following the name of the functions by a pair of parentheses, placing in those parenthesis the values for the various arguments to the function. Example: `log(5)`
+Evaluation of a function---[number one in the list at the head of this chapter](#common-tasks)---is so central to the use of computer languages generally that every language provides a direct means for doing so. In R, as you know, the evaluation syntax involves following the name of the functions by a pair of parentheses, placing in those parenthesis the values for the various arguments to the function. Example: `log(5)`
 
 The other six operations on functions listed above, there is one (or sometimes more) specific R/mosaic functions. Every one of them takes, as a first argument, a ***tilde expression*** describing the function on which the operation is to be formed; on the left side is a formula for the function (which can be in terms of other, previously defined functions), on the right side is the with-respect-to variable.
 

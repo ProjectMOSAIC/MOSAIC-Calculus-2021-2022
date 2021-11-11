@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 33 Data-driven functions | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 33 Data-driven functions | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 33 Data-driven functions | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="operations.html"/>
+<link rel="next" href="future-value.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><span style="font-size: 150%;><strong><a href="">MOSAIC Calculus</a></strong></span></li>
+<li><em><a>Calculus for the 21st century</a></em></li>
+<li><a>Daniel Kaplan</a></li>
+<hr>
+<li><a href="../index.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><strong><a href="../block-4/block4-intro-draft.html">Block 4: Manifestations</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="block4-intro-draft.html"><a href="block4-intro-draft.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="32" data-path="operations.html"><a href="operations.html"><i class="fa fa-check"></i><b>32</b> Operations on functions</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="operations.html"><a href="operations.html#task-solve"><i class="fa fa-check"></i><b>32.1</b> Task: Solve</a></li>
+<li class="chapter" data-level="32.2" data-path="operations.html"><a href="operations.html#task-argmax"><i class="fa fa-check"></i><b>32.2</b> Task: Argmax</a></li>
+<li class="chapter" data-level="32.3" data-path="operations.html"><a href="operations.html#task-iterate"><i class="fa fa-check"></i><b>32.3</b> Task: Iterate</a></li>
+<li class="chapter" data-level="32.4" data-path="operations.html"><a href="operations.html#software-for-the-tasks"><i class="fa fa-check"></i><b>32.4</b> Software for the tasks</a></li>
+<li class="chapter" data-level="32.5" data-path="operations.html"><a href="operations.html#algorithmic-techniques"><i class="fa fa-check"></i><b>32.5</b> Algorithmic techniques</a></li>
+<li class="chapter" data-level="32.6" data-path="operations.html"><a href="operations.html#newtons-method"><i class="fa fa-check"></i><b>32.6</b> Newton’s method</a></li>
+<li class="chapter" data-level="32.7" data-path="operations.html"><a href="operations.html#exercises"><i class="fa fa-check"></i><b>32.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="data-driven-functions.html"><a href="data-driven-functions.html"><i class="fa fa-check"></i><b>33</b> Data-driven functions</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="data-driven-functions.html"><a href="data-driven-functions.html#generating-smooth-motion"><i class="fa fa-check"></i><b>33.1</b> Generating smooth motion</a></li>
+<li class="chapter" data-level="33.2" data-path="data-driven-functions.html"><a href="data-driven-functions.html#piecewise-but-smooth"><i class="fa fa-check"></i><b>33.2</b> Piecewise but smooth</a></li>
+<li class="chapter" data-level="33.3" data-path="data-driven-functions.html"><a href="data-driven-functions.html#bezier-splines"><i class="fa fa-check"></i><b>33.3</b> Bezier splines</a></li>
+<li class="chapter" data-level="33.4" data-path="data-driven-functions.html"><a href="data-driven-functions.html#data-and-interpolation"><i class="fa fa-check"></i><b>33.4</b> Data and interpolation</a></li>
+<li class="chapter" data-level="33.5" data-path="data-driven-functions.html"><a href="data-driven-functions.html#exploring-interpolation"><i class="fa fa-check"></i><b>33.5</b> Exploring interpolation</a></li>
+<li class="chapter" data-level="33.6" data-path="data-driven-functions.html"><a href="data-driven-functions.html#chasing-squirrels"><i class="fa fa-check"></i><b>33.6</b> Chasing squirrels</a></li>
+<li class="chapter" data-level="33.7" data-path="data-driven-functions.html"><a href="data-driven-functions.html#cing-smoothness"><i class="fa fa-check"></i><b>33.7</b> C’ing smoothness</a></li>
+<li class="chapter" data-level="33.8" data-path="data-driven-functions.html"><a href="data-driven-functions.html#cubic-spline-smooth"><i class="fa fa-check"></i><b>33.8</b> Cubic spline … smooth!</a></li>
+<li class="chapter" data-level="33.9" data-path="data-driven-functions.html"><a href="data-driven-functions.html#exercises-1"><i class="fa fa-check"></i><b>33.9</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="future-value.html"><a href="future-value.html"><i class="fa fa-check"></i><b>34</b> Future value</a></li>
+<li class="chapter" data-level="35" data-path="towards-an-optimum.html"><a href="towards-an-optimum.html"><i class="fa fa-check"></i><b>35</b> Towards an optimum</a></li>
+<li class="chapter" data-level="36" data-path="solving-and-inverting.html"><a href="solving-and-inverting.html"><i class="fa fa-check"></i><b>36</b> Solving and inverting</a></li>
+<li class="chapter" data-level="37" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>37</b> Probability</a>
+<ul>
+<li class="chapter" data-level="37.1" data-path="probability.html"><a href="probability.html#uncertainty-and-risk"><i class="fa fa-check"></i><b>37.1</b> Uncertainty and risk</a></li>
+<li class="chapter" data-level="37.2" data-path="probability.html"><a href="probability.html#quantifying-uncertainty"><i class="fa fa-check"></i><b>37.2</b> Quantifying uncertainty</a></li>
+<li class="chapter" data-level="37.3" data-path="probability.html"><a href="probability.html#probability-density"><i class="fa fa-check"></i><b>37.3</b> Probability density</a></li>
+<li class="chapter" data-level="37.4" data-path="probability.html"><a href="probability.html#the-cumulative-distribution"><i class="fa fa-check"></i><b>37.4</b> The cumulative distribution</a></li>
+<li class="chapter" data-level="37.5" data-path="probability.html"><a href="probability.html#uniform-gaussian-exponential"><i class="fa fa-check"></i><b>37.5</b> Uniform, gaussian, exponential</a></li>
+<li class="chapter" data-level="37.6" data-path="probability.html"><a href="probability.html#the-expectation-value"><i class="fa fa-check"></i><b>37.6</b> The expectation value</a></li>
+<li class="chapter" data-level="37.7" data-path="probability.html"><a href="probability.html#gaussian-and-sigmoid"><i class="fa fa-check"></i><b>37.7</b> Gaussian and sigmoid</a></li>
+<li class="chapter" data-level="37.8" data-path="probability.html"><a href="probability.html#the-variance"><i class="fa fa-check"></i><b>37.8</b> The variance</a></li>
+<li class="chapter" data-level="37.9" data-path="probability.html"><a href="probability.html#earthquake-preparedness"><i class="fa fa-check"></i><b>37.9</b> Earthquake preparedness</a></li>
+</ul></li>
+<li class="chapter" data-level="38" data-path="expectation.html"><a href="expectation.html"><i class="fa fa-check"></i><b>38</b> Expectation</a>
+<ul>
+<li class="chapter" data-level="38.1" data-path="expectation.html"><a href="expectation.html#expected-social-security"><i class="fa fa-check"></i><b>38.1</b> Expected Social Security</a></li>
+<li class="chapter" data-level="38.2" data-path="expectation.html"><a href="expectation.html#life-expectancy"><i class="fa fa-check"></i><b>38.2</b> Life expectancy</a></li>
+<li class="chapter" data-level="38.3" data-path="expectation.html"><a href="expectation.html#misunderstanding-life-expectancy"><i class="fa fa-check"></i><b>38.3</b> Misunderstanding life expectancy</a></li>
+</ul></li>
+<li class="chapter" data-level="39" data-path="random-walks.html"><a href="random-walks.html"><i class="fa fa-check"></i><b>39</b> Random walks</a>
+<ul>
+<li class="chapter" data-level="39.1" data-path="random-walks.html"><a href="random-walks.html#objectives"><i class="fa fa-check"></i><b>39.1</b> Objectives</a></li>
+<li class="chapter" data-level="39.2" data-path="random-walks.html"><a href="random-walks.html#the-gaussian"><i class="fa fa-check"></i><b>39.2</b> The gaussian</a></li>
+<li class="chapter" data-level="39.3" data-path="random-walks.html"><a href="random-walks.html#flux"><i class="fa fa-check"></i><b>39.3</b> Flux</a></li>
+<li class="chapter" data-level="39.4" data-path="random-walks.html"><a href="random-walks.html#diffusion"><i class="fa fa-check"></i><b>39.4</b> Diffusion</a></li>
+<li class="chapter" data-level="39.5" data-path="random-walks.html"><a href="random-walks.html#variance-dynamics"><i class="fa fa-check"></i><b>39.5</b> Variance dynamics</a></li>
+<li class="chapter" data-level="39.6" data-path="random-walks.html"><a href="random-walks.html#random-walk"><i class="fa fa-check"></i><b>39.6</b> Random walk</a></li>
+<li class="chapter" data-level="39.7" data-path="random-walks.html"><a href="random-walks.html#mean-square"><i class="fa fa-check"></i><b>39.7</b> Mean square</a></li>
+</ul></li>
+<li class="chapter" data-level="40" data-path="differential-modeling.html"><a href="differential-modeling.html"><i class="fa fa-check"></i><b>40</b> Differential modeling</a></li>
+<li class="chapter" data-level="41" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html"><i class="fa fa-check"></i><b>41</b> Constraints and optimization</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#optimization-or-design"><i class="fa fa-check"></i><b>41.1</b> Optimization or design?</a></li>
+<li class="chapter" data-level="41.2" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#constraints-graphically"><i class="fa fa-check"></i><b>41.2</b> Constraints graphically</a></li>
+<li class="chapter" data-level="41.3" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-constraints"><i class="fa fa-check"></i><b>41.3</b> Multiple constraints</a></li>
+<li class="chapter" data-level="41.4" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#changing-constraints"><i class="fa fa-check"></i><b>41.4</b> Changing constraints</a></li>
+<li class="chapter" data-level="41.5" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#incommensurate-objectives"><i class="fa fa-check"></i><b>41.5</b> Incommensurate objectives</a></li>
+<li class="chapter" data-level="41.6" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-objectives"><i class="fa fa-check"></i><b>41.6</b> Multiple objectives</a></li>
+<li class="chapter" data-level="41.7" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multi-objective-decision-making"><i class="fa fa-check"></i><b>41.7</b> Multi-objective decision making</a></li>
+<li class="chapter" data-level="41.8" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#commensurate-and-incommensurate"><i class="fa fa-check"></i><b>41.8</b> Commensurate and incommensurate</a></li>
+<li class="chapter" data-level="41.9" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-objectives-1"><i class="fa fa-check"></i><b>41.9</b> Multiple objectives</a></li>
+<li class="chapter" data-level="41.10" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#yours-and-mine"><i class="fa fa-check"></i><b>41.10</b> Yours and mine</a></li>
+<li class="chapter" data-level="41.11" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#follow-the-gradient"><i class="fa fa-check"></i><b>41.11</b> Follow the gradient!</a>
+<ul>
+<li class="chapter" data-level="41.11.1" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#more-about-qalys-exercise"><i class="fa fa-check"></i><b>41.11.1</b> More about QALY’s: Exercise??</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="42" data-path="tukeys-ladder.html"><a href="tukeys-ladder.html"><i class="fa fa-check"></i><b>42</b> Tukey’s ladder</a>
+<ul>
+<li class="chapter" data-level="42.1" data-path="tukeys-ladder.html"><a href="tukeys-ladder.html#classifiers-and-logistic-modeling"><i class="fa fa-check"></i><b>42.1</b> Classifiers and logistic modeling</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-driven-functions" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 33</span> Data-driven functions</h1>
+<p><strong>Objectives</strong></p>
+<ul>
+<li>Functions for curves in space</li>
+<li>Recognize interpolation as the process of building a continuous function that connects a series of <span class="math inline">\((x, y)\)</span> data points.</li>
+<li>Understand the standard types of functions constructed to interpolate data points.</li>
+<li>Be able to characterize the smoothness of those different types of function.</li>
+</ul>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Need to explain how to trace out this curve: add in a new variable to index the position on the curve.</p>
+<p>A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. Low-order polynomial functions are useful for expressing general modeling ideas such as growth, interaction, and optimality.</p>
+<p>As early as Chapter 3 of this book, we noted that a function can be described as a table where each row stands for one set of input values together with a corresponding output value. We did not, however, make much use of the table-as-function concept. Instead, we used data tables to motivate the choice of parameters, generally in linear combinations of the basic modeling functions. We called this <strong><em>function fitting</em></strong>, an important topic we will elaborate on in Block 5 where we’ll introduce new tools for treating functions as geometrical objects.</p>
+<p>This chapter introduces yet another important method for constructing functions that match with data. What’s different here from function fitting is that we do not consider the data as a “cloud” of points that we want our eventual function to stay close to. Today, each data point will be a <strong>mandate</strong>; the function is required to go through each and every point exactly.</p>
+<div id="generating-smooth-motion" class="section level2" number="2.1">
+<h2><span class="header-section-number">33.1</span> Generating smooth motion</h2>
+<p>As a motivating example, consider the programming of robotic arms as in the video:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0L7Xk5_s3QQ?start=81" title="Robotic arms" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p>This isn’t a robots course, so we’ll simplify. The arm has a resting position. When a car frame comes into place, the arm moves so that it’s welding electrodes are at a specific, known place in space near the car body. Then it moves in sequence to other places where a weld is using and eventually back to its resting position.</p>
+<p>The problem of converting the discrete list of weld and helper points into a continuous signal for the actuator is an instance of a mathematical process called <strong>interpolation</strong>. In real robot arms, there are multiple joints that need to be controlled simultaneously. For our illustration, we’ll use a simple setup where the robot hand rolls along a set of rails in the y-direction and another x-rail running crosswise to the y direction.</p>
+<p><img src="www/x-y-cnc.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>The task for our example robot will be to visit the points shown in Figure <a href="data-driven-functions.html#fig:robot-points">33.1</a> in order, taking 15 seconds to traverse the whole path.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:robot-points"></span>
+<img src="MOSAIC-Calculus_files/figure-html/robot-points-1.png" alt="The stations on a path the robot hand is supposed to follow. All the action is taking place in roughly 1x1 meter area." width="90%" />
+<p class="caption">
+Figure 33.1: The stations on a path the robot hand is supposed to follow. All the action is taking place in roughly 1x1 meter area.
+</p>
+</div>
+<p>The trajectory of the robot arm consists of two functions, <span class="math inline">\(x(t)\)</span> and <span class="math inline">\(y(t)\)</span>. Our starting representation is as a table:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="data-driven-functions.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Path)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##       x     y
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  496   191 
+## 2  507.  190.
+## 3  518.  189.
+## 4  529.  187.
+## 5  540.  186.
+## 6  551.  185.</code></pre>
+<p>The <span class="math inline">\(x(t)\)</span> and <span class="math inline">\(y(t)\)</span> functions in this table aren’t complete enough to operate the robot. We need to provide the <span class="math inline">\(x,y\)</span>-location data in the form of a <strong>continuous</strong> two functions of <span class="math inline">\(t\)</span> so that the robot, at any time <span class="math inline">\(t\)</span>, can look up where it is supposed to be.</p>
+<p>One strategy is to construct the functions as piecewise linear functions of <span class="math inline">\(t\)</span>, like this:</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/piecewise-linear-path-1.png" width="90%" style="display: block; margin: auto;" />
+It can be difficult to see the relationship between the <span class="math inline">\(x(t)\)</span> and <span class="math inline">\(y(t)\)</span> functions and the path shown in <a href="data-driven-functions.html#fig:robot-points">33.1</a>. You might want to follow the path with your finger, focusing on the series of <span class="math inline">\(x\)</span>-coordinates to confirm that the <span class="math inline">\(x(t)\)</span> function reproduces the path.</p>
+<p>The function shown in <a href="#fig:piecewise-linear-path"><strong>??</strong></a> is an example of an <strong><em>interpolating function</em></strong>. You’re entitled to think of the <span class="math inline">\(x(t)\)</span> function as connecting with lines the sequence of <span class="math inline">\(x\)</span> versus <span class="math inline">\(t\)</span> coordinates from the table. Each of the two functions is clearly continuous. But you have a richer set of concepts for interpreting those two functions.</p>
+<p>For instance, let’s look at <span class="math inline">\(\partial_t x(t)\)</span>. Since <span class="math inline">\(x\)</span> is a position along the cross rail, <span class="math inline">\(\partial_t x(t)\)</span> is the velocity in that direction. Figure <a href="#fig:x-velocity"><strong>??</strong></a> shows the velocity versus time for both the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> components of the movement.</p>
+<pre><code>## Warning: Removed 2 row(s) containing missing values (geom_path).
+
+## Warning: Removed 2 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="MOSAIC-Calculus_files/figure-html/x-velocity-1.png" width="90%" style="display: block; margin: auto;" />
+The speed of the robot arm maxes out at about 400 mm-per-second. You can get a sense for this by moving your finger along the length of a piece of paper in 1 second; it’s a normal human speed of movement.</p>
+<p>Since the original <span class="math inline">\(x(t)\)</span> and <span class="math inline">\(y(t)\)</span> functions are piecewise linear, it makes sense that the derivatives with respect to time are piecewise constant. But the robot hand is a physical thing; it has to have a velocity at every instant in time. It can’t instantaneously have an undefined velocity.</p>
+<p>Think about what it is that causes the change from one velocity step to another. There’s a motor that’s spinning and changing it’s rate of spin, perhaps using a pulley and a belt to more the robot hand to the right position at any instant of time. Changing the velocity requires a <strong>force</strong> to create an acceleration. We can differentiate the velocity to see what the acceleration must be to create the simple piecewise linear function shown in Figure <a href="#fig:piecewise-linear-path"><strong>??</strong></a>.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/x-acceleration-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Mathematically, the second derivatives <span class="math inline">\(\partial_{tt} x(t)\)</span> and <span class="math inline">\(\partial_{tt} y(t)\)</span> do not exist, because <span class="math inline">\(\partial_{t} x(t)\)</span> and <span class="math inline">\(\partial_{t} y(t)\)</span> are discontinuous. There is no physical amount of force that will change the velocity in an instant.</p>
+<p>As an accommodation to the physical existence of the robot hand, we’ve softened the transition between consecutive velocity segments to allow it to take 0.2 seconds, ramping up from zero force 0.1 second before the hand reaches the station, to maximum force at the station, then back down to zero 0.1 second after the hand reaches the station. Consequently the actual motion is smoother and the maximum acceleration is about half that of gravity. Figure <a href="data-driven-functions.html#fig:ramp-force">33.2</a> shows the resulting trajectory which can be likened to that of a baseball player rounding a base.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ramp-force"></span>
+<img src="MOSAIC-Calculus_files/figure-html/ramp-force-1.png" alt="A smoothed x-trajectory near station 2. The position of the station is marked with a dot." width="90%" />
+<p class="caption">
+Figure 33.2: A smoothed x-trajectory near station 2. The position of the station is marked with a dot.
+</p>
+</div>
+<p>A consequence of smoothing the trajectory is that the robot hand comes near, but doesn’t actually touch the station. It misses by about 2 mm. For many human tasks that might be good enough, but for precision manufacturing a miss by 2 mm is about 1000 times more than allowed.</p>
+<p>If you like working with practical problems, you might find a simple solution to the problem. For instance, we could have aimed the robot hand 2 mm further to the right than the actual station. In falling short by 2mm, the hand would miss the target but cross right over the originally intended station.</p>
+<p>But we already have the ingredients we need to find an proper mathematical solution that keeps relatively small the forces involved in steering the robot but takes it exactly where it needs to go.</p>
+</div>
+<div id="piecewise-but-smooth" class="section level2" number="2.2">
+<h2><span class="header-section-number">33.2</span> Piecewise but smooth</h2>
+<p>The approach we will take to smoothly connect the points on the path is based on ideas of derivatives and on the construction of low-order polynomials. In Block 2, we emphasized low-order polynomials up to the square term, and we’ll pick that up again here for demonstration purposes.</p>
+<p>Suppose our task is to find a function to interpolate the discrete points in Figure <a href="data-driven-functions.html#fig:quadratic-spline">33.3</a>. The discrete points are called <strong><em>knots</em></strong><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> in the language of interpolating functions.</p>
+<p>A piecewise linear interpolating function is easily constructed and is shown as a dotted curve, but that has a discontinuous first derivative. We would like something smoother, that has a <strong>continuous</strong> first derivative. A curve such as the one we seek is shown as the multi-colored function.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:quadratic-spline"></span>
+<img src="MOSAIC-Calculus_files/figure-html/quadratic-spline-1.png" alt="Two piecewise interpolating functions of the four discrete points (orange). One is piecewise linear (dotted curve), the other is piecewise quadratic (multi-color curve)." width="90%" />
+<p class="caption">
+Figure 33.3: Two piecewise interpolating functions of the four discrete points (orange). One is piecewise linear (dotted curve), the other is piecewise quadratic (multi-color curve).
+</p>
+</div>
+<p>The framework we will adopt for the smooth interpolating function is piecewise quadratic segments between adjacent knots. There are four knots, requiring three segments. We’ll call the segment <span class="math inline">\(p_1(x)\)</span> connecting the first knot to the second, with <span class="math inline">\(p_2(x)\)</span> connecting the second to the third knot and <span class="math inline">\(p_3(x)\)</span> connecting the third to the fourth knot. Each of those segments will be a second-order polynomial. To keep things organized, we’ll use coefficient names systematically:</p>
+<p><span class="math display">\[p_1(x) \equiv a_1 + b_1 \left[x - x_1\right] + c_1 \left[x - x_1\right]^2\\
+p_2(x) \equiv a_2 + b_2 \left[x - x_1\right] + c_2 \left[x - x_1\right]^2\\
+p_3(x) \equiv a_3 + b_3 \left[x - x_1\right] + c_3 \left[x - x_1\right]^2\\\]</span>
+The four knots are
+<span class="math display">\[\left[\begin{array}{c}\left(x_1, y_1\right)\\
+\left(x_2, y_2\right)\\
+\left(x_3, y_3\right)\\
+\left(x_4, y_4\right)\\
+\end{array}\right]\]</span> which you can think of as two columns of a data frame, one with the <span class="math inline">\(x\)</span>-coordinates of the knots and the other with the <span class="math inline">\(y\)</span>-coordinates.</p>
+<p>Constructing the interpolating function is a matter of making good choices for <span class="math inline">\(a_1\)</span>, <span class="math inline">\(a_2\)</span>, <span class="math inline">\(a_3\)</span>, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, <span class="math inline">\(b_3\)</span>, <span class="math inline">\(c_1\)</span>, <span class="math inline">\(c_2\)</span>, and <span class="math inline">\(c_3\)</span>.</p>
+<p>We require these things of the interpolating function:</p>
+<ol style="list-style-type: decimal">
+<li>It passes exactly through each of the knots.</li>
+<li>At the interior knots where two polynomials join, the left-hand polynomial and the right-hand polynomial should exactly match both the function value and the derivative (with respect to <span class="math inline">\(x\)</span>). Thus, the function we want to build will be <span class="math inline">\(C^1\)</span>, that is, have a continuous first derivative.</li>
+</ol>
+<p>How to accomplish (1) and (2)?</p>
+<p>Notice first that the way we wrote down the polynomials, the values are <span class="math display">\[p_1(x_1) = a_1 = y_1\\p_2(x_2) = a_2 = y_2\\p_3(x_3) = a_3 = y_3\\\]</span>
+A good start! We already know three of the coefficients from the condition that the left end of each segment match the left knot point for that segment.</p>
+<p>We can find other coefficients by imposing the conditions that the right side of each segment pass through the knot on that side. This gives:</p>
+<p><span class="math display">\[p_1(x_2) = y_2 = a_1 + b_1 \left[x_2-x_1\right] + c_1\left[x_2-x_1\right]^2\\
+p_2(x_c) = y_3 = a_2 + b_2 \left[x_3-x_2\right] + c_2\left[x_3-x_2\right]^2\\
+p_3(x_c) = y_4 = a_3 + b_3 \left[x_4-x_3\right] + c_3\left[x_4-x_3\right]^2\]</span> (Notice that <span class="math inline">\(x_2 - x_1\)</span> and the like are simply numbers that can be computed from the known knot points.)</p>
+<p>Another two conditions are that the derivatives of the polynomials from either side of each interior knot point must match at the knot point. Finding the derivatives of the segments is a simple exercise:</p>
+<p><span class="math display">\[\partial_x p_1(x) = b_1 + 2 c_1 \left[x - x_1\right]\\
+\partial_x p_1(x) = b_2 + 2 c_2 \left[x - x_2\right]\\
+\partial_x p_1(x) = b_3 + 2 c_3 \left[x - x_3\right]\]</span>
+Matching them up at the <span class="math inline">\(x2\)</span> and <span class="math inline">\(x_3\)</span> knot points—the interior knots where two segments come together—gives two more equations:
+<span class="math display">\[b_1 + 2 c_1 \left[x_2 - x_1\right] = b_2\\
+b_2 + 2 c_2 \left[x_3 - x_2\right] = b_3\]</span>
+All together, we have <strong>five</strong> equations in <strong>six</strong> unknowns: <span class="math inline">\(b_1, b_2, b_3\)</span> and <span class="math inline">\(c_1, c_2, c_3\)</span>.</p>
+<p>This is not the place to go into the details of solving the equations to find the unknowns. (Block 5 introduces the mathematics of such things, which turns out to the came math used to find model parameters to “fit” data.)
+But there are some simple things to say about the task.</p>
+<p>First, you may recall from high-school mathematics being told that to find six unknown you need six equations. We have only five equations to work with. But it is far from true that there is no solution for six unknowns with five equations; there are in fact an infinite number of solutions. (Again, Block 5 will show the mathematics behind this statement.) Essentially, all we need to do is make up a sixth equation to identify a particular one of the infinite number of solutions. It’s nice if this made-up equation reflects something interpretable about the curve.</p>
+<p>We’ll choose to have the sixth equation specify what the derivative of the interpolating function should be at the far right end of the graph. That right-most derivative value will be <span class="math display">\[\partial_x p_3(x_4) = b_3 + 2 c_3 \left[x_4 - x_3\right]\ .\]</span>
+We can set this value to anything we like. For instance, in Figure <a href="data-driven-functions.html#fig:quadratic-spline">33.3</a> the right-most derivative is set to zero; you can see this from the curve being flat at the right-most knot point.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:four-quads"></span>
+<img src="MOSAIC-Calculus_files/figure-html/four-quads-1.png" alt="For different $C^1$ piecewise quadratic functions that interpolate the knot points. Each has a unique value of the derivative at the right end of the domain." width="90%" />
+<p class="caption">
+Figure 33.4: For different <span class="math inline">\(C^1\)</span> piecewise quadratic functions that interpolate the knot points. Each has a unique value of the derivative at the right end of the domain.
+</p>
+</div>
+</div>
+<div id="bezier-splines" class="section level2" number="2.3">
+<h2><span class="header-section-number">33.3</span> Bezier splines</h2>
+<p>Each point on the curve is associated with a control point. So each segment is specified by four points, two of which will be on the segment (at the endpoints) and two that generally will not be.</p>
+<p><span class="math inline">\(\left[\begin{array}{c}x_0\\y_0\end{array}\right]\)</span></p>
+<p><span class="math display">\[\left[\begin{array}{c}x(t)\\y(t)\end{array}\right]  \equiv \left[1-t\right]^3 \left[\begin{array}{c}x_0\\y_0\end{array}\right] +
+3\left[1-t\right]^2 t \left[\begin{array}{c}x_1\\y_1\end{array}\right] +
+3\left[1-t\right] t^2 \left[\begin{array}{c}x_2\\y_2\end{array}\right] +
+t^3 \left[\begin{array}{c}x_3\\y_3\end{array}\right] \]</span></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="data-driven-functions.html#cb49-1" aria-hidden="true" tabindex="-1"></a>Pts <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb49-2"><a href="data-driven-functions.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>),</span>
+<span id="cb49-3"><a href="data-driven-functions.html#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb49-4"><a href="data-driven-functions.html#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">xc =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="dv">2</span>),</span>
+<span id="cb49-5"><a href="data-driven-functions.html#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">yc =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">0</span>)</span>
+<span id="cb49-6"><a href="data-driven-functions.html#cb49-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-7"><a href="data-driven-functions.html#cb49-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-8"><a href="data-driven-functions.html#cb49-8" aria-hidden="true" tabindex="-1"></a>bezier <span class="ot">&lt;-</span> <span class="cf">function</span>(Pts, <span class="at">npts=</span><span class="dv">100</span>) {</span>
+<span id="cb49-9"><a href="data-driven-functions.html#cb49-9" aria-hidden="true" tabindex="-1"></a>  p0 <span class="ot">&lt;-</span> Pts[<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb49-10"><a href="data-driven-functions.html#cb49-10" aria-hidden="true" tabindex="-1"></a>  p1 <span class="ot">&lt;-</span> Pts[<span class="dv">1</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>] <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb49-11"><a href="data-driven-functions.html#cb49-11" aria-hidden="true" tabindex="-1"></a>  p3 <span class="ot">&lt;-</span> Pts[<span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb49-12"><a href="data-driven-functions.html#cb49-12" aria-hidden="true" tabindex="-1"></a>  p2 <span class="ot">&lt;-</span> Pts[<span class="dv">2</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>] <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb49-13"><a href="data-driven-functions.html#cb49-13" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>npts)</span>
+<span id="cb49-14"><a href="data-driven-functions.html#cb49-14" aria-hidden="true" tabindex="-1"></a>  B <span class="ot">&lt;-</span> <span class="fu">outer</span>((<span class="dv">1</span><span class="sc">-</span>t)<span class="sc">^</span><span class="dv">3</span>, p0) <span class="sc">+</span></span>
+<span id="cb49-15"><a href="data-driven-functions.html#cb49-15" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span><span class="sc">*</span><span class="fu">outer</span>((<span class="dv">1</span><span class="sc">-</span>t)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> t, p1) <span class="sc">+</span></span>
+<span id="cb49-16"><a href="data-driven-functions.html#cb49-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span><span class="sc">*</span><span class="fu">outer</span>((<span class="dv">1</span><span class="sc">-</span>t)<span class="sc">*</span>t<span class="sc">^</span><span class="dv">2</span>, p2) <span class="sc">+</span></span>
+<span id="cb49-17"><a href="data-driven-functions.html#cb49-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">outer</span>(t<span class="sc">^</span><span class="dv">3</span>, p3) <span class="sc">%&gt;%</span> </span>
+<span id="cb49-18"><a href="data-driven-functions.html#cb49-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>()</span>
+<span id="cb49-19"><a href="data-driven-functions.html#cb49-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(B) <span class="ot">&lt;-</span> <span class="fu">names</span>(Pts)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb49-20"><a href="data-driven-functions.html#cb49-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb49-21"><a href="data-driven-functions.html#cb49-21" aria-hidden="true" tabindex="-1"></a>  B</span>
+<span id="cb49-22"><a href="data-driven-functions.html#cb49-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb49-23"><a href="data-driven-functions.html#cb49-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-24"><a href="data-driven-functions.html#cb49-24" aria-hidden="true" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">bezier</span>(Pts)</span></code></pre></div>
+<pre><code>## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
+## Using compatibility `.name_repair`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="data-driven-functions.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_path</span>(y <span class="sc">~</span> x, <span class="at">data =</span> foo) <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="data-driven-functions.html#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_point</span>(y <span class="sc">~</span> x, <span class="at">data =</span> Pts, <span class="at">color=</span><span class="st">&quot;orange&quot;</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="data-driven-functions.html#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_point</span>(yc <span class="sc">~</span> xc, <span class="at">data =</span> Pts, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="data-driven-functions.html#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_segment</span>(y <span class="sc">+</span> yc <span class="sc">~</span> x <span class="sc">+</span> xc, <span class="at">data =</span> Pts, <span class="at">linetype=</span><span class="st">&quot;dotted&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb51-5"><a href="data-driven-functions.html#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_refine</span>(<span class="fu">coord_fixed</span>())</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Another example … In <a href="https://en.wikipedia.org/wiki/Computer-aided_design">computer-aided design</a> (CAD) systems, curved shapes are usually described by a person’s placement of isolated points which are then automatically combined into a smooth form. For instance, the outline of a letter in a computer font is often specified by a series of knot points with specified levels of smoothness (or lack thereof), as in this construction of a lower-case “e”.</p>
+<p><img src="www/bezier-e.png" /></p>
+<p>Humans have a natural ability to generate smooth movements. In drawing, there can be artistic value in a lack of smoothness, as illustrated in celebrated artist David Hockney’s drawing of his mother.</p>
+<p><img src="www/T11897_10.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><a href="https://www.tate.org.uk/art/images/work/T/T11/T11897_10.jpg">Source</a></p>
+<p>Before the era of digital design and manufacturing, smooth curves were described by clay or wooden models hand-crafted by skilled workers. Material was removed to conform to the models by machine tools directed by cams running over the models, by hand sanding and polishing, as shown in this video of propeller manufacture during World War II.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BwU9quwgYRo?start=190" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p>Spline functions and digital actuators have largely replaced such analog models.</p>
+</div>
+<div id="data-and-interpolation" class="section level2" number="2.4">
+<h2><span class="header-section-number">33.4</span> Data and interpolation</h2>
+<p>There are often occasions when we measure a continuous process at discrete points in time and space. In this section, we’re going to explore the data Johannes Kepler (1571-1630) used in discovering and formulating his famous theory of planets in elliptical orbits. For about half the year, other planets are on the opposite side of the Sun from Earth, and so not directly observable.</p>
+<p>Here is a graph of Kepler’s calculations of the distance of Mars from the Sun. (See “Background” section at the bottom of the page.) The sandbox makes a somewhat intricate plot, so read carefully the following:</p>
+<ul>
+<li>There are 28 observations in Kepler’s data. The plot shows all of them as gray dots.</li>
+<li>A handful of the 28 have been selected for emphasis: the big black dots.</li>
+<li>The interpolating functions have been made only with respect to the handful; the others are entirely made up.</li>
+<li>The cubic spline interpolant is drawn in black, the global polynomial in tan.</li>
+</ul>
+<div class="sandbox">
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="data-driven-functions.html#cb52-1" aria-hidden="true" tabindex="-1"></a>Observations <span class="ot">&lt;-</span> Kepler <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="at">size=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="data-driven-functions.html#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(time, kepler.angle, kepler.radius)</span>
+<span id="cb52-3"><a href="data-driven-functions.html#cb52-3" aria-hidden="true" tabindex="-1"></a>connector <span class="ot">&lt;-</span> <span class="fu">spliner</span>(kepler.radius <span class="sc">~</span> kepler.angle, </span>
+<span id="cb52-4"><a href="data-driven-functions.html#cb52-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> Observations)</span>
+<span id="cb52-5"><a href="data-driven-functions.html#cb52-5" aria-hidden="true" tabindex="-1"></a>polynomial <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">lm</span>(kepler.radius <span class="sc">~</span> <span class="fu">poly</span>(kepler.angle, <span class="dv">2</span>), </span>
+<span id="cb52-6"><a href="data-driven-functions.html#cb52-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> Observations))</span>
+<span id="cb52-7"><a href="data-driven-functions.html#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(kepler.radius <span class="sc">~</span> kepler.angle, </span>
+<span id="cb52-8"><a href="data-driven-functions.html#cb52-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> Kepler, <span class="at">alpha=</span><span class="fl">0.25</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-9"><a href="data-driven-functions.html#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(kepler.radius <span class="sc">~</span> kepler.angle, </span>
+<span id="cb52-10"><a href="data-driven-functions.html#cb52-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> Observations, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-11"><a href="data-driven-functions.html#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">connector</span>(kepler.angle) <span class="sc">~</span> kepler.angle) <span class="sc">%&gt;%</span></span>
+<span id="cb52-12"><a href="data-driven-functions.html#cb52-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">polynomial</span>(kepler.angle) <span class="sc">~</span> kepler.angle, <span class="at">color=</span><span class="st">&quot;orange3&quot;</span>) </span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<p>The black curve in the graphic drawn by the sandbox is a “cubic spline” interpolating function. Remember that the spline was constructed referencing <strong>only</strong> the selected points drawn as large dots. The other points from Kepler’s data are there only to show how well the interpolant provides a match</p>
+<p><strong>Question D</strong> Does the spline go through the selected points?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Yes, right through the middle of the big dots.<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">Pretty close, but tangent to the edge of the dots.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Exactly through some, but not others.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Exactly through the ones in the middle of the domain, but not so well through the ones at the extremes.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>The tan curve in the graphic is a “global” polynomial. Here, “global” means “the same polynomial at all points in the domain.”</p>
+<p><strong>Question E</strong> To judge from the shape of the polynomial, what is the order of the polynomial? (Make sure the sandbox is reset to the original code before you form your answer.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Fries and a chocolate shake<span class="mcanswer">︎✘ Just kidding.</span></span><br />
+</li>
+<li><span class="Zchoice">0<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">1<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">2<span class="mcanswer">Correct. Right, it’s a downward facing parabola.</span></span><br />
+</li>
+<li><span class="Zchoice">3<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">4<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">5<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">6<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question F</strong> Does the global polynomial go through the selected points?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Yes, through all of them.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It runs tangent to the dots.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It misses almost all of them.<span class="mcanswer">Excellent! The polynomial needn’t run through any of the data points. That it goes through one here is just a coincidence.</span></span></li>
+</ol>
+<p>The 2nd-order polynomial is <strong>not</strong> a function that interpolates these data. This is simply because the six selected data points do not lie on a parabola.</p>
+<p><strong>Question G</strong> The six selected points used to construct the spline and the parabola were selected at random. When you rerun the code, a new random sample will be used. Repeatedly run the code to get some idea of the amount of random variation. This will help you see whether the spline method always constructs an interpolating function and whether the 2nd-order polynomial ever gives an interpolating function for these data.</p>
+<p>Which of these is true as you look at different samples of data?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The cubic spline <em>always</em> goes through all the data points but the global, 2nd-order polynomial <em>hardly ever</em> goes exactly through all of them.<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">The cubic spline <em>often but not always</em> goes exactly through all the data points but the global, 2nd-order polynomial <em>sometimes but not often</em> goes through all of them.<span class="mcanswer">︎✘ </span></span>
+Actually, it’s possible to get a global polynomial to act as an interpolating function. The problem we’ve had is with the 2nd-order polynomial. By increasing the order of the polynomial you can make it go closer and closer to the data points. At some order, the global polynomial will go exactly through the selected points.</li>
+</ol>
+<p>Change the order of the polynomial used by changing the integer argument in <code>poly(kepler.angle, 2)</code>. If you make the integer too large, you’ll get an error message. If you make the integer too small, the global polynomial won’t go exactly through the data.</p>
+<p><strong>Question H</strong> What order of polynomial <em>always</em> goes exactly through the six selected points.</p>
+<p>    <span class="Zchoice">3<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">4<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">5<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">7<span class="mcanswer">︎✘ </span></span></p>
+<p>Let’s try making functions based on more data. To do this, in the <code>sample_n()</code> function change the argument <code>n</code>. For instance, <code>n=10</code> will select ten instead of the default six points.</p>
+<p><strong>Question I</strong> What order of polynomial <em>always</em> goes exactly through 10 randomly selected points. Try several different random samples of data.</p>
+<p>    <span class="Zchoice">6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">8<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">9<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">10<span class="mcanswer">︎✘ </span></span></p>
+<p>The global polynomial is a linear combination of power-law functions, e.g. <span class="math display">\[p(x) = a_0 + a_1 x + a_2 x^2 + \cdots\]</span></p>
+<p>The R function <code>lm()</code>, which we used last semester, finds the particular coefficients <span class="math inline">\(a_0, a_1, \ldots\)</span> to best match the polynomial to the data. But we could do the same thing by using any other functions we like, e.g. <span class="math inline">\(\sqrt{x}\)</span>, <span class="math inline">\(e^x\)</span>, <span class="math inline">\(\sin(x/1.2)\)</span>, and so on.</p>
+<p>A consequence of this is that we always have an infinite number of different interpolating functions. Which one to choose? In the next sections we’ll explore the properties which so often make the cubic spline the preferred method.</p>
+<p>Another question is whether we should use any interpolating function in the first place. Perhaps “getting close” to the data is good enough? This is the difference between <em>interpolating</em> data and <em>smoothing</em> data. The answer to the question, “interpolate or smooth,” depends on the modeling context for which the function is being constructed. Smoothing is based on statistical ideas that we don’t have time to cover in this course, but a core skill of expert modelers is to know when to use interpolation and when to use smoothing.</p>
+<p><strong>Background</strong> (Optional): The raw measurements (not included here) that Kepler used in his calculation were made by Tycho Brahe (1546-1601). Those raw measurements were of the angle of Mars with respect to Earth. Kepler estimated the orbital period of Mars to be 687 Earth days. (The current accepted value is 686.980 days.) Knowing the period, Kepler could find pairs of Earth days separated by multiples of the period. In each pair, the Earth would be in a different position, but Mars would be in the same position. Thus the distance of Mars from Earth could be estimated by triangulation.</p>
+<p>The angle was not directly measured for each occasion. Instead, knowing the radius versus time Kepler was able to discern when Mars was at its greatest and closest distance to the Sun. The angle tells where Mars is along its orbit. An angle of 0 is the position when Mars is closest to the Sun. An angle of 3.14 is when Mars is farthest from the Sun.</p>
+<p>The <code>time</code> is time of the observation given as an interval in Earth days from 8:15am Greenwich time on 9 March 1584.</p>
+</div>
+<div id="exploring-interpolation" class="section level2" number="2.5">
+<h2><span class="header-section-number">33.5</span> Exploring interpolation</h2>
+<p>In this section, you’ll explore some of the properties of splines and a couple of other types of interpolating functions.</p>
+<p>To simplify, we’ll package code of the sort you encountered in the Kepler exercise into a mouse-driven app, <a href="https://maa-statprep.shinyapps.io/142Z-Interpolation">here</a>.</p>
+<p><a href="https://maa-statprep.shinyapps.io/142Z-Interpolation" target="_blank"><img src="www/interpolation-app.png" width="60%"></a></p>
+<p>When you start the app, it will display in the top graph a small set of randomly generated data points. These are called <strong>knot points</strong>; the points the interpolator is bound to go through.</p>
+<p>There are three types of interpolating functions on offer:</p>
+<ol style="list-style-type: decimal">
+<li>A piecewise-linear interpolator, which merely connects the knots with straight-line segments.</li>
+<li>A cubic-spline interpolator, which is for good reason the most widely used in practice.</li>
+<li>A global polynomial interpolator. For <span class="math inline">\(n\)</span> knots, an <span class="math inline">\(n-1\)</span> order polynomial suffices to connect the dots smoothly.</li>
+</ol>
+<p>Pressing “Start again” generates a new set of knots. You can also select the number of knots to use.</p>
+<p>The top graphic shows the knot points and any of the interpolators you have chosen to display.</p>
+<p>The middle graph shows the first derivative with respect to <span class="math inline">\(x\)</span> of the interpolating functions. The last graph (if displayed) shows the 2nd derivative with respect to <span class="math inline">\(x\)</span>.</p>
+<p>There is also a control that allows you to narrow the region of display to exclude the first and last of the knots. All the knots are still being used to construct the interpolants, but only the middle segment of the interpolants is displayed.</p>
+<p>When you start the app, five randomly generated knots are shown together with the straight-line interpolating function.</p>
+<p><strong>Question J</strong> True or False: The segments of the straight-line interpolator never go beyond the vertical interval defined by the two knots being connected.</p>
+<p>    <span class="Zchoice">TRUE<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">FALSE<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question K</strong> All of these terms, <strong>except one</strong>, describe the first derivative (with respect to <span class="math inline">\(x\)</span>) of the straight-line interpolant. Which one doesn’t fit?</p>
+<p>    <span class="Zchoice">Discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Piecewise-constant<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Smooth<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p>Turn on the display of the cubic-spline interpolator.</p>
+<p><strong>Question L</strong> True or False: The segments of the cubic-spline interpolator never go outside the vertical interval defined by the two knots being connected.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">False<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question M</strong> True or False: The first derivative (with respect to <span class="math inline">\(x\)</span>) of the cubic-spline is continuous.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">False<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question N</strong> True or False: The second derivative (with respect to <span class="math inline">\(x\)</span>) of the cubic-spline is continuous.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">True<span class="mcanswer">Nice! Remember, “continous” corresponds to being able to draw the graph without lifting the pencil from the paper.</span></span><br />
+</li>
+<li><span class="Zchoice">False<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question O</strong> True or False: The <strong>third derivative</strong> (with respect to <span class="math inline">\(x\)</span>) of the cubic-spline is continuous.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">True<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">False<span class="mcanswer">Nice! The third derivative can be inferred from the second. Since the second consists of piecewise linear segments, the third derivative will be unconnected piecewise constant segments.</span></span><br />
+</li>
+<li><span class="Zchoice">Trick question<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>Now turn on the display of the global polynomial interpolator. (You can turn off the cubic-spline display.)</p>
+<p><strong>Question P</strong> True or False: The first derivative of the global polynomial is continous.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">False<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question Q</strong> True or False: The second derivative of the global polynomial is continuous.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">False<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question R</strong> True or False: The <strong>third derivative</strong> of the global polynomial is continous.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">False<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Trick question<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question S</strong> Which is the highest-order derivative of the global polynomial that is continous? (Work with 5 knots.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">3<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">4<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">5<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">10<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\infty\)</span><span class="mcanswer">Good. All polynomials can be differentiated an infinite number of times. For an nth-order polynomial, the nth derivative is a constant function, and higher derivatives are the zero function. Boring, but continuous.</span></span></li>
+</ol>
+</div>
+<div id="chasing-squirrels" class="section level2" number="2.6">
+<h2><span class="header-section-number">33.6</span> Chasing squirrels</h2>
+<p>A global polynomial has a nice feature: all orders of derivatives are continuous. But there is a huge disadvantage. Polynomials, like dogs chasing squirrels, always run off to infinity in the end. This off-to-infinity behavior always occurs outside the domain of the knots. Even so, it is highly relevant to what goes on inside the knots’ domain, because the polynomial function “wiggles” as if to gain momentum for its infinite run. To use a metaphor, a polynomial is like a player rounding the bases in baseball. To go fast and yet to touch each base requires that the runner curve considerably outside the direct path from base to base.</p>
+<p>For this exercise, let’s define a wiggle this (highly informal) way:</p>
+<blockquote>
+<p><em>A wiggle is a change in sign of the slope of the function in the interval between two adjacent knot points.</em></p>
+</blockquote>
+<p>Again, we’ll use the “exploring interpolation” app, <a href="https://maa-statprep.shinyapps.io/142Z-Interpolation/?_ga=2.39812192.233017403.1617632170-1036744100.1568230437">here</a>.</p>
+<p>Turn on both the cubic-spline and the global cubic displays; you’re going to be contrasting their behavior. (You don’t need the linear interpolant to be displayed.)</p>
+<p>We’re going to ask a series of questions about the behavior of the interpolants. Since knot points are generated at random, it might be that one particular set of knot points does not demonstrate clearly the feature that we’ll as about. Therefore, in answering each question press “Start again” several times to find out whether the presence or absence of the feature is generic or due simply to the play of chance.</p>
+<p><strong>Question T</strong> True or False: the interpolating function has at most one wiggle between adjacent knots.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">polynomial: true; cubic-spline: false<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">polynomial: true; cubic-spline: true<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice">polynomial: false; cubic-spline: true<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">polynomial: false; cubic-spline: false<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question U</strong> True or false: the wiggles tend to get bigger toward the edges of the set of knots.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">polynomial: true; cubic-spline: false<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">polynomial: true; cubic-spline: true<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">polynomial: false; cubic-spline: true<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">polynomial: false; cubic-spline: false<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question V</strong> Turn down the number of knots to <span class="math inline">\(n=3\)</span>. True or false: the cubic spline and global polynomial functions are practically the same.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">False<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question W</strong> Turn up the number of knots to <span class="math inline">\(n=10\)</span> or higher. True or false: the cubic spline and global polynomial functions are practically the same.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">False<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question X</strong> Keeping the number of knots at <span class="math inline">\(n=10\)</span> or higher … True or false: the wiggles of the global polynomial are smaller than the wiggles of the cubic spline.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">False<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p>The app has a control to change the <span class="math inline">\(x\)</span>-scale of the display, excluding the first or last few knots. (The interpolating function, however, uses all the knots.)</p>
+<p><strong>Question Y</strong> Keeping the number of knots at <span class="math inline">\(n=10\)</span> or higher, but excluding the first and last knot points … True or false: the wiggles of the global polynomial are similar to or smaller than the wiggles of the cubic spline when looking at the function over the restricted domain.</p>
+<p>    <span class="Zchoice">True<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">False<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>In case you’re wondering …</strong> The app has a “jitter” button. This adds a small random vertical displacement to the knot points. This simulates the situation when the knot points are drawn from noisy data. A method (such as interpolation with polynomials) is called <strong>ill-conditioned</strong> when it tends to magnify the effect of noise. You can get an idea for this by pressing “jitter” many times and looking at the spread of the resulting interpolating functions. The higher the order of polynomial, that is, the greater the number of knot points, the worse the magnification. You can judge for yourself whether the cubic spline suffers from a similar problem.</p>
+</div>
+<div id="cing-smoothness" class="section level2" number="2.7">
+<h2><span class="header-section-number">33.7</span> C’ing smoothness</h2>
+<p>Mathematicians quantify the “smoothness” of a function by looking at the continuity of the function and its derivatives. For engineering and design problems, smoothness means something substantially different. This section is about the differences and similarities of the two notions of smoothness.</p>
+<p>The mathematical definition of smoothness is straightforward and phrased in terms of derivatives. Suppose you are examining the smoothness of a function <span class="math inline">\(f(x)\)</span>. The smoothness is assessed on a scale <span class="math inline">\(C^0, C^1, C^2, \ldots, C^\infty\)</span>.</p>
+<ul>
+<li><span class="math inline">\(C^0\)</span>: the function <span class="math inline">\(f(x)\)</span> is continuous. Intuitively, this means that a graph of the function can be drawn without lifting the pencil from the paper.</li>
+<li><span class="math inline">\(C^1\)</span>: the function <span class="math inline">\(f(x)\)</span> has a derivative over its entire domain <em>and</em> that derivative <span class="math inline">\(\partial_x f(x)\)</span> is continuous.</li>
+<li><span class="math inline">\(C^2\)</span>: the function <span class="math inline">\(\partial_x f(x)\)</span> has a derivative over its entire domain <em>and</em> that derivative is continuous. In other words, <span class="math inline">\(\partial_{xx} f(x)\)</span> exists and is continuous.</li>
+<li><span class="math inline">\(C^n\)</span>: Like <span class="math inline">\(C^2\)</span>, but we’re talk about the nth-derivative of <span class="math inline">\(f(x)\)</span> existing and being continuous.</li>
+<li><span class="math inline">\(C^\infty\)</span>: Usually when we denote a sequence with an infinite number of terms, we write down something like <span class="math inline">\(C^0, C^1, C^2, \ldots\)</span>. It would be entirely valid to do this in talking about the <span class="math inline">\(C^n\)</span> sequence. But many of the mathematical functions we work with are <em>infinitely differentiable</em>, that is <span class="math inline">\(C^\infty\)</span>.</li>
+</ul>
+<p><strong>Examples of <span class="math inline">\(C^\infty\)</span> functions</strong>:</p>
+<ul>
+<li><p><span class="math inline">\(\sin(x)\)</span>: the derivatives are <span class="math inline">\(\partial_x \sin(x) = \cos(x)\)</span>, <span class="math inline">\(\partial_{xx} \sin(x) = -\sin(x)\)</span>, <span class="math inline">\(\partial_{xxx} \sin(x) =-\cos(x)\)</span>, <span class="math inline">\(\partial_{xxxx} \sin(x) =\sin(x)\)</span>, … You can keep going infinitely.</p></li>
+<li><p><span class="math inline">\(e^x\)</span>: the derivatives are <span class="math inline">\(\partial_x e^x = e^x\)</span>, <span class="math inline">\(\partial_{xx} e^x = e^x\)</span>, and so on.</p></li>
+<li><p><span class="math inline">\(x^2\)</span>: the derivatives are <span class="math inline">\(\partial_x x^2 = 2 x\)</span>, <span class="math inline">\(\partial_{xx} x^2 = 2\)</span>, <span class="math inline">\(\partial_{xxx} x^2 = 0\)</span>, … Higher order derivatives are all simply 0. Boring, but still existing.</p></li>
+</ul>
+<p><strong>Example of non-<span class="math inline">\(C^2\)</span> functions:</strong> We see these often when we take two or more different <span class="math inline">\(C^\infty\)</span> functions and split their domain, using one function for one subdomain and the other(s) for other subdomain(s).</p>
+<ul>
+<li><p><span class="math inline">\(|x|\)</span>, the absolute value function. <span class="math inline">\(|x|\)</span> is a pasting together of two <span class="math inline">\(C^\infty\)</span> functions: <span class="math display">\[|x| \equiv \left\{\begin{array}{rcl}+x &amp; \text{for} &amp; 0 \leq x\\-x&amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> The domain is split at <span class="math inline">\(x=0\)</span>.</p></li>
+<li><p>Cubic splines. The domain is split at each of the knot points. Between any two adjacent knot points, the function is an ordinary cubic polynomial. At the boundary between domains, the cubics on either side have been arranged to have their first and second derivatives match. Thus, the first two derivatives are continuous. The function is at least <span class="math inline">\(C^2\)</span>. The second derivative of a cubic is a straight-line function, so the second derivative of a cubic spline is a series of straight-line functions connected at the knot points. The second derivative does not itself have a derivative at the knot points. So, a cubic spline cannot satisfy the requirements for being <span class="math inline">\(C^3\)</span>; it is <span class="math inline">\(C^2\)</span>.</p></li>
+</ul>
+<p>Consider the functions shown in the table, all of which involve a domain split at <span class="math inline">\(x=0\)</span> and the pasting together of two individually <span class="math inline">\(C^\infty\)</span> functions:</p>
+<p><strong>Question Z</strong> Consider <span class="math display">\[f_A(x) \equiv \left\{\begin{array}{ccl}x^2 &amp; \text{for} &amp; 0 \leq x\\x&amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question A1</strong> Consider <span class="math display">\[f_B(x) \equiv \left\{\begin{array}{ccl}x^3 &amp; \text{for} &amp; 0 \leq x\\0&amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B1</strong> Consider <span class="math display">\[f_C(x) \equiv \left\{\begin{array}{ccl}x^3 &amp; \text{for} &amp; 0 \leq x\\x^3 &amp; \text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question C1</strong> Consider <span class="math display">\[f_D(x) \equiv \left\{\begin{array}{ccl}x^3 &amp; \text{for} &amp; 0 \leq x\\x^2&amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question D1</strong> Consider <span class="math display">\[f_E(x) \equiv \left\{\begin{array}{ccl}x^3 &amp; \text{for} &amp; 0 \leq x\\-x^2 &amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question E1</strong> Consider <span class="math display">\[f_F(x) \equiv \left\{\begin{array}{ccl}\cos(x) &amp; \text{for} &amp; 0 \leq x\\0 &amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question F1</strong> Consider <span class="math display">\[f_G(x) \equiv \left\{\begin{array}{ccl}\sin(x) &amp; \text{for} &amp; 0 \leq x\\0 &amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question G1</strong> Consider <span class="math display">\[f_H(x) \equiv \left\{\begin{array}{ccl}\sin(x) &amp; \text{for} &amp; 0 \leq x\\x &amp;\text{for}&amp; x \leq 0\end{array} \right.\]</span> How smooth is it?</p>
+<p>    <span class="Zchoice">discontinuous<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^0\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></p>
+</div>
+<div id="cubic-spline-smooth" class="section level2" number="2.8">
+<h2><span class="header-section-number">33.8</span> Cubic spline … smooth!</h2>
+<p>The dots in the graph below show Johannes Kepler’s calculated distance of Mars from the Sun using Tycho Brahe’s observational data.</p>
+<p>Three interpolating functions are drawn through the data points:</p>
+<ol style="list-style-type: decimal">
+<li>A cubic spline</li>
+<li>A global polynomial</li>
+<li>A simple sinusoid with a period of 687 days.</li>
+</ol>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question H1</strong> Which of the curves is the sinusoid?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">dodgerblue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">green<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question I1</strong> Which of the curves is the global polynomial?</p>
+<p>    <span class="Zchoice">black<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">dodgerblue<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">green<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question J1</strong> How smooth is the global polynomial? (There 28 data points.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(C^{27}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">Right! Polynomials are always <span class="math inline">\(C^\infty\)</span>! The amount of data has nothing to do with it.</span></span></li>
+</ol>
+<p><strong>Question K1</strong> How smooth is the cubic spline? (There 28 data knots.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(C^2\)</span><span class="mcanswer">Right! Cubic splines are always <span class="math inline">\(C^2\)</span>, once again the number of data points is unrelated smoothness. (If there are 4 or fewer knots, the cubic spline degenerates to a global polynomial.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(C^3\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(C^{27}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(C^\infty\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Just for interest</strong>:
+The observations are in small clusters of points separated by large gaps. This is because in order to make an observation, Mars had to be visible from Earth on at least two occasions separated by the orbital period of Mars: 687 days. There were no observations when Mars wasn’t visible from Tycho Brahe’s observatory in Denmark, as happens whenever the line segment between Earth and Mars passes near the Sun.</p>
+<p>The sinusoidal oscillation in the orbital radius of Mars reflects the eccentricy of the orbit; it is an ellipse rather than a circle.
+Neither the cubic spline nor the global polynomial do a creditable job tracking the actual orbit of Mars. That’s because neither method has a way to “discover” that the data are periodic, which is a huge hint about the sorts of functions that are appropriate.</p>
+<p>Now, a trick. We’re going to compute for each time a phase of that time in the 687 day orbit. This will collapse all the data down to the interval <span class="math inline">\(0 \leq t &lt; 687\)</span>. Here’s a plot of the data and the interpolating functions.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>With the data spaced more evenly over the orbital cycle, both the cubic spline and the polynomial provide a smooth match to the data, while the sinusoid shows systematic deviations.</p>
+</div>
+<div id="exercises-1" class="section level2" number="2.9">
+<h2><span class="header-section-number">33.9</span> Exercises</h2>
+Code-reading
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/ash-fly-canoe.Rmd" href="#DP2hxD"><img src="www/icons8-signpost.png" title="Location: Exercises/ash-fly-canoe.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">DP2hxD</red></span>
+</summary>
+<p>These questions are just about R/mosaic code reading skills. They refer to the chapter example about Kepler’s analysis of the orbit of Mars.</p>
+<p><strong>Question A</strong> The data are stored in an object named <code>Kepler</code>. What kind of object is <code>Kepler</code>?</p>
+<p>    <span class="Zchoice">A data frame<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">A matrix<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">A vector<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">A function<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> There are two variables from Kepler’s data used in the code. What are their names?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><code>time</code> and <code>angle</code><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>distance</code> and <code>angle</code><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>kepler.radius</code> and <code>kepler.angle</code><span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice"><code>kepler.distance</code> and <code>kepler.angle</code><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question C</strong> The object <code>connector</code> is defined on lines 2 and 3 of the sandbox code. What kind of R object is <code>connector</code>? (Hint, you may need to read further along in the code to figure this out.)</p>
+<p>    <span class="Zchoice">A data frame<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">A number<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">A vector<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">A function<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question D</strong> What kind of R object is <code>kepler.radius ~ kepler.angle</code>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">A tilde expression<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">An arithmetic expression<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">A function<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">A character string<span class="mcanswer">︎✘ Character strings always involve quotation marks.</span></span>
+<strong>Question E</strong> The R function <code>gf_point()</code> as used here has how many arguments?</li>
+</ol>
+<p>    <span class="Zchoice">1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">2<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">3<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">4<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question F</strong> What’s the give away that <code>polynomial</code> (as used here) is a <strong>function</strong>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The name <code>polynomial</code> is followed by open and close parentheses.<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">The name <code>polynomial</code> begins with a <code>p</code>.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The name <code>polynomial</code> is an English verb.<span class="mcanswer">︎✘ This is a nice programming style to use natural-language verbs to name functions, but it is not at all required by the language. (And “polynomial” isn’t a verb anyway.)</span></span></li>
+</ol>
+<p><strong>Question G</strong> Why are there quotation marks in <code>'red'</code>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Because the color is only sort of red-ish, not pure red.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Because Mars is the “Red Planet”<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Because the word is a literal set of characters, not the name of a function or other R object.<span class="mcanswer">Correct. </span></span></li>
+</ol>
+</details>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>Called such possibly because the curves are tied together at each of the knots.<a href="data-driven-functions.html#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="operations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="future-value.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-splines.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-splines.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"after": "<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>n<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>n"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

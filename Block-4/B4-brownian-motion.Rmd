@@ -503,7 +503,7 @@ The graphics show both of those kinds of displays of density as a function of $x
 
 ```{r echo=FALSE, fig.height=2, fig.show="hold", warning=FALSE}
 draw_pipe <- function(time=1, sigma = 1.7, 
-                      dom=domain(x = c(-25, 25)), 
+                      dom=list(x = c(-25, 25)), 
                       n = 1000) {
   ypos <- dnorm(0, 0, sigma)
   Pts <- tibble::tibble(
@@ -511,7 +511,7 @@ draw_pipe <- function(time=1, sigma = 1.7,
     y = runif(n, 1.05*ypos, 1.15*ypos)
   ) 
   f <- makeFun(dnorm(x, 0, sigma) ~ x, sigma=sigma)
-  slice_plot(f(x) ~ x, dom, npts=500) %>%
+  slice_plot(f(x) ~ x, domain(x=-25:25), npts=500) %>%
     gf_point(y ~ x, data = Pts, alpha=0.1) %>%
     gf_point(y ~ x, data = Pts[1,], color="orange3") %>%
     gf_refine(scale_color_identity()) %>%
@@ -521,13 +521,13 @@ draw_pipe <- function(time=1, sigma = 1.7,
     gf_labs(x = "Position x along pipe (cm)", y = "Concentration", title = glue::glue("Concentration at time t={time}"))
 }
 set.seed(101)
-draw_pipe(time=1, sigma = 1.7, dom=domain(x=c(-25, 25)), n=1000)
+draw_pipe(time=1, sigma = 1.7, n=1000)
 set.seed(102)
-draw_pipe(time=10, sigma = 4.5, dom=domain(x=c(-25, 25)), n=1000)
+draw_pipe(time=10, sigma = 4.5, n=1000)
 set.seed(103)
-draw_pipe(time=20, sigma = 6.4, dom=domain(x=c(-25, 25)), n=1000)
+draw_pipe(time=20, sigma = 6.4, n=1000)
 set.seed(104)
-draw_pipe(time=40, sigma = 9.0, dom=domain(x=c(-25, 25)), n=1000)
+draw_pipe(time=40, sigma = 9.0, n=1000)
 ```
 
 **Question 1**: How far have the particles spread at time $t$?

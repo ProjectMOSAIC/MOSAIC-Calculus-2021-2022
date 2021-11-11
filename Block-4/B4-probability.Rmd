@@ -182,7 +182,8 @@ askMC(
 
 The sandbox below gives the probability density function for the exponential process used in the example of the time interval between successive 100 year storms. Your task is to compute the expectation value for the time between storms. In symbols, this is $$\int_{-\infty}^\infty t\times p(t)\, dt$$ You can use `antiD()` to find the antiderivative and `Inf` to stand for infinity.  `r mark(4705)`
 
-```{r expect2, exercise=TRUE, exercise.cap="Expectation value for time between 100-year storms", excercise.nlines=7}
+::: {.sandbox data-latex=""}
+```{r expect2, eval=FALSE}
 # probability density
 p <- makeFun(ifelse(t < 0, 0, exp(-t/100)/100) ~ t)
 # For the expectation value, we want to integrate t*p(t) 
@@ -190,13 +191,7 @@ F <- antiD(...integrand... ~ t)
 # Evaluate
 F(...upper...) - F(...lower...)
 ```
-
-```{r expect2-check}
-grade_result(
-  pass_if(~ abs(.result - 100) < .0001, message="Since you're integrating out to infinity, don't be surprised if there's some round-off error."),
-  fail_if( ~ TRUE)
-)
-```
+:::
 
 ## Gaussian and sigmoid
 
@@ -296,11 +291,11 @@ The integral gives only the net present value of the eventual benefit of earthqu
 
 ```{r ep1-4, echo=FALSE, results="markup"}
 askMC(
-  "What is the numerical value of the correct integral from the previous question?",
-  "$0.43",
-  "+$4.10+",
-  "$14.80",
-  "$34.50", 
+  "What is the numerical value (in dollars) of the correct integral from the previous question?",
+  "0.43",
+  "+4.10+",
+  "14.80",
+  "34.50", 
   random_answer_order = FALSE
 )
 ```

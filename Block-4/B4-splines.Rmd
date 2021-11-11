@@ -75,7 +75,7 @@ gf_path(y ~ x, data = Stations, size = 2) %>%
 The trajectory of the robot arm consists of two functions, $x(t)$ and $y(t)$. Our starting representation is as a table:
 
 ```{r}
-head(Loop)
+head(Path)
 ```
 
 The $x(t)$ and $y(t)$ functions in this table aren't complete enough to operate the robot. We need to provide the $x,y$-location data in the form of a **continuous** two functions of $t$ so that the robot, at any time $t$, can look up where it is supposed to be.
@@ -159,6 +159,9 @@ quad_spline <- function(free = 0, data = Pts) {
     cbind(0, 1,-1, 0, 2, 0),
     cbind(0, 0, 1, 0, 0, 2)
   ) 
+  a1 <- Pts$y[1]
+  a2 <- Pts$y[2]
+  a3 <- Pts$y[3]
   b <- cbind(c(Pts$y[2:4] - Pts$y[1:3], c(0, 0, free)))
   x <- qr.solve(M, b)
   p1 <- makeFun(a1 + b1*(x-1) + c1*(x-1)^2 ~ x,
@@ -560,7 +563,7 @@ Turn on both the cubic-spline and the global cubic displays; you're going to be 
 
 We're going to ask a series of questions about the behavior of the interpolants. Since knot points are generated at random, it might be that one particular set of knot points does not demonstrate clearly the feature that we'll as about. Therefore, in answering each question press "Start again" several times to find out whether the presence or absence of the feature is generic or due simply to the play of chance.
 
-```{r cs1-1, echo=FALSE, results="markup"}
+```{r cs1w-1, echo=FALSE, results="markup"}
 askMC(
   "True or False: the interpolating function has at most one wiggle between adjacent knots.",
   "polynomial: true; cubic-spline: false",
@@ -571,7 +574,7 @@ askMC(
 )
 ```
 
-```{r cs1-2, echo=FALSE, results="markup"}
+```{r cs1w-2, echo=FALSE, results="markup"}
 askMC(
   "True or false: the wiggles tend to get bigger toward the edges of the set of knots. ",
   "+polynomial: true; cubic-spline: false+",
@@ -582,7 +585,7 @@ askMC(
 )
 ```
 
-```{r cs1-3, echo=FALSE, results="markup"}
+```{r cs1w-3, echo=FALSE, results="markup"}
 askMC(
   "Turn down the number of knots to $n=3$. True or false: the cubic spline and global polynomial functions are practically the same. ",
   "+True+",
@@ -591,7 +594,7 @@ askMC(
 )
 ```
 
-```{r cs1-4, echo=FALSE, results="markup"}
+```{r cs1w-4, echo=FALSE, results="markup"}
 askMC(
   "Turn up the number of knots to $n=10$ or higher. True or false: the cubic spline and global polynomial functions are practically the same. ",
   "True",
@@ -600,7 +603,7 @@ askMC(
 )
 ```
 
-```{r cs1-5, echo=FALSE, results="markup"}
+```{r cs1w-5, echo=FALSE, results="markup"}
 askMC(
   "Keeping the number of knots at $n=10$ or higher ... True or false: the wiggles of the global polynomial are smaller than the wiggles of the cubic spline. ",
   "True",
@@ -611,7 +614,7 @@ askMC(
 
 The app has a control to change the $x$-scale of the display, excluding the first or last few knots. (The interpolating function, however, uses all the knots.)
 
-```{r cs1-6, echo=FALSE, results="markup"}
+```{r cs1w-6, echo=FALSE, results="markup"}
 askMC(
   "Keeping the number of knots at $n=10$ or higher, but excluding the first and last knot points ... True or false: the wiggles of the global polynomial are similar to or smaller than the wiggles of the cubic spline when looking at the function over the restricted domain.",
   "True",
