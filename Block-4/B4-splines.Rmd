@@ -12,9 +12,10 @@
 
 
 
-A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. Low-order polynomial functions are useful for expressing general modeling ideas such as growth, interaction, and optimality. 
+A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. We have often employed ow-order polynomial functions for expressing general modeling ideas such as growth, interaction, and optimality. 
 
-As early as Chapter 3 of this book, we noted that a function can be described as a table where each row stands for one set of input values together with a corresponding output value. We did not, however, make much use of the table-as-function concept. Instead, we used data tables to motivate the choice of parameters, generally in linear combinations of the basic modeling functions. We called this ***function fitting***, an important topic we will elaborate on in Block 5 where we'll introduce new tools for treating functions as geometrical objects. 
+As early as Chapter 3 of this book, we noted that a function can be described as a table where each row stands for one set of input values together with a corresponding output value. We did not, however, make much use of the table-as-function concept. Instead, we used data tables to motivate the choice of parameters, generally in linear combinations of the basic modeling functions. We called this ***function fitting***, an important topic we will again encounter in Block 5 when we
+introduce new tools for treating functions as geometrical objects. 
 
 This chapter introduces yet another important method for constructing functions that match with data. What's different here from function fitting is that we do not consider the data as a "cloud" of points that we want our eventual function to stay close to. Today, each data point will be a **mandate**; the function is required to go through each and every point exactly.
 
@@ -24,9 +25,9 @@ As a motivating example, consider the programming of robotic arms as in the vide
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/0L7Xk5_s3QQ?start=81" title="Robotic arms" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-This isn't a robots course, so we'll simplify. The arm has a resting position. When a car frame comes into place, the arm moves so that it's welding electrodes are at a specific, known place in space near the car body. Then it moves in sequence to other places where a weld is using and eventually back to its resting position.
+This isn't a robots course, so we'll simplify. The arm has a resting position. When a car frame comes into place, the arm moves so that it's welding electrodes are at a specific, known place in space near the car body. Then it moves in sequence to other places where a weld is required, perhaps passing through waypoints to avoid obstacles.
 
-The problem of converting the discrete list of weld and helper points into a continuous signal for the actuator is an instance of a mathematical process called **interpolation**. In real robot arms, there are multiple joints that need to be controlled simultaneously. For our illustration, we'll use a simple setup where the robot hand rolls along a set of rails in the y-direction and another x-rail running crosswise to the y direction.
+The problem of converting the discrete list of weld and waypoints into a continuous signal for the actuator is an instance of a mathematical process called **interpolation**. In real robot arms, there are multiple joints that need to be controlled simultaneously. For our illustration, we'll use a simple setup where the robot hand rolls along a set of rails in the y-direction and another x-rail running crosswise to the y direction.
 
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
 knitr::include_graphics("www/x-y-cnc.png")
@@ -226,8 +227,9 @@ gridExtra::grid.arrange(P[[1]], P[[2]], P[[3]], P[[4]], nrow=2)
 
 With the ability to match piecewise quadratic or piecewise cubic polynomials to a set of knots, we can easily construct the smooth path to connect the knots in \@ref(fig:robot-points). Figure \@ref(fig:smooth-robot-path) shows a $C^2$ path connecting the knots. The path is constructed by plotting simultaneously the output of two functions, $x(t)$ and $y(t)$, with the input $t$ on the domain $1 \leq t \leq 16$, using this code:
 
+
 ::: {.rmosaic data-latex=""}
-```{r, results="hide"}
+```{r results="hide"    }
 xfun <- spliner(x ~ t, data = Zcalc::Robot.stations)
 yfun <- spliner(y ~ t, data = Zcalc::Robot.stations)
 Path <- tibble(
@@ -235,9 +237,11 @@ Path <- tibble(
   x = xfun(t),
   y = yfun(t)
 )
-gf_path(y ~ x, data = Path)
+#gf_path(y ~ x, data = Path)
 ```
 :::
+
+
 
 ```{r smooth-robot-points, fig.cap="Connecting the robot-path knots with a piecewise cubic polynomial, constructed to be $C^2$.", echo=FALSE}
 nudges <- rep(40, 16)
