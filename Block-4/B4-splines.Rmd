@@ -1,5 +1,6 @@
 # Data-driven functions
 
+<!-- 
 **Objectives**
 
 * Functions for curves in space
@@ -7,38 +8,9 @@
 * Understand the standard types of functions constructed to interpolate data points.
 * Be able to characterize the smoothness of those different types of function.
 
-```{r echo = FALSE}
-Stations <- tibble::tribble(
-  ~ x, ~ y,
-  496, 1109,
-  1037, 1162,
-  1251,1109,
-  1226,889,
-  902,564,
-  1034,432,
-  1197,648,
-  1389,459,
-  1170,245,
-  521,325,
-  327,541,
-  277, 948,
-  492,731,
-  710,811,
-  928,868,
-  737,1060
-) %>%
-  mutate(t=row_number(), y=1300-y) %>%
-  select(t, x, y)
-
-xf <- spliner(x ~ t, data = Stations)
-yf <- spliner(y ~ t, data = Stations)
-t <- seq(1,16,length=1000)
-Path <- tibble(x = xf(t), y = yf(t))
-gf_path(y ~ x, data = Path)
-```
+-->
 
 
-Need to explain how to trace out this curve: add in a new variable to index the position on the curve.
 
 A major theme of this course is the selection and construction of functions. We started the course by introducing a small set of basic modeling functions that generations of experience has shown to be good models in a wide variety of circumstances. We introduced methods to derive new functions from the basic modeling ones: linear combinations, inversion, differentiation, integration. Low-order polynomial functions are useful for expressing general modeling ideas such as growth, interaction, and optimality. 
 
@@ -66,7 +38,7 @@ The task for our example robot will be to visit the points shown in Figure \@ref
 ```{r robot-points, echo=FALSE, fig.cap="The stations on a path the robot hand is supposed to follow. All the action is taking place in roughly 1x1 meter area."}
 nudges <- rep(40, 16)
 nudges[c(3,12)] <- -40
-gf_path(y ~ x, data = Stations, size = 2) %>%
+gf_path(y ~ x, data = Zcalc::Robot.stations, size = 2) %>%
   gf_point(y ~ x, size=8, color="orange", alpha=.5) %>%
   gf_text(y ~ x, label= ~ t, nudge_y=nudges) %>%
   gf_refine(coord_fixed()) %>%
@@ -75,7 +47,7 @@ gf_path(y ~ x, data = Stations, size = 2) %>%
 The trajectory of the robot arm consists of two functions, $x(t)$ and $y(t)$. Our starting representation is as a table:
 
 ```{r}
-head(Path)
+head(Zcalc::Robot.stations)
 ```
 
 The $x(t)$ and $y(t)$ functions in this table aren't complete enough to operate the robot. We need to provide the $x,y$-location data in the form of a **continuous** two functions of $t$ so that the robot, at any time $t$, can look up where it is supposed to be.
@@ -83,10 +55,10 @@ The $x(t)$ and $y(t)$ functions in this table aren't complete enough to operate 
 One strategy is to construct the functions as piecewise linear functions of $t$, like this:
 
 ```{r piecewise-linear-path,echo=FALSE}
-xl <- mosaic::connector(x ~ t, data = Stations)
-yl <- mosaic::connector(y ~ t, data = Stations)
-P1 <- slice_plot(xl(t) ~ t, domain(t=1:16), npts=500) %>% gf_labs(y="x position", x="")
-P2 <- slice_plot(yl(t) ~ t, domain(t=1:16), npts=500) %>% gf_labs(y="y position", x = "t (time)")
+xl <- mosaic::connector(x ~ t, data = Zcalc::Robot.stations)
+yl <- mosaic::connector(y ~ t, data = Zcalc::Robot.stations)
+P1 <- slice_plot(xl(t) ~ t, domain(t=1:16), npts=500) %>% gf_labs(y="x(t) (mm)", x="")
+P2 <- slice_plot(yl(t) ~ t, domain(t=1:16), npts=500) %>% gf_labs(y="y(t) (mm)", x = "t (sec)")
 gridExtra::grid.arrange(P1, P2, nrow=2)
 ```
 It can be difficult to see the relationship between the $x(t)$ and $y(t)$ functions and the path shown in \@ref(fig:robot-points). You might want to follow the path with your finger, focusing on the series of $x$-coordinates to confirm that the $x(t)$ function reproduces the path.
@@ -95,13 +67,14 @@ The function shown in \@ref(fig:piecewise-linear-path) is an example of an ***in
 
 For instance, let's look at $\partial_t x(t)$. Since $x$ is a position along the cross rail, $\partial_t x(t)$ is the velocity in that direction. Figure \@ref(fig:x-velocity) shows the velocity versus time for both the $x$ and $y$ components of the movement.
 
-```{r x-velocity, echo=FALSE}
+```{r x-velocity, echo=FALSE, warning=FALSE}
+labels <- latex2exp::TeX(c('\\partial_t x(t)  (mm/s)', "\\partial_t y(t)  (mm/s)"))
 dt_xl <- D(xl(t) ~ t)
 dt_yl <- D(yl(t) ~ t)
 P1 <- slice_plot(dt_xl(t) ~ t, domain(t=1:16), npts=901, singularities = 1:16) %>% 
-  gf_labs(y="x velocity (mm/s)", x="")
+  gf_labs(y=labels[[1]], x="")
 P2 <- slice_plot(dt_yl(t) ~ t, domain(t=1:16), npts=901,, singularities = 1:16) %>%
-  gf_labs(y="y velocity (mm/s)", x = "t (time)")
+  gf_labs(y=labels[[2]], x="t (sec)")
 gridExtra::grid.arrange(P1, P2, nrow=2)
 ```
 The speed of the robot arm maxes out at about 400 mm-per-second. You can get a sense for this by moving your finger along the length of a piece of paper in 1 second; it's a normal human speed of movement.
@@ -128,7 +101,7 @@ As an accommodation to the physical existence of the robot hand, we've softened 
 vx <- antiD(ddt_xl(t) ~ t)
 xx <- antiD(vx(t) ~ t)
 slice_plot(xx(t) + 500 ~ t, domain(t=1.9:2.1)) %>% 
-  gf_point(x ~ t, data = Stations[2,])
+  gf_point(x ~ t, data = Zcalc::Robot.stations[2,])
 ```
 
 A consequence of smoothing the trajectory is that the robot hand comes near, but doesn't actually touch the station. It misses by about 2 mm. For many human tasks that might be good enough, but for precision manufacturing a miss by 2 mm is about 1000 times more than allowed.
@@ -249,6 +222,33 @@ for (k in 1:4) {
 }
 gridExtra::grid.arrange(P[[1]], P[[2]], P[[3]], P[[4]], nrow=2)
 ```
+
+
+With the ability to match piecewise quadratic or piecewise cubic polynomials to a set of knots, we can easily construct the smooth path to connect the knots in \@ref(fig:robot-points). Figure \@ref(fig:smooth-robot-path) shows a $C^2$ path connecting the knots. The path is constructed by plotting simultaneously the output of two functions, $x(t)$ and $y(t)$, with the input $t$ on the domain $1 \leq t \leq 16$, using this code:
+
+::: {.rmosaic data-latex=""}
+```{r, results="hide"}
+xfun <- spliner(x ~ t, data = Zcalc::Robot.stations)
+yfun <- spliner(y ~ t, data = Zcalc::Robot.stations)
+Path <- tibble(
+  t = seq(1,16,length=1000),
+  x = xfun(t),
+  y = yfun(t)
+)
+gf_path(y ~ x, data = Path)
+```
+:::
+
+```{r smooth-robot-points, fig.cap="Connecting the robot-path knots with a piecewise cubic polynomial, constructed to be $C^2$.", echo=FALSE}
+nudges <- rep(40, 16)
+nudges[c(3,12)] <- -40
+gf_path(y ~ x, data = Path) %>%
+  gf_point(y ~ x, size=8, data = Zcalc::Robot.stations, color="orange", alpha=.5) %>%
+  gf_text(y ~ x, label= ~ paste0("t=", t), alpha=0.5, data = Zcalc::Robot.stations, nudge_y=nudges) %>%
+  gf_refine(coord_fixed()) %>%
+  gf_labs(x="x (mm)", y="y (mm)")
+```
+
 
 ## Bezier splines
 
