@@ -1,0 +1,428 @@
+## Data and interpolation
+
+There are often occasions when we measure a continuous process at discrete points in time and space. In this section, we're going to explore the data Johannes Kepler (1571-1630) used in discovering and formulating his famous theory of planets in elliptical orbits. For about half the year, other planets are on the opposite side of the Sun from Earth, and so not directly observable.
+
+Here is a graph of Kepler's calculations of the distance of Mars from the Sun. (See "Background" section at the bottom of the page.) The sandbox makes a somewhat intricate plot, so read carefully the following:
+
+* There are 28 observations in Kepler's data. The plot shows all of them as gray dots.
+* A handful of the 28 have been selected for emphasis: the big black dots.
+* The interpolating functions have been made only with respect to the handful; the others are entirely made up.
+* The cubic spline interpolant is drawn in black, the global polynomial in tan.
+
+::: {.sandbox}
+```{r}
+Observations <- Kepler %>% sample_n(size=6) %>%
+    select(time, kepler.angle, kepler.radius)
+connector <- spliner(kepler.radius ~ kepler.angle,
+                     data = Observations)
+polynomial <- makeFun(lm(kepler.radius ~ poly(kepler.angle, 2),
+                         data = Observations))
+gf_point(kepler.radius ~ kepler.angle,
+         data = Kepler, alpha=0.25) %>%
+gf_point(kepler.radius ~ kepler.angle,
+         data = Observations, size=3) %>%
+  slice_plot(connector(kepler.angle) ~ kepler.angle) %>%
+  slice_plot(polynomial(kepler.angle) ~ kepler.angle, color="orange3")
+```
+:::
+
+
+
+The black curve in the graphic drawn by the sandbox is a "cubic spline" interpolating function. Remember that the spline was constructed referencing **only** the selected points drawn as large dots. The other points from Kepler's data are there only to show how well the interpolant provides a match
+
+```{r di2-1, echo=FALSE, results="markup"}
+askMC(
+  "Does the spline go through the selected points?",
+  "+Yes, right through the middle of the big dots.+",
+  "Pretty close, but tangent to the edge of the dots.",
+  "Exactly through some, but not others.",
+  "Exactly through the ones in the middle of the domain, but not so well through the ones at the extremes."
+)
+```
+
+The tan curve in the graphic is a "global" polynomial. Here, "global" means "the same polynomial at all points in the domain."
+
+```{r di2-2, echo=FALSE, results="markup"}
+askMC(
+  "To judge from the shape of the polynomial, what is the order of the polynomial? (Make sure the sandbox is reset to the original code before you form your answer.)",
+  "Fries and a chocolate shake" = "Just kidding.",
+  0, 1, "+2+" = "Right, it's a downward facing parabola.", 3, 4, 5, 6, random_answer_order = FALSE
+)
+```
+
+```{r di2-3, echo=FALSE, results="markup"}
+askMC(
+  "Does the global polynomial go through the selected points?",
+  "Yes, through all of them.",
+  "It runs tangent to the dots.",
+  "+It misses almost all of them.+" = "The polynomial needn't run through any of the data points. That it goes through one here is just a coincidence."
+)
+```
+
+The 2nd-order polynomial is **not** a function that interpolates these data. This is simply because the six selected data points do not lie on a parabola.
+
+```{r di2-4, echo=FALSE, results="markup"}
+askMC(
+  "The six selected points used to construct the spline and the parabola were selected at random. When you rerun the code, a new random sample will be used. Repeatedly run the code to get some idea of the amount of random variation. This will help you see whether the spline method always constructs an interpolating function and whether the 2nd-order polynomial ever gives an interpolating function for these data.
+
+Which of these is true as you look at different samples of data?",
+  "+The cubic spline *always* goes through all the data points but the global, 2nd-order polynomial *hardly ever* goes exactly through all of them.+",
+  "The cubic spline *often but not always* goes exactly through all the data points but the global, 2nd-order polynomial *sometimes but not often* goes through all of them."
+)
+```
+Actually, it's possible to get a global polynomial to act as an interpolating function. The problem we've had is with the 2nd-order polynomial. By increasing the order of the polynomial you can make it go closer and closer to the data points. At some order, the global polynomial will go exactly through the selected points.
+
+Change the order of the polynomial used by changing the integer argument in `poly(kepler.angle, 2)`. If you make the integer too large, you'll get an error message. If you make the integer too small, the global polynomial won't go exactly through the data.
+
+```{r di2-5, echo=FALSE, results="markup"}
+askMC(
+  "What order of polynomial *always* goes exactly through the six selected points.",
+  3, 4, "+5+", 6, 7,
+  random_answer_order = FALSE
+)
+```
+
+Let's try making functions based on more data. To do this, in the `sample_n()` function change the argument `n`. For instance, `n=10` will select ten instead of the default six points.
+
+```{r di2-6, echo=FALSE, results="markup"}
+askMC(
+  "What order of polynomial *always* goes exactly through 10 randomly selected points. Try several different random samples of data.",
+  6, 7, 8, "+9+", 10,
+  random_answer_order = FALSE
+)
+```
+
+The global polynomial is a linear combination of power-law functions, e.g. $$p(x) = a_0 + a_1 x + a_2 x^2 + \cdots$$
+
+The R function `lm()`, which we used last semester, finds the particular coefficients $a_0, a_1, \ldots$ to best match the polynomial to the data. But we could do the same thing by using any other functions we like, e.g. $\sqrt{x}$, $e^x$, $\sin(x/1.2)$, and so on.
+
+A consequence of this is that we always have an infinite number of different interpolating functions. Which one to choose? In the next sections we'll explore the properties which so often make the cubic spline the preferred method.
+
+Another question is whether we should use any interpolating function in the first place. Perhaps "getting close" to the data is good enough? This is the difference between *interpolating* data and *smoothing* data. The answer to the question, "interpolate or smooth," depends on the modeling context for which the function is being constructed. Smoothing is based on statistical ideas that we don't have time to cover in this course, but a core skill of expert modelers is to know when to use interpolation and when to use smoothing.
+
+
+**Background** (Optional): The raw measurements (not included here) that Kepler used in his calculation were made by Tycho Brahe (1546-1601). Those raw measurements were of the angle of Mars with respect to Earth. Kepler estimated the orbital period of Mars to be 687 Earth days. (The current accepted value is 686.980 days.) Knowing the period, Kepler could find pairs of Earth days separated by multiples of the period. In each pair, the Earth would be in a different position, but Mars would be in the same position. Thus the distance of Mars from Earth could be estimated by triangulation.
+
+The angle was not directly measured for each occasion. Instead, knowing the radius versus time Kepler was able to discern when Mars was at its greatest and closest distance to the Sun. The angle tells where Mars is along its orbit. An angle of 0 is the position when Mars is closest to the Sun. An angle of 3.14 is when Mars is farthest from the Sun.
+
+The `time` is time of the observation given as an interval in Earth days from 8:15am Greenwich time on 9 March 1584.
+
+## Exploring interpolation
+
+In this section, you'll explore some of the properties of splines and a couple of other types of interpolating functions.
+
+To simplify, we'll package code of the sort you encountered in the Kepler exercise into a mouse-driven app, [here](https://maa-statprep.shinyapps.io/142Z-Interpolation).
+
+<a href="https://maa-statprep.shinyapps.io/142Z-Interpolation" target="_blank"><img src="www/interpolation-app.png" width="60%"></a>
+
+When you start the app, it will display in the top graph a small set of randomly generated data points. These are called **knot points**; the points the interpolator is bound to go through.
+
+
+
+There are three types of interpolating functions on offer:
+
+1. A piecewise-linear interpolator, which merely connects the knots with straight-line segments.
+2. A cubic-spline interpolator, which is for good reason the most widely used in practice.
+3. A global polynomial interpolator. For $n$ knots, an $n-1$ order polynomial suffices to connect the dots smoothly.
+
+Pressing "Start again" generates a new set of knots. You can also select the number of knots to use.
+
+The top graphic shows the knot points and any of the interpolators you have chosen to display.
+
+The middle graph shows the first derivative with respect to $x$ of the interpolating functions. The last graph (if displayed) shows the 2nd derivative with respect to $x$.
+
+There is also a control that allows you to narrow the region of display to exclude the first and last of the knots. All the knots are still being used to construct the interpolants, but only the middle segment of the interpolants is displayed.
+
+When you start the app, five randomly generated knots are shown together with the straight-line interpolating function.
+
+```{r ei1-1, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The segments of the straight-line interpolator never go beyond the vertical interval defined by the two knots being connected.",
+  "+TRUE+",
+  "FALSE",
+  random_answer_order = FALSE
+)
+```
+
+```{r ei1-2, echo=FALSE, results="markup"}
+askMC(
+  "All of these terms, **except one**, describe the first derivative (with respect to $x$) of the straight-line interpolant. Which one doesn't fit?",
+  "Discontinuous",
+  "Piecewise-constant",
+  "+Smooth+",
+  random_answer_order = FALSE
+)
+```
+
+Turn on the display of the cubic-spline interpolator.
+
+```{r ei1-3, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The segments of the cubic-spline interpolator never go outside the vertical interval defined by the two knots being connected.",
+  "True",
+  "+False+",
+  random_answer_order = FALSE
+)
+```
+
+```{r ei1-4, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The first derivative (with respect to $x$) of the cubic-spline is continuous.",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r ei1-5, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The second derivative (with respect to $x$) of the cubic-spline is continuous.",
+  "+True+" = "Remember, \"continous\" corresponds to being able to draw the graph without lifting the pencil from the paper.",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r ei1-6, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The **third derivative** (with respect to $x$) of the cubic-spline is continuous.",
+  "True",
+  "+False+" = "The third derivative can be inferred from the second. Since the second consists of piecewise linear segments, the third derivative will be unconnected piecewise constant segments.",
+  "Trick question",
+  random_answer_order = FALSE
+)
+```
+
+Now turn on the display of the global polynomial interpolator. (You can turn off the cubic-spline display.)
+
+
+```{r ei1-7, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The first derivative of the global polynomial is continous.",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r ei1-8, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The second derivative of the global polynomial is continuous.",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r ei1-9, echo=FALSE, results="markup"}
+askMC(
+  "True or False: The **third derivative** of the global polynomial is continous.",
+  "+True+",
+  "False",
+  "Trick question",
+  random_answer_order = FALSE
+)
+```
+
+```{r ei1-10, echo=FALSE, results="markup"}
+askMC(
+  "Which is the highest-order derivative of the global polynomial that is continous? (Work with 5 knots.)",
+  3, 4, 5, 10, "+$\\infty$+" = "All polynomials can be differentiated an infinite number of times. For an nth-order polynomial, the nth derivative is a constant function, and higher derivatives are the zero function. Boring, but continuous.",
+  random_answer_order = FALSE
+)
+```
+
+
+
+
+## Chasing squirrels
+
+A global polynomial has a nice feature: all orders of derivatives are continuous. But there is a huge disadvantage. Polynomials, like dogs chasing squirrels, always run off to infinity in the end. This off-to-infinity behavior always occurs outside the domain of the knots. Even so, it is highly relevant to what goes on inside the knots' domain, because the polynomial function "wiggles" as if to gain momentum for its infinite run. To use a metaphor, a polynomial is like a player rounding the bases in baseball. To go fast and yet to touch each base requires that the runner curve considerably outside the direct path from base to base.
+
+For this exercise, let's define a wiggle this (highly informal) way:
+
+> *A wiggle is a change in sign of the slope of the function in the interval between two adjacent knot points.*
+
+
+Again, we'll use the "exploring interpolation" app, [here](https://maa-statprep.shinyapps.io/142Z-Interpolation/?_ga=2.39812192.233017403.1617632170-1036744100.1568230437).
+
+Turn on both the cubic-spline and the global cubic displays; you're going to be contrasting their behavior. (You don't need the linear interpolant to be displayed.)
+
+We're going to ask a series of questions about the behavior of the interpolants. Since knot points are generated at random, it might be that one particular set of knot points does not demonstrate clearly the feature that we'll as about. Therefore, in answering each question press "Start again" several times to find out whether the presence or absence of the feature is generic or due simply to the play of chance.
+
+```{r cs1w-1, echo=FALSE, results="markup"}
+askMC(
+  "True or False: the interpolating function has at most one wiggle between adjacent knots.",
+  "polynomial: true; cubic-spline: false",
+  "+polynomial: true; cubic-spline: true+",
+  "polynomial: false; cubic-spline: true",
+  "polynomial: false; cubic-spline: false",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1w-2, echo=FALSE, results="markup"}
+askMC(
+  "True or false: the wiggles tend to get bigger toward the edges of the set of knots. ",
+  "+polynomial: true; cubic-spline: false+",
+  "polynomial: true; cubic-spline: true",
+  "polynomial: false; cubic-spline: true",
+  "polynomial: false; cubic-spline: false",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1w-3, echo=FALSE, results="markup"}
+askMC(
+  "Turn down the number of knots to $n=3$. True or false: the cubic spline and global polynomial functions are practically the same. ",
+  "+True+",
+  "False",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1w-4, echo=FALSE, results="markup"}
+askMC(
+  "Turn up the number of knots to $n=10$ or higher. True or false: the cubic spline and global polynomial functions are practically the same. ",
+  "True",
+  "+False+",
+  random_answer_order = FALSE
+)
+```
+
+```{r cs1w-5, echo=FALSE, results="markup"}
+askMC(
+  "Keeping the number of knots at $n=10$ or higher ... True or false: the wiggles of the global polynomial are smaller than the wiggles of the cubic spline. ",
+  "True",
+  "+False+",
+  random_answer_order = FALSE
+)
+```
+
+The app has a control to change the $x$-scale of the display, excluding the first or last few knots. (The interpolating function, however, uses all the knots.)
+
+```{r cs1w-6, echo=FALSE, results="markup"}
+askMC(
+  "Keeping the number of knots at $n=10$ or higher, but excluding the first and last knot points ... True or false: the wiggles of the global polynomial are similar to or smaller than the wiggles of the cubic spline when looking at the function over the restricted domain.",
+  "True",
+  "+False+",
+  random_answer_order = FALSE
+)
+```
+
+**In case you're wondering ...** The app has a "jitter" button. This adds a small random vertical displacement to the knot points. This simulates the situation when the knot points are drawn from noisy data. A method (such as interpolation with polynomials) is called **ill-conditioned** when it tends to magnify the effect of noise. You can get an idea for this by pressing "jitter" many times and looking at the spread of the resulting interpolating functions. The higher the order of polynomial, that is, the greater the number of knot points, the worse the magnification. You can judge for yourself whether the cubic spline suffers from a similar problem.
+
+## C'ing smoothness
+
+Mathematicians quantify the "smoothness" of a function by looking at the continuity of the function and its derivatives. For engineering and design problems, smoothness means something substantially different. This section is about the differences and similarities of the two notions of smoothness.
+
+The mathematical definition of smoothness is straightforward and phrased in terms of derivatives. Suppose you are examining the smoothness of a function $f(x)$. The smoothness is assessed on a scale $C^0, C^1, C^2, \ldots, C^\infty$.
+
+- $C^0$: the function $f(x)$ is continuous. Intuitively, this means that a graph of the function can be drawn without lifting the pencil from the paper.
+- $C^1$: the function $f(x)$ has a derivative over its entire domain *and* that derivative $\partial_x f(x)$ is continuous.
+- $C^2$: the function $\partial_x f(x)$ has a derivative over its entire domain *and* that derivative is continuous. In other words, $\partial_{xx} f(x)$ exists and is continuous.
+- $C^n$: Like $C^2$, but we're talk about the nth-derivative of $f(x)$ existing and being continuous.
+- $C^\infty$: Usually when we denote a sequence with an infinite number of terms, we write down something like $C^0, C^1, C^2, \ldots$. It would be entirely valid to do this in talking about the $C^n$ sequence. But many of the mathematical functions we work with are *infinitely differentiable*, that is $C^\infty$.
+
+
+
+Consider the functions shown in the table, all of which involve a domain split at $x=0$ and the pasting together of two individually $C^\infty$ functions:
+
+
+```{r cn1-1, echo=FALSE, results="markup"}
+askMC("Consider $$f_A(x) \\equiv \\left\\{\\begin{array}{ccl}x^2 & \\text{for} & 0 \\leq x\\\\x&\\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "discontinuous",
+               "+$C^0$+",
+               "$C^1$",
+               "$C^2$",
+               "$C^3$",
+               "$C^\\infty$",
+               random_answer_order=FALSE
+)
+```
+
+```{r cn1-2, echo=FALSE, results="markup"}
+askMC("Consider $$f_B(x) \\equiv \\left\\{\\begin{array}{ccl}x^3 & \\text{for} & 0 \\leq x\\\\0&\\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "discontinuous",
+               "$C^0$",
+               "$C^1$",
+               "+$C^2$+",
+               "$C^3$",
+               "$C^\\infty$",
+               random_answer_order=FALSE
+)
+```
+
+```{r cn1-3, echo=FALSE, results="markup"}
+askMC("Consider $$f_C(x) \\equiv \\left\\{\\begin{array}{ccl}x^3 & \\text{for} & 0 \\leq x\\\\x^3 & \\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "discontinuous",
+               "$C^0$",
+               "$C^1$",
+               "$C^2$",
+               "$C^3$",
+               "+$C^\\infty$+",
+               random_answer_order=FALSE
+)
+```
+
+```{r cn1-4, echo=FALSE, results="markup"}
+askMC("Consider $$f_D(x) \\equiv \\left\\{\\begin{array}{ccl}x^3 & \\text{for} & 0 \\leq x\\\\x^2&\\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "discontinuous",
+               "$C^0$",
+               "+$C^1$+",
+               "$C^2$",
+               "$C^3$",
+               "$C^\\infty$",
+               random_answer_order=FALSE
+)
+```
+
+```{r cn1-5, echo=FALSE, results="markup"}
+askMC("Consider $$f_E(x) \\equiv \\left\\{\\begin{array}{ccl}x^3 & \\text{for} & 0 \\leq x\\\\-x^2 &\\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "discontinuous",
+               "$C^0$",
+               "+$C^1$+",
+               "$C^2$",
+               "$C^3$",
+               "$C^\\infty$",
+               random_answer_order=FALSE
+)
+```
+
+```{r cn1-6, echo=FALSE, results="markup"}
+askMC("Consider $$f_F(x) \\equiv \\left\\{\\begin{array}{ccl}\\cos(x) & \\text{for} & 0 \\leq x\\\\0 &\\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "+discontinuous+",
+               "$C^0$",
+               "$C^1$",
+               "$C^2$",
+               "$C^3$",
+               "$C^\\infty$",
+               random_answer_order=FALSE
+)
+```
+
+```{r cn1-7, echo=FALSE, results="markup"}
+askMC("Consider $$f_G(x) \\equiv \\left\\{\\begin{array}{ccl}\\sin(x) & \\text{for} & 0 \\leq x\\\\0 &\\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "discontinuous",
+               "+$C^0$+",
+               "$C^1$",
+               "$C^2$",
+               "$C^3$",
+               "$C^\\infty$",
+               random_answer_order=FALSE
+)
+```
+
+```{r cn1-8, echo=FALSE, results="markup"}
+askMC("Consider $$f_H(x) \\equiv \\left\\{\\begin{array}{ccl}\\sin(x) & \\text{for} & 0 \\leq x\\\\x &\\text{for}& x \\leq 0\\end{array} \\right.$$ How smooth is it?",
+               "discontinuous",
+               "$C^0$",
+               "$C^1$",
+               "+$C^2$+",
+               "$C^3$",
+               "$C^\\infty$",
+               random_answer_order=FALSE
+)
+```
+
+
