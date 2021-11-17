@@ -123,45 +123,13 @@ Our task is to find a function $x(t)$ to interpolate discrete points such as tho
 
 The piecewise linear interpolating function is easily constructed and is shown as a dotted curve. As we saw in the previous section, such a function has a discontinuous first derivative. We would like something smoother, with a **continuous** first derivative. A curve such as the one we seek is shown as the multi-colored function.
 
-```{r quadratic-spline, echo=FALSE, fig.cap="Two piecewise interpolating functions of the four discrete points (orange). One is piecewise linear (dotted curve), the other is piecewise quadratic (multi-color curve)."}
+```{r quadratic-spline, echo=FALSE, fig.cap="Two piecewise interpolating functions of the four discrete points (orange). One is piecewise linear (dotted curve), the other is piecewise quadratic (multi-color curve).", echo=FALSE}
 Pts <- tibble(
   t = 1:4,
   x = c(0, 2, 0.5, 1.7)
 )
-# Starting on routine for quad splines with arbitrary number
-# of segments.
-makeM <- function(nsegs=4, free=0, data) {
-  Ones <- diag(nrow=nsegs)
-  top <- cbind(Ones, Ones)
-  left <- matrix(c(1,-1, rep(0, nsegs-1)), nrow=nsegs,ncol=nsegs, byrow=TRUE)
-  bottom <- cbind(left, 2*Ones)
-  rbind(top, bottom)
-}
 
-quad_spline <- function(free = 0, data = Pts) {
-  M <- rbind(
-    cbind(1, 0, 0, 1, 0, 0),
-    cbind(0, 1, 0, 0, 1, 0),
-    cbind(0, 0, 1, 0, 0, 1),
-    cbind(1,-1, 0, 2, 0, 0),
-    cbind(0, 1,-1, 0, 2, 0),
-    cbind(0, 0, 1, 0, 0, 2)
-  ) 
-  a1 <- Pts$x[1]
-  a2 <- Pts$x[2]
-  a3 <- Pts$x[3]
-  b <- cbind(c(Pts$x[2:4] - Pts$x[1:3], c(0, 0, free)))
-  x <- qr.solve(M, b)
-  p1 <- makeFun(a1 + b1*(t-1) + c1*(t-1)^2 ~ t,
-                b1 = x[1], c1 = x[4])
-  p2 <- makeFun(a2 + b2*(t-2) + c2*(t-2)^2 ~ t,
-                b2 = x[2], c2 = x[5])
-  p3 <- makeFun(a3 + b3*(t-3) + c3*(t-3)^2 ~ t,
-                b3 = x[3], c3 = x[6])
-  makeFun(ifelse(t < 2, p1(t),
-                    ifelse(t < 3, p2(t), p3(t))) ~ t)
-}
-f <- quad_spline(0, data=Pts)
+f <- qspliner(x ~ t, data=Pts)
 
 
 gf_point(x ~ t, data = Pts, 
