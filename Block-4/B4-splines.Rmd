@@ -241,18 +241,19 @@ Path <- tibble(
 )
 ```
 
-Quadratic splines are rarely used in practice. (A ***cubic spline*** provides helpful flexibility. See Section \@ref(cubic-splines).) In Figure \@ref(fig:qspline-x) you can see one of the reasons: the quadratic form is so ***stiff*** that the interpolating function tends to shift from concave up to concave down (or vice versa) at each knot point. This results in the interpolating function tending to have a local minimum or maximum *between* adjacent knots, even if the data themselves to not indicate such a struture.
+Quadratic splines are rarely used in practice. (A ***cubic spline*** provides helpful flexibility. See Section \@ref(cubic-splines).) In Figure \@ref(fig:qspline-x) you can see one of the reasons: the quadratic form is so ***stiff*** that the interpolating function tends to shift from concave up to concave down (or vice versa) at each knot point. This results in the interpolating function tending to have a local minimum or maximum *between* adjacent knots, even if the data themselves to not indicate such a structure.
 
 ```{r qspline-x, echo=FALSE, fig.cap="A quadratic spline interpolation of the $x$-coordinates of the robot-path knots. The data hardly speak for themselves, since the interpolationg function tends to alternate between concave up and concave down in adjacent segments between the knots."}
 slice_plot(xfun(t) ~ t, domain(t=1:16), npts=500) %>%
   gf_point(x ~ t, data = Robot.stations, color="orange", alpha=0.5, size=4) %>%
   gf_labs(y="x(t)")
 ```
+:::
 
-Putting together the $x(t)$ and $y(t)$ interpolating functions, each of which has that extremum between knot points, leads to an absurdly complicated path, as seen in Figure \@ref(fig:quad-robot-points).
+Putting together the $x(t)$ and $y(t)$ interpolating functions, each of which has that extremum between knot points, leads to an absurdly complicated path, as seen in Figure \@ref(fig:quad-robot-points-quad).
 
 
-```{r quad-robot-points, fig.cap="Connecting the robot-path knots with a piecewise quadratic polynomial, constructed to be $C^1$. The path is pretty perhaps, but absurd.", echo=FALSE}
+```{r quad-robot-points-quad, fig.cap="Connecting the robot-path knots with a piecewise quadratic polynomial, constructed to be $C^1$. The path is pretty perhaps, but absurd.", echo=FALSE}
 nudges <- rep(40, 16)
 nudges[c(3,12)] <- -40
 gf_path(y ~ x, data = Path) %>%
@@ -260,12 +261,8 @@ gf_path(y ~ x, data = Path) %>%
   gf_text(y ~ x, label= ~ paste0("t=", t), alpha=0.5, data = Zcalc::Robot.stations, nudge_y=nudges) %>%
   gf_refine(coord_fixed()) %>%
   gf_labs(x="x (mm)", y="y (mm)")
-slice_plot(xfun(t) ~ t, domain(t=1:16), npts=500) %>%
-  gf_point(x ~ t, data = Robot.stations, color="orange", alpha=0.5, size=4) %>%
-  gf_labs(y="x(t)")
 ```
 
-:::
 
 ## C^2^ smooth functions {#cubic-splines}
 
@@ -352,7 +349,7 @@ knitr::include_graphics("www/tiny-blank.png")
 Consider the path followed by a Bézier curve as it leaves one of the endpoints. Figure \@ref(fig:bezier-2) has been initialized so that the tangent to the curve is horizontal at the right endpoint and almost vertical at the left endpoint. The further the control point is from the endpoint, the longer the Bézier curve will stay close to the tangent line. Another way to think of this is that the position of a control point has little impact on the shape of the curve near the opposite endpoint. You can observe this on the canvas by, say, moving control point 2 and observing the relatively little change near endpoint 4.
 
 
-<p align="center"><iframe width="540" height="540" src="b-new.svg?a=0.1,0.1,0.2,0.9,0.6,0.2,0.9,0.2&b=-100,-100,-100,-100&c=-100,-100,-100,-100&animate=0"></iframe></p>
+<p align="center"><iframe width="540" height="540" src="b-new.svg?a=0.1,0.1,0.1,0.9,0.7,0.1,0.9,0.1&b=-100,-100,-100,-100&c=-100,-100,-100,-100&animate=0"></iframe></p>
 ```{r bezier-3, echo=FALSE, fig.cap="A Bézier curve leaves each endpoint in a direction that is tangent to the line drawn between the endpoint and its control point.", out.width="1%"}
 knitr::include_graphics("www/tiny-blank.png")
 ```
@@ -365,21 +362,10 @@ $$x(t) = (1-t)^3\, x_1 + 3(1-t)^2 t\, x_2 + 3(1-t) t^2\, x_3 + t^3\, x_4\\\text{
 y(t) = (1-t)^3\, y_1 + 3(1-t)^2 t\, y_2 + 3(1-t) t^2\, y_3 + t^3\, y_4$$
 
 
-Since $x(t)$ and $y(t)$ can be interpreted as the $(x,y)$ coordinate at time $t$ of a pen on the drawing canvas, it's reasonable to think about the pen in physical terms.
-
-GIVE VELOCITY, ...
 
 
-```{r x-curve, echo=FALSE}
-xpts <- c(1, 3, 2, 4)
-xfun <- function(t) {
-  (1-t)^3*xpts[[1]] + 3*(1-t)^2*t*xpts[[2]] + 3*(1-t)*t^2*xpts[[3]] + t^3*xpts[4]
-}
-slice_plot(xfun(t) ~ t, domain(t=0:1)) %>%
-  gf_refine(coord_fixed())
-```
-
-```{r echo=FALSE, results="hide"}
+```{r echo=FALSE, eval=FALSE, results="hide"}
+# Replaced this with the SVG app.
 Pts <- tibble(
   x = c(1,5),
   y = c(0,0),
@@ -434,5 +420,16 @@ Parameterization
 
 `r insert_calcZ_exercise("XX.XX", "1YWZht", "Exercises/fish-swim-socks.Rmd")`
 
+`r insert_calcZ_exercise("XX.XX", "QQ4ulz", "Exercises/horse-wake-stove.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "0aGEKY", "Exercises/frog-spend-plate.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "hqLVA", "Exercises/frog-spend-plate2.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "AYTrE", "Exercises/frog-spend-plate3.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "ZGG7SO", "Exercises/reptile-stand-jacket.Rmd")`
+
 `r insert_calcZ_exercise("XX.XX", "Vru4NQ", "Exercises/rhinosaurus-mute-fridge.Rmd")`
 
+`r insert_calcZ_exercise("XX.XX", "N6z7nD", "Exercises/giraffe-trim-book.Rmd")`
