@@ -21,6 +21,8 @@ Often, we have a physical sense of the meaning of a quantity. For instance, hone
 Dimensional analysis is a fundamental framework for organizing such quantities and putting them in relationship to one another. As you know, the dimension of a physical quantity can be represented by a set of integers: one for time T, one for mass M, one for length L, one for electrical charge, C. So a possible dimension is T$^{-1}$M$^{0}$L^{0}$C^1$ which corresponds to electrical current. Another dimension, which we call "force," is T$^{-2}$M$^{1}$L$^{1}$C$^0$, still another is  T$^{-2}$M$^{1}$L$^{1}$C$^{-1}$ which corresponds to "voltage."
 
 
+
+
 ## Flow and pressure
 
 Poiseuille Flow: laminar flow in a pipe with velocity u(r) and p(x).
@@ -65,6 +67,98 @@ where:
 * $\mu$ is the [[dynamic viscosity]] of the [[fluid]] (Pa·s or N·s/m<sup>2</sup> or kg/(m·s))
 * $\nu$ is the [[kinematic viscosity]] of the [[fluid]] (m<sup>2</sup>/s).
 
+## Bouyancy and stability
+
+See illustration at <https://en.wikipedia.org/wiki/Buoyancy#Simplified_model>
+
+1. Semi-circle: $x^2 + (y+b)^2 = r^2$ so $y = \sqrt{\strut r^2 - x^2} - b$
+
+2. Find domain where $y\leq 0$: $$b^2 = r^2 - x^2 \implies x = \pm \sqrt{\strut r^2 - b^2}$$ 
+
+3. Pressure is $-\rho\, g\, y$. Does this have the right dimension?
+    * Pressure has dimension Force per area $M L^{-1} T^{-2}$
+    * $[\rho] = M L^{-3}$, 
+    * $[\rho g] = M T^{-2} L^{-2}$
+    * So $[\rho\,g\,y] = M T^{-2} L^{-1}$, same as pressure!
+    
+4. Find the submerged area of a slice. $$A = - \int_{x_l}^{x_r} \left[\sqrt{\strut r^2 - x^2} + b\right]\ dx$$
+
+```{r boat1, echo=FALSE, fig.cap="A ship" }
+
+# Optionally: put a sine in front of it to get a better flat-bottomed shape.
+shape <- makeFun(sin(sqrt(r^2 - x^2)) - b ~ x + b, r=1, b=0.5)
+
+bottomPts <- tibble(x = seq(-0.99,0.999,length=200),
+                    y = shape(x))
+theta <- pi/15
+rotmat <- matrix(c(cos(theta), sin(theta), -sin(theta), cos(theta)), nrow=2)
+rotPts <- as_tibble(as.matrix(bottomPts) %*% rotmat)
+names(rotPts) <- names(bottomPts)
+gf_point(y ~ x, data = rotPts %>% mutate(y=-y)) %>%
+  gf_refine(coord_fixed())
+
+bottom <- spliner(y ~ x, data=rotPts)
+very_bottom <- rotPts %>% filter(y == max(y)) %>%
+  filter(row_number()==1)
+
+fLeft <- spliner(x ~ y, data = rotPts %>% filter(x <= very_bottom$x))
+fRight <- spliner(x ~ y, data = rotPts %>% filter(x >= very_bottom$x))
+
+boat_width <- makeFun(fRight(y) - fLeft(y) ~ y)
+
+# x where boat hull is at waterline
+left <- fLeft(0)
+right <- fRight(0)
+dom <- domain(x=c(left,right))
+
+
+xs <- seq(right, left, len=100)
+Water <- tibble(
+  x=c(left, -1.2, -1.2, 1.2, 1.2, right, xs),
+  y=c(     0,    0, -0.75,-0.75,   0,     0, -bottom(xs))
+)
+Displacement <- tibble(
+  x=c(left, right, xs),
+  y=c(     0,     0, -bottom(xs))
+)
+
+CBx <- Integrate(x*bottom(x) ~ x, domain=dom) / area
+CBy <- Integrate(y*boat_width(y) ~ y, domain(y=0:very_bottom$y)) / area
+
+
+slice_plot(-bottom(x) ~ x, domain(x=-1:1), npts=200) %>%
+  gf_refine(coord_fixed()) %>%
+  gf_polygon(y ~ x, data = Water, fill="blue", color=NA, alpha=0.25) %>%
+  gf_polygon(y ~ x, data = Displacement, fill="orange", color=NA, alpha=0.25) %>%
+  gf_lims(y=c(-.75,1)) %>%
+  gf_hline(yintercept=~ -0.49, color="red") %>%
+  gf_labs(y="y (water surface=0)", x="x") %>%
+  gf_point(-CBy ~ CBx)
+
+# area of slice below waterline
+area <- Integrate(bottom(x) ~ x, domain=dom)
+
+
+slope <- D(bottom(x) ~ x)
+
+
+angle <- makeFun(atan(slope(x)) ~ x)
+len <- makeFun(sqrt(1+slope(x)^2) ~ x)
+vert_component <- makeFun(cos(angle(x)) ~ x)
+horiz_component <- makeFun(sin(angle(x)) ~ x)
+upward_force <- Integrate(len(x)*bottom(x)*vert_component(x) ~ x, dom)
+upward_force
+area
+```
+
+```{r }
+
+```
+
+Also show that left-to-right force is zero, by integrating up but using the sin() component of the normal force.
+
+Then find the center of gravity and the center of bouyancy.
+
 ## Similitude
 
 See Wikipedia https://en.wikipedia.org/wiki/Similitude submarine example:
@@ -104,7 +198,7 @@ The power {$P$} in watts required by the submarine is then:
 $$P[{\mathrm  {W}}]=F_{{\text{application}}}\times V_{{\text{application}}}=F_{{\text{model}}}[{\mathrm  {N}}]\times 17.2\ {\mathrm  {m/s}}$$
 Note that even though the model is scaled smaller, the water velocity needs to be increased for testing. This remarkable result shows how similitude in nature is often counterintuitive.
 
-## Gasses
+## Gases
 
 Ideal gas law. PV is energy, units of $k$. See <https://en.wikipedia.org/wiki/Ideal_gas_law#Combined_gas_law>
 
