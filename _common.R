@@ -90,7 +90,8 @@ Chaps <- list(
 )
 
 Sections <- list(
-  exp_curve_fitting = "8.3"
+  exp_curve_fitting = "8.3",
+  gradient_vector = "24.3"
 )
 
 
