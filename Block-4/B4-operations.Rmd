@@ -2,20 +2,12 @@
 
 ```{r include=FALSE}
 library(Zcalc)
-
-solve_step <- function(tilde, v, x0) {
-  f <- makeFun(tilde)
-  df <- D(tilde)
-  xstar <- x0 + (v-f(x0))/df(x0)
-  
-  return(xstar)
-}
 ```
 
 
 In Block 1, we introduced the idea of ***mathematical modeling***, creating a representation of some aspect of the world out of mathematical "stuff." As you know, for us the relevant "stuff" includes the concept of a function with its inputs and output, units and dimensions of quantities, frameworks such as the basic modeling functions and ways of combining functions via linear combination, composition, and multiplication.
 
-When we construct functions, the symbol $\equiv$ is appropriately used to mean "is defined to be." We have used the tradition equal sign ($=$) but always to mean "is" or "amounts to" or "happens to equal." For instance, we write $\sin(\pi/2) = 1$ not as a definition of the sinusoid but to identify the output corresponding to a single specific input..
+When we construct functions, the symbol $\equiv$ is appropriately used to mean "is defined to be." We have used the tradition equal sign ($=$) but always to mean "is" or "amounts to" or "happens to equal." For instance, we write $\sin(\pi/2) = 1$ not as a definition of the sinusoid but to identify the output corresponding to a single specific input.
 
 In high-school algebra, much more emphasis was placed on ***equations***. For instance, you might well see an equation like $${\mathbf{\text{equation:}}}\ \ \ x^2 - 6 x - 3 = 0$$ in a beginning algebra textbook. It pays to think a little about what such an equation means and what information it is intended to convey. In particular, how is it different from a function like $${\mathbf{\text{function:}}}\ \ \ p(x) \equiv x^2 - 6 x - 3 \ .$$
 
@@ -26,26 +18,32 @@ What's meant by "find $x$" is to determine which numerical values (if any) when 
 
 "Solving for $x$" is an example of a ***mathematical task***. We undertake such tasks in order to extract useful information from a mathematical object. For instance, in high-school textbook "word problems," you translate a verbal description of a situation---typically involving canoes paddling across a flowing river---into a matching mathematical form and then, having constructed the mathematical form, you apply some mathematical task to the form in order to reveal the answer you seek.
 
-In this chapter, we're going to look at the mathematical tasks that are commonly performed on functions, that is, ***operations on functions***. We'll introduce you to algorithms that enable you to construct the task result without having to apply much mental work. Importantly, we'll give a name to each task. That way, confronted with a mathematical problem, you will be able to look down the short menu of common tasks to decide which one is applicable to your circumstance. Even better, once the task has a name, you can tell a computer to do it for you.
+In this chapter, we're going to look at the mathematical tasks that are commonly performed on functions, that is, ***operations on functions***. We'll introduce you to algorithms that enable you to construct the task result without having to apply much mental work or engage puzzle-solving skills. 
 
-Here are some <a name="common-tasks">common mathematical tasks </a>that you've already learned about:
+Importantly, we'll give a name to each task. That way, confronted with a mathematical problem, you will be able to look down the short menu of common tasks to decide which one is applicable to your circumstance. Even better, once the task has a name, you can tell a computer to do it for you.
+
+Here are some <a name="common-tasks">common mathematical tasks</a> that you've already learned about:
 
 1. Given a function and specific values for the inputs, ***apply*** the function to the inputs to produce an output. Another name for this is to ***evaluate a function*** on inputs.
 2. Given a function and the name of a with-respect-to input, construct a new function that is the derivative of the given function. The name for this task is to ***differentiate the function***.
 3. Like (2), given a function and the name of a with respect to input, ***anti-differentiate the function***.
 4. Given a function and an interval of the domain of that function, ***accumulate*** the function on that interval. This is named to ***integrate the function*** on the interval. (You may recognize that you can perform this task by breaking it down into task (3) and then applying task (1) to the result. That is, $\int_a^b f(t) dt = F(b) - F(a)$.)
 
-We'll focus on these new operations on functions that you may not yet have mastered. 
+In this chapter, we focus on the following operations on functions that you may not yet have mastered. 
 
 5. Given a function and an output value from the function, find values for an input (or inputs) which will generate that output value. This is the ***solving*** task. A closely related task is ***zero-finding***, which is to find an input that will cause the function to produce the output zero.
 6. Given a function and an interval of the domain, find an input value that will produce an output value that's higher than would be produced for nearby inputs. As you might recognize, this is called finding an ***argmax***. The problem of finding an ***argmin*** is exactly the same kind of problem, and can be solved by finding the argmax of the negative of the function.
 7. Given a function and an input value, ***iterate*** the function to produce a new input that will be better than the original for some purpose. 
 
-These seven tasks allow you to perform a huge variety of the important mathematical work of extracting useful information from a model you've constructed of a situation of interest. Human judgement and creativity is needed to construct the model. And judgement and experience is needed to figure out which tasks to perform and in what order. But carrying out the tasks does not require judgement, experience, or creativity. Performing the tasks requires only an algorithm and the tools to step through the algorithm. Computers are excellent for this; you just have to give them the function and whatever additional input is required (e.g. the name of a with-respect-to-variable), and then tell the computer which task it is to perform.
+These seven tasks allow you to perform a huge variety of the important mathematical work of extracting useful information from a model. Human judgement and creativity is needed to construct the model. And judgement and experience is needed to figure out which tasks to perform and in what order. But carrying out the tasks does not require judgement, experience, or creativity. Performing the tasks requires only an algorithm and the tools to step through the algorithm. Computers are excellent for this; you just have to give them the function and whatever additional input is required (e.g. the name of a with-respect-to-variable), and then tell the computer which task it is to perform.
 
 ## Task: Solve
 
-Starting materials: a function $f(x)$, a known output value $v$, and a candidate for a suitable input value $\color{brown}{x_0}.$
+Starting materials: 
+
+i. a function $f(x)$, 
+ii, a known output value $v$, and 
+iii. a candidate for a suitable input value $\color{brown}{x_0}$
 
 Ideal result from the algorithm: A new candidate $\color{magenta}{x^\star}$ such that $f(\color{magenta}{x^\star}) = v$ or, equivalently, that $$\left|\strut f(\color{magenta}{x^\star}) - v \right| = 0\ .$$
 
@@ -54,30 +52,58 @@ $$ \left|\strut f(\color{magenta}{x^\star}) - v\right|\ \  {\mathbf <}\ \  \left
 Easy case: When $f(x)$ is a straight-line function, that is $f(x) \equiv \line(x) = a x + b$, the solution can be found by simple arithmetic:
 
 $$a x^\star + b - v = 0 \ \ \implies \ \ \ x^\star = \frac{b-v}{a}$$
-Approximation strategy: If $f(x)$ is not a straight-line function, approximate $f()$ by a straight-line function. The approximate function will be $\hat{f}(x) = f(x_0) + f'(x_0) \left[\strut x - x_0 \right]$.^[We're writing $f'(x_0)$ to stand for the more wordy version: $\partial_x f(x=x_0)$/] Then find the easy-case result for $\hat{f}$.
+**Approximation strategy**: If $f(x)$ is not a straight-line function, construct the tangent-line approximation to $f()$ that's value near $x_0$. This approximation function, which we'll call $\widehat{f}(x)$ can be written in terms of $f(x_0)$ and $\partial_x f(x_0)$ in the same way we've been doing since Block 2. 
+$$\widehat{f}(x) \equiv f(x_0) + \partial_x f(x_0) \left[\strut x - x_0 \right]\ .$$ 
 
-The easy case is ... well, easy. We'll plug in the desired answer, $x^\star$ (which we don't yet know), and solve.
-$$f(x_0) + f'(x_0) \left[\strut x^\star - x_0 \right] = v$$
-implying 
-$$\left[\strut x^\star - x_0 \right] = \frac{v - f(x_0)}{f'(x_0)}$$
-That is,
-$$x^\star = x_0 + \frac{v-f(x_0)}{f'(x_0)}$$
+Because $\widehat{f}(x)$ is a straight-line function, it's easy to find an input that will generate exactly the desired output value $v$, that is, a value for $x$ such that $\widehat{f}(x) = v$.
+This is a matter of solving algebraically for $x$ in the equation
+$$f(x_0) + \partial_x f(x_0) \left[\strut x - x_0 \right] = v\ ,$$ 
+We use $x_1$ to denote that exact solution to the approximate problem:
 
-```{r newton-step, echo=FALSE, fig.cap="Calculation of $x^\\star$ seen graphically. The brown function is approximated as a straight-line function at the initial point $x_0$. The resulting $x^\\star$ is where that straight line crosses the value $v$ on the output scale. Here, $x^\\star$ is a little to the left of the actual place where $f()$ crosses $v$.", warning=FALSE}
+\begin{equation}
+x_1 = x_0 + \frac{v-f(x_0)}{\partial_x f(x_0)}
+(\#eq:better-guess)
+\end{equation}
+
+Although $x_1$ is an exact solution to the approximate problem, all we can hope is that it will be an approximate solution to the actual problem, which may involve a nonlinear function $f(x)$. In particular, we want $x_1$ to be a better guess than $x_0$:
+$$\|f(x_1) - v\| \underbrace{<\,}_\text{We hope!} \|f(x_0) - v\|$$
+
+This (hopefully) improved solution $x_1$ can become the starting guess for a new round of improvement 
+\begin{equation}
+x_2 = x_1 + \frac{v-f(x_1)}{\partial_x f(x_1)}
+(\#eq:better-guess2)
+\end{equation}
+
+Equations \@ref(eq:better-guess) and \@ref(eq:better-guess2) involve evaluating a function, which we might call better(), at the current guess: $x_0$ to start and then $x_1$.
+$$\text{better}(z) \equiv z + \frac{v-f(z)}{\partial_x f(z)}\ .$$
+
+The form of better() is called a ***Newton step***. The idea is to start with an initial guess $x_0$ and then take successive steps to get closer and closer (hopefully!) to the actual answer $x^\star$:
+
+$$x_1 = \text{better}(x_0)\\
+x_2 = \text{better}(x_1)\\
+x_3 = \text{better}(x_2)\\
+\vdots\\
+x_i = \text{better}(x_{i-1})\\\ \\
+\text{until eventually}\ \|f(x_i) - v\|\ \text{is practically zero.}$$
+
+
+
+```{r newton-step, echo=FALSE, fig.cap="A Newton-step calculation seen graphically. The brown function is approximated as a straight-line function at the initial point $x_0$. The resulting $x_1$ is where that straight line crosses the value $v$ on the output scale. Here, $x_1$ is a little to the left of the actual place where $f()$ crosses $v$. The Newton step produced an improved guess, since $\\|x_1 - x^\\star\\|$ is smaller than $\\| x_0 - x^\\star\\|$.", warning=FALSE}
 raw <- rfun(~ x, seed = 1933)
 x0=3.0
-ticks <- latex2exp::TeX(c(r'(x^*)', "x_0"))
+ticks <- latex2exp::TeX(c(r'(x^*)', "x_0", "x_1"))
 f <- makeFun(raw(x) ~ x)
 df <- D(f(x) ~ x)(x0)
 fhat <- makeFun(f(x0) + df*(x-x0) ~ x)
-xstar <- solve_step(f(x) ~ x, v=10, x0=x0)
+x1 <- solve_step(f(x) ~ x, v=10, x0=x0)
+xstar <- Zeros(f(x) - 10 ~ x, domain(x=-3:3))$x
 slice_plot(f(x) ~ x, domain(x=-2:5), color="brown", label_text="f(x)", label_vjust=-0.5) %>%
   slice_plot(fhat(x) ~ x, color="blue", linetype="dotted") %>%
   gf_hline(yintercept=~ 10, color="magenta") %>%
-  gf_text(10 ~ 4, label="v=10", color="magenta", vjust = -0.5) %>%
+  gf_text(10 ~ 4, label="v = 10", color="magenta", vjust = -0.5) %>%
   gf_text(1 ~ 2, label="Straight-line approx. at x0", color="blue", angle=-35) %>%
-  gf_text(0 ~ xstar, label="Result", angle=90) %>%
-  gf_refine(scale_x_continuous(breaks = c(xstar, x0), labels = ticks, minor_breaks = seq(-2, 5, by=0.5)), coord_fixed(ratio=1/5)) +
+  gf_text(0 ~ x1, label="Result x1", angle=90) %>%
+  gf_refine(scale_x_continuous(breaks = c(xstar, x0, x1), labels = ticks, minor_breaks = NULL), coord_fixed(ratio=1/5)) +
   theme(axis.text.x = element_text(size = 15))
 ```
 
@@ -85,123 +111,56 @@ slice_plot(f(x) ~ x, domain(x=-2:5), color="brown", label_text="f(x)", label_vju
 
 
 ::: {.example data-latex=""}
-For the function $$f(x) \equiv x^2 - x$$ find $x^\star$ such that $f(x^\star) = 4$, that is, $v=4$. We'll start with a guess: $x_0 = 3$. Note that the guess is not the answer: $f(3) = 9 - 3 = 6 \neq 4$.
+Construct the Newton-step function for the function $$f(x) \equiv x^2 - x$$ to find $x^\star$ such that $f(x^\star) = 4$.
 
-We can compute $f'(x)$ in the standard way:
-$$f'(x) \equiv \partial_x f(x) = 2 x - 1$$, giving $f'(x_0) = f'(3) = 6 - 1 = 5$. Now plug the components $x_0 = 3$ (our guess), $f(x_0) = 6$ (the value of $f()$ at our guess), $v=4$, and $f'(x_0) = 5$ into the formula for $x^\star$. 
-$$x^\star = 3 + (4-6)/5 = 3 - 2/5 = 2.6\ .$$
-We have our answer! We can confirm that $x^\star$ is the answer by plugging it in to $f()$:
-$$f(2.6) = 2.6^2 - 2.6 = 4.16\ .$$
-Wait a minute! The idea was to find $x^\star$ such that $f(x^\star) = 4$. We didn't quite do that. Our proposed candidate, $x^\star = 2.6$ is *almost* right, but not exactly right.
+Since $\partial_x f(x) = 2 x - 1$, the Newton-step function will be:
+$$\text{better}(z) = z - \frac{z^2 - z - 4}{2 z - 1}$$
+We'll pick $x_0 = 2$ as a starting guess:
 
-The traditional math instructor would say, "$x^\star = 2.6$ is a **wrong answer**." In response, the student might look hard for what he or she has done wrong.
+```{r echo=FALSE}
+better <- function(z) {z - (z^2 - z - 4)/(2*z-1)}
+```
 
-But we will take a gentler point of view. $x^\star = 2.6$ is a **good effort**, a **step** forward. Even though $f(x^star) = 4.16$, which is not exactly what the problem asked for, $x^\star = 4.16$ is much better than our initial guess $x_0 = 3$ which produced $f(x_0) = 6$.  That is, 
-$$\underbrace{\left|\strut \overbrace{f(x^\star)}^{4.16} - v \right|}_{\left|4.16 - 4\right| = 0.16}\ \  <\ \ \underbrace{\left|\strut \overbrace{f(x_0)}^6 - v \right|}_{\left|6 - 4\right|= 2}\ .$$
-Although we haven't completed the task, we've gotten closer. In much the same way, the task of digging a well needs to start with the first shovelful of dirt removed from ground: It's a start!
+$$\text{better}(x_0 = 2) = 2.66666 \longrightarrow x_1 : f(x_1) = 4.444444\\
+\text{better}(x_1 = 2.66666) = 2.56410 \longrightarrow x_2 : f(x_2) = 4.010419\\
+\text{better}(x_2 = 2.56410) = 2.56155  \longrightarrow x_3  : f(x_3) = 4.000001$$
+
+The output  $f(x_3)$ is practically the desired $v=4$: We have our answer: $x^\star = 2.56155$! 
+
+Just the first Newton step, producing $x_1 = 2.666666$ did not completely solve the problem. You can think of the problem like the task of digging a well. You need to start with the first shovelful. Then take another and another and ... until you have your well.
 :::
 
-One excellent advantage of this approach to $x^\star$ is the ease with which it can be translated to instructions for a computer. We'll write such a function here. We don't expect you to understand every detail, but hopefully you can see an outline of what's going on:
+Newton's method involves creating a custom `better()` function for each new problem. But we can create the functions automatically:
 
 ```{r}
-solve_step <- function(tilde, v, x0) {
+make_better_fun <- function(tilde, v) {
   f <- makeFun(tilde)
   df <- D(tilde)
-  xstar <- x0 + (v-f(x0))/df(x0)
-  
-  return(xstar)
+  better <- function(z) {z + (v-f(z))/df(z)}
+
+  return(better)
 }
 ```
-Now that the computer knows the algorithm, we can easily test it out:
+Let's test it out:
 ```{r}
 f <- makeFun(x^2 - x ~ x)
-xstar <- solve_step(f(x) ~ x, v=4, x0=3)
+better <- make_better_fun(f(x) ~ x, v=4)
+# Take three steps starting at x0=3
+xstar <- 3 %>% better() %>% better() %>% better()
+f(xstar)
 ```
 
-`r {xstar} |> oneline_block(width="50%")`
-
-Confirming that `xstar` is the answer ...
-
-`r {f(xstar)} |> oneline_block(width="50%", comment="Should be 4")`
-
-Not exactly the right answer, but a **good effort.**
-
-By the way, now that we have `solve_step()`, which makes a **good effort** We can try making another good effort by plugging in `xstar` in place of our initial guess `x0`. That is,
-
-```{r}
-xstar <- solve_step(f(x) ~ x, v=4, x0=xstar)
-```
-`r {xstar} |> oneline_block(width="50%")`
-
-
-Do we have the answer now?
-
-`r {f(xstar)} |> oneline_block(width="50%", comment="should be 4")`
-
-Not quite. But it looks like we're close.
-
-::: {.example data-latex=""}
-Calculate $\sqrt[3]{6}$ using the `solve_step()` method.
-
-$\sqrt[3]{6}$ is the solution to the problem traditionally framed as "Solve for $x$ in $x^3 = 6$."
-
-In the function-oriented approach solving described in this section, we have
-$$f(x) \equiv x^3 \ \ \text{and} \ \ \ v=6$$
-We'll start with a guess: $x_0 = 2$. (This is motivated by noting $2^3 = 8$, which is pretty close to the desired $v=6$.)
-
-```{r}
-f <- makeFun(x^3 ~ x)
-xstar <- solve_step(f(x) ~ x, v=6, x=2)
-```
-`r {xstar} |> oneline_block()`
-`r {f(xstar)} |> oneline_block()`
-
-
-Taking another shovel of dirt out of the well that we've started to dig ...
-
-```{r}
-xstar <- solve_step(f(x) ~ x, v=6, x=xstar)
-```
-`r {xstar} |> oneline_block()`
-`r {f(xstar)} |> oneline_block()`
-:::
-
-Let's briefly consider the process of finding $x^\star$ from a slightly different perspective. 
-
-$$x^\star = x_0 + \underbrace{\ \ \frac{v-f(x_0)}{f'(x_0)}\ \ }_{\text{"Newton step"}}$$
-We can think of $x^\star$ as being the result of taking a ***step*** from the starting point $x_0$ that leads to the destination. This is often called a ***Newton step*** since Newton was an early author of the method. Overall, the process of taking successive Newton steps to get closer and closer to the goal is called the [***Newton-Raphson method***](https://en.wikipedia.org/wiki/Newton%27s_method).
-
-::: {.example data-latex=""}
 The process we've presented here is not guaranteed to work. By exploring cases where it fails, ***computational mathematicians***^[A traditional name for such a person is "numerical analyst."] have developed strategies for increasing the range of situations for which it works. 
 
-As an example of a difficult situation, consider $x_0$ accidentally picked close to an argmax, that is $f'(x_0) \approx 0$.  (The situation is illustrated in Figure \@ref(fig:newton-too-big).) The length of the Newton step is proportional to $1/f'(x_0)$, which is large when $f'(x_0) \approx 0$. Such a Newton step can produce $x^\star$ further from the actual solution rather than closer to it. 
+::: {.rmosaic data-latex=""}
 
-```{r newton-too-big, echo=FALSE, fig.cap="An unlucky choice (magenta) of $x_0$ near a local maximum has resulted in a Newton step that is too long. The Newton step creates $x^\\star \\approx -3$, far to the left of the actual zero crossing which is near $x\\approx 0$."}
-raw <- rfun(~ x, seed=835)
-f <- makeFun(raw(x) + x ~ x)
+The R/mosaic function `Zeros()` incorporates several good practices, including attempting to make a good guess for $x_0$ automatically. To use `Zeros()`, you construct a function $g(x) \equiv f(x) - v$, and `Zeros()` will produce a good $x^\star$ or, even better, a set of them. 
 
-df <- D(f(x) ~ x)
-x0 <- 1.7
-a <- f(x0)
-b <- df(x0)
-approxfun <- makeFun(a + b*(x-x0) ~ x)
-slice_plot(f(x) ~ x, domain(x=-4:4)) %>%
-  slice_plot(approxfun(x) ~ x,  color="magenta", linetype="dotted") %>%
-  gf_hline(yintercept = ~ 0, color="brown") %>%
-  gf_text(0 ~ x0, label="x0", color="blue", vjust=-1, hjust=1) %>%
-  gf_vline(xintercept = ~ x0, color="blue", linetype="dashed")
-
-```
-
-This understanding can be integrated into the `solve_step()` algorithm in several ways  A simple modification is to take not a **full** Newton step, but a fraction of one.
-
-Such modifications, including more sophisticated ones that monitor progress toward the goal, can involve elaborate computer programming. Since this book is not about programming *per se*, we won't head down this path. But we do point out that better, more reliable, professional-level computer functions for finding $x^\star$ are available, and you should use them.
-
-The R/mosaic function `Zeros()` incorporates several good practices, including attempting to make a good guess for $x_0$ automatically. To use `findZero()`, you construct a function $g(x) \equiv f(x) - v$, and `findZero()` will produce a good $x^\star$ or, even better, a set of them. Illustrating with a previous example:
+`Zeros()` returns a data frame with two colums. The first gives input values that correspond to an output near zero. The second column, named `.output.` calculates the output (and will be near zero). Illustrating with a previous example:
 
 ```{r}
 g <- makeFun(x^3 - 6 ~ x)
-xstar <- findZeros(g(x) ~ x, domain(x=c(1,6)))
+xstar <- Zeros(g(x) ~ x, domain(x=c(1,6)))
 ```
 
 `r {xstar} |> oneline_block()`
@@ -211,12 +170,7 @@ How well did this work?
 `r {with(xstar, g(x))} |> oneline_block(width="50%", comment="should be zero")`
 :::
 
-Solving a function with two or more inputs can be done in an analogous manner. Pick an initial point $(x_0, y_0, ...)$ and write a first-order polynomial approximation, set it equal to $v$, and find $x^\star, y^\star, ...$. 
 
-$$g(x, y, ...) \approx g(x_0, y_0) + \partial_x g(x_0, y_0)\, \left[x^\star - x_0\right] + \partial_y g(x_0, y_0)\, \left[y^\star - y_0\right] + \cdots = v$$
-This is a somewhat daunting jumble of symbols, so the "find $x^\star, y^\star, ...$" may seem easier said than done. And many students, with an experience solving systems of multiple equations, may start out thinking that no solution can be found with just one equation. But, in reality, there is an infinite number of solutions. For instance, you could set all but one of the starred quantities to zero, leaving you with one linear equation in one variable: easy! 
-
-In Block 5, Section \@ref(finding-the-coast) we'll return to this problem of picking suitable values for $(x^\star, y^\star, ...)$ in a framework that dramatically simplifies the notation and points to a solution where the starred values can be as small as possible. 
 
 ## Task: Argmax
 
@@ -228,7 +182,7 @@ $$\widehat{f(x)} \equiv f(x_0) + f'(x_0) \left[x - x_0\right] + \frac{1}{2} f''(
 Remember that $f(x_0)$, $f'(x_0)$ and $f''(x_0)$ are all fixed quantities; they don't depend on $x$. 
 
 To find the argmax of $\widehat{f(x)}$, differentiate it with respect to $x$ and find the zero of the derivative:
-$$\partial_x \widehat{f(x)} = f'(x_0) \underbrace{\partial_x\left[x - x_0\right]}_{1} +
+$$\partial_x \widehat{f(x)} = f'(x_0) \underbrace{\partial_x\left[x - x_0\right]}_{{\large\strut}1} +
 \frac{1}{2} f''(x_0) \underbrace{\partial_x\left[x-x_0\right]^2}_{2 \left[x - x_0\right]} = 0
 $$
 
@@ -355,13 +309,13 @@ The other six operations on functions listed above, there is one (or sometimes m
 2. Differentiate  `D()`. Returns a ***function***.
 3. Anti-differentiate `antiD()`. Returns a ***function***.
 4. Integrate: `Integrate()`. Returns a ***number***.
-5. Solve    `Solve()`. Returns a ***data frame*** with one row for each solution found.
+5. Solve    `Zeros()`. Returns a ***data frame*** with one row for each solution found.
 6. Argmax   `argM()` Finds one argmax and one argmin in the domain. `local_argM()` looks for all the local argmaxes and argmins. Returns a ***data frame*** with one row for each argmax or argmin found.
 7. Iterate  `Iterate()`. Returns a data frame with the value of the initial input and the output after each iteration.
 
 Each of operations 4-6 involves the specification of a ***domain***. For `Integrate()`, this is, naturally, the domain of integration: the upper and lower bounds of the integral
 
-For `Solve()` and `argM()` the domain specifies where to search for the answer. `Iterate()` is slightly different. After the tilde expression comes an initial value $x_0$ and then `n=` which you use to set the number of times to iterate.
+For `Zeros()` and `argM()` the domain specifies where to search for the answer. `Iterate()` is slightly different. After the tilde expression comes an initial value $x_0$ and then `n=` which you use to set the number of times to iterate.
  
 Another two R/mosaic functions that you frequently use generate graphics. 
 
@@ -392,14 +346,16 @@ Evaluate the objective function at the vertices of the simplex. One of the verti
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j2gcuRVbwR0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-
-
 ## Exercises
 
 `r insert_calcZ_exercise("XX.XX", "THpUtP", "Exercises/aspen-dig-ship.Rmd")`
 
-- CONSTRUCT SOME NEWTON STEPS by hand
-- Pick an initial guess by graphing the function.
-- Dimension of $-f'(x_0) / f''(x_0)$
-- Create a Newton step for optimization
-- Know the arguments to the functions `D()`, `antiD()`, `Solve()`, `argM()`, and `Iterate()`, and be able to use them.
+`r insert_calcZ_exercise("XX.XX", "ZRYTU3", "Exercises/water-sink-ship.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "36xJU8", "Exercises/fish-ring-door.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "6bX0Zx", "Exercises/kid-rise-coat.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "gCKs9N", "Exercises/birch-wake-linen.Rmd")`
+
+
