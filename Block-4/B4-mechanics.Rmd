@@ -20,33 +20,54 @@ The table holding the heavy load does no work. Work is done only when the load i
 
 > Work is force times displacement.
 
-Consider, for instance, the work involved in lifting a mass $m$ to table height $h$. The lifting is accomplished by applying an upward force to counter the force of gravity. The gravitational force on the mass is $m g$, where $g$ is the instantaneous acceleration of an object released to fall freely (about 9.8 m/s^2^ near the Earth's surface). The distance traveled is $h$. So the work performed on the mass is $m g h$.
+Consider, for instance, the work involved in lifting a mass $m$ to table height $h$. 
 
-[Picture of a mass (on wheels) being lifted to a table.]  [Picture of a mass being moved by along a ramp up to the table.] [Picture of a mass being hauled up by a pulley to the table height.]
+```{r echo=FALSE, out.width="15%", fig.align="center"}
+knitr::include_graphics("www/mass-on-table.png")
+```
+
+The lifting is accomplished by applying an upward force to counter the force of gravity. The gravitational force on the mass is $m g$, where $g$ is the instantaneous acceleration of an object released to fall freely (about 9.8 m/s^2^ near the Earth's surface). The distance traveled is $h$. So the work performed on the mass is $m g h$.
+
+
 
 Notice that the work has nothing to do with the **speed** with which the mass is moved up to the table. Lift it fast or lift it slow, it amounts to the same mechanical work. (Of course, to human perception, lifting an object very slowly up to table height involves more effort than snapping it up quickly. But human effort is only peripherally related to mechanical work.)
 
 Let's introduce a machine to the situation in the form of a ramp or a pulley.  The purpose of the machine is to ease human labor by changing the strength or direction of forces. You can perhaps intuit that rolling the mass up the ramp will be an easier task than lifting it. How so?
 
+```{r echo=FALSE, out.width="35%", fig.align="center"}
+knitr::include_graphics("www/mass-up-ramp.png")
+```
+
 The ramp can be seen as a sort of partial table. The ramp does most of what's needed to hold the mass up, the human worker need only supply a modest additional force, parallel to the ramp surface, to keep the mass in place. Calculating that modest additional force can be accomplished by a basic mathematical technique in mechanics: ***decomposing a vector***.
 
 You've already encountered vectors (in Section `r Sections$gradient_vector`) in the context of the ***gradient vector***, the vector that points in the steepest uphill direction of a function $f(x,y)$ at any given input $(x,y)$. Recall that the gradient vector was written as a set of values; the partial derivative of $f()$ with respect to each of its inputs in turn. That is, $$\nabla f(x,y) = \left({\large\strut} \partial_x f(x,y),\ \  \partial_y f(x,y)\right)\ .$$ In this representation, the vector $\nabla f(x, y)$ is decomposed into two components: $\partial_x f(x,y)$ and $\partial_y f(x,y)$.  Similarly, we can decompose the vector of gravitational force into two components, one along the surface of the ramp and the other perpendicular to the ramp.
 
-```{r ramp-decomposition, echo=FALSE, fig.cap="Decomposing the vector of gravitational force into two, perpendicular components."}
-# [Picture of ramp with perpendicular graph paper imposed.]
+```{r ramp-decomposition, echo=FALSE, fig.cap="Decomposing the vector of gravitational force into two, perpendicular components, one tangent to the ramp and the other perpendicular to it.", out.width="35%", fig.align="center"}
+knitr::include_graphics("www/ramp-decomposition.png")
 ```
 
 
-We'll return to the idea of vector decomposition in much more detail in Block 5 of this course; it has a major if unexpected role to play in fitting models to data. But for now, we'll simply examine the right triangle in Figure \@ref(fig:ramp-decomposition). In that triangle, the gravitational force vector $m{\mathbf g}$is in the role of the hypothenuse. The component along the ramp is $m \sin(\theta) {\mathbf g}$. The worker pushing the mass up the ramp need provide the fraction  $\sin(\theta)$ as much force as the worker picking up the mass without a ramp. Thus human effort is reduced by the machine.
+We'll return to the idea of vector decomposition in much more detail in Block 5 of this course; it has a major (though perhaps unexpected) role to play in fitting models to data. But for now, we'll simply examine the right triangle in Figure \@ref(fig:ramp-decomposition). In that triangle, the gravitational force vector $F_{gravity} = m g$ is in the role of the hypothenuse. The component along the ramp is $m \sin(\theta) g$. The worker pushing the mass up the ramp need provide the fraction  $\sin(\theta)$ as much force as the worker picking up the mass without a ramp. Thus human effort is reduced by the machine.
 
-What about the mechanical work? Is that also reduced? Remember that mechanical work is the product of force times distance. The force has been reduced to $m \sin(\theta) {\mathbf g}$, but the distance $D_{ramp}$ along the ramp is much longer than the distance $h$ from floor to table top. Again, referring to the ramp itself as a right triangle, you can see that $D_{ramp}\sin(\theta) = h$ or, $D_{ramp} = h / \sin(\theta)$.  The total mechanical work, the product of applied force times distance moved is $$m \sin(\theta) g \times D_{ramp} = m \sin(\theta) g \times \frac{h}{\sin(\theta)} = m g h\ .$$ The ramp does nothing to reduce the mechanical work needed to lift the mass!
+What about the mechanical work? Is that also reduced? Remember that mechanical work is the product of force times distance. The force has been reduced to $m \sin(\theta) g$, but the distance $D_{ramp}$ along the ramp is much longer than the distance $h$ from floor to table top. 
+
+```{r echo=FALSE, out.width="30%", fig.align="center"}
+knitr::include_graphics("www/ramp-triangle.png")
+```
+
+Again, referring to the ramp itself as a right triangle, you can see that $D_{ramp}\sin(\theta) = h$ or, $D_{ramp} = h / \sin(\theta)$.  The total mechanical work, the product of applied force times distance moved is $$m \sin(\theta) g \times D_{ramp} = m \sin(\theta) g \times \frac{h}{\sin(\theta)} = m g h\ .$$ The ramp does nothing to reduce the mechanical work needed to lift the mass!
 
 We usually think of ramps as an inclined plane. But, from Blocks 1 to 3 we have the tools to figure out the work for a (smooth) ramp with any shape at all. We're going to do this not because odd-shaped ramps are encountered frequently, but to provide an example in a relatively familiar setting of some techniques we will use elsewhere in this chapter.
 
 The ramp we have in mind has a surface whose height $f(x)$ is zero at the foot ($x=a$) and reaches $f(x=b) = h$ where it joins the table. The slope of the ramp is, as you know, $\partial_x f(x)$. It's helpful to convert this rise/run formulation of slope into the slope-angle form we used to study the simple ramp. [Zoomed in theta diagram here.] As you can see from the diagram, which zooms in on one place on the ramp, rise over run amounts to $L\sin(\theta) / L\cos(\theta) = \partial_x f(x) = \tan(\theta)$, with the result:
 $$\theta = \arctan({\large\strut}\partial_x f(x))\ .$$
-Consequently, the force that needs to be applied parallel to the ramp's surface is $m \sin(\arctan(\partial_x f(x))) g = m \sin(theta) g$. To find the work done in pushing the mass an infinitesimal distance along the ramp we need to know the ***instantaneous length*** of the ramp. This is potentially confusing to the new reader since we've already said that the distance is infinitesimal. But as you know, infinitesimal length is different from zero length. We'll write $dx$ as an infinitesimal increment along the floor, but the zoomed-in surface of the ramp is the hypotenuse of a right triangle where one leg has length $dx$ and the other has length slope times distance or $\partial_x f(x) dx$. [Zoomed in length diagram here]
-So the hypotenuse has length 
+Consequently, the force that needs to be applied parallel to the ramp's surface is $m \sin(\arctan(\partial_x f(x))) g = m \sin(theta) g$. To find the work done in pushing the mass an infinitesimal distance along the ramp we need to know the ***instantaneous length*** of the ramp. This is potentially confusing to the new reader since we've already said that the distance is infinitesimal. But as you know, infinitesimal length is different from zero length. We'll write $dx$ as an infinitesimal increment along the floor, but the zoomed-in surface of the ramp is the hypotenuse of a right triangle where one leg has length $dx$ and the other has length slope times distance or $\partial_x f(x) dx$. 
+
+```{r echo=FALSE, out.width="80%", fig.align="center"}
+knitr::include_graphics("www/ramp-segment.png")
+```
+
+The hypotenuse of the infinitesimal segment of the ramp has length 
 $dL = \sqrt{\strut dx + \partial_x f(x) dx}$, or $dL = \sqrt{\strut 1 + \partial_x f(x)}\ dx$. Things are a bit simpler if we write $dL$ in terms of the slope angle $\theta$. Since $dx = \cos(\theta) dL$, we know $dL = dx/\cos(\theta)$. Consequently the infinitesimal of work is $$dW \ = \ m g \frac{\sin(\theta)}{\cos(\theta)}\ dx\  = \ m g \tan(\theta) dx \ .$$
 The total work is the accumulation of $dW$ over the extent of the ramp. In other words, $$\int_a^b m g \tan(\theta)\ dx\ = \ \int_a^b m g \tan(\arctan(\partial_x f(x)))\ dx = \int_a^b m g \partial_x f(x) dx\ ,$$ where we've used the formula $\theta = \arctan(\partial_x f(x))$. From the "fundamental theorem of calculus" we know that 
 
@@ -68,13 +89,10 @@ Suppose we want to lift the 1 kg object from the Earth's surface to 10000 km awa
 $$\int_{6.47\times 10^6}^{16.47\times 10^6} \frac{1 \text{kg}\ M_e\ G}{r^2}\ dr = -\left.  {\Large\strut}\frac{1 \text{kg}\ M_e\ G}{r}\right|_{6.47\times 10^6}^{16.47\times 10^6} \\\ \\\ \\= 
 -\ 3.986 \times 10^{14}\left[\strut \frac{1}{16.47 \times 10^6} - \frac{1}{6.47 \times 10^6}\right] \text{N m} \\\ \\\ \\= 37,405,840\ \text{J}.$$
 
-A Newton-meter (N m) is also known as a Joule (J), a unit of energy. 
-::L:
+A Newton-meter (N m) is also known as a Joule (J), a unit of energy. With 37,000,000 J, you could toast about 2000 pieces of bread.
+:::
 
 
-EXERCISE: Find the energy needed to lift the 1kg object to 20,000 km from the Earth's surface. [They will need to do the computing. Hand in the R statement that you used. Recall that you can write scientific notation using the computer `e` syntax, e.g. $6.47\times 10^6 =$ `6.47e6`.]
-
-EXERCISE: Lift an object 10,000 km from the surface of the Moon. [Show a picture of the Saturn 5 and of the LEM. http://heroicrelics.org/info/saturn-v/saturn-v-general.html] The lunar module was a two-stage vehicle designed for space operations near and on the Moon. The spacecraft mass of 15103 kg was the total mass of the LM ascent and descent stages including propellants (fuel and oxidizer). The dry mass of the ascent stage was 2445 kg and it held 2376 kg of propellant. Hydrogen has energy density of about 120 MJ/kg. The hydrogen/oxygen combination is about 13 MJ/kg
 
 ## Energy
 
@@ -113,7 +131,7 @@ Solving for $v$ we get $v^2 = 2 \times 37,405,840 \text{kg}\ \text{m}^2\ \text{t
 ::: {.intheworld data-latex=""}
 The photograph ([source](https://www.coachmag.co.uk/exercises/dumbbell-exercises)) shows a simple exercise: holding a dumbbell out horizontally. 
 
-```{r echo=FALSE, out.width="50%", fig.align="center"}
+```{r echo=FALSE, out.width="40%", fig.align="center"}
 knitr::include_graphics("www/barbell-exercise.png")
 ```
 
@@ -382,7 +400,6 @@ Step 1: Differentiate both sides with respect to $t$: $$\partial_t \left[\strut 
 
 Step 2: Applying the chain rule to both sides gives $$2\, D(t)\, \partial_t D(t) = 2\, y(t)\ \partial_t y(t)\ \ \implies\ \ \partial_t y(t) = \frac{D(t)}{y(t)}\,\partial_t D(t)\ .$$ Re-arranging terms and using the trigonometric fact $y(t) = D(t) \sin\left(\strut\theta(t)\right)$, we get  $$\partial_t y(t) = \frac{1}{\sin\left(\strut \theta(t)\right)}\, \partial_t D(t)\ .$$
 
-
 Step 3: We know from trigonometry that $D(t) = D_0/\cos(\theta(t))$. Differentiate both sides with respect to $t$ to get another form for $\partial_t D(t)$:
 $$\partial_t D(t) = D_0\, \partial_t \frac{1}{\cos\left(\strut\theta(t)\right)} = D_0 \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)$$
 
@@ -415,11 +432,13 @@ box_set(10*((x - xbar)^2 + (y-ybar)^2)~ x + y, Zcalc::Blob1, dx = 0.01, sum=TRUE
 
 ## Exercises
 
+* Find the energy needed to lift the 1kg object to 20,000 km from the Earth's surface. [They will need to do the computing. Hand in the R statement that you used. Recall that you can write scientific notation using the computer `e` syntax, e.g. $6.47\times 10^6 =$ `6.47e6`.]
 
+* Lift an object 10,000 km from the surface of the Moon. [Show a picture of the Saturn 5 and of the LEM. http://heroicrelics.org/info/saturn-v/saturn-v-general.html] The lunar module was a two-stage vehicle designed for space operations near and on the Moon. The spacecraft mass of 15103 kg was the total mass of the LM ascent and descent stages including propellants (fuel and oxidizer). The dry mass of the ascent stage was 2445 kg and it held 2376 kg of propellant. Hydrogen has energy density of about 120 MJ/kg. The hydrogen/oxygen combination is about 13 MJ/kg
 
 * Calculate the forward force generated by a rocket engine A that generates a mass $m$ of backward-moving particles at velocity $v_A$. Compare this to an engine B that uses the same energy of combustion to entrain a much larger mass, say $10 m$, to a slower velocity $v_B$. Conservation of energy dictates that $\frac{1}{2} m v_A^2 = \frac{1}{2} 10 m v_B^2$, so you can figure out $v_B$ from $v_A$. Given $v_B$, you can find the momentum of the entrained mass. How does the force generated by engine B compare to the force generated by engine A. 
 
-* Provide polygons and a point generator. Find the center of mass. Find the moment of inertia. Find the moment of inertial around a point other than the center of mass. [You've got Blob1 through Blob4 ]
+* Provide polygons and a point generator. Find the center of mass. Find the moment of inertia. Find the moment of inertial around a point other than the center of mass. [You've got `Zcalc::Blob1` through Blob4 ]
 
 * Length of cable laid out along a hill: $$\int_a^b \rho\, \sqrt{1 + f'(x)^2}\,  dx$$ Give functions like `rfun(~ x, seed = 633)`
 
