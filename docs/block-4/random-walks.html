@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 34 Random walks | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 34 Random walks | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 34 Random walks | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="mechanics.html"/>
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><span style="font-size: 150%;><strong><a href="../index.html">MOSAIC Calculus</a></strong></span></li>
+<li><em><a>Calculus for the 21st century</a></em></li>
+<li><a>Daniel Kaplan</a></li>
+<hr>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><strong><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="block4-intro-draft.html"><a href="block4-intro-draft.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="27" data-path="operations.html"><a href="operations.html"><i class="fa fa-check"></i><b>27</b> Operations on functions</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="operations.html"><a href="operations.html#task-solve"><i class="fa fa-check"></i><b>27.1</b> Task: Solve</a></li>
+<li class="chapter" data-level="27.2" data-path="operations.html"><a href="operations.html#task-argmax"><i class="fa fa-check"></i><b>27.2</b> Task: Argmax</a></li>
+<li class="chapter" data-level="27.3" data-path="operations.html"><a href="operations.html#task-iterate"><i class="fa fa-check"></i><b>27.3</b> Task: Iterate</a></li>
+<li class="chapter" data-level="27.4" data-path="operations.html"><a href="operations.html#software-for-the-tasks"><i class="fa fa-check"></i><b>27.4</b> Software for the tasks</a></li>
+<li class="chapter" data-level="27.5" data-path="operations.html"><a href="operations.html#algorithmic-techniques"><i class="fa fa-check"></i><b>27.5</b> Algorithmic techniques</a></li>
+<li class="chapter" data-level="27.6" data-path="operations.html"><a href="operations.html#exercises"><i class="fa fa-check"></i><b>27.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="data-driven-functions.html"><a href="data-driven-functions.html"><i class="fa fa-check"></i><b>28</b> Data-driven functions</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="data-driven-functions.html"><a href="data-driven-functions.html#generating-smooth-motion"><i class="fa fa-check"></i><b>28.1</b> Generating smooth motion</a></li>
+<li class="chapter" data-level="28.2" data-path="data-driven-functions.html"><a href="data-driven-functions.html#piecewise-but-smooth"><i class="fa fa-check"></i><b>28.2</b> Piecewise but smooth</a></li>
+<li class="chapter" data-level="28.3" data-path="data-driven-functions.html"><a href="data-driven-functions.html#cubic-splines"><i class="fa fa-check"></i><b>28.3</b> C<sup>2</sup> smooth functions</a></li>
+<li class="chapter" data-level="28.4" data-path="data-driven-functions.html"><a href="data-driven-functions.html#bézier-splines"><i class="fa fa-check"></i><b>28.4</b> Bézier splines</a></li>
+<li class="chapter" data-level="28.5" data-path="data-driven-functions.html"><a href="data-driven-functions.html#exercises-1"><i class="fa fa-check"></i><b>28.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html"><i class="fa fa-check"></i><b>29</b> Constraints and optimization</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#optimization-or-design"><i class="fa fa-check"></i><b>29.1</b> Optimization or design?</a></li>
+<li class="chapter" data-level="29.2" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#constraints-graphically"><i class="fa fa-check"></i><b>29.2</b> Constraints graphically</a></li>
+<li class="chapter" data-level="29.3" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-constraints"><i class="fa fa-check"></i><b>29.3</b> Multiple constraints</a></li>
+<li class="chapter" data-level="29.4" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#changing-constraints"><i class="fa fa-check"></i><b>29.4</b> Changing constraints</a></li>
+<li class="chapter" data-level="29.5" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#incommensurate-objectives"><i class="fa fa-check"></i><b>29.5</b> Incommensurate objectives</a></li>
+<li class="chapter" data-level="29.6" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-objectives"><i class="fa fa-check"></i><b>29.6</b> Multiple objectives</a></li>
+<li class="chapter" data-level="29.7" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multi-objective-decision-making"><i class="fa fa-check"></i><b>29.7</b> Multi-objective decision making</a></li>
+<li class="chapter" data-level="29.8" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#commensurate-and-incommensurate"><i class="fa fa-check"></i><b>29.8</b> Commensurate and incommensurate</a></li>
+<li class="chapter" data-level="29.9" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-objectives-1"><i class="fa fa-check"></i><b>29.9</b> Multiple objectives</a></li>
+<li class="chapter" data-level="29.10" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#yours-and-mine"><i class="fa fa-check"></i><b>29.10</b> Yours and mine</a></li>
+<li class="chapter" data-level="29.11" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#follow-the-gradient"><i class="fa fa-check"></i><b>29.11</b> Follow the gradient!</a>
+<ul>
+<li class="chapter" data-level="29.11.1" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#more-about-qalys-exercise"><i class="fa fa-check"></i><b>29.11.1</b> More about QALY’s: Exercise??</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="future-value.html"><a href="future-value.html"><i class="fa fa-check"></i><b>30</b> Future value</a></li>
+<li class="chapter" data-level="31" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>31</b> Probability</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="probability.html"><a href="probability.html#uncertainty-and-risk"><i class="fa fa-check"></i><b>31.1</b> Uncertainty and risk</a></li>
+<li class="chapter" data-level="31.2" data-path="probability.html"><a href="probability.html#quantifying-uncertainty"><i class="fa fa-check"></i><b>31.2</b> Quantifying uncertainty</a></li>
+<li class="chapter" data-level="31.3" data-path="probability.html"><a href="probability.html#probability-density"><i class="fa fa-check"></i><b>31.3</b> Probability density</a></li>
+<li class="chapter" data-level="31.4" data-path="probability.html"><a href="probability.html#the-cumulative-distribution"><i class="fa fa-check"></i><b>31.4</b> The cumulative distribution</a></li>
+<li class="chapter" data-level="31.5" data-path="probability.html"><a href="probability.html#uniform-gaussian-exponential"><i class="fa fa-check"></i><b>31.5</b> Uniform, gaussian, exponential</a></li>
+<li class="chapter" data-level="31.6" data-path="probability.html"><a href="probability.html#the-expectation-value"><i class="fa fa-check"></i><b>31.6</b> The expectation value</a></li>
+<li class="chapter" data-level="31.7" data-path="probability.html"><a href="probability.html#gaussian-and-sigmoid"><i class="fa fa-check"></i><b>31.7</b> Gaussian and sigmoid</a></li>
+<li class="chapter" data-level="31.8" data-path="probability.html"><a href="probability.html#the-variance"><i class="fa fa-check"></i><b>31.8</b> The variance</a></li>
+<li class="chapter" data-level="31.9" data-path="probability.html"><a href="probability.html#earthquake-preparedness"><i class="fa fa-check"></i><b>31.9</b> Earthquake preparedness</a></li>
+<li class="chapter" data-level="31.10" data-path="probability.html"><a href="probability.html#likelihood-and-expectation-maximization"><i class="fa fa-check"></i><b>31.10</b> Likelihood and Expectation Maximization</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="expectation.html"><a href="expectation.html"><i class="fa fa-check"></i><b>32</b> Expectation</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="expectation.html"><a href="expectation.html#expected-social-security"><i class="fa fa-check"></i><b>32.1</b> Expected Social Security</a></li>
+<li class="chapter" data-level="32.2" data-path="expectation.html"><a href="expectation.html#life-expectancy"><i class="fa fa-check"></i><b>32.2</b> Life expectancy</a></li>
+<li class="chapter" data-level="32.3" data-path="expectation.html"><a href="expectation.html#misunderstanding-life-expectancy"><i class="fa fa-check"></i><b>32.3</b> Misunderstanding life expectancy</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="mechanics.html"><a href="mechanics.html"><i class="fa fa-check"></i><b>33</b> Mechanics</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="mechanics.html"><a href="mechanics.html#work"><i class="fa fa-check"></i><b>33.1</b> Work</a></li>
+<li class="chapter" data-level="33.2" data-path="mechanics.html"><a href="mechanics.html#energy"><i class="fa fa-check"></i><b>33.2</b> Energy</a></li>
+<li class="chapter" data-level="33.3" data-path="mechanics.html"><a href="mechanics.html#momentum"><i class="fa fa-check"></i><b>33.3</b> Momentum</a></li>
+<li class="chapter" data-level="33.4" data-path="mechanics.html"><a href="mechanics.html#center-of-mass"><i class="fa fa-check"></i><b>33.4</b> Center of mass</a></li>
+<li class="chapter" data-level="33.5" data-path="mechanics.html"><a href="mechanics.html#angular-momentum-and-torque"><i class="fa fa-check"></i><b>33.5</b> Angular momentum and torque</a></li>
+<li class="chapter" data-level="33.6" data-path="mechanics.html"><a href="mechanics.html#exercises-2"><i class="fa fa-check"></i><b>33.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="random-walks.html"><a href="random-walks.html"><i class="fa fa-check"></i><b>34</b> Random walks</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="random-walks.html"><a href="random-walks.html#material-to-add"><i class="fa fa-check"></i><b>34.1</b> Material to add</a></li>
+<li class="chapter" data-level="34.2" data-path="random-walks.html"><a href="random-walks.html#objectives"><i class="fa fa-check"></i><b>34.2</b> Objectives</a></li>
+<li class="chapter" data-level="34.3" data-path="random-walks.html"><a href="random-walks.html#the-gaussian"><i class="fa fa-check"></i><b>34.3</b> The gaussian</a></li>
+<li class="chapter" data-level="34.4" data-path="random-walks.html"><a href="random-walks.html#flux"><i class="fa fa-check"></i><b>34.4</b> Flux</a></li>
+<li class="chapter" data-level="34.5" data-path="random-walks.html"><a href="random-walks.html#diffusion"><i class="fa fa-check"></i><b>34.5</b> Diffusion</a></li>
+<li class="chapter" data-level="34.6" data-path="random-walks.html"><a href="random-walks.html#variance-dynamics"><i class="fa fa-check"></i><b>34.6</b> Variance dynamics</a></li>
+<li class="chapter" data-level="34.7" data-path="random-walks.html"><a href="random-walks.html#random-walk"><i class="fa fa-check"></i><b>34.7</b> Random walk</a></li>
+<li class="chapter" data-level="34.8" data-path="random-walks.html"><a href="random-walks.html#mean-square"><i class="fa fa-check"></i><b>34.8</b> Mean square</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="random-walks" class="section level1" number="8">
+<h1><span class="header-section-number">Chapter 34</span> Random walks</h1>
+<div class="underconstruction">
+<p><strong>Under Construction</strong></p>
+<p>Content subject to revision.</p>
+</div>
+<div id="material-to-add" class="section level2" number="8.1">
+<h2><span class="header-section-number">34.1</span> Material to add</h2>
+<p>See diffusion illustration at <a href="https://en.wikipedia.org/wiki/Fick%27s_laws_of_diffusion" class="uri">https://en.wikipedia.org/wiki/Fick%27s_laws_of_diffusion</a></p>
+</div>
+<div id="objectives" class="section level2" number="8.2">
+<h2><span class="header-section-number">34.2</span> Objectives</h2>
+<ul>
+<li>Become aware of the characteristics of the bell-shaped Gaussian hump function.</li>
+<li>Relate spread as measured by “standard deviation” (root mean square) and by “variance” (mean square).</li>
+<li>Observe diffusion from two perspectives: a unruly mob of randomly walking particles and, equivalently, the accumulation of net flux.</li>
+<li>Recognize that diffusion is fast over small distances and very slow over large ones.</li>
+</ul>
+</div>
+<div id="the-gaussian" class="section level2" number="8.3">
+<h2><span class="header-section-number">34.3</span> The gaussian</h2>
+<p>From the start of CalcZ we have used a small set of basic modeling functions which will by now be familiar to you:</p>
+<ul>
+<li>exponential</li>
+<li>logarithm: inverse to exponentials</li>
+<li>power-law</li>
+<li>sinusoid</li>
+<li>hump and sigmoid</li>
+</ul>
+<p>This section gives a more detailed introduction to the hump function and provides a specific algebraic formula that composes an exponentials with a low-order polynomial.</p>
+<p>Start with the low-order polynomial: <span class="math display">\[h(x) = - \frac{(x-\mu)^2}{2 \sigma^2}\]</span> This is, of course a parabola with an argmax <span class="math inline">\(x^\star = \mu\)</span> and a maximum value 0. It is written this way by convention, the point of which is to give names to two features of the function:</p>
+<ul>
+<li>The <strong>mean</strong>, <span class="math inline">\(\mu\)</span>, is the argmax of the function.</li>
+<li>The <strong>variance</strong>, <span class="math inline">\(\sigma^2\)</span>, how “fat” the parabola is.</li>
+</ul>
+<p>(Recall that the Greek letters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are pronounced “mu” and “sigma” respectively.)</p>
+<p>A reasonable person can point out that the domain of the low-order polynomial is <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span>. It’s sensible to define “width” to refer to that part of the domain where the function’s value is non-zero and, better, where “most” of the function is. One way to define “how much” of the function there is uses the area under the curve. The convention that you are about to see defines the width as the domain that contains the central 2/3 of the overall area.</p>
+<p>The sandbox defines the function <span class="math inline">\(h(x)\)</span> and graphs it, with particular emphasis on the range (vertical scale!) from -1 to 0. The graph is annotated with blue and red horizontal lines with y-intercept of 0 and <span class="math inline">\(-\frac{1}{2}\)</span> respectively.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="random-walks.html#cb72-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb72-2"><a href="random-walks.html#cb72-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb72-3"><a href="random-walks.html#cb72-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(  <span class="sc">-</span>(x<span class="sc">-</span>mu)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>) <span class="sc">~</span> x, <span class="at">mu=</span>mu, <span class="at">sigma=</span>sigma)</span>
+<span id="cb72-4"><a href="random-walks.html#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">h</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span>sigma<span class="sc">*</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb72-5"><a href="random-walks.html#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="sc">-</span><span class="fl">0.5</span>), <span class="at">color=</span><span class="fu">c</span>(<span class="st">&quot;dodgerblue&quot;</span>, <span class="st">&quot;orange3&quot;</span>))</span></code></pre></div>
+<p>The <em>width</em> of the parabola is based on the length of the horizontal line segment between the two branches of the parabola. Specifically, the width is defined to be <em>half the length of this line segment</em>. In order to avoid confusion, we’ll use “width” in the usual English sense and a special term, <strong>standard deviation</strong>, to refer to half the length of the line segment. (“Standard deviation” is a good candidate for the worst name ever for a simple concept: a length. Another, equivalent term you will hear for this length is “root mean square,” which is almost as bad. Still, those are the standard terms and you should be careful to use instead of non-standard alternatives.)</p>
+<p><strong>Question A</strong> In the above sandbox, set <code>sigma &lt;- 2</code>. What <em>standard deviation</em> corresponds to <span class="math inline">\(\sigma = 2\)</span>?</p>
+<p>    <span class="Zchoice">1/4<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\sqrt{2}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">2<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">4<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> Still holding <span class="math inline">\(\sigma = 2\)</span>, what is the <em>variance</em> of the function?</p>
+<p>    <span class="Zchoice">1/4<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\sqrt{2}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">2<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">4<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question C</strong> Set <span class="math inline">\(\sigma = 3\)</span>, and read off the graph what is the <em>standard deviation</em> of the function?</p>
+<p>    <span class="Zchoice">1/3<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\sqrt{3}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">3<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">9<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question D</strong> When <span class="math inline">\(\sigma = 3\)</span>, what is the <em>variance</em> parameter?</p>
+<p>    <span class="Zchoice">1/3<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\sqrt{3}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">3<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">9<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question E</strong> Pick a <span class="math inline">\(\sigma\)</span> of your choice, try a few non-zero values for <span class="math inline">\(\mu\)</span>. Read off from the graph the standard deviation. How does the standard deviation depend on <span class="math inline">\(\mu\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The standard deviation is <span class="math inline">\(\mu + \sigma\)</span>.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The standard deviation is <span class="math inline">\(\sqrt{\strut\mu + \sigma^2}\)</span>.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The standard deviation is <span class="math inline">\(\ln(\mu + e^\sigma)\)</span>.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The standard deviation is not affected by <span class="math inline">\(\mu\)</span>.<span class="mcanswer">Excellent! </span></span></li>
+</ol>
+<p><strong>Question F</strong> What is the relationship between the <em>variance</em> <span class="math inline">\(\sigma^2\)</span> and the <em>standard deviation</em> <span class="math inline">\(\sigma\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The standard deviation is the square root of the variance.<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">The standard deviation is 1 over the variance.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">They are completely unconnected concepts.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The variance is the square of the mean, <span class="math inline">\(\mu\)</span>.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>One of the features that make hump functions useful is that they are <strong>local</strong>, the function is practically zero except on a domain of limited width.
+The parabola <span class="math inline">\(h(x) \equiv - \frac{(x - \mu)^2}{2 \sigma^2}\)</span> is non-zero everywhere except at <span class="math inline">\(x = \mu\)</span>, so not at all local.</p>
+<p>To produce our hump function, we compose an exponential function <span class="math inline">\(e^x\)</span> with the polynomial <span class="math inline">\(h(x)\)</span> to get <span class="math display">\[f(x) \equiv e^{h(x)} = \exp\left(-\frac{(x - \mu)^2}{2 \sigma^2}\right)\]</span> This is not yet our “official” hump function, but are getting close!</p>
+<p>The sandbox defines <span class="math inline">\(f(x)\)</span> and graphs it. As with the previous sandbox, the graph is annotated with a blue horizontal line that touches the curve at the argmax and a red horizontal line with a y-intercept at <span class="math inline">\(e^{-1/2}\)</span>.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="random-walks.html#cb73-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb73-2"><a href="random-walks.html#cb73-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb73-3"><a href="random-walks.html#cb73-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(  <span class="fu">exp</span>( <span class="sc">-</span>(x<span class="sc">-</span>mu)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>) ) <span class="sc">~</span> x, <span class="at">mu=</span>mu, <span class="at">sigma=</span>sigma)</span>
+<span id="cb73-4"><a href="random-walks.html#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">f</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span>sigma<span class="sc">*</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">3.5</span>, <span class="fl">3.5</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb73-5"><a href="random-walks.html#cb73-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span>)), <span class="at">color=</span><span class="fu">c</span>(<span class="st">&quot;dodgerblue&quot;</span>, <span class="st">&quot;orange3&quot;</span>))</span>
+<span id="cb73-6"><a href="random-walks.html#cb73-6" aria-hidden="true" tabindex="-1"></a>sigmoid <span class="ot">&lt;-</span> <span class="fu">antiD</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x, <span class="at">lower.bound =</span> <span class="sc">-</span><span class="cn">Inf</span>)</span>
+<span id="cb73-7"><a href="random-walks.html#cb73-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Graph the sigmoid on the domain -10 &lt; x &lt; 10</span></span></code></pre></div>
+<p>Notice that the vertical range of the function is <span class="math inline">\(0 &lt; f(x) \leq 1\)</span>. The argmax is <span class="math inline">\(\mu\)</span>, so <span class="math inline">\(f(\mu) = 1\)</span>. This seems easy and convenient, but one of the purposes of the standard hump function is to define a standard <em>sigmoid</em> function. It’s the sigmoid that we want to have a range from 0 to 1.</p>
+<p>How to scale the hump <span class="math inline">\(f(x)\)</span> to produce a sigmoid with the range 0 to 1? Recall that a sigmoid is the anti-derivative of the corresponding hump. In the sandbox, we use <code>antiD()</code> to compute <span class="math display">\[\int_{-\infty}^x f(u) du\]</span>, which we called <code>sigmoid()</code>. From the graph of <code>sigmoid()</code> you can read off the scaling factor that will make the vertical range of the resulting sigmoid zero to one.</p>
+<p><strong>Question G</strong> Where did the variable <span class="math inline">\(u\)</span> come from in <span class="math display">\[\int_{-\infty}^x f(u) du ?\]</span></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The instructors made a mistake. They will try to be more careful in the future!<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">You can use any name for the variable of integration. The function <span class="math inline">\(\int_{-\infty}^x f(u) du\)</span> will be a function of <span class="math inline">\(u\)</span>, not <span class="math inline">\(x\)</span>.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">You can use any name for the variable of integration. The function <span class="math inline">\(\int_{-\infty}^x f(u) du\)</span> will be a function of <span class="math inline">\(x\)</span>, not <span class="math inline">\(u\)</span>.<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(u\)</span> is the Latin equivalent of <span class="math inline">\(\mu\)</span>.<span class="mcanswer">︎✘ Actually, not. <span class="math inline">\(\mu\)</span> is equivalent to <span class="math inline">\(m\)</span>, as in the word “mean”.</span></span></li>
+</ol>
+<p><strong>Question H</strong> This question will take a bit of detective work in the sandbox. Make a table of a few combinations of different values for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>. For each combination, find the maximum value of the corresponding <code>sigmoid()</code> function. Using this data, choose the correct formula for the maximum value of the sigmoid as a function of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\sqrt{\strut 2 \pi \sigma^2}\)</span><span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\pi \sigma\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sqrt(\strut \mu \pi \sigma)\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sqrt(\strut \pi \sigma^2 / \mu)\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>Putting all this together, we arrive at our “official” standard hump function, called the <em>Gaussian</em> function:</p>
+<p><span class="math display">\[g(x) \equiv \frac{1}{\sqrt{\strut2\pi\sigma^2}} e^{-(x-\mu)^2 / 2 \sigma^2}\]</span></p>
+</div>
+<div id="flux" class="section level2" number="8.4">
+<h2><span class="header-section-number">34.4</span> Flux</h2>
+<p>Recall Newton’s Law of Cooling, <span class="math inline">\(\dot{T} = - k (T - T_a)\)</span> Although temperature was hardly understood as a physical phenomenon in Newton’s era, with today’s sensibility you can understand that energy is flowing into or out of the object from the ambient environment. The word <em>flux</em> is often used in mathematics to refer to such flows.</p>
+<p>We’ve studied cooling in a spatially discrete context, the cooling of a single point (e.g. “a cup of coffee”) in an environment that has only one property, the “ambient” temperature.</p>
+<p>Let’s switch to a spatially <em>continuous</em> context, a bar of iron with one end lying in a bed of hot coals and the other end in the open air, as in the picture:</p>
+<p><img src="www/hot-iron.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><a href="https://www.brilliantdiy.com/tabletop-charcoal-forge/"><em>Source</em></a></p>
+<p>The iron rod is incandescent at the right end and cooler toward the left. If the picture were a movie, you likely would be able to predict what the action will be: Heat will flow down the rod from right to left. The free end of the rod will eventually get burning hot.</p>
+<p>The temperature <span class="math inline">\(T\)</span> at each point <span class="math inline">\(x\)</span> in the rod is a function of position. But at any given position, the temperature is a function of time <span class="math inline">\(t\)</span>. That is, the temperature of the rod is a function of two variables: <span class="math inline">\(T(x,t)\)</span>.</p>
+<p>If we were thinking about the movie frame-by-frame, we might prefer to treat <span class="math inline">\(t\)</span> as a discrete variable and could write <span class="math inline">\(T(x,t)\)</span> as <span class="math inline">\(T_t(x)\)</span>. It doesn’t really matter which, but it helps to think about <span class="math inline">\(T()\)</span> as a function of <span class="math inline">\(x\)</span> whose shape evolving in time.</p>
+<p>Now back to Newton’s Law of Cooling. The flux of heat is the difference between the object’s temperature and the ambient temperature. But in the continuous spatial system, the <em>difference</em> in temperature between two infinitely close neighboring points is zero. That suggests no flux. Of course, a major theme in Calculus is to provide means to discuss the <em>rate of difference</em> of a value at two infinitely close points: the derivative <span class="math inline">\(\partial_x T(x, t)\)</span>. This derivative gives the flux of heat from right to left.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-72-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>It might be tempting to translate this directly into the terms of Newton’s Law of Cooling and claim, <strong>wrongly</strong> that <span class="math inline">\(\partial_t T(x, t) = -k \partial_x T(x, t)\)</span>. Why is this wrong? In the spatially discrete setting—cup of coffee, ambient environment—there are only two spatial points of interest. But along the continuous iron rod, there are at least <strong>three</strong> points to be considered. Let’s call them <span class="math inline">\(x_A\)</span>, <span class="math inline">\(x_B\)</span>, and <span class="math inline">\(x_C\)</span> as in the diagram. We’re interested in <span class="math inline">\(\partial_t T(x_B, t)\)</span>. This change in temperature at point B is driven by the flux from point C to point B and is proportional to <span class="math inline">\(\partial_x T(x_B, t)\)</span>. But the change in temperature at point B is equally influenced by the flux from B to A. That is, the change in temperature at point B is set by the <em>difference in flux</em>, the flux coming from A to B and the flux going from B to C.</p>
+<p>In the spatially continuous context, the <em>net flux</em> or <em>difference in differences</em> (A to B, B to C) is represented by the <strong>second derivative</strong> with respect to <span class="math inline">\(x\)</span>. That is, along the rod, Newton’s Law of Cooling amounts to <span class="math display">\[\partial_t T(x, t) = k\, \partial_{xx} T(x, t)\]</span> This is called the <strong>heat equation</strong> and was introduced in 1807 by Jean-Baptiste Joseph Fourier (1786-1830). The same equation is now also called the <strong>diffusion equation</strong>.</p>
+<p>Some people might be more comfortable thinking about the discrete-time dynamics of the movie, which could be written
+<span class="math display">\[T_{t+h}(x) \approx T_t(x) + h\,k\, \partial_{xx} T_t(x)\]</span></p>
+<p>Exercise: Turn away from the iron rod of the picture and imagine being presented with four new rods each of which has been heated in some way to produce a temperature profile at time 0, that is <span class="math inline">\(T_0(x)\)</span> as shown in the four graphs below.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-73-1.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-73-2.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-73-3.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-73-4.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><strong>Question I</strong> For the function <span class="math inline">\(T(x, t=0)\)</span> shown in Graph (A), how will the temperature at <span class="math inline">\(x=0\)</span> change instantaneously? (That is, what is <span class="math inline">\(\partial_t T(x, t=0)\)</span>?)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Temperature decreases<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">No change in temperature<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature increases<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature oscillates<span class="mcanswer">︎✘ The temperature can’t oscillate <em>instantaneously</em>. The value of a derivative function at a point is a real number, not an oscillation.</span></span></li>
+</ol>
+<p><strong>Question J</strong> For the function <span class="math inline">\(T(x, t=0)\)</span> shown in Graph (B), how will the temperature at <span class="math inline">\(x=0\)</span> change instantaneously? (That is, what is <span class="math inline">\(\partial_t T(x, t=0)\)</span>?)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Temperature decreases<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">No change in temperature<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature increases<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature oscillates<span class="mcanswer">︎✘ The temperature can’t oscillate <em>instantaneously</em>. The value of a derivative function at a point is a real number, not an oscillation.</span></span></li>
+</ol>
+<p><strong>Question K</strong> For the function <span class="math inline">\(T(x, t=0)\)</span> shown in Graph (C), how will the temperature at <span class="math inline">\(x=0\)</span> change instantaneously? (That is, what is <span class="math inline">\(\partial_t T(x, t=0)\)</span>?)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Temperature decreases<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">No change in temperature<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature increases<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature oscillates<span class="mcanswer">︎✘ The temperature can’t oscillate <em>instantaneously</em>. The value of a derivative function at a point is a real number, not an oscillation.</span></span></li>
+</ol>
+<p><strong>Question L</strong> For the function <span class="math inline">\(T(x, t=0)\)</span> shown in Graph (D), how will the temperature at <span class="math inline">\(x=0\)</span> change instantaneously? (That is, what is <span class="math inline">\(\partial_t T(x, t=0)\)</span>?)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Temperature decreases<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">No change in temperature<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature increases<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Temperature oscillates<span class="mcanswer">︎✘ The temperature can’t oscillate <em>instantaneously</em>. The value of a derivative function at a point is a real number, not an oscillation.</span></span></li>
+</ol>
+</div>
+<div id="diffusion" class="section level2" number="8.5">
+<h2><span class="header-section-number">34.5</span> Diffusion</h2>
+<p>Recall that the heat equation describes how the temperature along a approximately 1-dimensional object—an iron bar, for example—changes with time due to spatial differences in temperature from point to point. The heat equation is</p>
+<p><span class="math display">\[\underbrace{\partial_t T(x, t)}_\text{change in time} = \ \ \ k\, \underbrace{\partial_{xx} T(x, t)}_\text{pattern in space}\]</span></p>
+<p><strong>Question M</strong> Suppose the inputs to the temperature function have units centimeters (for <span class="math inline">\(x\)</span>) and seconds (for <span class="math inline">\(t\)</span>) and that the output is in degrees Kelvin (which we’ll write “K”). What are the units of the coefficient <span class="math inline">\(k\)</span>?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(K cm^{1}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(K cm^{2} s^{-1}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(cm^{2} s^{-1}\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(s cm^{2}\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p>At the time Fourier was working, there was no molecular theory of matter and very little understanding of what the “heat substance” might consist of. Now we know that heat is the energy of molecular vibrations. This energy diffuses through the material.</p>
+<p>Similarly, “diffusion” is one mode of physical motion of material, for example movement of sugar molecules within a cell. Other things can diffuse as well, for example the action of viscosity in fluids can be seen as the diffusion of momentum.</p>
+<p>Starting in the 20th century and in support of the developing molecular theory of gasses, mathematicians and physicists undertook to follow the trajectories of individual diffusing particles and to develop a means to describe them mathematically. This included the concept of a “random walk,” movement of a particle shifting direction and speed randomly as it collides with other moving molecules and particles in its environment.</p>
+<p>The movie shows a simulation of a few particle (in yellow) undergoing a random walk. The path followed by each diffusing particle is shown in blue; the velocity of one particle is indicated with a red vector.</p>
+<p><img src="www/Brownianmotion5particles150frameSLOW.gif" /></p>
+<p><a href="https://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=19140415">Link</a></p>
+<p>The idea of random walks has become especially important in economics and finance. The walking “particle” might be the price of a stock or other derivative asset. The “collisions” happen as individual trades are made in the market, each trade being influenced by some news or situation or the passing whims, fancies, or fears of investors. The work on this point of view started about 1900 by a mathematics graduate student, Louis Bachelier, who undertook to study the movements of the <em>Bourse</em>, the Parisian stock exchange. The 1997 Nobel Prize in economics was awarded for a “new method to determine the value of [market] derivatives.”</p>
+<p>For these reasons, we’re going to focus and the mathematics of diffusion instead of the equivalent but historically prior mathematics of heat. We’ll work with a function <span class="math inline">\(C(x, t)\)</span> which stands for the <em>concentration</em> of particles in some medium such as a gas as a function of space and time. In economics, <span class="math inline">\(x\)</span> will stand for the value of some asset such as an investment, and <span class="math inline">\(C()\)</span> gives a probability density for each possible value of <span class="math inline">\(x\)</span>.</p>
+<p>For the sake of visualization, suppose some odor molecules are released in at the midpoint of a pipe with absolutely still air. Over time, the molecules will diffuse throughout the along the extent of the pipe.</p>
+<p>If <span class="math inline">\(C(x, t)\)</span> is the <em>concentration</em> of odor molecules at each point <span class="math inline">\(x\)</span> and time <span class="math inline">\(t\)</span>, then the change in concentration with time is:</p>
+<p><span class="math display">\[\partial_t C(x, t) = D\, \partial_{xx} C(x, t)\]</span>
+This is called the “Diffusion equation.” <span class="math inline">\(D\)</span> is called the “diffusion coefficient” and depends on the size of the molecule and the temperature in the pipe. The “diffusion equation” is exactly the same as the “heat equation,” with different names used for the quantities involved.</p>
+<p><strong>Question N</strong> Suppose the inputs to the concentration function have units centimeters (for <span class="math inline">\(x\)</span>) and seconds (for <span class="math inline">\(t\)</span>) and that the output is in nanograms per cubic centimeter (<span class="math inline">\(ng\ cm^{-3}\)</span>) . What are the units of the coefficient <span class="math inline">\(k\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(ng cm^{-1}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(ng cm^{1} s^{-1}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(cm^{2} s^{-1}\)</span><span class="mcanswer">Right! <span class="math inline">\(D\)</span> in the diffusion equation has the same units as <span class="math inline">\(k\)</span> in the heat equation!</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(s cm^{1}\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>Many people have difficulty imagining the sorts of frequent collisions that are behind diffusion. They think, for instance, that in still air the molecules are pretty much still. This is wrong. A typical velocity of a water molecule in air at room temperature and pressure is 650 m/sec. (The speed of sound is about 350 m/sec.) But the time between molecular collisions is on the order of <span class="math inline">\(10^{-10}s\)</span>, so the typical distance travelled between collisions is about <span class="math inline">\(10^{-7}m\)</span>. For a root mean square distance of 1m, we need roughly <span class="math inline">\(10^{14}\)</span> collisions, which would occur in <span class="math inline">\(10^{4}\)</span> seconds (a couple of hours).</p>
+</div>
+<div id="variance-dynamics" class="section level2" number="8.6">
+<h2><span class="header-section-number">34.6</span> Variance dynamics</h2>
+<p>In this section, we’ll explore the connection between diffusion and the gaussian function. Recall that we modeled the <em>temperature</em> along a one-dimensional spatial domain (a “bar of iron”) as it evolves in time as a function of both position and time: <span class="math inline">\(C(x, t)\)</span>. The same sort of function—of position and time—can be used to describe the <em>concentation</em> of particles freely diffusing along a medium such as air in a pipe.</p>
+<p>We constructed a differential equation to describe the dynamics of <span class="math inline">\(C(x, t)\)</span> called the “heat” equation or the “diffusion” equation, depending on context. Before using that differential equation, let’s explore a little bit what we might mean about the “dynamics of a function.”</p>
+<p>In studing dynamics we worked first with time taken discretely, e.g. a sequence of states <span class="math inline">\({\mathbf x}_0\)</span>, <span class="math inline">\({\mathbf x}_1\)</span>, <span class="math inline">\({\mathbf x}_2\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\({\mathbf x}_n\)</span>, <span class="math inline">\(\ldots\)</span>. The vector <span class="math inline">\({\mathbf x}_n\)</span> is the “state” of the system at time step <span class="math inline">\(n\)</span>. In our work, we looked at 1-dimensional and 2-dimensional states, tracing out a trajectory from one time step to the next and the next and so on. Exactly the same ideas would apply to 3- and higher-dimensional states, say an ecosystem involving growing grass, and populations of mice, rabbits, foxes, birds, and so on.</p>
+<p>In our present contexts, heat or diffusion, we are working with <em>functions</em>. Let’s return to the earlier metaphor of a movie of <span class="math inline">\(C(x, t)\)</span> with the frames taken every <span class="math inline">\(h\)</span> seconds. The movie is the sequence of frames <span class="math inline">\(C_0(x)\)</span>, <span class="math inline">\(C_h(x)\)</span>, <span class="math inline">\(C_{2h}(x)\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\(C_t(x)\)</span>, <span class="math inline">\(\ldots\)</span>.</p>
+<p>To describe the dynamics—that is, the change from frame to frame in the movie—we write a finite-difference equation, generically: <span class="math display">\[C_{n+1}(x) = f(C_n(x))\]</span> In the movie of diffusion, that equation will be this:</p>
+<p><span class="math display">\[C_{t+h}(x) = C_n(x) + h\, \alpha\,  \partial_{xx} C_n(x)\]</span>
+The term <span class="math inline">\(\partial_{xx} C(x)\)</span> tells us the net flux of heat/particles/probability into the point <span class="math inline">\(x\)</span>.</p>
+<p>In English, this says, “The concentration at <span class="math inline">\(x\)</span> in one frame of the movie is the amount that was there in the previous frame plus the net flux of heat/particles from the neighboring points.”</p>
+<p>Now imagine making the movie using an ultra-high-speed camera that takes a new frame every <span class="math inline">\(h\)</span> microseconds. We’ll label the time of one frame as <span class="math inline">\(t\)</span> and the time of the next frame as <span class="math inline">\(t+h\)</span>. The frame-to-frame change is therefore <span class="math display">\[C_{t+h}(x) = C_t(x) + h\, \alpha \partial_{xx} C_t(x)\]</span>
+We can equally well write <span class="math inline">\(C_t(x)\)</span> as <span class="math inline">\(C(x, t)\)</span>, our notation for functions on a continuous domain. Doing this, and re-arranging the formula, gives:
+<span class="math display">\[\frac{C(x,t+h) - C(x,t)}{h} = \alpha \partial_{xx} C(x, t)\]</span>
+The left side of this equation is the differencing operator applied to <span class="math inline">\(C(x, t)\)</span> (with respect to <span class="math inline">\(t\)</span>). In the limit as <span class="math inline">\(h\rightarrow 0\)</span> (that is, as you turn the video frame rate faster and faster) we can replace the left side of the equation with the partial derivative <span class="math inline">\(\partial_t C(x,t)\)</span>. That’s the heat/diffusion equation.</p>
+<p>We’re going to find the solution <span class="math inline">\(C(x,t)\)</span> to the differential equation using Euler’s method. In other words, we’ll make movies of the function<strong>s</strong> <span class="math inline">\(C_t(x)\)</span> one frame at a time. We know the dynamics; to start we need is an initial condition, the function <span class="math inline">\(C_0(x)\)</span>.</p>
+<p>Imagine that we have a long, thin pipe filled with still air and we inject at position <span class="math inline">\(x=0\)</span> a concentration of particles, say 1600 per cm^3. Equivalent, you could picture a freezing-cold iron bar and, at time <span class="math inline">\(t=0\)</span>, we place a white-hot coal on the center point, heating it to 1600 (deg C) and then removing the coal. The initial condition looks like this:</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-75-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The red horizontal line is positioned to enable you to read off the standard deviation of the bell-shaped function.</p>
+<p>The next frame of the movie will show <span class="math inline">\(C_h(x)\)</span>. To construct that, we’ll compute the net flux into each point on the bar.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-76-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>You can see that there is a strong net flux <em>out</em> of the center point and a net flux in to neighboring regions: the heat will be spreading out. Far from the center point, the net flux is zero. In the next graphs, we’ll zoom in on the center of the domain, <span class="math inline">\(-2.5 \leq x \leq 2.5\)</span>.</p>
+<p>To find the next Euler step, that is, the function <span class="math inline">\(C_h(x)\)</span>, we add the net flux (scaled by <span class="math inline">\(h \alpha\)</span>) to <span class="math inline">\(C_0(x)\)</span>. As usual, we take one Euler step after the other to reach whatever time <span class="math inline">\(t\)</span> we want.</p>
+<p>Here is the solution <span class="math inline">\(C(x, t=0.5)\)</span> shown with <span class="math inline">\(C(x, t=0)\)</span> superimposed in blue. (We set <span class="math inline">\(\alpha=2\)</span> and used 5 Euler steps with <span class="math inline">\(h=0.1\)</span>.)</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-77-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>At time <span class="math inline">\(t=0.5\)</span> , the temperature at the center has gone down. Less obviously, <span class="math inline">\(C(x, h)\)</span> is a tiny bit wider than <span class="math inline">\(C(x,t=0)\)</span>. That is, heat has spread out a bit from the center.</p>
+<p>Here is the function <span class="math inline">\(C(x,t)\)</span> at <span class="math inline">\(t=1, 2, 3, 4\)</span>. You can see the function spreading out as <span class="math inline">\(t\)</span> increases. We’ve zoomed in on the x-axis to where the action is.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-78-1.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-78-2.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-78-3.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-78-4.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><strong>Question O</strong> Use the intersection between the red horizontal line and the black curve to find the width of the black curve, that is, the standard deviation. Which of these sequences correspond to the standard deviation at times 1, 2, 3, and 4?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\sigma_1 = 1.7, \sigma_2 = 2.1, \sigma_3 = 2.5, \sigma_4 = 2.9\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sigma_1 = 1.7, \sigma_2 = 2.2, \sigma_3 = 2.6, \sigma_4 = 2.9\)</span><span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sigma_1 = 1.7, \sigma_2 = 2.2, \sigma_3 = 2.7, \sigma_4 = 3.2\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sigma_1 = 1.7, \sigma_2 = 2.2, \sigma_3 = 2.8, \sigma_4 = 3.5\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>Here is a similar set of graphs for <span class="math inline">\(t=10, 20, 30, 40\)</span>:</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-79-1.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-79-2.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-79-3.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-79-4.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question P</strong> Which of these sequences correspond to the standard deviation at times 10, 20, 30, and 40?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\sigma_{10} = 4.5, \sigma_{20} = 6.4, \sigma_{30} = 7.7, \sigma_{40} = 9.0\)</span><span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sigma_{10}= 4.5, \sigma_{20} = 6.0, \sigma_{30} = 7.5, \sigma_{40} = 9.0\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sigma_{10} = 4.5, \sigma_{20} = 5.8, \sigma_{30} = 7.1, \sigma_{40} = 8.4\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\sigma_{10} = 4.9, \sigma_{20} = 6.0, \sigma_{30} = 7.9, \sigma_{40} = 9.3\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question Q</strong> The standard deviation increases with time. Which one of these power-law relationships best corresponds to the standard deviations you measured off the graphs?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(\sigma_t = k t\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\sigma_t = k t^2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\sigma_t = k \sqrt{t}\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(\sigma_t = k t^{1.5}\)</span><span class="mcanswer">︎✘ </span></span></p>
+<blockquote>
+<p>Essay question: <em>A more fundamental way to measure the increase in width of <span class="math inline">\(C(x, t)\)</span> with time is to use the <strong>variance</strong> rather than the standard deviation. Describe briefly the very simple pattern that the variance of <span class="math inline">\(C(x, t)\)</span> follows over time. (You don’t have to give a formula, just say what function it is.)</em></p>
+</blockquote>
+</div>
+<div id="random-walk" class="section level2" number="8.7">
+<h2><span class="header-section-number">34.7</span> Random walk</h2>
+<p>The solution to diffusion differential equation gives the concentration of the diffusing particles <span class="math inline">\(C(x, t)\)</span> at any <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span>. At any given value of <span class="math inline">\(t= t_1\)</span>, the shape of <span class="math inline">\(C(x,t=t_1)\)</span> tends to a smooth bell-shaped curve: the gaussian function. The width of the gaussian is a function of <span class="math inline">\(t\)</span>. Conventionally, the width corresponds to the variance parameter <span class="math inline">\(\sigma^2\)</span>. This changes with <span class="math inline">\(t\)</span> in a very simple way: <span class="math display">\[\sigma(t)^2 = D t\]</span></p>
+<p>Everything is smooth and nicely behaved. But this is an abstraction which summarizes the concentation of a theoretically infinite population of particles. Looking at the position of a single particle as a function of time gives a very different impression. The figure shows individually the trajectories of 50 (randomly selected) particles.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-80-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Do take note that the position of each particle in the pipe at time <span class="math inline">\(t\)</span> is shown on the <em>vertical axis</em>.</p>
+<p>Each of the trajectories is called a <strong>random walk</strong>, as if a walker were randomly taking steps forward or backward.</p>
+</div>
+<div id="mean-square" class="section level2" number="8.8">
+<h2><span class="header-section-number">34.8</span> Mean square</h2>
+<p>We’ve imagined a situation where there is a pipe filled with air and we have introduced, at time <span class="math inline">\(t=0\)</span>, a bunch of small particles at the mid-point of the pipe. As time goes by, the particles diffuse throughout the pipe. Eventually, the particles will fill the pipe uniformly, but in the early stages of the process the distribution will be uneven.</p>
+<p>We can look at the concentration or density of the particles in two different ways. Most intuitively, we can draw a map of where the particles are, putting a dot for each particle. More abstractly, we can count the number of particles in the small interval <span class="math inline">\(x\)</span> to <span class="math inline">\(x+h\)</span>, and calculate the <em>concentration</em> or <em>density</em> of particles at position <span class="math inline">\(x\)</span> as the counted number divided by <span class="math inline">\(h\)</span>, the length of the interval.</p>
+<p>The graphics show both of those kinds of displays of density as a function of <span class="math inline">\(x\)</span>. The first is soon after the particles have been released, the others come at the indicated times thereafter. In each graph, we’ve drawn one particle, selected at random, in red just so that we have a particular particle to refer to. We’ve also added the red reference line that enables you to calculate the width (that is, “standard deviation”) of the density function.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-81-1.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-81-2.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-81-3.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-81-4.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question 1</strong>: How far have the particles spread at time <span class="math inline">\(t\)</span>?</p>
+<p>To give a sensible answer, you have to define what “spread” means. We use the standard definition and measure spread as the standard deviation <span class="math inline">\(\sigma\)</span> of the density function. For each time, you can read this off the graph using the red-line annotation. Amazingly, there is a simple formula for <span class="math inline">\(\sigma\)</span> as a function of time:</p>
+<p><span class="math display">\[\sigma(t)^2 = D\, t\]</span>
+Where <span class="math inline">\(D\)</span> is a constant that depends on the size of the particles and the temperature, but <strong>not on <span class="math inline">\(t\)</span></strong>. <span class="math inline">\(D\)</span> is called the diffusion coefficient.</p>
+<p><strong>Question 2</strong>: How far does an <strong>individual particle</strong> travel from the release point as a function of time?</p>
+<p>I don’t want to seem glib, but the answer is, “It depends on which particle you choose.” For the red particle, you can read its distance at time <span class="math inline">\(t\)</span> from the graph. But if we had selected some other particle, the answer would be different.</p>
+<p>There is no specific formula for the distance that an individual particle travels from the release point in time <span class="math inline">\(t\)</span>.</p>
+<p>This would be true <strong>even if there were only one particle</strong> to follow. It might sound strange to talk about the diffusion of a single particle, but each and every particle moves independently of the others.</p>
+<p>The question of “how far” needs to be answered statistically. And the standard answer to to average over all particles the <em>square distance</em> of each particle from the release point. This sort of average is called a <strong>mean square</strong>, that is, the <strong>mean</strong> of the <strong>square</strong> distance. And there is a formula for the mean square as a function of time. It is
+<span class="math display">\[\text{mean square distance} = D\, t\]</span>
+Suppose we measure distance from the release point in centimeters. Then the mean square distance will have units of square-centimeters. That’s going to be confusing. For this reason, most people prefer to work with the square root of the mean square distance, that is, the <strong>root mean square</strong> distance. For diffusive motion, there’s a formula for that as well:</p>
+<p><span class="math display">\[\text{root mean square distance} = \sqrt{\strut D\, t}\]</span>
+This will have units of <span class="math inline">\(\sqrt{\strut\text{cm}^2}\)</span>, that is, cm.</p>
+<p>Since we know the distance as a function of time, we can calculate the velocity as root mean square distance divided by time, that is:</p>
+<p><span class="math display">\[\text{`velocity&#39;} = \sqrt{\frac{\strut D}{t}}\]</span>
+We’ve got a particle diffusing in a pipe. The velocity is getting smaller with time.</p>
+<p>Imagine some time goes by so that the velocity has decreased by 99%. Along comes another person who observes the same particle and sets out to measure how the velocity changes in time. That person will claim that the velocity is 100 times greater than the velocity you observed at the end. Same particle. Nothing is changing in the dynamics. How can the new observer see a new velocity? A paradox.</p>
+<p>When working with diffusive motion, it’s best to answer “how far” in terms of <strong>mean square</strong> distance.</p>
+<p><strong>Example: Finance</strong> If you follow the stock market, you know that it goes up and down on a daily basis. Actually, it goes up and down on a second-by-second basis and all those small increments add up to the daily change. Journals regularly report such changes, for instance, “Today the Standard and Poors 500 stock index was down by 1.1%.” Often such news comes with the journalist’s explanation, e.g. “prices were down in anticipation of tomorrow’s monthly release of the unemployment rate,” or “stocks were broadly down as investers took profits from Friday’s gains.”</p>
+<p>In fact, sophisticated investors treat stock prices as a diffusive motion. The root mean square change in stock indices is roughly 1% per day. Movements up and down by that amount or even twice that amount should be reported as, “Nothing happened on Wall Street today.”</p>
+<p>That 1% typical daily motion, if nothing were going on, would accumulate to about a 15% yearly motion, up or down. A 15% annual return (or loss!) is nothing to be surprised about. (Twice that shouldn’t be a shock either.) If someone tries to sell you a mutual fund with a claim, “We went up 20% last year,” your thought should not be “It will be worth double in less than five years.” Instead you should ask the salesman what the average yearly return over the last five years has been. That number will typically be much lower, more or less <span class="math display">\[\frac{20\%}{\sqrt{5}}\]</span>. If so, the return last year gives no reason to think the mutual fund is a winner.</p>
+<p>That <strong>root mean square</strong> daily proportional change in price of an asset is called the <strong>volatility</strong> of the asset. Knowing the volatility helps you to understand the <strong>risk</strong> associated with the asset. That risk will be different depending on how long you plan to own the asset. A typical stock market index has a volatility of something like 15% per year. That level of risk in unacceptable to many people. But if you plan to hold on to the asset for 10 years, the volatility becomes only <span class="math display">\[\frac{15\%}{\sqrt{10}}\]</span> per year or about 5%.</p>
+<p><strong>Question R</strong> A stock shows a volatility of 1% per day. What is the volatility over a year? (Assume 250 trading days per year.)</p>
+<p>    <span class="Zchoice">1%<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">15%<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">50%<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">250%<span class="mcanswer">︎✘ </span></span>
+<strong>Question S</strong> Your uncle has just bought a stock that went up 30% in the last month. He describes his investment strategy, “I look for companies where there is a lot of churn in stock prices. Then I buy low and sell high.”</p>
+<p>You doubt your uncle’s investment savvy. Make a rough estimate of the daily volatility of the stock if the 30% gain were just a random result of daily ups and downs. (Assume 25 trading days per month.)</p>
+<p>    <span class="Zchoice">1%<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">5%<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">15%<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">25%<span class="mcanswer">︎✘ </span></span></p>
+<!-- EXERCISE: Diffusion is an effective form of transport only over very small distances. For instance, chemical synapses connecting nerve cells work by the diffusive movement of neurotransmitters across a cell-to-cell gap called the synaptic cleft. No active transport mechanism is necessary because the synaptic cleft is very thin, about 30 nm ($3 \times 10^{-8}$ meters). Over this distance (and given the size of neurotransmitter molecules) the transmission takes about 0.05 ms. The cell body of a neuron is roughly $10 \mu$m in diameter ($10^{-5}$). Suppose that synaptic transmission needed to diffuse over such a distance, say $3 \times 10^{-6}$m. How much time would it take for two neurons to communicate?  [Ans: 10,000 times as long, about half a second]
+-->
+<p><strong>Question T</strong> The diffusion coefficient for sodium ions in water is about <span class="math inline">\(2 \times 10^{-5} cm^2/s\)</span> whereas for a molecule like glucose the coefficient is about <span class="math inline">\(6 \times 10^{-6} cm^2/s\)</span>. If diffusion were the sole mechanism of spread, how long would it take a sugar molecule to travel 1cm, about half the distance from a sugar cube to the side of a teacup?</p>
+<p>    <span class="Zchoice">About 20 seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">About 200 seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">About 2000 seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">About 200,000 seconds<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<!-- Laminar boundary layer. Slow air flow over a small wing is laminar: the air right at the wing surface hardly moves at all. The laminar boundary layer is the portion of air *near* the wing surface that is slowed down by viscosity. Viscosity can be seen as the diffusion of momentum from the wing surface up into the flow. The thickness of the boundary layer grows as $\sqrt{\strut y}$ where $y$ is distance measured from the leading edge. 
+-->
+<p><a href="https://www.vedantu.com/question-answer/10-examples-of-diffusion-in-everyday-life-5b84e153e4b01edd684dfa7f">This web site</a> says it lists some everyday examples of diffusion. The examples are mostly wrong. For example: “You can smell perfume because it diffuses into the air and makes its way to your nose.” “Cigarette smoke diffuses into the air.” “Leave a soda bottle open and the carbon dioxide bubble will diffuse and leave it flat.” Let’s explore why this is wrong. First of all, you can see carbon dioxide bubbles rise more or less in a straight line at about 10cm/s, the motion being driven by the balance between viscosity and bouyancy. That’s not diffusion in any way. For diffusion, if it took 1/10 of a second to go 1cm, it would take 10 seconds to go 10cm.</p>
+<p><strong>Exercise</strong>: Particles that are the produce of combustion have a range of sizes, from 0.01 to 10 <span class="math inline">\(\mu m\)</span>. The diffusion coefficient of a <span class="math inline">\(10 \mu m\)</span> particle is estimated at around <span class="math inline">\(1 {\mu m}^2 /s\)</span>.</p>
+<p><strong>Question U</strong> What is the root mean square displacement of a diffusing smoke particle over 1 second?</p>
+<p>    <span class="Zchoice">100 <span class="math inline">\(\mu m\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1 mm<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">1 cm<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1 meter<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question V</strong> How long will it take to diffuse 1 meter?</p>
+<p>    <span class="Zchoice">1 minute<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1 hour<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1 day<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">10 days<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span>That is, about 1 million seconds</span></span></p>
+<p>If someone lights a match in a room, you can smell it in a few seconds. To get an idea of the bulk velocity of <strong>convecting</strong> air in a room, put your hand up and move it very slowly forward. Speed up the movement until you can clearly discern air movement. The convection currents in a room are somewhere between these two speeds. At that velocity, how long does it take to move 1 meter? 2 meters? 10 meters?</p>
+<div class="intheworld">
+<p>When people invest money, they expect a return. Generally, the return is measured as a percentage per year. An <span class="math inline">\(r=10\%\)</span> annual return—that’s pretty high these days—means that at the end of the year your investment of, say, $500 will be worth $550. And remember, saying <span class="math inline">\(r=10\%\)</span> is exactly the same thing as saying <span class="math inline">\(r=0.10\)</span>.</p>
+<p>Banks and such do things in discrete time, e.g. crediting your savings account with interest once a month. But this is calculus, so we focus on continuous time. (And, of course, Nature does things in continuous time!)</p>
+<p>If <span class="math inline">\(S\)</span> is the amount of money you have invested at a return of <span class="math inline">\(r\)</span>, the evolution of <span class="math inline">\(S\)</span> over time is given by a familiar, linear differential equation: <span class="math display">\[\dot{S} =  r S\ \ \ \implies \ \ \  S(t) = S_0 e^{r t}\]</span></p>
+<p><strong>Quick review questions</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>Which of those two equations is the differential equation and which is the solution?</li>
+<li>What symbol is being used to stand for the “state” of the system?</li>
+<li>What is the form of the dynamical function of state?</li>
+<li>Is there a fixed point? If so, is it stable?</li>
+</ol>
+<p>Investments in the stock market provide two types of return. We’ll focus on the return that comes from the changing price of the stock, which can go up or down from day to day. The other kind of return is dividends, the typically quarterly payment made by the company to stock holders. In investments, dividends should not be ignored, but we aren’t interested in them here.</p>
+<p>Now imagine that you expect, for whatever reason, the stock price to go up by 2% per year (<span class="math inline">\(r=0.02\)</span>) on average. Of course, the price is volatile so the 2% is by no means guaranteed. We’ll imagine the volatility is 25% per year.</p>
+<p>This situation, which includes volatility, is modeled by a modification of differential equations called “stochastic differential equations.” (“Stochastic” comes from the Greek word for “aiming”, as in aiming an arrow at a target. You won’t necessarily hit exactly.) The math is more advanced and we will not go into details. Our point here is to warn you: Now that you are expert about (ordinary) differential equations, you need to be aware that things are somewhat different in a stochastic situation.</p>
+<p>To that end, we’re going to show you trajectories that follow the mathematics of stochastic exponential growth (with <span class="math inline">\(r=0.2\)</span> per year and volatility <span class="math inline">\(\sigma = 0.25\)</span> per year). On top of that, we’ll show in red the trajectory from (ordinary, non-stochastic) exponential dynamics <span class="math inline">\(\dot{S} = r S\)</span>. In blue, we’ll show the theoretical average stochastic dynamics. In all cases, we’ll set the initial condition to be <span class="math inline">\(S_0 = 100\)</span>. We’ll follow the trajectories for three years.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-82-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The eye is drawn to the trajectories leading to large returns. That’s misleading. Although there are a few trajectories that show a 3-year return above 50% (that is, to $150 or higher) in fact the majority of trajectories fall <em>below</em> that of a purely deterministic <span class="math inline">\(r=2\%\)</span> annual return exponential process. The volatility causes a <em>decrease</em> in the median return.</p>
+<p>It’s easy to understand why the stochastic shocks cause a loss in return. Consider a stock with an initial price of $100 that in two successive days goes up by 50% and down by 50%. These ups and downs should cancel out, right? That’s not what happens:</p>
+<p><span class="math inline">\(\$100 \times 1.5 \times 0.5 = \$75\)</span></p>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mechanics.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-brownian-motion.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-brownian-motion.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

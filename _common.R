@@ -94,6 +94,14 @@ Sections <- list(
   gradient_vector = "24.3"
 )
 
+under_construction <- function() {
+  "::: {.underconstruction}
+**Under Construction**
+
+Content subject to revision.
+:::
+"
+}
 
 # For gradescope output
 # askMC <- Znotes::askGS

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 32 Expectation | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 32 Expectation | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 32 Expectation | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="probability.html"/>
+<link rel="next" href="mechanics.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><span style="font-size: 150%;><strong><a href="../index.html">MOSAIC Calculus</a></strong></span></li>
+<li><em><a>Calculus for the 21st century</a></em></li>
+<li><a>Daniel Kaplan</a></li>
+<hr>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><strong><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="block4-intro-draft.html"><a href="block4-intro-draft.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="27" data-path="operations.html"><a href="operations.html"><i class="fa fa-check"></i><b>27</b> Operations on functions</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="operations.html"><a href="operations.html#task-solve"><i class="fa fa-check"></i><b>27.1</b> Task: Solve</a></li>
+<li class="chapter" data-level="27.2" data-path="operations.html"><a href="operations.html#task-argmax"><i class="fa fa-check"></i><b>27.2</b> Task: Argmax</a></li>
+<li class="chapter" data-level="27.3" data-path="operations.html"><a href="operations.html#task-iterate"><i class="fa fa-check"></i><b>27.3</b> Task: Iterate</a></li>
+<li class="chapter" data-level="27.4" data-path="operations.html"><a href="operations.html#software-for-the-tasks"><i class="fa fa-check"></i><b>27.4</b> Software for the tasks</a></li>
+<li class="chapter" data-level="27.5" data-path="operations.html"><a href="operations.html#algorithmic-techniques"><i class="fa fa-check"></i><b>27.5</b> Algorithmic techniques</a></li>
+<li class="chapter" data-level="27.6" data-path="operations.html"><a href="operations.html#exercises"><i class="fa fa-check"></i><b>27.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="data-driven-functions.html"><a href="data-driven-functions.html"><i class="fa fa-check"></i><b>28</b> Data-driven functions</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="data-driven-functions.html"><a href="data-driven-functions.html#generating-smooth-motion"><i class="fa fa-check"></i><b>28.1</b> Generating smooth motion</a></li>
+<li class="chapter" data-level="28.2" data-path="data-driven-functions.html"><a href="data-driven-functions.html#piecewise-but-smooth"><i class="fa fa-check"></i><b>28.2</b> Piecewise but smooth</a></li>
+<li class="chapter" data-level="28.3" data-path="data-driven-functions.html"><a href="data-driven-functions.html#cubic-splines"><i class="fa fa-check"></i><b>28.3</b> C<sup>2</sup> smooth functions</a></li>
+<li class="chapter" data-level="28.4" data-path="data-driven-functions.html"><a href="data-driven-functions.html#bézier-splines"><i class="fa fa-check"></i><b>28.4</b> Bézier splines</a></li>
+<li class="chapter" data-level="28.5" data-path="data-driven-functions.html"><a href="data-driven-functions.html#exercises-1"><i class="fa fa-check"></i><b>28.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html"><i class="fa fa-check"></i><b>29</b> Constraints and optimization</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#optimization-or-design"><i class="fa fa-check"></i><b>29.1</b> Optimization or design?</a></li>
+<li class="chapter" data-level="29.2" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#constraints-graphically"><i class="fa fa-check"></i><b>29.2</b> Constraints graphically</a></li>
+<li class="chapter" data-level="29.3" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-constraints"><i class="fa fa-check"></i><b>29.3</b> Multiple constraints</a></li>
+<li class="chapter" data-level="29.4" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#changing-constraints"><i class="fa fa-check"></i><b>29.4</b> Changing constraints</a></li>
+<li class="chapter" data-level="29.5" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#incommensurate-objectives"><i class="fa fa-check"></i><b>29.5</b> Incommensurate objectives</a></li>
+<li class="chapter" data-level="29.6" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-objectives"><i class="fa fa-check"></i><b>29.6</b> Multiple objectives</a></li>
+<li class="chapter" data-level="29.7" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multi-objective-decision-making"><i class="fa fa-check"></i><b>29.7</b> Multi-objective decision making</a></li>
+<li class="chapter" data-level="29.8" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#commensurate-and-incommensurate"><i class="fa fa-check"></i><b>29.8</b> Commensurate and incommensurate</a></li>
+<li class="chapter" data-level="29.9" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#multiple-objectives-1"><i class="fa fa-check"></i><b>29.9</b> Multiple objectives</a></li>
+<li class="chapter" data-level="29.10" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#yours-and-mine"><i class="fa fa-check"></i><b>29.10</b> Yours and mine</a></li>
+<li class="chapter" data-level="29.11" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#follow-the-gradient"><i class="fa fa-check"></i><b>29.11</b> Follow the gradient!</a>
+<ul>
+<li class="chapter" data-level="29.11.1" data-path="constraints-and-optimization.html"><a href="constraints-and-optimization.html#more-about-qalys-exercise"><i class="fa fa-check"></i><b>29.11.1</b> More about QALY’s: Exercise??</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="future-value.html"><a href="future-value.html"><i class="fa fa-check"></i><b>30</b> Future value</a></li>
+<li class="chapter" data-level="31" data-path="probability.html"><a href="probability.html"><i class="fa fa-check"></i><b>31</b> Probability</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="probability.html"><a href="probability.html#uncertainty-and-risk"><i class="fa fa-check"></i><b>31.1</b> Uncertainty and risk</a></li>
+<li class="chapter" data-level="31.2" data-path="probability.html"><a href="probability.html#quantifying-uncertainty"><i class="fa fa-check"></i><b>31.2</b> Quantifying uncertainty</a></li>
+<li class="chapter" data-level="31.3" data-path="probability.html"><a href="probability.html#probability-density"><i class="fa fa-check"></i><b>31.3</b> Probability density</a></li>
+<li class="chapter" data-level="31.4" data-path="probability.html"><a href="probability.html#the-cumulative-distribution"><i class="fa fa-check"></i><b>31.4</b> The cumulative distribution</a></li>
+<li class="chapter" data-level="31.5" data-path="probability.html"><a href="probability.html#uniform-gaussian-exponential"><i class="fa fa-check"></i><b>31.5</b> Uniform, gaussian, exponential</a></li>
+<li class="chapter" data-level="31.6" data-path="probability.html"><a href="probability.html#the-expectation-value"><i class="fa fa-check"></i><b>31.6</b> The expectation value</a></li>
+<li class="chapter" data-level="31.7" data-path="probability.html"><a href="probability.html#gaussian-and-sigmoid"><i class="fa fa-check"></i><b>31.7</b> Gaussian and sigmoid</a></li>
+<li class="chapter" data-level="31.8" data-path="probability.html"><a href="probability.html#the-variance"><i class="fa fa-check"></i><b>31.8</b> The variance</a></li>
+<li class="chapter" data-level="31.9" data-path="probability.html"><a href="probability.html#earthquake-preparedness"><i class="fa fa-check"></i><b>31.9</b> Earthquake preparedness</a></li>
+<li class="chapter" data-level="31.10" data-path="probability.html"><a href="probability.html#likelihood-and-expectation-maximization"><i class="fa fa-check"></i><b>31.10</b> Likelihood and Expectation Maximization</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="expectation.html"><a href="expectation.html"><i class="fa fa-check"></i><b>32</b> Expectation</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="expectation.html"><a href="expectation.html#expected-social-security"><i class="fa fa-check"></i><b>32.1</b> Expected Social Security</a></li>
+<li class="chapter" data-level="32.2" data-path="expectation.html"><a href="expectation.html#life-expectancy"><i class="fa fa-check"></i><b>32.2</b> Life expectancy</a></li>
+<li class="chapter" data-level="32.3" data-path="expectation.html"><a href="expectation.html#misunderstanding-life-expectancy"><i class="fa fa-check"></i><b>32.3</b> Misunderstanding life expectancy</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="mechanics.html"><a href="mechanics.html"><i class="fa fa-check"></i><b>33</b> Mechanics</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="mechanics.html"><a href="mechanics.html#work"><i class="fa fa-check"></i><b>33.1</b> Work</a></li>
+<li class="chapter" data-level="33.2" data-path="mechanics.html"><a href="mechanics.html#energy"><i class="fa fa-check"></i><b>33.2</b> Energy</a></li>
+<li class="chapter" data-level="33.3" data-path="mechanics.html"><a href="mechanics.html#momentum"><i class="fa fa-check"></i><b>33.3</b> Momentum</a></li>
+<li class="chapter" data-level="33.4" data-path="mechanics.html"><a href="mechanics.html#center-of-mass"><i class="fa fa-check"></i><b>33.4</b> Center of mass</a></li>
+<li class="chapter" data-level="33.5" data-path="mechanics.html"><a href="mechanics.html#angular-momentum-and-torque"><i class="fa fa-check"></i><b>33.5</b> Angular momentum and torque</a></li>
+<li class="chapter" data-level="33.6" data-path="mechanics.html"><a href="mechanics.html#exercises-2"><i class="fa fa-check"></i><b>33.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="random-walks.html"><a href="random-walks.html"><i class="fa fa-check"></i><b>34</b> Random walks</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="random-walks.html"><a href="random-walks.html#material-to-add"><i class="fa fa-check"></i><b>34.1</b> Material to add</a></li>
+<li class="chapter" data-level="34.2" data-path="random-walks.html"><a href="random-walks.html#objectives"><i class="fa fa-check"></i><b>34.2</b> Objectives</a></li>
+<li class="chapter" data-level="34.3" data-path="random-walks.html"><a href="random-walks.html#the-gaussian"><i class="fa fa-check"></i><b>34.3</b> The gaussian</a></li>
+<li class="chapter" data-level="34.4" data-path="random-walks.html"><a href="random-walks.html#flux"><i class="fa fa-check"></i><b>34.4</b> Flux</a></li>
+<li class="chapter" data-level="34.5" data-path="random-walks.html"><a href="random-walks.html#diffusion"><i class="fa fa-check"></i><b>34.5</b> Diffusion</a></li>
+<li class="chapter" data-level="34.6" data-path="random-walks.html"><a href="random-walks.html#variance-dynamics"><i class="fa fa-check"></i><b>34.6</b> Variance dynamics</a></li>
+<li class="chapter" data-level="34.7" data-path="random-walks.html"><a href="random-walks.html#random-walk"><i class="fa fa-check"></i><b>34.7</b> Random walk</a></li>
+<li class="chapter" data-level="34.8" data-path="random-walks.html"><a href="random-walks.html#mean-square"><i class="fa fa-check"></i><b>34.8</b> Mean square</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
+<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="expectation" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 32</span> Expectation</h1>
+<div class="underconstruction">
+<p><strong>Under Construction</strong></p>
+<p>Content subject to revision.</p>
+</div>
+<p>In this project, we’re going to study some statistics of life and death. Specifically, we’re going to look at “period life tables” assembled and <a href="https://www.ssa.gov/oact/HistEst/PerLifeTables/2017/PerLifeTables2017.html">published</a> by the US Social Security Administration.</p>
+<p>The <code>M2014F</code> data frame is basic data from 2014 on age-specific mortality, that is, the risk of a person of any given age having died in 2014. The table below is for females; there is a similar table for males on the Social Security website.</p>
+<div id="htmlwidget-bb3af5627f821f085f62" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bb3af5627f821f085f62">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120"],[2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119],[0.005313,0.000346,0.000221,0.000162,0.000131,0.000116,0.000106,9.8e-05,9.1e-05,8.6e-05,8.4e-05,8.7e-05,0.0001,0.000124,0.000157,0.000194,0.000232,0.000269,0.000304,0.000338,0.000373,0.000409,0.000442,0.000471,0.000497,0.000524,0.000553,0.000582,0.000611,0.000641,0.000673,0.00071,0.000753,0.000805,0.000864,0.000932,0.001005,0.001082,0.00116,0.001243,0.001336,0.001442,0.001562,0.001698,0.001849,0.002014,0.002195,0.002402,0.002639,0.002903,0.003189,0.003488,0.003795,0.004105,0.004423,0.004775,0.005153,0.005528,0.005893,0.006266,0.006688,0.007176,0.007724,0.008339,0.009034,0.009832,0.01074,0.011754,0.012881,0.014141,0.015612,0.017275,0.019047,0.020909,0.022939,0.025297,0.028045,0.031131,0.034582,0.038467,0.043008,0.048175,0.053772,0.05977,0.066367,0.073828,0.082382,0.092183,0.103305,0.115746,0.129475,0.144443,0.16059,0.177853,0.196165,0.214677,0.233091,0.251082,0.268304,0.284403,0.301467,0.319555,0.338728,0.359052,0.380595,0.403431,0.427637,0.453295,0.480492,0.509322,0.539881,0.572274,0.606611,0.643007,0.681588,0.722483,0.761882,0.799976,0.839975,0.881973],[100000,99469,99434,99412,99396,99383,99372,99361,99351,99342,99334,99325,99317,99307,99294,99279,99260,99237,99210,99180,99146,99109,99069,99025,98978,98929,98877,98822,98765,98705,98641,98575,98505,98431,98351,98266,98175,98076,97970,97856,97735,97604,97463,97311,97146,96966,96771,96559,96327,96072,95794,95488,95155,94794,94405,93987,93539,93057,92542,91997,91420,90809,90157,89461,88715,87914,87049,86114,85102,84006,82818,81525,80117,78591,76947,75182,73280,71225,69008,66621,64059,61304,58350,55213,51913,48467,44889,41191,37394,33531,29650,25811,22083,18536,15240,12250,9620,7378,5525,4043,2893,2021,1375,909,583,361,215,123,67,35,17,8,3,1,0,0,0,0,0,0],[531,34,22,16,13,12,11,10,9,9,8,9,10,12,16,19,23,27,30,34,37,41,44,47,49,52,55,58,60,63,66,70,74,79,85,92,99,106,114,122,131,141,152,165,180,195,212,232,254,279,305,333,361,389,418,449,482,514,545,576,611,652,696,746,801,864,935,1012,1096,1188,1293,1408,1526,1643,1765,1902,2055,2217,2386,2563,2755,2953,3138,3300,3445,3578,3698,3797,3863,3881,3839,3728,3546,3297,2989,2630,2242,1852,1483,1150,872,646,466,327,222,146,92,56,32,18,9,5,2,1,0,0,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>year<\/th>\n      <th>age<\/th>\n      <th>pmort<\/th>\n      <th>nliving<\/th>\n      <th>died<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Scroll through the data until you are comfortable with the format. The variables <code>year</code> and <code>age</code> are self explanatory. <code>pmort</code> is the probability of a person of the given age having died in the next year. <code>nliving</code> and <code>died</code> are not counts from the population but a construction of a theoretical cohort of 100,000 newborn people whose lives are such as to follow, at any age, the mortality at that age. Thus, given the age-specific mortality in 2014, of the theoretical 100,000 newborns, 99,342 would still be alive at the end of age 10. <code>died</code> is the number from the theoretical cohort who would have died during the given the value number who are still alive at any age. While not exact basically <code>nliving</code> - <code>died</code> within an age will output <code>nliving</code> for the following age.</p>
+<blockquote>
+<p><strong>Essay</strong>: For the follwing essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar.Explain why in the first row nliving + ndead does not add up to 100,000. Additionally, explain why nliving in row 4 is equal to 99,412 (In other words, how was the number calculated).</p>
+</blockquote>
+<p><strong>Question O1</strong> According to the table, which age is the safest, that is, has the least risk of dying? Hint: it may be easiest to use the headings to sort</p>
+<p>    <span class="Zchoice">6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">11<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">28<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">34<span class="mcanswer">︎✘ </span></span></p>
+<p>The sandbox below makes a plot of the mortality rate as a function of age. By default, the plot is being made with semi-log axes, but you can change the code to make the plot on linear axes or on log-log axes.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="expectation.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(pmort <span class="sc">~</span> age, <span class="at">data =</span> M2014F) <span class="sc">%&gt;%</span></span>
+<span id="cb49-2"><a href="expectation.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_refine</span>(<span class="fu">scale_y_log10</span>()) </span></code></pre></div>
+<p>The pattern of mortality vs age has a complex shape that becomes simpler if we split the domain into a handful of epochs. Use the various kinds of axes scaling to answer each of these questions.</p>
+<p><strong>Question P1</strong> For children age 1 to about 10 years, which of these function forms best matches the data? Hint: you can scale the x-axis using the gf_refine function by adding a similiar function as an argument.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">straight line<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">exponential growth<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">exponential decay<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">power law<span class="mcanswer">Correct. Using log-log axes shows a straight line for children of these ages.</span></span></li>
+</ol>
+<p><strong>Question Q1</strong> Is the mortality rate for babies in their first year in line with the pattern seen for other pre-adolescents?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">yes<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">no<span class="mcanswer">Good. Young babies have a higher mortality than can be explained by the power-law function that fits the data for other young children.</span></span></li>
+</ol>
+<p><strong>Question R1</strong> For adults age 25 to about 90 years, which of these function forms best matches the data (mortality v. age)?</p>
+<p>    <span class="Zchoice">straight line<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">exponential growth<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">exponential decay<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">power law<span class="mcanswer">︎✘ </span></span></p>
+<p>We’re going to work with people who have an interest in eventual retirement, either saving for it or drawing from their savings. We could make a cubic spline function that fits the data, but the data are already very smooth and even a straight-line interpolant would be adequate. Instead, we will employ an easy to use method that models log mortality versus age using a small set of basis functions, shown in the following graph:</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-48-1.png" width="90%" style="display: block; margin: auto;" />
+<strong>Question S1</strong> There are seven basis functions used for the model of mortality versus age. They fall into two groups: (1) the “purely local” hump functions and (2) the functions that have something to say at the beginning <em>and</em> end of the domain. Which of the following colors or groups of colors are a member of group (2)?</p>
+<p>    <span class="Zchoice">red<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">orange<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">black<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">blue<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<div id="expected-social-security" class="section level2" number="6.1">
+<h2><span class="header-section-number">32.1</span> Expected Social Security</h2>
+<p>Simplifying a little, Social Security works like this: All workers have a payroll tax that is considered their “contribution” to the Social Security fund. At retirement (currently age 67) and until death, the worker receives a monthly stipend off approximately $2000.</p>
+<p>Our goal is to calculate the net present value of this stipend stream from the point of view of a 67-year old. Here are the components of the calculation:</p>
+<ol style="list-style-type: decimal">
+<li>A stipend at the rate of $24,000 per year paid over multiple years.</li>
+<li>Discounting each stipend payment at an annual (continuously compounded) interest rate of 2%.</li>
+<li>Further discounting the stipend payment by the probability that a person will be alive at any given number of years into retirement.</li>
+<li>Accumulating all the (discounted) stipends.</li>
+</ol>
+<p><strong>(1) and (2)</strong> are easy. At age <span class="math inline">\(y\)</span>, the stipend stream is worth <span class="math display">\[ s(y) = 24000 \times e^{0.02(y-67)}\]</span></p>
+<p><strong>(3)</strong> requires a bit more work. We’ll focus on the number of people (in the hypothetical population) still living. Here’s the data, along with a not-very-good function approximating the data. The method used to construct the model, logistic regression, is not one you have seen before. We’ll use it here, treating it as a black box. You don’t need to worry about how it works other than to know it constructs an appropriately shaped function from data.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="expectation.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct a model of the probability</span></span>
+<span id="cb50-2"><a href="expectation.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># by a special technique called &quot;logistic regression&quot;</span></span>
+<span id="cb50-3"><a href="expectation.html#cb50-3" aria-hidden="true" tabindex="-1"></a>prob_living <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(</span>
+<span id="cb50-4"><a href="expectation.html#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(nliving<span class="sc">/</span><span class="dv">100000</span> <span class="sc">~</span> age, <span class="at">data =</span> M2014F, </span>
+<span id="cb50-5"><a href="expectation.html#cb50-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> binomial)</span>
+<span id="cb50-6"><a href="expectation.html#cb50-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-7"><a href="expectation.html#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(nliving<span class="sc">/</span><span class="dv">100000</span> <span class="sc">~</span> age, <span class="at">data =</span> M2014F) <span class="sc">%&gt;%</span></span>
+<span id="cb50-8"><a href="expectation.html#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">prob_living</span>(age) <span class="sc">~</span> age, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-9"><a href="expectation.html#cb50-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">y=</span><span class="st">&quot;Prob. of living until age&quot;</span>)</span></code></pre></div>
+<p><strong>Question tmp-1</strong>: At this point in CalcZ, the graph above should suggest a name to you. Which is it?</p>
+<ol>
+<li><p>hump function []</p></li>
+<li><p>sigmoid function (+) []</p></li>
+<li><p>exponential function []</p></li>
+<li><p>power-law function []</p></li>
+</ol>
+<p>The function fitted to the data is not very good. You’re going to make it better using the same technique we used with the mortality vs age data. Specifically, instead of the tilde expression <code>nliving/100000 ~ age</code>, you will use <code>nliving/100000 ~ ns(age,??)</code>, where the <code>??</code> <strong>must be replaced</strong> with a small integer saying how many basis functions to use. Start with <code>2</code> and increase gradually until the graph of the function goes right through the data points. Only change the first tilde function inside the makeFun function not both.</p>
+<p><strong>Question T1</strong> How many basis functions is enough to get the fitted function to go right through the data? Choose the smallest number. When you get the correct answer make sure you rerun your sandbox above with the correct answer.</p>
+<p>    <span class="Zchoice">3<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">5<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">12<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">19<span class="mcanswer">︎✘ </span></span></p>
+<p>Important technical note: We are providing you with our own <code>prob_living()</code> function in order to play well with the other software in this document. It’s the same function mathematically as the one you created in the sandbox (using the correct answer to the previous question).</p>
+<p>The function <code>prob_living()</code> is our model of someone living to a given age, but who is that person. The way <code>prob_living()</code> is written, that person is someone just born. But, insofar as we are interested in the present value of Social Security payments made to a person who starts at age 67, we have to take it for granted that this person is still alive. So the probablity that a (relevant) person is alive at 67 is 100%. We need to modify <code>prob_living()</code> to take this into account. This is easy; just divide <code>prob_living()</code> by its numerical value at age 67. That will make the overall output 100% at age 67.</p>
+<p><strong>Question U1</strong> What is the number you need to divide into the output of <code>prob_living()</code> in order to get an overall output of 100% at age 67? In other words, what is the output of prob_living() at an input age of 67?</p>
+<p>    <span class="Zchoice">0.7291<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">0.8143<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">0.8574<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">0.9105<span class="mcanswer">︎✘ </span></span></p>
+<p>Now we can put together all the components we need for component (3) as described above: the present value of the instantaneous average Social Security payment to a person of age <span class="math inline">\(y\)</span>.</p>
+<p><code>24000 * exp(0.02*(y-67)) * prob_living(y)/0.8574</code></p>
+<p>Use the sandbox below to implement this function, and accumulate it from age 67 to age 100. Hint: When you see the word accumulate regarding a continuous function, you should immediately think integrate.</p>
+<p><strong>Question V1</strong> According to the model, what is roughly the net present value (at a 2% discount rate) of a $2000/month Social Security income stream for a 67-year old just starting to collect?</p>
+<p>    <span class="Zchoice">$480,000<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(580,000&lt;span class=&#39;mcanswer&#39;&gt;\)</span> $</span></span>       <span class="Zchoice">$780,000<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">$980,000<span class="mcanswer">︎✘ </span></span></p>
+<p>Before you do a complicated calculation, you should have in mind what the answer will be so that you can make sure the result of your calculation is reasonable. You may well ask, “How am I supposed to know the result <strong>before</strong> I do the calculation itself?” The answer: you should have a simple technique to get a ballpark estimate for the answer.</p>
+<p>In this situation, you might do the following:</p>
+<ul>
+<li>In your simple approximation, ignore the discounting. At 2% per year, it takes about 36 years for the 2% discount to cut the value by half, and not so many people live to be 67 + 36.</li>
+<li>Instead of using a probability of being alive at any age, just make a good estimate of how long a typical 67-year old lives. You can make such an estimate simply from the graph of <code>prob_living()</code> shown above. Let’s say the estimate is 18 years.</li>
+<li>Multiply the yearly payment by the number of years of life, so $24,000 <span class="math inline">\(\times 18 =\)</span> $432,000.</li>
+</ul>
+<blockquote>
+<p><strong>Essay</strong>: For the follwing essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar.A classmate runs their model and finds the answer to be $1,121,751. Your classmate did a reasonable calculation, but has failed to account for something. What did they forget to account for? Hint: use the sandbox above removing aspects of the equation to find what was neglected. Your answer should explain in everyday words what is missing (not the mathematical portion of the equation that is missing).</p>
+</blockquote>
+</div>
+<div id="life-expectancy" class="section level2" number="6.2">
+<h2><span class="header-section-number">32.2</span> Life expectancy</h2>
+<p>You now have most of the apparatus to calculate one of the most commonly used indices of public health and yet one highly mis-understood by most decision makers: Life expectancy.</p>
+<p>First, you need the model of the probability of dying at any exact given age.
+Then, calculate the **expectation value* of age according to this probability model.</p>
+<p>We already have a probability of survival as a function of age: <code>prob_living()</code>. At first it might seem to you that the probability of dying at age <span class="math inline">\(y\)</span> is <code>1 - prob_living(y)</code> (in otherwords the opposite of probability of dying at any exact age in the opposite of probability of survival), but that’s not true. Why not? Because <code>1 - prob_living(y)</code> is a probability of dying at age <span class="math inline">\(y\)</span> <strong>or before</strong>. That is, it is the accumulated probability across all people.</p>
+<p>We need to “de-accumulate” the probability, to get to the change in probability from one year to the next. Let’s replace the word “accumulation” with its calculus synonym: anti-derivative. We we need to “de-anti-derivative” the <code>1 - prob_living(y)</code> function. That is, it’s the derivative of <code>1 - prob_living(y)</code> that we want.</p>
+<div class="scaffolding">
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="expectation.html#cb51-1" aria-hidden="true" tabindex="-1"></a>prob_dying <span class="ot">&lt;-</span> <span class="fu">D</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">prob_living</span>(y) <span class="sc">~</span> y)</span>
+<span id="cb51-2"><a href="expectation.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">prob_dying</span>(age) <span class="sc">~</span> age, <span class="fu">domain</span>(<span class="at">age =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">110</span>)))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-49-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="expectation.html#cb52-1" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">antiD</span>(age <span class="sc">*</span> <span class="fu">prob_dying</span>(age) <span class="sc">~</span> age)</span>
+<span id="cb52-2"><a href="expectation.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">F</span>(<span class="dv">110</span>) <span class="sc">-</span> <span class="fu">F</span>(<span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] 81.04189</code></pre>
+<p>Modify the scaffolding to compute the expectation value of age. Recall that an expectation value of a quantity <span class="math inline">\(y\)</span> is <span class="math inline">\(\int y\, p(y) dy\)</span> over the relevant domain.</p>
+</div>
+<p><strong>Question tmp-2</strong>: According to our model <code>prob_living()</code>, what’s the expectation value of age (that is, “life expectancy” for females born in 2014)?</p>
+<ol>
+<li><p>81 (+) []</p></li>
+<li><p>83 []</p></li>
+<li><p>87 []</p></li>
+<li><p>89 []</p></li>
+</ol>
+<p>Possibly you didn’t follow the (brief) argument about why to use the derivative of <code>1 - prob_living(y)</code> instead of just <code>1 - prob_living(y)</code> itself. So let’s try it out and see what we get:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="expectation.html#cb54-1" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">antiD</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">prob_living</span>(y) <span class="sc">~</span> y)</span>
+<span id="cb54-2"><a href="expectation.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">F</span>(<span class="dv">110</span>) <span class="sc">-</span> <span class="fu">F</span>(<span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] 28.88559</code></pre>
+<p>Does that seem reasonable based upon your experience?</p>
+</div>
+<div id="misunderstanding-life-expectancy" class="section level2" number="6.3">
+<h2><span class="header-section-number">32.3</span> Misunderstanding life expectancy</h2>
+<p>What’s there to mis-understand about life expectancy? I’m not referring to the calculation itself, which puts together some challenging concepts like differentiation, integration, and function fitting.</p>
+<p>The fundamental mistake is to use the short form of the name, “life expectancy” rather than the full name, "life expectancy at age ___." The number you hear about is “life expectancy at birth.”</p>
+<p>People use life expectancy at birth to make decisions about things for which it is misleading. For instance, in public debates about health care, you will often hear that other rich nations have longer life expectancy than the US even though they spend half as much money per capita on health care. But the low US life expectancy is shaped largely by some features not so relevant to health care: the relatively high infant mortality in the US (which has it’s own set of factors), the high teenager mortality (which is not as clear when only looking at the data for females), gun deaths, etc.</p>
+<p>Since the large majority of health-care spending is for seniors, we should look at the outcome for seniors. For instance, we might want to look at life expectancy at age 67. Let’s calculate that. Note that the calculation is the same as the above, but <code>prob_living(y)</code> has been adjusted so that it applies to people who reach age 67.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="expectation.html#cb56-1" aria-hidden="true" tabindex="-1"></a>prob_dying <span class="ot">&lt;-</span> <span class="fu">D</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">prob_living</span>(y)<span class="sc">/</span><span class="fu">prob_living</span>(<span class="dv">67</span>) <span class="sc">~</span> y)</span>
+<span id="cb56-2"><a href="expectation.html#cb56-2" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">antiD</span>(age<span class="sc">*</span><span class="fu">prob_dying</span>(age) <span class="sc">~</span> age)</span>
+<span id="cb56-3"><a href="expectation.html#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">F</span>(<span class="dv">110</span>) <span class="sc">-</span> <span class="fu">F</span>(<span class="dv">67</span>)</span></code></pre></div>
+<pre><code>## [1] 85.83452</code></pre>
+<blockquote>
+<p><strong>Essay</strong>: For the follwing essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar. The immediately above calculation found life expectancy to be 85.8346. This number is larger than the life expectancy that was calculated in the previous section (81.04189). Why is that? Be sure to explain what both numbers are in your response.</p>
+</blockquote>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="probability.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mechanics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-expectation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-expectation.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
