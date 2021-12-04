@@ -86,6 +86,7 @@ Chaps <- list(
   slope_function = 9,
   gradient = 24,
   taylor = 26,
+  optimization = 23,
   foobar = NA
 )
 
