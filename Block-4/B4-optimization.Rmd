@@ -57,8 +57,8 @@ The masses is shown by a black circles. Springs are the zig-zag shapes. The bold
 We want to calculate the equilibrium position. The basic strategy is to model the potential energy of the system, which consists of i. the gravitational potential energy of the mass; ii. the energy stored in stretched or compressed springs. Since the configuration of the system is set by the coordinate $(x_1, y_2)$, the potential energy is a function $E(x_1, y_1)$. For brevity, we'll leave out the physics of the formulation of the potential-energy function; shown in Figure \@ref(fig:spring-mass1-pot).
 
 ```{r spring-mass1-pot, echo=FALSE, fig.cap="The potential energy of the spring-mass system in Figure \\@ref(fig:spring-mass2)."}
-E2 <- makeFun(abs(x)^2.7 + abs(y)^2.7 - 1 + abs(x - 2)^1.5 + abs(y)^1.5 - 1 + 9.8 *y + abs(x-3)^3 + abs(y)^3 - 1 ~ x & y)
-contour_plot(E2(x, y) ~ x & y, domain(x=0:3, y=-3:0),
+# E2 <- makeFun(abs(x)^2.7 + abs(y)^2.7 - 1 + abs(x - 2)^1.5 + abs(y)^1.5 - 1 + 9.8 *y + abs(x-3)^3 + abs(y)^3 - 1 ~ x & y)
+contour_plot(Zcalc::SM_2_potential(x, y) ~ x & y, domain(x=0:3, y=-3:0),
               skip=0, contours_at=c(30,20, 15, 10, 5, 0, -2, -3)) %>%
   gf_refine(coord_fixed())
 ```
@@ -78,8 +78,38 @@ knitr::include_graphics("www/loophole.png")
 ```
 We can see the function only in a small region of the domain and need to use the information provided there to determine which way to move to find the argmin. 
 
+The situation is analogous to standing on the side of a smooth hill in a dense fog and finding your way to the bottom. The way forward is to figure out which direction is uphill, which you can do directly from your sense of balance and proprioception by orienting your stance in different ways. Then, if your goal is the top of the hill (argmax) start walking uphill. If you seek a low point (argmin), walk downhill.
+
+The mathematical equivalent to sensing which direction is uphill is to calculate the ***gradient*** of the objective function. In Chapter `r Chaps$gradient` we used partial differentiation with respect to each of the input quantities to assemble the gradient vector, denoted $\nabla f() = \left({\large \strut} \partial_x f(), \ \partial_y f()\right)$. In terms of Figure \@ref(fig:loophole), where we are standing at about $(x_i=0.8, y_i=-2.3)$, we would evaluate the each of the partial derivatives in the gradient vector at $(0.8, -2.3)$. 
+
+The gradient points in the steepest direction uphill so, once you know the direction, take a step in that direction to head toward the argmax, or a step in the opposite direction if you seek the argmin. The process of following the gradient toward the top of the hill is called ***gradient ascent***. Correspondingly, following the gradient downhill is ***gradient descent***.
+
+```{r loopwhole-gradient, echo=FALSE, fig.cap="The gradient provides information about the shape of the local function in a convenient form to guide the step to the next locale in your journey toward the argmin or argmax."}
+# gradient_plot(SM_2_potential(x, y) ~ x & y, domain(x=0:3, y=-3:0), alpha=1, color="black") %>%
+#  gf_refine(coord_fixed())
+# the mask is in figures2.key
+knitr::include_graphics("www/loophole-gradient.png")
+```
+
+For humans, the length of a step is fixed by the length of our legs and the size of our feet. The mathematical step has no fixed size. Often, the modeler gains some appreciation for what constitutes a small step from the modeling process. Referring to Figure \@ref(fig:spring-mass-3) for example you can see that a small increment in $x$ is, say, $0.1$, and similarly for $y$. There is little point in taking an infinitesimal step---that gets you almost nowhere! Instead, be bold and take a finite step. Then, at your new location, calculate the gradient vector again. If it's practically the same as at your earlier position, you can wager on taking a larger step next time. If the new gradient direction is substantially different, you would be well advised to take smaller steps.
+
+Fortunately, a variety of effective ideas for determining step size have been implemented in software and packaged up as algorithms. The modeler need only provide the objective function in a suitable form and providing a starting position or domain for the search. 
+
+::: {.rmosaic data-latex=""}
+The R/mosaic function `argM()` is set up to find argmins and argmaxes using the familiar tilde-formula/domain style of arguments used throughout this book. For instance, the potential energy of the spring-mass system shown in Figure \@ref(fig:spring-mass1) is available as `Zcalc::SM_2_potential()`
 
 
+```{r}
+argM(SM_2_potential(x, y) ~ x & y, domain(x=0:3, y=-3:0))
+```
+:::
+
+::: {.example data-latex=""}
+Example with the more complicated spring-mass system.
+
+1. Just show the argM solution
+2. Trace the steps using `optim()` with `control=list(trace=1), method="CG"`
+:::
 
 MOVE THE FOLLOWING ELSEWHERE.
 
