@@ -95,15 +95,14 @@ ticks <- latex2exp::TeX(c(r'(x^*)', "x_0", "x_1"))
 f <- makeFun(raw(x) ~ x)
 df <- D(f(x) ~ x)(x0)
 fhat <- makeFun(f(x0) + df*(x-x0) ~ x)
-x1 <- solve_step(f(x) ~ x, v=10, x0=x0)
 xstar <- Zeros(f(x) - 10 ~ x, domain(x=-3:3))$x
 slice_plot(f(x) ~ x, domain(x=-2:5), color="brown", label_text="f(x)", label_vjust=-0.5) %>%
   slice_plot(fhat(x) ~ x, color="blue", linetype="dotted") %>%
   gf_hline(yintercept=~ 10, color="magenta") %>%
   gf_text(10 ~ 4, label="v = 10", color="magenta", vjust = -0.5) %>%
   gf_text(1 ~ 2, label="Straight-line approx. at x0", color="blue", angle=-35) %>%
-  gf_text(0 ~ x1, label="Result x1", angle=90) %>%
-  gf_refine(scale_x_continuous(breaks = c(xstar, x0, x1), labels = ticks, minor_breaks = NULL), coord_fixed(ratio=1/5)) +
+  gf_text(0 ~ 0, label="Result x1", angle=90) %>%
+  gf_refine(scale_x_continuous(breaks = c(xstar, x0, 0), labels = ticks, minor_breaks = NULL), coord_fixed(ratio=1/5)) +
   theme(axis.text.x = element_text(size = 15))
 ```
 
