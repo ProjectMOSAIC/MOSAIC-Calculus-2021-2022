@@ -32,7 +32,7 @@ It's common sense that $x_2^\star$ is not a viable solution. The negative volume
 
 The evaluation phase ought also to produce an indication of how sensitive the output is to small changes of the input near the argmax (or argmin). For example, setting $x=4$ in will produce a volume output $V(4) = 1056$ in^2^, hardly different than the "exact" maximum of 1056.3 in^3^ and perhaps preferred for the person who wants to make standard-size boxes.
 
-It's also good for the evaluation phase to include a reflection on how well the model reflects the real-world situation. For example we've neglected the creases that arise from folding cardboard, so a more complete examination would estimate this effect. And the person skeptical about calculus-book chestnuts might wonder whether the object is really to create a box without a top!
+The evaluation phase should also include a reflection on how well the model reflects the real-world situation. For example we've neglected the creases that arise from folding cardboard, so a more complete examination would estimate this effect. And the person skeptical about calculus-book chestnuts might wonder whether the object is really to create a box without a top!
 
 Optimization problems analogous to this example do sometimes come up in applied work. More commonly, however, optimization problems involve much more complicated objective functions with many inputs. The next section considers the basis for a more general and practical approach to the solving phase of optimization. Later sections examine how this more general approach leads to methods for approaching the sort of real-world optimization problem where there are multiple objectives.
 
@@ -68,7 +68,6 @@ With a graph of the objective function like Figure \@ref(fig:spring-mass1-pot), 
 
 ```{r spring-mass-3, echo=FALSE, out.width="50%", fig.cap="A more complicated spring-mass system."}
 knitr::include_graphics("www/spring-mass3.png")
-
 ```
 
 In a multi-input optimization problem, we don't have a picture of the whole objective function. Instead, we are able to ***evaluate*** the objective function for a single given input at a time. For instance, we have a computer function that implements the objective function and we're free to evaluate it at whatever inputs we care to choose. It's as if, instead of having the whole graph available, the graph is covered with an opaque sheet with a loophole, as in Figure \@ref(fig:loophole).
@@ -104,12 +103,194 @@ argM(SM_2_potential(x, y) ~ x & y, domain(x=0:3, y=-3:0))
 ```
 :::
 
-::: {.example data-latex=""}
-Example with the more complicated spring-mass system.
+::: {.intheworld data-latex=""}
+Optimization using symbolic techniques is often found in textbooks as part of the derivation of textbook formulas. The symbolic techniques are especially appropriate because they allow parameters to be represented with symbols rather than as specific numbers. Usually the objective functions involved are simple.
 
-1. Just show the argM solution
-2. Trace the steps using `optim()` with `control=list(trace=1), method="CG"`
+Numerical techniques are the most widely used in practice. Optimization is an important operation in both science and management and much human ingenuity has gone into the development of effective algorithms. The modeler rarely if ever needs to reach beyond the software provided in technical computing environments such as R, MATLAB, Mathematica, or the many packages available for Python.
+
+In data science and machine learning, increasingly software is provided as web services and APIs (application programming interfaces) such as [TensorFlow](https://www.tensorflow.org/) for the particular machine technique called "deep learning."
+
+In using such software systems, the modeler needs to understand the structure of the arguments handed off to the systems. It's also important to be able to test whether you have structured those arguments appropriately to represent your intentions. This often involves some level of debugging and the incremental development of objective functions so that you can verify correct performance on a simple version of the objective function before adding more detail and repeating the cycle of verify-then-add-more-detail.
+
+As a simple example of support for such debugging, we'll examine a basic R function, `optim()`, for carrying out optimization. You can see the documentation for `optim()` by giving the command `?optim` in a sandbox. You'll likely find it hard to follow at first and using such functions requires a deeper understanding of R programming than needed in this book. (The R/mosaic `argM()` function makes use of `optim()` internally, surrounding it with an interface using tilde expressions and domains.) To illustrate, Figure \@ref(fig:trace-spring-mass-2) traces the sequence of ascent steps followed by `optim()` in working toward the argmin of `SM_2_potential()`.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+obj_fun <- vector_arg(SM_2_potential)
+out <- capture.output(
+  results <- optim(c(0,0), obj_fun,
+                 control=list(trace=1, REPORT=3), method="CG")
+)
+lines <- grep("parameters", out)
+arg_lines <- outer(seq_len(lines[2] - lines[1] - 1) - 1, lines, "+")
+arg_msg <- gsub("parameters", "", out[arg_lines])
+steps <- as_tibble(matrix(scan(text = arg_msg), ncol = 2, byrow = TRUE)) %>%
+  mutate(rpw = as.character(row_number()-1))
+names(steps) <- c("x", "y", "row")
+Plot1 <- 
+  gf_point(y ~ x, data = steps[1:6,], inherit=FALSE, color="blue") %>%
+  gf_path(y ~ x, data = steps[1:6,], color="blue") %>%
+  gf_text(y ~ x, data = steps[1:6,], label=~row, 
+          inherit=FALSE, color="blue", hjust=-1.2) %>%
+  gradient_plot(SM_2_potential(x, y) ~ x & y, 
+                domain(x=0:3, y=-3:0), alpha=1, color="black") %>%
+  gf_refine(coord_fixed())
+
+Plot2 <- 
+  gf_point(y ~ x, data = steps[6:11,], inherit=FALSE, color="blue") %>%
+  gf_path(y ~ x, data = steps[6:11,], color="blue") %>%
+  gf_text(y ~ x, data = steps[6:11,], label=~row, inherit=FALSE, color="blue", hjust=1.2) %>%
+  gradient_plot(SM_2_potential(x, y) ~ x & y, 
+                domain(x=1.65:1.656, y=-1.216:-1.20), 
+                alpha=1, color="black", npts=10) %>%
+  gf_refine(coord_fixed())
+Plot3 <- 
+  gf_point(y ~ x, data = steps[8:13,], inherit=FALSE, color="blue") %>%
+  gf_path(y ~ x, data = steps[8:13,], color="blue") %>%
+  gf_text(y ~ x, data = steps[8:13,], label=~row, inherit=FALSE, color="blue", hjust=1.2) %>%
+  gradient_plot(SM_2_potential(x, y) ~ x & y, 
+                domain(x=1.651:1.652, y=-1.2131:-1.2117), 
+                alpha=1, color="black", npts=10) %>%
+  gf_refine(coord_fixed())
+```
+
+
+```{r SM2-path, echo=FALSE, fig.show="keep", fig.cap="The path followed by `optim()` in descending the gradient, starting at (0,0). Successive steps are numbered."}
+Plot1 
+gridExtra::grid.arrange(Plot2, Plot3, nrow=1)
+```
+
+Starting at the initial guess, $(x_0, y_0) = (0,0)$ the algorithm takes a step of length about 1.5 to the east-south-east. The gradient at point $(x_1, y_1)$ is discernibly different than at $(x_0, y_0)$; the algorithm follows the new gradient vector but with a shorter step length. At $(x_2, y_2)$ there has been a more severe change in the gradient, so the angle takes an even shorter step to the point labeled 3.
+
+The bottom two graphs zoom in on the gradient field for later steps. The most dramatic changes in direction are at $(x_6, y_6)$ and $(x_9, y_9)$. As the gradient vector gets shorter, so do the step sizes, terminating when the step size is insignificant.
 :::
+
+::: {.example data-latex=""}
+The potential energy function of the spring-mass system in Figure\@ref(fig:spring-mass3) is available as the function `Zcalc::SM_3_potential()`. We can use `argM()` to to find the argmin:
+
+```{r}
+argM(SM_3_potential(x1, y1, x2, y2, x3, y3) ~ x1 & y1 & x2 & y2 & x3 & y3, 
+     domain(x1 = 0:3, y1=-3:0, x2=0:3, y2=-3:0, x3=0:3, y3=-3:0))
+```
+Figure \@ref(fig:SM3-equilibrium) shows the argmin translated into the graphical format.
+
+```{r SM3-equilibrium, echo=FALSE, fig.cap="The equilibrium configuration of the spring-mass system from Figure \\@ref(fig:spring-mass3)."}
+knitr::include_graphics("www/SM-3-equilibrium.png")
+```
+
+Admittedly, the tilde-expression/domain interface to `argM()` is becoming ungainly with six inputs. In professional work, a different programming format based on vectors is used. We won't need that for our simple examples.
+:::
+
+## Objectives and Constraints
+
+Many real-world optimization problems do not fit neatly into the framework of constructing an objective function and then finding the argmin (or argmax). A common situation is having multiple objectives and, often, the original problem statement does not include all of the objectives. When such missing objectives become apparent, it's necessary to visit the modeling phase of the problem to insert the new objective. By adopting the right approach to modeling, such situations can be readily handled and, even better, the modeling phase can bring new insight into the real-world problem.
+
+We'll illustrate by returning to the mathematically simplified problem of constructing an optimal cardboard box. Before, we stipulated that the raw cardboard stock has dimension 20 inches by 30 inches. Now we'll generalize, and work with a piece of cardboard that has edges of length $y$ and from which, as before, we'll cut out square corners of length $x$ on a side. Our objective is to make a box with the largest possible volume. (This will be an **argmax** problem.)
+
+The area of the bottom of the box is $(y - 2x)^2$ and the box height is $x$. The objective function is the volume of the box, area times height:
+$$V(x, y) \equiv x (y - 2x)^2\ .$$ There are two inputs, $x$ and $y$, so a simple plot should suffice to find the argmax.
+
+```{r box2, echo=FALSE, fig.cap="The volume of the box (in cubic inches) constructed by cutting corners of size $x$-by$x$ out of a $y$-by-$y$ piece of cardboard."}
+V <- makeFun(x*(y-2*x)^2 ~ x & y)
+P1 <- contour_plot(V(x,y) ~ y & x, domain(y=0:30,x=0:10),
+             contours_at = c(10,20, 50,100,200,300,500,700, 1000, 1500,2000, 2500, 3000),
+             skip=0)
+P1
+```
+Scanning Figure \@ref(fig:box2) reveals a couple of things that you might not have anticipated. First, the argmax is in the extreme upper-left corner of the graphics frame, not in the center as in previous examples. Second, the argmax in this corner, $(y=0, x=10)$ is logically inconsistent with the idea of a cardboard box.
+
+The logical inconsistency stems from an inadmissible value for $x$. For $2x > y$, the bottom of the box would have negative edge length. Multiplying the two negative edge lengths to calculate the area produces a positive area, but this is not a realistic calculation. 
+
+To make the calculation realistic, we should look at the situation only in that region of the graphics frame where $y > 2x$. This restriction is called an ***inequality constraint***.
+
+```{r box2, echo=FALSE, fig.cap="The inequality constraint that $y > 2x$ renders much of the graphics frame inadmissible as a possible solution. The inadmissible region is shaded in blue. The argmax must be sought in the unshaded region of the frame."}
+P1 %>%  inequality_constraint(y > 2*x ~ y + x, domain(y=0:30,x=0:10), 
+                              alpha=0.75, npts=200)
+```
+
+With the $(x,y)$-domain restricted to the values that are physically realistic, we can see that the argmax is still on the edge of the frame, at $y=30$ and $x\approx 5$, where the volume of the box will be about 1800 in^3^. This result should cause you pause, since there was nothing in the problem statement that limited $y$ to be 30" or less. If we replotted with a larger domain for $y$, we should see still larger boxes, without any limit.
+
+Essentially, the interpretation of the problem as originally posed is that, with enough cardboard we can make a box of any size! That's not so useful. The fault in the problem statement is that it omitted another objective function: use as little cardboard as possible. But if that were our sole objective, we would make a zero-volume box out of zero-area of cardboard. What we want, somehow, is to make as big a box as possible out of as little cardboard as possible: we have two objectives! In this case, the objectives are in conflict: making a bigger box (good) uses more cardboard (bad). 
+
+Common sense tells us to balance the two objectives, but how to represent this mathematically? Ideally, we would know how much box-volume is worth to us and how much cardboard costs, and we could construct an objective function that incorporates both value and cost. If you have the information to do this, then go ahead. For instance, if each cubic inch of volume is worth 1 cent, and each square inch of cardboard costs 3 cents, then the objective function will be the following (with output in cents):
+
+$$\text{Profit}(x,y) \equiv 10\, \sqrt{x (y-2x)^2} - 0.3 y^2$$
+```{r total-cost, echo=FALSE, fig.cap="The \"profit" (value minus cost) of the cardboad box (cents)."}
+P2 <- contour_plot(10*sqrt(x*(y-2*x)^2) - 0.3 * y^2 ~ y & x, domain(y=10:60, x=5:15),
+             contours_at=c(-200,-100,-50,0,50, 100,150,200,210), skip=0) %>% 
+  inequality_constraint(y > 2*x ~ y + x, domain(y=10:60,x=5:15), 
+                              alpha=0.75, npts=200) 
+P2
+```
+
+The Profit() function has an argmax at about $y=45, x=7.5$. The value of the Profit() function at this argmax is a bit greater than 210 cents.
+
+One problem with constructing objective functions like Profit() is finding appropriate value and cost. Typically, it requires a market and the ability to buy and sell to set a value, but for a little company designing a box there's unlikely to be such a mechanism. In a realistic modeling setting, the challenge is to convince the decision makers that the model function is right, something it can be hard to do without good evidence.
+
+But let's imagine a new factor coming into play. At the meeting where the box-design decisions are being made and where you are presenting your analysis in Figure \@ref(fig:total-cost), the graphic designer speaks up. "The trending shape for this year is cubic. We want the box, whatever it's size, to be a cube."
+
+Luckily, you the modeler can quickly incorporate this into your analysis. To be a cube, the height $x$ of the box has to be the same as the width and depth $y - 2x$. So you can incorporate the designer's wish into the model of the decision factors by adding a new constraint:
+
+$$x = y - 2x \ \ \ \implies y-3x=0\ \ \ \ \text{constraint: box must be cubic}$$
+This is called an ***equality constraint***. Figure \@ref(fig:cube-total-cost) shows the equality constraint in green: to be a cube, $x$ and $y$ must be somewhere along the green line.
+
+```{r cube-total-cost, echo=FALSE, fig.cap="An equality constraint calling for the box to be cube-shaped."}
+P2 %>%
+  equality_constraint(y - 3*x ~ y & x, domain(y=10:60,x=5:15), alpha=.5, fill="green", npts=300)
+```
+
+There happens to be something remarkable about the be-a-cube constraint. It runs practically parallel to the 50 cent contour of the profit function. If you look carefully, you can see that the highest profit along the green constraint occurs about $y=25$, but the differences in profit along the constraint are mainly trivial for $y < 35$ or thereabouts. This means that the profit function does not show a clear preference for one size box instead of another, pick any $y < 35$ and look up the corresponding $x$ that falls on the green constraint.
+
+
+::: {.intheworld data-latex=""}
+
+Many organizations use a budget mechanism to manage their affairs. The organization defines divisions or projects, and each of these is given a dollar budget to stay within. The individual division or project manager can arrange things more or less as she thinks best, so long as she stays within the budget. This is a kind of constraint: a ***budget constraint***.
+
+Suppose you have been tasked to set up a new factory and given a budget of $5,500,000 to do so. You were given this task because you have a particular expertise in how best to set up the factory, but your design will of course depend on the relative prices of the different inputs to the production process. For simplicity, let's imagine that there are two main inputs: labor $L$ and capital/equipment $K$. It would be silly to spend all the budget on labor and none on capital; the workers would have no tools to work with. Similarly, capital without labor has no productive value. The best design for the factory will be a mix of labor and capital.
+
+Since the purpose of the factory is to make things for sale, a good objective function will be the sales value of the output produced by the factory. Economists have a favored form for production functions of this sort, called a power-law called the ***Cobb-Douglas*** function. The essential insight behind the Cobb-Douglas function is that doubling **both** capital and labor (as if you built a second factory alongside the first) should double production. The Cobb-Douglas form for production as a function of capital and labor is $$Q(L, K) = p b L^a K^{1-a}\ .$$ You will use your expertise to set the values of the $a$ and $b$ parameters. The price $p$ of each unit of output will be set by the market: Let's assume for planning purposes that it's $450 per unit. Suppose you have determined that $a=0.3$ and $b=40$ are appropriate. Then the production function will be as shown in Figure \@ref(fig:cobb-doug1).
+
+```{r cobb-doug1, echo=FALSE, fig.cap="A Cobb-Douglas production function with $p=100$, $b=40$ and $a=0.3$. (Output units in dollars)."}
+P <- makeFun(p*b*(L^a)*(K^(1-a)) ~ K & L, a=0.3, p=450, b =40)
+Plot1 <- contour_plot(P(L, K) ~ L & K, domain(L=300:1000, K=50:250), skip=0)
+Plot1
+```
+As you can see from Figure \@ref(fig:cobb-doug1), the more labor and the more capital you use, the higher the production. Notice that the production function itself does not have an argmax interior to the domain being plotted. It's one of those "more is better" situations.
+
+Suppose that labor, in person-months costs $6000 per unit. Capital, in units of production stations, costs $13,000 per unit. Your budget constraint reflects the total cost of capital and labor: $4000 \cdot L + 15000 \cdot K \leq 5500000$. This constraint is graphed in Figure \@ref(fig:cobb-doug2).
+
+```{r cobb-doug2, echo=FALSE, fig.cap="The production function with the budget constraint shown in green."}
+Plot1 %>%
+  inequality_constraint(6000*L + 13000*K <= 5500000 ~ L & K, fill="green",
+                      domain(L=300:1000, K=50:250), alpha=0.6, npts=250)
+```
+Any mixture of labor and capital that falls outside the green zone stays within your budget. What's the best mixture? The one that gives the largest production. You can read this off the graph, $L\approx 650$ and $K\approx 125$. Notice that near the argmax, the contours of the production function are parallel to the boundary of the constraint zone. A good way to think about this is to walk along the boundary of the constraint zone from top to bottom. As you start near $K=250$ and $L=380$, the path you walk goes *uphill* in terms of the production function. The path continues uphill until you reach the argmax. Near the argmax, the path is level. After the path crosses the argmax, it is leading downhill. Near the argmax, the production function contours are parallel to the constraint boundary because, as at argmaxes generally, the objective function is flat near the argmax. With the constraint boundary crossing the slope, the argmax means that the path is locally level even though it slopes up and down on either side of the path.
+:::
+
+
+## Constraint cost
+
+In the previous section, the graphic designer's request that the box be cubic was translated into an equality constraint, $y-3x=0$, shown as the green line in Figure \@ref(fig:cube-total-cost). The skilled modeler can bring additional power to the analysis by translating that equation, $y-3x=0$ into a function, for example 
+$$\text{cube_box}(x, y) = (y - 3x)^2\ .$$ Notice that cube_box(x,y) has a maximum of zero when $y-3x=0$. Away from this equality, the value of cube_box() is negative.
+In other words, the equality constraint amounts to the zero contour of the cube_box() function.
+
+
+The power of this translation from a constraint to a function comes if you can work with the designer to determine an appropriate numerical value 
+
+
+
+1. Intro: tin can and cardboard box
+1. constraint curves vs constraint functions
+2. normal and tangent direction along constraint curve
+3. walk along constraint.
+
+## 
+
+Shadow prices and lagrange multipliers
+
+## Multiple constraints
+
+Optional 
+
 
 MOVE THE FOLLOWING ELSEWHERE.
 
@@ -121,28 +302,6 @@ One important real-world optimization problem stems from the world of molecular 
 Our strategy for presenting techniques for optimization will be to start with problems that have two input variables. For such problems, it's possible to graph the objective function and you can watch iterative solution techniques as they approach the solution. Such problems 
 To illustrate techniques for the solving phase of optimization problems with multiple inputs, we'll use two examples from physics that can straightforwardly be made 
 
-Theory and visualization
-
-::: {.rmosaic data-latex=""}
-Numerics of optimization
 
 
-:::
 
-Examples
-
-
-## Constraints
-
-1. Intro: tin can and cardboard box
-1. constraint curves vs constraint functions
-2. normal and tangent direction along constraint curve
-3. walk along constraint.
-
-## Constraint cost
-
-Shadow prices and lagrange multipliers
-
-## Multiple constraints
-
-Optional 
