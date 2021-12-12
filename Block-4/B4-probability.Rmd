@@ -1,4 +1,326 @@
-# Probability
+# Probability and evidence
+
+This chapter is about the use of functions for the purpose of expressing what we do and do not know about uncertain situations. Such situations are common. For instance, a person may be at high risk for a disease, say, diabetes or lung cancer. The term "high risk" indicates that we know something about the situation: not whether or not the person has the disease but whether they are "likely" to have or to get it. Another example: a car might be said to be "unreliable." We do not mean by this that the car cannot be used. Rather we're thinking that from time to time the car might fail to start or run. A car where this happens once over a few year span is reliable, a car where this happens on a month-to-month basis is not reliable.
+
+You may well have had some textbook exposure to ***probability*** as an intellectual field. Typical examples used to illustrate concepts and methods are coins being flipped, dice being tossed, and spinners spun. Colored balls are drawn from urns, slips of paper from hats, and so on. Each of these is a physical representation of an idealized mechanism where we feel sure we understand how likely each possible outcome is to happen.
+
+In this chapter, we'll use two basic imagined settings where uncertainty comes into play: the risk of disease before the disease is diagnosed and the safety of a self-driving car before it is in an accident. The word "imagined" signals that you should not draw conclusions about the facts of any particular disease or any particular self-driving car; we are merely using the imagined settings to lay out concepts and methods for the mathematical presentation and analysis of uncertainty and risk. Of particular importance will be the mathematical means by which we represent our knowledge or belief in these settings and the way we can properly update our knowledge/belief when new information becomes available.
+
+## Probability
+
+A probability, as you may know, is a dimensionless number between zero and one (inclusive). In this chapter, you'll be dealing with functions relating to probabilities. The input to these functions will usually be a quantity that can have dimension, for instance, miles driven by a car. For some of the functions we will see in this chapter, the output will be a probability. For other functions in this chapter, the output will be a ***probability density***.
+
+We'll illustrate how we want to work with probability with a simple game of the sort you might encounter at a fund-raising fair. There is a jar on display, filled with coins that have been donated by one of the fair's sponsors. You pay $1 (which goes to a good cause) to enter the contest. Your play is to describe how much money is in the jar, writing your description down along with your name on an entry form. At the end of the day, an official will open the jar, count the money, and announce who made the best estimate. The winner gets the money in the jar.
+
+```{r echo=FALSE, out.width="15%", fig.align="center"}
+knitr::include_graphics("www/jar-coins.png")
+```
+
+Were this an ordinary fair, your entry form might list the amount of money that you think is in the jar, say 42 dollars. The winner would be determined by seeing whose guess was closest to the actual value of the coins in the jar. Simple.
+
+But this is a calculus fair and the game is constructed to illustrate some basic concepts of how to represent your knowledge and uncertainty in a reasoning way, for instance how to combine new evidence with existing knowledge. The evidence is what you can see of the coins in the jar. Another form of evidence might be your sense of the heft of the jar when you pick it up, or a measurement of the height and circumference of the jar. Your existing knowledge might be a statement from the contest organizers that only legitimate coins are in the jar; for instance, that there's not a tennis ball in the center of the jar or a packet of washers from the hardware store. 
+
+The contest form states: "On the graph-paper axes below, sketch a continuous function expressing your best belief about how much money is in the jar. At all inputs, the function value must be zero or greater."
+
+```{r coin-graph-paper}
+Money_graph <-
+  gf_point(cyl ~ mpg, alpha=0, data = mtcars) %>%
+  gf_lims(y=c(0,5)) %>%
+  gf_refine(
+    scale_x_continuous(
+      limits = c(0,100),
+      minor_breaks = seq(0,110, by=1),
+      breaks = seq(0, 100, by=25), 
+      labels = c("0", "$25", "$50", "$75",  "$100"))) %>%
+  gf_labs(x="Money in the jar", y = "Function output")
+Money_graph
+```
+The rules continue: "At 5 pm, the money in the jar will be counted. Each contestant's score will be the **normalized value** of their function at $M$, where $M$ stands for the money in the jar."
+
+Take a minute to look at the picture of the jar and draw your function on the axes shown above. We want to see how you do compared to the following three contest entries.
+
+```{r contest-entries, echo=FALSE, fig.cap="Three contestants' contest entries.", warning=FALSE}
+P1 <- Money_graph %>% gf_labs(title="Johnny Milton") %>%
+  slice_plot(ifelse(mpg > 22 & mpg < 30, 5, 0) ~ mpg, 
+             domain(mpg = 0:100), size=2, npts=300) %>%
+  gf_vline(xintercept=~32, color="brown", alpha=0.3)
+P2 <- Money_graph %>% gf_labs(title="Louisa Alcott") %>%
+  slice_plot(5 ~ x, domain(x=0:100), size=2) %>%
+  gf_vline(xintercept=~32, color="brown", alpha=0.3)
+P3 <- Money_graph %>% gf_labs(title="Geoff Chaucer") %>%
+  slice_plot(40*dnorm(x, 35, 5) ~ x, domain(x=0:100), size=2) %>%
+  gf_vline(xintercept=~32, color="brown", alpha=0.3)
+gridExtra::grid.arrange(P1, P2, P3, nrow=3)
+```
+It's 5:15 pm and the money count is complete: $32. Who won?
+
+To help you judge, we've marked $32 as a light line in Figure \@ref(fig:contest-entries). Evaluating each entrant's function at $32 gives:
+
+Who    | Function value | Normalized value
+-------|----------------|--------
+Johnny |     0          |     0.000
+Louisa |     5          |     0.010
+Geoff  |     2.66       |     0.066
+
+Deciding who made the best guess is not a matter of comparing the "function values" in the table. 
+
+Consider Louisa's entry. She gave the highest value possible for each input value: 5. But looking at Louisa's function you get no sense at all of how much money is in the jar.
+
+Johnny's entry is more informative. You can see that he thinks there's about $26 in the jar, ranging anywhere from $23 to $30. Unfortunately, even though his guess is detailed and precise, it did not match with the coin-value result.
+
+Geoff has made a guess that, like Johnny's, says something about how much he thinks is in the jar. As you can see, he used a Gaussian function centered on $35. The standard deviation parameter in Geoff's function is $5.
+
+Recall that the contest rules spoke of a **normalized value** of the function. This detail is in place to deal the kind of gambit played by Louisa. Louisa's function gives no information about the coin value. The function value is 5 for $0 \leq M \leq 100$. The **normalized** value, however, is only 0.010. In contrast, Geoff's **normalized** value is 0.066, more than six times higher than Louisa's. Johnny's normalized value is zero.
+
+To "normalize" a function $f(M)$ means to scale with a positive constant $1/A$ it so that $$\int_{-\infty}^{\infty} \frac{1}{A}\, f(M) dM = 1 \ \ \implies\ \ A = \int\ f(M) dM.$$
+
+Louisa's function is 
+$$f_\text{Louisa}(x) = \left\{\begin{array}{cl}5 & \text{for}\ 0 \leq x \leq 100\\0& \text{otherwise}\end{array}\right.$$ so for her, $A_\text{Louisa} = 500$. Applying the normalized function to $M=32$ gives $$\frac{1}{A_\text{Louisa}}f_\text{Louisa}(M=32) = \frac{5}{500} = 0.010\ .$$
+For Johnny's function, $A_\text{Johnny} = 40$ so his normalized score is $$\frac{1}{A_\text{Johnny}}f_\text{Johnny}(M = 32) = \frac{0}{40} = 0\ .$$
+
+For Geoff, $A_\text{Geoff}$ is also 40. His normalized score is $$\frac{1}{A_\text{Geoff}}f_\text{Geoff}(M = 32) = \frac{2.66}{40} = 0.066\ .$$
+
+The normalized versions of the functions drawn by Johnny, Louisa, and Geoff are examples of ***probability density functions***. A probability is simply a dimensionless number between zero and one. Later, we'll work with functions whose output is a probability, two examples of which are a "likelihood function" and a "cumulative probability distribution." But the functions drawn by Louisa *et al.* do not have an output that is a probability. Certainly, all of those functions have an output with one feature of a probability: it is never less than zero. 
+
+You might notice that all three functions $f_\text{Johnny}()$, $f_\text{Louisa}()$, and $f_\text{Geoff}()$ have output values that are sometimes numbers greater than one. But even if we relabed the vertical axis to replace 5 with, say, 0.5, the normalized versions of the function still cannot produce an output that is a probability. The problem is that the normalized versions are scaled by a constant $A$ that is not dimensionless. Note from the graph that $\int f(M) dM$ has units of *dollars*: the vertical axis is a dimensionless number, but the horizontal axis is in dollars. The units of $A$ will therefore be in dollars and there is no such thing as a probability of 0.066 per dollar.
+
+We call the functions probability **density** functions because ...
+
+YOU WERE HERE.
+
+
+## Describing knowledge or belief
+
+In everyday speech, "knowledge" and "belief" carry different connotations: knowledge is about *reality* and belief is about the *acceptance* of statements as true. We have all encountered occasions when one person's belief is in conflict with another person's belief, that is, the one person accepts a statement that the other person denies. But when one person's knowledge contradicts another person's, we tend to think that what they are calling "knowledge" is more properly called "belief."
+
+We'll use the word "knowledge" here to refer to a current state of  belief, with the understanding that the belief can and should be updated as new information becomes available. And we'll use functions to represent the state of belief in the presence of available information. 
+
+For the **self-driving car** example, we'll indicate our knowledge in terms of miles: the number of miles of driving that incur a 10% risk of a serious accident.^[In a real analysis, we should carefully define what "serious accident" means, e.g. an accident that involves a fatality or prolonged disability. We'll leave precise definitions to the people who study car safety professionally and pretend here that "serious accident" has a clear definition.] We'll call this the 10%-risk-mileage or, for short, simply the "***risk-mileage***." A safe self-driving car has a higher risk-mileage number, an unsafe car has a low risk-mileage number. You can use your intuitive sense of what "50% risk" means.^[One reasonable definition involves an imaginary setting: A large number of independent but essentially identical self-driving cars go through their daily business, each accumulating mileage over time at the same rate day in and day out. The mileage-risk number will be the mileage where 10% of the fleet has suffered an accident. If the fleet started with 1001 cars, the odometer reading when the 101st car has an accident is the mileage-risk number for the kind of car from which the fleet is composed.]
+
+For the **disease example**, we'll indicate our knowledge in a similar way: the risk that the person in question will be properly diagnosed with the disease within the next five years. We'll call this the "5-year risk" or, for conciseness, just the "risk." This risk will be a number between zero and one. Again, your intuitive sense of "risk" will do.^[Once again, a reasonable sense for what we mean can be expressed with an imaginary situation. We imagine that we have 1000 essentially identical people (whatever that means!) going about their lives. We keep track of them over a five-year period. When the bell rings at the end of five years, we count how many have been diagnosed (whatever that means!) with the disease. The fraction so diagnosed is the 5-year-risk.]
+
+Now we need to introduce an idea that many readers may find strange and unexpected. What many people will expect is that we'll say that knowledge about the two situations is contained in the single number relevant to each situation: the 10%-risk-mileage for the car and the 5-year-risk for the person to get to disease. But we will **not** do this. To see why, imagine that you "know" the risk-mileage number is 100,000 miles. New information comes along and you are to *update* your knowledge, perhaps to 101,000 miles. Does the new knowledge contradict the old knowledge? Most people would be more gentle than this, recognizing that that there is a not single, fixed, precise risk-mileage that characterizes the car. The new knowledge of 101,000 miles is, for practical purposes, consistent with the old knowledge of 100,000 miles. But how about if we updated to 80,000 miles. Would that contradict the old knowledge? How about an update to 50,000 miles, or 30,000 miles? At what point would we say that the old knowledge was simply wrong?
+
+In order to represent our knowledge in each setting, instead of using a single number we are going to use a ***function*** whose domain is all or part of the number line. For the risk-mileage function, the domain will be zero to $\infty$. For the 5-year risk function, the domain will be zero to one.
+
+The output of the function will convey our degree of belief in the input number. For instance, in the car example, if the output for 100,000 miles is 2 and the output for 80,000 miles is 4, then we're indicating that we're somewhat more inclined to accept 80,000 miles than 100,000. To illustrate the interpretation of the function, imagine that you work for a traffic-safety organization and are testifying before a Congressional committee:
+
+Senator A: *Thanks for testifying today. It's important to the nation to make good decisions about allowing self-driving cars on our roads. We rely on experts like you to give us meaningful insight.*
+
+You: *I'm glad to be here, Senator. Let me frame what I know with a graph.*
+
+```{r echo=FALSE}
+f <- makeFun(10000*dnorm(sqrt(x), sqrt(100000), 70) ~ x)
+slice_plot(f(x) ~ x, domain(x=10000:1000000), npts=500) %>%
+  gf_labs(x="10%-risk mileage", y="Degree of belief") %>%
+  gf_refine(scale_x_log10(breaks=100000*c(.1,.25, 1, 2, 5, 10),
+                          labels=c("10K", "25K", "100K", "200K", "500K", "1 M")))
+```
+
+You (continuing): *Based on the experience accumulated to date by the leading self-driving car manufacturers in realistic driving conditions, we anticipate the 10%-risk mileage to be about 100K. It might be better than that, perhaps 200K. We don't think the claims that self-driving cars will practically eliminate accidents are plausible as you can see for the very low level of belief for the larger mileages, say, 500K to 1M. On the other hand, we can't yet rule out a much worse outcome, say that the 10%-risk mileage will be about 25K.*
+
+Senator B: *So are self-driving cars safer, riskier, or about the same as cars with a human driver.*
+
+You: *That depends a lot on the human driver. As you know, some drivers impose a much higher risk than others. We don't think that self-driving cars will be more dangerous than a run-of-the-mill bad driver. And there is considerable reason to believe they will be as good or even better than a good driver.*
+
+Senator A: *We're talking about a machine here. It's either a good machine or a bad machine. Which is it?*
+
+You: *We can only say for sure when we have accumulated a lot of experience. But based on the experience to date, the self-driving cars are likely to prove at least as good as an ordinary driver.*
+
+Senator B: *That's not very good. We should tell the developers to go back to the drawing table and give us something much better.*
+
+You: *More development is always welcome. But do understand that the curve that results is likely to be very similar to the one we have now. Maybe shifted a little to the left or the right. It would take much more data to see any dramatic difference, if indeed the new development were successful.*
+
+This dialog will be interpreted by many as a sign that the expert does not know what she is talking about. But in fact, she is using an entirely proper and legitimate way to convey her state of belief based on the evidence. Admittedly, the communication with the senators is not going very well. They don't understand that the graph is saying what can properly be said with the accumulated experience. That's why this is an important topic for us to cover, so that **you** will be able to recognize and make sense of what can properly be claimed.
+
+To get more familiar with representing knowledge using functions, consider a few different possible states of knowledge in the disease setting. Recall that each person has one and only one of these two outcomes: He will be diagnosed with the disease within the next five years or he will **not** be diagnosed. The five-year risk will be stated as a number between 0 and 1 (or, between 0 and 100% if you prefer us use percentages). 
+
+Let's start off in a condition of utter ignorance. It's hard to overemphasize how clueless is a belief of utter ignorance. Imagine for example, you are asked for the 5-year risk for a particular person of a disease whose name is in a sealed envelope, unknown to you. What's more, you don't even know which is the particular person in question. You know nothing, not even  whether the named disease actually exists.
+
+Your knowledge function assigns a number to each possible risk level. Since you know nothing, it would be reasonable to start with a relative belief function that says nothing, for instance, the panel (A) of Figure \@ref(fig:beta-shapes) says that the risk might be any number between zero and one . Panel (B) expresses a sense that most people are not at high risk for most diseases. Panel (C) might be a good choice of someone who thinks that "disease" refers to something that's unusual.
+
+```{r beta-shapes, echo=FALSE, fig.cap="A few different possibilities for expressing the claim, \"I have no idea at all what the risk is.\""}
+d_prior_1 <- makeFun(dbeta(x, 1.0, 1) ~ x)
+d_prior_2 <- makeFun(dbeta(x, 5.0, 1) ~ x)
+d_prior_3 <- makeFun(dbeta(x, 1.3, 5) ~ x)
+P1 <- slice_plot(dbeta(x, 1, 1) ~ x, domain(x=-.1:1.1), npts=501) %>%
+  gf_labs(title = "(A) disease example", x="",
+          y="Relative belief")
+
+P2 <- slice_plot(dbeta(x, 5, 1) ~ x, domain(x=-.1:1.1), npts=501) %>%
+  gf_labs(title = "(B) disease example", x="Five-year risk of the disease.",
+          y="")
+
+P3 <- slice_plot(dbeta(x, 1.3, 5) ~ x, domain(x=-.1:1.1), npts=501) %>%
+  gf_labs(title = "(C) disease example", x="",
+          y="")
+gridExtra::grid.arrange(P1, P2, P3, nrow=1)
+```
+
+It would be hard to criticize anyone who selected any of the belief functions in Figure \@ref(fig:beta-shapes). What we will have to keep an eye out for is whether these three different starting states have different implications once some actual data becomes available.
+
+For the self-driving car situation, the risk indicator is a mileage, which might be any possible number. One possibility is to say that a state of ignorance means that every mileage is equally believable. For practical purposes, we'll limit this to 0 to 1,000,000 miles as in Figure \@ref(fig:mileage-ignorance) panel (A). Many statisticians would be inclined to encode "no idea whatsoever" as the belief function shown in panel (B).  
+
+```{r mileage-ignorance, echo=FALSE, fig.cap="Two belief functions representing a state of ignorance for the risk-mileage value."}
+m_prior_1 <- makeFun(ifelse(x > 1e6, 0, 5) ~ x)
+m_prior_2 <- makeFun(1e5/x ~ x)
+slice_plot(m_prior_1(m) ~ m, domain(m=1000:1e6)) %>%
+  gf_refine(
+    scale_x_log10(
+      breaks=100000*c(.1,.25, 1, 2, 5, 10),
+      labels=c("10K", "25K", "100K", "200K", "500K", "1 M"))) %>%
+  gf_labs(title="(A) car example", y="Belief function", x="10%-risk mileage") %>%
+  gf_lims(y=c(0, 6))
+slice_plot(m_prior_2(m) ~ m, domain(m=10000:1e6), npts=500) %>%
+  gf_refine(
+    scale_x_log10(
+      breaks=100000*c(.1,.25, 1, 2, 5, 10),
+      labels=c("10K", "25K", "100K", "200K", "500K", "1 M"))) %>%
+  gf_labs(title="(B) car example", x="10%-risk mileage")
+```
+
+Panel (B) indicates some skepticism toward the claim that self-driving cars are safer than regular cars, at least in the absence of any evidence. In contrast, panel (A) anticipates that self-driving cars may well be a good idea for improving safety, but doesn't insist on it. Either one is a reasonable starting point. Again, as actual evidence starts to come in, we expect that about the same estimates should result regardless of the choice of (A) or (B) or any other similar belief function.
+
+## Likelihood: updating belief
+
+As actual evidence becomes available, we want to update our original belief by changing the belief function. To do this, we need a mechanism for translating the original belief, which we'll generically call "before()," to another belief function which we'll call "after()." For conciseness, we'll put a subscript $ill$ for the before() and after() functions relative to the disease example, and the subscript $car$ for the car examples. Keep in mind that the input to the $\text{before}_{ill}()$ and $\text{after}_{ill}()$ functions is **risk**, a number between zero and one for which we'll use the name $r$. For $\text{before}_{car}()$ and $\text{after}_{car}()$, the input is a mileage, for which we'll use the name $m$.
+
+The updating process is a matter of multiplying the before() function by another function called the ***likelihood*** function, often written ${\cal L}()$. Although we haven't yet said what the likelihood function will be, it always has two inputs. The first, which we'll call $D$, is the observed data that provides the data. The second is a value for the input to the belief function. So, in following our two examples, we will have two different likelihood functions, ${\cal L}_{ill}(D | r)$ and ${\cal L}_{car}(D | m)$. To comply with convention, we're using a vertical bar $|$ rather than a comma to separate the two arguments, but we might equally well have used a comma as we have been doing all along, as in ${\cal L}_{ill}(D, r)$ and ${\cal L}_{car}(D, m)$. The updating step is computationally simple. For the disease example it is
+$$\text{after}_{ill}(r) = {\cal L}_{ill}(D, r) \cdot \text{before}_{ill}(r)\ .$$ For the self-driving car example, it is $$\text{after}_{car}(m) = {\cal L}_{car}(D, m) \cdot \text{before}_{car}(m)\ .$$
+The second argument to a likelihood function---the one after the vertical bar---is always a statement about some possible state of the world. For the disease example, this statement will take the form of a five-year risk $r$. The output of the likelihood function will be a probability function: What is the probability of the observed data assuming, for the purpose of the calculation that the world were exactly as described by $r$.
+
+For instance, suppose our observations are of a group of people whom we have tracked for the last five years. Our tracking data tells us whether or not the person was diagnosed with the illness in those five years. Some will have been and some not. The data we assemble will look like this:
+
+person | diagnosed  | $\cal L(D|r)$
+-------|------------|--------
+Anne   | no         |
+Bill   | yes        |
+Carol  | yes        |
+David  | no         |
+$\vdots$ | $\vdots$ |
+Zeb    | yes        |
+
+Based on the data for each person, we're going to fill in the last column to give the value of the likelihood function for that person.
+
+Consider Anne. We're assuming that at the start of the five-year tracking period Anne's risk was $r$. At the end of the period, we know she was not diagnosed during the period---that's what the "no" means in Anne's row in the table. If the risk of being diagnosed was $r$, what is the probability that Anne was not diagnosed. That will be $1-r$. Bill, on the other hand, did have a diagnosis in the five-year period. Since the risk was $r$, the value of the likelihood function for Bill will be simply $r$.
+
+We can now go through the whole data table and add values for the last column:
+
+person | diagnosed  | $\cal L(D|r)$
+-------|------------|--------
+Anne   | no         | $1-r$
+Bill   | yes        | $r$
+Carol  | yes        | $r$
+David  | no         | $1-r$
+$\vdots$ | $\vdots$ |
+Zeb    | yes        | $r$
+
+To add drama to the situation, let's imagine that there are three researchers each at their own workstation. As the data come in, each researcher updates their own belief function. Figure \@ref(fig:disease-belief) shows the researchers belief functions changing as more and more data becomes available.
+
+```{r}
+d_anne_1 <- makeFun((1-r) * d_prior_1(r) ~ r)
+d_anne_2 <- makeFun((1-r) * d_prior_2(r) ~ r)
+d_anne_3 <- makeFun((1-r) * d_prior_3(r) ~ r)
+d_bill_1 <- makeFun(r*(1-r) * d_prior_1(r) ~ r)
+d_bill_2 <- makeFun(r*(1-r) * d_prior_2(r) ~ r)
+d_bill_3 <- makeFun(r*(1-r)* d_prior_3(r) ~ r)
+d_10_1 <- makeFun(r^5*(1-r)^5* d_prior_1(r) ~ r)
+d_10_2 <- makeFun(r^5*(1-r)^5* d_prior_2(r) ~ r) 
+d_10_3 <- makeFun(r^5*(1-r)^5* d_prior_3(r) ~ r)
+d_20_1 <- makeFun(r^10*(1-r)^10* d_prior_1(r) ~ r)
+d_20_2 <- makeFun(r^10*(1-r)^10* d_prior_2(r) ~ r) 
+d_20_3 <- makeFun(r^10*(1-r)^10* d_prior_3(r) ~ r)
+d_100_1 <- makeFun(r^50*(1-r)^50* d_prior_1(r) ~ r)
+d_100_2 <- makeFun(r^50*(1-r)^50* d_prior_2(r) ~ r) 
+d_100_3 <- makeFun(r^50*(1-r)^50* d_prior_3(r) ~ r)
+```
+
+```{r disease-belief, echo=FALSE, fig.cap="The belief functions as the data comes in. The first row shows the functions with just Anne's data, the second with both Anne's and Bill's, the third row after 10 people's data is included, the fourth after 20 people's data is included, the last row after 100 people's data. Each researcher's evolving belief function is shown as one column. The three researchers start out with different beliefs, but as more and more data are folded in (bottom row), their beliefs become more similar."}
+colors = c("blue", "black", "orange", "brown", "magenta")
+P_1_1  <- slice_plot(d_anne_1(r) ~ r, domain(r=0:1), color=colors[1]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="Anne") 
+P_1_2  <- slice_plot(d_bill_1(r) ~ r, domain(r=0:1), color=colors[2]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="Anne + Bill")
+P_1_10 <- slice_plot(  d_10_1(r) ~ r, domain(r=0:1), color=colors[3]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="First 10")
+P_1_20 <- slice_plot(  d_20_1(r) ~ r, domain(r=0:1), color=colors[4]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="First 20")
+P_1_100 <- slice_plot(d_100_1(r) ~ r, domain(r=0:1), color=colors[5]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="Researcher (A)", y="First 100")
+
+P_2_1  <- slice_plot(d_anne_2(r) ~ r, domain(r=0:1), color=colors[1]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="") 
+P_2_2  <- slice_plot(d_bill_2(r) ~ r, domain(r=0:1), color=colors[2]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="")
+P_2_10 <- slice_plot(  d_10_2(r) ~ r, domain(r=0:1), color=colors[3]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="")
+P_2_20 <- slice_plot(  d_20_2(r) ~ r, domain(r=0:1), color=colors[4]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="")
+P_2_100 <- slice_plot(d_100_2(r) ~ r, domain(r=0:1), color=colors[5]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="Researcher (B)", y=0)
+
+P_3_1  <- slice_plot(d_anne_3(r) ~ r, domain(r=0:1), color=colors[1]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="") 
+P_3_2  <- slice_plot(d_bill_3(r) ~ r, domain(r=0:1), color=colors[2]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="")
+P_3_10 <- slice_plot(  d_10_3(r) ~ r, domain(r=0:1), color=colors[3]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="")
+P_3_20 <- slice_plot(  d_20_3(r) ~ r, domain(r=0:1), color=colors[4]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="", y="")
+P_3_100 <- slice_plot(d_100_3(r) ~ r, domain(r=0:1), color=colors[5]) %>%
+  gf_refine(scale_y_continuous(breaks=0)) %>%
+  gf_labs(x="Researcher (C)", y=0)
+gridExtra::grid.arrange(  P_1_1,   P_2_1, P_3_1,
+                          P_1_2,   P_2_2, P_3_2,
+                         P_1_10,  P_2_10, P_3_10,
+                         P_1_20,  P_2_20, P_3_20,
+                        P_1_100, P_2_100, P_3_100,
+                        ncol=3)
+```
+
+To focus on researcher (A) .... She chose a constant function to represent her initial state of ignorance. (See Figure \@ref(fig:beta-shapes) panel (A).) We'll name this initial function ignorance$(r)$:
+
+$$\text{ignorance}(r) \equiv \left\{\begin{array}{cc}const & \text{for} \ 0 \leq r \leq 1\\0 & \text{otherwise} \end{array}\right.$$
+After seeing the first row of data, researcher A reshapes her belief function, multiplying it by the likelihood function that corresponds to that row of data.
+
+$$\text{after}_1(r) = \underbrace{r}_\text{likelihood for Anne} \times \text{ignorance}(r)$$
+Next, the researcher sees the second row and again reshapes the belief function.
+$$\text{after}_2(r) = \underbrace{1-r}_\text{likelihood for Bill} \times \text{after}_1(r)$$
+As each new data row becomes available, multiply the previous after$_i(r)$ belief function by the likelihood for that row:
+$$\text{after}_i(r) = \underbrace{{\cal L}(D_i, r)}_\text{likelihood for row i} \times \text{after}_{i-1}(r)$$
+
+
+
+
+## Probability functions
+
+We have been working with two kinds of functions to represent our knowledge:
+
+i. A ***relative belief function***, $\text{belief}(r)$, where the output of the function for any input $r$ is a number zero or greater. In comparing two different values of $r$, say, $r_1$ and $r_2$, the function says that our belief in $r_1$ compared to our belief in $r_2$ is $$\frac{\text{belief}(r_1)}{\text{belief}(r_2)}$$
+So, if $\text{belief}(r_1) = 31$ and $\text{belief}(r_2) = 4.2$ we're saying that we are in favor of $r_1$ by the ratio $31/4.2 \approx 7$. 
+ii. The ***likelihood function*** whose output, for any data input and $r$ input, is a number between zero and one. That is to say, the output is a probability.
+
+A third kind of function we will make use of is called a ***probability density function***. A RELATIVE BELIEF FUNCTION ON A CONTINUOUS INPUT can always be reformatted as a probability density function.
+
+WHAT DO WE REQUIRE
+
+
+
+
 
 ## Uncertainty and risk
 
@@ -9,6 +331,180 @@ To many people, quantifying the uncertain is a contradiction in terms. Numbers a
 Quantifying uncertainty has much in common with the 17th-century problems of quantifying motion that inspired calculus. The mathematical study of uncertainty has its roots in the same enlightenment era as calculus, the foundations being laid in the work of [Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) (1623–1662) a near contemporary of Leibniz and Newton. 
 
 Whereas the motivation for calculus was physical movement, the mathematical study of uncertainty was grounded originally in games of chance: gambling. But just as calculus soon became relevant to all sorts of non-physics problems, the recognition that uncertainty is susceptible to calculation quickly expanded beyond the gambling den and is now the basis for medical decision making, finance, and statistics.
+
+
+## OLD STUFF
+
+
+To say that the risk is zero is to claim that there is absolutely no possibility that the person will be diagnosed with the disease. That's a very strong statement of belief and would be hard to justify without some absolute mechanism that renders the disease impossible, for instance as with prostate cancer in women. Equally strong would be to say that the risk is 100%, meaning that it is absolutely certain that the person will be diagnosed. Such certainties are hard to come by. For example, even if the person is physiologically strongly disposed to the disease, there might be a mistake in the diagnosis procedure such as biopsy records being mislabeled that prevents the correct diagnosis.
+
+
+The table below shows seven of the infinite number of possibilities for a claim about the 5-year risk of disease. The first and last rows are a claim where the level of knowledge is strong. The middle row is a claim of complete uncertainty; the person making such a claim wouldn't be surprised whichever way things turned out at the end of five years. 
+
+Claim | Level of knowledge | probability of 5-year diagnosis | probability of no diagnosis
+-------------------|---------------------------------|--------------
+A. | Strong       | 95%  | 5%
+B. | Moderate     | 90%  | 10%
+C. | Weak         | 75%  | 25%
+D. | None         | 50%  | 50%
+E. | Weak         | 25%  | 75%
+F. | Moderate     | 10%  | 90%
+G. | Strong       |  5%  | 95%
+ 
+We haven't explained why multiplication by the likelihood is the correct way to update the belief function. The derivation requires just a little knowledge of ***conditional probability***. This being a calculus course, we'll focus on the role of functions rather than the mechanics of conditional probability. To motivate multiplication by the likelihood, imagine that you are attempting to choose between two different candidate values for the five-year risk $r$. We'll call them $r=0.001$ and $r=0.5$ and you have the same level of belief for each, that is before_(0.001) = 1 and before_i_(0.5) = 1.  A new row of data becomes available: the person is diagnosed with the disease. Under the $r=0.5$ option, such a data point is quite likely. After all, according to $r=0.5$ there is a fifty-percent chance of such an outcome. On the other hand, under the $r=0.001$ option there's only a one-in-a-thousand chance of a person being diagnosed. That makes $r=0.001$ seem relatively implausible, since under that assumption you're hardly likely to see the outcome reported in the data. For any $r$ where the likelihood of the observed data is low, we will give less credence to that $r$. For $r$ where the likelihood is high, the data don't give us any reason to doubt that $r$.
+
+## Review: Event space, probability model
+
+Probability refers to a system for generating an ***event***
+
+Coin: heads or tails
+
+Two coin flips: HH, HT, TH, HH
+
+Die: 1, 2, 3, 4, 5, 6
+
+Pair of dice: (1,1), (1,2), (1,3)
+
+Spin of a pointer: 0-360 degrees. It might seem obvious that we should define the outcome as the pointer angle. But this choice leads to trouble. To see this, consider how likely is each angle. All angles are equally likely. If we take the 360 possibilities: 0-1 degree, 1-2 degrees, and so on, the probability of any one of these outcomes is 1/360. If we used finer gradations, say 0-0.1 degrees, 0.1-0.2 degrees, and so on, there are 3600 possible outcomes so each has a probability of 1/3600. 
+
+A logical process seemingly in the style if calculus is to make the intervals infinitesimal in size:  $d\theta$ degrees. How many of these tiny are there altogether? $360 / d\theta$. Since the probability of any single one of $n$ outcomes is $1/n$, the probability of the spinner pointing to any $d\theta$ interval is $d\theta / 360$.
+
+The procedure in calculus for transitioning from finite-intervals to infinitesimal involves limits. So what is $\lim_{d\theta\rightarrow 0} d\theta/360$? It's zero, or if you prefer 0/360 which is still zero. So, defining the outcome of a spinner as the angle leads to zero probability for each angle which is, at best, confusing. As we discussed in Block 3, $d\theta$ is an infinitesimal, not a number. Fortunately, we have a calculus method for accumulating over an infinite number of infinitesimals: anti-differentiation. The integral of the probability of each angle over all the possible angles produces a number, not an infinitesimal:
+$$\int_0^{360} \frac{1}{360} d\theta = \theta/360 \left.{\Large\strut}\right|_0^{360} = 360/360 - 0 / 360 = 1\ .$$ 
+
+If we want to assign a numerical probability to spinner events, we'll have to be careful in how we define an event. For instance, it's reasonable to ask the probability that the spinner will have an angle less than 60 degrees. That will be $$\int_0^{60} \frac{1}{360}d\theta = \frac{\theta}{360}\left.{\Large\strut}\right|_0^{60} = \frac{60 - 0}{360} = \frac{1}{6}\ .$$
+
+For such a style of event---the outcome will be *less than* a specified number---the numerical probability associated with it is called a ***cumulative probability distribution*** and can be written:
+$$p(\theta) \equiv \int_0^\theta \frac{1}{360} d\theta\ .$$
+
+The quantity inside the integral, that is, between the $\int$ sign and the $d\theta$, is not called a probability. Here, $\frac{1}{360}$ is a ***probability density***. To calculate a probability you have to accumulate the density over some finite interval of $\theta$.
+
+With spinners, it's natural to assume that all angles are equally likely. To put this more precisely, we should say that the probability density is constant, in the spinner example the constant is the quantity 1/360 with units "per degree." Such constancy is not so in other situations where the probability density varies from place to place in the sample space.
+
+A surprisingly subtle situation has to do with the timing of some event that comes at random. Intuition suggests that a completely random event is equally like to happen at any time., 
+
+I"M GIVING UP ON THIS FOR NOW.
+
+but we have to be more careful in distinguishing between a probability, a probability density, and a cumulative probability.
+
+Suppose, for instance, that the random event happens, on average, once every 5 days. It seems reasonable to say that the event probability is 20% per day. This is about 0.833% per hour or 0.01388%
+
+
+
+
+
+With probabilities involving continuous outcomes, like the spinner, we need to take a different approach to defining the event itself: 
+
+Grain dropped on graph paper: (x, y)
+
+
+A ***probability model*** is a function whose domain is the sample space. The output of the function is a number between 0 and 1. That is, the a probability model assigns a number
+
+Compound events
+
+Product of disjoint events. 
+
+What's the probability of getting a first six on the third roll.
+$\left(\strut 1 - \frac{1}{6}\right)^2 \frac{1}{6} \approx 0.116$.
+
+## KNOWLEDGE AND BELIEF
+
+One of the most important uses of probability distributions is to help us use evidence in a rational way. We'll illustrate this using a specific example: introduction of a new but potentially hazardous product. For the sake of concreteness, we'll imagine that the new product is a self-driving car, but it might equally be a new medicine, a new space-lift system, an apprentice learning to use a new tool or machine, etc.
+
+One of the goals for self-driving cars is to reduce road accidents, especially fatal accidents. People are understandably skeptical that an automated system can cope with all the varying conditions of traffic, visibility, road damage, etc. without the benefit of human judgment or experience. For instance, a sensible driver passing near a house where children are playing catch in the front yard will be more vigilent to the possibility of a child running into the street and will take action to reduce the risk, e.g. by slowing down in order to increase the time available for reacting.
+
+Let's quantify the risk of a serious accident as the probability of such san accident occurring per vehicle mile traveled in the usual mix of traffic, weather, and other conditions. How can we estimate this probability for newly introduced self-driving cars? Put another way, how much experience should we require with tests of self-driving cars before we accept that they are at least as safe as regular cars.
+
+Based on experience with tens of millions of regular cars driving hundreds of billions of total miles, suppose we decide the accident probability is approximately 10% per 10,000 miles. From Section XXXX, you know that the probability density function for the number of miles driven until the next accident is $k e^{-k t}$ where $k$ is roughly 1/100,000.  
+
+We're hopeful but skeptical about self-driving cars. The best case scenario, let's say, is that the self-driving cars will be 10 times safer than regular cars. The worst case is that they will be 10 times worse. As the first self-driving cars start being driven, we'll assume that the accident probability is somewhere between 10% per 100,000 miles and 10% per 1000 miles. This is our belief *before* any evidence has accumulated. In statistics and engineering, this is called a ***prior belief*** which reflects our uncertainty by being framed as a probability density function. Here's a reasonable prior reflecting the previous discussion:
+
+```{r}
+# d is the distance travelled to have a 10% probability of
+# an accident
+prior <- makeFun(ifelse(d < 1000, 0, 1/d)/0.69315~ d)
+slice_plot(prior(d) ~ d, domain(d=0:100000))
+```
+
+```{r}
+likelihood <- makeFun(exp(-x/d)/d ~ x, d=100000)
+```
+
+```{r}
+# One car: accident at 20K miles
+slice_plot(likelihood(x=200000, d=d)*prior(d) ~ d, domain(d=1:1000000))
+
+# Times when accidents were observed
+Times <- c(20000,30000,20000)
+slice_plot(prod(likelihood(x=Times, d=d))*prior(d) ~ d, domain(d=1:500000))
+Integrate(likelihood(x=20000, d=d)^3 * prior(d) ~ d, domain(d=0:150000))
+> norm
+[1] 9.04523e-15
+> slice_plot(likelihood(x=20000, d=d)*prior(d)/norm ~ d, domain(d=1:100000))
+Warning messages:
+1: In validate_domain(domain, free_args) :
+  Using -5 to 5 in domain for missing domain names.
+2: In validate_domain(domain, free_args) : Missing domain names: norm
+> slice_plot(likelihood(x=20000, d=d)*prior(d)/1e-16 ~ d, domain(d=1:100000))
+```
+
+
+## Sample space is continuous
+
+
+
+## Constructing a probability model
+
+We'll start with an example motivated by a variety of real-world circumstances: accidents, contagious disease, acute illness, earthquakes, and so on. The event is, let's assume, an accident. Accidents happen and we'll assuming that they happen randomly in each time interval, say with some probability $0 < k < 1$. This is already a complete description of the probability mechanism. We'll use calculus to examine the implications of this in order to be able to anticipate when the next accident is likely to happen. The particular question we want to answer is: When is the next accident going to happen? Of course, since we're supposing the accidents happen at random, we'll have to be satisfied with a probability model, say, the probability that an accident happens at time $t$.
+ 
+We've assumed that the probability of the next accident happening in the interval $0 < t \leq 1$ is $k$, where $0$ is "now." What's the probability of the accident happening in the second interval, that is, $ 1< t \leq 2$? In order for the next accident to happen in the second interval, it must not have happened in the first interval, of which the probability is $1-k$, and it must happend in the second interval, of which the probability is $k$. Overall, the probability of happening in the second interval is the product of these two probabilities: $(1-k)k$.
+
+Similarly, to happen in the third interval, the accident must not have happened in either of the first two intervals, of which the probability is $(1-k)^2$, and then happen in the third, which has probability $k$. Recognizing the pattern, the probability of the next accident happening in the $n$th interval---we'll call this $p_n$---is
+$$p_n = (1-k)^{n-1} k\ .$$ 
+
+NEED TO MOVE THIS INTO A PROBABILITY DENSITY FORM
+
+
+
+Calculus gives us the tools for examining this probability as a continuous function of time rather than a probability in a discrete time interval. To accomplish this, we'll stipulate a differential $dt$: an infinitely small interval of time. Since the probability of the accident happening in an interval of duration 1 is $k$, the probability of happening during the interval $dt$ is $k\, dt$. The probability of the accident *not* happening during a $dt$ interval is $(1-k dt)$, and the probability of the accident *not* happening in any of the $dt$ intervals up to time $t$ is 
+$(1 - k dt)^{t/dt}$. 
+
+Probability of not happening at or before time $t$ is  $\exp(-k t)$. Probability of it happening at or before time $t$ is $1-\exp(-k t)$.
+
+Show graph. Eventually, it's got to happen. What's the probability of it happening at time $t$, multiply this by $k dt$. This is an infinitesimal, not a number. We shouldn't call it a probability, but a ***probability density***.
+
+Called a ***cumulative probability distribution***. Probability of it happening at 
+
+
+
+The probability for the accident to happen at time $t$ is therefore $$p(t) = \lim_{dt\rightarrow 0}(1 - k\,dt)^{t/dt} k\, dt\ .$$
+
+This is a situation where we need to be careful in how we calculate limits. 
+For instance, $\lim_{dt \rightarrow 0}$. It's easy to go astray. For example, one could argue (incorrectly) that the probability of no accident in any one $dt$ interval is practically 1, since $$\lim_{dt\rightarrow 0} (1-k\, dt) = 1 + k \lim_{dt\rightarrow 0} dt = 1\ .$$ If the accident can't happen in any one interval, then it will never happen ....
+
+The correct calculation looks at the whole expression, $(1-k\, dt)^{t/dt}$ and not just. Recall that the interpretation of $\lim_{dt \rightarrow 0}$ is that we do the calculation for ***finite values*** of $dt$, comparing the results for smaller and smaller---but not zero---values of $dt$. If the results are independent of $dt$ for small enough $dt$, then the limit exists. 
+
+::: {.example data-latex=0}
+To review the idea of a limit, let's look at $\lim_{dt \rightarrow 0} \ln(1 + b\, dt) / dt$. 
+
+We'll plug in $b=0.5$ and look at $dt=1, 0.1, .01, 0.001, \ldots$
+
+```{r}
+dts <- 10^seq(0,-8)
+log(1 + 0.5*dts) / dts
+```
+
+This suggests that $$\lim_{dt\rightarrow 0} \ln(1 + b\, dt) = b\ .$$
+
+:::
+
+To figure out $$p(t) = \lim_{dt\rightarrow 0}(1 - k\,dt)^{t/dt}\,k ,$$ we'll momentarily discard the $\lim_{dt\rightarrow 0}$ and work with
+$$(1 - k\,dt)^{t/dt}$$ where $dt$ is just a small number. Taking the logarithm of both sides gives
+$$\frac{t}{dt} \log(1 - k\, dt) + \ln(k) = t \frac{\ln\left(\strut 1-k\, dt\right)}{dt} + \ln(k)$$
+
+This quantity has a well behaved limit as $dt \rightarrow 0$. Drawing on the result from the previous example, we have $$\lim_{dt\rightarrow 0} \frac{\ln\left(1 - k\, dt\right)}{dt} = -k$$ and so $$-kt  + \ln(k)\ \ \implies\ \ \ p(t) = k\,e^{-kt}\ .$$
+
+This says that, if an accident is equally likely to occur in any time interval, the probability that the accident occurs at time $t$ decreases exponentially with $t$.
 
 ## Quantifying uncertainty
 
