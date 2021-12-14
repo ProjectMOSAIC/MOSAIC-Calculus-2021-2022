@@ -6,6 +6,14 @@ You may well have had some textbook exposure to ***probability*** as an intellec
 
 In this chapter, we'll use two basic imagined settings where uncertainty comes into play: the risk of disease before the disease is diagnosed and the safety of a self-driving car before it is in an accident. The word "imagined" signals that you should not draw conclusions about the facts of any particular disease or any particular self-driving car; we are merely using the imagined settings to lay out concepts and methods for the mathematical presentation and analysis of uncertainty and risk. Of particular importance will be the mathematical means by which we represent our knowledge or belief in these settings and the way we can properly update our knowledge/belief when new information becomes available.
 
+::: {.takenote data-latex=""}
+The calculus of probability and data introduces an additional convention for describing and naming functions. Throughout this book, the names have reflected the "shape" of the function---exponential, sinusoidal, sigmoidal, etc.---or the route by which the function was constructed, e.g. differentiation, anti-differentiation, inversion. Probability calculations often work out to be assembling an answer out of different kinds of component functions. An analogy is the assembly of an automobile out of different kinds of components: wheels, motors, body, and so on. You can't put a wheel where the motor should go and produce a proper automobile. All motors play the same sort of role in the function of an automobile, but they can have different "shapes" such as gasoline, diesel, or electric. 
+
+To understand how cars are built, you have to be able easily to distinguish between the different kinds of components. This is second nature to you because you have so much experience with automobiles. Likewise, to understand the probability calculations, you'll have to master the distinctions between the roles functions play in a calculation. In this chapter you'll see ***probability density functions*** as well as ***likelihood functions*** and ***prior functions*** and ***posterior functions*** and some others. As you get started, you will confuse these roles for functions with one another, just as a newborn child can confuse "wheel" with "motor" until experience is gained. 
+
+Make sure to note the role-labels given to the functions you are about to encounter.
+:::
+
 ## Probability density
 
 A probability, as you may know, is a dimensionless number between zero and one (inclusive). In this chapter, you'll be dealing with functions relating to probabilities. The input to these functions will usually be a quantity that can have dimension, for instance, miles driven by a car. For some of the functions we will see in this chapter, the output will be a probability. For other functions in this chapter, the output will be a ***probability density***.
@@ -57,7 +65,7 @@ dat <- tibble(x=rchisq(1000, df=4))
 
 Why a probability density function is often a good way to describe what you know about a situation. As an example, we'll consider a simple competition of the sort you might encounter at a fund-raising fair. There is a jar on display, filled with coins that have been donated by one of the fair's sponsors. You pay $1 (which goes to a good cause) to enter the contest. Your play is to describe how much money is in the jar, writing your description down along with your name on an entry form. At the end of the day, an official will open the jar, count the money, and announce who made the best estimate. The winner gets the money in the jar.
 
-```{r echo=FALSE, out.width="15%", fig.align="center"}
+```{r echo=FALSE, out.width="25%", fig.align="center"}
 knitr::include_graphics("www/jar-coins.png")
 ```
 
@@ -139,7 +147,7 @@ Three commonly used families of probability density functions are:
 
 The ***uniform density function***, $u(x, a, b)$ is more or less the equivalent of the constant function. The family has two parameters $a$ and $b$ with the function defined as:
 \begin{equation}\text{unif}(x, a, b) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{for}\ a \leq x \leq b\\0& \text{otherwise} \end{array}\right.
-\lab{eq:uniform-dist}
+(\#eq:uniform-dist)
 \end{equation}
 This function is used to express the idea of "equally likely to be any value in the range $[a, b]$." For instance, to describe a probability that a January event is equally likely to occur at any point in the month, you can use $u(x, 1, 31)$ where $x$ and the parameters $a$ and $b$ have dimension T and are in units of days. Notice that the density itself has dimension T^-1^ and units "per day."
 
@@ -246,7 +254,7 @@ The calculated mean and sd only approximate the values used in the simulation. T
 
 Generating random draws from a probability density and calculating arithmetic statistics on the result is one way of computing the mean and standard deviation of the probability density. It can also be done by integration. Although it's fair to describe the integral as a calculation of the *average value*, the term used professionally is ***expectation value***. The expectation value of a quantity $f(x)$ over a probability distribution is traditionally written in a distinct notation and is calculated as an integral of the quantity times the relevant probability density function.
 $${\cal E}\left[\strut f(x)\right] \equiv \int_{-\infty}^{\infty} f(x)\, \text{pdf}(x)\, dx\ ,$$ 
-For instance, the mean is the expectation value of $x$, so the mean of a quantity with a gaussian distribution is 
+The mean is the expectation value of $x$, so the mean of a quantity with a gaussian distribution is 
 $${\cal E}\left[\strut x\right] = \int_{-\infty}^{\infty} x \dnorm(x, \text{mean}, \text{sd})\, dx\ .$$
 This integral is exactly the same as the integral for the ***center of mass*** that was presented in Section \@ref(center-of-mass). 
 
@@ -304,866 +312,236 @@ Integrate((x-5)^2 * dunif(x, 0, 10) ~ x, domain(x=-0:Inf))
 
 ## Risk and data
 
-In this section, we'll examine the accepted technique for combining data with probability density functions in order to combine previous knowledge with new observations. The technique, called ***Bayesian inference***, is used throughout science and engineering. (Surprisingly, satisfactory computer algorithms to do the calculations were invented only in the last 40 years---so this is a modern topic.) 
+In this section, we'll examine the accepted technique for combining data with probability density functions in order to combine previous knowledge with new observations. The technique, called ***Bayesian inference***, is used throughout science and engineering. (Surprisingly, satisfactory computer algorithms to do the calculations were invented only in the last 40 years; this is a modern topic.) 
 
-Because there are several subtle aspects to Bayesian inference, we will present the techniques in terms of two specific examples. For most people, Bayesian inference is a new approach to thinking. It can take years of experience to develop a confident understanding. But you have to start somewhere .... 
+Up to this point we've worked with different kinds of mathematical entities involving probability.
 
+* Relative density functions: The domain is a possible outcome from a random event, the output is a non-negative quantity. Examples: The jar contest entries.
+* Probability density functions. Much like relative density functions but with the added restriction that the definite integral over the domain produces the dimensionless number 1. Example: gaussian function. 
+* Probability. A dimensionless number between 0 and 1.
 
-
-that can take years
-You'll see how "knowledge" can be represented as a probability density function, and the combination of new data with prior knowledge involves simple multiplication to create a relative density function that can be normalized into the probability density function that represents our new knowledge, after we've incorporated the data.
-
-
-Risk of disease: single probability
-
-Car safety: miles to 10% risk
-
-
-
-
-The rules continue: "At 5 pm, the money in the jar will be counted. Each contestant's score will be the **normalized value** of their function at $M$, where $M$ stands for the money in the jar."
-
-
-It's 5:15 pm and the money count is complete: $32. Who won?
-
-To help you judge, we've marked $32 as a light line in Figure \@ref(fig:contest-entries). Evaluating each entrant's function at $32 gives:
-
-Who    | Function value | Normalized value
--------|----------------|--------
-Johnny |     0          |     0.000
-Louisa |     5          |     0.010
-Geoff  |     2.66       |     0.066
-
-Deciding who made the best guess is not a matter of comparing the "function values" in the table. 
-
-Consider Louisa's entry. She gave the highest value possible for each input value: 5. But looking at Louisa's function you get no sense at all of how much money is in the jar.
-
-Johnny's entry is more informative. You can see that he thinks there's about $26 in the jar, ranging anywhere from $23 to $30. Unfortunately, even though his guess is detailed and precise, it did not match with the coin-value result.
-
-Geoff has made a guess that, like Johnny's, says something about how much he thinks is in the jar. As you can see, he used a Gaussian function centered on $35. The standard deviation parameter in Geoff's function is $5.
-
-Recall that the contest rules spoke of a **normalized value** of the function. This detail is in place to deal the kind of gambit played by Louisa. Louisa's function gives no information about the coin value. The function value is 5 for $0 \leq M \leq 100$. The **normalized** value, however, is only 0.010. In contrast, Geoff's **normalized** value is 0.066, more than six times higher than Louisa's. Johnny's normalized value is zero.
-
-To "normalize" a function $f(M)$ means to scale with a positive constant $1/A$ it so that $$\int_{-\infty}^{\infty} \frac{1}{A}\, f(M) dM = 1 \ \ \implies\ \ A = \int\ f(M) dM.$$
-
-Louisa's function is 
-$$f_\text{Louisa}(x) = \left\{\begin{array}{cl}5 & \text{for}\ 0 \leq x \leq 100\\0& \text{otherwise}\end{array}\right.$$ so for her, $A_\text{Louisa} = 500$. Applying the normalized function to $M=32$ gives $$\frac{1}{A_\text{Louisa}}f_\text{Louisa}(M=32) = \frac{5}{500} = 0.010\ .$$
-For Johnny's function, $A_\text{Johnny} = 40$ so his normalized score is $$\frac{1}{A_\text{Johnny}}f_\text{Johnny}(M = 32) = \frac{0}{40} = 0\ .$$
-
-For Geoff, $A_\text{Geoff}$ is also 40. His normalized score is $$\frac{1}{A_\text{Geoff}}f_\text{Geoff}(M = 32) = \frac{2.66}{40} = 0.066\ .$$
-
-The normalized versions of the functions drawn by Johnny, Louisa, and Geoff are examples of ***probability density functions***. A probability is simply a dimensionless number between zero and one. Later, we'll work with functions whose output is a probability, two examples of which are a "likelihood function" and a "cumulative probability distribution." But the functions drawn by Louisa *et al.* do not have an output that is a probability. Certainly, all of those functions have an output with one feature of a probability: it is never less than zero. 
-
-You might notice that all three functions $f_\text{Johnny}()$, $f_\text{Louisa}()$, and $f_\text{Geoff}()$ have output values that are sometimes numbers greater than one. But even if we relabelled the vertical axis to replace 5 with, say, 0.5, the normalized versions of the function still cannot produce an output that is a probability. Why not? The normalized versions are scaled by a constant $A$ that is not dimensionless. For instance, in Figure \@ref(fig:contest-entries) $\int f(M) dM$ has units of *dollars*: the vertical axis is a dimensionless number, like a probability, but the horizontal axis is in dollars. The units of $A$ will therefore be in dollars. So the output of $\frac{1}{A} f()$ has units of 1/dollar (that is, "per dollar") and is not dimensionless. 
-
-You can think of the probability density function as indicating the distribution of tiny nuggets across the domain of the function. Figure \@ref(fig:prob-nuggets) illustrates the idea. Each dot in the graph is meant to correspond to one infinitesimal amount of probability.
-
-```{r prob-nuggets, echo=FALSE, fig.cap="The contest entries represented as the distribution of tiny nuggets of probability. Each graph shows 1000 nuggets.", warning=FALSE, cache=TRUE}
-show_nuggets <- function(nuggets, name) {
-  dat <- tibble(x = nuggets)
-  gf_jitter(1 ~ x, data = dat, size=0.01, alpha=0.3) %>% 
-  gf_labs(title=name) %>%
-  gf_refine(
-    scale_y_continuous(limits=c(0,2), breaks=NULL), 
-    scale_x_continuous(
-      limits = c(0,100),
-      minor_breaks = seq(0,110, by=1),
-      breaks = seq(0, 100, by=25), 
-      labels = c("0", "$25", "$50", "$75",  "$100"))) %>%
-  gf_vline(xintercept=~32, color="brown", alpha=0.3)
-}
-
-P1 <- show_nuggets(runif(1000, 22, 30), "Johnny Milton")
-P2 <- show_nuggets(runif(1000, 0, 100), "Louisa Alcott")
-P3 <- show_nuggets(rnorm(1000, 35, 5), "Geoff Chaucer")
-
-
-gridExtra::grid.arrange(P1, P2, P3, nrow=3)
-```
-
-You can see in Figure \@ref(fig:prob-nuggets) that in Geoff's entry the nuggets are dense near the announced amount of money in the jar (brown line), more dense than either Louisa's or Johnny's.
-
-Of course, in calculus terms we don't think about the density of discrete nuggets but about a continuous function explicitly stating the probability density. To be eligible to be a probability density function, the function $\text{density}(x)$ must meet two criteria:
-
-i. $0 \leq \text{density}(x)$ for all $x$.
-ii. $\int_{-\infty}^\infty \text{density}(x)\, dx = 1$ the function is normalized.
-
-
-
-
-:::
-
-
-## Cumulative probability (turn into exercise)
-
-For every probability density function, such as the one displayed in Figure \@ref(fig:dart-g), there is another way of displaying the model called a ***cumulative distribution function***. For the probability density function $g(x)$, the cumulative distribution function $G(x)$ is $$G(x) \equiv \int_{-\infty}^infty g(x) dx$$. 
-
-```{r dart-g-cumulative, echo=FALSE, fig.cap="The cumulative distribution function corresponding to $g(x)$ in Figure \\@ref(fig:dart-g)."}
-slice_plot(pchisq(x, df=4) ~ x, domain(x=0:20)) %>%
-  gf_labs(x="Distance from center of bullseye (cm)", 
-          y="Cumulative probability")
-```
-
-The output of the cumulative distribution function is a probability: a number between zero and one. But the probability of what? The cumulative distribution function tells the probability of the outcome of the event being ***less-than*** the value of the input. For instance, in Figure \@ref(fig:dart-g-cumulative), the probability of the dart being closer to the bullseye than 5 cm is about 0.7.
-
-Cumulative distribution functions are the means with which many common probability calculations are done. For instance, the probability that the dart will fall 2 to 5 cm from the bullseye is $G(5) - G(2)$. Such calculations are simply in the style of definite integrals: $$G(5) - G(2) = \int_2^5 g(x)\,dx\ .$$
+Another kind of mathematical entity that plays a central role in probability calculations---particularly those that involve data---is the ***likelihood function***. In everyday speech, the word "likelihood" is a synonym for "probability." But the technical word "likelihood," in the nomenclature of the calculus of probability, means something utterly different from "relative density function" or "probability density function."
 
 ::: {.example data-latex=""}
-What is the probability that the dart will fall farther than 5 cm from the bullseye?
+It's time to calculate who won the jar-of-coins contest!
 
-This is the same as asking for the probability that the dart will fall somewhere in the interval 5cm to $\infty$, that is:
-$$\int_5^\infty g(x)\, dx = G(\infty) - G(5) = 1 - 0.7127 = 0.2873$$
-To understand why $G(\infty) = 1$, ask yourself what is the probability that a thrown dot will land closer to the bullseye than $\infty$. Of course it will! That corresponds to a probability value of 1.
+When last we encountered the contest, we had translated the contest entries from their initial, unnormalized form as relative density functions into their properly normalized probability-density-function format as shown in Figure \@ref(fig:contest-compare).
+
+Now we are going to build a likelihood function that will tell us the winner.
+
+**The starting point is data.** The officials have opened the jar and carefully counted the money. There was $32.14 in the jar.
+
+The domain of this likelihood function is the t.hree contestants, Johnny, Louisa, and Geoff. (Later, we'll work with likelihood functions where the domain is a continuous quantity.) The output of the likelihood function is the probability density assigned to the observed $32.14. For ease of reference, Figure \@ref(fig:contest-compare) has been annotated with a faint vertical line marking the position of $32.14 in the domain. You can read off the value of the likelihood from that graph. 
+
+The convention in denoting a likelihood function with an input $x$ is ${\cal L}(x | D)$, where $D$ is the data. The vertical bar in $x | D$ is a subtle reminder to the experienced that the $D$ is not an input to the function but a ***given*** quantity: the observed data. In fact, the word "data" comes from the Latin for "given." Once we have observed and recorded data, it is fixed: given. For this example, the observed, given amount is $32.14
+
+The domain $x$ in the likelihood function for the contest is the set {Johnny, Louisa, Geoff}. We can present the likelihood in tabular form:
+
+$x$  | ${\cal L}(\,x\ |\ \$32.14)$
+:----|:-----------------------------
+Johnny | 0.000 per dollar
+Louisa | 0.010 per dollar
+Geoff  | 0.066 per dollar
+
+The units, "per dollar," are needed because the output of ${\cal L}(x | \$32.14)$ is a probability density function. But the likelihood function itself is **not** a probability density function, it merely reports the level of the three different probability density functions entered by the three contestants. One way to see that ${\cal L}(x | \$32.14)$ is not itself a probability density function is to sum the outputs over the entire domain: $0.000 + 0.010 + 0.066 = 0.076$ per dollar which, obviously, is not equal to dimensionless 1. 
+
+In statistics, likelihood functions are used to describe how to estimate a quantity given some data about the quantity. The techique is called ***maximum likelihood estimation***: the estimate is the argmax of the likelihood function.  For the coins-in-jar contest, the argmax is Geoff. Therefore, Geoff wins!
+
+In the spirit of "Monday morning quarterbacking," let's look carefully at Johnny's entry. If his bar-shaped probability density function were shifted just a little to the right, he would have won. This illustrates a flaw in Johnny's logic in constructing his probability density function. The function indicates that he thought the probability of the amount being $23 was the same as being 30 dollars. In other words, he was uncertain to a considerable extent. But given this uncertainty, why would he insist that $30.01 is impossible (that is, has probability density 0 per dollar). Wouldn't it make more sense to admit nonzero density for $30.01, and similarly for $30.02 and upward, with the density gradually decreasing with the amount of money. This is why, absent very specific knowledge about the circumstances, probability densities are so often framed as Gaussian distributions, as in Geoff's entry.
 :::
 
-## EXERCISES
+We'll illustrate the Bayesian inference process with an example about the ***risk of disease***. 
 
-CALCULATIONS on the normal, F, and exponential distributions.
+The risk of a disease is presented to the public in one of two ways. An **absolute risk** is a number like 2% per year, that is, 1 in 50 people will get the disease each year. A **relative risk** is a ratio: the risk of one population of interest (e.g. smokers) divided by the risk of another group (e.g. non-smokers). Since a relative risk is the ratio of two absolute risks, it is a dimensionless non-negative number, for instance 5.4.
 
-## money game
+For professionals, the risk of a disease is presented not as a single number but as a statistical **range** of numbers. For instance, an absolute risk might be stated as 1-3%. People who haven't studied statistics have a hard time distinguishing between "1-3%" and "2%." It amounts to much the same thing. To the professionals, "1-3%" conveys two different aspects of knowledge: i) the level of absolute risk---about 2% here---and 2) how much uncertainty there is in the knowledge of (i).
 
+Saying "1-3%" seems a lot like Johnny's entry in the coins-in-jar contest.  The statement has edges that are too sharp. Professionals know how to interpret "1-3%" along the lines of Geoff's entry: a summary of a smoother distribution. There is a more complete way to state our knowledge of the risk that combines both the level of risk and the uncertainty.
 
+The representation we choose is a probability density function. To illustrate, Figure \@ref(fig:beta-shapes) shows three different examples of what such probability density functions might look like for risk. Each is called a ***prior on the risk***.
 
-The input to a probability density function is often a dimensionful quantity. If the input $x$ has dimension, say L, then the infinitesimal $dx$ also has dimension L. In order for the integral to amount to 1, the infinitesimal $\text{density}(x)\, dx$ must be dimensionless. This implies that the output of the function $\text{density}(x)$ has dimension L^-1^.
+```{r beta-shapes, echo=FALSE, fig.cap="Three different opinions about the risk of a disease."}
+prior_A <- makeFun(dbeta(x, .5, 5) ~ x)
+prior_B <- makeFun(dbeta(x, 1, 1) ~ x)
+prior_C <- makeFun(dbeta(x, 1.3, 5) ~ x)
 
-::: {.example data-latex=""}
-One of our pattern-book functions, the Gaussian, meets these criteria.
+P1 <- slice_plot(prior_A(x) ~ x, domain(x=-.1:1.1), npts=501) %>%
+  gf_labs(title = "(A)", x="",
+          y="Relative density") %>%
+  gf_refine(scale_x_continuous(breaks=c(0,.5,1), labels=c("0", "50%", "100%")),
+            scale_y_continuous(breaks=0))
+P2 <- slice_plot(prior_B(x) ~ x, domain(x=-.1:1.1), npts=501) %>%
+  gf_labs(title = "(B)", x="Risk of disease (R).",
+          y="") %>%
+  gf_refine(scale_x_continuous(breaks=c(0,.5,1), labels=c("0", "50%", "100%")),
+            scale_y_continuous(breaks=0))
 
-```{r}
-argM(dnorm(x) ~ x, domain(x=-5:5))
-Integrate(dnorm(x) ~ x, domain(x=-Inf:Inf))
+P3 <- slice_plot(prior_C(x) ~ x, domain(x=-.1:1.1), npts=501) %>%
+  gf_labs(title = "(C)", x="",
+          y="") %>%
+  gf_refine(scale_x_continuous(breaks=c(0,.5,1), labels=c("0", "50%", "100%")),
+            scale_y_continuous(breaks=0))
+gridExtra::grid.arrange(P1, P2, P3, nrow=1) 
 ```
 
-SHOW THAT IT"S ALWAYS GREATER THAN ZERO and that it integrates up to 1. 
+Panel (A) in Figure \@ref(fig:beta-shapes) is a strong statement that the risk of disease is small. Panel (B) says, "I have no idea!" Panel (C) expresses the belief that the risk is around 10%, but there is a great deal of uncertainty.
 
-:::
+How to construct such statements when you have some evidence for the risk of the disease. For instance, evidence might be the results of screening tests on $n = 10$ randomly selected people. 
 
-## Describing knowledge or belief
+Each screening test produces a positive result (we'll write "+") or a negative result ("-"). People seem to interpret such results as indicating that they have the disease (+) or don't have the disease (-). But this is a wrong interpretation.
 
-In everyday speech, "knowledge" and "belief" carry different connotations: knowledge is about *reality* and belief is about the *acceptance* of statements as true. We have all encountered occasions when one person's belief is in conflict with another person's belief, that is, the one person accepts a statement that the other person denies. But when one person's knowledge contradicts another person's, we tend to think that what they are calling "knowledge" is more properly called "belief."
+In order to make sense of a screening test, you need to know two probabilities. These are:
 
-We'll use the word "knowledge" here to refer to a current state of  belief, with the understanding that the belief can and should be updated as new information becomes available. And we'll use functions to represent the state of belief in the presence of available information. 
+1. The probability of a + test in a group of people *with* the disease.
+2. The probability of a - test in a group of people *without* the disease. 
 
-For the **self-driving car** example, we'll indicate our knowledge in terms of miles: the number of miles of driving that incur a 10% risk of a serious accident.^[In a real analysis, we should carefully define what "serious accident" means, e.g. an accident that involves a fatality or prolonged disability. We'll leave precise definitions to the people who study car safety professionally and pretend here that "serious accident" has a clear definition.] We'll call this the 10%-risk-mileage or, for short, simply the "***risk-mileage***." A safe self-driving car has a higher risk-mileage number, an unsafe car has a low risk-mileage number. You can use your intuitive sense of what "50% risk" means.^[One reasonable definition involves an imaginary setting: A large number of independent but essentially identical self-driving cars go through their daily business, each accumulating mileage over time at the same rate day in and day out. The mileage-risk number will be the mileage where 10% of the fleet has suffered an accident. If the fleet started with 1001 cars, the odometer reading when the 101st car has an accident is the mileage-risk number for the kind of car from which the fleet is composed.]
+We'll call these two probabilities $p_d(+)$ and $p_h(-)$ where the subscript indicates whether we are referring to the probability in the disease group ($p_d$) or in the no-disease ("healthy") group ($p_h$). For definiteness, we'll imagine a test where $p_d(+) = 80\%$ and $p_h(-) = 90\%$.^[In news reports, you may often hear about the ***accuracy*** of a screening test. Here, the accuracy would be between 80 and 90%. But "accuracy" is not a complete way to describe a test and can be very misleading. You need two numbers to describe the performance of a screening test.]
 
-For the **disease example**, we'll indicate our knowledge in a similar way: the risk that the person in question will be properly diagnosed with the disease within the next five years. We'll call this the "5-year risk" or, for conciseness, just the "risk." This risk will be a number between zero and one. Again, your intuitive sense of "risk" will do.^[Once again, a reasonable sense for what we mean can be expressed with an imaginary situation. We imagine that we have 1000 essentially identical people (whatever that means!) going about their lives. We keep track of them over a five-year period. When the bell rings at the end of five years, we count how many have been diagnosed (whatever that means!) with the disease. The fraction so diagnosed is the 5-year-risk.]
+In a perfect test, $p_d(+)$ and $p_h(-)$ would both be 100%. Our imagined test, like real-world screening tests, is imperfect.
 
-Now we need to introduce an idea that many readers may find strange and unexpected. What many people will expect is that we'll say that knowledge about the two situations is contained in the single number relevant to each situation: the 10%-risk-mileage for the car and the 5-year-risk for the person to get to disease. But we will **not** do this. To see why, imagine that you "know" the risk-mileage number is 100,000 miles. New information comes along and you are to *update* your knowledge, perhaps to 101,000 miles. Does the new knowledge contradict the old knowledge? Most people would be more gentle than this, recognizing that that there is a not single, fixed, precise risk-mileage that characterizes the car. The new knowledge of 101,000 miles is, for practical purposes, consistent with the old knowledge of 100,000 miles. But how about if we updated to 80,000 miles. Would that contradict the old knowledge? How about an update to 50,000 miles, or 30,000 miles? At what point would we say that the old knowledge was simply wrong?
+Given this information about the performance of the test, we can construct two likelihood functions. Each will be a function of the risk level $R$. The two functions will differ in that one describes the likelihood of $R$ *given* a positive test; the other describes the likelihood of $R$ *given* a negative test.
 
-In order to represent our knowledge in each setting, instead of using a single number we are going to use a ***function*** whose domain is all or part of the number line. For the risk-mileage function, the domain will be zero to $\infty$. For the 5-year risk function, the domain will be zero to one.
+Keep in mind that $0 \leq R \leq 100\%$ is the probability that the person being tested has the disease. 
 
-The output of the function will convey our degree of belief in the input number. For instance, in the car example, if the output for 100,000 miles is 2 and the output for 80,000 miles is 4, then we're indicating that we're somewhat more inclined to accept 80,000 miles than 100,000. To illustrate the interpretation of the function, imagine that you work for a traffic-safety organization and are testifying before a Congressional committee:
+${\cal L}(R | +)$ is the likelihood of a + test for any given level of $R$. There are two cases to consider:
 
-Senator A: *Thanks for testifying today. It's important to the nation to make good decisions about allowing self-driving cars on our roads. We rely on experts like you to give us meaningful insight.*
+a. You have the disease, in which case the probability of $+$ is $p_d(+) = 0.8$ for our example.
+b. You do not have the disease, in which case the probability of $+$ is $1-p_h(-) = 0.1$.^[Make sure you're comfortable with this statement. Here's the justification: $p_h(-)$ is the probability that a person **without** the disease has a $-$ test. Since in our example the only alternative to a $-$ test outcome is a $+$ test outcome, the probability that a person without the disease has a $+$ test is $1 - p_h(-)$.]
 
-You: *I'm glad to be here, Senator. Let me frame what I know with a graph.*
+Since you might or might not have the disease, we have to put (a) and (b) together based on the probability $R$ that you have the disease. Consequently, $${\cal L}(R | +) = p_d(+)\ R + (1-p_h(-))\ (1-R) = 0.8 R + 0.1 (1-R)$$ where $1-R$ is the probability that you don't have the disease.
+
+A similar calculation gives the likelihood of $R$ given a $-$ test:
+$${\cal L}(R | -) = (1-p_d(+))\ R + p_h(-)\, (1-R)\ .$$
+In Bayesian inference, we will start with a probability density function expressing what we know (or, more precisely, "believe") about the risk of disease. This is called our ***prior*** belief and it's in the form of a probability density function. Then, as data comes in, we update our beliefs on the basis of the data. The prior can also be in the form of a relative density function, since we can normalize a relative density to become a probability density function.
+
+After we have updated our *prior*, our state of knowledge is called a ***posterior*** belief. The posterior also has the form of a probability density function, but of course a relative density function will do just as well.
+
+The formula for updating is called ***Bayes Rule***: posterior is likelihood times prior.
+$$\text{posterior}(R) = {\cal L}(R | \text{data}) \times \text{prior}(R)\ .$$
+
+Imagine that we have just heard about a newly discovered disease and have a screening test for it. Any of the three priors shown in Figure \@ref(fig:beta-shapes) could be a reasonable starting point. The prior shown in panel (B) is a state of complete ignorance. But it can be argued that "newly discovered" is a big hint about the risk and so a reasonable person might prefer to start with the priors in panels (A) or (C) instead. The calculations are simple, so we'll trace them through for all three different priors, (A), (B), and (C).
+
+Suppose our first observations are the results of screening tests on ten randomly selected individuals. `r set.seed(101)` 
+
+Subject ID | Test outcome
+:----------|:-------------
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $+$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $-$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $+$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $-$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $-$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $-$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $-$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $+$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $-$
+`r paste0(round(runif(1,1000,9999)),  sample(LETTERS[1:5], 1))` | $-$
+
+To summarize: Three $+$ tests out of ten. 
+
+After the first test outcome is available we can calculate the posterior: $$\text{posterior}_1 (R | +) = {\cal L}(R | -) \times \text{prior(R)}\ .$$ After the second test outcome, the new posterior is $$\text{posterior}_2 (R) = {\cal L}(R | -) \times {\cal L}(R | +) \times \text{prior(R)}\ .$$ And after the third (a $+$ result!) it will be $$\text{posterior}_3 (R) = {\cal L}(R | +) \times {\cal L}(R | -) \times {\cal L}(R | +) \times \text{prior(R)}\ .$$
+We continue on in this way through all ten rows of the data to get the posterior distribution.
+
+Figure \@ref(fig:after-10) shows the posterior after the 10 rows of data have been considered for each of the three priors from Figure \@ref(fig:beta-shapes).
 
 ```{r echo=FALSE}
-f <- makeFun(10000*dnorm(sqrt(x), sqrt(100000), 70) ~ x)
-slice_plot(f(x) ~ x, domain(x=10000:1000000), npts=500) %>%
-  gf_labs(x="10%-risk mileage", y="Degree of belief") %>%
-  gf_refine(scale_x_log10(breaks=100000*c(.1,.25, 1, 2, 5, 10),
-                          labels=c("10K", "25K", "100K", "200K", "500K", "1 M")))
-```
-
-You (continuing): *Based on the experience accumulated to date by the leading self-driving car manufacturers in realistic driving conditions, we anticipate the 10%-risk mileage to be about 100K. It might be better than that, perhaps 200K. We don't think the claims that self-driving cars will practically eliminate accidents are plausible as you can see for the very low level of belief for the larger mileages, say, 500K to 1M. On the other hand, we can't yet rule out a much worse outcome, say that the 10%-risk mileage will be about 25K.*
-
-Senator B: *So are self-driving cars safer, riskier, or about the same as cars with a human driver.*
-
-You: *That depends a lot on the human driver. As you know, some drivers impose a much higher risk than others. We don't think that self-driving cars will be more dangerous than a run-of-the-mill bad driver. And there is considerable reason to believe they will be as good or even better than a good driver.*
-
-Senator A: *We're talking about a machine here. It's either a good machine or a bad machine. Which is it?*
-
-You: *We can only say for sure when we have accumulated a lot of experience. But based on the experience to date, the self-driving cars are likely to prove at least as good as an ordinary driver.*
-
-Senator B: *That's not very good. We should tell the developers to go back to the drawing table and give us something much better.*
-
-You: *More development is always welcome. But do understand that the curve that results is likely to be very similar to the one we have now. Maybe shifted a little to the left or the right. It would take much more data to see any dramatic difference, if indeed the new development were successful.*
-
-This dialog will be interpreted by many as a sign that the expert does not know what she is talking about. But in fact, she is using an entirely proper and legitimate way to convey her state of belief based on the evidence. Admittedly, the communication with the senators is not going very well. They don't understand that the graph is saying what can properly be said with the accumulated experience. That's why this is an important topic for us to cover, so that **you** will be able to recognize and make sense of what can properly be claimed.
-
-To get more familiar with representing knowledge using functions, consider a few different possible states of knowledge in the disease setting. Recall that each person has one and only one of these two outcomes: He will be diagnosed with the disease within the next five years or he will **not** be diagnosed. The five-year risk will be stated as a number between 0 and 1 (or, between 0 and 100% if you prefer us use percentages). 
-
-Let's start off in a condition of utter ignorance. It's hard to overemphasize how clueless is a belief of utter ignorance. Imagine for example, you are asked for the 5-year risk for a particular person of a disease whose name is in a sealed envelope, unknown to you. What's more, you don't even know which is the particular person in question. You know nothing, not even  whether the named disease actually exists.
-
-Your knowledge function assigns a number to each possible risk level. Since you know nothing, it would be reasonable to start with a relative belief function that says nothing, for instance, the panel (A) of Figure \@ref(fig:beta-shapes) says that the risk might be any number between zero and one . Panel (B) expresses a sense that most people are not at high risk for most diseases. Panel (C) might be a good choice of someone who thinks that "disease" refers to something that's unusual.
-
-```{r beta-shapes, echo=FALSE, fig.cap="A few different possibilities for expressing the claim, \"I have no idea at all what the risk is.\""}
-d_prior_1 <- makeFun(dbeta(x, 1.0, 1) ~ x)
-d_prior_2 <- makeFun(dbeta(x, 5.0, 1) ~ x)
-d_prior_3 <- makeFun(dbeta(x, 1.3, 5) ~ x)
-P1 <- slice_plot(dbeta(x, 1, 1) ~ x, domain(x=-.1:1.1), npts=501) %>%
-  gf_labs(title = "(A) disease example", x="",
-          y="Relative belief")
-
-P2 <- slice_plot(dbeta(x, 5, 1) ~ x, domain(x=-.1:1.1), npts=501) %>%
-  gf_labs(title = "(B) disease example", x="Five-year risk of the disease.",
-          y="")
-
-P3 <- slice_plot(dbeta(x, 1.3, 5) ~ x, domain(x=-.1:1.1), npts=501) %>%
-  gf_labs(title = "(C) disease example", x="",
-          y="")
-gridExtra::grid.arrange(P1, P2, P3, nrow=1)
-```
-
-It would be hard to criticize anyone who selected any of the belief functions in Figure \@ref(fig:beta-shapes). What we will have to keep an eye out for is whether these three different starting states have different implications once some actual data becomes available.
-
-For the self-driving car situation, the risk indicator is a mileage, which might be any possible number. One possibility is to say that a state of ignorance means that every mileage is equally believable. For practical purposes, we'll limit this to 0 to 1,000,000 miles as in Figure \@ref(fig:mileage-ignorance) panel (A). Many statisticians would be inclined to encode "no idea whatsoever" as the belief function shown in panel (B).  
-
-```{r mileage-ignorance, echo=FALSE, fig.cap="Two belief functions representing a state of ignorance for the risk-mileage value."}
-m_prior_1 <- makeFun(ifelse(x > 1e6, 0, 5) ~ x)
-m_prior_2 <- makeFun(1e5/x ~ x)
-slice_plot(m_prior_1(m) ~ m, domain(m=1000:1e6)) %>%
-  gf_refine(
-    scale_x_log10(
-      breaks=100000*c(.1,.25, 1, 2, 5, 10),
-      labels=c("10K", "25K", "100K", "200K", "500K", "1 M"))) %>%
-  gf_labs(title="(A) car example", y="Belief function", x="10%-risk mileage") %>%
-  gf_lims(y=c(0, 6))
-slice_plot(m_prior_2(m) ~ m, domain(m=10000:1e6), npts=500) %>%
-  gf_refine(
-    scale_x_log10(
-      breaks=100000*c(.1,.25, 1, 2, 5, 10),
-      labels=c("10K", "25K", "100K", "200K", "500K", "1 M"))) %>%
-  gf_labs(title="(B) car example", x="10%-risk mileage")
-```
-
-Panel (B) indicates some skepticism toward the claim that self-driving cars are safer than regular cars, at least in the absence of any evidence. In contrast, panel (A) anticipates that self-driving cars may well be a good idea for improving safety, but doesn't insist on it. Either one is a reasonable starting point. Again, as actual evidence starts to come in, we expect that about the same estimates should result regardless of the choice of (A) or (B) or any other similar belief function.
-
-## Likelihood: updating belief
-
-As actual evidence becomes available, we want to update our original belief by changing the belief function. To do this, we need a mechanism for translating the original belief, which we'll generically call "before()," to another belief function which we'll call "after()." For conciseness, we'll put a subscript $ill$ for the before() and after() functions relative to the disease example, and the subscript $car$ for the car examples. Keep in mind that the input to the $\text{before}_{ill}()$ and $\text{after}_{ill}()$ functions is **risk**, a number between zero and one for which we'll use the name $r$. For $\text{before}_{car}()$ and $\text{after}_{car}()$, the input is a mileage, for which we'll use the name $m$.
-
-The updating process is a matter of multiplying the before() function by another function called the ***likelihood*** function, often written ${\cal L}()$. Although we haven't yet said what the likelihood function will be, it always has two inputs. The first, which we'll call $D$, is the observed data that provides the data. The second is a value for the input to the belief function. So, in following our two examples, we will have two different likelihood functions, ${\cal L}_{ill}(D | r)$ and ${\cal L}_{car}(D | m)$. To comply with convention, we're using a vertical bar $|$ rather than a comma to separate the two arguments, but we might equally well have used a comma as we have been doing all along, as in ${\cal L}_{ill}(D, r)$ and ${\cal L}_{car}(D, m)$. The updating step is computationally simple. For the disease example it is
-$$\text{after}_{ill}(r) = {\cal L}_{ill}(D, r) \cdot \text{before}_{ill}(r)\ .$$ For the self-driving car example, it is $$\text{after}_{car}(m) = {\cal L}_{car}(D, m) \cdot \text{before}_{car}(m)\ .$$
-The second argument to a likelihood function---the one after the vertical bar---is always a statement about some possible state of the world. For the disease example, this statement will take the form of a five-year risk $r$. The output of the likelihood function will be a probability function: What is the probability of the observed data assuming, for the purpose of the calculation that the world were exactly as described by $r$.
-
-For instance, suppose our observations are of a group of people whom we have tracked for the last five years. Our tracking data tells us whether or not the person was diagnosed with the illness in those five years. Some will have been and some not. The data we assemble will look like this:
-
-person | diagnosed  | $\cal L(D|r)$
--------|------------|--------
-Anne   | no         |
-Bill   | yes        |
-Carol  | yes        |
-David  | no         |
-$\vdots$ | $\vdots$ |
-Zeb    | yes        |
-
-Based on the data for each person, we're going to fill in the last column to give the value of the likelihood function for that person.
-
-Consider Anne. We're assuming that at the start of the five-year tracking period Anne's risk was $r$. At the end of the period, we know she was not diagnosed during the period---that's what the "no" means in Anne's row in the table. If the risk of being diagnosed was $r$, what is the probability that Anne was not diagnosed. That will be $1-r$. Bill, on the other hand, did have a diagnosis in the five-year period. Since the risk was $r$, the value of the likelihood function for Bill will be simply $r$.
-
-We can now go through the whole data table and add values for the last column:
-
-person | diagnosed  | $\cal L(D|r)$
--------|------------|--------
-Anne   | no         | $1-r$
-Bill   | yes        | $r$
-Carol  | yes        | $r$
-David  | no         | $1-r$
-$\vdots$ | $\vdots$ |
-Zeb    | yes        | $r$
-
-To add drama to the situation, let's imagine that there are three researchers each at their own workstation. As the data come in, each researcher updates their own belief function. Figure \@ref(fig:disease-belief) shows the researchers belief functions changing as more and more data becomes available.
-
-```{r}
-d_anne_1 <- makeFun((1-r) * d_prior_1(r) ~ r)
-d_anne_2 <- makeFun((1-r) * d_prior_2(r) ~ r)
-d_anne_3 <- makeFun((1-r) * d_prior_3(r) ~ r)
-d_bill_1 <- makeFun(r*(1-r) * d_prior_1(r) ~ r)
-d_bill_2 <- makeFun(r*(1-r) * d_prior_2(r) ~ r)
-d_bill_3 <- makeFun(r*(1-r)* d_prior_3(r) ~ r)
-d_10_1 <- makeFun(r^5*(1-r)^5* d_prior_1(r) ~ r)
-d_10_2 <- makeFun(r^5*(1-r)^5* d_prior_2(r) ~ r) 
-d_10_3 <- makeFun(r^5*(1-r)^5* d_prior_3(r) ~ r)
-d_20_1 <- makeFun(r^10*(1-r)^10* d_prior_1(r) ~ r)
-d_20_2 <- makeFun(r^10*(1-r)^10* d_prior_2(r) ~ r) 
-d_20_3 <- makeFun(r^10*(1-r)^10* d_prior_3(r) ~ r)
-d_100_1 <- makeFun(r^50*(1-r)^50* d_prior_1(r) ~ r)
-d_100_2 <- makeFun(r^50*(1-r)^50* d_prior_2(r) ~ r) 
-d_100_3 <- makeFun(r^50*(1-r)^50* d_prior_3(r) ~ r)
-```
-
-```{r disease-belief, echo=FALSE, fig.cap="The belief functions as the data comes in. The first row shows the functions with just Anne's data, the second with both Anne's and Bill's, the third row after 10 people's data is included, the fourth after 20 people's data is included, the last row after 100 people's data. Each researcher's evolving belief function is shown as one column. The three researchers start out with different beliefs, but as more and more data are folded in (bottom row), their beliefs become more similar."}
-colors = c("blue", "black", "orange", "brown", "magenta")
-P_1_1  <- slice_plot(d_anne_1(r) ~ r, domain(r=0:1), color=colors[1]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="Anne") 
-P_1_2  <- slice_plot(d_bill_1(r) ~ r, domain(r=0:1), color=colors[2]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="Anne + Bill")
-P_1_10 <- slice_plot(  d_10_1(r) ~ r, domain(r=0:1), color=colors[3]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="First 10")
-P_1_20 <- slice_plot(  d_20_1(r) ~ r, domain(r=0:1), color=colors[4]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="First 20")
-P_1_100 <- slice_plot(d_100_1(r) ~ r, domain(r=0:1), color=colors[5]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="Researcher (A)", y="First 100")
-
-P_2_1  <- slice_plot(d_anne_2(r) ~ r, domain(r=0:1), color=colors[1]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="") 
-P_2_2  <- slice_plot(d_bill_2(r) ~ r, domain(r=0:1), color=colors[2]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="")
-P_2_10 <- slice_plot(  d_10_2(r) ~ r, domain(r=0:1), color=colors[3]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="")
-P_2_20 <- slice_plot(  d_20_2(r) ~ r, domain(r=0:1), color=colors[4]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="")
-P_2_100 <- slice_plot(d_100_2(r) ~ r, domain(r=0:1), color=colors[5]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="Researcher (B)", y=0)
-
-P_3_1  <- slice_plot(d_anne_3(r) ~ r, domain(r=0:1), color=colors[1]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="") 
-P_3_2  <- slice_plot(d_bill_3(r) ~ r, domain(r=0:1), color=colors[2]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="")
-P_3_10 <- slice_plot(  d_10_3(r) ~ r, domain(r=0:1), color=colors[3]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="")
-P_3_20 <- slice_plot(  d_20_3(r) ~ r, domain(r=0:1), color=colors[4]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="", y="")
-P_3_100 <- slice_plot(d_100_3(r) ~ r, domain(r=0:1), color=colors[5]) %>%
-  gf_refine(scale_y_continuous(breaks=0)) %>%
-  gf_labs(x="Researcher (C)", y=0)
-gridExtra::grid.arrange(  P_1_1,   P_2_1, P_3_1,
-                          P_1_2,   P_2_2, P_3_2,
-                         P_1_10,  P_2_10, P_3_10,
-                         P_1_20,  P_2_20, P_3_20,
-                        P_1_100, P_2_100, P_3_100,
-                        ncol=3)
-```
-
-To focus on researcher (A) .... She chose a constant function to represent her initial state of ignorance. (See Figure \@ref(fig:beta-shapes) panel (A).) We'll name this initial function ignorance$(r)$:
-
-$$\text{ignorance}(r) \equiv \left\{\begin{array}{cc}const & \text{for} \ 0 \leq r \leq 1\\0 & \text{otherwise} \end{array}\right.$$
-After seeing the first row of data, researcher A reshapes her belief function, multiplying it by the likelihood function that corresponds to that row of data.
-
-$$\text{after}_1(r) = \underbrace{r}_\text{likelihood for Anne} \times \text{ignorance}(r)$$
-Next, the researcher sees the second row and again reshapes the belief function.
-$$\text{after}_2(r) = \underbrace{1-r}_\text{likelihood for Bill} \times \text{after}_1(r)$$
-As each new data row becomes available, multiply the previous after$_i(r)$ belief function by the likelihood for that row:
-$$\text{after}_i(r) = \underbrace{{\cal L}(D_i, r)}_\text{likelihood for row i} \times \text{after}_{i-1}(r)$$
-
-
-
-
-## Probability functions
-
-We have been working with two kinds of functions to represent our knowledge:
-
-i. A ***relative belief function***, $\text{belief}(r)$, where the output of the function for any input $r$ is a number zero or greater. In comparing two different values of $r$, say, $r_1$ and $r_2$, the function says that our belief in $r_1$ compared to our belief in $r_2$ is $$\frac{\text{belief}(r_1)}{\text{belief}(r_2)}$$
-So, if $\text{belief}(r_1) = 31$ and $\text{belief}(r_2) = 4.2$ we're saying that we are in favor of $r_1$ by the ratio $31/4.2 \approx 7$. 
-ii. The ***likelihood function*** whose output, for any data input and $r$ input, is a number between zero and one. That is to say, the output is a probability.
-
-A third kind of function we will make use of is called a ***probability density function***. A RELATIVE BELIEF FUNCTION ON A CONTINUOUS INPUT can always be reformatted as a probability density function.
-
-WHAT DO WE REQUIRE
-
-
-
-
-
-## Uncertainty and risk
-
-***Uncertainty*** is a familiar element of human affairs. We often have views about what is likely to happen and what is possible but unlikely, but we don't know for certain. ***Risk*** is the exposure to harm or danger if things don't turn out the way we would like. Our generally negative view of the uncertain is revealed by the lack of a positive equivalent to risk: what we might ***gain*** if things don't turn out the way we expect. This chapter is about the ***quantification*** of uncertainty, risk, and gain. 
-
-To many people, quantifying the uncertain is a contradiction in terms. Numbers are certain, definite, and behave reliably, so how can we assign a number to uncertainty? Yet doing so has become one of the standard tools of decision-making in the modern era, an essential component of the extraction of information from data, and even an irreducible part of the description of motion at the quantum scale of atoms, electrons, photons and the other wave/particles of modern physics.
-
-Quantifying uncertainty has much in common with the 17th-century problems of quantifying motion that inspired calculus. The mathematical study of uncertainty has its roots in the same enlightenment era as calculus, the foundations being laid in the work of [Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) (1623–1662) a near contemporary of Leibniz and Newton. 
-
-Whereas the motivation for calculus was physical movement, the mathematical study of uncertainty was grounded originally in games of chance: gambling. But just as calculus soon became relevant to all sorts of non-physics problems, the recognition that uncertainty is susceptible to calculation quickly expanded beyond the gambling den and is now the basis for medical decision making, finance, and statistics.
-
-
-## OLD STUFF
-
-
-To say that the risk is zero is to claim that there is absolutely no possibility that the person will be diagnosed with the disease. That's a very strong statement of belief and would be hard to justify without some absolute mechanism that renders the disease impossible, for instance as with prostate cancer in women. Equally strong would be to say that the risk is 100%, meaning that it is absolutely certain that the person will be diagnosed. Such certainties are hard to come by. For example, even if the person is physiologically strongly disposed to the disease, there might be a mistake in the diagnosis procedure such as biopsy records being mislabeled that prevents the correct diagnosis.
-
-
-The table below shows seven of the infinite number of possibilities for a claim about the 5-year risk of disease. The first and last rows are a claim where the level of knowledge is strong. The middle row is a claim of complete uncertainty; the person making such a claim wouldn't be surprised whichever way things turned out at the end of five years. 
-
-Claim | Level of knowledge | probability of 5-year diagnosis | probability of no diagnosis
--------------------|---------------------------------|--------------
-A. | Strong       | 95%  | 5%
-B. | Moderate     | 90%  | 10%
-C. | Weak         | 75%  | 25%
-D. | None         | 50%  | 50%
-E. | Weak         | 25%  | 75%
-F. | Moderate     | 10%  | 90%
-G. | Strong       |  5%  | 95%
- 
-We haven't explained why multiplication by the likelihood is the correct way to update the belief function. The derivation requires just a little knowledge of ***conditional probability***. This being a calculus course, we'll focus on the role of functions rather than the mechanics of conditional probability. To motivate multiplication by the likelihood, imagine that you are attempting to choose between two different candidate values for the five-year risk $r$. We'll call them $r=0.001$ and $r=0.5$ and you have the same level of belief for each, that is before_(0.001) = 1 and before_i_(0.5) = 1.  A new row of data becomes available: the person is diagnosed with the disease. Under the $r=0.5$ option, such a data point is quite likely. After all, according to $r=0.5$ there is a fifty-percent chance of such an outcome. On the other hand, under the $r=0.001$ option there's only a one-in-a-thousand chance of a person being diagnosed. That makes $r=0.001$ seem relatively implausible, since under that assumption you're hardly likely to see the outcome reported in the data. For any $r$ where the likelihood of the observed data is low, we will give less credence to that $r$. For $r$ where the likelihood is high, the data don't give us any reason to doubt that $r$.
-
-## Review: Event space, probability model
-
-Probability refers to a system for generating an ***event***
-
-Coin: heads or tails
-
-Two coin flips: HH, HT, TH, HH
-
-Die: 1, 2, 3, 4, 5, 6
-
-Pair of dice: (1,1), (1,2), (1,3)
-
-Spin of a pointer: 0-360 degrees. It might seem obvious that we should define the outcome as the pointer angle. But this choice leads to trouble. To see this, consider how likely is each angle. All angles are equally likely. If we take the 360 possibilities: 0-1 degree, 1-2 degrees, and so on, the probability of any one of these outcomes is 1/360. If we used finer gradations, say 0-0.1 degrees, 0.1-0.2 degrees, and so on, there are 3600 possible outcomes so each has a probability of 1/3600. 
-
-A logical process seemingly in the style if calculus is to make the intervals infinitesimal in size:  $d\theta$ degrees. How many of these tiny are there altogether? $360 / d\theta$. Since the probability of any single one of $n$ outcomes is $1/n$, the probability of the spinner pointing to any $d\theta$ interval is $d\theta / 360$.
-
-The procedure in calculus for transitioning from finite-intervals to infinitesimal involves limits. So what is $\lim_{d\theta\rightarrow 0} d\theta/360$? It's zero, or if you prefer 0/360 which is still zero. So, defining the outcome of a spinner as the angle leads to zero probability for each angle which is, at best, confusing. As we discussed in Block 3, $d\theta$ is an infinitesimal, not a number. Fortunately, we have a calculus method for accumulating over an infinite number of infinitesimals: anti-differentiation. The integral of the probability of each angle over all the possible angles produces a number, not an infinitesimal:
-$$\int_0^{360} \frac{1}{360} d\theta = \theta/360 \left.{\Large\strut}\right|_0^{360} = 360/360 - 0 / 360 = 1\ .$$ 
-
-If we want to assign a numerical probability to spinner events, we'll have to be careful in how we define an event. For instance, it's reasonable to ask the probability that the spinner will have an angle less than 60 degrees. That will be $$\int_0^{60} \frac{1}{360}d\theta = \frac{\theta}{360}\left.{\Large\strut}\right|_0^{60} = \frac{60 - 0}{360} = \frac{1}{6}\ .$$
-
-For such a style of event---the outcome will be *less than* a specified number---the numerical probability associated with it is called a ***cumulative probability distribution*** and can be written:
-$$p(\theta) \equiv \int_0^\theta \frac{1}{360} d\theta\ .$$
-
-The quantity inside the integral, that is, between the $\int$ sign and the $d\theta$, is not called a probability. Here, $\frac{1}{360}$ is a ***probability density***. To calculate a probability you have to accumulate the density over some finite interval of $\theta$.
-
-With spinners, it's natural to assume that all angles are equally likely. To put this more precisely, we should say that the probability density is constant, in the spinner example the constant is the quantity 1/360 with units "per degree." Such constancy is not so in other situations where the probability density varies from place to place in the sample space.
-
-A surprisingly subtle situation has to do with the timing of some event that comes at random. Intuition suggests that a completely random event is equally like to happen at any time., 
-
-I"M GIVING UP ON THIS FOR NOW.
-
-but we have to be more careful in distinguishing between a probability, a probability density, and a cumulative probability.
-
-Suppose, for instance, that the random event happens, on average, once every 5 days. It seems reasonable to say that the event probability is 20% per day. This is about 0.833% per hour or 0.01388%
-
-
-
-
-
-With probabilities involving continuous outcomes, like the spinner, we need to take a different approach to defining the event itself: 
-
-Grain dropped on graph paper: (x, y)
-
-
-A ***probability model*** is a function whose domain is the sample space. The output of the function is a number between 0 and 1. That is, the a probability model assigns a number
-
-Compound events
-
-Product of disjoint events. 
-
-What's the probability of getting a first six on the third roll.
-$\left(\strut 1 - \frac{1}{6}\right)^2 \frac{1}{6} \approx 0.116$.
-
-## KNOWLEDGE AND BELIEF
-
-One of the most important uses of probability distributions is to help us use evidence in a rational way. We'll illustrate this using a specific example: introduction of a new but potentially hazardous product. For the sake of concreteness, we'll imagine that the new product is a self-driving car, but it might equally be a new medicine, a new space-lift system, an apprentice learning to use a new tool or machine, etc.
-
-One of the goals for self-driving cars is to reduce road accidents, especially fatal accidents. People are understandably skeptical that an automated system can cope with all the varying conditions of traffic, visibility, road damage, etc. without the benefit of human judgment or experience. For instance, a sensible driver passing near a house where children are playing catch in the front yard will be more vigilent to the possibility of a child running into the street and will take action to reduce the risk, e.g. by slowing down in order to increase the time available for reacting.
-
-Let's quantify the risk of a serious accident as the probability of such san accident occurring per vehicle mile traveled in the usual mix of traffic, weather, and other conditions. How can we estimate this probability for newly introduced self-driving cars? Put another way, how much experience should we require with tests of self-driving cars before we accept that they are at least as safe as regular cars.
-
-Based on experience with tens of millions of regular cars driving hundreds of billions of total miles, suppose we decide the accident probability is approximately 10% per 10,000 miles. From Section XXXX, you know that the probability density function for the number of miles driven until the next accident is $k e^{-k t}$ where $k$ is roughly 1/100,000.  
-
-We're hopeful but skeptical about self-driving cars. The best case scenario, let's say, is that the self-driving cars will be 10 times safer than regular cars. The worst case is that they will be 10 times worse. As the first self-driving cars start being driven, we'll assume that the accident probability is somewhere between 10% per 100,000 miles and 10% per 1000 miles. This is our belief *before* any evidence has accumulated. In statistics and engineering, this is called a ***prior belief*** which reflects our uncertainty by being framed as a probability density function. Here's a reasonable prior reflecting the previous discussion:
-
-```{r}
-# d is the distance travelled to have a 10% probability of
-# an accident
-prior <- makeFun(ifelse(d < 1000, 0, 1/d)/0.69315~ d)
-slice_plot(prior(d) ~ d, domain(d=0:100000))
-```
-
-```{r}
-likelihood <- makeFun(exp(-x/d)/d ~ x, d=100000)
-```
-
-```{r}
-# One car: accident at 20K miles
-slice_plot(likelihood(x=200000, d=d)*prior(d) ~ d, domain(d=1:1000000))
-
-# Times when accidents were observed
-Times <- c(20000,30000,20000)
-slice_plot(prod(likelihood(x=Times, d=d))*prior(d) ~ d, domain(d=1:500000))
-Integrate(likelihood(x=20000, d=d)^3 * prior(d) ~ d, domain(d=0:150000))
-> norm
-[1] 9.04523e-15
-> slice_plot(likelihood(x=20000, d=d)*prior(d)/norm ~ d, domain(d=1:100000))
-Warning messages:
-1: In validate_domain(domain, free_args) :
-  Using -5 to 5 in domain for missing domain names.
-2: In validate_domain(domain, free_args) : Missing domain names: norm
-> slice_plot(likelihood(x=20000, d=d)*prior(d)/1e-16 ~ d, domain(d=1:100000))
-```
-
-
-## Sample space is continuous
-
-
-
-## Constructing a probability model
-
-We'll start with an example motivated by a variety of real-world circumstances: accidents, contagious disease, acute illness, earthquakes, and so on. The event is, let's assume, an accident. Accidents happen and we'll assuming that they happen randomly in each time interval, say with some probability $0 < k < 1$. This is already a complete description of the probability mechanism. We'll use calculus to examine the implications of this in order to be able to anticipate when the next accident is likely to happen. The particular question we want to answer is: When is the next accident going to happen? Of course, since we're supposing the accidents happen at random, we'll have to be satisfied with a probability model, say, the probability that an accident happens at time $t$.
- 
-We've assumed that the probability of the next accident happening in the interval $0 < t \leq 1$ is $k$, where $0$ is "now." What's the probability of the accident happening in the second interval, that is, $ 1< t \leq 2$? In order for the next accident to happen in the second interval, it must not have happened in the first interval, of which the probability is $1-k$, and it must happend in the second interval, of which the probability is $k$. Overall, the probability of happening in the second interval is the product of these two probabilities: $(1-k)k$.
-
-Similarly, to happen in the third interval, the accident must not have happened in either of the first two intervals, of which the probability is $(1-k)^2$, and then happen in the third, which has probability $k$. Recognizing the pattern, the probability of the next accident happening in the $n$th interval---we'll call this $p_n$---is
-$$p_n = (1-k)^{n-1} k\ .$$ 
-
-NEED TO MOVE THIS INTO A PROBABILITY DENSITY FORM
-
-
-
-Calculus gives us the tools for examining this probability as a continuous function of time rather than a probability in a discrete time interval. To accomplish this, we'll stipulate a differential $dt$: an infinitely small interval of time. Since the probability of the accident happening in an interval of duration 1 is $k$, the probability of happening during the interval $dt$ is $k\, dt$. The probability of the accident *not* happening during a $dt$ interval is $(1-k dt)$, and the probability of the accident *not* happening in any of the $dt$ intervals up to time $t$ is 
-$(1 - k dt)^{t/dt}$. 
-
-Probability of not happening at or before time $t$ is  $\exp(-k t)$. Probability of it happening at or before time $t$ is $1-\exp(-k t)$.
-
-Show graph. Eventually, it's got to happen. What's the probability of it happening at time $t$, multiply this by $k dt$. This is an infinitesimal, not a number. We shouldn't call it a probability, but a ***probability density***.
-
-Called a ***cumulative probability distribution***. Probability of it happening at 
-
-
-
-The probability for the accident to happen at time $t$ is therefore $$p(t) = \lim_{dt\rightarrow 0}(1 - k\,dt)^{t/dt} k\, dt\ .$$
-
-This is a situation where we need to be careful in how we calculate limits. 
-For instance, $\lim_{dt \rightarrow 0}$. It's easy to go astray. For example, one could argue (incorrectly) that the probability of no accident in any one $dt$ interval is practically 1, since $$\lim_{dt\rightarrow 0} (1-k\, dt) = 1 + k \lim_{dt\rightarrow 0} dt = 1\ .$$ If the accident can't happen in any one interval, then it will never happen ....
-
-The correct calculation looks at the whole expression, $(1-k\, dt)^{t/dt}$ and not just. Recall that the interpretation of $\lim_{dt \rightarrow 0}$ is that we do the calculation for ***finite values*** of $dt$, comparing the results for smaller and smaller---but not zero---values of $dt$. If the results are independent of $dt$ for small enough $dt$, then the limit exists. 
-
-::: {.example data-latex=0}
-To review the idea of a limit, let's look at $\lim_{dt \rightarrow 0} \ln(1 + b\, dt) / dt$. 
-
-We'll plug in $b=0.5$ and look at $dt=1, 0.1, .01, 0.001, \ldots$
-
-```{r}
-dts <- 10^seq(0,-8)
-log(1 + 0.5*dts) / dts
-```
-
-This suggests that $$\lim_{dt\rightarrow 0} \ln(1 + b\, dt) = b\ .$$
-
-:::
-
-To figure out $$p(t) = \lim_{dt\rightarrow 0}(1 - k\,dt)^{t/dt}\,k ,$$ we'll momentarily discard the $\lim_{dt\rightarrow 0}$ and work with
-$$(1 - k\,dt)^{t/dt}$$ where $dt$ is just a small number. Taking the logarithm of both sides gives
-$$\frac{t}{dt} \log(1 - k\, dt) + \ln(k) = t \frac{\ln\left(\strut 1-k\, dt\right)}{dt} + \ln(k)$$
-
-This quantity has a well behaved limit as $dt \rightarrow 0$. Drawing on the result from the previous example, we have $$\lim_{dt\rightarrow 0} \frac{\ln\left(1 - k\, dt\right)}{dt} = -k$$ and so $$-kt  + \ln(k)\ \ \implies\ \ \ p(t) = k\,e^{-kt}\ .$$
-
-This says that, if an accident is equally likely to occur in any time interval, the probability that the accident occurs at time $t$ decreases exponentially with $t$.
-
-## Quantifying uncertainty
-
-Note: *This section introduces some new technical words, such as "probability," "variance," "state space," and "cumulative" that are broadly important in quantitative work but not traditionally considered part of calculus. Try to understand what these words mean. That will help you in your later studies in downstream courses.* `r mark(4520)`
-
-Uncertainty is the state of being unreliable or undetermined. Probability is---in modern usage---a way of quantifying uncertainty, of putting uncertainty on a scale. Before the modern era, probability was a kind of opposite to uncertainty, a state of being reliable or determined. This almost complete reversal of the definition of probability reflects the difficulty untrained people have in doing probability calculations correctly. `r mark(4525)`
-
-In the abstract mathematical formulation of probability, central components are the "event" and the "state space." An event is something that happens, think of one flip of a coin as an event, or one frame in bowling, or the wind speed at a particular instant. The state space is the set of **all** possible outcomes of an event. The state space of a coin flip is famously heads or tails. The state space of a frame in bowling is the numbers 0 through 10 reflecting the number of pins bowled over. (We're ignoring "strikes" here.) The state space of wind speed is a non-negative number as might be read off of an anemometer.  `r mark(4530)`
-
-A probability is a number assigned to an element of a state space. For instance, in a coin flip, the number 1/2 is conventionally assigned to each of the possible outcomes: heads or tails. There are two essential properties that these assigned numbers must have to be valid probabilities: `r mark(4535)`
-
-1. the number must be between zero and one (inclusive). You can't have a probability of -0.2 or 13.
-2. added up across all the elements of a state space, the probability numbers must sum to 1.
-
-The probability number 0 is assigned to elements of the state space that need not have been listed in the first place, because they *cannot happen*.
-
-The probability number 1 is assigned to a single element of the state space that is inevitable. 
-
-Other than the possibly unfamiliar formal vocabulary used in the preceding, the statements (1) and (2) are intuitive to many people. What might calculus have to contribute?
-
-This course being calculus, we are concerned particularly with quantities that are continuous, e.g. the location of a point on the number line, the weight of a bucket after it's been rained on, etc. For a continuous quantity, the state space will be the number line $-\infty < x < \infty$ or some finite segments of the number line, e.g. $0 \leq x \leq 1$. Either way, the state space consists of an *infinite number* of possible values. For example, one member of the $0 \leq x \leq 1$ state space is 0.963012894848362656100076390430914821056649089340673461090773. Another is 0.4204042488709096655207811854786639390334021305202371464110919373058862984183853728834073997986972243. Still others are $1/\sqrt{2}$ and $1/\pi$ and $1/e$ and on and on without end. `r mark(4540)`
-
-```{r echo=FALSE}
-set.seed(101)
-```
-
-To get started with , use a `r sandbox_link()` to run the R command shown below:
-```{r eval=FALSE}
-n <- 5
-runif(n)
-runif(n) == 0.3
-sum(runif(n) == 0.3)
-```
-
-The first line is merely setting up the next three lines, giving a small integer value to `n`. The command `runif(n)` then generates `n` random numbers, each guaranteed to be between 0 and 1. The third line, `runif(n) == 0.3` generates more random numbers, but rather than printing them out first checks to see if any of them are equal to 0.3. The answer `FALSE` means that the random number is not 0.3. (Perhaps that's not a surprise, with only five random 0-1 numbers.)
-
-The last line, `sum(runif(n) == 0.3)` does a quick calculation to see if any of the `n` random numbers equals 0.3. The result, 0, means that none of them did. Of course, you can easily see this by examining the output from `runif(n) == 0.3`. Automating the check in line 4 makes it possible for us to check far more than 5 random numbers.
-
-For instance, you can generate a million random numbers and instantly check if any of them match 0.3 with the command
-```{r eval=FALSE}
-sum(runif(1000000) == 0.3)
-```
-
-As numbers between 0 and 1 go, 0.3 is perfectly ordinary. Yet there are so many numbers between 0 and 1 (even in computer arithmetic), that the probability of generating exactly 0.3 is nil. The same goes for any other number that you might use to replace 0.3. Remarkably, even if you specify one of the numbers previously generated, say 0.37219838, the probability is nil that it will ever be generated again (at least, if your computer has not been forced to do so by some programming magic).
-
-## Probability density
-
-Given the result from the "randomly hit the target" experiment, it would be reasonable to conclude that `runif(5)` picks numbers each of which has a probability of 0. It would be better to say that the probability is *infinitesimal*, just like the $h$ in the definition of the derivative or the $dx$ in the way we write integrals. 
-
-Calculus provides the means to assign such infinitesimal probabilities to the elements of a continuous state space. The strategy is this:
-
-1. Assign a **function** whose output, over the state space, is never negative.
-2. Ensure that, over the state space, e.g. for $x$ in the interval $a \leq x \leq b$ that $$\int_a^b\! f(x) dx = 1$$
-
-Such functions are called ***probability density functions***. Here's one probability density function:
-
-$$\text{uniform} (x) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{when} \ a \leq x \leq b\\0&\text{otherwise} \end{array}\right.$$
-Consider a question like, "What's the probability that the outcome of an event governed by the uniform probability density will be $c$?" 
-
-The answer is **not** $f(c)$. Neither is it $f(c) dx$. 
-
-Instead, the answer is $\int_c^c f(x) dx = 0$. 
-
-Many non-mathematicians might answer the question by saying that the probability is $f(c) dx$. There's something tempting about that answer, but remember that $dx$ is a notation meaning "take the limit as it goes to zero," $f(c)dx$ is a limit rather than a number. (Save yourself from trying to sort this out with a shortcut: $f(c) dx$ isn't a number. But $\int_c^c f(x) dx$ is a number, namely 0.) `r mark(4595)`
-
-$f(c)$ is much like the concept of "density." We can meaningfully say that a material has a *density* at each point. But it's not useful to say that a material has a *mass* at each point. The *mass* of a material is the integral of the density over the space occupied by the material.  `r mark(4600)`
-
-The probability density function is a helpful way of visualizing the possible outcomes of an event. By looking at a graph of the density function, you can see which outcomes are relatively likely and which are not.  `r mark(4665)`
-
-For instance, here is a probability density function called an "exponential density." $$p(t) \equiv k\, e^{-t/k}$$
-Exponential densities are often used to model things like the time between earthquakes or the time between engine failures. As an example, if $t$ is measured in years and $k=1/100$, the exponential density is the standard model of the time between consecutive 100-year storms at a location. `r mark(4670)`
-
-```{r echo=FALSE}
-p <- makeFun(ifelse(t < 0, 0, exp(-t/100)/100) ~ t)
-P <- antiD(p(t) ~ t, lower.bound = 0)
-slice_plot(p(t) ~ t, domain(t=c(-100, 400)), npts=200) %>%
-  gf_labs(x="t: Time between 100-year storms.", y = "p(t): Probability density.")
-```
-
-Notice that the probability density is zero for negative time. That's just common sense at work; the time between consecutive storms can't be negative. Perhaps more surprisingly, there's a substantially non-zero probability density for the time between storms being just 10 years, or even less! And notice the very small numbers on the y-axis; the density is much less than 1. But that's OK, because a probability density is not the same as a probability. `r mark(4675)`
-
-```{r cdfstorm1, echo=FALSE}
-askMC(
-  "How much probability corresponds to one small gray square of area in the graph?",
-  "1"="pick a gray box, what are its dimensions?",
-  "+.0625+"="that is 6.25%",
-  ".125"="pick a gray box, what are its dimensions?",
-  ".25"="This is four gray boxes, not one and 25%",
-  random_answer_order = FALSE
-)
-```
-
-```{r cdfstorm2, echo=FALSE}
-askMC(
-  "Using your answer from the previous question, estimate the probability (by counting gray boxes) of the time between 100 year storms being 50 years or less?",
-  "1"="your bounds for t are between 0 and 50 years",
-  ".0039"="This answer is not a percent",
-  "+39%+"="Correct. If you think this answer is counter-intuitive, that there is an almost 40% chance of the interval between 100 year storms being less than 50 years, you can appreciate why it's important to hand probabilities quantitatively rather than intuitively.",
-  ".25"="your bounds for t are between 0 and 50 years",
-  random_answer_order = FALSE
-)
-```
-
-
-## The cumulative distribution
-
-The **cumulative** distribution translates the probability density into an actual probability (a number between zero and one). Formally, the cumulative distribution is $$P(t) \equiv \int_{-\infty}^t p(t) dt$$ `r mark(4680)`
-
-Evaluating $P(t)$ at given value of $t$ gives a probability. For instance, $P(10) \approx 0.095$, roughly 10%. In terms of storms, this means that according to the standard model of these things, the time between consequtive 100-year storms has a 10% chance of being 10 years or less! `r mark(4685)`
-
-A graph of the **cumulative** distribution shows what you might have anticipated: the gaussian function $p(t)$ has an integral that is a sigmoid function.
-
-```{r echo=FALSE}
-slice_plot(P(t) ~ t, domain(t=c(-100,400)), npts=300) %>%
-  gf_labs(title="Cumulative distribution", x="t (years)", y = "Probability that outcome < t")
-```
-
-```{r exp1, echo=FALSE}
-explain <- "What's the value of $P(t=50)$"
-askMC(
-  "Imagine that a 100-year storm has just happened at your location. What is the probability that the next 100-year storm will happen within 50 years?",
-  "11%" = explain,
-  "27%" = explain,
-  "+39%+",
-  "51%" = explain,
-  random_answer_order = FALSE 
-)
-```
-
-```{r exp2, echo=FALSE}
-askMC(
-  "The *median* time between 100-year storms is the value where there is a 50% probability that consecutive storms will happen closer in time than this value and 50% that consecutive storms will happen further apart than this value. What is the *median* time between 100-year storms, according to the standard model? (Hint: You can read this off the graph.)",
-  "about 30 years",
-  "50 years",
-  "+about 70 years+",
-  "100 years",
-  "about 130 years",
-  random_answer_order = TRUE
-)
-```
-
-## Uniform, gaussian, exponential
-
-Three important densities.
-
-## The expectation value
-
-The *expectation value* is an important way to summarize a probability density function. It can be a valuable way to inform decisions, a topic we'll save for another day. Here, we'll focus on the calculation of the expectation value itself. `r mark(4690)`
-
-Expectation values are useful, for example, in deciding whether to make an investment. Suppose you have been offered a "ground floor" opportunity in a start-up company. The statistics of start-ups show that 50% fail in their first year and another 50% of the survivors fail each year after that. You'll have to forego salary, but you will be given stock options. You think, after 5 years, if the company gets that far, the options will be worth $5M. Should you take the job, instead of, say, a job paying $50K/year with a long-established company? Your simple model is that there is a 1/32 chance that the options will come through for $5M, otherwise they will be worthless. The expectation value is $5,000,000 $\times 1/32 =$ $156,250. This is less than what you would make working for the long-established company during the 5 years. A simple form of decision-making compares the expectation value of the start-up ($156,250) with the expectation value of then $50K/year job over five years. `r mark(4695)`
-
-Calculus provides tools for working with more subtle models. You are working with a process where each event generates a numerical outcome according to a probability density function $f(x)$. We collect the outcomes from many events: a series of numbers. As you know, the *average* of the numbers is often used to represent a "typical" outcome, a shorthand way of summarizing the sequence itself. `r mark(4700)`
-
-The expectation value is the value we would get for the average if we could construct an infinitely long series of events. "Infinitely long series" is an imaginary, theoretical construct. But calculus provides a way to simulate an infinitely long series. The expectation value corresponding to a probability density function $f(x)$ is an integral:
-$$\int_{-\infty}^\infty x \cdot f(x) dx$$
-
-Expectation of a uniform 0-1 distribution
-
-```{r expect1, echo=FALSE}
-explain <- "The anti-derivative of $x \\cdot$ uniform$(x)$ is $$\\frac{1}{2}\\frac{1}{b-a} x^2$$."
-explain2 <- "Remember that $b^2 - a^2 = (b+a)(b-a)$"
-askMC(
-  "Recall that a *uniform* probability density is one that generates outcomes equally likely to be any number between specified lower and upper bounds. For the uniform density between $a$ and $b$, the probability density function $$\\text{uniform} (x) \\equiv \\left\\{\\begin{array}{cl}\\frac{1}{b-a} & \\text{when} \\ \\ a \\leq x \\leq b\\\\0&\\text{otherwise} \\end{array}\\right.$$ What is the expectation value of uniform(x), that is, what is $$\\int_{-\\infty}^{\\infty} x\\ \\text{uniform}(x) dx \\text{?}$$ Hint: you really only need to consider $$\\int_a^b x\\ \\text{uniform}(x) dx$$, since $$\\int_{-\\infty}^a \\text{uniform}(x) dx=\\int_b^{-\\infty} \\text{uniform}(x) dx=0$$",
-  "$(b-a)/3$" = explain,
-  "+$(a + b)/2$+",
-  "$\\sqrt{a^2 + b^2}$" = explain,
-  "$(a-b)/2$"= explain2,
-  "It involves $\\infty$." = "I think you're plugging $\\pm \\infty$ as the bounds of the definite integral. But remember that $\\text{uniform}(x < a) = \\text{uniform}(b < x) = 0.$"
-)
-```
-
-The sandbox below gives the probability density function for the exponential process used in the example of the time interval between successive 100 year storms. Your task is to compute the expectation value for the time between storms. In symbols, this is $$\int_{-\infty}^\infty t\times p(t)\, dt$$ You can use `antiD()` to find the antiderivative and `Inf` to stand for infinity.  `r mark(4705)`
-
-::: {.sandbox data-latex=""}
-```{r expect2, eval=FALSE}
-# probability density
-p <- makeFun(ifelse(t < 0, 0, exp(-t/100)/100) ~ t)
-# For the expectation value, we want to integrate t*p(t) 
-F <- antiD(...integrand... ~ t)
-# Evaluate
-F(...upper...) - F(...lower...)
-```
-:::
-
-## Gaussian and sigmoid
-
-Demonstration that gaussian is common, because adding up lots of events, produces a gaussian distribution.
-
-Show that expectation values add.
-
-
-## The variance
-
-Computing the variance. Variances add.
-
-## Earthquake preparedness
-
-We have records of large earthquakes going back 1000's of years, at least in those parts of the world that kept written records. In regions with mainly oral traditions, stories of historical earthquakes are treated with skepticism. 
-
-For instance, in California written records reach about 400 years into the past. Anticipating a future earthquakes is an everyday matter in California and governments in seismically active zones have prepared by means of building codes and emergency precautions. A bit further up the US West Coast, in the Cascadia region of Oregon, there is a shorter written record and, until the last 30-40 years, little realization that the [area has been subject to profoundly powerful earthquakes](https://www.oregon.gov/oem/Documents/01_ORP_Cascadia.pdf) called "great quakes." There are great quakes in living memory: the 2004 Boxing Day earthquake centered on Sumatra that led to the deaths of hundreds of thousands of people, and the 2011 Tohoku earthquake in Japan that killed tens of thousands and led to the meltdown of nuclear power plants in Fukashima. Both of these were magnitude 9.1. Even larger were the 1964  9.2 magnitude quake in southern Alaska and the magnitude 9.5 Valdivia earthquake in Chile in 1960. The local magnitude scale is logarithmic, so a 9.5 magnitude quake releases about 3 times the energy of a 9.1 magnitude quake. 
-
-This exercise explores a model to inform the extent to which it's worth preparing for such quakes in order to prevent material damage. The risk to life is another important matter. But feasible investments in the build environment can minimize the direct impact of earthquakes to human life. Tsunamis generated by quakes are another matter, for which the only effective mitigating precautions are the development of evacuation routes and procedures and relocation of building away from the affected zone. 
-
-Let's imagine a situation in which $100 spent in precautions such as strengthening building construction would generate $1000 in savings in the event of a major earthquake. (This ratio is made up for demonstration purposes, but you can easily substitute a better substantiated estimate.) From a societal point of view, many people would see the investment as clearly worthwhile. But we're going to take a more technical point of view that incorporates two factors:
-
-- The $100 is to be spent today, while the $1000 savings will occur in the future. This can be handled by simple discounting.
-- The time until the earthquake is unknown, although reasonable probability models are available.
-
-The time of the last great Cascadia Zone earthquake is known with surprising precision: January 26, 1700. Before this, dates are estimated from geologic evidence. The figure shows the known history of Cascadia Zone earthquakes. [Source](https://www.oregon.gov/oem/Documents/01_ORP_Cascadia.pdf)
-
-```{r echo=FALSE, out.width="90%", fig.align="center"}
-knitr::include_graphics("www/earthquake-timeline.png")
-```
-
-A standard model for the interval between earthquakes of a given magnitude is the exponential distribution. For the great quakes in the Cascadia Zone, the average interval between consecutive quakes is about 300 years and the corresponding exponential probability distribution is $$\frac{e^{t/300}}{300}$$ The sandbox is set up to make a graph of this distribution and enables other calculations you will need later.
-
-As shown by the definite integral already coded in the sandbox, the total probability of an earthquake at some point in the future is, according to the model, 100%. So this is a model of *when* an earthquake will occur, not *whether* one will occur. 
-
-```{r ep2-1, exercise=TRUE, exercise.cap="Earthquake interval probability", exercise.nlines=8, eval=FALSE}
-prob <- makeFun(exp(-t/300)/300 ~ t)
-slice_plot(prob(t) ~ t, domain(t = c(0,1000)))
-Prob <- antiD(prob(t)~ t)
-Prob(Inf) - Prob(0)
-
-
-
-
-```
-```{r answer-to-ep2-1, echo=FALSE, eval=FALSE}
-average <- 50
-prob <- makeFun(exp(-t/average)/average ~ t)
-payback <- makeFun(prob(t) * 100 * exp(-0.078*t) ~ t)
-Payback <- antiD(payback(t) ~ t)
-Payback(Inf) - Payback(0)
-```
-
-Almost everyone who meets the exponential probability model is surprised that the density is highest at time $t=0^+$, that is, immediately after the previous quake. 
-
-```{r ep1-1, echo=FALSE, results="markup"}
-askMC(
-  "By using the appropriate definite integral, find the probability for earthquakes separated on average by 300 years (this essentially means using the provided model in the code) that the actual interval from the last quake will be less than 30 years. Which percentage is closest?",
-  "2%",
-  "+10%+",
-  "20%",
-  "25%",
-  random_answer_order = FALSE
-)
-```
-
-```{r ep1-2, echo=FALSE, results="markup"}
-askMC(
-  "Similarly to the previous question, find the probability that the actual interval from the last quake will be more than 500 years. (Hint: Be thoughful about what the limits of integration will be.)",
-  "2%",
-  "10%",
-  "+20%+",
-  "25%",
-  random_answer_order = FALSE
-)
-```
-
-An astounding and counter-intuitive aspect of the exponential model is that the same probability density describes the time from **now** to the eventual earthquake. In other words, it doesn't matter how long it's been since the last earthquake. 
-
-Now let's put together our model of the net present value of an expenditure on earthquake preparedness. As you recall, the net present value of $\$10$ to be paid $t$ years from the present is $10 e^{-r t}$, where $r$ is the continuously compounded interest rate. For the example, we'll set $r=7.8\%$, as we did in the Powerball example. 
-
-Of course $t$ is uncertain, so there's no definite answer for the net present value of earthquake preparedness. However, since we have a model of the probability of the earthquake occuring as a function of the interval $t$, we can find the **expectation value** of the net present value of earthquake preparedness. 
-
-For continuous probability densities (such as the exponential earthquake interval model) an expectation value is the definite integral over all possibilities of the probability density times the eventual outcome. 
-
-```{r ep1-3, echo=FALSE, results="markup"}
-askMC(
-  "Using the information presented above about the probability density function and the net present value, which of the following is appropriate for calculation of the net present value of $10 spent today for earthquake preparedness?",
-  "+$\\frac{100}{300} \\int_{0}^{\\infty} e^{-0.078 t} e^{-t/300}dt$+",
-  "$\\frac{10}{300} \\int_{0}^{\\infty} e^{-1.078 t} e^{-t/300}dt$",
-  "$100 \\int_{0}^{300} e^{-1.078 t} e^{-t/300}dt$",
-  "$\\frac{100}{300} \\int_{0}^{\\infty} e^{-7.8 t} e^{-t/300}dt$"
-)
-```
+L_pos <- makeFun(0.99*R + 0.01*(1-R) ~ R)
+L_neg <- makeFun(0.02*R + 0.98*(1-R) ~ R)
+posterior <- function(prior, n=10, m=3) {
+  f1 <- makeFun(L_pos(R)^m * L_neg(R)^(n-m) * prior(R) ~ R, n=n, m=m)
+  scale <- Integrate(f1(R) ~ R, domain(R=0:1))
   
-The integral gives only the net present value of the eventual benefit of earthquake preparedness. If this is larger than today's expenditure, the expenditure is economically worthwhile.
-
-```{r ep1-4, echo=FALSE, results="markup"}
-askMC(
-  "What is the numerical value (in dollars) of the correct integral from the previous question?",
-  "0.43",
-  "+4.10+",
-  "14.80",
-  "34.50", 
-  random_answer_order = FALSE
-)
+  makeFun(f1(R) / A ~ R, A = scale)
+}
 ```
 
-## Likelihood and Expectation Maximization
+```{r after-1, echo=FALSE, fig.cap="Posteriors (blue) after the first screening test, which was $+$, for each of the priors in Figure \\@ref(fig:beta-shapes). The prior itself is drawn in gray.", warning=FALSE}
+post_A <- posterior(prior_A, 1, 1)
+post_B <- posterior(prior_B, 1, 1)
+post_C <- posterior(prior_C, 1, 1)
 
+P1 <- slice_plot(post_A(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_A(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "Probability density", x = "", title="From prior (A)") %>%
+  gf_lims(y=c(0,4))
 
+P2 <- slice_plot(post_B(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_B(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "", x = "Risk of disease", title="From prior (B)") %>%
+  gf_lims(y=c(0,4))
 
-We used an average time between earthquakes of 300 years, as seem appropriate for the Cascadia Zone earthquake history. The net present value of the eventual reduction in damages was small, too small to justify the expenditure on economic grounds.
+P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_C(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "", x = "", title="From prior (C)") %>%
+  gf_lims(y=c(0,4))
 
-Modify the code in the above sandbox to perform the calculation for different earthquakes, say with an average interval of 50 years or 100 years. 
-
-```{r ep1-5, echo=FALSE, results="markup"}
-askMC(
- "What's the longest average interval that generates a net present value of the damage reduction of $\\$10$, enough to justify the expenditure? Pick the closest one. (Hint: You can try out expectation value integral using the average intervals given as choices in place of the 300-year interval originally used.)",
- "25 years",
- "+50 years+",
- "100 years",
- "150 years",
- random_answer_order = FALSE
-)
+gridExtra::grid.arrange(P1, P2, P3, nrow=1)            
 ```
 
-WARNING. You should not come away from this exercise with the idea that $r = 0.078$ is the "right" discount rate. We used that rate in this exercise only because there is documented evidence that some group of people---the sorts of investors who buy 30-year TIPS---currently act as if that were their discount rate. An individual is entitled to set his or her own discount rate based on any rationale whatsoever. (That said, the interest rate you could make long term on an investment readily available to you can reasonably be taken as the baseline.)
+With just one row of data considered, the priors depend very much on the particular posterior selected.
 
-When it comes to groups of people, the appropriate discount rate becomes a matter of opinion and disagreement. In particular, there is a concept called the ["social discount rate"](https://en.wikipedia.org/wiki/Social_discount_rate). Regretably, there is no clear basis for picking this other than to put it in the range 0 to about 7%. Net present value is therefore a dubious criterion for making decisions whose impact will be felt in the long term, over generations. This is the case, for instance, with global warming.
+```{r after-10, echo=FALSE, fig.cap="Posteriors (blue) after the first ten rows of data, for each of the priors in Figure \\@ref(fig:beta-shapes). The prior itself is drawn in gray.", warning=FALSE}
+post_A <- posterior(prior_A, 10, 3)
+post_B <- posterior(prior_B, 10, 3)
+post_C <- posterior(prior_C, 10, 3)
+
+P1 <- slice_plot(post_A(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_A(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "Probability density", x = "", title="From prior (A)") %>%
+  gf_lims(y=c(0,4))
+
+P2 <- slice_plot(post_B(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_B(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "", x = "Risk of disease", title="From prior (B)") %>%
+  gf_lims(y=c(0,4))
+
+P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_C(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "", x = "", title="From prior (C)") %>%
+  gf_lims(y=c(0,4))
+
+gridExtra::grid.arrange(P1, P2, P3, nrow=1)            
+```
+After the first 10 rows of data have been considered, the priors are similar despite the different priors.
+
+
+```{r after-100, echo=FALSE, fig.cap="Posteriors (blue) after 100 subjects have been screen, with 30 $+$ results.", warning=FALSE}
+post_A <- posterior(prior_A, 100, 30)
+post_B <- posterior(prior_B, 100, 30)
+post_C <- posterior(prior_C, 100, 30)
+
+P1 <- slice_plot(post_A(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_A(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "Probability density", x = "", title="From prior (A)") %>%
+  gf_lims(y=c(0,10))
+
+P2 <- slice_plot(post_B(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_B(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "", x = "Risk of disease", title="From prior (B)") %>%
+  gf_lims(y=c(0,10))
+
+P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
+  slice_plot(prior_C(R) ~ R, color="gray", size=3, alpha=0.6) %>%
+  gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
+  gf_labs(y = "", x = "", title="From prior (C)") %>%
+  gf_lims(y=c(0,10))
+
+gridExtra::grid.arrange(P1, P2, P3, nrow=1)            
+```
+As data accumulates, the priors become irrelevant; the knowledge about the risk of disease is being driven almost entirely by the data.
+
+## Exercises
+
+
+
+
+
+
+
