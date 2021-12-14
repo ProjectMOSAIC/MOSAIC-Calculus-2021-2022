@@ -138,7 +138,9 @@ Three commonly used families of probability density functions are:
 - the uniform density function. 
 
 The ***uniform density function***, $u(x, a, b)$ is more or less the equivalent of the constant function. The family has two parameters $a$ and $b$ with the function defined as:
-$$ u(x, a, b) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{for}\ a \leq x \leq b\\0& \text{otherwise} \end{array}\right.$$
+\begin{equation}\text{unif}(x, a, b) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{for}\ a \leq x \leq b\\0& \text{otherwise} \end{array}\right.
+\lab{eq:uniform-dist}
+\end{equation}
 This function is used to express the idea of "equally likely to be any value in the range $[a, b]$." For instance, to describe a probability that a January event is equally likely to occur at any point in the month, you can use $u(x, 1, 31)$ where $x$ and the parameters $a$ and $b$ have dimension T and are in units of days. Notice that the density itself has dimension T^-1^ and units "per day."
 
 ```{r uniform-density, echo=FALSE, fig.cap="The uniform density function."}
@@ -212,26 +214,109 @@ slice_plot(dexp(x) ~ x, domain(x=0:5)) %>%
   gf_text(y ~ x, data = Labels, label=~label, color=~ color, inherit=FALSE)
 ```
 
-Exponential
-
-Beta
+::: {.example data-latex=""}
+Do I want to do the beta distribution as an example? Not strictly needed unless I do some exercises with the driverless-car example.
+:::
 
 ## Mean and variance
 
-How to compute these things.
+As you know, the gaussian function has two parameters: mean and sd. The mean describes the center of the distribution, the sd describes the width. You may also be familiar with the *statistic* called the ***arithmetic mean***. You calculate the statistic by adding up a set of $n$ numbers and dividing by $n$, that is,
+$$\text{mean} \equiv \frac{1}{n} \sum_{i=1}^n x_i\ ,$$
+where $x_i$ is the $i$th row of a data frame with and $x$ is one of the columns. To illustrate, consider the `Zcalc::Home_utilities` data frame which has data on the monthly use of electricity and natural gas by a Minnesota household.
 
-Representing distributions approximately: Time to the third accident by adding three exponentially distributed variables.
+::: {.rmosaic data-latex=""}
+The R/mosaic function for the calculation of the arithmetic mean is `df_stats()`. (The name stands for "data frame stats.") Here's a calculation of the mean outdoor temperature from `Home_utilities`:
+```{r}
+df_stats(~ temp, data = Zcalc::Home_utilities, mean)
+```
+The result has units of degrees Fahrenheit.
 
-Means add. Variances add.
+`df_stats()` can calculate many other statistics on a column of data, such as `median`, `sd`, `var`, `quantile()`s (such as `quantile(0.33)`), confidence intervals (`ci.mean()`, `ci.median()`, `ci.sd()`), and so on. In this book, we'll use `mean`, `sd`, and `var`.
 
-## Describing risk
+Another technique we will use is to generate random events from a probability distribution, particularly from the gaussian, exponential, and uniform distributions. For example, the following command will construct a data frame (that's what `tibble()` is for) that has a column named `y` that contains 100 random draws from a gaussian distribution with mean of 3 and sd of 0.5. Then the arithmetic mean and ***standard deviation*** are computed from the numbers in the simulation. `r set.seed(101)`
+```{r}
+Simulation <- tibble(
+  x = rnorm(100, mean=3, sd=0.5)
+)
+head(Simulation)
+df_stats( ~ x, data=Simulation, mean, sd)
+```
+The calculated mean and sd only approximate the values used in the simulation. That's because they are based on random draws.
+:::
+
+Generating random draws from a probability density and calculating arithmetic statistics on the result is one way of computing the mean and standard deviation of the probability density. It can also be done by integration. Although it's fair to describe the integral as a calculation of the *average value*, the term used professionally is ***expectation value***. The expectation value of a quantity $f(x)$ over a probability distribution is traditionally written in a distinct notation and is calculated as an integral of the quantity times the relevant probability density function.
+$${\cal E}\left[\strut f(x)\right] \equiv \int_{-\infty}^{\infty} f(x)\, \text{pdf}(x)\, dx\ ,$$ 
+For instance, the mean is the expectation value of $x$, so the mean of a quantity with a gaussian distribution is 
+$${\cal E}\left[\strut x\right] = \int_{-\infty}^{\infty} x \dnorm(x, \text{mean}, \text{sd})\, dx\ .$$
+This integral is exactly the same as the integral for the ***center of mass*** that was presented in Section \@ref(center-of-mass). 
+
+::: {.example data-latex=""}
+To illustrate the definition of the mean in terms of integrals, here's the mean of a gaussian distribution.
+```{r}
+Integrate(x * dnorm(x, mean=3, sd=0.5) ~ x, domain(x=-Inf:Inf))
+```
+You might have anticipated the result, since the particular gaussian over which we are taking the mean was defined to have a mean of 3.
+:::
+
+Another important quantity to describe data or probability distributions is the ***variance***, which is the average of the square distance from the mean. In math notation, this looks like 
+$${\cal E}\left[\strut (x - \text{mean})^2\right] = \int_{-\infty}^{\infty} \left(\strut x - \text{mean}\right)^2\, \dnorm(x, \text{mean}, \text{sd})\, dx\ .$$
+This integral is exactly the same as the integral for the ***moment of inertial*** that was presented in Section \@ref(center-of-mass). 
+
+::: {.example data-latex=""}
+Compute the variance of a gaussian probability density. 
+
+To do this, we must first know the mean, then we can carry out the integration:
+```{r}
+Integrate((x-3)^2 * dnorm(x, mean=3, sd=0.5) ~ x, domain(x=-Inf:Inf))
+```
+Again, you might have anticipated this result, since the variance is the square of the standard deviation (`sd`) and we were using a particular gaussian distribution with sd equaling 0.5.
+:::
+
+The examples above are intended to demonstrate how the mean and variance can be calculated from a probability density function. It's often useful to try out a calculation in a setting where you already know the answer!
+
+To illustrate the calculations in another setting, we will use an exponential probability function. Just as the R function `dnorm()` gives the density of the "normal"/gaussian distribution, the R function `dexp()` outputs the density of the exponential distribution. We used $k$ as the parameter in the exponential distribution. In R, the parameter is framed in terms of the `rate` at which events happen, that is, the expected number of events per unit time. For instance, the following integrals compute the mean and standard deviation of an exponential process where events happen on average twice per time unit.
+
+```{r}
+Integrate(x * dexp(x, rate=2) ~ x, domain(x=0:Inf))
+```
+The result shouldn't surprise you. If events are occurring on average twice per unit time, the average time between events should be 0.5 time units.
+
+Here's the variance of the same distribution
+```{r}
+Integrate((x-0.5)^2 * dexp(x, rate=2) ~ x, domain(x=0:Inf))
+```
+It works out that for an exponential distribution with parameter $k$, the mean is $1/k$ and the standard deviation (square root of the variance) is also $1/k$.
+
+Finally, let's look at the mean and variance of a uniform distribution with, say, $a=0$ and $b=10$. We can do this symbolically or numerically. For the mean:
+$$\int_{-\infty}^\infty x\  \text{unif}(x, 0, 10)\, dx = \int_0^{10} \frac{x}{10-0}\, dx = \left.{\Large\strut} \frac{x^2}{20}\right|_{x=0}^{10} \\= \frac{100}{20} - \frac{0}{20} = 5$$
+For the variance, 
+$$\int_{-\infty}^\infty (x-5)^2\  \text{unif}(x, 0, 10)\, dx  
+= \int_0^{10} \frac{(x-5)^2}{10-0}\, dx = 
+\left.{\Large\strut}\frac{(x-5)^3}{30}\right|_{x=0}^{10}\\
+=\frac{5^3}{30} - \frac{(-5)^3}{30} = \frac{125}{30} - \frac{-125}{30} = 8 \tiny{\frac{1}{3}}$$
+
+Or, numerically^[Numerical integrals from $-\infty$ to $\infty$ of functions that are zero almost everywhere are challenging. The computer has to figure out where, out of the whole number line, the function has non-zero output. We've given the computer a head start by using 0 in the limits of integration. This would not be a problem for the exponential or gaussian distribution, which are non-zero everywhere (for the gaussian) or for half the number line (for the exponential).]
+
+```{r}
+Integrate(x * dunif(x, 0, 10) ~ x, domain(x=0:Inf))
+Integrate((x-5)^2 * dunif(x, 0, 10) ~ x, domain(x=-0:Inf))
+```
+
+## Risk and data
+
+In this section, we'll examine the accepted technique for combining data with probability density functions in order to combine previous knowledge with new observations. The technique, called ***Bayesian inference***, is used throughout science and engineering. (Surprisingly, satisfactory computer algorithms to do the calculations were invented only in the last 40 years---so this is a modern topic.) 
+
+Because there are several subtle aspects to Bayesian inference, we will present the techniques in terms of two specific examples. For most people, Bayesian inference is a new approach to thinking. It can take years of experience to develop a confident understanding. But you have to start somewhere .... 
+
+
+
+that can take years
+You'll see how "knowledge" can be represented as a probability density function, and the combination of new data with prior knowledge involves simple multiplication to create a relative density function that can be normalized into the probability density function that represents our new knowledge, after we've incorporated the data.
+
 
 Risk of disease: single probability
 
 Car safety: miles to 10% risk
-
-## Risk and data
-
 
 
 
