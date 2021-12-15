@@ -2,6 +2,54 @@
 
 `r under_construction()`
 
+Comparison is an important element of human decision making. Often, comparison amounts to translating each of the options at hand into a scalar or score. Scalars are easy to compare; the skill is taught in elementary school. Scalar comparison is completely objective. Putting aside the possibility of error, everyone will agree on which of two numbers is bigger. Importantly, comparison of scalars is ***transitive***, that is if $a > b$ and $b > c$ then it is impossible that $a \leq c$.
+
+The comparison of scalars can be extended to situations where the options available form a continuum and the score for each option is represented by a function, $f(x)$. As we saw in Chapters `r Chaps$optimization` and \@ref(optimization-and-constraint) selecting the highest scoring option is a matter of finding the argmax.
+
+Many decisions involve options that have two or more attributes that are not directly comparable. Expenditure decisions have this flavor: Is it worth the money to buy a more reliable or prettier or more capable version of a product? The techniques of ***constrained optimization*** (Chapter \@ref(optimization-and-constraint)) provide one useful approach for informing decisions when there are multiple objectives.
+
+Elections are a form of collective decision making. The options---called, of course, "candidates"---have many attributions. Three commonly mentioned are attitudes toward social policy, toward fiscal policy, and toward foreign policy. Perceived honesty and trustworthiness as well as the ability to influence other decision makers and perceived ability to win the election are other attributes that are considered and balanced. Ultimately the decision is made by condensing the diverse attributes into a single number: how many votes the candidate garnered. With this number attached to each of the candidates, it's easy to make the decision, which could be written
+$$\mathop{\text{argmax}}_{i} \text{votes}(\text{candidate}_i)\ .$$
+
+This chapter is about often encountered settings where attributes are presented as a function on a domain and it is desired to reduce the function to a single, representative number. To avoid unnecessary abstraction, we'll consider two different types of domain: time and age.
+
+## Present value (time)
+
+People and institutions often have to make decisions about undertakings where the costs and benefits are spread out over tie. For instance, a person acquiring an automobile or home is confronted with a large initial outlay. The outlay can be financed by agreeing to pay amounts in the future, often over a span of many years.
+
+Another example: Students today are acutely aware of climate change and the importance of taking preventive or mitigating actions such as discouraging fossil fuel production, investing in renewable sources of energy and the infrastructure for using them effectively, and exploring active measures such as carbon sequestration. The costs and benefits of such actions are spread out over decades, with the costs coming sooner than the benefits. Policy makers are often and perhaps correctly criticized for overvaluing present-day costs and undervaluing benefits that accrue mainly to successive generations. There are many analogous situations on a smaller scale, such as setting Social Security taxes and benefits or the problem of underfunded pension systems and the liability for pension payments deferred to future taxpayers.]
+
+The conventional mechanism for condensing an extended time stream of benefits and costs is called ***discounting***. Discounting is based on the logic of financing expenditures via borrowing at interest. For example, credit cards are a familiar mechanism for financing purchases by delaying the payment of money until the future. A common occurance is that an expense that is too large to bear is "carried" on a credit card so that it can be paid off as funds become available. This incurs costs due to ***interest*** on the credit-card balance. Typical credit-card interest rates are 18-30% per year.
+
+
+As notation, consider a time stream of money ${\cal C}(t)$. The big conceptual leap is to understand that the ***present value*** of money, that is, the value in terms of a unit of money that we have right now, is not constant.  Let's denote the present value function ${\cal V}_r(t)$, where $r$ is a parameter. The total present value---generally called the ***net present value***---of the time stream of money is 
+$$\int_\text{now}^\text{forever} {\cal C}(t) {\cal V}_r(t)\, dt\ .$$
+It's conventional to define ${\cal V}_r(t)$ on the basis of bank interest. We stipulate that the present value of  that ${\cal V}_r(0) = 1$, which is to say that the present value of $1 that we have in hand right now is exactly 1 dollar.
+
+Suppose that a bank offers to lend you money at an interest rate of $r$ per month. To receive from them 1 dollar now entails that you pay the bank $1+r$ dollars at the end of the month. A rational decision maker would undertake this transaction only if there was not a loss in it, that is, if the present value of $1+r$ dollars in a month is less than or equal to the present value of 1 dollar now. Or, more generally, 
+$$(1+r)^t \ {\cal V}_r(t) \leq  {\cal V}_r(0) = 1\ .$$ By this logic, $${\cal V}(t) =  \frac{1}{(1+r)^t} = (1+r)^{-t}\ .$$
+Thus, the present value function ${\cal V}_r(t)$ is an exponentially decaying function of time. Since we're used to using a parameter $k$ in exponential functions, we'll write the present value function as $${\cal V}_r(t) = e^{-k t} = (1+r)^{-t}\ .$$ The last equality provides a way to determine the numerical value of $k$ from the specified $r$. 
+
+The reason it's preferable to use $k$ instead of $r$ has to do with compounding of interest. Being told $r=2\%$ per month is not quite the entire story. You also have to know how often the interest is compounded. For instance, it's natural (but wrong!) to believe that 2% per month is the same as 24% per year. But it depends on how often the interest is compounded. If it is compounded every month, the present value of one dollar at the end of a year is ${\cal V}_r(t= 1\ \text{year}) = (1+r)^{12}$. For $r = 2\%$ per month, that comes to $1.02^{12} = 1.2682$. In other words, the effective annual rate is 26.82%. If you round off 2% per month to 24% per year, you will be underestimating the amount you owe by about 10%.
+
+In the $e^{kt}$ format, all you need to know is the value of $k$ and its units. The parameter $k$ will match a rate of $r$ per month when $e^{kt} = (1+r)^t$, in other words $k = \ln(1+r)$ per month. Whereas multiplying $r$ by 12 will not convert a monthly rate into an annual rate, things are much simpler with $k$. For instance, for $r=2\%$ per month, $k = \ln(1.02) = 0.0198$ per month. The $k$ corresponding to 12 months is a unit conversion: "per month" into "per year". Of course, 1 per month is the same quantity as 12 per year, so multiply 0.0198 per month by 12 months/year to get $12 \times 0.0198 = 0.2376$ per year. In this way of reckoning, the amount you owe after one year is $\exp(0.2376\ \text{per year} \times 1\ \text{year}) = 1.2682$.
+
+::: {.intheworld data-latex=""}
+
+Suppose you decide to buy a product that costs $\$\cal P$, say $\cal P=$ $10,000 for a used car. Let's say you need the car for your new job, but you don't have the money. So you borrow it. 
+
+Your plan is to pay an amount $A$ each month for 30 months---the next 2 $\tiny\frac{1}{2}$ years. What should that rate be? 
+
+You can put the purchase on your credit card at an interest rate of $r=2\%$ per month. This corresponds to $k = \ln(1+r) = 0.0198$ per month. The net present value of your payments over 30 months at a rate of $A$ per month will be
+$$\int_0^{30} A {\cal V}_r(t)\, dt = \int_0^{30} e^{-kt} A = -\frac{A}{k} e^{-kt}\left.{\Large\strut}\right|_{t=0}^{30}\\ =- A \left(\strut \frac{e^{-30k}}{k} - \frac{e^{-0k}}{k} \right) = - A\left(\strut27.88 - 50.50\right) = 22.62 A$$
+For $22.62 A = {\cal P}$, your monthly payment on the $10,000 car will be $10,000/22.62 or $442.09.
+:::
+
+## Age adjusting
+
+How you do this.  YOU WERE HERE.
+
+## OLD STUFF
 The Powerball is a weekly lottery famous for its outsized payoff. For instance, for the week of April 7, 2021, the jackpot payout is officially described as $43,000,000. There is a limited sense in which this might be true, but in a far more meaningful sense it is not. The winner has a choice between a one-time cash payout of $29,300,000 or an annuity of 30 annual payments of $1,433,333. However, the winnings are taxable income and the lottery's administration (a not-for-profit, government benefit organization) withhold applicable federal and state taxes. According to the [usmega site](https://www.usamega.com/powerball/jackpot), in Colorado the cash payment would amount to $17,161,778 while the annuity would be 30 payments of $873,711. `r mark(4300)`
 
 This will sound silly, but we know the value of $17,161,778 paid today: it is $17,161,778. But what is the value of $873,711 paid out over 30 years? The answer depends on the *discount rate*, that is, the present value of future money. When the discount rate is $r$, the current value of money due to be paid in $n$ years is $(1-r)^n$. For instance, at $r = 5\%$, the current value of $1000 to be paid 10 years in the future is $599. The table shows the net present value of the $873,711 paid out yearly over 30 years. `r mark(4305)`
