@@ -9,14 +9,15 @@ global_id: "1dG7W8"
 Describe constructing the cumulative and using it to calculate quantiles.
 
 
-The **cumulative** distribution translates the probability density into an actual probability (a number between zero and one). Formally, the cumulative distribution is $$P(t) \equiv \int_{-\infty}^t p(t) dt$$ `r mark(4680)`
+The **cumulative** distribution translates the probability density into an actual probability (a number between zero and one). Formally, the cumulative distribution is $$P(t) \equiv \int_{-\infty}^t p(t) dt$$ 
 
-Evaluating $P(t)$ at given value of $t$ gives a probability. For instance, $P(10) \approx 0.095$, roughly 10%. In terms of storms, this means that according to the standard model of these things, the time between consequtive 100-year storms has a 10% chance of being 10 years or less! `r mark(4685)`
+Evaluating $P(t)$ at given value of $t$ gives a probability. For instance, $P(10) \approx 0.095$, roughly 10%. In terms of storms, this means that according to the standard model of these things, the time between consequtive 100-year storms has a 10% chance of being 10 years or less! 
 
 A graph of the **cumulative** distribution shows what you might have anticipated: the gaussian function $p(t)$ has an integral that is a sigmoid function.
 
 ```{r echo=FALSE}
-slice_plot(P(t) ~ t, domain(t=c(-100,400)), npts=300) %>%
+P <- makeFun(pexp(x, .005) ~ x)
+slice_plot(P(t) ~ t, domain(t=c(0,400)), npts=300) %>%
   gf_labs(title="Cumulative distribution", x="t (years)", y = "Probability that outcome < t")
 ```
 
