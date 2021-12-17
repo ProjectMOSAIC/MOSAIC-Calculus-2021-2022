@@ -26,7 +26,7 @@ DT::datatable(M2014F)
 
 Scroll through the data until you are comfortable with the format. The variables `year` and `age` are self explanatory. `pmort` is the probability of a person of the given age having died in the next year. `nliving` and `died` are not counts from the population but a construction of a theoretical cohort of 100,000 newborn people whose lives are such as to follow, at any age, the mortality at that age. Thus, given the age-specific mortality in 2014, of the theoretical 100,000 newborns, 99,342 would still be alive at the end of age 10. `died` is the number from the theoretical cohort who would have died during the given the value number who are still alive at any age. While not exact basically `nliving` - `died` within an age will output `nliving` for the following age.
 
-> **Essay**: For the follwing essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar.Explain why in the first row nliving + ndead does not add up to 100,000. Additionally, explain why nliving in row 4 is equal to 99,412 (In other words, how was the number calculated).
+> **Essay**: For the following essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar.Explain why in the first row nliving + ndead does not add up to 100,000. Additionally, explain why nliving in row 4 is equal to 99,412 (In other words, how was the number calculated).
 
 ```{r exp1-1, echo=FALSE, results="markup"}
 askMC(
@@ -199,7 +199,7 @@ In this situation, you might do the following:
 - Instead of using a probability of being alive at any age, just make a good estimate of how long a typical 67-year old lives. You can make such an estimate simply from the graph of `prob_living()` shown above. Let's say the estimate is 18 years.
 - Multiply the yearly payment by the number of years of life, so $24,000 $\times 18 =$ $432,000.
 
-> **Essay**: For the follwing essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar.A classmate runs their model and finds the answer to be $1,121,751. Your classmate did a reasonable calculation, but has failed to account for something. What did they forget to account for? Hint: use the sandbox above removing aspects of the equation to find what was neglected. Your answer should explain in everyday words what is missing (not the mathematical portion of the equation that is missing).
+> **Essay**: For the following essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar.A classmate runs their model and finds the answer to be $1,121,751. Your classmate did a reasonable calculation, but has failed to account for something. What did they forget to account for? Hint: use the sandbox above removing aspects of the equation to find what was neglected. Your answer should explain in everyday words what is missing (not the mathematical portion of the equation that is missing).
 
 ## Life expectancy
 
@@ -208,7 +208,7 @@ You now have most of the apparatus to calculate one of the most commonly used in
 First, you need the model of the probability of dying at any exact given age.
 Then, calculate the **expectation value* of age according to this probability model.
 
-We already have a probability of survival as a function of age: `prob_living()`. At first it might seem to you that the probability of dying at age $y$ is `1 - prob_living(y)` (in otherwords the opposite of probability of dying at any exact age in the opposite of probability of survival), but that's not true. Why not? Because `1 - prob_living(y)` is a probability of dying at age $y$ **or before**. That is, it is the accumulated probability across all people.
+We already have a probability of survival as a function of age: `prob_living()`. At first it might seem to you that the probability of dying at age $y$ is `1 - prob_living(y)` (in other words the opposite of probability of dying at any exact age in the opposite of probability of survival), but that's not true. Why not? Because `1 - prob_living(y)` is a probability of dying at age $y$ **or before**. That is, it is the accumulated probability across all people.
 
 We need to "de-accumulate" the probability, to get to the change in probability from one year to the next. Let's replace the word "accumulation" with its calculus synonym: anti-derivative. We we need to "de-anti-derivative" the `1 - prob_living(y)` function. That is, it's the derivative of `1 - prob_living(y)` that we want.
 
@@ -258,5 +258,5 @@ F <- antiD(age*prob_dying(age) ~ age)
 F(110) - F(67)
 ```
 
-> **Essay**: For the follwing essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar. The immediately above calculation found life expectancy to be 85.8346. This number is larger than the life expectancy that was calculated in the previous section (81.04189). Why is that? Be sure to explain what both numbers are in your response.
+> **Essay**: For the following essay question ensure that your answer is in the form of complete sentences and utilizes proper grammar. The immediately above calculation found life expectancy to be 85.8346. This number is larger than the life expectancy that was calculated in the previous section (81.04189). Why is that? Be sure to explain what both numbers are in your response.
 

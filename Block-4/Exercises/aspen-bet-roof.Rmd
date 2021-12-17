@@ -1,0 +1,43 @@
+---
+id: "aspen-bet-roof"
+created: "Thu Dec 16 17:46:57 2021"
+global_id: "ixpCg0"
+---
+
+`r under_construction()`
+
+SELF-DRIVING CAR EXAMPLE
+
+Here are the notes from the draft:
+
+One of the goals for self-driving cars is to reduce road accidents, especially fatal accidents. People are understandably skeptical that an automated system can cope with all the varying conditions of traffic, visibility, road damage, etc. without the benefit of human judgment or experience. For instance, a sensible driver passing near a house where children are playing catch in the front yard will be more vigilent to the possibility of a child running into the street and will take action to reduce the risk, e.g. by slowing down in order to increase the time available for reacting.
+
+Let's quantify the risk of a serious accident as the probability of such san accident occurring per vehicle mile traveled in the usual mix of traffic, weather, and other conditions. How can we estimate this probability for newly introduced self-driving cars? Put another way, how much experience should we require with tests of self-driving cars before we accept that they are at least as safe as regular cars.
+
+Based on experience with tens of millions of regular cars driving hundreds of billions of total miles, suppose we decide the accident probability is approximately 10% per 10,000 miles. From Section XXXX, you know that the probability density function for the number of miles driven until the next accident is $k e^{-k t}$ where $k$ is roughly 1/100,000.  
+
+We're hopeful but skeptical about self-driving cars. The best case scenario, let's say, is that the self-driving cars will be 10 times safer than regular cars. The worst case is that they will be 10 times worse. As the first self-driving cars start being driven, we'll assume that the accident probability is somewhere between 10% per 100,000 miles and 10% per 1000 miles. This is our belief *before* any evidence has accumulated. In statistics and engineering, this is called a ***prior belief*** which reflects our uncertainty by being framed as a probability density function. Here's a reasonable prior reflecting the previous discussion:
+
+```{r}
+# d is the distance travelled to have a 10% probability of
+# an accident
+prior <- makeFun(ifelse(d < 1000, 0, 1/d)/0.69315~ d)
+slice_plot(prior(d) ~ d, domain(d=0:100000))
+```
+
+```{r}
+likelihood <- makeFun(exp(-x/d)/d ~ x, d=100000)
+```
+
+```{r}
+# One car: accident at 20K miles
+slice_plot(likelihood(x=200000, d=d)*prior(d) ~ d, domain(d=1:1000000))
+
+# Times when accidents were observed
+Times <- c(20000,30000,20000)
+slice_plot(prod(likelihood(x=Times, d=d))*prior(d) ~ d, domain(d=1:500000))
+Integrate(likelihood(x=20000, d=d)^3 * prior(d) ~ d, domain(d=0:150000))
+slice_plot(likelihood(x=20000, d=d)*prior(d)/norm ~ d, domain(d=1:100000))
+slice_plot(likelihood(x=20000, d=d)*prior(d)/1e-16 ~ d, domain(d=1:100000))
+```
+
