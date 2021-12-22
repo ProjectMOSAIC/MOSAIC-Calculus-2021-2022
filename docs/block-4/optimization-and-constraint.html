@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="data-driven-functions.html"/>
+<link rel="prev" href="splines.html"/>
 <link rel="next" href="probability-and-evidence.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -171,13 +171,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="32.4" data-path="operations.html"><a href="operations.html#software-for-the-tasks"><i class="fa fa-check"></i><b>32.4</b> Software for the tasks</a></li>
 <li class="chapter" data-level="32.5" data-path="operations.html"><a href="operations.html#exercises"><i class="fa fa-check"></i><b>32.5</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="33" data-path="data-driven-functions.html"><a href="data-driven-functions.html"><i class="fa fa-check"></i><b>33</b> Data-driven functions</a>
+<li class="chapter" data-level="33" data-path="splines.html"><a href="splines.html"><i class="fa fa-check"></i><b>33</b> Data-driven functions</a>
 <ul>
-<li class="chapter" data-level="33.1" data-path="data-driven-functions.html"><a href="data-driven-functions.html#generating-smooth-motion"><i class="fa fa-check"></i><b>33.1</b> Generating smooth motion</a></li>
-<li class="chapter" data-level="33.2" data-path="data-driven-functions.html"><a href="data-driven-functions.html#piecewise-but-smooth"><i class="fa fa-check"></i><b>33.2</b> Piecewise but smooth</a></li>
-<li class="chapter" data-level="33.3" data-path="data-driven-functions.html"><a href="data-driven-functions.html#cubic-splines"><i class="fa fa-check"></i><b>33.3</b> C<sup>2</sup> smooth functions</a></li>
-<li class="chapter" data-level="33.4" data-path="data-driven-functions.html"><a href="data-driven-functions.html#bézier-splines"><i class="fa fa-check"></i><b>33.4</b> Bézier splines</a></li>
-<li class="chapter" data-level="33.5" data-path="data-driven-functions.html"><a href="data-driven-functions.html#exercises-1"><i class="fa fa-check"></i><b>33.5</b> Exercises</a></li>
+<li class="chapter" data-level="33.1" data-path="splines.html"><a href="splines.html#generating-smooth-motion"><i class="fa fa-check"></i><b>33.1</b> Generating smooth motion</a></li>
+<li class="chapter" data-level="33.2" data-path="splines.html"><a href="splines.html#piecewise-but-smooth"><i class="fa fa-check"></i><b>33.2</b> Piecewise but smooth</a></li>
+<li class="chapter" data-level="33.3" data-path="splines.html"><a href="splines.html#cubic-splines"><i class="fa fa-check"></i><b>33.3</b> C<sup>2</sup> smooth functions</a></li>
+<li class="chapter" data-level="33.4" data-path="splines.html"><a href="splines.html#bézier-splines"><i class="fa fa-check"></i><b>33.4</b> Bézier splines</a></li>
+<li class="chapter" data-level="33.5" data-path="splines.html"><a href="splines.html#exercises-1"><i class="fa fa-check"></i><b>33.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="34" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html"><i class="fa fa-check"></i><b>34</b> Optimization and constraint</a>
 <ul>
@@ -309,7 +309,7 @@ Figure 34.6: The gradient provides information about the shape of the local func
 <p>Fortunately, a variety of effective ideas for determining step size have been implemented in software and packaged up as algorithms. The modeler need only provide the objective function in a suitable form and providing a starting position or domain for the search.</p>
 <div class="rmosaic">
 <p>The R/mosaic function <code>argM()</code> is set up to find argmins and argmaxes using the familiar tilde-formula/domain style of arguments used throughout this book. For instance, the potential energy of the spring-mass system shown in Figure <a href="optimization-and-constraint.html#fig:spring-mass1">34.2</a> is available as <code>Zcalc::SM_2_potential()</code></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="optimization-and-constraint.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">argM</span>(<span class="fu">SM_2_potential</span>(x, y) <span class="sc">~</span> x <span class="sc">&amp;</span> y, <span class="fu">domain</span>(<span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="optimization-and-constraint.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">argM</span>(<span class="fu">SM_2_potential</span>(x, y) <span class="sc">~</span> x <span class="sc">&amp;</span> y, <span class="fu">domain</span>(<span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##       x     y .output.
 ##   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -332,8 +332,8 @@ Figure 34.7: The path followed by <code>optim()</code> in descending the gradien
 </div>
 <div class="example">
 <p><span id="exm:unlabeled-div-2" class="example"><strong>Example 34.1  </strong></span>The potential energy function of the spring-mass system in Figure<a href="#fig:spring-mass3"><strong>??</strong></a> is available as the function <code>Zcalc::SM_3_potential()</code>. We can use <code>argM()</code> to to find the argmin:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="optimization-and-constraint.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">argM</span>(<span class="fu">SM_3_potential</span>(x1, y1, x2, y2, x3, y3) <span class="sc">~</span> x1 <span class="sc">&amp;</span> y1 <span class="sc">&amp;</span> x2 <span class="sc">&amp;</span> y2 <span class="sc">&amp;</span> x3 <span class="sc">&amp;</span> y3, </span>
-<span id="cb12-2"><a href="optimization-and-constraint.html#cb12-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">domain</span>(<span class="at">x1 =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y1=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">x2=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y2=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">x3=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y3=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="optimization-and-constraint.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">argM</span>(<span class="fu">SM_3_potential</span>(x1, y1, x2, y2, x3, y3) <span class="sc">~</span> x1 <span class="sc">&amp;</span> y1 <span class="sc">&amp;</span> x2 <span class="sc">&amp;</span> y2 <span class="sc">&amp;</span> x3 <span class="sc">&amp;</span> y3, </span>
+<span id="cb13-2"><a href="optimization-and-constraint.html#cb13-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">domain</span>(<span class="at">x1 =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y1=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">x2=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y2=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">x3=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y3=</span><span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">0</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 7
 ##      x1    y1    x2    y2    x3    y3 .output.
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -435,7 +435,7 @@ Figure 34.15: The two objective functions, Profit() and cube_box(), that are to 
 <p>Modeler: <em>It might sound surprising, but we find that so long as you are close to the optimal, it doesn’t much matter if you are exactly on it. How close to a perfect cube would be good enough?</em></p>
 <p>Designer: <em>What’s really important is that the box be perceived as a cube in our sales material. I think that most customers would think “cube” so long as the edge lengths are within about 15% of one another.</em></p>
 <p>Modeler: <em>That’s very helpful. Let me re-make the graphic showing the percent deviation from cubeness. Then we can see how much extra box Profit() we can get by allowing 10% deviation.</em></p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-23-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-26-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>Modeler: <em>A 10% deviation lets us get to a higher Profit(): from 50 cents to 65 cents per box.</em></p>
 <p>Product manager: <em>How about a 30% deviation? That let’s us get up to about 100 cents.</em></p>
 <p>Designer: <em>But it would make the box shaped almost like a brick. Bricks are so 1990s!</em></p>
@@ -486,7 +486,7 @@ Figure 34.17: The production and expenditure functions displayed as gradient fie
 <p>A. Does the gradient field in Plot 1 correspond to the contour plot of the objective function? Explain why or why not both in terms of the direction of the gradient vectors and their lengths.</p>
 <p>B. Does the path, which starts at the point marked “0” and heads toward the point marked “10,” follow the gradient field. Explain your answer.</p>
 <p>C. Is the path a gradient <strong>ascent</strong>, a gradient <strong>descent</strong>, or neither.</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-58-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-61-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>D. In Plot 2, is the path a gradient <strong>ascent</strong>, a gradient <strong>descent</strong>, or neither.</p>
 E. In Plot 2, is the path a gradient <strong>ascent</strong>, a gradient <strong>descent</strong>, or neither.
 </details>
@@ -495,7 +495,7 @@ E. In Plot 2, is the path a gradient <strong>ascent</strong>, a gradient <strong
 <strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/rat-find-magnet.Rmd" href="#rG11sg"><img src="www/icons8-signpost.png" title="Location: Exercises/rat-find-magnet.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">rG11sg</red></span>
 </summary>
 <p>The plot shows an objective function (contours labeled in black) and a constraint function (in orange).</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-59-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-62-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <ol style="list-style-type: decimal">
 <li><p>What is the constrained argmax when the constraint level is at 600? (Bold orange line.)</p></li>
 <li><p>What is the value of the objective function at this argmax?</p></li>
@@ -592,7 +592,7 @@ E. In Plot 2, is the path a gradient <strong>ascent</strong>, a gradient <strong
 <strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/dolphin-hang-sheet.Rmd" href="#2ZoCl8"><img src="www/icons8-signpost.png" title="Location: Exercises/dolphin-hang-sheet.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">2ZoCl8</red></span>
 </summary>
 <p>Here is the gradient field of an objective function.</p>
-<img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-60-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-63-1.png" width="90%" style="display: block; margin: auto;" />
 1. Where is the argmax?
 </details>
 <details>
@@ -618,7 +618,7 @@ ii. Can the two-layer scheme improve transmission compaared to the 1-layer schem
 <strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/panda-go-kayak.Rmd" href="#W11rG9"><img src="www/icons8-signpost.png" title="Location: Exercises/panda-go-kayak.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">W11rG9</red></span>
 </summary>
 <p>The figure shows an objective function (contour plot) with two different constraints: an inequality constraint (satified outside the blue region), and an equality constraint (brown).</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-62-1.png" width="90%" style="display: block; margin: auto;" />
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-65-1.png" width="90%" style="display: block; margin: auto;" />
 1. What is the min of the objective function, ignoring the constraints?</p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>What is the max of the objective function, ignoring the constraints?</p></li>
@@ -632,7 +632,7 @@ ii. Can the two-layer scheme improve transmission compaared to the 1-layer schem
 <strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/panda-go-kayak2.Rmd" href="#B7rG9"><img src="www/icons8-signpost.png" title="Location: Exercises/panda-go-kayak2.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">B7rG9</red></span>
 </summary>
 <p>The figure shows an objective function (contour plot) with two different constraints: an inequality constraint (satified outside the blue region), and an equality constraint (brown).</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-63-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-66-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <pre><code>
 1. What is the min of the objective function, ignoring the constraints?
 
@@ -681,16 +681,16 @@ QALY_impact</code></pre>
 ## 6     50   180   175</code></pre>
 <p>Such estimates from experts should be taken with a grain of salt, but they are often the best information you have to inform a model.</p>
 <p>You can turn the expert’s opinions into functions by using splines. In this case, there is good reason to think that output will increase monotonically with expenditure, so a monotonic spline is a good choice. The functions were created using these commands and are already available in your sandboxes:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="optimization-and-constraint.html#cb17-1" aria-hidden="true" tabindex="-1"></a>fA <span class="ot">&lt;-</span> <span class="fu">spliner</span>( A <span class="sc">~</span> expend, <span class="at">data=</span>QALY_impact, <span class="at">monotonic=</span><span class="cn">TRUE</span>)</span>
-<span id="cb17-2"><a href="optimization-and-constraint.html#cb17-2" aria-hidden="true" tabindex="-1"></a>fB <span class="ot">&lt;-</span> <span class="fu">spliner</span>( B <span class="sc">~</span> expend, <span class="at">data=</span>QALY_impact, <span class="at">monotonic=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="optimization-and-constraint.html#cb18-1" aria-hidden="true" tabindex="-1"></a>fA <span class="ot">&lt;-</span> <span class="fu">spliner</span>( A <span class="sc">~</span> expend, <span class="at">data=</span>QALY_impact, <span class="at">monotonic=</span><span class="cn">TRUE</span>)</span>
+<span id="cb18-2"><a href="optimization-and-constraint.html#cb18-2" aria-hidden="true" tabindex="-1"></a>fB <span class="ot">&lt;-</span> <span class="fu">spliner</span>( B <span class="sc">~</span> expend, <span class="at">data=</span>QALY_impact, <span class="at">monotonic=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>The problem is to find the best values for expenditures on Proposal A and B — call these expenditures <span class="math inline">\(x_A\)</span> and <span class="math inline">\(x_B\)</span> – given constraint that total expenditure is <span class="math inline">\(x_A + x_B = 50\)</span>.</p>
 <p>A simple approach is to plot out the total benefit as a function of expenditures on each of A and B:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="optimization-and-constraint.html#cb18-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( <span class="fu">fA</span>(xA) <span class="sc">+</span> <span class="fu">fB</span>(xB) <span class="sc">~</span> xA <span class="sc">+</span> xB)</span>
-<span id="cb18-2"><a href="optimization-and-constraint.html#cb18-2" aria-hidden="true" tabindex="-1"></a>g_budget <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(xA <span class="sc">+</span> xB <span class="sc">~</span> xA <span class="sc">+</span> xB)</span>
-<span id="cb18-3"><a href="optimization-and-constraint.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">overall</span>(xA, xB) <span class="sc">~</span> xA  <span class="sc">+</span> xB, </span>
-<span id="cb18-4"><a href="optimization-and-constraint.html#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">domain</span>(<span class="at">xA=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>), <span class="at">xB=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="optimization-and-constraint.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contour_plot</span>(<span class="fu">g_budget</span>(xA, xB) <span class="sc">~</span> xA <span class="sc">+</span> xB, <span class="at">filled=</span><span class="cn">FALSE</span>,</span>
-<span id="cb18-6"><a href="optimization-and-constraint.html#cb18-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">contours_at=</span><span class="cn">NULL</span>, <span class="at">contour_color=</span><span class="st">&quot;orange3&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="optimization-and-constraint.html#cb19-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( <span class="fu">fA</span>(xA) <span class="sc">+</span> <span class="fu">fB</span>(xB) <span class="sc">~</span> xA <span class="sc">+</span> xB)</span>
+<span id="cb19-2"><a href="optimization-and-constraint.html#cb19-2" aria-hidden="true" tabindex="-1"></a>g_budget <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(xA <span class="sc">+</span> xB <span class="sc">~</span> xA <span class="sc">+</span> xB)</span>
+<span id="cb19-3"><a href="optimization-and-constraint.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">overall</span>(xA, xB) <span class="sc">~</span> xA  <span class="sc">+</span> xB, </span>
+<span id="cb19-4"><a href="optimization-and-constraint.html#cb19-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">domain</span>(<span class="at">xA=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>), <span class="at">xB=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="optimization-and-constraint.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contour_plot</span>(<span class="fu">g_budget</span>(xA, xB) <span class="sc">~</span> xA <span class="sc">+</span> xB, <span class="at">filled=</span><span class="cn">FALSE</span>,</span>
+<span id="cb19-6"><a href="optimization-and-constraint.html#cb19-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">contours_at=</span><span class="cn">NULL</span>, <span class="at">contour_color=</span><span class="st">&quot;orange3&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)</span></code></pre></div>
 <p>How can you confirm that the red contours in the plot genuinely represent the budget constraint at the indicated level?</p>
 <p><strong>Question A</strong> What’s the largest number of QALYs that can be produced from combining
 the two proposals with a total budget of $50M?</p>
@@ -712,17 +712,17 @@ the two proposals with a total budget of $50M?</p>
 <li><span class="Zchoice"><span class="math inline">\((A = 50, B = 0)\)</span><span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p>Another way to look at the problem is to find the total QALY outcome as a function of the amount <span class="math inline">\(x_A\)</span>, recognizing that once <span class="math inline">\(x_A\)</span> is set, the remaining money will go to option B, so <span class="math inline">\(x_B = 50-x_A\)</span>. The following sandbox makes the plot.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="optimization-and-constraint.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>( <span class="fu">fA</span>(xA) <span class="sc">+</span> <span class="fu">fB</span>(<span class="dv">50</span><span class="sc">-</span>xA) <span class="sc">~</span>xA, <span class="fu">domain</span>(<span class="at">xA =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">50</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="optimization-and-constraint.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>( <span class="fu">fA</span>(xA) <span class="sc">+</span> <span class="fu">fB</span>(<span class="dv">50</span><span class="sc">-</span>xA) <span class="sc">~</span>xA, <span class="fu">domain</span>(<span class="at">xA =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">50</span>)))</span></code></pre></div>
 <p><strong>Changing the Budget</strong></p>
 <p>A broader social question is whether the budget is being set at an appropriate level. One way to examine this is to look at how the QALY outcome changes as the budget changes.</p>
 <p>For this, we’re going to find the set of non-dominated solutions, that is, all the values of <span class="math inline">\(x_A\)</span> and <span class="math inline">\(x_B\)</span> at which the derivatives <span class="math inline">\(\partial_{x_A} f_A()\)</span> and <span class="math inline">\(\partial_{x_B} f_B()\)</span> are equal.</p>
 <p>The following sandbox shows the difference between those two derivatives along with a bunch of different constraint paths.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="optimization-and-constraint.html#cb20-1" aria-hidden="true" tabindex="-1"></a>dfA <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">fA</span>(xA)<span class="sc">~</span>xA)</span>
-<span id="cb20-2"><a href="optimization-and-constraint.html#cb20-2" aria-hidden="true" tabindex="-1"></a>dfB <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">fB</span>(xB)<span class="sc">~</span>xB)</span>
-<span id="cb20-3"><a href="optimization-and-constraint.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>( <span class="fu">dfA</span>(xA) <span class="sc">-</span> <span class="fu">dfB</span>(xB) <span class="sc">~</span> xA<span class="sc">&amp;</span>xB, </span>
-<span id="cb20-4"><a href="optimization-and-constraint.html#cb20-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">domain</span>(<span class="at">xA=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>), <span class="at">xB=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>)),</span>
-<span id="cb20-5"><a href="optimization-and-constraint.html#cb20-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">contours_at =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">2</span>), <span class="at">skip=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-6"><a href="optimization-and-constraint.html#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contour_plot</span>(xA <span class="sc">+</span> xB <span class="sc">~</span> xA <span class="sc">+</span> xB, <span class="at">contour_color=</span><span class="st">&quot;orange3&quot;</span>, <span class="at">skip=</span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="optimization-and-constraint.html#cb21-1" aria-hidden="true" tabindex="-1"></a>dfA <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">fA</span>(xA)<span class="sc">~</span>xA)</span>
+<span id="cb21-2"><a href="optimization-and-constraint.html#cb21-2" aria-hidden="true" tabindex="-1"></a>dfB <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">fB</span>(xB)<span class="sc">~</span>xB)</span>
+<span id="cb21-3"><a href="optimization-and-constraint.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>( <span class="fu">dfA</span>(xA) <span class="sc">-</span> <span class="fu">dfB</span>(xB) <span class="sc">~</span> xA<span class="sc">&amp;</span>xB, </span>
+<span id="cb21-4"><a href="optimization-and-constraint.html#cb21-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">domain</span>(<span class="at">xA=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>), <span class="at">xB=</span><span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">50</span>)),</span>
+<span id="cb21-5"><a href="optimization-and-constraint.html#cb21-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">contours_at =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">2</span>), <span class="at">skip=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="optimization-and-constraint.html#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contour_plot</span>(xA <span class="sc">+</span> xB <span class="sc">~</span> xA <span class="sc">+</span> xB, <span class="at">contour_color=</span><span class="st">&quot;orange3&quot;</span>, <span class="at">skip=</span><span class="dv">0</span>)</span></code></pre></div>
 <p><strong>Yet another constraint!</strong></p>
 <p><strong>Question C</strong> The American Association of Allergy Activists (AAAA) has lobbied Congress to mandate that, of the 50 units of available funds, funding for A must be <span class="math inline">\(x_A \geq 40\)</span>. How much would this constraint reduce the overall output for the two interventions combined? (Remember, if you’re spending, say, 45 on A, you can’t spend more than the remaining 5 on B.) The challenge for you in answering this question is to pick the appropriate one of the above graphs. Once you have done that, the answer is evident.</p>
 <ol style="list-style-type: lower-roman">
@@ -844,12 +844,12 @@ The area of cardboard consists of the the four sides and the eight flaps. Each c
 <li><span class="Zchoice"><span class="math inline">\(2 (w + d)/wd + 4 V w d\)</span><span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p>The following sandbox contains the formula for the surface area <span class="math inline">\(A(w, d, V)\)</span> of a box of volume <span class="math inline">\(V\)</span>. The graphics command draw a contour plot of <span class="math inline">\(A()\)</span> as a function of <span class="math inline">\(w\)</span> and <span class="math inline">\(d\)</span>, holding <span class="math inline">\(V = 1.3\)</span> cubic feet.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="optimization-and-constraint.html#cb21-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">2</span><span class="sc">*</span>V<span class="sc">*</span>(w<span class="sc">+</span>d)<span class="sc">/</span>(w<span class="sc">*</span>d) <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>w<span class="sc">*</span>d <span class="sc">~</span> w <span class="sc">+</span> d, <span class="at">V =</span> <span class="fl">1.3</span>)</span>
-<span id="cb21-2"><a href="optimization-and-constraint.html#cb21-2" aria-hidden="true" tabindex="-1"></a>dom <span class="ot">&lt;-</span> <span class="fu">domain</span>(<span class="at">w =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>), <span class="at">d=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>))</span>
-<span id="cb21-3"><a href="optimization-and-constraint.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">A</span>(w, d) <span class="sc">~</span> w <span class="sc">+</span> d, dom,</span>
-<span id="cb21-4"><a href="optimization-and-constraint.html#cb21-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">contours_at =</span> <span class="cn">NULL</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-5"><a href="optimization-and-constraint.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_refine</span>(<span class="fu">coord_fixed</span>()) <span class="co"># pipe to</span></span>
-<span id="cb21-6"><a href="optimization-and-constraint.html#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gradient_plot( A(w, d) ~ w + d, dom)</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="optimization-and-constraint.html#cb22-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">2</span><span class="sc">*</span>V<span class="sc">*</span>(w<span class="sc">+</span>d)<span class="sc">/</span>(w<span class="sc">*</span>d) <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>w<span class="sc">*</span>d <span class="sc">~</span> w <span class="sc">+</span> d, <span class="at">V =</span> <span class="fl">1.3</span>)</span>
+<span id="cb22-2"><a href="optimization-and-constraint.html#cb22-2" aria-hidden="true" tabindex="-1"></a>dom <span class="ot">&lt;-</span> <span class="fu">domain</span>(<span class="at">w =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>), <span class="at">d=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>))</span>
+<span id="cb22-3"><a href="optimization-and-constraint.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">A</span>(w, d) <span class="sc">~</span> w <span class="sc">+</span> d, dom,</span>
+<span id="cb22-4"><a href="optimization-and-constraint.html#cb22-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">contours_at =</span> <span class="cn">NULL</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="optimization-and-constraint.html#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_refine</span>(<span class="fu">coord_fixed</span>()) <span class="co"># pipe to</span></span>
+<span id="cb22-6"><a href="optimization-and-constraint.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gradient_plot( A(w, d) ~ w + d, dom)</span></span></code></pre></div>
 <p>When you draw the contour plot, you’ll see a broad area near the center inside the contour at area = 9.5. Towards the upper-right and lower-left corners of the plot frame are contours at higher levels of area.</p>
 <p><strong>Question D</strong> The spacing between the contours in the corners is tight, but there is no similarly spaced contour inside the region delimited by the contour at area=9.5. Why not?</p>
 <ol style="list-style-type: lower-roman">
@@ -862,7 +862,7 @@ The area of cardboard consists of the the four sides and the eight flaps. Each c
 <li><span class="Zchoice">All the points inside the 9.5 contour are at exactly the same height.<span class="mcanswer">︎✘ The function <span class="math inline">\(C(w,d)\)</span> is infinitely differentiable so it’s not possible to make a sudden shift from a sloped form to one that is dead flat.</span></span></li>
 </ol>
 <p>Use the below sandbox and place contours at 10, 9.5, 9.4. You can do this by replacing the argument <code>contours_at = NULL</code> with this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="optimization-and-constraint.html#cb22-1" aria-hidden="true" tabindex="-1"></a>contours_at <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="fl">9.5</span>, <span class="fl">9.4</span>)<span class="er">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="optimization-and-constraint.html#cb23-1" aria-hidden="true" tabindex="-1"></a>contours_at <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="fl">9.5</span>, <span class="fl">9.4</span>)<span class="er">)</span></span></code></pre></div>
 <p>Add more contours to build a fence tighter and tighter around the argmin. When the fenced region is tiny, you can read off the min from the contour label. (Remember, the “argmin” is the value of the inputs <span class="math inline">\(w\)</span> and <span class="math inline">\(d\)</span> at which the function is minimized. The “min” is the value of the function at the argmin.) But watch out as you do this. If you ask for a contour at a level that’s lower than the min, it will simply not be drawn. Or, more precisely, there are no inputs that produce an output that’s lower than the min. So you may have to change the interval between levels (e.g. 10, 9.5, 9.4, …) in order to home in on the argmin.</p>
 <p><strong>Question E</strong> The following are values for the output of the function where you might be able to draw a contour. Which one of the values is the smallest for which a contour actually appears?</p>
 <p>    <span class="Zchoice">9.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">9.05<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">9.01<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">9.005<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">9.0005<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">9<span class="mcanswer">︎✘ </span></span></p>
@@ -964,7 +964,7 @@ The area of cardboard consists of the the four sides and the eight flaps. Each c
           </div>
         </div>
       </div>
-<a href="data-driven-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="splines.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="probability-and-evidence.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

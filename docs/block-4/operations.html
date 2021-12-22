@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="block4-intro.html"/>
-<link rel="next" href="data-driven-functions.html"/>
+<link rel="next" href="splines.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -171,13 +171,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="32.4" data-path="operations.html"><a href="operations.html#software-for-the-tasks"><i class="fa fa-check"></i><b>32.4</b> Software for the tasks</a></li>
 <li class="chapter" data-level="32.5" data-path="operations.html"><a href="operations.html#exercises"><i class="fa fa-check"></i><b>32.5</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="33" data-path="data-driven-functions.html"><a href="data-driven-functions.html"><i class="fa fa-check"></i><b>33</b> Data-driven functions</a>
+<li class="chapter" data-level="33" data-path="splines.html"><a href="splines.html"><i class="fa fa-check"></i><b>33</b> Data-driven functions</a>
 <ul>
-<li class="chapter" data-level="33.1" data-path="data-driven-functions.html"><a href="data-driven-functions.html#generating-smooth-motion"><i class="fa fa-check"></i><b>33.1</b> Generating smooth motion</a></li>
-<li class="chapter" data-level="33.2" data-path="data-driven-functions.html"><a href="data-driven-functions.html#piecewise-but-smooth"><i class="fa fa-check"></i><b>33.2</b> Piecewise but smooth</a></li>
-<li class="chapter" data-level="33.3" data-path="data-driven-functions.html"><a href="data-driven-functions.html#cubic-splines"><i class="fa fa-check"></i><b>33.3</b> C<sup>2</sup> smooth functions</a></li>
-<li class="chapter" data-level="33.4" data-path="data-driven-functions.html"><a href="data-driven-functions.html#bézier-splines"><i class="fa fa-check"></i><b>33.4</b> Bézier splines</a></li>
-<li class="chapter" data-level="33.5" data-path="data-driven-functions.html"><a href="data-driven-functions.html#exercises-1"><i class="fa fa-check"></i><b>33.5</b> Exercises</a></li>
+<li class="chapter" data-level="33.1" data-path="splines.html"><a href="splines.html#generating-smooth-motion"><i class="fa fa-check"></i><b>33.1</b> Generating smooth motion</a></li>
+<li class="chapter" data-level="33.2" data-path="splines.html"><a href="splines.html#piecewise-but-smooth"><i class="fa fa-check"></i><b>33.2</b> Piecewise but smooth</a></li>
+<li class="chapter" data-level="33.3" data-path="splines.html"><a href="splines.html#cubic-splines"><i class="fa fa-check"></i><b>33.3</b> C<sup>2</sup> smooth functions</a></li>
+<li class="chapter" data-level="33.4" data-path="splines.html"><a href="splines.html#bézier-splines"><i class="fa fa-check"></i><b>33.4</b> Bézier splines</a></li>
+<li class="chapter" data-level="33.5" data-path="splines.html"><a href="splines.html#exercises-1"><i class="fa fa-check"></i><b>33.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="34" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html"><i class="fa fa-check"></i><b>34</b> Optimization and constraint</a>
 <ul>
@@ -316,13 +316,13 @@ Figure 32.1: A Newton-step calculation seen graphically. The brown function is a
 <p>After the first Newton step, producing <span class="math inline">\(x_1 = 2.666666\)</span>, the function output and <span class="math inline">\(f(x_1) = 4.44444\)</span> was not sufficiently close to the desired output for us to take <span class="math inline">\(x_1\)</span> as the solution. You can think of the problem like the task of digging a well. You need to start with the first shovelful. Then take another and another and … until you have your well.</p>
 </div>
 <p>Newton’s method involves creating a custom <code>solve_step()</code> function for each new problem. The process is simple enough that we can create such functions automatically:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="operations.html#cb1-1" aria-hidden="true" tabindex="-1"></a>make_solve_step_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(tilde, v) {</span>
-<span id="cb1-2"><a href="operations.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(tilde)</span>
-<span id="cb1-3"><a href="operations.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">D</span>(tilde)</span>
-<span id="cb1-4"><a href="operations.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  custom_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(z) {z <span class="sc">+</span> (v<span class="sc">-</span><span class="fu">f</span>(z))<span class="sc">/</span><span class="fu">df</span>(z)}</span>
-<span id="cb1-5"><a href="operations.html#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="operations.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(custom_fun)</span>
-<span id="cb1-7"><a href="operations.html#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="operations.html#cb2-1" aria-hidden="true" tabindex="-1"></a>make_solve_step_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(tilde, v) {</span>
+<span id="cb2-2"><a href="operations.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(tilde)</span>
+<span id="cb2-3"><a href="operations.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">D</span>(tilde)</span>
+<span id="cb2-4"><a href="operations.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  custom_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(z) {z <span class="sc">+</span> (v<span class="sc">-</span><span class="fu">f</span>(z))<span class="sc">/</span><span class="fu">df</span>(z)}</span>
+<span id="cb2-5"><a href="operations.html#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="operations.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(custom_fun)</span>
+<span id="cb2-7"><a href="operations.html#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s test it out with this function:</p>
 <p><code class='sourceCode'  style='width:70%;overflow:auto;float:left;'>  f &lt;- makeFun(x^2 - x ~ x) </code> <br></p>
 <p>Construct the take-a-step function:</p>
@@ -385,7 +385,7 @@ In other words, our new guess <span class="math inline">\(x_1\)</span> will be a
 <p>Use the R/mosaic <code>argM()</code> function to find argmaxes and argmins. Like other R/mosaic calculus functions, the first argument is a tilde expression defining the objective function. The second argument is the domain to search.</p>
 <p>To illustrate, the following code creates a randomly shaped function (displayed in Figure <a href="#fig:argm-ex1"><strong>??</strong></a>) and calls <code>argM()</code> to generate the argmaxes and argmins.</p>
 <p><code class='sourceCode'  style='width:40%;overflow:auto;float:left;'>  f &lt;- rfun(~x, 3215) </code></p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <code class='sourceCode'  style='width:50%;overflow:auto;float:left;'>  argM(f(x) ~ x, domain(x = -5:5)) </code> <span class="math inline">\(\color{blue}{\longrightarrow}\)</span>
 <table class=" lightable-paper lightable-hover" style="font-family: Courier New; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -442,7 +442,7 @@ However many iteration steps you take, the output from the final step is what yo
 <p>The R/mosaic function <code>Iterate()</code> provides a very simple way to see the results of iteration. Typically when iteration is used as part of a function operation, the software has been written specifically for that task and includes logic about when to stop or start over or handle a variety of troublesome cases. The function <code>Iterate()</code> is provided in R/mosaic just for demonstration purposes.</p>
 <p><code>Iterate()</code> takes arguments specifying the function to be iterated (as a tilde expression), the starting <span class="math inline">\(x_0\)</span>, and the number <span class="math inline">\(n\)</span> of steps to take. To illustrate, we’ll iterate a famous function called the <strong><em>logistic map</em></strong>: <span class="math inline">\(f(x) \equiv \mu x (1-x)\)</span>. Depending on the value of the parameter <span class="math inline">\(\mu\)</span>, the iterates can show different patterns.</p>
 <p>Eventually reaching a <strong><em>fixed point</em></strong>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="operations.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="dv">2</span><span class="sc">*</span>x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x) <span class="sc">~</span> x, <span class="at">x0=</span><span class="fl">0.3</span>, <span class="at">n=</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="operations.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="dv">2</span><span class="sc">*</span>x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x) <span class="sc">~</span> x, <span class="at">x0=</span><span class="fl">0.3</span>, <span class="at">n=</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##     n         x
 ## 1   0 0.3000000
 ## 2   1 0.4200000
@@ -456,7 +456,7 @@ However many iteration steps you take, the output from the final step is what yo
 ## 10  9 0.5000000
 ## 11 10 0.5000000</code></pre>
 <p>Eventually reaching a periodic oscillation:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="operations.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="fl">3.2</span><span class="sc">*</span>x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x) <span class="sc">~</span> x, <span class="at">x0=</span><span class="fl">0.3</span>, <span class="at">n=</span><span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="operations.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="fl">3.2</span><span class="sc">*</span>x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x) <span class="sc">~</span> x, <span class="at">x0=</span><span class="fl">0.3</span>, <span class="at">n=</span><span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span></code></pre></div>
 <pre><code>##     n         x
 ## 46 45 0.5130445
 ## 47 46 0.7994555
@@ -465,7 +465,7 @@ However many iteration steps you take, the output from the final step is what yo
 ## 50 49 0.5130445
 ## 51 50 0.7994555</code></pre>
 <p>A never-ending, random-seeming fluctuation, called mathematical <strong><em>chaos</em></strong>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="operations.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="fl">4.0</span><span class="sc">*</span>x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x) <span class="sc">~</span> x, <span class="at">x0=</span><span class="fl">0.3</span>, <span class="at">n=</span><span class="dv">5000</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="operations.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="fl">4.0</span><span class="sc">*</span>x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x) <span class="sc">~</span> x, <span class="at">x0=</span><span class="fl">0.3</span>, <span class="at">n=</span><span class="dv">5000</span>) <span class="sc">|&gt;</span> <span class="fu">tail</span>()</span></code></pre></div>
 <pre><code>##         n          x
 ## 4996 4995 0.56824790
 ## 4997 4996 0.98136889
@@ -625,7 +625,7 @@ Figure 32.2: An unlucky choice (magenta) of <span class="math inline">\(x_0\)</s
         </div>
       </div>
 <a href="block4-intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="data-driven-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="splines.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
