@@ -5,19 +5,11 @@ global_id: "h05BsT"
 ---
 
 
-```{r include=FALSE, context="setup"}
-QALY_impact <- tibble::tribble(
-  ~expend, ~A, ~ B,
-  0, 0, 0,
-  10, 40, 30,
-  20, 100, 80,
-  30, 150, 140,
-  40, 170, 160,
-  50, 180, 175
-)
+```{r include=FALSE}
 fA <- spliner( A ~ expend, data=QALY_impact, monotonic=TRUE)
 fB <- spliner( B ~ expend, data=QALY_impact, monotonic=TRUE)
 ```
+
 You are a member of a health-care oversight committee that allocates funds for investment in health-care facilities.  The committee has two proposal before it and needs to decide how best to spend the available $50M budget:
 
 * **Proposal A**: Expansion of the pediatric organ transplant unit.
@@ -29,8 +21,9 @@ The expert estimates are available in the data frame `QALY_impact`:
 
 **QALY Impact of the Proposals**
 
-```{r dcb2-1, exercise=TRUE, exercise.cap="Expert conclusions"}
-QALY_impact
+```{r echo=FALSE}
+knitr::kable(QALY_impact) %>% 
+  kableExtra::kable_paper("hover", full_width = FALSE)
 ```
 
 Such estimates from experts should be taken with a grain of salt, but they are often the best information you have to inform a model.
@@ -83,7 +76,7 @@ askMC(
 
 Another way to look at the problem is to find the total QALY outcome as a function of the amount $x_A$, recognizing that once $x_A$ is set, the remaining money will go to option B, so $x_B = 50-x_A$. The following sandbox makes the plot.
 
-```{r QY2-1, exercise=TRUE, exercise.cap="Reducing dimension of objective.", exercise.nlines=3, eval=FALSE}
+```{r QY2-1}
 slice_plot( fA(xA) + fB(50-xA) ~xA, domain(xA = c(0,50)))
 ```
 
@@ -92,17 +85,17 @@ slice_plot( fA(xA) + fB(50-xA) ~xA, domain(xA = c(0,50)))
 
 A broader social question is whether the budget is being set at an appropriate level.  One way to examine this is to look at how the QALY outcome changes as the budget changes.
 
-For this, we're going to find the set of non-dominated solutions, that is, all the values of $x_A$ and $x_B$ at which the derivatives $\partial_{x_A} f_A()$ and $\partial_{x_B} f_B()$ are equal. 
+For this, we're going to find values of $x_A$ and $x_B$ at which the derivatives $\partial_{x_A} f_A()$ and $\partial_{x_B} f_B()$ are equal. 
 
-The following sandbox shows the difference between those two derivatives along with a bunch of different constraint paths.
+The following graphic shows the difference $\partial_{x_A} f_A() - \partial_{x_B} f_B()$ as a function of $x_A$ and $x_B$. The contours are very twisty, but the zero contour(s) indicates the inputs for which the difference in derivatives is zero. Also shown are budget constraints (magenta).
 
-```{r QY2-2, exercise=TRUE, exercise.cap="Difference in derivatives.", exercise.nlines=5, eval=FALSE, message=FALSE, warning=FALSE}
+```{r QY2-2, echo=FALSE}
 dfA = D(fA(xA)~xA)
 dfB = D(fB(xB)~xB)
 contour_plot( dfA(xA) - dfB(xB) ~ xA&xB, 
           domain(xA=range(0,50), xB=range(0,50)),
           contours_at = c(-2, -4, 0, 4, 2), skip=0) %>%
-  contour_plot(xA + xB ~ xA + xB, contour_color="orange3", skip=0)
+  contour_plot(xA + xB ~ xA + xB, contour_color="magenta", skip=0)
 ```
 
 **Yet another constraint!**

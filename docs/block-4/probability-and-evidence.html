@@ -184,7 +184,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="34.1" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html#gradient-descent"><i class="fa fa-check"></i><b>34.1</b> Gradient descent</a></li>
 <li class="chapter" data-level="34.2" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html#objectives-and-constraints"><i class="fa fa-check"></i><b>34.2</b> Objectives and Constraints</a></li>
 <li class="chapter" data-level="34.3" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html#constraint-cost"><i class="fa fa-check"></i><b>34.3</b> Constraint cost</a></li>
-<li class="chapter" data-level="34.4" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html#exercises-2"><i class="fa fa-check"></i><b>34.4</b> Exercises</a></li>
+<li class="chapter" data-level="34.4" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html#note-other-optimization-algorithms"><i class="fa fa-check"></i><b>34.4</b> Note: Other optimization algorithms</a></li>
+<li class="chapter" data-level="34.5" data-path="optimization-and-constraint.html"><a href="optimization-and-constraint.html#exercises-2"><i class="fa fa-check"></i><b>34.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="35" data-path="probability-and-evidence.html"><a href="probability-and-evidence.html"><i class="fa fa-check"></i><b>35</b> Probability and evidence</a>
 <ul>
@@ -258,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 The probability that the dart lands at a distance somewhere between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> is <span class="math display">\[\int_a^b g(r) dr\ .\]</span>
 The dimension <span class="math inline">\([r] =\ \)</span>L and, suppose the units are centimeters. We need <span class="math inline">\(\int g(r) dr\)</span> to be a dimensionless number. Since the dimension of the integral is <span class="math inline">\([r] \cdot [g(r)] = [1]\)</span>, it must be that <span class="math inline">\([g(r)] = [1/r] = \text{L}^{-1}\)</span>. Thus, <span class="math inline">\(g(r)\)</span> is not a probability simply because it is not dimensionless. Instead, in the dart example, it is a “probability-per-centimeter.” This kind of quantity—probability <em>per something</em>—is called a <strong><em>probability density</em></strong> and <span class="math inline">\(g(r)\)</span> itself is a <strong><em>probability density function</em></strong>.</p>
 <p>To show the aptness of the word “density,” let’s switch to a graphic of a function that uses literal density of ink as the indicator of the function value. Figure <a href="probability-and-evidence.html#fig:dart-g">35.1</a> shows what the dart <span class="math inline">\(g(r)\)</span> might look like:</p>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:dart-g"></span>
 <img src="MOSAIC-Calculus_files/figure-html/dart-g-1.png" alt="Showing a probability density function for the dart distance in two modes: 1) an ordinary function graph and 2) the density of ink." width="90%" />
 <p class="caption">
@@ -343,7 +344,7 @@ where <span class="math inline">\(x_i\)</span> is the <span class="math inline">
 <p>The R/mosaic function for the calculation of the arithmetic mean is <code>df_stats()</code>. (The name stands for “data frame stats.”) Here’s a calculation of the mean outdoor temperature from <code>Home_utilities</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="probability-and-evidence.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">df_stats</span>(<span class="sc">~</span> temp, <span class="at">data =</span> Zcalc<span class="sc">::</span>Home_utilities, mean)</span></code></pre></div>
 <pre><code>##   response     mean
-## 1     temp 48.08155</code></pre>
+## 1     temp 48.35021</code></pre>
 <p>The result has units of degrees Fahrenheit.</p>
 <p><code>df_stats()</code> can calculate many other statistics on a column of data, such as <code>median</code>, <code>sd</code>, <code>var</code>, <code>quantile()</code>s (such as <code>quantile(0.33)</code>), confidence intervals (<code>ci.mean()</code>, <code>ci.median()</code>, <code>ci.sd()</code>), and so on. In this book, we’ll use <code>mean</code>, <code>sd</code>, and <code>var</code>.</p>
 <p>Another technique we will use is to generate random events from a probability distribution, particularly from the gaussian, exponential, and uniform distributions. For example, the following command will construct a data frame (that’s what <code>tibble()</code> is for) that has a column named <code>y</code> that contains 100 random draws from a gaussian distribution with mean of 3 and sd of 0.5. Then the arithmetic mean and <strong><em>standard deviation</em></strong> are computed from the numbers in the simulation.</p>

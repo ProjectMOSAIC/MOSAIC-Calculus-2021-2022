@@ -205,49 +205,61 @@ The two gradient-field frames show a different two-dimensional slices of the pot
 
 ## Objectives and Constraints
 
-Many real-world optimization problems do not fit neatly into the framework of constructing an objective function and then finding the argmin (or argmax). A common situation is having multiple objectives and, often, the original problem statement does not include all of the objectives. When such missing objectives become apparent, it's necessary to visit the modeling phase of the problem to insert the new objective. By adopting the right approach to modeling, such situations can be readily handled and, even better, the modeling phase can bring new insight into the real-world problem.
+Many real-world decision-making settings do not fit neatly into the framework of constructing an objective function and then finding the argmin (or argmax). A common situation is having multiple objectives. These objectives often compete and the output of the respective objective functions may not necessarily be directly comparable. For instance, in health care one objective is to save lives, while another is to minimize costs. But lives and money are not directly comparable.
 
-We'll illustrate by returning to the mathematically simplified problem of constructing an optimal cardboard box. Before, we stipulated that the raw cardboard stock has dimension 20 inches by 30 inches. Now we'll generalize, and work with a piece of cardboard that has edges of length $y$ and from which, as before, we'll cut out square corners of length $x$ on a side. Our objective is to make a box with the largest possible volume. (This will be an **argmax** problem.)
+Often, the original problem statement does not include all of the objectives and the modeler needs to be perceptive to discern important objectives left out of the initial description of the problem. When such missing objectives become apparent, it's necessary to visit the modeling phase of the problem to insert the new objectives. By adopting the right approach to modeling, such situations can be readily handled and, even better, the modeling phase can bring new insight into the real-world problem.
+
+Toillustrate, let's returning to the mathematically simplified problem of constructing an optimal cardboard box. Before, we stipulated that the raw cardboard stock has dimension 20 inches by 30 inches. Now we'll generalize and work with a piece of cardboard that has edges of length $y$ from which, as before, we'll cut out square corners of length $x$ on a side. (See Figure \@ref(fig:box-shape). Our objective is to make a box with the largest possible volume. (This will be an **argmax** problem.)
+
+```{r box-shape, echo=FALSE, fig.cap="The cardboard cut lines and the eventual shape of the folded box.", out.width="40%", fig.show="keep"}
+knitr::include_graphics("www/box-fold-1.png")
+knitr::include_graphics("www/box-fold-2.png")
+
+```
 
 The area of the bottom of the box is $(y - 2x)^2$ and the box height is $x$. The objective function is the volume of the box, area times height:
 $$V(x, y) \equiv x (y - 2x)^2\ .$$ There are two inputs, $x$ and $y$, so a simple plot should suffice to find the argmax.
 
 ```{r box2, echo=FALSE, fig.cap="The volume of the box (in cubic inches) constructed by cutting corners of size $x$-by$x$ out of a $y$-by-$y$ piece of cardboard."}
 V <- makeFun(x*(y-2*x)^2 ~ x & y)
-P1 <- contour_plot(V(x,y) ~ y & x, domain(y=0:30,x=0:10),
+P1 <- contour_plot(V(x,y) ~ x & y, domain(x=0:10, y=0:30),
              contours_at = c(10,20, 50,100,200,300,500,700, 1000, 1500,2000, 2500, 3000),
              skip=0)
 P1
 ```
-Scanning Figure \@ref(fig:box2) reveals a couple of things that you might not have anticipated. First, the argmax is in the extreme upper-left corner of the graphics frame, not in the center as in previous examples. Second, the argmax in this corner, $(y=0, x=10)$ is logically inconsistent with the idea of a cardboard box.
+Scanning Figure \@ref(fig:box2) reveals a couple of things that you might not have anticipated. First, the argmax is in the extreme lower-right corner of the graphics frame, not in the center as in previous examples. Second, the argmax in this corner, $(y=0, x=10)$ is logically inconsistent with the idea of a cardboard box.
 
-The logical inconsistency stems from an inadmissible value for $x$. For $2x > y$, the bottom of the box would have negative edge length. Multiplying the two negative edge lengths to calculate the area produces a positive area, but this is not a realistic calculation. 
+The inconsistency stems from an inadmissible value for $x$. For $2x > y$, the bottom of the box would have negative edge length. But because the objective function $V(x,y)$ squares this negative quantity---in the $(y - 2x)^2$ term---the output of the objective function doesn't signal that anything is wrong. The source of the problem is not the objective function formula itself, but neglecting to consider carefully what is the proper practical domain for the function.
 
-To make the calculation realistic, we should look at the situation only in that region of the graphics frame where $y > 2x$. This restriction is called an ***inequality constraint***.
+To make the calculation realistic, we should search for the argmax only in that region of the graphics frame where $y > 2x$. That restriction on the search domain is called a ***constraint***. In this case, the constraint takes the form of an inequality $y > 2x$ so we call it an ***inequality constraint***. (Later, we'll work with ***equality constraints***.)
+
 
 ```{r box2b, echo=FALSE, fig.cap="The inequality constraint that $y > 2x$ renders much of the graphics frame inadmissible as a possible solution. The inadmissible region is shaded in blue. The argmax must be sought in the unshaded region of the frame."}
-P1 %>%  inequality_constraint(y > 2*x ~ y + x, domain(y=0:30,x=0:10), 
-                              alpha=0.75, npts=200)
+P1 %>%  inequality_constraint(y > 2*x ~ x + y, domain(x=0:10,y=0:30), 
+                              alpha=0.35, npts=200)
 ```
 
 With the $(x,y)$-domain restricted to the values that are physically realistic, we can see that the argmax is still on the edge of the frame, at $y=30$ and $x\approx 5$, where the volume of the box will be about 1800 in^3^. This result should cause you pause, since there was nothing in the problem statement that limited $y$ to be 30" or less. If we replotted with a larger domain for $y$, we should see still larger boxes, without any limit.
 
-Essentially, the interpretation of the problem as originally posed is that, with enough cardboard we can make a box of any size! That's not so useful. The fault in the problem statement is that it omitted another objective function: use as little cardboard as possible. But if that were our sole objective, we would make a zero-volume box out of zero-area of cardboard. What we want, somehow, is to make as big a box as possible out of as little cardboard as possible: we have two objectives! In this case, the objectives are in conflict: making a bigger box (good) uses more cardboard (bad). 
+The interpretation of the problem as originally posed is: With enough cardboard we can make a box of any size! Since the goal was to recommend the "best" size, this conclusion is not so useful. The weak conclusion stems from a fault in the problem statement. The statement omitted an important second objective function: use as little cardboard as possible. 
 
-Common sense tells us to balance the two objectives, but how to represent this mathematically? Ideally, we would know how much box-volume is worth to us and how much cardboard costs, and we could construct an objective function that incorporates both value and cost. If you have the information to do this, then go ahead. For instance, if each cubic inch of volume is worth 1 cent, and each square inch of cardboard costs 3 cents, then the objective function will be the following (with output in cents):
+If using as little cardboard as possible were our sole objective, the optimization problem has an easy-to-find solution: we would make a zero-volume box out of zero-area of cardboard. What we want, somehow, is to make as big a box as possible out of as little cardboard as possible: we have two objectives! In this case, the objectives are in conflict: making a bigger box (good) uses more cardboard (bad). 
 
-$$\text{Profit}(x,y) \equiv 10\, \sqrt{x (y-2x)^2} - 0.3 y^2$$
+Common sense tells us to balance the two objectives, but how to represent this mathematically? Ideally---note that "ideally" is sometimes far from "realistically" or "productively"---we would know how much box-volume is worth to us and how much cardboard costs, and we could construct an objective function that incorporates both value and cost. For instance, if each cubic inch of volume is worth 1 cent, and each square inch of cardboard costs 3 cents, then the objective function will be the following (with output in cents):
+
+$$\text{Profit}(x,y) \equiv 1\, x (y-2x)^2 - 3 y^2$$
 ```{r total-cost, echo=FALSE, fig.cap="The \"profit\" (value minus cost) of the cardboad box (cents)."}
-box_P2 <- contour_plot(10*sqrt(x*(y-2*x)^2) - 0.3 * y^2 ~ y & x, domain(y=10:60, x=5:15),
-             contours_at=c(-200,-100,-50,0,50, 100,150,200,210), skip=0) %>% 
-  inequality_constraint(y > 2*x ~ y + x, domain(y=10:60,x=5:15), 
-                              alpha=0.75, npts=200) 
+box_P2 <- contour_plot(1*x*(y-2*x)^2 - 1 * y^2 ~ x & y,
+                       domain(x=0:15,y=10:50),
+                       skip=0) %>% 
+  inequality_constraint(y > 2*x ~ x + y, 
+                        domain(x=0:15, y=10:50), 
+                              alpha=0.35, npts=200) 
 box_P2
 ```
 
-The Profit() function has an argmax at about $y=45, x=7.5$. The value of the Profit() function at this argmax is a bit greater than 210 cents.
+Even with including the cardboard cost in the objective function, we'll still want to make $y$ as large as possible. Not much guidance there!
 
-One problem with constructing objective functions like Profit() is finding appropriate value and cost. Typically, it requires a market and the ability to buy and sell to set a value, but for a little company designing a box there's unlikely to be such a mechanism. In a realistic modeling setting, the challenge is to convince the decision makers that the model function is right, something it can be hard to do without good evidence.
 
 But let's imagine a new factor coming into play. At the meeting where the box-design decisions are being made and where you are presenting your analysis in Figure \@ref(fig:total-cost), the graphic designer speaks up. "The trending shape for this year is cubic. We want the box, whatever it's size, to be a cube."
 
@@ -256,64 +268,90 @@ Luckily, you the modeler can quickly incorporate this into your analysis. To be 
 $$x = y - 2x \ \ \ \implies y-3x=0\ \ \ \ \text{constraint: box must be cubic}$$
 This is called an ***equality constraint***. Figure \@ref(fig:cube-total-cost) shows the equality constraint in green: to be a cube, $x$ and $y$ must be somewhere along the green line.
 
-```{r cube-total-cost, echo=FALSE, fig.cap="An equality constraint calling for the box to be cube-shaped.", warning=FALSE, message=FALSE}
-box_P2 %>%
-  equality_constraint(y - 3*x ~ y & x, domain(y=10:60,x=5:15), alpha=.5, fill="green", npts=300)
+```{r cube-total-cost, echo=FALSE, fig.cap="The profit function shown in more detail along with the equality constraint (green) for the box to be cube-shaped.", warning=FALSE, message=FALSE}
+box_P3 <- contour_plot(1*x*(y-2*x)^2 - 1 * y^2 ~ x & y,
+                       domain(x=0:15,y=10:50),
+             contours_at=c(100*((-3):3),500, 750, 1000, 1350, 2000, 2500,3500, 4500,5500),
+                       skip=0) %>% 
+  inequality_constraint(y > 2*x ~ x + y, 
+                        domain(x=0:15, y=10:50), 
+                              alpha=0.35, npts=200)  %>%
+  equality_constraint(y - 3*x ~ x & y, 
+                      domain(x=0:15,y=10:50), alpha=.5, fill="magenta", npts=300)
+box_P3
 ```
 
-There happens to be something remarkable about the be-a-cube constraint. It runs practically parallel to the 50 cent contour of the profit function. If you look carefully, you can see that the highest profit along the green constraint occurs about $y=25$, but the differences in profit along the constraint are mainly trivial for $y < 35$ or thereabouts. This means that the profit function does not show a clear preference for one size box instead of another, pick any $y < 35$ and look up the corresponding $x$ that falls on the green constraint.
+Follow the green path uphill. As $x$ gets larger along the constraint, the output of the objective function grows, reaching a level of 1350 cents when $(x=15, y=45)$ at the right border of the graphics frame. 
+
+It's worth pointing out, for later use, that the be-a-cube constraint is almost parallel to the objective function contours.
+
+
 
 
 ::: {.intheworld data-latex=""}
 
 Many organizations use a budget mechanism to manage their affairs. The organization defines divisions or projects, and each of these is given a dollar budget to stay within. The individual division or project manager can arrange things more or less as she thinks best, so long as she stays within the budget. This is a kind of constraint: a ***budget constraint***.
 
-Suppose you have been tasked to set up a new factory and given a budget of $5,500,000 to do so. You were given this task because you have a particular expertise in how best to set up the factory, but your design will of course depend on the relative prices of the different inputs to the production process. For simplicity, let's imagine that there are two main inputs: labor $L$ and capital/equipment $K$. It would be silly to spend all the budget on labor and none on capital; the workers would have no tools to work with. Similarly, capital without labor has no productive value. The best design for the factory will be a mix of labor and capital.
+Suppose you have been tasked to set up a new factory and given a budget of $5,500,000 to do so. You were given this task because you have a particular expertise in how best to set up the factory, but your design will of course depend on the relative prices of the different inputs to the production process. 
 
-Since the purpose of the factory is to make things for sale, a good objective function will be the sales value of the output produced by the factory. Economists have a favored form for production functions of this sort, called a power-law called the ***Cobb-Douglas*** function. The essential insight behind the Cobb-Douglas function is that doubling **both** capital and labor (as if you built a second factory alongside the first) should double production. The Cobb-Douglas form for production as a function of capital and labor is $$Q(L, K) = p b L^a K^{1-a}\ .$$ You will use your expertise to set the values of the $a$ and $b$ parameters. The price $p$ of each unit of output will be set by the market: Let's assume for planning purposes that it's $450 per unit. Suppose you have determined that $a=0.3$ and $b=40$ are appropriate. Then the production function will be as shown in Figure \@ref(fig:cobb-doug1).
+For simplicity, let's imagine that there are two main inputs: labor $L$ and capital/equipment $K$. It would be silly to spend all the budget on labor and none on capital; the workers would have no tools to work with. Similarly, capital without labor has no productive value. The best design for the factory will be a mix of labor and capital.
 
-```{r cobb-doug1, echo=FALSE, fig.cap="A Cobb-Douglas production function with $p=100$, $b=40$ and $a=0.3$. (Output units in dollars)."}
-P <- makeFun(p*b*(L^a)*(K^(1-a)) ~ K & L, a=0.3, p=450, b =40)
+Since the purpose of the factory is to make things for sale, a good objective function will be the sales value of the output produced by the factory. Economists have a favored form for production functions of this sort, a power-law called the ***Cobb-Douglas*** function. The essential insight behind the Cobb-Douglas function is that doubling **both** capital and labor (as if you built a second factory alongside the first) should double production. The Cobb-Douglas form for production as a function of capital and labor is $$Q(L, K) = p b L^a K^{1-a}\ .$$ You will use your expertise to set the values of the $a$ and $b$ parameters. The price $p$ of each unit of output will be set by the market: Let's assume for planning purposes that it's $p - \$450$ per unit. Suppose you have determined that $a=0.3$ and $b=40$ are appropriate. This production function is shown in Figure \@ref(fig:cobb-doug1).
+
+```{r cobb-doug1, echo=FALSE, fig.cap="A Cobb-Douglas production function with $p=100$, $b=40$ and $a=0.3$. (Output units in millions of dollars)."}
+P <- makeFun(p*b*(L^a)*(K^(1-a))/1e6 ~ K & L, a=0.3, p=450, b =40)
 Plot1 <- contour_plot(P(L, K) ~ L & K, domain(L=300:1000, K=50:250), skip=0)
 Plot1
 ```
 As you can see from Figure \@ref(fig:cobb-doug1), the more labor and the more capital you use, the higher the production. Notice that the production function itself does not have an argmax interior to the domain being plotted. It's one of those "more is better" situations.
 
-Suppose that labor, in person-months costs $6000 per unit. Capital, in units of production stations, costs $13,000 per unit. Your budget constraint reflects the total cost of capital and labor: $4000 \cdot L + 15000 \cdot K \leq 5500000$. This constraint is graphed in Figure \@ref(fig:cobb-doug2).
+Suppose that labor costs $6000 per person-month. Capital, in units of production stations, costs $13,000 per unit. Your budget constraint reflects the total cost of capital and labor: $6000 \cdot L + 15000 \cdot K \leq 5500000$. This constraint is graphed in Figure \@ref(fig:cobb-doug2).
 
 ```{r cobb-doug2, echo=FALSE, fig.cap="The production function with the budget constraint shown in green."}
 Plot1 %>%
   inequality_constraint(6000*L + 13000*K <= 5500000 ~ L & K, fill="green",
                       domain(L=300:1000, K=50:250), alpha=0.6, npts=250)
 ```
-Any mixture of labor and capital that falls outside the green zone stays within your budget. What's the best mixture? The one that gives the largest production. You can read this off the graph, $L\approx 650$ and $K\approx 125$. Notice that near the argmax, the contours of the production function are parallel to the boundary of the constraint zone. A good way to think about this is to walk along the boundary of the constraint zone from top to bottom. As you start near $K=250$ and $L=380$, the path you walk goes *uphill* in terms of the production function. The path continues uphill until you reach the argmax. Near the argmax, the path is level. After the path crosses the argmax, it is leading downhill. Near the argmax, the production function contours are parallel to the constraint boundary because, as at argmaxes generally, the objective function is flat near the argmax. With the constraint boundary crossing the slope, the argmax means that the path is locally level even though it slopes up and down on either side of the path.
+Any mixture of labor and capital that falls outside the green zone stays within your budget. What's the best mixture? The one that gives the largest production. You can read this off the graph, $L\approx 650$ person-months and $K\approx 125$ workstations which gives slightly more than $7 million dollars in production. 
+
+The argmax is right on the frontier of the constraint region. Put into more operational terms: You will want to spend your entire budget to maximize production. This is hardly a surprise to anyone who has to work within a budget. Knowing that you're going to use the whole budget, you might as well have found the argmax by walking along the constraint frontier from left to right. As you start near $K=250$ and $L=380$, the path you walk goes *uphill* in terms of the production function. The path continues uphill until you reach the argmax. Near the argmax, the path is level. After the path crosses the argmax, it is leading downhill. At the argmax, the production function contours are ***parallel*** to the constraint boundary. 
+
+You might like to think of this in terms of bicycling along a path in hilly terrain. When you reach the local high point on the path, you may not be at the top of the hill. But you will be on a flat spot on the path, meaning that the path is parallel to the contour of the hill at that point. 
 :::
 
 
 ## Constraint cost
 
-In the previous section, the graphic designer's request that the box be cubic was translated into an equality constraint, $y-3x=0$, shown as the green line in Figure \@ref(fig:cube-total-cost). The skilled modeler can bring additional power to the analysis by translating that *constraint*, $y-3x=0$ into a *function*, for example 
-$$\text{Equation:}\ \  \ y - 3x = 0\ \ \longrightarrow\ \ \ \text{Function:}\ \ \text{cube_box}(x, y) = -\| y - 3x\|\ .$$ 
-Any $(x^+, y^+)$ that produces $\text{cube_box}(x^+, y^+) = 0$ is a pair that satisfies the constraint. In other words, the equality constraint amounts to the zero contour of the cube_box() function.
+Optimization techniques have an important role to play as **aids to human decision making**. Let's see how the mathematical representation of a constraint as a **function** can facilitate the human decision-making process.
 
-Translating the constraint into a function changes "the box must be a cube" into "better if the box is a cube." Thus, cube_box() becomes an objective function that has an argmax when the box is a cube. Instead of having the single objective function Profit() and a constraint ("cube-shaped box"), we have **two** objective functions. 
+In the previous section, the box designer's request that the box be cubic was translated into an equality constraint, $y-3x=0$, shown as the green line in Figure \@ref(fig:cube-total-cost). The skilled modeler can bring additional power to the analysis by translating that *constraint*, $y-3x=0$ into a *function*, for example 
+$$\text{Equation:}\ \  \ y - 3x = 0\ \ \longrightarrow\ \ \ \text{Function:}\ \ \text{cube_box}(x, y) = y / 3x\ .$$ 
+Any $(x^+, y^+)$ that produces $\text{cube_box}(x^+, y^+) = 1$ is a pair that satisfies the constraint. In other words, the equality constraint amounts the 1-contour of the cube_box() function.
+
+Translating the constraint into a function provides the opportunity to reframe the situation from the mandate, "the box must be a cube," into a question, "How cubic-like is the box?"  If the value of $\text{cube_box}(x,y) > 1$, the box is flatter than a cube; something in the direction of a pizza box. If $\text{cube_box}(x,y) < 1$ the box is taller than a cube, as if flowers were being shipped in it.}
 
 The constraint-to-function translated situation is shown in Figure \@ref(fig:profit-cube):
 
-```{r profit-cube, echo=FALSE, fig.cap="The two objective functions, Profit() and cube_box(), that are to be optimized simultaneously. The cube_box() function is shown with green contours, with the heavy green line being the contour at cube_box(x,y)=0.", warning=FALSE, message=FALSE}
-box_P2 %>%
-  contour_plot(-abs(y-3*x) ~ y & x, label_color="green", contour_color="green", filled=FALSE, 
-               contours_at = -c(5,10,15,20,30)) %>%
-  gf_abline(intercept=~ 0, slope=~ 1/3, color="green", size=3, alpha=0.7)
+```{r profit-cube, echo=FALSE, fig.cap="Zooming in on the objective function Profit() and showing the function version of the constraint, cube_box()  with green contours, with the heavy green line being the contour at cube_box(x,y)=1.", warning=FALSE, message=FALSE}
+contour_plot(1*x*(y-2*x)^2 - 1 * y^2 ~ x & y,
+                       domain(x=12:15,y=40:50),
+             contours_at=c(100*((-3):3),500, 750, 1000, 1350, 2000, 2500,3500, 4500,5500),
+                       skip=0) %>% 
+  gf_abline(intercept=~ 0, slope=~ 3, color="magenta", size=1.5, alpha=0.7) %>%
+  inequality_constraint(y > 2*x ~ x + y, 
+                        domain(x=12:15, y=40:50), 
+                              alpha=0.35, npts=200)  %>%
+  contour_plot(y/(3*x) ~ x & y, label_color="magenta", 
+               contour_color="magenta",
+               contours_at=c(.85, .9, .95, 1, 1.05, 1.10, 1.15), 
+               skip=0, filled=FALSE) 
 ```
 
-The optimization problem now becomes finding a way to maximize both objectives simultaneously, that is, picking an $(x^\star, y^\star)$ that makes the value of both objectives as good as possible. Unfortunately, increasing the $Profit()$ of the box can be achieved at the cost of *decreasing* the value of cube_box() function; the two objectives are in ***conflict***. 
 
-Admittedly, Figure \@ref(fig:profit-cube) is graphically busy and hard to read. You can start by picking a point in the middle of the graphics frame and reading out, from the appropriate contours, the output value of the Profit() function and the output value of the cube_box() function. 
 
-Earlier, we saw that if restricted to inputs on the contour cube_box(x,y) = 0, the optimal output value of Profit() is about 50 units. Now we have a broader picture. For instance, suppose we allow a "little" deviation in box shape from a cube, say, cube_box(x,y) = -5. If we allowed this, the value of the Profit() function could be increased from 50 to about 115 cents.
+Earlier, we saw that if restricted to inputs on the contour $\text{cube_box}(x,y) = 1$, the optimal output value of Profit() is about $13.50. Now we have a broader picture. For instance, suppose we allow a "little" deviation in box shape from a cube, say, cube_box(x,y) = 1.05. If we allowed this, the value of the Profit() function could be increased from $13.50 to about $22.50 .
 
-Whether the 65 cent increase value justifies the deviation from a cube measured as $cube_box(x,y) = -5$ is worthwhile is a matter of judgement. It's obvious, of course that a loss of 5 is justified by a gain of 65, but remember that the 65 has units of *cents* whereas the -5 is in some kind of abstract "cube points." We don't have an immediate way to translate "cube points" into cents. The two different units are said to be ***incommensurate***, meaning that they can't be directly compared. Nonetheless, we now have a basis for a conversation. It might go like this:
+Whether the $9 increase in value justifies the deviation from a cube by 5% is a matter of judgement.  We don't have an immediate way to translate the output of cube_box() into the same units as the output of profit(). The two different units are said to be ***incommensurate***, meaning that they can't be directly compared. Nonetheless, we now have a basis for a conversation. It might go like this:
 
 Modeler to Designer: *I realize that from your perspective, a cube is the optimal shape for the box.*
 
@@ -323,47 +361,49 @@ Modeler: *It might sound surprising, but we find that so long as you are close t
 
 Designer: *What's really important is that the box be perceived as a cube in our sales material. I think that most customers would think "cube" so long as the edge lengths are within about 15% of one another.*
 
-Modeler: *That's very helpful. Let me re-make the graphic showing the percent deviation from cubeness. Then we can see how much extra box Profit() we can get by allowing 10% deviation.*
+Modeler: *That's very helpful. Let's see if I can translate that into the cube_box() function.*
 
-```{r echo=FALSE, out.width="50%", fig.align="center", warning=FALSE, message=FALSE}
-percent <- makeFun(100*(1 - x/(y-2*x)) ~ x + y)
-contour_plot(10*sqrt(x*(y-2*x)^2) - 0.3 * y^2 ~ y & x, domain(y=25:30, x=7:10),
-             skip=0, contours_at=c(40,50,60,70,80,90,100)) %>%
-  contour_plot(percent(x,y) ~ y & x, label_color="green", contour_color="green", filled=FALSE, contours_at=c(-20, -10,0,10,20, 30, 40, 50), skip=FALSE, domain(y=25:29, x=7:10)) %>%
-  gf_abline(intercept=~ 0, slope=~ 1/3, color="green", size=3, alpha=0.7)
-```
+[Modeler does some scribbling while mumbling to himself. "$y-2x$ is the base width and depth of the box, and $x$ is the height of the box. So if $y-2x = 1.15 x$ then $y = 3.15 x$.  $\text{cube_box}(x, 3.15 x) = 1.05$.]
 
-Modeler: *A 10% deviation lets us get to a higher Profit(): from 50 cents to 65 cents per box.*
 
-Product manager: *How about a 30% deviation? That let's us get up to about 100 cents.*
+Modeler: [to Designer] *The 15% deviation corresponds to an output of 1.05 from  $\text{cube_box}()$. 
 
-Designer: *But it would make the box shaped almost like a brick. Bricks are so 1990s!*
+Modeler: [To product manager] *Making that change in shape increases profit per box from $13.50 to $22.50 .
+
+Product manager: *Good job! How about a 30% deviation? That let's us get up to about $33 in profit.*
+
+Designer: *But it would make the box shaped like a brick! Bricks are so 1990s!*
 
 Modeler: *It sounds like a 15% deviation would be about right.*
 
-Posing the problem as the optimization of two objective functions, rather than an objective and a constraint, allows such conversations to be held. 
+Making the constraint negotiable by representing it with a function, broadens the scope of the discussion and points to new ways of improving the result.
 
-Let's return to a previous example about determining optimal levels of labor and capital in a factory. In that example, the objective function was the money value of the product produced. There was also a budget constraint. In translating the budget constraint into a function, we can call the function expenditure(K, L), with the constraint amounting to saying that the expenditure must be at a certain level: expenditure(K, L) = $5,500,000 in the example.
+::: {.intheworld data-latex=""}
+Let's return to a previous example about determining optimal levels of labor and capital in a factory. In that example, the objective function was the money value of the product produced. There was also a budget constraint. Translating the budget constraint into a function, which we'll call expenditure(K, L), we have 
+$\text{expenditure}(K, L) = 4000 L + 15000 K$. Our budget amounts to enforcing  $\text{expenditure}(K, L) = \$5,500,000$.
 
 To see check whether it's worthwhile to stick to the constraint, we can plot both the production function and the expenditure function together.
 
-```{r cobb-doug-redux, echo=FALSE, fig.cap="The production function (magenta, curved lines) and the expenditure function (brown, straight lines). Contour labels are in millions of dollars. We've drawn contours at levels that happen to be tangent to the expenditure contours.", warning=FALSE, message=FALSE}
-contour_plot(P(L, K)/1e6 ~ L & K, domain(L=300:1000, K=50:250), skip=0,
-             contours_at=c(4.5,5.1,5.8, 6.5, 7.1, 7.7, 8.4, 9.1, 9.7, 10.4), contour_color="magenta") %>%
-  contour_plot((6000*L + 13000*K)/1e6 ~ L & K, contour_color="brown", 
+```{r cobb-doug-redux, echo=FALSE, fig.cap="The production function (black, curved lines) and the expenditure function (magenta, straight lines). Contour labels are in millions of dollars. We've drawn contours at levels that happen to be tangent to the expenditure contours.", warning=FALSE, message=FALSE}
+Plot1 %>%
+  inequality_constraint(6000*L + 13000*K <= 5500000 ~ L & K, fill="green",
+                      domain(L=300:1000, K=50:250), alpha=0.6, npts=250) %>%
+  contour_plot((6000*L + 13000*K)/1e6 ~ L & K, contour_color="magenta", 
                contours_at=c(3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9), labels=FALSE, filled=FALSE) %>%
-  contour_plot((6000*L + 13000*K)/1e6 ~ L & K, contour_color="brown", 
+  contour_plot((6000*L + 13000*K)/1e6 ~ L & K, contour_color="magenta", 
                contours_at=c(3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9), 
                domain(L=300:1000, K=200:250), skip=0, filled=FALSE)
 ```
 
-With the production function and budget constraint, the optimum was exactly on the $5.5 M expenditure line; the argmax for production is just about where the label 7.1 is in Figure \@ref(fig:cobb-douglas-redux). That is, the maximum production consistent with the budget is $7.1 M.  Translating the budget *constraint* into an expenditure *function* reveals some other possible choices. For instance, if the budget were expanded to $6.5 M, the production level would reach $8.4 M. 
+With the budget fixed at $5.5 million, the maximum production was $7.1 million. If we decrease the budget to $5 million, production also goes down, to $6.5 million. If we increase the budget to $6 million, production goes up to $7.7 million.
 
-That an increase in budget of $1 M produces an increase in production worth $1.3 M (that is, 8.4- 7.1) sounds like a good argument for increasing the budget. But higher management may have even better uses for that $1 M expenditure, perhaps in some other product line or in research and development.
 
-It's helpful to present the increase in the objective function output that can be had by relaxing the budget constraint as a ratio. In this case, the ratio is 1.3/1.0. This ratio is often called the ***Lagrange multiplier***. Some economists have a more evocative name for it, the ***shadow price*** of the constraint. Thus, the constraint-to-function translation provides a way to put a cost on the constraint, which can be a reasonable way to determine the value of something when there is no direct market for it. 
+That an increase in budget of $500 K produces an increase in production worth $600 K sounds like a good argument for increasing the budget. But higher management may have even better uses for that $1 M expenditure, perhaps in some other product line or in research and development.
+
+It's helpful to present the increase in the objective function output that can be had by relaxing the budget constraint as a ratio. In this case, the ratio is 1.2/1.0. This ratio is often called the ***Lagrange multiplier***. Some economists have a more evocative name for it, the ***shadow price*** of the constraint. Thus, the constraint-to-function translation provides a way to put a cost on the constraint. This gives a reasonable way to determine the value of something when there is no direct market for it. 
 
 An important example of a shadow price comes in the setting of life-saving interventions. For example, increasing spending on highway safety can save lives. If $7.5 billion in increased expenditures saves 1000 lives, the shadow price is $7.5 M per life. People who mis-interpret the constraint-to-function methodology often think that it's craven to put a money value on life. In reality, the method merely reveals the money value on life implicit in decisions such as budget allocations. Knowing that the shadow price is $7.5 M does not say what the value of life *should be*. But it provides a mechanism for comparing different uses for the money. For instance, if the shadow price for increased regulation of toxic industrial chemicals is $11.3 M per life, the relative shadow prices provide an indication that budget money might reasonably be shifted from chemical regulation to highway safety. Economists and epidemiologists who undertake such calculations reveal that the mixture of spending on different life-preserving interventions is far from optimal.
+:::
 
 ::: {.takenote data-latex=""}
 Generations of calculus students have been taught a method of mathematical optimization in the presence of constraints that involves positing a ***Lagrange multiplier***, typically written as $\lambda$, and carrying out a series of differentiations followed by equation solving to find an argmax, which simultaneously provides a numerical value for $\lambda$. It's easier to understand the motivation behind this by considering the gradient of the objective function and the gradient of the constraint function. If the goal is, say, to maximize production and simultaneously minimize expenditures, we would want to walk up the production gradient and down the expenditure gradient. 
@@ -381,10 +421,9 @@ Gplot1 %>% gradient_plot(-(6000*L + 13000*K) ~ L & K, color="brown", alpha=.8, n
 At each point in the graphics frame, the two gradient vectors form an angle. For example, near the point labeled (a) the angle is roughly 140 degrees, while near (b) the angle is 180 degrees.
 
 Any value of $K$ and $L$ where the angle is less than 180 degrees is ***sub-optimal*** or ***dominated*** by some other choice of $K$ and $L$. For instance, near label (a), you could improve both production and expenditures by moving to the southeast. When the angle is 180 degrees, the objective and constraint functions are in complete opposition to one another; any movement in favor of one comes at the cost in the other.
+:::
 
-
-::: {.intheworld data-latex=""}
-
+## Note: Other optimization algorithms
 
 Contemporary work often involves problems with tens, hundreds, thousands, or even millions of inputs. Even in such large problems, the mechanics of finding the corresponding gradient vector are straightforward. Searching through a high-dimensional space, however, is not generally a task that can be accomplished using calculus tools. Instead, starting in the 1940s, great creativity has been applied to develop algorithms with names like **linear programming**, **quadratic programming**, **dynamic programming**, etc. many of which are based on ideas from linear algebra such as the `qr.solve()` algorithm that you'll meet in Block 5, or ideas from statistics and statistical physics that incorporate randomness as an essential component. An entire field, **operations research**, focuses on setting up and solving such problems. Building appropriate algorithms requires deep understanding of several areas of mathematics. But using the methods is mainly a matter of knowing how to set up the problem and communicate the objective function, constraints, etc. to a computer.
 
@@ -398,27 +437,31 @@ Evaluate the objective function at the vertices of the simplex. One of the verti
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j2gcuRVbwR0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+
 ## Exercises
 
-`r insert_calcZ_exercise("XX.XX", "QXWRP8", "Exercises/ape-choose-closet.Rmd")`
+`r insert_calcZ_exercise("34.02", "QXWRP8", "Exercises/ape-choose-closet.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "rG11sg", "Exercises/rat-find-magnet.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "LiJkK2", "Exercises/cat-show-mug.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "2ZoCl8", "Exercises/dolphin-hang-sheet.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "Mi2Ub1", "Exercises/zebra-find-dish.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "W11rG9", "Exercises/panda-go-kayak.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "B7rG9", "Exercises/panda-go-kayak2.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "h05BsT", "Exercises/crow-trim-laundry.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "VHn3UG", "Exercises/snake-walk-knife.Rmd")`
-
-`r insert_calcZ_exercise("XX.XX", "Yb6tVr", "Exercises/duck-tell-laundry.Rmd")`
+`r insert_calcZ_exercise("34.04", "rG11sg", "Exercises/rat-find-magnet.Rmd")`
 
 
+
+`r insert_calcZ_exercise("34.06", "2ZoCl8", "Exercises/dolphin-hang-sheet.Rmd")`
+
+`r insert_calcZ_exercise("34.08", "Mi2Ub1", "Exercises/zebra-find-dish.Rmd")`
+
+`r insert_calcZ_exercise("34.10", "W11rG9", "Exercises/panda-go-kayak.Rmd")`
+
+`r insert_calcZ_exercise("34.12", "B7rG9", "Exercises/panda-go-kayak2.Rmd")`
+
+
+
+`r insert_calcZ_exercise("34.14", "VHn3UG", "Exercises/snake-walk-knife.Rmd")`
+
+`r insert_calcZ_exercise("34.16", "Yb6tVr", "Exercises/duck-tell-laundry.Rmd")`
+
+
+`r insert_calcZ_exercise("34.18", "LiJkK2", "Exercises/cat-show-mug.Rmd")`
+
+`r insert_calcZ_exercise("34.20", "h05BsT", "Exercises/crow-trim-laundry.Rmd")`
 
