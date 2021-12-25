@@ -4,20 +4,27 @@
 library(Znotes)
 ```
 
+::: {.underconstruction}
+Chapter not yet released.
+:::
+
+
 In the previous chapter, we suggested that you think of a vector as a "step" in a given direction and of a given magnitude: for example 1 foot to the northeast. This interpretation highlights the mathematical structure of vectors: just a direction and a length, nothing else. 
 
 The "step"-interpretation is also faithful to an important reason why vectors are useful. We use steps to get from one place to another. Similarly, a central use for the formalism of vectors is to guide our thinking and our algorithms for figuring out how best to get from one "place" to another. We've used quotation marks around "place" because we are not necessarily referring to a physical destination. We'll get to what else we might mean by "place" later in this chapter.
 
-For now, let's focus on the word "steps." Notice that it's plural. Generally, you cannot get to the desired destination with just one step. For instance, a pirate's treasure map might contain an instruction, "Dig 10 paces to the east of the tall tree." East is the direction of the vector. "Pace" is the length of the vector (about 3 feet). And 10 is the number of steps to take. 
+For now, let's focus on the word "steps": plural. Generally, you cannot get to the desired destination with just one step. For instance, a pirate's treasure map might contain an instruction, "Dig 10 paces to the east of the tall tree." East is the direction of the vector. "Pace" is the length of the vector (about 3 feet). And 10 is the number of steps to take. 
 
 If pirates wrote in vector notation, those directions might have been given like this: $$\text{Let}\ \vec{p} \equiv \left[\begin{array}\,1\,\text{pace}\\0\end{array}\strut\right]\ .\ \  \text{Then}, \ 
 \text{treasure spot} \equiv \text{tall tree} \ + 10 \vec{p}\ .$$ 
 
-The count of steps is the ***scalar*** that multiplies the vector. It tells you the length of the journey in units of 1 vector. 
+Treating a vector as a single step, the mathematical representation of multiple or fractional steps is a ***scalar*** that multiplies the vector. The scalar---be it 17 or 0.36 or -1.5---tells you the length of the journey reported in units of the 1-step vector itself. In the previous paragraph, $\vec{p}$ is a single step; $10 \vec{p}$ is 10 steps, all taken in the direction of $\vec{p}$.
 
-In a typical journey, there can be more than one vector involved. For instance, the vector pointing from the hidden cove to the tall tree might be identified as 1 nautical mile to the north-west. We'll call this vector $\overset{\longrightarrow}{\text{tree}}$. The full directions to the treasure might then be, "Start from the hidden cove. Then march $3.2\, \overset{\longrightarrow}{\text{tree}} + 10\, \vec{p}$.
+Any given vector may not point in the direction you want to travel. Often, then, a journey consists of stepping in the direction of one vector, then stepping in the direction of another vector that points in a different direction.
 
-This is a description of a journey as a ***linear combination of vectors***. The vectors themselves are $\vec{p}$ and $\overset{\longrightarrow}{\text{tree}}$. The vector $3.2\, \overset{\longrightarrow}{\text{tree}}$ is a scaled version of $\overset{\longrightarrow}{\text{tree}}$; it points in the same direction as $\overset{\longrightarrow}{\text{tree}}$, but it has length 3.2 nautical miles. Similarly, $10\, \vec{p}$ is a vector of length 10 paces, pointing the the same direction of $\vec{p}$. When we scale a set of vectors and then add them, we have a linear combination, just as in Block 1 we created a linear combination of functions by scaling them and adding the results together. 
+In a typical journey, there can be more than one vector involved. For instance, the vector pointing from the hidden cove to the tall tree---we'll call it $\overset{\longrightarrow}{\text{tree}}$---might be identified as direction north-west and length 1 nautical mile. The full directions to the treasure might then be, "Start from the hidden cove. Then march $3.2\, \overset{\longrightarrow}{\text{tree}} + 10\, \vec{p}$. 
+
+Such a journey is a ***linear combination of vectors***. The vectors themselves are $\vec{p}$ and $\overset{\longrightarrow}{\text{tree}}$. The vector $3.2\, \overset{\longrightarrow}{\text{tree}}$ is a scaled version of $\overset{\longrightarrow}{\text{tree}}$; it points in the same direction as $\overset{\longrightarrow}{\text{tree}}$, but it has length 3.2 nautical miles. Similarly, $10\, \vec{p}$ is a vector of length 10 paces, pointing the the same direction of $\vec{p}$. When we scale a set of vectors and then add them, we have a linear combination, just as in Block 1 we created a linear combination of functions by scaling them and adding the results together. 
 
 Pirates and other mariners use direction terms like "one point north of north-north-east." Their maps are annotated with compass roses that translate the words into a direction.
 
@@ -26,11 +33,13 @@ knitr::include_graphics("www/compass-rose2.png")
 ```
 Mathematicians can replace a compass rose with just two vectors, say, $\overset{\longrightarrow}{\text{North}}$ and $\overset{\longrightarrow}{\text{East}}$. Other directions can be given as a linear combination. For instance, the compass rose's "north-north-west" is the linear combination $0.9239\,\overset{\longrightarrow}{\text{North}} -0.3827\,\overset{\longrightarrow}{\text{East}}$.
 
-Geometrically, that is, in terms of arrows or pencils, the scaling of a vector is stretching or shrinking, without changing the direction. (Scaling with a negative number means to reverse the tip and tail of the vector.) For a linear combination of two or more vectors, choose one of the vectors as a start, then move the tail of the second vector to the tip of the first, as in Figure \@ref(fig:add-yellow-green).
+Geometrically, that is, in terms of arrows or pencils, the scaling of a vector is stretching or shrinking, without changing the direction. Scaling with a negative number means to reverse the tip and tail of the vector. For a linear combination of two or more vectors, choose one of the vectors as a start, then move the tail of the second vector to the tip of the first, as in Figure \@ref(fig:add-yellow-green).
 
 ```{r add-yellow-green, echo=FALSE, fig.cap="Adding two vectors, yellow and green, by placing them tail to tip. The result is the vector going from the tail of yellow to the tip of green. This resultant is equivalent to the blue vector."}
 knitr::include_graphics("www/pencils/addition.png")
 ```
+
+Adding vectors in this way takes advantage of the rootlessness of a vector. So long as we keep the direction and length the same, we can move a vector to whatever place is convenient. For adding vectors, the convenient arrangement is to place the tail of the second vector at the tip of the first. The result---the blue pencil in the picture above---has the length and direction from the tail of the first pencil (yellow) to the tip of the second (green). But so long as we maintain this length and direction, we can put the result (blue) anywhere we want.
 
 Subtraction is similar. For $\vec{v} - \vec{w}$, 
 $\vec{v}$ and $\vec{w}$ tail-to-tail. Read out the result as the vector running from the tip of $\vec{v}$ to the tip of $\vec{w}$. In Figure \@ref(fig:subtract-blue-from-yellow), the yellow vector is $\vec{v}$, the blue vector is $\vec{w}$. The result of the subtraction is the green vector.
@@ -41,19 +50,20 @@ knitr::include_graphics("www/pencils/subtraction.png")
 
 ## Scaling
 
-As you know, scaling a vector changes it's length. If the scalar is negative, the vector tip and tail are swapped. Figure \@ref(fig:single-scale) shows a vector $\vec{v}$ and, as a dotted line, all of the possible results of scaling the vector. For instance, the tip of the vector $-\frac{1}{2} \vec{v}$ is located at the point marked (a). The vector $\frac{4}{5} \vec{v}$ has its tip at (b) and $2.5 \vec{v}$ has the tip at (c). For any point on the dotted line, there is some numerical scalar $\alpha$ such that the scaled vector $\alpha \vec{v}$ will have its tip at that point.
+As you know, scaling a vector changes it's length. If the scalar is negative, the vector tip and tail are swapped. Figure \@ref(fig:single-scale) shows a vector $\vec{v}$ and, as a dotted line, all of the possible results of scaling the vector. Three locations on the dotted line are labeled (a), (b), and (c). The vectors we create by scalar multiplication can be placed anywhere we like. For the purpose of this illustration, imagine that all the vectors we are about to create have their tails at the tail of $\vec{v}$. The vector $-\frac{1}{2} \vec{v}$  will be half as long as $\vec{v}$ and point in the exact opposite direction. The tip of $-\frac{1}{2} \vec{v}$ will therefore be at the point marked (a). Similarly, the vector $\frac{4}{5} \vec{v}$ has its tip at (b) and $2.5 \vec{v}$ has the tip at (c). For any point on the dotted line, there is some numerical scalar $\alpha$ such that the scaled vector $\alpha \vec{v}$ will have its tip at that point.
 
 The dotted line, that is, all the points that can be "reached" by scaling $\vec{v}$ is called a ***subspace***: the subspace ***spanned*** by $\vec{v}$. You can think of the subspace as all of the "destinations" that can be reached by stepping in the direction of $\vec{v}$. (Steps backward steps are also legitimate.) 
 
-```{r single-scale, echo=FALSE, fig.cap="With a suitable scalar multiplying the vector $\\vec{v}$, any point on the dotted line can be reached. The dotted line is the subspace spanned by the vector."}
+```{r single-scale, echo=FALSE, fig.cap="With a suitable scalar multiplying the vector $\\vec{v}$, any point on the dotted line can be reached. The dotted line---extended to infinity---is the subspace spanned by the vector."}
 Pts <- tibble(
   x = c(-2, 1/2, 4),
   y = c(1, -1.5, -5),
   lab = c("a", "b", "c")
 )
 gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
-  Znotes::gvec(from=c(-1,0), to=c(1, -2), color="magenta") %>%
+  Znotes::gvec(from=c(-1,0), to=c(1, -2), color="magenta", label="") %>%
   gf_text(y ~ x, label= ~ lab, data = Pts) %>%
+  gf_text(-1.5 ~ 0, label="v", color="magenta") %>%
   gf_refine(coord_fixed(), 
             scale_y_continuous(breaks=NULL),
             scale_x_continuous(breaks=NULL)) %>%
@@ -68,8 +78,12 @@ Figure \@ref(fig:two-vecs) includes a second vector $\vec{w}$ along with the vec
 
 ```{r two-vecs, echo=FALSE, fig.cap="The subspaces spanned by each of two vectors $\\vec{v}$ and $\\vec{w}$."}
 gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
-  gvec(from=c(-1,0), to=c(1, -2), color="magenta") %>%
-  gvec(from=c(0,-3), to=c(1,-1), color="brown") %>%
+  gvec(from=c(-1,0), to=c(1, -2), color="magenta", 
+       label="") %>%
+  gvec(from=c(0,-3), to=c(1,-1), color="brown",
+       label="") %>%
+  gf_text(-1.5 ~ 0, label="v", color="magenta") %>%
+  gf_text(-3 ~ 0.4, label="w", color="brown") %>%
   gf_segment(-5 + 3 ~ -1 + 3, color="brown", linetype="dotted") %>%
   gf_refine(coord_fixed(), 
             scale_y_continuous(breaks=NULL),
@@ -81,7 +95,11 @@ gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
 
 Things get interesting when we consider not just the subspace spanned by the vectors individually, but the subspace spanned by them ***jointly***. Recall that the subspace spanned by $\vec{v}$ is all the vectors that can be created by scalar multiplication of $\vec{v}$, that is, all the vectors $\alpha \vec{v}$ for $-\infty < \alpha < \infty$. 
 
-With two vectors, the subspace is all the vectors that can be created by a linear combination of the two, that is $$\alpha \vec{v} + \beta \vec{w}$$ where $-\infty < \alpha < \infty$ and $-\infty < \beta < \infty$. The entire plane is spanned by such linear combination; any vector at all in the plane can be generated.
+With two vectors, the subspace is all the vectors that can be created by a linear combination of the two, that is $$\alpha \vec{v} + \beta \vec{w}$$ where $-\infty < \alpha < \infty$ and $-\infty < \beta < \infty$. To start the trip, walk to the point $\alpha \vec{v}$ on the subspace of $\vec{v}$. Now, pick up $\vec{w}$ and place its tail at the point you just reached, $\alpha \vec{v}$. Finally, walk from that point in the direction of $\vec{w}$ for $\beta$ steps.
+
+By adjusting $\alpha$ and $\beta$ appropriately, you can get to any point in the plane. In other words, the subspace spanned by the set of vectors $\{\vec{a}, \vec{b}\}$ is the entire plane. 
+
+CAN WE PLACE A CALCPLOT3D picture here.
 
 Figure \@ref(fig:two-vecs), lying as it does on the two-dimensional surface of your screen or paper, fails to indicate clearly that even in three- or higher-dimensional space, two (non-aligned) vectors will span a plane with a particular orientation. To see this better, a worthwhile experiment is to pick up two pencils pointing in different directions. Place the eraser ends together, pinched between thumb and forefinger. You can point the whole rigid assembly in any direction you like. The angle between them will remain the same. 
 
