@@ -82,7 +82,7 @@ contour_plot(Zcalc::SM_2_potential(x, y) ~ x & y, domain(x=0:3, y=-3:0),
 ```
 
 
-The potential energy function $E(x,y)$ has a bowl-like shape. The bottom of the bowl---the argmin---is near $(x=1.7, y-=1.3)$. In terms of Figure \@ref(fig:spring-mass1), the equilibrium position is a bit upward and to the right of the position shown in the figure.
+The potential energy function $E(x,y)$ has a bowl-like shape. The bottom of the bowl---the argmin---is near $(x=1.7, y=-1.3)$. In terms of Figure \@ref(fig:spring-mass1), the equilibrium position is a bit upward and to the right of the position shown in the figure.
 
 With a graph of the objective function like Figure \@ref(fig:spring-mass1-pot), the solution phase is simple; a graph will do the job. But for more complicated objective functions, with more than 2 inputs, drawing a complete graph is not feasible. For example, in the spring-mass system shown in Figure \@ref(fig:spring-mass-3), the potential energy function has six inputs: $x_1, y_1, x_2, y_2, x_3, y_3$. In genuine applications of optimization, there are often many more inputs. 
 
@@ -92,7 +92,7 @@ knitr::include_graphics("www/spring-mass3.png")
 
 In a multi-input optimization problem, we don't have a picture of the whole objective function. Instead, we are able merely to  ***evaluate*** the objective function for a single given input at a time. Typically, we have a computer function that implements the objective function and we're free to evaluate it at whatever inputs we care to choose. It's as if, instead of having the whole graph available, the graph is covered with an opaque sheet with a loophole, as in Figure \@ref(fig:loophole).
 
-```{r loophole, echo=FALSE, fig.align="center", fig.cap="A more realistic view of what we can know about a function."}
+```{r loophole, echo=FALSE, out.width="60%", fig.align="center", fig.cap="A more realistic view of what we can know about a function."}
 knitr::include_graphics("www/loophole.png")
 ```
 We can see the function only in a small region of the domain and need to use the information provided there to determine which way to move to find the argmin. 
@@ -103,7 +103,7 @@ The mathematical equivalent to sensing which direction is uphill is to calculate
 
 The gradient points in the steepest direction uphill so, once you know the direction, take a step in that direction to head toward the argmax, or a step in the opposite direction if you seek the argmin. The process of following the gradient toward the top of the hill is called ***gradient ascent***. Correspondingly, following the gradient downhill is ***gradient descent***.
 
-```{r loopwhole-gradient, echo=FALSE, fig.cap="The gradient provides information about the shape of the local function in a convenient form to guide the step to the next locale in your journey toward the argmin or argmax."}
+```{r loopwhole-gradient, echo=FALSE, fig.align="center", out.width="60%", fig.cap="The gradient provides information about the shape of the local function in a convenient form to guide the step to the next locale in your journey toward the argmin or argmax."}
 # gradient_plot(SM_2_potential(x, y) ~ x & y, domain(x=0:3, y=-3:0), alpha=1, color="black") %>%
 #  gf_refine(coord_fixed())
 # the mask is in figures2.key
@@ -129,12 +129,13 @@ Textbook formulas in physics, chemistry, engineering, and economics often have a
 Numerical techniques are the most widely used in practice. Optimization is an important operation in both science and management and much human ingenuity has gone into the development of effective algorithms. The modeler rarely if ever needs to reach beyond the software provided in technical computing environments such as R, MATLAB, Mathematica, or the many packages available for Python.
 
 In data science and machine learning, often advanced solution-phase software is provided as web services and APIs (application programming interfaces). An example is the Google technology product [TensorFlow](https://www.tensorflow.org/) used to find optimal parameters for functions in the machine technique called "deep learning."
+:::
 
-In using such software systems, the modeler needs to understand the structure of the arguments handed off to the systems. It's also important to be able to test whether you have structured those arguments appropriately to represent your intentions. This often involves some level of debugging and the incremental development of objective functions so that you can verify correct performance on a simple version of the objective function before adding more detail and repeating the cycle of verify-then-add-more-detail.
+<!-- In using such software systems, the modeler needs to understand the structure of the arguments handed off to the systems. It's also important to be able to test whether you have structured those arguments appropriately to represent your intentions. This often involves some level of debugging and the incremental development of objective functions so that you can verify correct performance with a strategy like this: first implement a simple version of the objective function then add more detail; repeat the cycle of verify-then-add-more-detail until you have an objective function that contains all the salient factors.
 
-As a simple example of support for such debugging, we'll examine a basic R function, `optim()`, for carrying out optimization. You can see the documentation for `optim()` by giving the command `?optim` in a sandbox. You'll likely find it hard to follow at first and using such functions requires a deeper understanding of R programming than needed in this book. (The R/mosaic `argM()` function makes use of `optim()` internally, surrounding it with an interface using tilde expressions and domains.) To illustrate, Figure \@ref(fig:trace-spring-mass-2) traces the sequence of ascent steps followed by `optim()` in working toward the argmin of `SM_2_potential()`.
+As a simple example of support for such debugging, we'll examine a core R function, `optim()`, for carrying out optimization. The command `?optim`, given in a sandbox or on the R command line will display the documentation for `optim()`. Such documentation is typically aimed at those already proficient with programming in R at a level beyond that covered in this book. (That's one reason this book uses the R/mosaic `argM()` function and similar functions based on tilde expressions and domains. These R/mosaic functions makes use of `optim()` internally, surrounding it with an interface using tilde expressions and domains.) To illustrate, Figure \@ref(fig:SM2-path) traces the sequence of ascent steps followed by `optim()` in working toward the argmin of `SM_2_potential()`.
 
-```{r message=FALSE, warning=FALSE, echo=FALSE}
+```{r message=FALSE, eval=FALSE, warning=FALSE, echo=FALSE}
 obj_fun <- vector_arg(SM_2_potential)
 out <- capture.output(
   results <- optim(c(0,0), obj_fun,
@@ -174,7 +175,7 @@ Plot3 <-
 ```
 
 
-```{r SM2-path, echo=FALSE, fig.show="keep", fig.cap="The path followed by `optim()` in descending the gradient, starting at (0,0). Successive steps are numbered."}
+```{r SM2-path, eval=FALSE, echo=FALSE, fig.show="keep", fig.cap="The path followed by `optim()` in descending the gradient, starting at (0,0). Successive steps are numbered."}
 Plot1 
 gridExtra::grid.arrange(Plot2, Plot3, nrow=1)
 ```
@@ -183,9 +184,10 @@ Starting at the initial guess, $(x_0, y_0) = (0,0)$ the algorithm takes a step o
 
 The bottom two graphs zoom in on the gradient field for later steps. The most dramatic changes in direction are at $(x_6, y_6)$ and $(x_9, y_9)$. As the gradient vector gets shorter, so do the step sizes, terminating when the step size is insignificant.
 :::
+-->
 
 ::: {.rmosaic data-latex=""}
-The potential energy function of the spring-mass system in Figure \@ref(fig:spring-mass-3) is available as the R/mosaic function `Zcalc::SM_3_potential()`. The `argM()` function in R/mosaic is a simple interface to `optim()` that allows you to use the tilde-expression/domain that you're familiar with. But use `argM()` only for toy problems. As you'll see, the tilde-expression/domain interface to `argM()` is already ungainly with just six inputs.
+The potential energy function of the spring-mass system in Figure \@ref(fig:spring-mass-3) is available as the R/mosaic function `Zcalc::SM_3_potential()`. This potential energy function has six inputs: the $x$ and $y$ coordinates of each of the three masses. The code below shows how to use the R/mosaic `argM()` function to locate an argmin of the potential energy.
 
 ```{r}
 argM(SM_3_potential(
@@ -198,9 +200,11 @@ The `argM()` function reports the final result, the end of the path followed in 
 knitr::include_graphics("www/SM_3.gif")
 ```
 
-At the start of the movie, the masses are misplaced and far from their equilibrium position. As system configuration moves downhill toward the argmin of the potential energy function, the masses sort themselves out.
+At the start of the movie, the masses are (absurdly) misplaced and far from their equilibrium position. As system configuration moves downhill toward the argmin of the potential energy function, the masses sort themselves out.
 
 The two gradient-field frames show a different two-dimensional slices of the potential energy function which has six inputs. Watch the gradient-fields carefully to see that the field itself is changing as time goes by. All six inputs are changing. At each point in time, we're plotting the gradient field as a function of the two variables shown on the axes. These stay the same through the whole movie, but the other four inputs are changing as the system moves along the gradient descent path. The last frame shows the gradient field at the final position in six-dimensional space. You can see that the early parts of the path are not aligned with the end-of-path gradient fields, but they were aligned at the earlier time when each point in the path was passed.
+
+The familiar tilde-expression format used by `argM()` and the other R/mosaic functions is suitably compact for function of one or two arguments, but for functions with many inputs it becomes ungainly. For objective functions with many inputs, a different programming style is more appropriate that packages up the multiple inputs into a single, ***vector input***. Since this is not a programming book, we won't go into the vector-input programming style, but be aware that in professional-level work, learning new tools for programming becomes essential.
 :::
 
 ## Objectives and Constraints
@@ -209,7 +213,7 @@ Many real-world decision-making settings do not fit neatly into the framework of
 
 Often, the original problem statement does not include all of the objectives and the modeler needs to be perceptive to discern important objectives left out of the initial description of the problem. When such missing objectives become apparent, it's necessary to visit the modeling phase of the problem to insert the new objectives. By adopting the right approach to modeling, such situations can be readily handled and, even better, the modeling phase can bring new insight into the real-world problem.
 
-Toillustrate, let's returning to the mathematically simplified problem of constructing an optimal cardboard box. Before, we stipulated that the raw cardboard stock has dimension 20 inches by 30 inches. Now we'll generalize and work with a piece of cardboard that has edges of length $y$ from which, as before, we'll cut out square corners of length $x$ on a side. (See Figure \@ref(fig:box-shape). Our objective is to make a box with the largest possible volume. (This will be an **argmax** problem.)
+To illustrate, let's returning to the mathematically simplified problem of constructing an optimal cardboard box. Before, we stipulated that the raw cardboard stock has dimension 20 inches by 30 inches. Now we'll generalize and work with a piece of cardboard that has edges of length $y$ from which, as before, we'll cut out square corners of length $x$ on a side. (See Figure \@ref(fig:box-shape). Our objective is to make a box with the largest possible volume. (This will be an **argmax** problem.)
 
 ```{r box-shape, echo=FALSE, fig.cap="The cardboard cut lines and the eventual shape of the folded box.", out.width="40%", fig.show="keep"}
 knitr::include_graphics("www/box-fold-1.png")
@@ -382,7 +386,9 @@ Making the constraint negotiable by representing it with a function, broadens th
 Let's return to a previous example about determining optimal levels of labor and capital in a factory. In that example, the objective function was the money value of the product produced. There was also a budget constraint. Translating the budget constraint into a function, which we'll call expenditure(K, L), we have 
 $\text{expenditure}(K, L) = 4000 L + 15000 K$. Our budget amounts to enforcing  $\text{expenditure}(K, L) = \$5,500,000$.
 
-To see check whether it's worthwhile to stick to the constraint, we can plot both the production function and the expenditure function together.
+A manager presented with a budget knows that she should work within the constraints of that budget. Mathematically, however, it's easy to imagine the budget being changed, either ***relaxed*** or tightened. This mathematical possibility provides the means to extract new information that can be helpful in making decisions at a higher level, that is, above the rank of the manager. This can be helpful to higher management---the people who are responsible for seeing the bigger picture. 
+
+Figure \@ref(fig:cobb-doug-redux) show the production function plotted along with the expenditure function. The budget constraint corresponds to a single output level of the expenditure function, that is, a single contour of the expenditure function. Other contours correspond to different values for the budget constraints. Such a graph makes it easy to calculate the consequences for relaxing (or tightening) the constraint.
 
 ```{r cobb-doug-redux, echo=FALSE, fig.cap="The production function (black, curved lines) and the expenditure function (magenta, straight lines). Contour labels are in millions of dollars. We've drawn contours at levels that happen to be tangent to the expenditure contours.", warning=FALSE, message=FALSE}
 Plot1 %>%
@@ -395,14 +401,17 @@ Plot1 %>%
                domain(L=300:1000, K=200:250), skip=0, filled=FALSE)
 ```
 
-With the budget fixed at $5.5 million, the maximum production was $7.1 million. If we decrease the budget to $5 million, production also goes down, to $6.5 million. If we increase the budget to $6 million, production goes up to $7.7 million.
+With the budget fixed at $5.5 million---that is, on the $5.5-million contour of the expenditure function---the maximum production was $7.1 million. 
 
+What happens if we pretend that the budget level was different? Doing so is a matter of looking at a different contour of the expenditure function. For example, if the budget had been smaller, say only $5 million, then production also goes down, to $6.5 million. On the other hand, if we had the means to increase the budget to $6 million, production would go up to $7.7 million.
 
-That an increase in budget of $500 K produces an increase in production worth $600 K sounds like a good argument for increasing the budget. But higher management may have even better uses for that $1 M expenditure, perhaps in some other product line or in research and development.
+In this example we see that an increase in budget of $500K produces an increase in production worth $600K. It might seem logical that it's worth raising the budget to harvest the extra production, but that is not necessarily the case. To see why, recall that we use constraints such as the budget constraint in this problem to represent a real-world situation where there are multiple objectives, not just the particular objective represented by the objective function. There is a budget in the first place because there are other, competing uses for the money. For instance, the money might be better spent in some other product line that is even more profitable. Or perhaps higher management, taking a long-term strategic view, would prefer to spend the funds on research and development. 
 
-It's helpful to present the increase in the objective function output that can be had by relaxing the budget constraint as a ratio. In this case, the ratio is 1.2/1.0. This ratio is often called the ***Lagrange multiplier***. Some economists have a more evocative name for it, the ***shadow price*** of the constraint. Thus, the constraint-to-function translation provides a way to put a cost on the constraint. This gives a reasonable way to determine the value of something when there is no direct market for it. 
+The point of exploring theoretical changes in the budget is to provide information to the higher-level decision makers, the people who *set the budget* as opposed to the managers who have to work *within* the budget. The format that most non-technical people would find accessible is simple: a $500K increase in the budget will result in $600K greater production. 
 
-An important example of a shadow price comes in the setting of life-saving interventions. For example, increasing spending on highway safety can save lives. If $7.5 billion in increased expenditures saves 1000 lives, the shadow price is $7.5 M per life. People who mis-interpret the constraint-to-function methodology often think that it's craven to put a money value on life. In reality, the method merely reveals the money value on life implicit in decisions such as budget allocations. Knowing that the shadow price is $7.5 M does not say what the value of life *should be*. But it provides a mechanism for comparing different uses for the money. For instance, if the shadow price for increased regulation of toxic industrial chemicals is $11.3 M per life, the relative shadow prices provide an indication that budget money might reasonably be shifted from chemical regulation to highway safety. Economists and epidemiologists who undertake such calculations reveal that the mixture of spending on different life-preserving interventions is far from optimal.
+In mathematical presentations, this same information is often formatted differently, as a ratio called the ***Lagrange multiplier***. The Lagrange multiplier in this example would be 600/500, that is, 1.2. There is no intrinsic advantage of the Lagrange multiplier format over the common sense format, but the Lagrange multiplier is the format used in many textbooks, so it's worthwhile to know the nomenclature. Some economists have a more evocative name for the ratio: the ***shadow price*** of the constraint. Thus, the theoretical exploration of relaxing the constraint provides a straightforward way to put a cost on the constraint. This gives a reasonable way to determine the value of something when there is no direct market for it. 
+
+An important example of a shadow price comes in the setting of life-saving interventions. For example, increasing spending on highway safety can save lives. If $7.5 billion in increased expenditures saves 1000 lives, the shadow price is $7.5 M per life. People who misinterpret the constraint-to-function methodology often think that it's about cravenly putting a money value on life. In reality, the method merely reveals the money value on life implicit in decisions such as budget allocations. Knowing that the shadow price is $7.5 M does not say what the value of life *should be*. But it provides a mechanism for comparing different uses for the money. For instance, if the shadow price for increased regulation of toxic industrial chemicals is $11.3 M per life, the relative shadow prices provide an indication that budget money might reasonably be shifted from chemical regulation to highway safety. Economists and epidemiologists who undertake such calculations reveal that the mixture of spending on different life-preserving interventions is far from optimal.
 :::
 
 ::: {.takenote data-latex=""}
@@ -442,9 +451,9 @@ Evaluate the objective function at the vertices of the simplex. One of the verti
 
 `r insert_calcZ_exercise("34.02", "QXWRP8", "Exercises/ape-choose-closet.Rmd")`
 
+`r insert_calcZ_exercise("34.03", "QXWRP9", "Exercises/ape-choose-closet2.Rmd")`
+
 `r insert_calcZ_exercise("34.04", "rG11sg", "Exercises/rat-find-magnet.Rmd")`
-
-
 
 `r insert_calcZ_exercise("34.06", "2ZoCl8", "Exercises/dolphin-hang-sheet.Rmd")`
 
@@ -454,11 +463,9 @@ Evaluate the objective function at the vertices of the simplex. One of the verti
 
 `r insert_calcZ_exercise("34.12", "B7rG9", "Exercises/panda-go-kayak2.Rmd")`
 
-
 `r insert_calcZ_exercise("34.14", "VHn3UG", "Exercises/snake-walk-knife.Rmd")`
 
 `r insert_calcZ_exercise("34.16", "Yb6tVr", "Exercises/duck-tell-laundry.Rmd")`
-
 
 `r insert_calcZ_exercise("34.18", "LiJkK2", "Exercises/cat-show-mug.Rmd")`
 

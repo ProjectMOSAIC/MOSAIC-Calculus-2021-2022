@@ -1,13 +1,12 @@
 ---
 id: "ape-choose-closet"
 created: "Sun Dec  5 16:15:49 2021"
-global_id: "QXWRP8"
+global_id: "QXWRP9"
 ---
 
+The two panels below are each contour plots of the same objective function $f(x,y)$ and the corresponding gradient field. Each panel also has a path going whose start is marked 0 and end is marked 10.
 
-The figure shows a contour plot of an objective function $f(x,y)$. 
-
-```{r fg2-11, echo=FALSE}
+```{r fg99-1, echo=FALSE}
 f <- rfun( ~ x + y, seed=103)
 f2 <- rfun( ~ x + y, seed=116)
 dx_f <- D(f(x, y) ~ x)
@@ -32,18 +31,14 @@ Common <- contour_plot(f(x, y) ~ x + y, domain(x=c(-4, 4), y=c(-4, 4))) %>%
 P1 <- Common%>% traj_plot(y(t) ~ x(t), soln1, color="dodgerblue") %>%
   gf_labs(title="Plot 1")
 P2 <- Common%>%   traj_plot(y(t) ~ x(t), soln2, color="orange3") %>%
-  gf_labs(title="Plot 2")
+  gf_labs(title="Plot (A)")
 P3 <- Common%>%   traj_plot(y(t) ~ x(t), soln3, color="magenta") %>%
-  gf_labs(title="Plot 3")
-P1
+  gf_labs(title="Plot (B)")
+gridExtra::grid.arrange(P2, P3, nrow=1)
 ```
 
-There is a gradient field and a path plotted along with the contour plot.
 
-A. Does the gradient field in Plot 1 correspond to the contour plot of the objective function? Explain why or why not both in terms of the direction of the gradient vectors and their lengths.
+D. In Plot A, is the path a  gradient **ascent**, a gradient **descent**, or neither?
 
-B. Does the path, which starts at the point marked "0" and heads toward the point marked "10," follow the gradient field. Explain your answer.
-
-C. Is the path a  gradient **ascent**, a gradient **descent**, or neither.
-
+E. In Plot B, is the path a  gradient **ascent**, a gradient **descent**, or neither?
 
