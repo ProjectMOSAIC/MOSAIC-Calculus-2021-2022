@@ -120,11 +120,11 @@ $$\int_{-\infty}^\infty h(x)\, dx = A \neq 1\ .$$ Although $h(x)$ is not a proba
 A relative density function is entirely adequate for describing the distribution of probability. However, when comparing two or more probability distributions, it's important that they all be on the same scale. Normalizing the relative density functions to probability density functions accomplishes this. Figure \@ref(fig:contest-compare) compares the three relative probability functions in Figure \@ref(fig:contest-entries).
 
 ```{r contest-compare, echo=FALSE, warning=FALSE, fig.cap="Comparing the contest entries by normalizing each of them to a probability density function."}
-slice_plot(ifelse(x > 22 & x < 30, 1/8, 0) ~ x, 
+Jar_functions <- 
+  slice_plot(ifelse(x > 22 & x < 30, 1/8, 0) ~ x, 
              domain(x = 0:100), size=1, npts=300) %>%
-  gf_vline(xintercept=~32, color=~ "brown", alpha=0.3) %>%
   slice_plot(dnorm(x, 35, 5) ~ x, domain(x=0:100), 
-             size=1, color="magenta", npts=300) %>%
+             size=.8, color="magenta", npts=300, alpha=0.8) %>%
   slice_plot(0.01 ~ x, domain(x=0:100), size=1, color="orange") %>%
   gf_refine(
     scale_x_continuous(
@@ -137,6 +137,7 @@ slice_plot(ifelse(x > 22 & x < 30, 1/8, 0) ~ x,
                      values=c('Johnny'='black', 'Louisa'='orange', 'Geoff'='magenta'))) %>%
   gf_theme(legend.position=c(0.6, 0.75)) %>%
   gf_labs(y="Probability Density", x="Money in the jar")
+Jar_functions
 ```
 
 ## Three density functions
@@ -312,55 +313,80 @@ Integrate(x * dunif(x, 0, 10) ~ x, domain(x=0:Inf))
 Integrate((x-5)^2 * dunif(x, 0, 10) ~ x, domain(x=-0:Inf))
 ```
 
-## Risk and data
+## Likelihood and data
 
-In this section, we'll examine the accepted technique for combining data with probability density functions in order to combine previous knowledge with new observations. The technique, called ***Bayesian inference***, is used throughout science and engineering. (Surprisingly, satisfactory computer algorithms to do the calculations were invented only in the last 40 years; this is a modern topic.) 
+In this section, we'll examine the accepted technique for combining data with probability density functions in order to combine previous knowledge with new observations. The technique, called ***Bayesian inference***, is used throughout science and engineering. 
 
-Up to this point we've worked with different kinds of mathematical entities involving probability.
+Recall that a ***relative density function*** is a format to describe the relatively likeliness of possible outcomes from a random event. The domain for a relative density function is the complete set of possible outcomes from the event. An example: The distance of a dart's impact from the bullseye. 
 
-* Relative density functions: The domain is a possible outcome from a random event, the output is a non-negative quantity. Examples: The jar contest entries.
-* Probability density functions. Much like relative density functions but with the added restriction that the definite integral over the domain produces the dimensionless number 1. Example: gaussian function. 
-* Probability. A dimensionless number between 0 and 1.
+The output of a relative density function is a non-negative number. For an expert dart thrower, the relative density will be high for small distances and low for large distances. This is just a way of quantifying that the expert's is likely to hit close to the bullseye.
 
-Another kind of mathematical entity that plays a central role in probability calculations---particularly those that involve data---is the ***likelihood function***. In everyday speech, the word "likelihood" is a synonym for "probability." But the technical word "likelihood," in the nomenclature of the calculus of probability, means something utterly different from "relative density function" or "probability density function."
+In comparing two relative density functions, for instance the function for an expert dart thrower versus that for an amateur, it's helpful to ***normalize*** them so that the integral of the relative density over the entire domain is dimensionless 1. The normalized version of a relative density function is called a ***probability density functions***. Note that the probability density function  contains the same information as the relative density function.
+
+In this section, we introduce a new type of function that's important in probability calculations involving data. This new type of function is, perhaps confusingly, called a ***likelihood function***. 
+
+Likelihood functions always involve ***hypothetical reasoning***. The idea is to construct a model world whose characteristics are exactly known. In that world, we can imagine constructing a function that gives the probability or probability density of any possible value of a measurement. 
+
+For instance, Johnny, Louisa, and Geoff each created hypothetical worlds that describe the amount of money in the jar. For each contestant, their personal hypothesis states a probability density over all the theoretically possible amounts of money in the jar. 
+
+The domain of a likelihood function is all the competing hypotheses. Take a moment to digest that. The domain of money-in-jar likelihood function is **not** the amount of money in the jar, it is instead the three hypotheses: Johnny's, Louisa's, and Geoff's. 
+
+It's conventional to denote name a likelihood function ${\cal L}()$. For the competition, a likelihood function will be ${\cal L}(\text{contestant})$, where $\text{contestant}$ will be one of "Johnny" or "Louisa" or "Geoff" in our example.
+
+There are many likelihood functions that might be relevant to the money-in-jar situation. There is one likelihood function for each possible amount of money in the jar. For instance, ${\cal L}_{\$10}(\text{contestant})$ is relevant if there were ten dollars in the jar. Another likelihood function ${\cal L}_{\$11.50}(\text{contestant})$ would be relevant if there were eleven dollars and fifty cents in the jar. 
+
+This notation of naming functions using a subscript can get awkward when there are a huge number of functions. For instance, for the money-in-jar contest there will be a likelihood function for $0.01, $0.02, $0.03, and all other possibilities such as $21.83 or $47.06$. If we want to be able to refer to the whole set of likelihood functions, better to replace the dollar amount in the subscript with a symbol, say $m$ for money. Then the whole set of likelihood functions potentially relevant to the contest would be written ${\cal L}_m(\text{contestant})$.
+
+::: {.takenote data-latex=""}
+There is another style for notation that you may encounter in your future work. In the alternative style, for example, instead of ${\cal L}_m(\text{contestant})$ the likelihood function would be written ${\cal L}(\text{contestant}\, {\mathbf |} m )$. The vertical bar is pronounced "given" and is part of a notational system often used in probability calculations.
+:::
+
+
+Since the output of any likelihood function is a probability or a probability density depending on context, we know that the output will be a non-negative quantity.
+
+Likelihood functions provide the link between data and hypotheses. The idea is that when data become available, it's possible to choose the relevant likelihood function. 
+
+To illustrate, let's return to the jar-of-money contest and the three competitors' entries as shown  in Figure \@ref(fig:contest-compare). For convenience, that Figure is reproduced here:
+
+```{r jar_functions2, echo=FALSE, fig.cap="The contest entries shown in Figure \\@ref(fig:contest-compare)."}
+Jar_functions %>%
+  gf_vline(xintercept=~32.14, color= "brown", alpha=0.6) 
+```
+
+The functions shown in the Figure are **not** likelihood functions. But we can use them to construct whatever likelihood function turns out to be relevant in the money-in-jar contest.
 
 ::: {.example data-latex=""}
-It's time to calculate who won the jar-of-coins contest!
+It's time to calculate who won the jar-of-coins contest! That is, we'll calculate whose entry is best. The word "best" should remind you of optimization and indeed the winner of the contest will be the argmax of the relevant likelihood function. At this point, remember that the likelihood functions are ${\cal L}_m(\text{contestant})$, so the argmax will be one of the contestants!
 
-When last we encountered the contest, we had translated the contest entries from their initial, unnormalized form as relative density functions into their properly normalized probability-density-function format as shown in Figure \@ref(fig:contest-compare).
+First, we need to pick the relevant likelihood function. Common sense tells us that you can only pick a winner when the jar has been opened and the money counted. That is, we need some data. 
 
-Now we are going to build a likelihood function that will tell us the winner.
+Here's the data: The officials have opened the jar and carefully counted the money. There was $32.14 in the jar. This tells us that the relevant likelihood function is ${\cal L}_{\$32.14}(\text{contestant})$.
 
-**The starting point is data.** The officials have opened the jar and carefully counted the money. There was $32.14 in the jar.
+The output of ${\cal L}_{\$32.14}(\text{contestant})$ is the probability density assigned by the contestant to the observed value $32.14. You can read this from Figure \@ref(fig:jar-functions2). For your convenience, the observation $32.14$  has been annotated with a faint brown vertical line. 
 
-The domain of this likelihood function is the t.hree contestants, Johnny, Louisa, and Geoff. (Later, we'll work with likelihood functions where the domain is a continuous quantity.) The output of the likelihood function is the probability density assigned to the observed $32.14. For ease of reference, Figure \@ref(fig:contest-compare) has been annotated with a faint vertical line marking the position of $32.14 in the domain. You can read off the value of the likelihood from that graph. 
+Here's a tabular version of  ${\cal L}_{\$32.14}(\text{contestant})$.
 
-The convention in denoting a likelihood function with an input $x$ is ${\cal L}(x | D)$, where $D$ is the data. The vertical bar in $x | D$ is a subtle reminder to the experienced that the $D$ is not an input to the function but a ***given*** quantity: the observed data. In fact, the word "data" comes from the Latin for "given." Once we have observed and recorded data, it is fixed: given. For this example, the observed, given amount is $32.14
-
-The domain $x$ in the likelihood function for the contest is the set {Johnny, Louisa, Geoff}. We can present the likelihood in tabular form:
-
-$x$  | ${\cal L}(\,x\ |\ \$32.14)$
+$\text{contestant}$  | ${\cal L}_{\$32.14}(\text{contestant})$
 :----|:-----------------------------
 Johnny | 0.000 per dollar
 Louisa | 0.010 per dollar
 Geoff  | 0.066 per dollar
 
-The units, "per dollar," are needed because the output of ${\cal L}(x | \$32.14)$ is a probability density function. But the likelihood function itself is **not** a probability density function, it merely reports the level of the three different probability density functions entered by the three contestants. One way to see that ${\cal L}(x | \$32.14)$ is not itself a probability density function is to sum the outputs over the entire domain: $0.000 + 0.010 + 0.066 = 0.076$ per dollar which, obviously, is not equal to dimensionless 1. 
-
 In statistics, likelihood functions are used to describe how to estimate a quantity given some data about the quantity. The techique is called ***maximum likelihood estimation***: the estimate is the argmax of the likelihood function.  For the coins-in-jar contest, the argmax is Geoff. Therefore, Geoff wins!
 
-In the spirit of "Monday morning quarterbacking," let's look carefully at Johnny's entry. If his bar-shaped probability density function were shifted just a little to the right, he would have won. This illustrates a flaw in Johnny's logic in constructing his probability density function. The function indicates that he thought the probability of the amount being $23 was the same as being 30 dollars. In other words, he was uncertain to a considerable extent. But given this uncertainty, why would he insist that $30.01 is impossible (that is, has probability density 0 per dollar). Wouldn't it make more sense to admit nonzero density for $30.01, and similarly for $30.02 and upward, with the density gradually decreasing with the amount of money. This is why, absent very specific knowledge about the circumstances, probability densities are so often framed as Gaussian distributions, as in Geoff's entry.
+In the spirit of "Monday morning quarterbacking," let's look carefully at Johnny's entry. If his bar-shaped probability density function were shifted just a little to the right, he would have won. This illustrates a weakness in Johnny's logic in constructing his probability density function. The function indicates that he thought the probability of the amount being $23 was the same as being 30 dollars. In other words, he was uncertain to a considerable extent. But given this uncertainty, why would he insist that $30.01 is impossible (that is, has probability density 0 per dollar). Wouldn't it make more sense to admit nonzero density for $30.01, and similarly for $30.02 and upward, with the density gradually decreasing with the amount of money. This is why, absent very specific knowledge about the circumstances, probability densities are so often framed as Gaussian distributions, as in Geoff's entry.
 :::
 
-We'll illustrate the Bayesian inference process with an example about the ***risk of disease***. 
+The previous example is intended to give you an idea about what a likelihood function is. In that example, we use the calculus operator **argmax** to find the contest winner. 
 
-The risk of a disease is presented to the public in one of two ways. An **absolute risk** is a number like 2% per year, that is, 1 in 50 people will get the disease each year. A **relative risk** is a ratio: the risk of one population of interest (e.g. smokers) divided by the risk of another group (e.g. non-smokers). Since a relative risk is the ratio of two absolute risks, it is a dimensionless non-negative number, for instance 5.4.
+Let's turn now to another important use of likelihood functions: their role in the Bayesian inference process. The example concerns figuring out the ***risk of disease transmission***. 
 
-For professionals, the risk of a disease is presented not as a single number but as a statistical **range** of numbers. For instance, an absolute risk might be stated as 1-3%. People who haven't studied statistics have a hard time distinguishing between "1-3%" and "2%." It amounts to much the same thing. To the professionals, "1-3%" conveys two different aspects of knowledge: i) the level of absolute risk---about 2% here---and 2) how much uncertainty there is in the knowledge of (i).
+::: {.intheworld data-latex=""}
+Consider the situation in November 2019 at the start of the COVID-19 pandemic. At that time, there was almost no information about the illness or how it spreads. In the US and many other countries, most people assumed that the spread of illness outside its origin in Wuhan, China, would be prevented by standard public health measures such as testing, contact tracing, quarantine, and restrictions on international travel. Intuitively, most people translated this assumption into a sense that the personal risk of illness was small. 
 
-Saying "1-3%" seems a lot like Johnny's entry in the coins-in-jar contest.  The statement has edges that are too sharp. Professionals know how to interpret "1-3%" along the lines of Geoff's entry: a summary of a smoother distribution. There is a more complete way to state our knowledge of the risk that combines both the level of risk and the uncertainty.
+In communicating with the public about risk, it's common to present risk as a number: a probability. This is an adequate presentation only when we have a solid idea of the risk. To form a solid idea, we need evidence. 
 
-The representation we choose is a probability density function. To illustrate, Figure \@ref(fig:beta-shapes) shows three different examples of what such probability density functions might look like for risk. Each is called a ***prior on the risk***.
+Before there's enough evidence responsibly to form a solid idea, it's best to present risk not as a probability but as a probability density function. To illustrate, Figure \@ref(fig:beta-shapes) shows three different examples of what such probability density functions might look like for vague, preliminary ideas of risk. 
 
 ```{r beta-shapes, echo=FALSE, fig.cap="Three different opinions about the risk of a disease."}
 prior_A <- makeFun(dbeta(x, .5, 5) ~ x)
@@ -386,42 +412,98 @@ P3 <- slice_plot(prior_C(x) ~ x, domain(x=-.1:1.1), npts=501) %>%
 gridExtra::grid.arrange(P1, P2, P3, nrow=1) 
 ```
 
-Panel (A) in Figure \@ref(fig:beta-shapes) is a strong statement that the risk of disease is small. Panel (B) says, "I have no idea!" Panel (C) expresses the belief that the risk is around 10%, but there is a great deal of uncertainty.
+Panel (A) in Figure \@ref(fig:beta-shapes) is a strong statement that the risk is believed to be small. Even so, the density function is non-zero even for values of the risk near 100%. This is an honest admission that, as with COVID-19, something that we don't know might be going on. In the case of COVID-19, what most people didn't realize is 1) that the reported numbers were completely unrepresentative of the extent of spread, since most cases are asymptomatic and 2) that the illness can spread even by those who are asymptomatic. Epidemiologists and other public health workers knew enough from previous experience to be aware of their lack of knowledge about (1) and (2), but the rest of us, including many policy makers, didn't even know what they didn't know. The word "unk-unk" is sometimes used by engineers to refer to such an "unknown unknown". 
 
-How to construct such statements when you have some evidence for the risk of the disease. For instance, evidence might be the results of screening tests on $n = 10$ randomly selected people. 
+Panel (B) says, "I have no idea!" This can often be an honest, useful appraisal of the situation. But experts who are honest in this way are often regarded by the public and policy makers as lacking credibility. 
 
-Each screening test produces a positive result (we'll write "+") or a negative result ("-"). People seem to interpret such results as indicating that they have the disease (+) or don't have the disease (-). But this is a wrong interpretation.
+Panel (C) expresses the belief that the risk might well be small but also might be large. 
+
+Any of the three probability density functions would be reasonable statements about what we knew and didn't know about COVID-19 at the very beginning of the pandemic, before there was much data. Such statements are called ***priors***; summaries of what we know up to the present.
+
+In Bayesian inference, as data become available we can revise or ***update*** the priors, giving a better informed description of the risk.
+
+For COVID-19, data eventually came in many different forms: estimates of incubation periods, testing to determine what fraction of cases are asymptomatic, and so on.
+
+For our presentation of Bayesian reasoning, we'll consider a simplified situation where data come in only one form: screening tests for the illness. Imagine that you are conducting a contact-tracing study. Whenever a patient presents with COVID-19 symptoms and has a positive PCR test, that patient's close contacts are given a screening test for COVID. The objective is to estimate how transmissible the virus is by figuring out what proportion of close contacts become infected.
+
+We can't know which of the three priors in Figure \@ref(fig:beta-shapes) is most appropriate. After all, until rich enough data become available, each prior is just an opinion. So we'll repeat the update-with-data analysis for each of the three priors. If, in the end, the results from the three priors substantially agree, then we can conclude that the data is shaping the results, rather than the prior.
+
+The unknown here is the risk $R$ of transmission. We'll denote the three priors as $\text{prior}_A (R)$, $\text{prior}_B (R)$, and $\text{prior}_C (R)$. But, in general, we'll write $\text{prior}(R)$ to stand for any of those three specific priors. 
+:::
+
+In Bayesian inference, the ***prior*** represents the starting point for what we know (or, more precisely, "believe") about the risk of transmission. It has the form of a relative density function. As data come in, we update our prior beliefs on the basis of the data. 
+
+After we have updated our *prior*, our state of knowledge is called a ***posterior*** belief. Think of the prior as "pre-data" belief and the posterior as "post-data" belief. The posterior also has the form of a relative density function.
+
+The formula for updating is called ***Bayes Rule***: posterior is likelihood times prior.
+$$\text{posterior}(R) = {\cal L}_\text{data}(R) \times \text{prior}(R)\ .$$
+Recall that the output of a likelihood function is a non-negative quantity. Since the prior is a relative density function, it too is non-negative for all $R$. Therefore the posterior will have a non-negative output and be a valid relative density function.
+
+::: {.takenote data-latex=""}
+Most texts prefer to define priors and posteriors as probability density functions rather than relative density functions. The only difference, of course, is the normalization. But that can be performed at any time, so to streamline the updating process, we'll let posteriors and priors be relative density functions.
+:::
+
+Notice that the posterior has just one input, the parameter $R$. That's because the $\text{data}$ is fixed by our observations: the posterior only makes sense once we have the data available in order to choose the relevant likelihood function.
+
+Our task now is to construct the appropriate likelihood function that reflects how the screening test works. To outline the process, let's consider a group of 1000 people who are taking the screening test. If we knew the parameter $R$, we could split those 1000 people into two groups: one group with the illness and one group without.
+
+- Whole group of 1000, made up of
+    - 1000 $R$ with the illness
+    - 1000 $(1-R)$ without the illness
+
+For instance, if $R=0.2$, then out of the whole group of 1000 people, 200 would have the illness and 800 would not.
+
+After taking the screening test, each person will have either a positive test result (we'll write this "+") or a negative test result (we'll write "-").
 
 In order to make sense of a screening test, you need to know two probabilities. These are:
 
-1. The probability of a + test in a group of people *with* the disease.
-2. The probability of a - test in a group of people *without* the disease. 
+1. The probability of a + test in a group of people *with* the disease. We'll call this $p_d(+)$.
+2. The probability of a - test in a group of people *without* the disease.  We'll call this $p_h(-)$.
 
-We'll call these two probabilities $p_d(+)$ and $p_h(-)$ where the subscript indicates whether we are referring to the probability in the disease group ($p_d$) or in the no-disease ("healthy") group ($p_h$). For definiteness, we'll imagine a test where $p_d(+) = 80\%$ and $p_h(-) = 90\%$.^[In news reports, you may often hear about the ***accuracy*** of a screening test. Here, the accuracy would be between 80 and 90%. But "accuracy" is not a complete way to describe a test and can be very misleading. You need two numbers to describe the performance of a screening test.]
+Note that the subscript indicates whether we are referring to the probability in the has-the-illness group ($p_d$) or in the no-illness ("healthy") group ($p_h$). 
 
-In a perfect test, $p_d(+)$ and $p_h(-)$ would both be 100%. Our imagined test, like real-world screening tests, is imperfect.
+You may know that the result of a screening test is **not definitive**. That is, a person with a $+$ result may not actually have the illness. Likewise, a $-$ result is no guarantee that the person does not have the illness. The word "screening" is meant to emphasize the imperfections of such tests. But often the imperfect test is the best we have available.  
 
-Given this information about the performance of the test, we can construct two likelihood functions. Each will be a function of the risk level $R$. The two functions will differ in that one describes the likelihood of $R$ *given* a positive test; the other describes the likelihood of $R$ *given* a negative test.
+After the screening test has been taken by the 1000 people in our example group, we can divide them further
 
-Keep in mind that $0 \leq R \leq 100\%$ is the probability that the person being tested has the disease. 
+- Whole group of 1000, made up of
+    - 1000 $R$ with the illness, made up of
+        - 1000 $R\ p_d(+)$ who had a correct positive test result
+        - 1000 $R\ (1-p_d(+))$ who had a negative result despite having the illness
+    - 1000 $(1-R)$ without the illness, made up of
+        - 1000 $(1-R)\ (1-p_h(-))$ who had a positive test result despite being healthy
+        - 1000 $(1-R)\ p_h(-)$ who had a correct negative result.
+        
+::: {.example data-latex=""}
+Suppose that $R=0.2$, $p_d(+) = 80\%$, and $p_h(-) = 70\%$. Then the division would be:
 
-${\cal L}(R | +)$ is the likelihood of a + test for any given level of $R$. There are two cases to consider:
+- Whole group of 1000, made up of
+    - 200 with the illness, of whom
+        - 160 who got a correct $+$ result
+        - 40 who got a $-$ result, despite having the illness
+    - 800 without the illness, of whom
+        - 240 who got a $+$ result, despite not having the illness
+        - 560 who got a correct $-$  result.
 
-a. You have the disease, in which case the probability of $+$ is $p_d(+) = 0.8$ for our example.
-b. You do not have the disease, in which case the probability of $+$ is $1-p_h(-) = 0.1$.^[Make sure you're comfortable with this statement. Here's the justification: $p_h(-)$ is the probability that a person **without** the disease has a $-$ test. Since in our example the only alternative to a $-$ test outcome is a $+$ test outcome, the probability that a person without the disease has a $+$ test is $1 - p_h(-)$.]
+There are two likelihood functions reflecting the two different possible test results: ${\cal L}_+ (R)$ and ${\cal L}_- (R)$. We will need to construct both of these functions since the test result is going to be $+$ for some people and $-$ for others.
 
-Since you might or might not have the disease, we have to put (a) and (b) together based on the probability $R$ that you have the disease. Consequently, $${\cal L}(R | +) = p_d(+)\ R + (1-p_h(-))\ (1-R) = 0.8 R + 0.1 (1-R)$$ where $1-R$ is the probability that you don't have the disease.
+Recall now that each likelihood function is based on a ***hypothesis*** about the world. In this case, the hypothesis is a particular value for $R$. Let's look at the situation for the hypothesis that $R=0.2$. We can figure out the values of both ${\cal L}_+ (R=0.2)$ and ${\cal L}_- (R=0.2)$ from the breakdown given in the above example.
 
-A similar calculation gives the likelihood of $R$ given a $-$ test:
-$${\cal L}(R | -) = (1-p_d(+))\ R + p_h(-)\, (1-R)\ .$$
-In Bayesian inference, we will start with a probability density function expressing what we know (or, more precisely, "believe") about the risk of disease. This is called our ***prior*** belief and it's in the form of a probability density function. Then, as data comes in, we update our beliefs on the basis of the data. The prior can also be in the form of a relative density function, since we can normalize a relative density to become a probability density function.
+${\cal L}_+ (R=0.2)$ is the probability of observing the given data ($+$) in the hypothetical world where $R=0.2$. Out of the 1000 people, 160 will get a correct test result $+$ and 240 people will get a $+$ despite not having the illness. Therefore, $${\cal L}_+ (R=0.2) = \frac{160+240}{1000} = 40\%\ .$$
 
-After we have updated our *prior*, our state of knowledge is called a ***posterior*** belief. The posterior also has the form of a probability density function, but of course a relative density function will do just as well.
+Similarly, ${\cal L}_- (R=0.2)$ is the probability of observing the given data ($-$) in the hypothetical world where $R=0.2$. In the above breakdown, altogether 600 people received a $-$ result: 560 of these were indeed healthy and 40 had the illness but nonetheless got a $-$ result. So,
+$${\cal L}_- (R=0.2) = \frac{40+560}{1000} = 60\%\ .$$
+:::
 
-The formula for updating is called ***Bayes Rule***: posterior is likelihood times prior.
-$$\text{posterior}(R) = {\cal L}(R | \text{data}) \times \text{prior}(R)\ .$$
+The above example calculated the output of the likelihood function for both $+$ and $-$ results when $R=0.2$. We can repeat the calculation for any other value of $R$. The results, as you can confirm yourself, are
 
-Imagine that we have just heard about a newly discovered disease and have a screening test for it. Any of the three priors shown in Figure \@ref(fig:beta-shapes) could be a reasonable starting point. The prior shown in panel (B) is a state of complete ignorance. But it can be argued that "newly discovered" is a big hint about the risk and so a reasonable person might prefer to start with the priors in panels (A) or (C) instead. The calculations are simple, so we'll trace them through for all three different priors, (A), (B), and (C).
+$${\cal L}_+(R) = p_d(+)\ R + (1-p_h(-))\ (1-R) $$ 
+and 
+
+$${\cal L}_-(R) = (1-p_d(+))\ R + p_h(-)\, (1-R)\ .$$
+In a real-world situation, we would have to do some experiments to measure $p_h(-)$ and $p_d(+)$. For our example we'll set $p_d(+) = 0.8$ and $p_h(-) = 0.7$.
+
+Now that we have constructed the likelihood functions for the two possible observations $+$ and $-$, we can use them to update the priors. 
 
 Suppose our first observations are the results of screening tests on ten randomly selected individuals. `r set.seed(101)` 
 
@@ -441,7 +523,7 @@ Subject ID | Test outcome
 To summarize: Three $+$ tests out of ten. 
 
 After the first test outcome is available we can calculate the posterior: $$\text{posterior}_1 (R | +) = {\cal L}(R | -) \times \text{prior(R)}\ .$$ After the second test outcome, the new posterior is $$\text{posterior}_2 (R) = {\cal L}(R | -) \times {\cal L}(R | +) \times \text{prior(R)}\ .$$ And after the third (a $+$ result!) it will be $$\text{posterior}_3 (R) = {\cal L}(R | +) \times {\cal L}(R | -) \times {\cal L}(R | +) \times \text{prior(R)}\ .$$
-We continue on in this way through all ten rows of the data to get the posterior distribution.
+We continue on in this way through all ten rows of the data to get the posterior distribution after all 10 test results have been incorporated.
 
 Figure \@ref(fig:after-10) shows the posterior after the 10 rows of data have been considered for each of the three priors from Figure \@ref(fig:beta-shapes).
 
