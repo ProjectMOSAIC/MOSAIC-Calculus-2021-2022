@@ -1,19 +1,17 @@
 # Probability and evidence
 
-`r under_construction()`
-
-This chapter is about the use of functions for the purpose of expressing what we do and do not know about uncertain situations. Such situations are common. For instance, a person may be at high risk for a disease, say, diabetes or lung cancer. The term "high risk" indicates that we know something about the situation: not whether or not the person has the disease but whether they are "likely" to have or to get it. Another example: a car might be said to be "unreliable." We do not mean by this that the car cannot be used. Rather we're thinking that from time to time the car might fail to start or run. A car where this happens once over a few year span is reliable, a car where this happens on a month-to-month basis is not reliable.
+We often deal with situations of ***uncertainty***, situations where only partial predictions are possible. For instance, we can say whether a person may be at high risk for a disease, say, diabetes or lung cancer. But this doesn't let us predict with certainty whether the person will get the disease. Instead, the term "high risk" indicates that we know something but not everything about the situation: not whether or not the person will get the disease but whether they are "likely" to have or to get it. Another example: a car might be said to be "unreliable." We do not mean by this that the car cannot be used. Rather we're thinking that from time to time the car might fail to start or run. A car where this happens once over a few year span is reliable, a car where this happens on a month-to-month basis is not reliable.
 
 You may well have had some textbook exposure to ***probability*** as an intellectual field. Typical examples used to illustrate concepts and methods are coins being flipped, dice being tossed, and spinners spun. Colored balls are drawn from urns, slips of paper from hats, and so on. Each of these is a physical representation of an idealized mechanism where we feel sure we understand how likely each possible outcome is to happen.
 
-In this chapter, we'll use two basic imagined settings where uncertainty comes into play: the risk of disease before the disease is diagnosed and the safety of a self-driving car before it is in an accident. The word "imagined" signals that you should not draw conclusions about the facts of any particular disease or any particular self-driving car; we are merely using the imagined settings to lay out concepts and methods for the mathematical presentation and analysis of uncertainty and risk. Of particular importance will be the mathematical means by which we represent our knowledge or belief in these settings and the way we can properly update our knowledge/belief when new information becomes available.
+In this chapter, we'll use two basic *imagined* settings where uncertainty comes into play: the risk of disease before the disease is diagnosed and the safety of a self-driving car as it comes out of the factory. The word "imagined" signals that you should not draw conclusions about the facts of any particular disease or any particular self-driving car; we are merely using the imagined settings to lay out concepts and methods for the mathematical presentation and analysis of uncertainty and risk. Of particular importance will be the mathematical means by which we represent our knowledge or belief in these settings and the way we can properly update our knowledge/belief as new information becomes available.
 
 ::: {.takenote data-latex=""}
-The calculus of probability and data introduces an additional convention for describing and naming functions. Throughout this book, the names have reflected the "shape" of the function---exponential, sinusoidal, sigmoidal, etc.---or the route by which the function was constructed, e.g. differentiation, anti-differentiation, inversion. Probability calculations often work out to be assembling an answer out of different kinds of component functions. An analogy is the assembly of an automobile out of different kinds of components: wheels, motors, body, and so on. You can't put a wheel where the motor should go and produce a proper automobile. All motors play the same sort of role in the function of an automobile, but they can have different "shapes" such as gasoline, diesel, or electric. 
+The calculus of probability and data introduces an additional convention for describing and naming functions. Throughout this book, the names have reflected the "shape" of the function---exponential, sinusoidal, sigmoidal, etc.---or the route by which the function was constructed, e.g. differentiation, anti-differentiation, inversion. Probability calculations involve not only the shapes of functions but also the properties mandated by the role each function plays in the calculation. An analogy is the assembly of an automobile out of different kinds of components: wheels, motors, body, and so on. You can't put a wheel where the motor should go and produce a proper automobile. All motors play the same sort of role in the function of an automobile, but they can have different "shapes" such as gasoline, diesel, or electric. 
 
 To understand how cars are built, you have to be able easily to distinguish between the different kinds of components. This is second nature to you because you have so much experience with automobiles. Likewise, to understand the probability calculations, you'll have to master the distinctions between the roles functions play in a calculation. In this chapter you'll see ***probability density functions*** as well as ***likelihood functions*** and ***prior functions*** and ***posterior functions*** and some others. As you get started, you will confuse these roles for functions with one another, just as a newborn child can confuse "wheel" with "motor" until experience is gained. 
 
-Make sure to note the role-labels given to the functions you are about to encounter.
+Make sure to note the role-labels given to the functions you are about to encounter. We'll start with probability density functions.
 :::
 
 ## Probability density
@@ -24,48 +22,46 @@ Probability relates to the abstract notion of an ***event***. An event is a proc
 
 * Flipping a coin is an event where the possible outcomes of H and T. 
 * Taking a medical screening test is an event where the outcomes are "positive" or "negative."
-* Throwing a dart at a bullseye is an event where the outcome is the distance of the landing point from the center of the bullseye. 
+* Throwing a dart at a bullseye is an event where the outcome is the distance of the impact point from the center of the bullseye. 
 
 An event with a discrete outcome---coin flip, medical screening test---can be modeled by assigning a probability number to each of the possible outcomes. To be a valid probability model, each of those assigned numbers should be greater than or equal to zero. In addition, the sum of the assigned numbers across all the possible outcomes should be 1. 
 
-Events with a continuous outcome, such as the dart toss where the outcome---distance from the center---the probability model takes the form of a ***function*** whose domain is the possible outcomes. For the model to be a valid probability model, we require that the function output should never be less than zero. There's another requirement as well: the integral of the function over the entire domain should be 1. For the dart-toss event, if we denote the distance from the bullseye as $r$ and the assigned number for the probability model as $g(r)$, the integral requirement amounts to $$\int_0^\infty g(r) dr = 1\ .$$
+For events with a continuous outcome, such as the dart toss where the outcome is distance from the center, the probability model takes the form of a ***function*** whose domain is the possible outcomes. For the model to be a valid probability model, we require that the function output should never be less than zero. There's another requirement as well: the integral of the function over the entire domain should be 1. For the dart-toss event, if we denote the distance from the bullseye as $r$ and the assigned number for the probability model as $g(r)$, the integral requirement amounts to $$\int_0^\infty g(r) dr = 1\ .$$
 
-Note that the output $g(r)$ is **not a probability**, it is a ***probability density***. To see why, let's use the fundamental theorem of calculus to break up the integral into three segments: $0 \leq r \leq a$ and $a < r \leq b$ and $b < r$. The total integral is $$\int_0^\infty g(r) dr = 1\ = \int_0^a g(r) dr + \int_a^b g(r) dr + \int_b^\infty g(r) dr.$$ 
+Note that the output $g(r)$ is **not a probability**, it is a ***probability density***. To see why, let's use the fundamental theorem of calculus to break up the integral into three segments: 
+
+- close to the bullseye: $0 \leq r \leq a$
+- far from the bullseye: $b < r$
+- not close but not far: $a < r \leq b$
+
+The total integral is $$\int_0^\infty g(r) dr = 1\ = \int_0^a g(r) dr + \int_a^b g(r) dr + \int_b^\infty g(r) dr.$$ 
 The probability that the dart lands at a distance somewhere between $a$ and $b$ is $$\int_a^b g(r) dr\ .$$
-The dimension $[r] =\ $L and, suppose the units are centimeters. We need $\int g(r) dr$ to be a dimensionless number. Since the dimension of the integral is $[r] \cdot [g(r)] = [1]$, it must be that $[g(r)] = [1/r] = \text{L}^{-1}$. Thus, $g(r)$ is not a probability simply because it is not dimensionless. Instead, in the dart example, it is a "probability-per-centimeter." This kind of quantity---probability *per something*---is called a ***probability density*** and $g(r)$ itself is a ***probability density function***.  
+Since $r$ is a distance, the dimension $[r] =\ $L.  Suppose the units of $r$ are centimeters. We need $\int g(r) dr$ to be a dimensionless number. Since the dimension of the integral is $[r] \cdot [g(r)] = [1]$, it must be that $[g(r)] = [1/r] = \text{L}^{-1}$. Thus, $g(r)$ is not a probability simply because it is not dimensionless. Instead, in the dart example, it is a "probability-per-centimeter." This kind of quantity---probability *per something*---is called a ***probability density*** and $g(r)$ itself is a ***probability density function***.  
 
-To show the aptness of the word "density," let's switch to a graphic of a function that uses literal density of ink as the indicator of the function value. Figure \@ref(fig:dart-g) shows what the dart $g(r)$ might look like:
-```{r dart-g, echo=FALSE, fig.cap="Showing a probability density function for the dart distance in two modes: 1) an ordinary function graph and 2) the density of ink.", }
+To show the aptness of the word "density," let's switch to a graphic of a function that uses literal density of ink as the indicator of the function value. Figure \@ref(fig:dart-g) shows what the dart toss's $g(r)$ probability density function might look like:
+```{r dart-g, echo=FALSE, warning=FALSE, fig.cap="Showing a probability density function for the dart distance in two modes: 1) an ordinary function graph and 2) the density of ink.", }
 dat <- tibble(x=rchisq(1000, df=4))
-# P1 <- #gf_jitter(1 ~ x, data = dat, size=1, alpha=0.1) %>%
-#   
-#   gf_point(1 ~ x, data = dat,## draw horizontal lines instead of points
-#     shape = 124,
-#     size = 10,
-#     alpha = .01
-#   ) %>%
-#   gf_refine(scale_y_continuous(limits=c(.5,1.5), breaks=NULL)) %>%
-#   gf_labs(x="", y="") %>%
-#   gf_lims(x=c(-1,20)) +
-#   theme(panel.background = element_blank())
 
-  gf_point(0.10 ~ x, data = dat,## draw horizontal lines instead of points
+P1 <-  gf_point(0.10 ~ x, data = dat,## draw horizontal lines instead of points
     shape = 124,
     size = 70,
     alpha = .01
   ) %>%
-  slice_plot(dchisq(x, df=4) ~ x, 
-             domain(x=0:20), color="magenta") %>%
+  gf_lims(x=c(0,20)) %>% 
+  gf_labs(x="", y="") %>%
+  gf_refine(scale_y_continuous(breaks = .10, labels="        "))  +
+  theme(panel.background = element_blank())
+P2 <- slice_plot(dchisq(x, df=4) ~ x, 
+             domain(x=0:20), color="magenta") %>% 
   gf_lims(x=c(0,20)) %>%
   gf_labs(x="Distance from center of bullseye (cm)", 
           y="Probability density (1/cm)") +
   theme(panel.background = element_blank())
-#gridExtra::grid.arrange(P1, P2, heights=c(4,5), ncol=1)
+gridExtra::grid.arrange(P1, P2, heights=c(4,5), ncol=1)
 ```
 
 ::: {.example data-latex=""} 
-
-Why a probability density function is often a good way to describe what you know about a situation. As an example, we'll consider a simple competition of the sort you might encounter at a fund-raising fair. There is a jar on display, filled with coins that have been donated by one of the fair's sponsors. You pay $1 (which goes to a good cause) to enter the contest. Your play is to describe how much money is in the jar, writing your description down along with your name on an entry form. At the end of the day, an official will open the jar, count the money, and announce who made the best estimate. The winner gets the money in the jar.
+Consider a simple competition of the sort you might encounter at a fund-raising fair. There is a jar on display, filled with coins that have been donated by one of the fair's sponsors. You pay $1 (which goes to a good cause) to enter the contest. Your play is to describe how much money is in the jar, writing your description down along with your name on an entry form. At the end of the day, an official will open the jar, count the money, and announce who made the best estimate. The winner gets the money in the jar.
 
 ```{r echo=FALSE, out.width="25%", fig.align="center"}
 knitr::include_graphics("www/jar-coins.png")
@@ -73,9 +69,9 @@ knitr::include_graphics("www/jar-coins.png")
 
 In the usual way these contests are run, the contestants each write down a guess for the amount they think is in the jar, say $18.63. The winner is determined by seeing whose guess was closest to the actual value of the coins in the jar.
 
-In reality, hardly anyone believes they can estimate the amount in the jar to the nearest penny. The person guessing $18.63 might prefer to be able to say, "between 18 and 19 dollars." Or, maybe "$18 $\pm 3$." To communicate what you know about the situation, it's best to express a range of possibilities that you think likely. 
+In reality, hardly anyone believes they can estimate the amount in the jar to the nearest penny. The person guessing $18.63 might prefer to be able to say, "between 18 and 19 dollars." Or, maybe "$18 $\pm$ 3." To communicate what you know about the situation, it's best to express a range of possibilities that you think likely. 
 
-In our contest, we'll ask the participants to describe their conclusions about the jar as a probability density function. For you, having worked through this book to this point, it would be sufficient for the instructions to say, "Hand in your probability density function for the amount of money in the jar." But we would like even people who haven't learned calculus to participate. So our instructions will state,  "On the graph-paper axes below, sketch a continuous function expressing your best belief about how much money is in the jar. At all inputs, the function value must be zero or greater."^[OK, so we're assuming that the contestants know what a function is, what an input is, and what a graph is. So maybe it does take some calculus background to participate.]
+In our more mathematical contest, we ask the participants to specify a function that describes their beliefs about the money in the jar. The instructions state,  "On the graph-paper axes below, sketch a continuous function expressing your best belief about how much money is in the jar. The only requirement is that the function value must be zero or greater for all inputs."
 
 ```{r coin-graph-paper, echo=FALSE, fig.cap="The entry form for the money-in-the-jar contest.", warning=FALSE}
 Money_graph <-
@@ -93,31 +89,33 @@ Money_graph <-
 Money_graph %>% gf_labs(title="Name: _______________")
 ```
 
-Take a minute to look at the picture of the jar and draw your function on the axes shown above. Think about why we don't need to scale the vertical axis on the entry form and don't ask you to do it either. 
+Take a minute to look at the picture of the jar and draw your function on the axes shown above. Think about why the contest form appropriately doesn't ask you to scale the vertical axis. 
 
-Here are three contest entries. 
+Here are contest entries from three competitors. 
 
 ```{r contest-entries, echo=FALSE, fig.cap="Three contestants' contest entries.", warning=FALSE}
 P1 <- Money_graph %>% gf_labs(title="Name: Johnny") %>%
   slice_plot(ifelse(mpg > 22 & mpg < 30, 5, 0) ~ mpg, 
              domain(mpg = 0:100), size=1, npts=300) %>%
-  gf_vline(xintercept=~32, color="brown", alpha=0.3) 
+  # gf_vline(xintercept=~32, color="brown", alpha=0.3) %>%
+  gf_theme(plot.title = element_text(colour = "magenta") )
 P2 <- Money_graph %>% gf_labs(title="Name: Louisa") %>%
   slice_plot(5 ~ x, domain(x=0:100), size=1, color="orange") %>%
-  gf_vline(xintercept=~32, color="brown", alpha=0.3) %>%
+  gf_lims(y=c(0,7)) %>%
+  # gf_vline(xintercept=~32, color="brown", alpha=0.3) %>%
   gf_theme(plot.title = element_text(colour = "orange") )
 P3 <- Money_graph %>% gf_labs(title="Name: Geoff") %>%
   slice_plot(40*dnorm(x, 35, 5) ~ x, domain(x=0:100), size=1, color="magenta") %>%
-  gf_vline(xintercept=~32, color="brown", alpha=0.3) %>%
+  # gf_vline(xintercept=~32, color="brown", alpha=0.3) %>%
   gf_theme(plot.title = element_text(colour = "magenta") )
 gridExtra::grid.arrange(P1, P2, P3, nrow=3)
 ```
 :::
 
-Later in this chapter, we will work with methods that construct ***relative  density*** functions. The "relative" means that the function clearly indicates where the probability is more or less dense, but the function has not yet been scaled to be a probability density function. Suppose $h(x)$ is a relative density function such that
+The functions called for by the contest instructions are ***relative  density*** functions. The "relative" means that the function clearly indicates where the probability is more or less dense, but the function has not yet been scaled to be a probability density function. Suppose $h(x)$ is a relative density function such that
 $$\int_{-\infty}^\infty h(x)\, dx = A \neq 1\ .$$ Although $h(x)$ is not a probability density function, the very closely related function $\frac{1}{A} h(x)$ will be a probability density function. We'll use the term ***normalizing*** to refer to the simple process of turning a relative density function into a probability density function. 
 
-A relative density function is entirely adequate for describing the distribution of probability. However, when comparing two or more probability distributions, it's important that they all be on the same scale. Normalizing the relative density functions to probability density functions accomplishes this. Figure \@ref(fig:contest-compare) compares the three relative probability functions in Figure \@ref(fig:contest-entries).
+A relative density function is entirely adequate for describing the distribution of probability. However, when comparing two or more probability distributions, it's important that they all be on the same scale. Normalizing the relative density functions to probability density functions accomplishes this. Figure \@ref(fig:contest-compare) compares the three relative probability functions in Figure \@ref(fig:contest-entries). Johnny makes the density large over a narrow domain and zero elsewhere, while Louisa specifies a small density over a large domain. All three competitors' functions have an area-under-the-curve of dimensionless 1.
 
 ```{r contest-compare, echo=FALSE, warning=FALSE, fig.cap="Comparing the contest entries by normalizing each of them to a probability density function."}
 Jar_functions <- 
@@ -148,23 +146,24 @@ Three commonly used families of probability density functions are:
 - the exponential density function
 - the uniform density function. 
 
-The ***uniform density function***, $u(x, a, b)$ is more or less the equivalent of the constant function. The family has two parameters $a$ and $b$ with the function defined as:
-\begin{equation}\text{unif}(x, a, b) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{for}\ a \leq x \leq b\\0& \text{otherwise} \end{array}\right.
-(\#eq:uniform-dist)
-\end{equation}
-This function is used to express the idea of "equally likely to be any value in the range $[a, b]$." For instance, to describe a probability that a January event is equally likely to occur at any point in the month, you can use $u(x, 1, 31)$ where $x$ and the parameters $a$ and $b$ have dimension T and are in units of days. Notice that the density itself has dimension T^-1^ and units "per day."
+Figure \@ref(fig:three-density-funs) shows their shapes.
 
-```{r uniform-density, echo=FALSE, fig.cap="The uniform density function."}
-slice_plot(ifelse(x < 1 & x>-.5, 1/1.5, 0) ~ x, domain(x=-2:2.5), npts=301,
+```{r three-density-funs, echo=FALSE, fig.cap="Three probability density functions that are often used in applied work.", out.width="60%", fig.show="hold", }
+First = tibble(x=seq(-.5,1, by=0.01),
+                bottom = 0, 
+                top = 1/1.5)
+P3 <- slice_plot(ifelse(x < 1 & x>-.5, 1/1.5, 0) ~ x, domain(x=-2:2.5), npts=301,
            singularities = c(-.5, 1)) %>%
   gf_refine(scale_x_continuous(breaks = c(-.5, 1), labels=c("a","b")),
-            scale_y_continuous(breaks=c(0, 0.2, 0.4, 0.6, 0.666), labels = c("0", "0.2", "0.4", "0.6", "2/3"))) %>%
-  gf_labs(y="Probability density", title = "Uniform density")
-```
+            scale_y_continuous(
+              breaks=c(0, 0.2, 0.4, 0.6, 0.666), 
+              labels = c("0", "0.2", "0.4", "0.6", "2/3"),
+              limits=c(0,.8))) %>%
+  gf_labs(y="", subtitle = "Uniform density") %>%
+    gf_ribbon(bottom + top ~ x, data = First, 
+            color=NA, fill="orange", alpha=0.2, inherit=FALSE) %>%
+  gf_text(.3 ~ .25, label= "100%", color="orange", inherit=FALSE)
 
-The ***gaussian density function***, $\dnorm(x, \text{mean}, \text{sd}) is familiar to you from previous blocks in this book: the bell-shaped function. It's known also as the ***normal distribution*** because it is so frequently encountered in practice. It is a way of expressing, "The outcome of the event will likely be close to this particular value." The parameter named **mean** specifies "this particular value." The parameter **sd**  specifies what's mean by "close." The gaussian density function is smooth. It is never zero, but $\lim_{x \rightarrow \pm \infty} dnorm(x, \text{mean}, \text{sd}) = 0$.
-
-```{r gaussian-density, echo=FALSE, fig.cap="Gaussian probability density. The labels show the probability mass in each division."}
 First = tibble(x=seq(0,4, by=0.01),
                 bottom = 0, 
                 top = dnorm(x, 0, 4))
@@ -180,11 +179,11 @@ Labels = tibble(
   label=c("34.13%", "13.59%", "2.14%", "0.135% -->"),
   color=c("magenta", "orange", "brown", "blue")
 )
-slice_plot(dnorm(x, 0, 4) ~ x, domain(x=-15:17)) %>%
+P1 <- slice_plot(dnorm(x, 0, 4) ~ x, domain(x=-15:17)) %>%
   gf_refine(scale_x_continuous(breaks=c(-12, -8, -4, 0, 4, 8, 12, 16),
                                labels = c("-3sd", "-2sd", "-1sd", "mean", "1sd", "2sd", "3sd", "4sd")),
             scale_color_identity()) %>%
-  gf_labs(y="probability density", title="Gaussian distribution") %>%
+  gf_labs(y="", subtitle="Gaussian distribution") %>%
   gf_ribbon(bottom + top ~ x, data = First, 
             color=NA, fill="magenta", alpha=0.2, inherit=FALSE) %>%
   gf_ribbon(bottom + top ~ x, data = Second, 
@@ -192,13 +191,7 @@ slice_plot(dnorm(x, 0, 4) ~ x, domain(x=-15:17)) %>%
   gf_ribbon(bottom + top ~ x, data = Third, 
             color=NA, fill="brown", alpha=0.2, inherit=FALSE) %>%
   gf_text(y ~ x, data = Labels, label=~label, color=~ color, inherit=FALSE)
-```
 
-To use an analogy between physical density (e.g., kg per cubic-meter), where density times size gives mass, we can say that the total mass of a probability density function is always 1. For the gaussian density, 68% of of the total mass is within $\pm 1$sd of the mean, 95% is within $\pm 2$sd of the mean, 99.7% within $\pm 3$sd, and 99.99% within $\pm 4$sd.
-
-The ***exponential probability density*** is shaped just like an exponential function $e^{-kx}$. It's used to describe events that are equally likely to happen in any *interval* of the input variable, and describes the relative probability that the first event to occur will be at $x$.
-
-```{r exponential-density, echo=FALSE, fig.cap="Exponential density"}
 First = tibble(x=seq(0,1, by=0.01),
                 bottom = 0, 
                 top = dexp(x))
@@ -211,79 +204,74 @@ Labels = tibble(
   label=c("63.2%", "36.8% -->"),
   color=c("magenta", "orange")
 )
-slice_plot(dexp(x) ~ x, domain(x=0:5)) %>%
+P2 <- slice_plot(dexp(x) ~ x, domain(x=0:5)) %>%
   gf_refine(scale_x_continuous(breaks=c(0, 1, 2, 3, 4),
                                labels = c("0", "1/k", "2/k", "3/k", "4/k")),
             scale_y_continuous(breaks = c(0, .25, .5, .75, 1),
                                labels = c(0, "k/4", "k/2", "3k/4", "k")),
             scale_color_identity()) %>%
-  gf_labs(y="probability density", title="Exponential distribution") %>%
+  gf_labs(y="probability density", subtitle="Exponential distribution") %>%
   gf_ribbon(bottom + top ~ x, data = First, 
             color=NA, fill="magenta", alpha=0.2, inherit=FALSE) %>%
   gf_ribbon(bottom + top ~ x, data = Second, 
             color=NA, fill="orange", alpha=0.2, inherit=FALSE) %>%
   gf_text(y ~ x, data = Labels, label=~label, color=~ color, inherit=FALSE)
+
+#gridExtra::grid.arrange(P1, P2, P3, ncol=1)
+P1
+P2
+P3
 ```
+
+The ***uniform density function***, $u(x, a, b)$ is more or less the equivalent of the constant function. The family has two parameters $a$ and $b$ with the function defined as:
+$$\text{unif}(x, a, b) \equiv \left\{\begin{array}{cl}\frac{1}{b-a} & \text{for}\ a \leq x \leq b\\0& \text{otherwise} \end{array}\right.$$
+This function is used to express the idea of "equally likely to be any value in the range $[a, b]$." For instance, to describe a probability that a January event is equally likely to occur at any point in the month, you can use $u(x, 0, 31)$ where $x$ and the parameters $a$ and $b$ have dimension T and are in units of days. Notice that the density itself has dimension T^-1^ and units "per day."
+
+The ***gaussian density function***, $\dnorm(x, \text{mean}, \text{sd})$ is familiar to you from previous blocks in this book: the bell-shaped function. It's known also as the ***normal distribution*** because it is so frequently encountered in practice. It is a way of expressing, "The outcome of the event will likely be close to this particular value." The parameter named **mean** specifies "this particular value." The parameter **sd**  specifies what's mean by "close." The gaussian density function is smooth. It is never zero, but $\lim_{x \rightarrow \pm \infty} \dnorm(x, \text{mean}, \text{sd}) = 0$.
+
+
+To use an analogy between physical density (e.g., kg per cubic-meter), where density times size gives mass, we can say that the total mass of a probability density function is always 1. For the gaussian density, 68% of of the total mass is within $\pm 1$sd of the mean, 95% is within $\pm 2$sd of the mean, 99.7% within $\pm 3$sd, and 99.99% within $\pm 4$sd.
+
+The ***exponential probability density*** is shaped just like an exponential function $e^{-kx}$. It's used to describe events that are equally likely to happen in any *interval* of the input variable, and describes the relative probability that the first event to occur will be at $x$.
+
+## Expectation value, mean and variance
+
+Probability theory was originally motivated by problems in gambling, specifically, figuring out what casino games are worth betting on. A feature of casino games---roulette, slot machines, blackjack, Texas hold'em, etc.---is that they are played over and over again. In any one round of play, you might win or you might lose, that is, your "earnings" might be  positive or they might be negative. Over many plays, however, the wins and loses tend to cancel out. One way to summarize the game itself, as opposed to the outcome of any single play, is by the average earnings per play. This is called the ***expected value*** of the game.
+
+This logic is often applied to summarizing a probability density function. If $x$ is the outcome of the random event described by a probability density $f(x)$, the ***expected value*** of the probability density is defined as 
+$$\mathbb{E}\!\left[{\strut} x\right] \equiv \int_{-\infty}^\infty x\, f(x) \, dx\ .$$
+In Section \@ref(center-of-mass), we'll see this same form of integral for computing the ***center of mass*** of an object.
+
+::: {.why data-latex=""}
+Why are you using square braces $\left[\strut\ \ \right]$ rather than parentheses $\left(\strut \ \  \right)$.
+
+We always used parentheses to indicate that the enclosed quantity is the input to a function. But $\mathbb{E}\!\left[{\strut} x\right]$ is not a function, let alone a function of $x$. Instead, $\mathbb{E}\!\left[{\strut} x\right]$ is a numerical summary of a probability density function $f(x)$.
+:::
 
 ::: {.example data-latex=""}
-Do I want to do the beta distribution as an example? Not strictly needed unless I do some exercises with the driverless-car example.
+Find the expected value of the gaussian probability density $\dnorm(x, \text{mean}=6.3, \text{sd}= 17.5)$. Using the R/mosaic `Integrate()` function, we have
+```{r}
+Integrate(x * dnorm(x, 6.3, 17.5) ~ x, domain(x=-Inf:Inf))
+```
+The expected value of a gaussian is exactly the same as the parameter called mean which describes the argmax of the gaussian.
 :::
 
-## Mean and variance
-
-As you know, the gaussian function has two parameters: mean and sd. The mean describes the center of the distribution, the sd describes the width. You may also be familiar with the *statistic* called the ***arithmetic mean***. You calculate the statistic by adding up a set of $n$ numbers and dividing by $n$, that is,
-$$\text{mean} \equiv \frac{1}{n} \sum_{i=1}^n x_i\ ,$$
-where $x_i$ is the $i$th row of a data frame with and $x$ is one of the columns. To illustrate, consider the `Zcalc::Home_utilities` data frame which has data on the monthly use of electricity and natural gas by a Minnesota household.
-
-::: {.rmosaic data-latex=""}
-The R/mosaic function for the calculation of the arithmetic mean is `df_stats()`. (The name stands for "data frame stats.") Here's a calculation of the mean outdoor temperature from `Home_utilities`:
-```{r}
-df_stats(~ temp, data = Zcalc::Home_utilities, mean)
-```
-The result has units of degrees Fahrenheit.
-
-`df_stats()` can calculate many other statistics on a column of data, such as `median`, `sd`, `var`, `quantile()`s (such as `quantile(0.33)`), confidence intervals (`ci.mean()`, `ci.median()`, `ci.sd()`), and so on. In this book, we'll use `mean`, `sd`, and `var`.
-
-Another technique we will use is to generate random events from a probability distribution, particularly from the gaussian, exponential, and uniform distributions. For example, the following command will construct a data frame (that's what `tibble()` is for) that has a column named `y` that contains 100 random draws from a gaussian distribution with mean of 3 and sd of 0.5. Then the arithmetic mean and ***standard deviation*** are computed from the numbers in the simulation. `r set.seed(101)`
-```{r}
-Simulation <- tibble(
-  x = rnorm(100, mean=3, sd=0.5)
-)
-head(Simulation)
-df_stats( ~ x, data=Simulation, mean, sd)
-```
-The calculated mean and sd only approximate the values used in the simulation. That's because they are based on random draws.
-:::
-
-Generating random draws from a probability density and calculating arithmetic statistics on the result is one way of computing the mean and standard deviation of the probability density. It can also be done by integration. Although it's fair to describe the integral as a calculation of the *average value*, the term used professionally is ***expectation value***. The expectation value of a quantity $f(x)$ over a probability distribution is traditionally written in a distinct notation and is calculated as an integral of the quantity times the relevant probability density function.
-$${\cal E}\left[\strut f(x)\right] \equiv \int_{-\infty}^{\infty} f(x)\, \text{pdf}(x)\, dx\ ,$$ 
-The mean is the expectation value of $x$, so the mean of a quantity with a gaussian distribution is 
-$${\cal E}\left[\strut x\right] = \int_{-\infty}^{\infty} x \dnorm(x, \text{mean}, \text{sd})\, dx\ .$$
-This integral is exactly the same as the integral for the ***center of mass*** that was presented in Section \@ref(center-of-mass). 
-
-::: {.example data-latex=""}
-To illustrate the definition of the mean in terms of integrals, here's the mean of a gaussian distribution.
-```{r}
-Integrate(x * dnorm(x, mean=3, sd=0.5) ~ x, domain(x=-Inf:Inf))
-```
-You might have anticipated the result, since the particular gaussian over which we are taking the mean was defined to have a mean of 3.
-:::
 
 Another important quantity to describe data or probability distributions is the ***variance***, which is the average of the square distance from the mean. In math notation, this looks like 
-$${\cal E}\left[\strut (x - \text{mean})^2\right] = \int_{-\infty}^{\infty} \left(\strut x - \text{mean}\right)^2\, \dnorm(x, \text{mean}, \text{sd})\, dx\ .$$
-This integral is exactly the same as the integral for the ***moment of inertial*** that was presented in Section \@ref(center-of-mass). 
+$$\mathbb{E}\!\left[{\large\strut} (x - \mathbb{E}[x])^2\right] = \int_{-\infty}^{\infty} \left(\strut x - \text{mean}\right)^2\, \dnorm(x, \text{mean}, \text{sd})\, dx\ .$$
+
 
 ::: {.example data-latex=""}
-Compute the variance of a gaussian probability density. 
+Compute the variance of a gaussian probability density $\dnorm(x, \text{mean}=6.3, \text{sd}= 17.5)$. 
 
-To do this, we must first know the mean, then we can carry out the integration:
+To do this, we must first know the mean, then we can carry out the integration.
 ```{r}
-Integrate((x-3)^2 * dnorm(x, mean=3, sd=0.5) ~ x, domain(x=-Inf:Inf))
+Integrate((x-6.3)^2 * dnorm(x, mean=6.3, sd=17.5) ~ x, domain(x=-Inf:Inf))
 ```
-Again, you might have anticipated this result, since the variance is the square of the standard deviation (`sd`) and we were using a particular gaussian distribution with sd equaling 0.5.
+Again, you might have anticipated this result, since the variance is the square of the standard deviation (`sd`) and we were using a particular gaussian distribution with sd equaling 17.5. Of course, $17.5^2 = 306.25$.
 :::
 
-The examples above are intended to demonstrate how the mean and variance can be calculated from a probability density function. It's often useful to try out a calculation in a setting where you already know the answer!
+
 
 To illustrate the calculations in another setting, we will use an exponential probability function. Just as the R function `dnorm()` gives the density of the "normal"/gaussian distribution, the R function `dexp()` outputs the density of the exponential distribution. We used $k$ as the parameter in the exponential distribution. In R, the parameter is framed in terms of the `rate` at which events happen, that is, the expected number of events per unit time. For instance, the following integrals compute the mean and standard deviation of an exponential process where events happen on average twice per time unit.
 
@@ -310,7 +298,7 @@ Or, numerically^[Numerical integrals from $-\infty$ to $\infty$ of functions tha
 
 ```{r}
 Integrate(x * dunif(x, 0, 10) ~ x, domain(x=0:Inf))
-Integrate((x-5)^2 * dunif(x, 0, 10) ~ x, domain(x=-0:Inf))
+Integrate((x-5)^2 * dunif(x, 0, 10) ~ x, domain(x=0:Inf))
 ```
 
 ## Likelihood and data
@@ -522,14 +510,14 @@ Subject ID | Test outcome
 
 To summarize: Three $+$ tests out of ten. 
 
-After the first test outcome is available we can calculate the posterior: $$\text{posterior}_1 (R | +) = {\cal L}(R | -) \times \text{prior(R)}\ .$$ After the second test outcome, the new posterior is $$\text{posterior}_2 (R) = {\cal L}(R | -) \times {\cal L}(R | +) \times \text{prior(R)}\ .$$ And after the third (a $+$ result!) it will be $$\text{posterior}_3 (R) = {\cal L}(R | +) \times {\cal L}(R | -) \times {\cal L}(R | +) \times \text{prior(R)}\ .$$
+After the first test outcome is available we can calculate the posterior: $$\text{posterior}_1 (R) = {\cal L}_+(R) \times \text{prior(R)}\ .$$ After the second test outcome, the new posterior is $$\text{posterior}_2 (R) = {\cal L}_-(R) \times {\cal L}_+(R) \times \text{prior(R)}\ .$$ And after the third (a $+$ result!) it will be $$\text{posterior}_3 (R) = {\cal L}_+(R) \times {\cal L}_-(R) \times {\cal L}_+(R) \times \text{prior(R)}\ .$$
 We continue on in this way through all ten rows of the data to get the posterior distribution after all 10 test results have been incorporated.
 
 Figure \@ref(fig:after-10) shows the posterior after the 10 rows of data have been considered for each of the three priors from Figure \@ref(fig:beta-shapes).
 
 ```{r echo=FALSE}
-L_pos <- makeFun(0.99*R + 0.01*(1-R) ~ R)
-L_neg <- makeFun(0.02*R + 0.98*(1-R) ~ R)
+L_pos <- makeFun(0.8*R + 0.3*(1-R) ~ R)
+L_neg <- makeFun(0.2*R + 0.7*(1-R) ~ R)
 posterior <- function(prior, n=10, m=3) {
   f1 <- makeFun(L_pos(R)^m * L_neg(R)^(n-m) * prior(R) ~ R, n=n, m=m)
   scale <- Integrate(f1(R) ~ R, domain(R=0:1))
@@ -552,7 +540,7 @@ P1 <- slice_plot(post_A(R) ~ R, domain(R=0:1), color="blue") %>%
 P2 <- slice_plot(post_B(R) ~ R, domain(R=0:1), color="blue") %>%
   slice_plot(prior_B(R) ~ R, color="gray", size=3, alpha=0.6) %>%
   gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
-  gf_labs(y = "", x = "Risk of disease", title="From prior (B)") %>%
+  gf_labs(y = "", x = "Risk of transmission", title="From prior (B)") %>%
   gf_lims(y=c(0,4))
 
 P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
@@ -564,7 +552,7 @@ P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
 gridExtra::grid.arrange(P1, P2, P3, nrow=1)            
 ```
 
-With just one row of data considered, the priors depend very much on the particular posterior selected.
+With just one row of data considered, the posteriors depend very much on the particular prior selected. This shouldn't be a surprise; one test result from an imperfect screening test is not going to tell us much. Let's process all of the 
 
 ```{r after-10, echo=FALSE, fig.cap="Posteriors (blue) after the first ten rows of data, for each of the priors in Figure \\@ref(fig:beta-shapes). The prior itself is drawn in gray.", warning=FALSE}
 post_A <- posterior(prior_A, 10, 3)
@@ -580,7 +568,7 @@ P1 <- slice_plot(post_A(R) ~ R, domain(R=0:1), color="blue") %>%
 P2 <- slice_plot(post_B(R) ~ R, domain(R=0:1), color="blue") %>%
   slice_plot(prior_B(R) ~ R, color="gray", size=3, alpha=0.6) %>%
   gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
-  gf_labs(y = "", x = "Risk of disease", title="From prior (B)") %>%
+  gf_labs(y = "", x = "Risk of transmission", title="From prior (B)") %>%
   gf_lims(y=c(0,4))
 
 P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
@@ -591,7 +579,7 @@ P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
 
 gridExtra::grid.arrange(P1, P2, P3, nrow=1)            
 ```
-After the first 10 rows of data have been considered, the priors are similar despite the different priors.
+After the first 10 rows of data have been considered, the posteriors are similar despite the different priors.
 
 
 ```{r after-100, echo=FALSE, fig.cap="Posteriors (blue) after 100 subjects have been screen, with 30 $+$ results.", warning=FALSE}
@@ -608,7 +596,7 @@ P1 <- slice_plot(post_A(R) ~ R, domain(R=0:1), color="blue") %>%
 P2 <- slice_plot(post_B(R) ~ R, domain(R=0:1), color="blue") %>%
   slice_plot(prior_B(R) ~ R, color="gray", size=3, alpha=0.6) %>%
   gf_refine(scale_x_continuous(breaks=(0:4)/4, labels=c("0", "25%", "50%", "75%", "100%"))) %>%
-  gf_labs(y = "", x = "Risk of disease", title="From prior (B)") %>%
+  gf_labs(y = "", x = "Risk of transmission", title="From prior (B)") %>%
   gf_lims(y=c(0,10))
 
 P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
@@ -620,6 +608,45 @@ P3 <- slice_plot(post_C(R) ~ R, domain(R=0:1), color="blue") %>%
 gridExtra::grid.arrange(P1, P2, P3, nrow=1)            
 ```
 As data accumulates, the priors become irrelevant; the knowledge about the risk of disease is being driven almost entirely by the data.
+
+Remarkably, even though 30% of the tests were positive, all the posteriors place almost all the probability density on transmission risks less than 20%. This is because the likelihood functions correctly take into account the imperfections of the screening test.
+
+<!--
+## Monte Carlo (optional)
+
+`r under_construction()`
+
+Monte Carlo is a neighborhood inside the Principality of Monaco, located on the Mediterranean Sea between France and Italy. It's famous for the *Place du Casino*, where a wealthy clientele gambles fortunes at roulette and other games of chance.
+
+"Monte Carlo" is the name cleverly coined at the start of the modern computer era for a type of computation that builds on random number generation. As a very simple example, consider the problem of finding the definite integral
+$$\int_{-\infty}^\infty x^2 \dnorm(x, 5, 3)\, dx\ .$$
+
+
+The mean describes the center of the distribution, the sd describes the width. You may also be familiar with the *statistic* called the ***arithmetic mean***. You calculate the statistic by adding up a set of $n$ numbers and dividing by $n$, that is,
+$$\text{mean} \equiv \frac{1}{n} \sum_{i=1}^n x_i\ ,$$
+where $x_i$ is the $i$th row of a data frame with and $x$ is one of the columns. To illustrate, consider the `Zcalc::Home_utilities` data frame which has data on the monthly use of electricity and natural gas by a Minnesota household.
+
+::: {.rmosaic data-latex=""}
+The R/mosaic function for the calculation of the arithmetic mean is `df_stats()`. (The name stands for "data frame stats.") Here's a calculation of the mean outdoor temperature from `Home_utilities`:
+```{r}
+df_stats(~ temp, data = Zcalc::Home_utilities, mean)
+```
+The result has units of degrees Fahrenheit.
+
+`df_stats()` can calculate many other statistics on a column of data, such as `median`, `sd`, `var`, `quantile()`s (such as `quantile(0.33)`), confidence intervals (`ci.mean()`, `ci.median()`, `ci.sd()`), and so on. In this book, we'll use `mean`, `sd`, and `var`.
+
+Another technique we will use is to generate random events from a probability distribution, particularly from the gaussian, exponential, and uniform distributions. For example, the following command will construct a data frame (that's what `tibble()` is for) that has a column named `y` that contains 100 random draws from a gaussian distribution with mean of 3 and sd of 0.5. Then the arithmetic mean and ***standard deviation*** are computed from the numbers in the simulation. `r set.seed(101)`
+```{r}
+Simulation <- tibble(
+  x = rnorm(100, mean=3, sd=0.5)
+)
+head(Simulation)
+df_stats( ~ x, data=Simulation, mean, sd)
+```
+The calculated mean and sd only approximate the values used in the simulation. That's because they are based on random draws.
+:::
+
+-->
 
 ## Exercises
 

@@ -1,14 +1,7 @@
 # Data-driven functions {#splines}
 
-<!-- 
-**Objectives**
-
-* Functions for curves in space
-* Recognize interpolation as the process of building a continuous function that connects a series of $(x, y)$ data points.
-* Understand the standard types of functions constructed to interpolate data points.
-* Be able to characterize the smoothness of those different types of function.
-
--->
+<!-- The app for drawing bezier curves is at http://www.mosaic-web.org/bezier-app.svg  There is a copy in the www/ subdirectory of this folder, but that needs to be copied to 
+www.mosaic-web.org/bezier-app.svg for the links to work. -->
 
 
 As early as Chapter 3 of this book, we noted that a function can be described as a table where each row stands for one set of input values together with a corresponding output value. We did not, however, make much use of the table-as-function concept. Instead, we used data tables to motivate the choice of parameters, as in linear combinations of the basic modeling functions. We called this ***function fitting***: constructing a function that stays **near** the data values. (We will say more about function fitting in Block 5 where we introduce new tools for treating functions as geometrical objects.) 
@@ -325,7 +318,7 @@ For both quadratic and the more commonly used cubic splines, matching the deriva
 The shape of a Bézier spline segment is established by four independent points. The first and last points determine the endpoints of the segment. Each endpoint is associated with a ***control point*** that sets the angle and "speed" with which the path leaves or enters the endpoint. You can interact with the graph in Figure \@ref(fig:bezier-1) to develop an intuition.
 
 
-<p align="center"><iframe width="540" height="540" src="www/b-new.svg?a=0.3,0.2,0.5,0.5,0.8,0.4,0.9,0.7&b=-100,-100,-100,-100&c=-100,-100,-100,-100&animate=0"></iframe></p>
+<p align="center"><iframe width="540" height="540" src="http://www.mosaic-web.org/bezier-app.svg?a=0.3,0.2,0.5,0.5,0.8,0.4,0.9,0.7&b=-100,-100,-100,-100&c=-100,-100,-100,-100&animate=0"></iframe></p>
 ```{r bezier-1, echo=FALSE, fig.cap="A single Bézier segment is defined by two endpoints and two control points. Drag the control points to see how the shape of the curve is defined by them.", out.width="1%"}
 knitr::include_graphics("www/tiny-blank.png")
 ```
@@ -333,7 +326,7 @@ knitr::include_graphics("www/tiny-blank.png")
 The curve for a given segment is gratifyingly smooth. The real power of Bézier splines stems from how segments can be connected in various ways. Figure \@ref(fig:bezier-2) shows two Bézier segments that have been initialized to have a smooth junction at endpoints 4 and 5. The smoothness is set by the corresponding control points (marked 3 and 6). So long as those four points (3, 4, 5, 6) are colinear and in order, the junction will be smooth. You can alter control points 2 and 7 in any way you like; the junction will remain smooth.
 
 
-<p align="center"><iframe width="540" height="540" src="www/b-new.svg?a=.2,.2,.3,.3,.4,.4,.5,.5&b=.5,.5,.7,.7,.8,.5,.9,.9&c=-100,-100,-100,-100&animate=0"></iframe> </p> 
+<p align="center"><iframe width="540" height="540" src="http://www.mosaic-web.org/bezier-app.svg?a=.2,.2,.3,.3,.4,.4,.5,.5&b=.5,.5,.7,.7,.8,.5,.9,.9&c=-100,-100,-100,-100&animate=0"></iframe> </p> 
 ```{r bezier-2, echo=FALSE, fig.cap="Two Bézier segments can be arranged in to create a smooth or non-smooth junction between them.", out.width="1%"}
 knitr::include_graphics("www/tiny-blank.png")
 ```
@@ -341,7 +334,7 @@ knitr::include_graphics("www/tiny-blank.png")
 Consider the path followed by a Bézier curve as it leaves one of the endpoints. Figure \@ref(fig:bezier-2) has been initialized so that the tangent to the curve is horizontal at the right endpoint and almost vertical at the left endpoint. The further the control point is from the endpoint, the longer the Bézier curve will stay close to the tangent line. Another way to think of this is that the position of a control point has little impact on the shape of the curve near the opposite endpoint. You can observe this on the canvas by, say, moving control point 2 and observing the relatively little change near endpoint 4.
 
 
-<p align="center"><iframe width="540" height="540" src="www/b-new.svg?a=0.1,0.1,0.1,0.9,0.7,0.1,0.9,0.1&b=-100,-100,-100,-100&c=-100,-100,-100,-100&animate=0"></iframe></p>
+<p align="center"><iframe width="540" height="540" src="http://www.mosaic-web.org/bezier-app.svg?a=0.1,0.1,0.1,0.9,0.7,0.1,0.9,0.1&b=-100,-100,-100,-100&c=-100,-100,-100,-100&animate=0"></iframe></p>
 ```{r bezier-3, echo=FALSE, fig.cap="A Bézier curve leaves each endpoint in a direction that is tangent to the line drawn between the endpoint and its control point.", out.width="1%"}
 knitr::include_graphics("www/tiny-blank.png")
 ```
@@ -430,7 +423,4 @@ Spline functions and digital actuators have largely replaced such analog models.
 
 `r insert_calcZ_exercise("33.27", "PmYPik", "Exercises/monkey-keep-kitchen.Rmd")`
 
-```{r echo=FALSE, results="hide"}
-# This makes sure that the b-new.svg file is in the deployment directory.
-knitr::include_graphics("www/b-new.svg")
-```
+
