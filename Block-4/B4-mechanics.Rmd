@@ -65,42 +65,43 @@ knitr::include_graphics("www/curved-ramp.png")
 ```
 The slope of the ramp at any location $x$ is, as you know, $\partial_x f(x)$. It's helpful to convert this rise/run formulation of slope into the slope-angle form we used to study the simple ramp.  As you can see from the diagram, which zooms in on one place on the ramp, rise over run amounts to $L\sin(\theta) / L\cos(\theta) = \partial_x f(x) = \tan(\theta)$, with the result:
 $$\theta = \arctan({\large\strut}\partial_x f(x))\ .$$
-Consequently, the force that needs to be applied parallel to the ramp's surface is $m \sin(\arctan(\partial_x f(x))) g = m \sin(\theta) g$. To find the work done in pushing the mass an infinitesimal distance along the ramp we need to know the ***instantaneous length*** of the ramp. This is potentially confusing to the reader since we've already said that the distance is infinitesimal. But as you know, infinitesimal length is different from zero length. We'll write $dx$ as an infinitesimal increment along the floor, but the zoomed-in surface of the ramp is the hypotenuse of a right triangle where one leg has length $dx$ and the other has length slope times distance or $\partial_x f(x) dx$. 
+Consequently, the force that needs to be applied parallel to the ramp's surface is $m \sin(\arctan(\partial_x f(x))) g = m \sin(\theta) g$. To find the work done in pushing the mass an infinitesimal distance along the ramp we need to know the ***instantaneous length*** of the ramp. This is potentially confusing to the reader since we've already said that the distance is infinitesimal. As you know, infinitesimal is different from zero. We'll write $dx$ as an infinitesimal increment along the floor, but the zoomed-in length $dL$ of the corresponding part of the ramp is the hypotenuse of a right triangle where one leg has length $dx$ and the other leg has length $\partial_x f(x) dx$: slope times distance. 
 
 ```{r echo=FALSE, out.width="80%", fig.align="center"}
 knitr::include_graphics("www/ramp-segment.png")
 ```
 
 The hypotenuse of the infinitesimal segment of the ramp has length 
-$dL = \sqrt{\strut dx + \partial_x f(x) dx}$, or $dL = \sqrt{\strut 1 + \partial_x f(x)}\ dx$. Things are a bit simpler if we write $dL$ in terms of the slope angle $\theta$. Since $dx = \cos(\theta) dL$, we know $dL = dx/\cos(\theta)$. Consequently the infinitesimal of work is $$dW \ = \ m g \frac{\sin(\theta)}{\cos(\theta)}\ dx\  = \ m g \tan(\theta) dx \ .$$
-The total work is the accumulation of $dW$ over the extent of the ramp. In other words, $$\int_a^b m g \tan(\theta)\ dx\ = \ \int_a^b m g \tan(\arctan(\partial_x f(x)))\ dx = \int_a^b m g \partial_x f(x) dx\ ,$$ where we've used the formula $\theta = \arctan(\partial_x f(x))$. From the "fundamental theorem of calculus" we know that 
+$dL = \sqrt{\strut dx + \partial_x f(x) dx}$, or $dL = \sqrt{\strut 1 + \partial_x f(x)}\ dx$. Things are a bit simpler if we write $dL$ in terms of the slope angle $\theta(x)$. Since $dx = \cos(\theta(x)) dL$, we know $dL = dx/\cos(\theta(x))$. Consequently the infinitesimal of work is $$dW \ = \ m g \frac{\sin(\theta(x))}{\cos(\theta(x))}\ dx\  = \ m g \tan(\theta(x)) dx \ .$$
+
+The total work is the accumulation of $dW$ over the extent of the ramp. In other words, $$\int_a^b m g \tan(\theta(x))\ dx\ = \ \int_a^b m g \tan(\arctan(\partial_x f(x)))\ dx = \int_a^b m g \partial_x f(x) dx\ ,$$ where we've used the formula $\theta(x) = \arctan(\partial_x f(x))$. From the "fundamental theorem of calculus" we know that 
 
 $$\int_a^b m g\ \partial_x f(x)\ dx \ = \ \left.m g \ f(x){\Large\strut}\right|_a^b = mg \left[\strut f(b) - f(a)\right] = mg h\ .$$
 
 What's remarkable is that pushing the mass up the $f(x)$-shaped ramp involves an amount of work, $m g h$, that *does not depend on $f(x)$*, only on $f(b) - f(a)$, the net height comprised by the ramp.
 
-We haven't yet said what this notion of work is good for and we've given no detailed justification for the definition of mechanical work as force times distance. You could imagine, for instance, someone deciding to measure work as the square-root of force times distance squared. But ... that particular measure is not going to make sense if we think about the dimension of the quantity. Force has dimension [force] = M L T^-2^. Square root of force times length squared would have dimension [sqrt(force) $\times$ length-squared] = M^1/2^ L^5/2^ T^-2^. The non-integer exponents mean that this is not a legitimate physical quantity.
+We haven't yet said what this notion of work is good for and we've given no detailed justification for the definition of mechanical work as force times distance. You could imagine a dictatorial authority deciding to measure work as the square-root of force times distance squared. But ... that particular measure is not going to make sense if we think about the dimension of the quantity. Force has dimension [force] = M L T^-2^. Square root of force times length squared would have dimension [sqrt(force) $\times$ length-squared] = M^1/2^ L^5/2^ T^-2^. The non-integer exponents mean that this is not a legitimate physical quantity.
 
 The dimension of force-times-length are straightforward: [force $\times$ length] = M L^2^ T^-2^, that is, ***energy***. The particular definition of work as force times length will make sense in the context of a more comprehensive mechanical theory of energy. The significance of energy itself is that, as a fundamental proposition of physics, the various forms of energy are interchangeable but ***conserved***; energy is neither created nor destroyed, just moved around from one form to another and one place to another.
 
 ::: {.example data-latex=""}
 Near the surface of the Earth, gravitational acceleration is approximately constant regardless of latitude or longitude. But gravity varies with distance $r$ from the Earth's center. Newton's law of universal gravitation gives the force on an object of mass $m$ due to the Earth's gravity as 
-$$F = \frac{m M_e G}{r^2}$$ where $M_e = 5.972 \times 10^{24}$ kg is the mass of the Earth and $G = 6.674 \times 10^{-11}$ N m^2^ / kg^2^ is the universal gravitational constant. The Earth's radius is roughly $6.37 \times 10^6$ m, so the force on a 1 kg object near the surface of the Earth is $F = 1 \text{kg} (5.972 \times 10^{24} \text{kg}) (6.674 \times 10^{-11})/ (6.37 \times 10^6 \text{m})^2$ N m^2^ kg^-2^. Carrying out the arithmetic and consolidating the units gives
+$$F = \frac{m M_e G}{r^2}$$ where $M_e = 5.972 \times 10^{24}$ kg is the mass of the Earth and $G = 6.674 \times 10^{-11}$ N m^2^ / kg^2^ is the universal gravitational constant. The Earth's radius is roughly $6,370,000$ m, so the force on a 1 kg object near the surface of the Earth is $F = 1 \text{kg} (5.972 \times 10^{24} \text{kg}) (6.674 \times 10^{-11})/ (6.37 \times 10^6 \text{m})^2$ N m^2^ kg^-2^. Carrying out the arithmetic and consolidating the units gives
 $$F = 9.823 N$$ for the 1 kg object.
 
-Suppose we want to lift the 1 kg object from the Earth's surface to 10000 km away, that is, to a distance of $16.37 \times 10^6$ m from the center of the Earth. For the purpose of the example, we'll ignore the gravitational force exerted by the Sun, Moon, planets, and other galaxies, etc. The work performed in the lifting is 
+Suppose we want to lift the 1 kg object from the Earth's surface to 10000 km away, that is, to a distance of 1,6370,000 m from the center of the Earth. For the purpose of the example, we'll ignore the gravitational force exerted by the Sun, Moon, planets, and other galaxies, etc. The work performed in the lifting is 
 
 $$\int_{6.47\times 10^6}^{16.47\times 10^6} \frac{1 \text{kg}\ M_e\ G}{r^2}\ dr = -\left.  {\Large\strut}\frac{1 \text{kg}\ M_e\ G}{r}\right|_{6.47\times 10^6}^{16.47\times 10^6} \\\ \\\ \\= 
 -\ 3.986 \times 10^{14}\left[\strut \frac{1}{16.47 \times 10^6} - \frac{1}{6.47 \times 10^6}\right] \text{N m} \\\ \\\ \\= 37,405,840\ \text{J}.$$
 
-A Newton-meter (N m) is also known as a Joule (J), a unit of energy. With 37,000,000 J, you could toast about 2000 pieces of bread.
+A Newton-meter (N m) is also known as a Joule (J), a unit of energy. With 37,000,000 J, you could toast about 2000 pieces of bread. (A toaster uses about 300 W of power and takes about 60 seconds to process a slice of bread. $\text{300 W} \times \text{60 s} = 18,000 \text{J}$.
 :::
 
 
 
 ## Energy
 
-Mechanical work, as discussed in the previous section, is a form of energy. When we lift a object, we put energy into the object. But we cannot say from examining the object how much work was done to place it on the table. That depends on how the object came to be on the table: lifted from the floor (positive work; force is positive upward, displacement is also positive upward) or perhaps lowered from a helicopter (negative work: force exerted by the cable is positive upward but the displacement is downward, therefore negative). We might call the work energy ***latent***, the word meaning "unobservable," "hidden," "concealed," "dormant." To have an operational meaning, the work-energy that we assign to an object at rest must be with respect to some "ground state." A convenient ground state here is to imagine the object resting on the ground. The assigned energy will then be the work that would have to be performed to raise the object to table height. Once at table height, the energy is again latent. 
+Mechanical work, as discussed in the previous section, is a form of energy. When we lift a object, we put energy into the object. But we cannot say from examining the object how much work was done to place it on the table. The amount of work depends on how the object came to be on the table: lifted from the floor (positive work; force is positive upward, displacement is also positive upward) or perhaps lowered from a helicopter (negative work: force exerted by the cable is positive upward but the displacement is downward, therefore negative). We might call the work energy ***latent***, the word meaning "unobservable," "hidden," "concealed," "dormant." To have an operational meaning, the work-energy that we assign to an object at rest must be with respect to some "ground state." A convenient ground state here is to imagine the object resting on the ground. The assigned energy will then be the work that would have to be performed to raise the object to table height. Once at table height, the energy is again latent. 
 
 How then to *measure* the work energy that's latent in the object resting on the table? The idea is to return the object to its ground state, which we could do by lowering it---a negative displacement---to the ground, measuring the force needed to support the object (upward, so positive) and multiplying this by the displacement. 
 
@@ -110,26 +111,31 @@ Another idea for measuring the latent energy is to let the object fall freely ba
 
 There's also a form of energy associated with motion. We could call this "energy of motion," but the conventional term is ***kinetic energy***. (A dictionary definition of "kinetic" is "relating to or resulting from motion." so we might as well say simply that kinetic energy is "energy relating to motion.)
 
-Velocity is a good way to observe motion. We can use dimensional analysis to anticipate how velocity and (kinetic) energy are related. Recall that energy has dimension M L^2^ T^-2^ and velocity has dimension L/T. Consequently, if an object's kinetic energy at any instant stems from its mass and its velocity, then the energy must be mass times velocity squared, perhaps multiplied by a scalar, that is:
-$$E_{kinetic} = a m v^2\ .$$
+Velocity is a good way to observe motion. We can use dimensional analysis to anticipate how velocity and kinetic energy are related. Recall that energy has dimension M L^2^ T^-2^ and velocity has dimension L/T. Consequently, if an object's kinetic energy at any instant stems from its mass and its velocity, then the energy must be mass times velocity squared, perhaps multiplied by a scalar, that is:
+$$E_{kinetic} = \alpha\, m v^2\ .$$
 
-To find this scalar, we'll use calculus and accumulation. We know that the acceleration of a free-falling object due to gravity is $-g$ (where the negative sign reflects the downward direction). Starting from rest (that is zero velocity so zero kinetic energy) the newly released mass will have a velocity that is the accumulated acceleration over time. In other words:
+To find the scalar $\alpha$, we can use calculus and accumulation. We know that the acceleration of a free-falling object due to gravity is $-g$ (where the negative sign reflects the downward direction). Starting from rest (that is zero velocity so zero kinetic energy) the newly released mass will have a velocity that is the accumulated acceleration over time. In other words:
 $$v(t) = \int_0^t - g\ dt = -\left.g \ t{\large\strut}\right|_0^t = -g\ t\ .$$
 Correspondingly, the position at time $t$ will be the accumulated velocity:
-$$x(t) = x(t=0) + \int_0^t v(t) dt = h  + \int_0^t -g\ t\ dt = h - \frac{1}{2} \left.g\ t^2{\Large\strut}\right|_0^t = h - \frac{1}{2} g\ t^2 \ .$$
-The position is relevant only because we want to figure out the velocity at precisely the instant $t_g$ when the object returns to its ground state, $x(t_g)=0$. By plugging in $t=t_g$ to the above, and re-arranging, we find that the object returns to its ground state when $h - \frac{1}{2} g\ t_g^2 = 0\ \ \ \implies \ \ \ t_g = \sqrt{\strut 2 h/g}$.
+$$x(t) = x(t=0) + \int_0^t v(t) dt \\ = 
+h  + \int_0^t -g\ t\ dt \\
+= h - \frac{1}{2} \left.g\ t^2{\Large\strut}\right|_0^t \ \ =\ \  h - \frac{1}{2} g\ t^2 \ .$$
+The mass reaches the ground at time $t_g$ such that $h - \frac{1}{2} g\ t_g^2 = 0$. Solving this for $t_g$ gives $t_g = \sqrt{\strut 2 h/g}$.
 
 Now that we know the time when the object reaches its ground state, we can calculate the velocity at that instant:
 $$v(t_g) = -g\ t_g = - g\ \sqrt{\strut 2 h / g} = - \sqrt{\strut 2 g h}$$
-As the object reaches its ground state, its gravitation potential energy is zero (because it's at the ground state) and, if energy is conserved and assuming that no other forms of energy are relevant but kinetic and gravitational potential energy, the kinetic energy will be the same size as the potential energy at $t=0$ when the object was released from the table, that is
-$$E_{kinetic}(t_g) = a\ m\ v(t_g)^2 =
-= a\ m \left(\sqrt{\strut 2 g h\ }\ \right)^2 = \\\ \\2\, a\, m\, g\, h\  = m\, g\, h = E_{potential}(t=0)$$
+As the object reaches its ground state, its gravitation potential energy is zero (because it's at the ground state) and, since total energy is conserved, the kinetic energy will be the same size as the potential energy at $t=0$ when the object was released from the table, that is
+$$E_{kinetic}(t_g) = \alpha\ m\ v(t_g)^2 =
+= \alpha\ m \left(\sqrt{\strut 2 g h\ }\ \right)^2 = \\\ \\2\, \alpha\, m\, g\, h\  = m\, g\, h = E_{potential}(t=0)$$
+
+Solving $2 \alpha\ m\,g\,h = m\,g\,h$ gives $\alpha = \frac{1}{2}$. Thus, the kinetic energy as a function of mass $m$ and velocity $v$ is $\frac{1}{2} m\, v^2$.
 
 ::: {.example data-latex=""}
 In the previous section, we calculated the potential energy of a 1 kg object at an altitude of 10,000 km above the Earth's surface: 37,405,840 J. How fast would the 1 kg object need to be moving to have this much kinetic energy?
 
-$$\frac{1}{2} (1 \text{kg}) v^2 = 37,405,840 \text{J} = 37,405,840 \ \text{kg}\ \text{m}^2\ \text{t}^{-2}$$
-Solving for $v$ we get $v^2 = 2 \times 37,405,840 \text{kg}\ \text{m}^2\ \text{t}^{-2}\ \text{kg}^{-1}$ or $$v = 8649.4\ \text{m}/\text{s}\ ,$$ about eight-and-a-half kilometers per second.
+$$\frac{1}{2} (1 \text{kg}) v^2 = 37,\!405,\!840 \text{J} = 37,\!405,\!840 \ \text{kg}\ \text{m}^2\ \text{t}^{-2}$$
+
+Solving for $v$ we get $v^2 = 2 \times 37,\!405,\!840 \text{kg}\ \text{m}^2\ \text{t}^{-2}\ \text{kg}^{-1}$ or $$v = 8649.4\ \text{m}/\text{s}\ ,$$ about eight-and-a-half kilometers per second.
 :::
 
 ::: {.intheworld data-latex=""}
@@ -171,11 +177,11 @@ knitr::include_graphics("www/Jet_engine.svg.png")
 knitr::include_graphics("www/Geared_Turbofan_NT.png")
 ```
 
-Aircraft jet engines work in a similar matter, burning fuel to create energy. Whereas the force generated by a rocket engine is entirely produced by the newly created momentum of the burnt fuel, aircraft engines have an additional material to work with: air. The earliest jet engines, ***turbojet engines***, were small in diameter, bringing in air mainly as a fuel for combustion. (Figure \@ref(fig:jet-engines) left^[Source: Jeff Dahl, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=3235265>] Today's more efficient engines are large diameter: ***turbofan engines***. (Figure \@ref(fig:jet-engines) right^[Source: <https://commons.wikimedia.org/wiki/File:Geared_Turbofan_NT.PNG>]) In addition to using air for combustion, they use large fan blades to convert the energy of combustion into a large mass of relatively slowly moving, uncombusted air. This moving air carries momentum; more than that contained in the fast moving particles generated directly through combustion.
+Aircraft jet engines work in a similar matter, burning fuel to create energy. Whereas the force generated by a rocket engine is entirely produced by the newly created momentum of the burnt fuel, aircraft engines have an additional material to work with: air. The earliest jet engines, ***turbojet engines***, were small in diameter, bringing in air mainly as a fuel for combustion. (Figure \@ref(fig:jet-engines) (left)^[Source: Jeff Dahl, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=3235265>] Today's more efficient engines are large diameter: ***turbofan engines***. (Figure \@ref(fig:jet-engines) (right)^[Source: <https://commons.wikimedia.org/wiki/File:Geared_Turbofan_NT.PNG>]) In addition to using air for combustion, they use large fan blades to convert the energy of combustion into a large mass of relatively slowly moving, uncombusted air. This moving air carries momentum; more than that contained in the fast moving particles generated directly through combustion.
 
 ## Center of mass {#center-of-mass}
 
-In considering a physical object of extended shape, it can be a great simplification to be able to treat the whole extended object as if it were a simple point object at a single location. For instance, Figure \@ref(fig:galaxy-probe) imagines a space probe coasting through the edge of a galaxy.
+In considering a physical object of extended shape, it can be a great simplification to be able to treat the whole extended object as if it were a simple point object at a single location. For instance, Figure \@ref(fig:galaxy-probe) imagines a space probe (orange dot) coasting through the edge of a galaxy.
 
 ```{r echo=FALSE, warning=FALSE}
 n <- 100
@@ -230,19 +236,19 @@ P4 <- P1 %>%
 P1
 ```
 
-For a continuous shape, such as in Figure \@ref(fig:shape1) (left) we can describe the center-of-mass calculation as finding $(\bar{x}, \bar{y})$ such that 
-\begin{equation}
-\bar{x} = \int_\text{A} x\ \rho(x,y)\ d\text{A} / M\\
-\bar{y} = \int_\text{A} y\ \rho(x,y)\ d\text{A} / M
-(\#eq:cm-integral)
-\end{equation}
-where $A$ refers to the whole object and $d$A is a differential of the object, that is, a tiny piece of the object. The quantity $\rho(x,y)$ is the ***mass-density*** at each point in the object. Mass-density times the size of the piece $dA$ gives the total mass of that piece. The total mass of the object, $M$ is
-$$M = \int_\text{A} \rho(x,y)\ d\text{A}$$
+For a continuous shape, such as in Figure \@ref(fig:shape1) (left) we can describe the center-of-mass calculation as an accumulation of the mass-density function $\rho(x, y)$ over the entire shape $S$. The mass of the object is the accumulation of mass-density itself
+$$M = \int_\text{S} \rho(x,y)\ d\text{S}$$
+while the components of the center of mass are the accumulation of $x\ \rho(x,y)$ and $y\ \rho(x,y)$, that is:
+$$
+\bar{x} = \int_\text{S} x\ \rho(x,y)\ d\text{S} / M\\
+\bar{y} = \int_\text{S} y\ \rho(x,y)\ d\text{S} / M
+$$
+where $S$ refers to the whole object and $d$S is a differential of the object, that is, a tiny piece of the object. 
 
-There are many ways to split an object up into differential pieces so that they can be accumulated to give the whole integral. One simple way, shown in Figure \@ref(fig:shape1) (right), is to 
-divide the object into a set of discrete, non-overlapping, adjacent rectangles (or cubes for a three-dimensional object). Then, as with adding up the stars, just add up $x \rho(x, y) d$A or $y \rho(x,y) d$A contained in each of the rectangular $d$A regions. For the rectangles, the mass $m_i$ of rectangle $i$ will be $m_i = \rho(x,y) d$A: density times area of each rectangle. This turns the integrals in Eq. \@ref(eq:cm-integral) into a sum:
+There are many ways to split an object up into differentials so that they can be accumulated to give the whole integral. One simple way, shown in Figure \@ref(fig:shape1) (right), is to 
+divide the object into a set of discrete, non-overlapping, adjacent rectangles (or cubes for a three-dimensional object). Then, as with adding up the stars, just add up $x \rho(x, y) d$S or $y \rho(x,y) d$S contained in each of the rectangular $d$A regions. For the rectangle located at $(x_i, y_i), the mass $m_i$ will be $m_i = \rho(x_i, y_i) d$S: density times area of each rectangle. This turns the integrals in Eq. \@ref(eq:cm-integral) into a sum:
 
-$$\bar{x} \approx \sum_\text{rectangles} m_i x_i/ M\ \ \ \text{and}\ \ \ \ \bar{y} \approx \sum_\text{rectangles} m_i y_i / M$$ where $$\sum_\text{rectangles} m_i\ .$$
+$$\bar{x} \approx \sum_\text{rectangles} m_i x_i/ M\ \ \ \text{and}\ \ \ \ \bar{y} \approx \sum_\text{rectangles} m_i y_i / M$$ where $$M = \sum_\text{rectangles} m_i\ .$$
 
 
 ```{r shape1-blocks, echo=FALSE, fig.cap="A continuous shape can be approximated by a set of rectangles within the borders of the shape. Integrating over the shape is a matter of adding up across all of the rectangles the relevant quantity for each rectangle."}
@@ -261,7 +267,7 @@ Compute the center of mass of the object `Zcalc::Blob1` shown in \@ref(fig:shape
 The mass of the object is $$M = \int_\text{Blob1} \rho(x, y)\, dA$$
 The $x$-component of the center of mass is
 
-$$\bar{x} = \int_\text{shape} x \rho(x, y)\, dA / M$$
+$$\bar{x} = \int_\text{Blob1} x \rho(x, y)\, dA / M$$
 and similarly for $\bar{y}$.
 
 To find the center of mass, we first need to know the total mass of the object. We'll carry out the calculation by dividing the object into a series of rectangles, computing the mass of each rectangle, then adding together the masses. The R/mosaic function `box_set()` takes as input the density function, a data frame with points on the boundary of the object, and a size for the boxes, which we'll set to $dx=0.1$. 
@@ -270,7 +276,7 @@ To find the center of mass, we first need to know the total mass of the object. 
 Boxes <- box_set(10 ~ x + y, Zcalc::Blob1, dx=0.1)
 ```
 
-Give this command in a sandbox and look at the resulting data frame `Boxes`. Each row is one box. `x` and `y` is the location of the center of that box, `dx` and `dy` are the lengths of the box sides in the $x$ and $y$ directions, `.output.` is the value of the function evaluated at the center of each box, and `dA` is the area of each box (which is simply $dA = dx\, dy$).
+Give this command in a sandbox and look at the resulting data frame `Boxes`. Each row is one box. The `x` and `y` columns give the location of the center of that box, `dx` and `dy` are the lengths of the box sides in the $x$ and $y$ directions. The value ofthe function being accumulated is in the column labelled `.output.` column `dA` gives the area of each box (which is simply $dA = dx\, dy$).
 
 As the notation $$\int_\text{Blob1} \rho(x, y) dx dy$$ suggests, to accumulate the results for the individual boxes we just multiply the `.output.` by `dA` and sum.
 ```{r}
@@ -290,7 +296,7 @@ xbar <- with(Boxes2, sum(.output. * dA)) / mass
 xbar
 ```
 
-The $y$ component of the center of mass, $\bar{y}$ is computed almost identically, but substituting $10*y ~ x & y$ as the function to be integrated. In the next line, we'll tell `box_set()` to do the summation over all the boxes directly, instead of our having to do it with the `with(..., sum(.output. * dA))` command.
+The $y$ component of the center of mass, $\bar{y}$ is computed almost identically, but substituting `10*y ~ x & y` as the function to be integrated. In the next line, we'll tell `box_set()` to do the summation over all the boxes directly, instead of our having to do it with the `with(..., sum(.output. * dA))` command.
 
 ```{r}
 ybar <- box_set(10*y ~ x + y, Zcalc::Blob1, dx=0.1, sum=TRUE) / mass
@@ -300,6 +306,7 @@ ybar <- box_set(10*y ~ x + y, Zcalc::Blob1, dx=0.1, sum=TRUE) / mass
 ybar
 ```
 
+::: {.takenote}
 Recall that the summation over the boxes provides an *approximation* to the integral. The quality of the approximation depends on the boxes being small enough. It's responsible to check the result by using smaller box size:
 
 ```{r cache=TRUE}
@@ -309,9 +316,12 @@ box_set(10*y ~ x + y, Zcalc::Blob1, dx = 0.001, sum=TRUE) / mass
 ```
 From this, we conclude that a box size `dx = 0.01` gives 4 digits precision, but `dx = 0.1` was not small enough.
 
-We'll repeat the calculation for $\bar{x}$ to get the same precision:
+Repeat the calculation for $\bar{x}$ to get the same precision:
 ```{r}
 xbar  <- box_set(10*x ~ x + y, Zcalc::Blob1, dx = 0.01, sum=TRUE) / mass
+```
+```{r echo=FALSE}
+xbar
 ```
 
 :::
@@ -323,14 +333,18 @@ xbar  <- box_set(10*x ~ x + y, Zcalc::Blob1, dx = 0.01, sum=TRUE) / mass
 The relationship between force and momentum is familiar:
 $$F = \partial_t\, m\, v =\ \underbrace{m \ \partial_t\  v}_\text{if mass is constant}\ .$$ Of course, the derivative of velocity with respect to time is also called "acceleration."
 
-Consider the following situation. A space probe is being acted on by a constant force, as in Figure \@ref(fig:probe-constant). The mass of the probe is $m$, the thrust from the rocket engine (red triangle) provides the force $F$.  Starting from velocity $\partial_t y(t=0)$ and position $y(t=0) = 0$, the thrust produces an acceleration $\partial_{tt} y(t) = F/m$. Integrating the acceleration gives the velocity as a function of time 
-\begin{equation}
-\partial_t y(t) = \frac{F}{m} t\ .
-(\#eq:y-dot)
-\end{equation}
+Consider the following situation. A space probe is being acted on by a constant force, as in Figure \@ref(fig:probe-constant). The mass of the probe is $m$, the thrust from the rocket engine provides the force $F$.  Starting from velocity $\partial_t y(t=0)$ and position $y(t=0) = 0$, the thrust produces an acceleration $\partial_{tt} y(t) = F/m$. Integrating the acceleration gives the velocity as a function of time 
+$$\partial_t y(t) = \frac{F}{m} t + C\ .$$
 
-Our task is to translate the $y(t)$-position into an angle $\theta(t)$ as seen from the planet so that we can find the equation of motion in terms of $\theta$, that is
-$$\partial_{tt} \theta(t) = {\Large ?}$$
+```{r probe-constant, echo=FALSE, fig.cap="A space probe accelerating along a linear course. The position at time $t$ can be written as $y(t)$ or as $\theta(t)$."}
+knitr::include_graphics("www/rocket-fly-by.png")
+```
+
+The function $y(t)$ is not the only way to represent where the probe is as a function of $t$. Suppose that the probe is being observed by a telescope which measures the angle $\theta(t)$ with respect to the equatorial plane. If the distance to the probe is $D(t)$, then the pair $\left(\strut\theta(t), D(t)\right)$ gives the position of the probe. As $y(t)$ increases, so do $\theta(t)$ and $D(t)$.
+
+We know the laws of motion in terms of $y(t)$. Can we write laws of motion expressed in terms of $\theta(t)$ and $D(t)$. That is, can we find the function $$\partial_{t} \theta(t) = {\Large ?}$$
+If we can find the laws of motion in terms of $\theta(t)$ and $D(t)$, we'll have a way to describe the motion of spinning bodies.
+
 ```{r probe-constant, echo=FALSE, fig.cap="A space probe (orange) accelerating in a straight line, but observed as a change in angle $\theta$ seen from a planet (green)."}
 Arc1 <- tibble(
   theta = seq(0, atan2(.6, .9+.75), length=50),
@@ -375,27 +389,42 @@ P1 <- gf_point(1.9 ~ .9, size=3, color="orange") %>%
   gf_text(.4 ~ .10, label="D(t=5)", angle=16) %>%
   gf_text( 1 ~ 0, label="D(t=10)", angle=54) %>%
   gf_refine(coord_fixed())
+P1
 ```
 
-The derivation of $\partial_{tt} \theta(t)$ will perhaps not be obvious, but you should be able to follow the role of calculus operations in each step. We'll write it in terms of the constants $F$ and $m$, and the functions $D(t)$, $\theta(t)$, and $y(t) = \frac{F}{m}t$.
+The derivation of $\partial_{t} \theta(t)$ will not be obvious, but you'll be able to see how calculus operations come into play.
 
-Note that the probe's starting point, the planet's position, and the probe's position at time $t$ form a right triangle. The length of the horizontal leg of the triangle is constant: $D(0)$ which, for brevity, we'll write $D_0$. The vertical leg has length $y(t)$, and the hypotenuse has length $D(t)$. The Pythagorean theorem tells us that $$D(t)^2 = y(t)^2 + D_0^2\ .$$ Note also a fact from trigonometry:
+Note that the probe's position at $t=0$, the center of the planet, and the probe's position at time $t$ form a right triangle. The length of the horizontal leg of the triangle is constant: $D(0)$ which, for brevity, we'll write $D_0$. The vertical leg has length $y(t)$, and the hypotenuse has length $D(t)$. The Pythagorean theorem tells us that $$D(t)^2 = y(t)^2 + D_0^2\ .$$
 
-$$D(t=0) = D(t) \cos\left(\strut\theta(t)\right)\ \ \implies\ \ D(t) = \frac{D_0}{\cos\left(\strut\theta(t)\right)}$$
+Step 1: Differentiate both sides with respect to $t$: $$\partial_t \left[\strut D(t)^2\right] = \partial_t \left[\strut y(t)^2\right] \ . $$ Using the chain rule and the fact that $D(0)$ does not depend on $t$, gives
+$$2\, D(t)\, \partial_t D(t) = 2\, y(t)\ \partial_t y(t)\ \ \implies\ \ \partial_t y(t) = \frac{D(t)}{y(t)}\,\partial_t D(t)\ .$$
 
-Step 1: Differentiate both sides with respect to $t$: $$\partial_t \left[\strut D(t)^2\right] = \partial_t \left[\strut y(t)^2\right] \ $$ where we've used the fact that $D_0$ is a constant and therefore $\partial_t \left[\strut D_0^2 \right] = 0$.
+Step 2: Trigonometry allows us to see a relationship among the functions $y(t)$, $\theta(t)$, and $D(t)$:
 
-Step 2: Applying the chain rule to both sides gives $$2\, D(t)\, \partial_t D(t) = 2\, y(t)\ \partial_t y(t)\ \ \implies\ \ \partial_t y(t) = \frac{D(t)}{y(t)}\,\partial_t D(t)\ .$$ Re-arranging terms and using the trigonometric fact $y(t) = D(t) \sin\left(\strut\theta(t)\right)$, we get  $$\partial_t y(t) = \frac{1}{\sin\left(\strut \theta(t)\right)}\, \partial_t D(t)\ .$$
+$$y(t) = D(t) \sin\left(\strut\theta(t)\right) \ .$$
+Plugging this form of $y(t)$ into the equation for $\partial_t y(t)$ in Step 1 produces $$\partial_t y(t) = \frac{1}{\sin(\theta(t))} \partial_t D(t)$$
+and 
+$$D(t=0) = D(t) \cos\left(\strut\theta(t)\right)\ \ \implies\ \ D(t) = \frac{D(0)}{\cos\left(\strut\theta(t)\right)}$$
 
-Step 3: We know from trigonometry that $D(t) = D_0/\cos(\theta(t))$. Differentiate both sides with respect to $t$ to get another form for $\partial_t D(t)$:
-$$\partial_t D(t) = D_0\, \partial_t \frac{1}{\cos\left(\strut\theta(t)\right)} = D_0 \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)$$
 
-Step 4: Combining the results from Steps 2 and 3, we have
-$$\partial_t y(t) = \frac{F}{m}\,t = \frac{1}{\sin\left(\strut\theta(t)\right)}D_0 \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t) \\= \frac{D_0}{\cos\left(\strut \theta(t)\right)^2} \partial_t\,\theta(t) = D(t)^2\, \partial_t \theta(t)$$
-Again re-arranging, $$\frac{F D_0}{m}\,t =  \left[{\Large\strut}\frac{D_0}{\cos\left(\strut\theta(t)\right)}\right]^2 \partial_t \theta(t) = D(t)^2 \partial_t \theta(t)$$ so
-\begin{equation}
-\partial_t\,\theta(t) = \frac{F\, D_0}{m D(t)^2}\ t\ . (\#eq:theta-dot)
-\end{equation}
+
+Step 3: Another fact from trigonometry is that $$D(t) = D_0/\cos(\theta(t))\ .$$ Differentiating both sides (chain rule again!) with respect to $t$ gives another form for $\partial_t D(t)$:
+$$\partial_t D(t) = D(0)\, \partial_t \left(\frac{1}{\cos\left(\strut\theta(t)\right)}\right) = D(0) \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)$$
+
+Step 4: Combining the results from Steps 1 and 3 gives
+$$\partial_t y(t) =  \frac{1}{\sin\left(\strut\theta(t)\right)}D(0) \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)\ .$$ 
+Cancelling out the $\sin(\theta(t))$ terms and remembering that $\partial_t y(t) = \frac{F}{m} t$ gives
+
+$$\frac{F}{m} t = \frac{D(0)}{\cos\left(\strut \theta(t)\right)^2} \partial_t\,\theta(t) $$
+Multiplying both sides by $D(0)$ and recalling that $D(t) = D(0)/\cos(\theta(t))$ we arrive at
+$$\frac{F D(0)}{m} t = \frac{D(0)^2}{\cos\left(\strut \theta(t)\right)^2} \partial_t\,\theta(t) = D(t)^2 \partial_t \theta(t)\ . $$
+
+
+Again re-arranging to find $\partial_t\, \theta(t)$:
+$$\partial_t\,\theta(t) = \frac{F\, D(0)}{m D(t)^2}\ t\ .$$
+
+
+NEED TO FIX THE REFERENCES TO EQUATION names.
 
 Equation \@ref(eq:theta-dot) does the motion accounting in terms of an angle $\theta(t)$. In contrast, Eq. \@ref(eq:y-dot) does the accounting in terms of a straight-line measurement $y(t)$. In Eq. \@ref(eq:y-dot) the multiplier on $t$ is the simple ratio of force to mass: $F/m$. But in \@ref(eq:theta-dot) the ratio appears differently, with $m\, D(t)^2$ in place of plain mass and $F D_0$ in place of plain force.
 The term $m\, D(t)^2$ is called the ***moment of inertia*** of the probe with respect to the planet. The term $F\ D_0$ is the ***torque*** of the force with respect to the distance: the force times the distance from the planet measured perpendicularly to the force.
