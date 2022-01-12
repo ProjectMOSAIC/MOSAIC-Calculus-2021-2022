@@ -342,10 +342,10 @@ knitr::include_graphics("www/rocket-fly-by.png")
 
 The function $y(t)$ is not the only way to represent where the probe is as a function of $t$. Suppose that the probe is being observed by a telescope which measures the angle $\theta(t)$ with respect to the equatorial plane. If the distance to the probe is $D(t)$, then the pair $\left(\strut\theta(t), D(t)\right)$ gives the position of the probe. As $y(t)$ increases, so do $\theta(t)$ and $D(t)$.
 
-We know the laws of motion in terms of $y(t)$. Can we write laws of motion expressed in terms of $\theta(t)$ and $D(t)$. That is, can we find the function $$\partial_{t} \theta(t) = {\Large ?}$$
+We know the laws of motion in terms of $y(t)$. Can we translate these laws to an expression in terms of $\theta(t)$ and $D(t)$? That is, can we find the function $$\partial_{t} \theta(t) = {\Large ?}$$
 If we can find the laws of motion in terms of $\theta(t)$ and $D(t)$, we'll have a way to describe the motion of spinning bodies.
 
-```{r probe-constant, echo=FALSE, fig.cap="A space probe (orange) accelerating in a straight line, but observed as a change in angle $\theta$ seen from a planet (green)."}
+```{r probe-constant, eval=FALSE, echo=FALSE, fig.cap="A space probe (orange) accelerating in a straight line, but observed as a change in angle $\theta$ seen from a planet (green)."}
 Arc1 <- tibble(
   theta = seq(0, atan2(.6, .9+.75), length=50),
   x = -0.75 + 1*cos(theta),
@@ -394,9 +394,11 @@ P1
 
 The derivation of $\partial_{t} \theta(t)$ will not be obvious, but you'll be able to see how calculus operations come into play.
 
-Note that the probe's position at $t=0$, the center of the planet, and the probe's position at time $t$ form a right triangle. The length of the horizontal leg of the triangle is constant: $D(0)$ which, for brevity, we'll write $D_0$. The vertical leg has length $y(t)$, and the hypotenuse has length $D(t)$. The Pythagorean theorem tells us that $$D(t)^2 = y(t)^2 + D_0^2\ .$$
+Three points in the diagram describe a right triangle: 
+ the probe's position at $t=0$, the center of the planet, and the probe's position at time $t$. The length of the horizontal leg of the triangle is $D(t=0)$ which not a function of time, so we'll
+drop the unnecessary parentheses and write it as $D_0$. The vertical leg has length $y(t)$, and the hypotenuse has length $D(t)$. The Pythagorean theorem tells us that $$D(t)^2 = y(t)^2 + D_0^2\ .$$
 
-Step 1: Differentiate both sides with respect to $t$: $$\partial_t \left[\strut D(t)^2\right] = \partial_t \left[\strut y(t)^2\right] \ . $$ Using the chain rule and the fact that $D(0)$ does not depend on $t$, gives
+Step 1: Differentiate both sides with respect to $t$: $$\partial_t \left[\strut D(t)^2\right] = \partial_t \left[\strut y(t)^2\right] \ . $$ Using the chain rule and the fact that $D_0$ does not depend on $t$, gives
 $$2\, D(t)\, \partial_t D(t) = 2\, y(t)\ \partial_t y(t)\ \ \implies\ \ \partial_t y(t) = \frac{D(t)}{y(t)}\,\partial_t D(t)\ .$$
 
 Step 2: Trigonometry allows us to see a relationship among the functions $y(t)$, $\theta(t)$, and $D(t)$:
@@ -404,42 +406,46 @@ Step 2: Trigonometry allows us to see a relationship among the functions $y(t)$,
 $$y(t) = D(t) \sin\left(\strut\theta(t)\right) \ .$$
 Plugging this form of $y(t)$ into the equation for $\partial_t y(t)$ in Step 1 produces $$\partial_t y(t) = \frac{1}{\sin(\theta(t))} \partial_t D(t)$$
 and 
-$$D(t=0) = D(t) \cos\left(\strut\theta(t)\right)\ \ \implies\ \ D(t) = \frac{D(0)}{\cos\left(\strut\theta(t)\right)}$$
+$$D_0 = D(t) \cos\left(\strut\theta(t)\right)\ \ \implies\ \ D(t) = \frac{D_0}{\cos\left(\strut\theta(t)\right)}$$
 
 
 
 Step 3: Another fact from trigonometry is that $$D(t) = D_0/\cos(\theta(t))\ .$$ Differentiating both sides (chain rule again!) with respect to $t$ gives another form for $\partial_t D(t)$:
-$$\partial_t D(t) = D(0)\, \partial_t \left(\frac{1}{\cos\left(\strut\theta(t)\right)}\right) = D(0) \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)$$
+$$\partial_t D(t) = D_0\, \partial_t \left(\frac{1}{\cos\left(\strut\theta(t)\right)}\right) = D_0 \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)$$
 
 Step 4: Combining the results from Steps 1 and 3 gives
-$$\partial_t y(t) =  \frac{1}{\sin\left(\strut\theta(t)\right)}D(0) \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)\ .$$ 
+$$\partial_t y(t) =  \frac{1}{\sin\left(\strut\theta(t)\right)}D_0 \frac{\sin\left(\strut\theta(t)\right)}{\cos\left(\strut\theta(t)\right)^2}\, \partial_t \theta(t)\ .$$ 
 Cancelling out the $\sin(\theta(t))$ terms and remembering that $\partial_t y(t) = \frac{F}{m} t$ gives
 
-$$\frac{F}{m} t = \frac{D(0)}{\cos\left(\strut \theta(t)\right)^2} \partial_t\,\theta(t) $$
-Multiplying both sides by $D(0)$ and recalling that $D(t) = D(0)/\cos(\theta(t))$ we arrive at
-$$\frac{F D(0)}{m} t = \frac{D(0)^2}{\cos\left(\strut \theta(t)\right)^2} \partial_t\,\theta(t) = D(t)^2 \partial_t \theta(t)\ . $$
+$$\frac{F}{m} t = \frac{D_0}{\cos\left(\strut \theta(t)\right)^2}\, \partial_t\theta(t) $$
+Multiplying both sides by $D_0$ and recalling that $D(t) = D_0/\cos(\theta(t))$ we arrive at
+$$\frac{F D_0}{m} t = \frac{D_0^2}{\cos\left(\strut \theta(t)\right)^2}\, \partial_t\theta(t) = D(t)^2 \partial_t \theta(t)\ . $$
 
 
 Again re-arranging to find $\partial_t\, \theta(t)$:
-$$\partial_t\,\theta(t) = \frac{F\, D(0)}{m D(t)^2}\ t\ .$$
+$$\partial_t\,\theta(t) = \frac{F\, D_0}{m D(t)^2}\ t\ .$$
 
+To summarize, we have two equivalent expressions for the dynamics of the space probe:
 
-NEED TO FIX THE REFERENCES TO EQUATION names.
+$$\partial_t y(t) = \frac{\overbrace{\ F}^\text{force}}{\underbrace{M}_\text{mass}} t \ \ \text{and}\ \ \partial_t \theta(t) = \frac{\overbrace{F\, D_0}^\text{torque}}{\underbrace{m D(t)^2}_\text{moment of inertia}}\ t\ .$$
+In rectangular $(x,y)$ coordinates, the velocity is the accumulation of force divided by mass: the usual statement of Newton's second law of motion. In the angular coordinates $(\theta, D)$ the angular velocity is the accumulation of ***torque*** divided by ***moment of inertia.
 
-Equation \@ref(eq:theta-dot) does the motion accounting in terms of an angle $\theta(t)$. In contrast, Eq. \@ref(eq:y-dot) does the accounting in terms of a straight-line measurement $y(t)$. In Eq. \@ref(eq:y-dot) the multiplier on $t$ is the simple ratio of force to mass: $F/m$. But in \@ref(eq:theta-dot) the ratio appears differently, with $m\, D(t)^2$ in place of plain mass and $F D_0$ in place of plain force.
-The term $m\, D(t)^2$ is called the ***moment of inertia*** of the probe with respect to the planet. The term $F\ D_0$ is the ***torque*** of the force with respect to the distance: the force times the distance from the planet measured perpendicularly to the force.
+The angular coordinate representation is helpful when studying the ***rotation*** of objects. To illustrate, imagine a different configuration for the system than that in in Figure \@ref(fig:probe-constant) where the space probe was free to accelerate in a straight line. Instead, suppose the rocket is mounted on a carousel, that is a wheel whose axle goes through the center as in Figure \@ref(fig:rocket-on-disk).
 
-```{r rocket-on-disk, echo=FALSE, fig.cap="The space probe mounted on a rigid disk that can spin around its center.", out.width="50%"}
+```{r rocket-on-disk, echo=FALSE, fig.cap="The space probe mounted on a rigid wheel that can spin around its center.", out.width="50%"}
 knitr::include_graphics("www/rocket-on-disk.png")
 ```
 
+In the rocket-on-wheel configuration, $D(t)$ is a constant; the rocket stays the same distance from the center. Therefore, the moment of inertia is $m D_0^2$. Following the previous formula, $$\partial_t \theta(t) = \frac{F D_0}{m D_0^2} t$$ which is easily differentiated to give the ***angular acceleration*** $$\partial_{tt} \theta(t) = \frac{F D_0}{m D_0^2}\ .$$
 
-The natural reason to use an angle for accounting is when you are working with rotational motion, such as understanding what happens when a kid jumps on or off a merry-go-round. Rather than using the ratio of force to mass, the angular acceleration $\partial_{tt} \theta(t)$ will equal the ratio of ***torque*** to ***moment of inertia***
+In a typical wheel, there is mass density throughout the wheel, not just at distance $D_0$. To find the moment of inertia of such a distributed mass system, break the wheel down into small pieces and find the moment of inertia due to each bit. Then accumulate the pieces' moments of inertia to find the total moment of inertia:
+
+$$\text{moment of inertia} = \int_\text{wheel} \rho(x,y) \left(\strut x^2 + y^2\right) d \text{wheel}\ .$$
 
 ::: {.example data-latex=""}
 Compute the moment of inertia of `Zcalc::Blob1`.
 
-It's not enough to say, "compute the moment of inertia." We also have to specify what is the reference location. We'll first do the calculation around the center of mass $(\bar{x}, \bar{y})$ which we computed earlier as `xbar` and `ybar`:
+It's not enough to say, "compute the moment of inertia." We also have to specify what is the reference location---the wheel axle in the configuration. We'll first do the calculation around the center of mass $(\bar{x}, \bar{y})$ which we computed earlier as `xbar` and `ybar`:
 
 ```{r}
 # moment of inertia
