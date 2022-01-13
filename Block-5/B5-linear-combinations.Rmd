@@ -5,27 +5,72 @@ library(Znotes)
 ```
 
 ::: {.underconstruction}
-Chapter not yet released.
+Chapter not yet released[...](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-linear-combinations.Rmd)
 :::
 
 
-In the previous chapter, we suggested that you think of a vector as a "step" in a given direction and of a given magnitude: for example 1 foot to the northeast. This interpretation highlights the mathematical structure of vectors: just a direction and a length, nothing else. 
+[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-linear-combinations.Rmd)
+
+
+$\vec{v}$ \vec
+
+$\mathit{M}$ \mathit
+
+$\color{magenta}{\alpha}$
+
+
+$\color{red}{\mathit{M}}$
+$\color{green}{\mathit{M}}$
+$\color{blue}{\mathit{M}}$
+$\color{cyan}{\mathit{M}}$
+$\color{magenta}{\mathit{M}}$
+$\color{yellow}{\mathit{M}}$
+$\color{black}{\mathit{M}}$
+$\color{gray}{\mathit{M}}$
+$\color{white}{\mathit{M}}$
+$\color{darkgray}{\mathit{M}}$
+$\color{lightgray}{\mathit{M}}$
+$\color{brown}{\mathit{M}}$
+$\color{lime}{\mathit{M}}$
+$\color{olive}{\mathit{M}}$
+$\color{orange}{\mathit{M}}$
+$\color{pink}{\mathit{M}}$
+$\color{purple}{\mathit{M}}$
+$\color{teal}{\mathit{M}}$
+$\color{violet}{\mathit{M}}$
+
+In the previous chapter, we suggested that you think of a vector as a "step" in a given direction and of a given magnitude as in, "1 foot to the northeast." This interpretation highlights the mathematical structure of vectors: just a direction and a length, nothing else. 
 
 The "step"-interpretation is also faithful to an important reason why vectors are useful. We use steps to get from one place to another. Similarly, a central use for the formalism of vectors is to guide our thinking and our algorithms for figuring out how best to get from one "place" to another. We've used quotation marks around "place" because we are not necessarily referring to a physical destination. We'll get to what else we might mean by "place" later in this chapter.
 
-For now, let's focus on the word "steps": plural. Generally, you cannot get to the desired destination with just one step. For instance, a pirate's treasure map might contain an instruction, "Dig 10 paces to the east of the tall tree." East is the direction of the vector. "Pace" is the length of the vector (about 3 feet). And 10 is the number of steps to take. 
+As a fanciful example of place, consider a cache of buried treasure. You are given these instructions to get there:
 
-If pirates wrote in vector notation, those directions might have been given like this: $$\text{Let}\ \vec{p} \equiv \left[\begin{array}\,1\,\text{pace}\\0\end{array}\strut\right]\ .\ \  \text{Then}, \ 
-\text{treasure spot} \equiv \text{tall tree} \ + 10 \vec{p}\ .$$ 
+> i. On June 1, go to the flagpole before sunrise.
+ii. At 6:32, walk 213 paces away from the sun.
+iii. At 12:19, walk 126 paces toward the sun.
 
-Treating a vector as a single step, the mathematical representation of multiple or fractional steps is a ***scalar*** that multiplies the vector. The scalar---be it 17 or 0.36 or -1.5---tells you the length of the journey reported in units of the 1-step vector itself. In the previous paragraph, $\vec{p}$ is a single step; $10 \vec{p}$ is 10 steps, all taken in the direction of $\vec{p}$.
+The sun position varies over the day, so the direction to the sun on June 1 at 6:32  will be different than at 12:19. Figure \@ref(fig:sun-direction) show an aerial views annotated with the direction of the sun at 6:32 and 12:19 on June 1.
 
-Any given vector may not point in the direction you want to travel. Often, then, a journey consists of stepping in the direction of one vector, then stepping in the direction of another vector that points in a different direction.
+```{r sun-direction, echo=FALSE, out.width="40%", fig.show="keep", fig.cap="Maps showing the directions of sunrise and sunset on June 1 at latitude/longitude (38.0091,-104.8871). The Sun's direction at 6:32 is shown in the left map, the direction at 12:19 in the right map. Source: [suncalc.org](https://www.suncalc.org/)"}
+knitr::include_graphics("www/Sun-6-32.png")
+knitr::include_graphics("www/Sun-12-19.png")
+```
 
-In a typical journey, there can be more than one vector involved. For instance, the vector pointing from the hidden cove to the tall tree---we'll call it $\overset{\longrightarrow}{\text{tree}}$---might be identified as direction north-west and length 1 nautical mile. The full directions to the treasure might then be, "Start from the hidden cove. Then march $3.2\, \overset{\longrightarrow}{\text{tree}} + 10\, \vec{p}$. 
+The treasure directions are in the form of a ***linear combination*** of vectors. For each of the two vectors described in the treasure instructions, the length of the vector is 1 pace. (Admittedly, not a scientific unit of length.) The direction of each vector is toward the sun. Scaling vector (ii) by -213 and vector (iii) by 126, then adding the two scaled vectors gives a vector that takes you from the flagpole to the buried treasure. 
 
-Such a journey is a ***linear combination of vectors***. The vectors themselves are $\vec{p}$ and $\overset{\longrightarrow}{\text{tree}}$. The vector $3.2\, \overset{\longrightarrow}{\text{tree}}$ is a scaled version of $\overset{\longrightarrow}{\text{tree}}$; it points in the same direction as $\overset{\longrightarrow}{\text{tree}}$, but it has length 3.2 nautical miles. Similarly, $10\, \vec{p}$ is a vector of length 10 paces, pointing the the same direction of $\vec{p}$. When we scale a set of vectors and then add them, we have a linear combination, just as in Block 1 we created a linear combination of functions by scaling them and adding the results together. 
+::: {.example data-latex=""}
+Navigators are used to specifying a direction as a compass heading: a single number between 0 and 360. For specifying direction on a plane, this is 
+YOU WERE HERE. 
 
+
+
+
+ASK THEM TO FIND LINEAR COMBINATIONS OF COMPASS DIRECTIONS and translate into a heading. (or vice versa.)
+:::
+
+```{r echo=FALSE, fig.align="center"}
+knitr::include_graphics("www/compass.jpeg")
+```
 Pirates and other mariners use direction terms like "one point north of north-north-east." Their maps are annotated with compass roses that translate the words into a direction.
 
 ```{r compass-rose,echo=FALSE, fig.caption="A compass rose from the map in the children's classic book *Treasure Island*. One point north of north-north-east is the direction of the radial line passing through the 'd' in \"Skeleton Island\".", out.width="20%", fig.align="center"}

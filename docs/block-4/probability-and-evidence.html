@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 35 Probability and evidence | MOSAIC-Calculus.knit</title>
   <meta name="description" content="" />
-  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 35 Probability and evidence | MOSAIC-Calculus.knit" />
   <meta property="og:type" content="book" />
@@ -33,7 +33,6 @@
 <link rel="next" href="future-value.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
 
 
 
@@ -61,6 +61,10 @@
 \newcommand{\diff}[1]{{\cal D}_#1}
 \newcommand{\pnorm}{\text{pnorm}}
 \newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\newcommand{\vec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\mathit}[1]{\overset{{\strut\Updownarrow}}{\mathbf #1}}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
@@ -235,6 +239,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="probability-and-evidence" class="section level1" number="4">
 <h1><span class="header-section-number">Chapter 35</span> Probability and evidence</h1>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-4/B4-probability.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
 <p>We often deal with situations of <strong><em>uncertainty</em></strong>, situations where only partial predictions are possible. For instance, we can say whether a person may be at high risk for a disease, say, diabetes or lung cancer. But this doesn’t let us predict with certainty whether the person will get the disease. Instead, the term “high risk” indicates that we know something but not everything about the situation: not whether or not the person will get the disease but whether they are “likely” to have or to get it. Another example: a car might be said to be “unreliable.” We do not mean by this that the car cannot be used. Rather we’re thinking that from time to time the car might fail to start or run. A car where this happens once over a few year span is reliable, a car where this happens on a month-to-month basis is not reliable.</p>
 <p>You may well have had some textbook exposure to <strong><em>probability</em></strong> as an intellectual field. Typical examples used to illustrate concepts and methods are coins being flipped, dice being tossed, and spinners spun. Colored balls are drawn from urns, slips of paper from hats, and so on. Each of these is a physical representation of an idealized mechanism where we feel sure we understand how likely each possible outcome is to happen.</p>
 <p>In this chapter, we’ll use two basic <em>imagined</em> settings where uncertainty comes into play: the risk of disease before the disease is diagnosed and the safety of a self-driving car as it comes out of the factory. The word “imagined” signals that you should not draw conclusions about the facts of any particular disease or any particular self-driving car; we are merely using the imagined settings to lay out concepts and methods for the mathematical presentation and analysis of uncertainty and risk. Of particular importance will be the mathematical means by which we represent our knowledge or belief in these settings and the way we can properly update our knowledge/belief as new information becomes available.</p>
@@ -766,7 +773,7 @@ Count the grid squares under the probability density function in Figure <a href=
 <p>The <strong>cumulative</strong> distribution translates the probability density into an actual probability (a number between zero and one). Formally, the cumulative distribution is <span class="math display">\[P(t) \equiv \int_{-\infty}^t p(t) dt\]</span></p>
 <p>Evaluating <span class="math inline">\(P(t)\)</span> at given value of <span class="math inline">\(t\)</span> gives a probability. For instance, <span class="math inline">\(P(10) \approx 0.095\)</span>, roughly 10%. In terms of storms, this means that according to the standard model of these things, the time between consequtive 100-year storms has a 10% chance of being 10 years or less!</p>
 <p>A graph of the <strong>cumulative</strong> distribution shows what you might have anticipated: the gaussian function <span class="math inline">\(p(t)\)</span> has an integral that is a sigmoid function.</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-70-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-72-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p><strong>Question A</strong> Imagine that a 100-year storm has just happened at your location. What is the probability that the next 100-year storm will happen within 50 years?</p>
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">11%<span class="mcanswer">︎✘ What’s the value of <span class="math inline">\(P(t=50)\)</span></span></span><br />
@@ -1009,6 +1016,7 @@ EXERCISE: Calculate the 95% credible intervals on the posterior on the disease.
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1026,7 +1034,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-probability.Rmd",
+"link": "https://github.com/ProjectMOSAIC/MOSAIC-Calculus/edit/Block-5/B4-probability.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -1034,12 +1042,12 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B4-probability.Rmd",
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/edit/B4-probability.Rmd",
 "text": null
 },
 "download": null,
 "search": {
-"engine": "fuse",
+"engine": "lunr",
 "options": null
 },
 "toc": {
