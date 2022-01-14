@@ -173,7 +173,7 @@ As mathematical notation, we will use **bold-faced**, capital letters to stand f
 
 In the conventions for data, we give a name to each column of a data frame so that we can refer to it individually. In the conventions used in vector mathematics, names are not used to refer to the individual vectors. 
 
-As a case in point, let's look at a matrix $\mathit{M}$ containing the two vectors which we've previously called $\vec{\text{one(t)}}$ and  $\vec{\text{identity(t)}}$:
+As a case in point, let's look at a matrix $\mathit{M}$ containing the two vectors which we've previously called $\stackrel{\uparrow}{\text{one(t)}}$ and  $\stackrel{\uparrow}{\text{identity(t)}}$:
 $$\mathit{M} \equiv \left[\begin{array}{rr}1 & 0\\
 1 & 0.1\\
 1 & 0.2\\
@@ -182,7 +182,7 @@ $$\mathit{M} \equiv \left[\begin{array}{rr}1 & 0\\
 1 & 4.9\\
 1 & 5.0\\
 \end{array}\right]\ .$$
-The linear combination which we might previous have called $3\cdot \vec{\text{one(t)}} - 2\cdot \vec{\text{identity(t)}}$ can be thought of as 
+The linear combination which we might previous have called $3\cdot \stackrel{\uparrow}{\text{one(t)}} - 2\cdot \stackrel{\uparrow}{\text{identity(t)}}$ can be thought of as 
 $$\left[\overbrace{\begin{array}{r}
 1\\
 1 \\
@@ -267,6 +267,40 @@ A * x
 The phrase "non-conformable arrays" is R-speak for saying "The arguments to `*` don't have compatible shapes for componentwise multiplication."
 :::
 
+In chapters to come, we will sometimes make several different linear combinations of the vectors in a matrix. Of course the result of each individual linear combination will be a vector, so the "several different linear combinations" can be thought of as a collection of vectors, that is, a matrix.  
+
+For example, consider linear combinations of the two vectors in a matrix $$\mathit{A} = \left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right]$$:
+
+
+The combinations we have in mind are: $$
+\mathit{A}\cdot \left[\begin{array}{r}3\\1\end{array}\right]= 
+\left[\begin{array}{r}7\\11\\-9\end{array}\right]
+\ ,\ \ 
+\mathit{A} \cdot \left[\begin{array}{r}-0\\2\end{array}\right]= \left[\begin{array}{r}2\\-8\\0\end{array}\right]
+\ ,\ \ \ 
+\mathit{A}\cdot \left[\begin{array}{r}-1\\0\end{array}\right] = \left[\begin{array}{r}-2\\-5\\3\end{array}\right]
+$$ 
+A more concise way to write this collects the vectors with the values for the scalars into a matrix, which we'll call $$\mathit{X} \equiv \left[\begin{array}{rr}3 & 0 & -1\\1 & 2 & 0\end{array}\right]\ .$$ 
+
+$$\mathit{A} \cdot \mathit{X}  = \left[\begin{array}{r}7 &2 &-2\\11 & -8 & -5\\-9 & 0 & 3\end{array}\right]$$
+
+::: {.rmosaic data-latex=""}
+In R, to create the set of linear combinations, we create the matrices $\mathit{A}$ and $\mathit{X}$ and combine them with matrix multiplication. 
+```{r}
+A <- cbind(
+       rbind( 2,  5, -3),
+       rbind( 1, -4,  0)
+     )
+X <- cbind(
+       rbind( 3, 1),
+       rbind( 0, 2),
+       rbind(-1, 0)
+)
+A %*% X
+```
+
+
+
 
 ## Sub-spaces
 
@@ -290,12 +324,17 @@ On the other hand, the subspace sponsored by $\vec{w}$ and $\vec{x}$ is not the 
 
 More mathematically, given one or more vectors with the same number of components, the embedding space is the set of all possible vectors with that number of components. A subspace of the embedding space is defined by a collection of one or more vectors. If the vectors are $\vec{u}$ and $\vec{w}$, we speak of the ***subspace spanned*** by $\vec{u}$ and $\vec{w}$. The subspace spanned by a matrix is the subspace spanned by the vectors that compose the matrix. 
 
+A helpful intuition of subspaces can be developed by displaying a few subspaces for vectors with 3 components. As an aid, we'll 3-D drawing software that allows you to look at the inhabitants of the space from different perspectives.
 
+THIS IS WHERE CALCPLOT3D will come in.
+
+There is one, and only one vector in any given dimension that is part of any and all subspaces, regardless of which vectors happen to be the sponsors. This is the vector of all zeros. Why? Because $\vec{\text{0}}$ can be constructed by multiplying any of the sponsors by the scalar 0. can be constructed the  that might be constructed 
 
 
 
 Figure \@ref(fig:two-vecs) includes a second vector $\vec{w}$ along with the vector $\vec{v}$ seen in Figure \@ref(fig:single-scale). Each vector has its own subspace, again shown as dotted lines.
 
+TURN THIS INTO A CALCPLOT3D
 ```{r two-vecs, echo=FALSE, fig.cap="The subspaces spanned by each of two vectors $\\vec{v}$ and $\\vec{w}$."}
 gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
   gvec(from=c(-1,0), to=c(1, -2), color="magenta", 
@@ -329,229 +368,14 @@ You could replace the pencils with line segments drawn on the card underneath ea
 
 Notice that you can also lay a card along a *single* vector. What's different here is that you can roll the card around the pencil; there are many different orientations for such a card even while the vector stays fixed. So a single fixed vector does not determine uniquely the orientation of the planar surface in which the two vectors can reside. But with two fixed vectors, there is only one such surface.
 
-## Functions as vectors
-
-In Section `r Sections$exp_curve_fitting` we looked at the use of the exponential function to describe the temperature of hot water cooling to room temperature. The exponential decreasing function is of course $e^{-kt}$ and we can find $k$ by estimating the half-life of exponential decay, which is about 36 minutes in the data we used. (Figure \@ref(fig:water-scaled-exp)).
-
-In this section, we're going to think about functions in terms of vectors. There are huge advantages to thinking in this way, but it will take some time for you to see them clearly.
-
-Recall the data on cooling water gave the temperature (in degrees C) versus time (in minutes). Economy on the page argues against showing all the rows of the `CoolingWater` data frame, but you have access to it in the `r sandbox_link()`.
-
-```{r echo=FALSE}
-CW <- CoolingWater[c(1,3,5,7,10,15,20,30,40,50, 75, 100, 125, 150, 175),]
-row.names(CW) <- NULL
-knitr::kable(CW) %>% kableExtra::kable_minimal()
-```
-
-The `temp` column of the data frame is a set of numbers, hence interpretable as a vector. As a vector in 15 dimensions, there's not much to be said about its *direction*, but the length is easy enough: take the square root of the sum of squares of the components. That comes to 251.3 degrees C. This is merely an arithmetic fact, the consequence of adding together 15 numbers. It has the dimension of temperature T, but has nothing to do with the hot-oven-like 251 C temperature.
-
-This `temp` vector is playing to role of the buried treasure; it's the destination we want to reach. What have we got to reach it with?
-
-This is where our basic modeling function $e^{-kt}$ comes in. By evaluating $e^{-kt}$ at each of the values of $t$ in the `time` column, we create another column, which we'll call `expkt`. Knowing that the half-life is about 36 minutes, we'll use $k=\ln(2)/36 \approx 0.02$. At the same time, anticipating what is to come, we'll add another column which we'll call, following statistical practice, the `intercept` column and which represents the constant function (evaluated at each of the times).
-
-```{r}
-CW <- CW %>% 
-  mutate(expkt = exp(-0.02*time),
-         intercept = 1)
-```
-
-```{r echo=FALSE}
-knitr::kable(CW) %>% kableExtra::kable_minimal()
-```
-
-Confirm for yourself that the `expkt` column really does match an exponential decay with a half-life of about 36 minutes. You can see that at time zero the value of expkt, just as expected for an exponential. At time 36, somewhere between the rows for times 29 and 39, the value is about 0.5. At time 72---two half-lives after the start---the value should be 0.25, closely matching the recorded temperature at time 74.
-
-The two vectors `expkt` and `intercept`, like any two (non-aligned) vectors, span a planar subspace. Since `expkt` and `intercept` are embedded in a 15-dimensional space---this is just saying that there are 15 rows in the data frame---the plane is a subspace of the 15-dimensional space. This statement can seem hopelessly abstract, so let's try to give a more concrete visualization. For the visualization, we'll move onto the familiar ground of a graph of temperature versus time. 
-
-In the domain of temperature vs time, each of the linear combinations $\alpha$`expkt`$\ + \beta$`intercept`, appears as a set of 15 dots. Figure \@ref(fig:water-dots) shows three such sets of 15 does in three different colors, along with the 15 points of the actual temperature data. To show more than the three sets of dots would be visually confusing. Instead, we'll add to the graph functions of the form $\alpha\, e^{-0.02 t} + \beta\, 1$.
-
-```{r water-dots, echo=FALSE, fig.cap="Some of the possible linear combinations of the vectors `expkt` and `intercept`. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination.",warning=FALSE}
-CW <- CW %>%
-  mutate(one = -51*expkt + 80*intercept,
-         two = -36*expkt + 120*intercept,
-         three = 100*expkt + 15*intercept,
-         )
-colors <- rainbow(10)
-gf_point(temp ~ time, data = CW) %>%
-  gf_point(one ~ time, color = "magenta") %>%
-  gf_point(two ~ time, color = "brown") %>%
-  gf_point(three ~ time, color = "tomato") %>%
-  slice_plot(80 - 51*exp(-0.02*time) ~ time, color="magenta") %>%
-  slice_plot(120 - 36*exp(-0.02*time) ~ time, color="brown") %>%
-  slice_plot(15 + 100*exp(-0.02*time) ~ time, color="tomato") %>%
-  slice_plot(35 - 20*exp(-0.02*time) ~ time, color=colors[1]) %>%
-  slice_plot(45 - 70*exp(-0.02*time) ~ time, color=colors[2]) %>%
-  slice_plot(55 + 45*exp(-0.02*time) ~ time, color=colors[4]) %>%
-  slice_plot(65 - 40*exp(-0.02*time) ~ time, color=colors[5]) %>%
-  slice_plot(75 + 30*exp(-0.02*time) ~ time, color=colors[6]) %>%
-  slice_plot(95 + 10*exp(-0.02*time) ~ time, color=colors[7]) %>%
-  slice_plot(25.4 + 65.7*exp(-0.02*time) ~ time, color = "black") %>%
-  gf_lims(y = c(0,125))
-  
-  
-```
-
-We we to plot *all* the linear combinations of `expkt` and `intercept`, the graphics frame would be completely covered with ink. But each individual vector produced by a linear combination will look much of a kind with the ten shown here.
-
-The functions shown in Figure \@ref(fig:water-dots) all inhabit the two-dimensional subspace spanned by `expkt` and `intercept`. But there is a lot more to the 15 dimensional space. What do functions look like that inhabit the space outside of the two-dimensional `expkt`&`intercept` subspace? Figure \@ref(fig:13-handful) shows a handful of them. Each is different in kind from the functions shown in Figure \@ref(fig:water-dots).
-
-```{r 13-handful, echo=FALSE, fig.cap="A handful of the vectors in the 15-dimensional space outside of the 2-dimensional `expkt`&`intercept` subspace.", warning=FALSE}
-P <- ggplot() + geom_blank()
-
-for (k in 1:8) {
-  Pts <- tibble(time = CW$time + runif(15,0, 25)) 
-  Pts <- Pts %>%
-    mutate(y=runif(15,20,80))
-  f <- spliner(y ~ time, data = Pts)
-  P <- P %>% 
-    slice_plot(f(time) ~ time, color = colors[k], 
-               domain(time=0:200), npts=200)
-}
-P %>% gf_lims(y=c(0,125))
-```
-There are a lot of crazy-looking functions out there in 15-dimensional space!
-
-Look back at Figure \@ref(fig:water-dots) and focus your attention on the function drawn in black. That function is a reasonable match to the data (plotted as black dots). The question we face now is how to find such a function by searching through a 15-dimensional space. That's the task we take on in the next chapter.
-
-::: {.intheworld}
-It's pretty easy to visualize the length of a vector and the arithmetic is straightforward even in n-dimensional space. For a vector $\vec{v}$ with components $$\vec{v} \equiv \left[\strut \begin{array}{c}v_1\\v_2\\\vdots\\v_n\end{array}\right]$$ the length is $\sqrt{\strut v_1^2 + v_2^2 + \cdots + v_n^2}$. Similarly, the ***dot product*** between $\vec{v}$ and $\vec{w}$ is $\vec{v} \cdot \vec{w} \equiv v_1 w_1 + v_2 w_2 + \cdots + v_n w_n$. In terms of the dot product, the vector length is $\sqrt{\strut\vec{v} \cdot \vec{v}}$. And by combining the dot products, we can calculate the angle between two vectors: $$\cos(\theta_{v,w}) = \frac{\vec{v}\cdot\vec{w}}{\sqrt{\strut (\vec{v}\cdot\vec{v})\ (\vec{w}\cdot\vec{w}})}$$
-
-As you know, a vector has two properties: length and direction. Both of these can be calculated using the dot product.
-
-This suggests a way to consider other mathematical objects, such as functions, as vectors. All we need is a reasonable definition for a dot product. Suppose we have two functions, $f(t)$ and $g(t)$ defined on some domain, say $0 < t < 2\pi$. A dot product multiplies the objects together and accumulates the products. When the vectors are sets of numbers, the accumulation is to add up component-by-component products. By analogy, to take the dot product of $f(t)$ and $g(t)$ over the domain, we can do an integral: $$f() \cdot g() \equiv \int_0^{2\pi} f(t) g(t) dt\ .$$
-
-To illustrate, consider these two functions: $f(t) \equiv \sin(t)$ and $g(t) \equiv \sin(2 t)$, plotted below.
-
-```{r, echo=FALSE, results=FALSE}
-slice_plot(sin(t) ~ t, domain(t=0:(2*pi)),
-           label_text = "f(t)", label_x=.92) %>%
-slice_plot(sin(2*t) ~ t, color="magenta", label_text = "g(t)", label_x=.25)
-```
-How "long" are $f(t)$ and $g(t)$? `
-
-`r {Integrate(sin(t)*sin(t) ~ t, domain(t=0:(2*pi))) %>% sqrt()} |> matrix_block(inline=FALSE, width="90%")`
-
-`r {Integrate(sin(2*t)*sin(2*t) ~ t, domain(t=0:(2*pi))) %>% sqrt()} |> matrix_block(inline=FALSE, width="90%")`
-
-They are both the same "length", which you might recognize as $\sqrt{\strut\pi}$.
-
-What's the cosine of the angle between them?
-
-`r {Integrate(sin(t) * sin(2*t) ~ t, domain(t=0:(2*pi))) / pi} |> matrix_block(inline=FALSE, width="90%")`
-
-The cosine of the angle is zero---`1.3e-16` is just a round-off error. That means that the functions $\sin(t)$ and $\sin(2t)$ are **orthogonal** on the domain $0 < t < 2\pi$.
-:::
-
-
-
-## Matrices
-
-We have been writing linear combinations of vectors in this format, where $a$ and  $b$are ***scalars***: $$a \vec{u} + b \vec{v}\ .$$
-It's helpful to have a standard notation that makes it evident which things are being combined. 
-
-A ***matrix*** is a collection of vectors, all of which live in the same dimensional space. For instance, the matrix containing $\vec{u}$ and  $\vec{v}$ looks like
-$$\left[\begin{array}{cc}|&|\\\vec{u} & \vec{v} \\|&|\\ \end{array}\right]$$
-The vertical lines are meant to indicate that each of $\vec{u}$ and $\vec{v}$ are a column in the matrix. For instance, supposing $$\vec{u} \equiv \left[\begin{array}{r}2\\5\\-3\end{array}\right]\ \ \text{and}\ \ \ \vec{v} \equiv \left[\begin{array}{r}1\\-4\\0\end{array}\right]\ ,$$
-the matrix $\mathbf A$ containing $\vec{u}$ and $\vec{v}$ consists of two columns:
-$$ {\mathbf A} \equiv \left[\overset{\strut}{\left[\begin{array}{r}2\\5\\-3\end{array}\right]}\ \left[\begin{array}{r}1\\-4\\0\end{array}\right]\ \right]$$
-In this book, when we write the name of a matrix, we'll use a CAPITAL **bold-face** letter, as **M**. Conventionally, we do without the interior square brackets, writing
-$$ {\mathbf A} \equiv \left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right]$$
-
-In scientific computing languages, there is almost always a type of object called a "matrix" or an "array." The one shown here, ${\mathbf A}$ has 3 rows and 2 columns. (Columns always run vertically, as with the columns in a building.)
-
-Also, as a matter of convention, the linear combination of the vectors in a matrix is indicated by placing to the right of the matrix a column containing the coefficients of the combination $3 \vec{u} + 1 \vec{v}$, as with
-
-$$ {\mathbf A} \left[\begin{array}{c}3\\1\end{array}\right] = \left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right] \left[\begin{array}{c}3\\1\end{array}\right] = \left[\begin{array}{r}7\\11\\-9\end{array}\right]$$
-
-Often, we'll want to make several different linear combinations of the vectors in a matrix. Since each individual linear combination is specified with a column of coefficients, the convention is to place the several sets of coefficients as side-by-side columns, that is, as a matrix. 
-
-For example, consider these three different linear combinations of the two vectors $\vec{v}$ and $\vec{w}$:
-$$\left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right] \left[\begin{array}{rr}3 & 0 & -1\\1 & 2 & 0\end{array}\right] = \left[\begin{array}{r}7 &2 &-2\\11 & -8 & -5\\-9 & 0 & 3\end{array}\right]$$
-In R, the left-hand side of the equation would involve constructing a matrix with the three pairs of coefficients:
-```{r}
-X <- cbind(
-  rbind(3, 1),
-  rbind(0, 2),
-  rbind(-1, 0)
-)
-A %*% X
-```
-
-::: {.intheworld data-latex=""}
-A CATEGORICAL VARIABLE AND HOW IT TRANSLATES INTO A SET OF VECTORS.
-:::
-
-
-::: {.example data-latex=""}
-**From Talyor to Lagrange**
-
-In Chapter `r Chaps$taylor` we met a method introduced by Brook Taylor (1685–1731) to construct a polynomial of order-$n$ that approximates any smooth function $f(x)$ close enough to some center $x_0$. The method made use of the ability to differentiate $f(x)$ at $x_0$ and produced the general formula:
-$$f(x) \approx f(x_0) + \frac{f'(x_0)}{1} \left[x-x_0\right] + \frac{f''(x_0)}{2!} \left[x-x_0\right]^2 + \frac{f'''(x_0)}{3!} \left[x-x_0\right]^3 + \cdots + \frac{f^{(n)}(x_0)}{n!} \left[x-x_0\right]^n$$ where $f'(x_0) \equiv \partial_x f(x)\left.{\Large\strut}\right|_{x=x_0}$ and so on.
-
-Using polynomials as approximating functions has been an important theme in mathematics history. Brook Taylor was neither the first nor the last to take on the problem. 
-
-In 1795, [Joseph-Louis Lagrange](https://en.wikipedia.org/wiki/Joseph-Louis_Lagrange)
-(1736 – 1813) published another method for constructing an approximating polynomial of order $n$. Whereas the Taylor polynomial builds the polynomial that exactly matches the first $n$ derivatives at the center point $x_0$, the Lagrange polynomial has a different objective: to match exactly the values of the target function $f(x)$ at a set of ***knots*** (input values) $x_0$, $x_1$, $x_2$, $\ldots, x_n$. Figure \@ref(fig:lagrange-sine) shows the situation with the knots shown as orange dots.
-
-```{r lagrange-sine, echo=FALSE, fig.cap="The Lagrange polynomial of order $n$ is arranged to pass exactly through $n+1$ points on the graph of a function $f(x)$."}
-f <- sin
-make_lagrange_unit <- function(x, x0) {
-  bottom <- paste("(",
-                  paste(
-                    paste0("(", x0," - ", setdiff(x, x0), ")"), collapse = "*"),
-                  ")")
-  top <- paste(paste0("(x - ", setdiff(x, x0), ")"), collapse = "*")
-  f <- function(x) {}
-  body(f) <- parse(text=paste(top, "/", bottom))
-  
-  f
-}
-make_lagrange_poly <- function(xs, ys) {
-  funs <- lapply(xs, function(p) make_lagrange_unit(xs, p))
-  f <- function(x) {
-    res <- 0
-    vals <- lapply(funs, function(f) do.call(f, list(x)))
-    for (k in 1:length(vals))
-      res <- res + vals[[k]]*ys[k]
-    
-    return(res)
-  }
-  f
-}
-tp <- makeFun(x - x^3/6 + x^5/120 ~ x)
-Pts <- tibble(x=c(-1, 0, 1, 3, 5, 7), y=f(x))
-lp <- make_lagrange_poly(Pts$x, Pts$y)
-  slice_plot(tp(x) ~ x, domain(x=-3:8), color="green", size=2, alpha=0.7,
-             label_text="Taylor polynomial", label_x=0.1) %>%
-  slice_plot(f(x) ~ x, domain(x=-3:8), label_text="f(x)") %>%
-  slice_plot(lp(x) ~ x, domain(x=-3:8), color="magenta", size=2, alpha=0.5,
-             label_text="Lagrange polynomial", label_x = 0.8) %>%
-  gf_point(y ~ x, data = Pts, color="orange", size=6, alpha=0.5) %>%
-  gf_lims(y=c(-1.5, 1.5))
-```
-
-The Lagrange polynomial is constructed of a linear combinations of functions, one for each of the knots. In the example of Figure \@ref(fig:lagrange-sine), there are 6 knots, hence six functions being combined. For knot 2, for instance, has coordinates $\left(\strut x_2, f(x_2)\right)$ and the corresponding function is:
-
-$$p_2(x) = \frac{(x-x_1)}{(x_2 -x_1)}\left[\strut\cdot\right]\frac{(x-x_3)(x-x_4)(x-x_5)(x-x_6)}{(x_2 -x_3)(x_2 -x_4)(x_2 -x_5)(x_2 -x_6)}$$
-The gap indicated by $\left[\strut\cdot\right]$ marks where a term being excluded. For $p_2(x)$ that excluded term is $\frac{(x-x_2)}{(x_2 - x_2)}$. The various functions $p_1(x)$, $p_2(x)$, $p_3(x)$ and so on each leave out an analogous term.
-
-Three important facts to notice about these ingenious polynomial functions:
-
-i. They all have the same polynomial order. For $k$ knots, the order is $k-1$.
-i. Evaluated at $x_i$, the value of $p_i(x_i) = 1$. For instance, $p_2(x_2) = 1$.
-i. Evaluated at $x_j$, where $j\neq i$, the value of $p_j(x_i) = 0$. For example, $p_2(x_3) = 0$.
-
-The overall polynomial will be the linear combination $$p(x) = y_1\, p_1(x) + 
-y_2\, p_2(x) + \cdots + y_k\, p_k(x)\ .$$
-Can you see why?
-:::
-
 
 ## Exercises
 
 `r insert_calcZ_exercise("XX.XX", "9bAVr2", "Exercises/cat-understand-car.Rmd")`
 
 `r insert_calcZ_exercise("XX.XX", "djpDYI", "Exercises/bee-beat-hamper.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "l5UR71", "Exercises/kid-become-pants.Rmd")`
 
 `r insert_calcZ_exercise("XX.XX", "K8hC6q", "Exercises/pig-find-canoe.Rmd")`
 
