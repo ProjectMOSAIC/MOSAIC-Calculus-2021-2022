@@ -92,7 +92,8 @@ Chaps <- list(
 
 Sections <- list(
   exp_curve_fitting = "8.3",
-  gradient_vector = "24.3"
+  gradient_vector = "24.3",
+  functions_as_tables = "4.2"
 )
 
 under_construction <- function() {

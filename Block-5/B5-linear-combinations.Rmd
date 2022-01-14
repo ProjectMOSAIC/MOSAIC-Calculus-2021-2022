@@ -7,6 +7,7 @@ library(Znotes)
 ::: {.underconstruction}
 Chapter not yet released
 
+<!--
 $\vec{v}$ \vec
 
 $\mathit{M}$ \mathit
@@ -33,14 +34,14 @@ $\color{pink}{\mathit{M}}$
 $\color{purple}{\mathit{M}}$
 $\color{teal}{\mathit{M}}$
 $\color{violet}{\mathit{M}}$
-
+-->
 :::
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-linear-combinations.Rmd)</div>
 
 In this chapter, we introduce ***linear combinations of vectors***. As you recall, a linear combination is a sum of basic elements each of which has been ***scaled***. For instance, in Block 1 we looked at linear combinations of functions such as $$g(t) = A + B e^{kt}$$ which involves the basic functions $\text{one}(t)$ and $e^{kt}$ scaled respectively by $A$ and $B$. Linear combinations of vectors involve scaling and addition, which are simple seen either as numerical operations or a geometric ones. A useful concept will be the set of all vectors that can be constructed as linear combinations of given vectors. This set of all possibilities, called the ***subspace spanned*** by the given vectors is key to understanding how to find the "best" scalars for a given purpose.
 
-## Sums and scaling
+## Scaling vectors
 
 To scale a vector means to change its length without altering its direction. Scaling by a negative number flips the vector tip-for-tail. Figure \@ref(fig:scaling) shows two vectors $\vec{v}$ and $\vec{w}$ together with several scaled versions of each.
 
@@ -66,6 +67,7 @@ $$\vec{u} = \left[\begin{array}{r}1.5\\-1\end{array}\right]\ \ \ \ 2\vec{u} = \l
 
 Every vector is associated with a subspace that is ***one-dimensional***; you can only reach the points on a line by stepping in the direction of a vector.
 
+## Adding vectors
 
 To add two vectors, choose either one of the vectors as a start, then move the tail of the second vector to the tip of the first, as in Figure \@ref(fig:add-yellow-green).
 
@@ -75,21 +77,46 @@ knitr::include_graphics("www/pencils/addition.png")
 
 Adding vectors in this way takes advantage of the rootlessness of a vector. So long as we keep the direction and length the same, we can move a vector to whatever place is convenient. For adding vectors, the convenient arrangement is to place the tail of the second vector at the tip of the first. The result---the blue pencil in the picture above---has the length and direction from the tail of the first pencil (yellow) to the tip of the second (green). But so long as we maintain this length and direction, we can put the result (blue) anywhere we want.
 
-Subtraction is similar. For $\vec{v} - \vec{w}$, 
-$\vec{v}$ and $\vec{w}$ tail-to-tail. Read out the result as the vector running from the tip of $\vec{v}$ to the tip of $\vec{w}$. In Figure \@ref(fig:subtract-blue-from-yellow), the yellow vector is $\vec{v}$, the blue vector is $\vec{w}$. The result of the subtraction is the green vector.
+
+Arithmetically, vector addition is simply a matter of working with each component individually. For instance, consider adding two vectors $\vec{v}$ and $\vec{w}$:
+$$\underbrace{\left[\begin{array}{r}1.5\\-1\\2\\6\end{array}\right]}_\vec{v} + \underbrace{\left[\begin{array}{r}2\\4\\-2\\-3.2\end{array}\right]}_\vec{w} = \underbrace{\left[\begin{array}{r}3.5\\3\\0\\2.8\end{array}\right]}_{\vec{v} + \vec{w}}$$   
+
+Unlike our pencil exemplars of vectors, which must of physical necessity always be in the three-dimensional space we inhabit, mathematical vectors can be embedded in any-dimensional space. Addition is applicable to vectors embedded in the same space. Arithmetically, this means that the two vectors to be added must have the same number of components.  
+
+Arithmetic ***subtraction*** of one vector from another is a simple component-wise operation. For example:
+$$\underbrace{\left[\begin{array}{r}1.5\\-1\\2\\6\end{array}\right]}_\vec{v} {\Large -} \underbrace{\left[\begin{array}{r}2\\4\\-2\\-3.2\end{array}\right]}_\vec{w} = \underbrace{\left[\begin{array}{r}-0.5\\-5\\4\\9.2\end{array}\right]}_{\vec{v} - \vec{w}}\ .$$
+From a geometrical point of view, many people like to think of $\vec{v} - \vec{w}$ in terms of placing the two vectors **tail to tail** as in Figure \@ref(fig:subtract-blue-from-yellow). Read out the result as the vector running from the tip of $\vec{v}$ to the tip of $\vec{w}$. In Figure \@ref(fig:subtract-blue-from-yellow), the yellow vector is $\vec{v}$, the blue vector is $\vec{w}$. The result of the subtraction is the green vector.
 
 ```{r subtract-blue-from-yellow, echo=FALSE, fig.align="center", out.width="50%", fig.cap="Subtracting blue from yellow gives green."}
 knitr::include_graphics("www/pencils/subtraction.png")
 ```
 
+::: {.takenote data-latex=""}
+Vector addition and subtraction work just like arithmetic with scalars, but vector ***multiplication*** and ***division*** do not follow the same pattern.
+
+As a matter of arithmetic, it's easy to carry out the ***component-wise multiplication*** or ***component-wise division***, for instance
+
+$$\underbrace{\left[\begin{array}{r}1.5\\-1\\2\\6\end{array}\right]}_\vec{v} {\Large \times} \underbrace{\left[\begin{array}{r}2\\4\\-2\\-3.2\end{array}\right]}_\vec{w}\ \ \  = \underbrace{\left[\begin{array}{r}3\\-4\\-4\\-18.12\end{array}\right]}_\text{componentwise product}\ \ \text{is NOT vector multiplication}\ .$$
+In vector mathematics, "multiplication" is a much richer concept than componentwise arithmetic. In fact, there are four different kinds of "multiplication" and it's important to keep track of which one you mean in any context. In this book, we will use two kinds of "multiplication":
+
+* ***matrix multiplication*** which, as you'll see later in the chapter, is about linear combinations of vectors.
+* ***inner product***, which we prefer to call ***dot product*** and encountered in the previous chapter as a way of calculating vector lengths and the angle between vectors, is a special case of matrix multiplication.
+
+Another two forms of "multiplication," which we won't use in this book are:
+
+* ***cross product*** which is very important in physics and engineering.
+* ***outer product*** which has important applications in data science.
+
+:::
+
 
 ## Linear combinations
 
-In the previous chapter, we suggested that you think of a vector as a "step" in a given direction and of a given magnitude as in, "1 foot to the northeast." This interpretation highlights the mathematical structure of vectors: just a direction and a length, nothing else. 
+In the previous chapter, we suggested that you think of a vector as a "step" or displacement in a given direction and of a given magnitude as in, "1 foot to the northeast." This interpretation highlights the mathematical structure of vectors: just a direction and a length, nothing else. 
 
 The "step"-interpretation is also faithful to an important reason why vectors are useful. We use steps to get from one place to another. Similarly, a central use for the formalism of vectors is to guide our thinking and our algorithms for figuring out how best to get from one "place" to another. We've used quotation marks around "place" because we are not necessarily referring to a physical destination. We'll get to what else we might mean by "place" later in this chapter.
 
-As a fanciful example of getting to a "place," consider a cache of buried treasure. You are given these instructions to get there:
+As a fanciful example of getting to a "place," consider a treasure hunt. You are given these instructions to get there:
 
 > i. On June 1, go to the flagpole before sunrise.
 ii. At 6:32, walk 213 paces away from the sun.
@@ -102,21 +129,170 @@ knitr::include_graphics("www/Sun-6-32.png")
 knitr::include_graphics("www/Sun-12-19.png")
 ```
 
-The treasure directions are in the form of a ***linear combination*** of vectors. For each of the two vectors described in the treasure instructions, the length of the vector is 1 pace. (Admittedly, not a scientific unit of length.) The direction of each vector is toward the sun. Scaling vector (ii) by -213 and vector (iii) by 126, then adding the two scaled vectors gives a vector that takes you from the flagpole to the buried treasure. 
+The treasure-hunt directions are in the form of a ***linear combination*** of vectors. For each of the two vectors described in the treasure instructions, the length of the vector is 1 pace. (Admittedly, not a scientific unit of length.) The direction of each vector is toward the sun. Scaling vector (ii) by -213 and vector (iii) by 126, then adding the two scaled vectors gives a vector that takes you from the flagpole to the treasure. 
 
+Since this is a calculus book, and calculus is about functions, our interest in linear combinations of vectors in this book relates to the construction (and de-construction) of functions. 
 
+Recall from Block 1 (Section `r Sections$functions_as_tables`) the idea of representing a function as a ***table*** of inputs and the corresponding outputs. 
 
-Pirates and other mariners use direction terms like "one point north of north-north-east." Their maps are annotated with compass roses that translate the words into a direction.
+Here is such a table with some of our pattern-book functions.
 
-```{r compass-rose,echo=FALSE, fig.caption="A compass rose from the map in the children's classic book *Treasure Island*. One point north of north-north-east is the direction of the radial line passing through the 'd' in \"Skeleton Island\".", out.width="20%", fig.align="center"}
-knitr::include_graphics("www/compass-rose2.png")
+```{r echo=FALSE}
+CW <- tibble(t=seq(0,5, by=0.1)) %>%
+  mutate(`one(t)` = 1) %>%
+  mutate("identity(t)" = t) %>%
+  mutate("exp(t)" = exp(t)) %>%
+  mutate("sin(t)" = sin(t)) %>%
+  mutate("pnorm(t)" = pnorm(t))
+
+and_so_on(CW, top=5, bottom=5) %>% kableExtra::kable_minimal()
 ```
-Mathematicians can replace a compass rose with just two vectors, say, $\overset{\longrightarrow}{\text{North}}$ and $\overset{\longrightarrow}{\text{East}}$. Other directions can be given as a linear combination. For instance, the compass rose's "north-north-west" is the linear combination $0.9239\,\overset{\longrightarrow}{\text{North}} -0.3827\,\overset{\longrightarrow}{\text{East}}$.
+In this representation, each of the pattern-book functions is a column of numbers, that is, a ***vector***.
+
+Functions that we construct by linear combination are, in this vector format, just a linear combination of the vectors. For instance, the function $g(t) \equiv 3 - 2 t$ is $3\cdot \text{one}(t) - 2 \cdot \text{identity}(t)$
+
+```{r echo=FALSE}
+CW <- tibble(t=seq(0,5, by=0.1)) %>%
+  mutate(`one(t)` = 1) %>%
+  mutate("identity(t)" = t) %>%
+  mutate("g(t)" = 3 - 2*t)
+
+and_so_on(CW, top=5, bottom=5) %>% kableExtra::kable_minimal()
+```
+
+The table above is a collection of four vectors:  $\vec{\text{t}}$, $\vec{\text{one(t)}}$,  $\vec{\text{identity(t)}}$, and $\vec{\text{g(t)}}$. Each of those vectors has 51 components. In math-speak, we can say that the vectors are "embedded in a 51-dimensional space."
 
 
-Scalar multiplication is an operation on a single vector. Vector addition and subtraction put together two vectors.
+
+
+## Matrices and linear combinations
+
+A collection of vectors, such as the one displayed in the previous table, is called a ***matrix***. Each of the vectors in a matrix must have the same number of components. 
+
+As mathematical notation, we will use **bold-faced**, capital letters to stand for matrices, for example $\mathit{M}$. The symbol $\Uparrow$ is a reminder that a matrix can contain multiple vectors, just as the symbol $\uparrow$ in $\vec{v}$ reminds us that the name "$v$" refers to a vector.
+
+In the conventions for data, we give a name to each column of a data frame so that we can refer to it individually. In the conventions used in vector mathematics, names are not used to refer to the individual vectors. 
+
+As a case in point, let's look at a matrix $\mathit{M}$ containing the two vectors which we've previously called $\vec{\text{one(t)}}$ and  $\vec{\text{identity(t)}}$:
+$$\mathit{M} \equiv \left[\begin{array}{rr}1 & 0\\
+1 & 0.1\\
+1 & 0.2\\
+1 & 0.3\\
+\vdots & \vdots\\
+1 & 4.9\\
+1 & 5.0\\
+\end{array}\right]\ .$$
+The linear combination which we might previous have called $3\cdot \vec{\text{one(t)}} - 2\cdot \vec{\text{identity(t)}}$ can be thought of as 
+$$\left[\overbrace{\begin{array}{r}
+1\\
+1 \\
+1 \\
+1 \\
+\vdots &\\
+1 \\
+1 
+\end{array}}^{3 \times}
+\stackrel{\begin{array}{r}
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\end{array}}{\Large + \ }
+\overbrace{\begin{array}{r}
+0\\
+0.1 \\
+0.2 \\
+0.3 \\
+\vdots\\
+4.9 \\
+5.0 
+\end{array}}^{-2 \times}\right] = \left[\begin{array}{r}
+\\ \\ 3\\
+2.8\\2.6\\2.4\\\vdots\\-6.8\\-7.0\\ \\ \\
+\end{array}\right]\ ,$$ but this is not conventional notation. Instead, we would write this more concisely as 
+$$\stackrel{\Large\mathit{M}}{\left[\begin{array}{rr}1 & 0\\
+1 & 0.1\\
+1 & 0.2\\
+1 & 0.3\\
+\vdots & \vdots\\
+1 & 4.9\\
+1 & 5.0\\
+\end{array}\right]} \cdot 
+\stackrel{\Large\vec{w}}{\left[\begin{array}{r}2\\-3\end{array}\right]}$$
+In symbolic form, the linear combination of the columns of $\mathit{M}$ using respectively the scalars in $\vec{w}$ is simply $\mathit{M} \cdot \vec{w}$. This is called ***matrix multiplication***. 
+
+Naturally, the operation only makes sense if there are as many components to $\vec{w}$ as there are columns in $\mathit{M}$.
+
+::: {.takenote data-latex=""}
+"Matrix multiplication" might better have been called "$\mathit{M} linearly combined by $\vec{w}$." But "matrix multiplication" is the phrase you will hear in other courses. 
+:::
+
+::: {.rmosaic data-latex=""}
+In R, you can make vectors with the `rbind()` command, short for "bind rows," as in 
+```{r}
+rbind(2, 5, -3)
+```
+
+with the components of the vector presented as successive arguments to the function. 
+
+One way to make a matrix is with the `cbind()` command, short for "bind columns". The arguments to `cbind()` will typically be vectors created by `rbind().` For instance, the matrix 
+$$\mathit{A} \equiv \left[\vec{u}\ \ \vec{v}\right]\ \ \text{where}\ \ \vec{u} \equiv \left[\begin{array}{r}2\\5\\-3\end{array}\right]\ \ \text{and}\ \ \vec{v} \equiv \left[\begin{array}{r}1\\-4\\0\end{array}\right]$$
+can be constructed in R with these commands.
+
+
+
+```{r}
+u <- rbind(2, 5, -3)
+v <- rbind(1, -4, 0)
+A <- cbind(u, v)
+A
+```
+
+To compute the linear combination $3 \vec{u} + 1 \vec{v}$, that is, $\mathit{A} \cdot \left[\begin{array}{r}3\\1\end{array}\right]$ you use the matrix multiplication operator `%*%`. For instance, the following defines a vector $$\vec{x} \equiv \left[\begin{array}{r}3\\1\end{array}\right]$$ to do the job in a way that's easy to read:
+
+```{r}
+x <- rbind(3, 1)
+A %*% x
+```
+
+It's a mistake to use `*` instead of `%*%` for matrix multiplication. Remember that `*` is for **componentwise multiplication** which is different from matrix multiplication. Componentwise multiplication with vectors and matrices will usually give an error message as with:
+
+```{r error=TRUE}
+A * x
+```
+The phrase "non-conformable arrays" is R-speak for saying "The arguments to `*` don't have compatible shapes for componentwise multiplication."
+:::
+
 
 ## Sub-spaces
+
+Recall that a vector with $n$ components can be said to be embedded in an $n$-dimensional space. You might like to think of the embedding space as a kind of club with restricted membership. A vector with 2 elements is entitled to join the 2-dimensional club, but a vector with more or fewer than 2 elements cannot be admitted to the club. Similarly, there are clubs for 3-component vectors, 4-component vectors, and so on.
+
+The clubhouse itself is a kind of space, the space in which any and all of the vectors that are eligible for membership can be embedded. 
+
+Now imagine that the clubhouse can be arranged into meeting rooms. Each meeting room is just part of the clubhouse space. Which part? That depends on a set of vectors who sponsor the meeting. For instance, in the ten-dimensional clubhouse, a few members, let's say $\vec{v}$ and $\vec{w}$ decide to sponsor a meeting. That meeting room, part of the whole clubhouse space, is called a ***subspace***. 
+
+A subspace has it's own rules for admission. New vectors can be in the subspace only if they can be constructed as a linear combination of the sponsoring members. The subspace itself consists of all vectors that are a linear combination of the sponsors.
+
+As an example, consider the clubhouse that is open to any and all vectors with two components. The diagram in Figure \@ref(fig:vector-2-clubhouse)
+
+```{r vector-2-clubhouse, echo=FALSE, fig.cap="The clubhouse for vectors with two components, with several members in attendence. Member $\\vec{v}$ has sponsored a subspace. All the members of the subspace must be scaled versions of $\\vec{v}$."}
+# Show the whole clubhouse and a subspace sponsored by $\vec{v}$
+```
+
+Now suppose that some of the other vectors decide to sponsor subspaces. The subspace sponsored by $\vec{u}$ and $\vec{w}$ contains all the vectors that can be constructed as linear combinations of $\vec{u}$ and $\vec{w}$. This subspace is, in fact, the entirety of the 2-dimensional clubhouse.
+
+On the other hand, the subspace sponsored by $\vec{w}$ and $\vec{x}$ is not the entire clubhouse because $\vec{w}$ and $\vec{x}$  are aligned with one another. The $\vec{w}$ and $\vec{x}$ subspace can contain only vectors that are aligned in the same way.
+
+More mathematically, given one or more vectors with the same number of components, the embedding space is the set of all possible vectors with that number of components. A subspace of the embedding space is defined by a collection of one or more vectors. If the vectors are $\vec{u}$ and $\vec{w}$, we speak of the ***subspace spanned*** by $\vec{u}$ and $\vec{w}$. The subspace spanned by a matrix is the subspace spanned by the vectors that compose the matrix. 
+
+
+
+
 
 Figure \@ref(fig:two-vecs) includes a second vector $\vec{w}$ along with the vector $\vec{v}$ seen in Figure \@ref(fig:single-scale). Each vector has its own subspace, again shown as dotted lines.
 
@@ -286,20 +462,6 @@ In scientific computing languages, there is almost always a type of object calle
 Also, as a matter of convention, the linear combination of the vectors in a matrix is indicated by placing to the right of the matrix a column containing the coefficients of the combination $3 \vec{u} + 1 \vec{v}$, as with
 
 $$ {\mathbf A} \left[\begin{array}{c}3\\1\end{array}\right] = \left[\begin{array}{r}2\\5\\-3\end{array}\ \begin{array}{r}1\\-4\\0\end{array}\right] \left[\begin{array}{c}3\\1\end{array}\right] = \left[\begin{array}{r}7\\11\\-9\end{array}\right]$$
-In R, we make vectors with the `rbind()` command, that places its arguments in a row. We'll make matrices with the `cbind()` command, which places its arguments in a column. Of course, the `r` in `rbind()` stands for "row" while the `c` in `cbind()` stands for "column."
-
-```{r}
-u <- rbind(2, 5, -3)
-v <- rbind(1, -4, 0)
-A <- cbind(u, v)
-A
-```
-We take a linear combination of the vectors in a matrix by writing down the coefficients in the same style as a vector and multiplying using `%*%`:
-
-```{r}
-c <- rbind(3, 1)
-A %*% c
-```
 
 Often, we'll want to make several different linear combinations of the vectors in a matrix. Since each individual linear combination is specified with a column of coefficients, the convention is to place the several sets of coefficients as side-by-side columns, that is, as a matrix. 
 
@@ -391,6 +553,7 @@ Can you see why?
 
 `r insert_calcZ_exercise("XX.XX", "djpDYI", "Exercises/bee-beat-hamper.Rmd")`
 
+`r insert_calcZ_exercise("XX.XX", "K8hC6q", "Exercises/pig-find-canoe.Rmd")`
 
 `r insert_calcZ_exercise("XX.XX", "dIobrt", "Exercises/rabbit-buy-hamper.Rmd")`
 
