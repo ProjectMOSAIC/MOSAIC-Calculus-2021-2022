@@ -17,21 +17,22 @@ $$\text{previous chapter:}\ \ {\mathbf A}\, \vec{x} = \vec{?}$$ where $\vec{x}$ 
 $$\text{this chapter:}\ \ {\mathbf A}\, \vec{?} = \vec{b}$$
 In other words, the task of this chapter is to show how to solve ${\mathbf A} \vec{x} = \vec{b}$ when we know the result of the linear combination $\vec{b}$, and the set of vectors being combined, $\mathbf M$, but we don't yet know $\vec{x}$. 
 
-As motivation for this "find $\vec{x}$" problem, we refer you to Figure \@ref(fig:water-dots) which showed the temperature-vs-time data from the `CoolingWater` data frame. That figure shows several possible linear combinations of the vectors $u(t) \equiv e^{-0.02 t}$ (we called this `expkt`) and $v(t) \equiv 1$ (we called this `intercept`). Suppose we seek to find the particular linear combination of $u(t)$ and $v(t)$ that comes as close as possible to the black dots in the figure. That is, we know ${\mathbf A}$: the two columns `expkt` and `intercept` from the data frame, and we know $\vec{b}$: the column `temp` from the data frame. 
+In the previous chapter we used a metaphor for subspaces: a part of a clubhouse open to any vector that is aligned with the sponsoring vectors for the subspace. Let's run with that metaphor for a little longer.
 
-This sort of problem is extremely common and important throughout quantitative fields of all sorts, from astronomy to zoology, and is one of the foundation techniques in statistics and data science. We'll present the approach graphically, algorithmically, and computationally.
+Imagine a new vector knocking on the door of the subspace and asking to be included as a member of the subspace. How are the sponsoring vectors going to decide whether to accept the application? It's too much to expect that the new vector will be aligned with any of the sponsoring vectors. Indeed the admissions rules specify only that the new vector be expressible as some linear combination of the sponsors. The solution to the problem will be ***projection*** of the new vector onto the subspace. Projection will decompose the new vector into two parts: one part absolutely suitable for admission to the subspace and another part that is orthogonal to the subspace. 
 
+In this chapter you'll see how to calculate the projection of a vector onto a given subspace, both to find the component of the vector that can reside in the subspace and the component that is orthogonal to the subspace. 
 
 
 ## Projecting a vector onto another vector
 
-We'll start with one of the most fundamental operations: projecting one vector onto the one-dimensional subspace spanned by another another vector. The geometric situation is shown in Figure \@ref(fig:proj1). In our notation, we will **always** write the vector being projected as $\vec{b}$ or some variation of the letter "b." The vectors onto which $\vec{b}$ is being projected will be written $\vec{u}$, $\vec{v}$, and so on. In this section, there is only a single vector being projected onto, and we're calling it $\vec{u}$.
+We'll start with a fundamental operations: projecting one vector onto the one-dimensional subspace spanned by another another vector. The geometric situation is shown in Figure \@ref(fig:proj1). In our notation, we will **always** write the vector being projected as $\vec{b}$ or some variation of the letter "b." The vectors onto which $\vec{b}$ is being projected will be written $\vec{u}$, $\vec{v}$, and so on. In this section, there is only a single vector being projected onto, and we're calling it $\vec{u}$.
 
 ```{r proj1, echo=FALSE, fig.cap="Two vectors. Vector $\\vec{b}$ is to be projected onto vector $\\vec{u}$."}
 knitr::include_graphics("CalcPlot3D/diagram1-static.png")
 ```
 
-A physical analogy for projection is the casting of shadows on a screen in the same manner as an old-fashioned slide projector or movie projector. The vector $\vec{u}$ is the screen. The light source is arranged to generate parallel rays which arrive perpendicularly to the screen. In this situation, the shadow cast by $\vec{b}$ on the screen $\vec{u}$ is the "projection of $\vec{b}$ onto $\vec{u}$."
+A physical analogy for projection is the casting of shadows on a screen in the same manner as an old-fashioned slide projector or movie projector. The subspace is the screen. The light source is arranged to generate parallel rays which arrive perpendicularly to the screen. In this situation, the shadow cast by $\vec{b}$ on the screen $\vec{u}$ is the "projection of $\vec{b}$ onto $\vec{u}$."
 
 In terms of vector-language, the projection of $\vec{b}$ onto $\vec{u}$ is the vector $\alpha\,\vec{u}$ where the scalar multiplier $\alpha$ is selected to place $\alpha\,\vec{u}$ as **close as possible** to $\vec{b}$.
 
@@ -492,6 +493,11 @@ EXERCISE: Repeat the calculations for the entire `CoolingData` data frame.
 Adding vectors. The result is a vector
 
 Scaling and adding vectors: a linear combination of vectors.
+
+As motivation for this "find $\vec{x}$" problem, we refer you to Figure \@ref(fig:water-dots) which showed the temperature-vs-time data from the `CoolingWater` data frame. That figure shows several possible linear combinations of the vectors $u(t) \equiv e^{-0.02 t}$ (we called this `expkt`) and $v(t) \equiv 1$ (we called this `intercept`). Suppose we seek to find the particular linear combination of $u(t)$ and $v(t)$ that comes as close as possible to the black dots in the figure. That is, we know ${\mathbf A}$: the two columns `expkt` and `intercept` from the data frame, and we know $\vec{b}$: the column `temp` from the data frame. 
+
+This sort of problem is extremely common and important throughout quantitative fields of all sorts, from astronomy to zoology, and is one of the foundation techniques in statistics and data science. We'll present the approach graphically, algorithmically, and computationally.
+
 
 
 
