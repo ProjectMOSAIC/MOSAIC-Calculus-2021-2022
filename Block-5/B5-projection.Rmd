@@ -21,26 +21,11 @@ As motivation for this "find $\vec{x}$" problem, we refer you to Figure \@ref(fi
 
 This sort of problem is extremely common and important throughout quantitative fields of all sorts, from astronomy to zoology, and is one of the foundation techniques in statistics and data science. We'll present the approach graphically, algorithmically, and computationally.
 
-::: {.takenote data-latex=""}
-Let's highlight the three different modes in which we're going to introduce the topic of projection and residual. Ultimately, in your professional work, you will rely on
-
-***computation***, getting the computer to do the work. For us in this chapter, the basic R functions you will use are `rbind()`, `cbind()`, `qr.solve()`, and "matrix multiplication" `%*%`, as well as the usual addition, subtraction, division, square root, and scalar multiplication.^[Scalar multiplication is just the regular sort of multiplication that you grew up with, as in $3 \times 4 \rightarrow 12.$ We call it "scalar multiplication" to make it clear that we are not talking about "matrix multiplication." Terms such as "scalar multiplication are called [retronyms](https://www.merriam-webster.com/dictionary/retronym), a modification to a long-existing word that has become ambiguous because of the introduction of a new equivalent. Example: the existing "mail" was at first supplemented by "e-mail". Now that e-mail is more common than the old-fashioned postal kind, the retronym "snail mail" is used to indicate the kind delivered by postal workers.] 
-
-As we introduce them, you will want to make sure you know exactly what each of `rbind()`, `cbind()`, `qr.solve()`, and `%*%` are used for. In the world of linear combinations, these are fundamental operations.
-
-**algorithmic** describes a process of carrying out an operation. The R operators `qr.solve()` and `%*%` (and others!) are implemented as software. That software describes a series of steps to accomplish the operation. With linear combinations, most of those steps are **arithmetic** as with the dot product and vector length.
-
-We will show the arithmetic steps for the vector operations in the simple case of one, two, or three vectors. The generalization to more vectors requires the organizational principles provided by computer languages, and this is not a course in computer programming. By rendering the operations of linear combinations in arithmetic, we hope to provide a better understanding of what's happening in the operations so you can be an aware consumer of the output of computer programmers.
-
-**geometrically** in two and three dimensions. We humans have powerful intuitive abilities to make sense of simple geometric constructions. Since many people are able to assimilate simple geometry more readily than arithmetic, the geometric presentation provides a good alternative route to understanding the mathematics of linear combinations, even though it's restricted to the simple situations of two and three dimensional space.
-
-Again, ultimately professionals use the **computational** tools for working out tasks in linear combinations. You will use those tools better if you can think about them in terms of arithmetic and geometry. 
-:::
 
 
 ## Projecting a vector onto another vector
 
-We'll start with one of the most fundamental operations: projecting one vector onto another. The geometric situation is shown in Figure \@ref(fig:proj1). In our notation, we will **always** write the vector being projected as $\vec{b}$ or some variation of the letter "b." The vectors onto which $\vec{b}$ is being projected will be written $\vec{u}$, $\vec{v}$, and so on. In this section, there is only a single vector being projected onto, and we're calling it $\vec{u}$.
+We'll start with one of the most fundamental operations: projecting one vector onto the one-dimensional subspace spanned by another another vector. The geometric situation is shown in Figure \@ref(fig:proj1). In our notation, we will **always** write the vector being projected as $\vec{b}$ or some variation of the letter "b." The vectors onto which $\vec{b}$ is being projected will be written $\vec{u}$, $\vec{v}$, and so on. In this section, there is only a single vector being projected onto, and we're calling it $\vec{u}$.
 
 ```{r proj1, echo=FALSE, fig.cap="Two vectors. Vector $\\vec{b}$ is to be projected onto vector $\\vec{u}$."}
 knitr::include_graphics("CalcPlot3D/diagram1-static.png")
@@ -297,7 +282,7 @@ Of course, a set of vectors is simply a ***matrix***, so we'll cast the problem 
 There is one case that is extremely simple: when the vectors in $\mathbf A$ are ***mutually orthogonal***. Let's make sure we understand this case well. The geometry is simple, as in Figure \@ref(fig:orthog-A).
 
 ```{r orthog-A, echo=FALSE, fig.cap="Projecting $\\vec{b}$ onto two orthogonal vectors. REPLACE THIS WITH THE ACTUAL IMAGE."}
-knitr::include_graphics("www/compass-rose2.png")
+knitr::include_graphics("www/tiny-blank.png")
 ```
 
 To demonstrate the projection a bit more generally, let's set up 3 orthogonal vectors in a four-dimensional space as $\mathbf A$:
@@ -451,7 +436,7 @@ Our goal is to scale the `expkt` vector so that the scaled numbers will be as cl
 
 How are we to judge whether this is a good model or not? Common sense suggests plotting out the model function along with the data, as in Figure \@ref(fig:just-exp).
 
-```{r just-exp, echo=FALSE, fig.cap="Comparing the model $99.23\\, e^{-0.02 t}$ to the recorded data in `CoolingWater."}
+```{r just-exp, eval=FALSE, fig.cap="Comparing the model $99.23\\, e^{-0.02 t}$ to the recorded data in `CoolingWater."}
 gf_point(temp ~ time, data = CW) %>%
   slice_plot(99.23*exp(-0.02*time) ~ time, color="magenta")
 
@@ -481,18 +466,21 @@ Likewise, we can scale the vector `intercept` to make it match `temp` as well as
 
 The idea of a linear combination is to scale and add multiple vectors. As a **very rough start**, let's look at the combination 58.2 `intercept` + 99.23 `expkt`, the combination of the two individual models we constructed by vector analogy. CAUTION: The model will be poor. That's not because the vector analogy is poor but because we still have to work out, as we will in the next two chapters, how properly to work with vectors. 
 
-```{r}
+```{r eval=FALSE}
+# This is broken
+CW <- CoolingWater
 CW <- CW %>% 
   mutate(model = 99.23*expkt + 58.2*intercept)
 ```
 
-```{r echo=FALSE}
-knitr::kable(CW) %>% kableExtra::kable_minimal()
+```{r eval=FALSE}
+# Broken
+Znotes::and_so_on(CW) %>% kableExtra::kable_minimal()
 ```
 
 The resulting model is ... well, terrible! Figure \@ref(fig:two-temp-models) shows the linear combination 
 
-```{r two-temp-models, echo=FALSE}
+```{r two-temp-models, eval=FALSE}
 gf_point(temp ~ time, data = CW) %>%
   gf_point(model ~ time, data = CW, color="magenta") %>%
   slice_plot(58.2+ 99.23*exp(-0.02*time) ~ time, color="magenta")
@@ -652,15 +640,6 @@ sqrt(t(w) %*% w)
 </details>
 
 
-
-## Outline
-
-a. Write a system of linear equations as a "target problem" involving a linear combination of vectors. 
-b. Definition of a linear combination of vectors.
-c. Matrix is a collection of vectors
-    i. Linear combination is written as matrix multiplied by vector
-d. Solve target problem algebraically or graphically in two dimensions.
-e. Subtracting vectors algebraically and graphically
 
 
 

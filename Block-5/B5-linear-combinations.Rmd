@@ -124,9 +124,10 @@ iii. At 12:19, walk 126 paces toward the sun.
 
 The sun position varies over the day, so the direction to the sun on June 1 at 6:32  will be different than at 12:19. Figure \@ref(fig:sun-direction) show an aerial views annotated with the direction of the sun at 6:32 and 12:19 on June 1.
 
-```{r sun-direction, echo=FALSE, out.width="40%", fig.show="keep", fig.cap="Maps showing the directions of sunrise and sunset on June 1 at latitude/longitude (38.0091,-104.8871). The Sun's direction at 6:32 is shown in the left map, the direction at 12:19 in the right map. Source: [suncalc.org](https://www.suncalc.org/)"}
-knitr::include_graphics("www/Sun-6-32.png")
-knitr::include_graphics("www/Sun-12-19.png")
+```{r sun-direction, echo=FALSE, out.width="80%", fig.show="keep", fig.cap="Maps showing the directions of sunrise and sunset on June 1 at latitude/longitude (38.0091,-104.8871). The Sun's direction at 6:32 is shown in the left map, the direction at 12:19 in the right map. Source: [suncalc.org](https://www.suncalc.org/)"}
+#knitr::include_graphics("www/Sun-6-32.png")
+#knitr::include_graphics("www/Sun-12-19.png")
+knitr::include_graphics("www/sun-directions.png")
 ```
 
 The treasure-hunt directions are in the form of a ***linear combination*** of vectors. For each of the two vectors described in the treasure instructions, the length of the vector is 1 pace. (Admittedly, not a scientific unit of length.) The direction of each vector is toward the sun. Scaling vector (ii) by -213 and vector (iii) by 126, then adding the two scaled vectors gives a vector that takes you from the flagpole to the treasure. 
@@ -160,7 +161,7 @@ CW <- tibble(t=seq(0,5, by=0.1)) %>%
 and_so_on(CW, top=5, bottom=5) %>% kableExtra::kable_minimal()
 ```
 
-The table above is a collection of four vectors:  $\vec{\text{t}}$, $\vec{\text{one(t)}}$,  $\vec{\text{identity(t)}}$, and $\vec{\text{g(t)}}$. Each of those vectors has 51 components. In math-speak, we can say that the vectors are "embedded in a 51-dimensional space."
+The table above is a collection of four vectors:  $\stackrel{\uparrow}{\text{t}}$, $\stackrel{\uparrow}{\text{one(t)}$,  $\stackrel{\uparrow}{\text{identity(t)}}$, and $\stackrel{\uparrow}{\text{g(t)}}$. Each of those vectors has 51 components. In math-speak, we can say that the vectors are "embedded in a 51-dimensional space."
 
 
 
@@ -324,18 +325,20 @@ On the other hand, the subspace sponsored by $\vec{w}$ and $\vec{x}$ is not the 
 
 More mathematically, given one or more vectors with the same number of components, the embedding space is the set of all possible vectors with that number of components. A subspace of the embedding space is defined by a collection of one or more vectors. If the vectors are $\vec{u}$ and $\vec{w}$, we speak of the ***subspace spanned*** by $\vec{u}$ and $\vec{w}$. The subspace spanned by a matrix is the subspace spanned by the vectors that compose the matrix. 
 
-A helpful intuition of subspaces can be developed by displaying a few subspaces for vectors with 3 components. As an aid, we'll 3-D drawing software that allows you to look at the inhabitants of the space from different perspectives.
+A helpful intuition of subspaces can be developed by displaying a few subspaces for vectors with 3 components. As an aid, Figure \@ref(fig:two-vecs) uses 3-D drawing software that allows you to look at the inhabitants of the space from different perspectives.
 
-THIS IS WHERE CALCPLOT3D will come in.
+```{r child="CalcPlot3D/spaces-A.Rmd"}
+```
 
-There is one, and only one vector in any given dimension that is part of any and all subspaces, regardless of which vectors happen to be the sponsors. This is the vector of all zeros. Why? Because $\vec{\text{0}}$ can be constructed by multiplying any of the sponsors by the scalar 0. can be constructed the  that might be constructed 
+```{r two-vecs, echo=FALSE, out.width="1%", fig.cap="Two vectors $\\vec{u}$ and $\\vec{w}$ embedded in 3-dimensional space. The subspace spanned by each vector, individually, is shown as a line."}
+knitr::include_graphics("www/tiny-blank.png")
+```
+
+Notice in Figure \@ref(fig:two-vecs) that the two different subspaces intersect at the origin. There is one, and only one vector in any given dimension that is part of any and all subspaces, regardless of which vectors happen to be the sponsors. This is the vector of all zeros. Why? Because $\vec{\text{0}}$ can be constructed by multiplying any of the sponsors by the scalar 0. 
 
 
 
-Figure \@ref(fig:two-vecs) includes a second vector $\vec{w}$ along with the vector $\vec{v}$ seen in Figure \@ref(fig:single-scale). Each vector has its own subspace, again shown as dotted lines.
-
-TURN THIS INTO A CALCPLOT3D
-```{r two-vecs, echo=FALSE, fig.cap="The subspaces spanned by each of two vectors $\\vec{v}$ and $\\vec{w}$."}
+```{r eval=FALSE, echo=FALSE, fig.cap="The subspaces spanned by each of two vectors $\\vec{v}$ and $\\vec{w}$."}
 gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
   gvec(from=c(-1,0), to=c(1, -2), color="magenta", 
        label="") %>%
@@ -352,15 +355,16 @@ gf_segment(2 + - 5 ~ (-3) + 4, color = "magenta", linetype="dotted") %>%
 
 
 
-Things get interesting when we consider not just the subspace spanned by the vectors individually, but the subspace spanned by them ***jointly***. Recall that the subspace spanned by $\vec{v}$ is all the vectors that can be created by scalar multiplication of $\vec{v}$, that is, all the vectors $\alpha \vec{v}$ for $-\infty < \alpha < \infty$. 
+Things get interesting when we consider not just the subspace spanned by the vectors individually, but the subspace spanned by them ***jointly***. Recalling that the vector $\vec{0}$ must lie in the subspace (since it is in all subspaces!) any vector in the subspace can be aligned with a plane going through the origin. The interactive Figure \@ref(fig:two-vecs-plane) shows the subspace as a gray, planar surface. By rotating the figure, you can see how the plane is oriented. (Strictly speaking, we're showing only the part of the planar subspace near the origin. If we drew the whole subspace, which extends infinitely far from the origin, it would be hard to see how the plane is oriented.)  Move the axes so that you are looking down the "barrel" of one of the vectors and you'll be looking at the subspace edge on, so it will appear as a straight line.
 
-With two vectors, the subspace is all the vectors that can be created by a linear combination of the two, that is $$\alpha \vec{v} + \beta \vec{w}$$ where $-\infty < \alpha < \infty$ and $-\infty < \beta < \infty$. To start the trip, walk to the point $\alpha \vec{v}$ on the subspace of $\vec{v}$. Now, pick up $\vec{w}$ and place its tail at the point you just reached, $\alpha \vec{v}$. Finally, walk from that point in the direction of $\vec{w}$ for $\beta$ steps.
 
-By adjusting $\alpha$ and $\beta$ appropriately, you can get to any point in the plane. In other words, the subspace spanned by the set of vectors $\{\vec{a}, \vec{b}\}$ is the entire plane. 
+```{r child="CalcPlot3D/spaces-B.Rmd"}
+```
 
-CAN WE PLACE A CALCPLOT3D picture here.
-
-Figure \@ref(fig:two-vecs), lying as it does on the two-dimensional surface of your screen or paper, fails to indicate clearly that even in three- or higher-dimensional space, two (non-aligned) vectors will span a plane with a particular orientation. To see this better, a worthwhile experiment is to pick up two pencils pointing in different directions. Place the eraser ends together, pinched between thumb and forefinger. You can point the whole rigid assembly in any direction you like. The angle between them will remain the same. 
+```{r two-vec-planes, echo=FALSE, out.width="1%", fig.cap="Two vectors $\\vec{u}$ and $\\vec{w}$. The subspace spanned by two vectors is a plane, shown as a gray surface."}
+knitr::include_graphics("www/tiny-blank.png")
+```
+For a more concrete representation of the subspace spanned by two vectors, a worthwhile experiment is to pick up two pencils pointing in different directions. Place the eraser ends together, pinched between thumb and forefinger. You can point the whole rigid assembly in any direction you like. The angle between them will remain the same. 
 
 Place a card on top of the pencils, slipping it between your pressed fingers to hold it tightly in place. The card is another kind of geometrical object: a planar surface. The orientation of two vectors together determine the orientation of the surface. This simple fact will be extremely important later on.
 
