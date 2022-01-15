@@ -4,105 +4,100 @@
 library(Znotes)
 ```
 
-
 ::: {.underconstruction}
 Chapter not yet released
 :::
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-projection.Rmd)</div>
 
-In the previous chapter, we took linear combinations of vectors. Using the notation of ***matrices***, we solved the problem
-$$\text{previous chapter:}\ \ {\mathbf A}\, \vec{x} = \vec{?}$$ where $\vec{x}$ is a column of coefficients, one coefficient for each of the columns in the matrix ${\mathbf A}$. Finding $\vec{?}$ is a simple, if somewhat tedious, matter of multiplication. 
+Many problems in physics and engineering involve the task of ***decomposing*** a vector $\vec{b}$ into two perpendicular component vectors $\vec{s}$ and $\vec{r}$, such that $\vec{s} + \vec{r} = \vec{b}$ and 
+$\vec{s} \cdot \vec{r} = 0$. There is an infinite number of ways to accomplish such a decomposition, one for each way or orienting $\vec{s}$ relative to $\vec{b}$. Figure \@ref(fig:decompose-1) shows a few examples.
 
-$$\text{this chapter:}\ \ {\mathbf A}\, \vec{?} = \vec{b}$$
-In other words, the task of this chapter is to show how to solve ${\mathbf A} \vec{x} = \vec{b}$ when we know the result of the linear combination $\vec{b}$, and the set of vectors being combined, $\mathbf M$, but we don't yet know $\vec{x}$. 
+```{r decompose-1, echo=FALSE, out.width="60%", fig.align="center", fig.cap="A few ways of decomposing $\\vec{b}$ into perpendicular components $\\vec{s}$ and $\\vec{r}$"}
+knitr::include_graphics("www/decompose-1.png")
+```
+::: {.example data-latex=""}
+Gravitational force, as you know, always points downward. The effective acceleration due to gravity of a mass depends, however, on how that mass is situated with respect to other elements of the structure. The figure below shows several diagrams that might well be found on the pages of a physics textbook. In each diagram, there is a mass and a constraining structure: a ramp, a pendulum, an inclined plane. The force of gravity on the mass always points directly downward. In each diagram, $\vec{s}$ is the effective gravitational force on the mass, pointing down the ramp, or perpendicular to the pendulum strut, or aligned with the gradient vector of the inclined plane.
 
-In the previous chapter we used a metaphor for subspaces: a part of a clubhouse open to any vector that is aligned with the sponsoring vectors for the subspace. Let's run with that metaphor for a little longer.
-
-Imagine a new vector knocking on the door of the subspace and asking to be included as a member of the subspace. How are the sponsoring vectors going to decide whether to accept the application? It's too much to expect that the new vector will be aligned with any of the sponsoring vectors. Indeed the admissions rules specify only that the new vector be expressible as some linear combination of the sponsors. The solution to the problem will be ***projection*** of the new vector onto the subspace. Projection will decompose the new vector into two parts: one part absolutely suitable for admission to the subspace and another part that is orthogonal to the subspace. 
-
-In this chapter you'll see how to calculate the projection of a vector onto a given subspace, both to find the component of the vector that can reside in the subspace and the component that is orthogonal to the subspace. 
-
-
-## Projecting a vector onto another vector
-
-We'll start with a fundamental operations: projecting one vector onto the one-dimensional subspace spanned by another another vector. The geometric situation is shown in Figure \@ref(fig:proj1). In our notation, we will **always** write the vector being projected as $\vec{b}$ or some variation of the letter "b." The vectors onto which $\vec{b}$ is being projected will be written $\vec{u}$, $\vec{v}$, and so on. In this section, there is only a single vector being projected onto, and we're calling it $\vec{u}$.
-
-```{r proj1, echo=FALSE, fig.cap="Two vectors. Vector $\\vec{b}$ is to be projected onto vector $\\vec{u}$."}
-knitr::include_graphics("CalcPlot3D/diagram1-static.png")
+```{r echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics("www/gravity-settings.png")
 ```
 
-A physical analogy for projection is the casting of shadows on a screen in the same manner as an old-fashioned slide projector or movie projector. The subspace is the screen. The light source is arranged to generate parallel rays which arrive perpendicularly to the screen. In this situation, the shadow cast by $\vec{b}$ on the screen $\vec{u}$ is the "projection of $\vec{b}$ onto $\vec{u}$."
+The $\vec{r}$ in each diagram gives the component of gravitational force that will be counter-acted by the structure: the pull downward into the ramp, the pull along the pendulum strut, or the pull into the inclined plane.
+:::
 
-In terms of vector-language, the projection of $\vec{b}$ onto $\vec{u}$ is the vector $\alpha\,\vec{u}$ where the scalar multiplier $\alpha$ is selected to place $\alpha\,\vec{u}$ as **close as possible** to $\vec{b}$.
+The task of ***decomposition*** is important also outside of physics and engineering. Our particular interest will be in finding how best to take a linear combination of the columns of a matrix $\mathit{A}$ in order to make the best approximation to a given vector $\vec{b}$. This problem solves all sorts of problems: finding a linear combination of functions to match a relationship laid out in data, constructing statistical models such as those found in machine learning, effortlessly solving sets of simultaneous linear equations with any number of equations and any number of unknowns.
 
-What do we mean exactly by "as close as possible?" We need to render this into vector-language. We'll do this by a combination of length and vector subtraction. For any scalar value of $\alpha$, there is a vector $\vec{b} - \alpha\, \vec{u}$. Figure \@ref(fig:proj-2) shows the situation for a handful of candidates for $\alpha$. As always, the vector $\alpha\,\vec{u}$ lies on the linear subspace defined by $\vec{u}$. Supposing that $\alpha = 2$, corresponding to the blue dot in Figure \@ref(fig:proj-2), the vector $\vec{b} - \alpha\,\vec{u}$ is the vector extending from the blue dot to the tip of $\vec{b}$.
+## Projection terminology
 
-```{r proj-2, echo=FALSE, fig.cap="The vector $\\alpha\\,\\vec{u}$ is shown for several values of $\\alpha$$, each value being marked by a colored dot. (The values shown are roughly $\alpha =\ $1.1 (orange), 1.3 (yellow), 1.6 (red), and 2.0 (blue).) The vector $\\vec{b} - \\alpha\\,\\vec{u}$ for each of the colors is indicated by a dashed line connecting the tip of $\\alpha\\,\\vec{u}$ to the tip of $\\vec{b}$."}
-#knitr::include_graphics("www/drawings/projection-2.png")
-knitr::include_graphics("CalcPlot3D/diagram1b-static.png")
+The problem of decomposition can be considered to be a special case of ***projection***. The word "projection" may bring to mind the casting of shadows on a screen in the same manner as an old-fashioned slide projector or movie projector. The light source is arranged to generate parallel rays which arrive perpendicularly to the screen. A movie screen is two-dimensional, a subspace defined by two vectors. Imagining those two vectors to be collected into matrix $\mathit{A}$, the idea is to decompose $\vec{b}$ into a component that lies in the subspace defined by $\mathit{A}$ and another component that is perpendicular to the screen. That perpendicular component is what we have been calling $\vec{r}$ while the vector $\vec{s}$ is the projection of $\vec{b}$ onto the screen. To make it easier to keep track of the various roles played by $\vec{b}$, $\vec{s}$, $\vec{r}$ and $\mathit{A}$, we'll give these vectors English-language names. The motivation for these names will become apparent in later chapters, but for now, here they are. You will want to memorize them.
+
+- $\vec{b}$ the ***target vector***
+- $\vec{s}$ the ***model vector***
+- $\vec{r}$ the ***residual vector***
+- $\mathit{A}$ the ***model space*** (or "model subspace")
+
+In projection problems, the model vector will always be a member of the model subspace. The residual vector will always be perpendicular to every vector in the model subspace. The target vector will always be exactly the sum of the model vector and the residual vector.
+
+The ***target problem*** is to find the model vector that is as close as possible to the target vector $\vec{b}$. Another way to see this is as finding the model vector that makes the residual vector as short as possible.
+
+## Projection onto a vector
+
+As we said, projection involves a vector $\vec{b}$ and a matrix $\mathit{A}$ that defines the model space. We'll start with the simplest case, where $\mathit{A}$ has only one column. That column is, of course, a vector. We'll call that vector $\vec{a}$, so the projection problem is to project $\vec{b}$ onto the subspace spanned by $\vec{a}$.
+
+Geometrically, the situation of projecting the target vector $\vec{b}$ onto the model space $\vec{a}$ is diagrammed in Figure \@ref{fig:b-onto-a}.
+
+```{r b-onto-a, out.width="100%", echo=FALSE, fig.align="center", fig.cap="The geometry of projecting $\\vec{b}$ onto $\\vec{a}$ to produce the model vector $\\vec{s}$."}
+knitr::include_graphics("www/project-b-onto-a.png")
 ```
 
-In this context, "as close as possible" means the value of $\alpha$ that makes the length $\| \vec{b} - \alpha\,\vec{u} \|$ as small as possible. It's possible for many people to find the argmin $\alpha^\star$ by eye. In the Figure, the orange and blue dots are clearly not the best. Yellow and red are about the same length, with yellow winning by a hair.
+The angle between $\vec{a}$ and $\vec{b}$ is labelled $\theta$. You already know how to calculate $\theta$ from $\vec{b}$ and $\vec{a}$ by using the dot product:
 
-The vector $\vec{b} - \alpha^\star\,\vec{u}$ will always be perpendicular to $\vec{u}$. In other words, the three vectors $\vec{b}$, $\alpha^\star\,\vec{u}$, and $\vec{b}-\alpha^\star\,\vec{u}$ will constitute the sides of a ***right triangle***, with $\vec{b}$ as the hypothenuse. This gives an important clue to finding $\alpha^\star$ arithmetically. The **length** of $\alpha^\star\, u$ will be, using the trigonometry of right triangles, $\|\vec{b}\| \cos(\theta)$, where $\theta$ is the angle between $\vec{u}$ and $\vec{b}$. Recall that
-$$\cos(\theta) = \frac{\vec{u}\cdot \vec{b}}{\|\vec{u}\|\ \|\vec{b}\|}\ .$$
+$$\cos(\theta) = \frac{\vec{b} \cdot \vec{a}}{\len{b} \len{a}}\ .$$
+Knowing $\theta$ and $\len{b}$, you can calculate the length of the model vector $\vec{s}$: 
+$$\len{s} = \len{b} \cos(\theta) = \vec{b} \cdot \vec{a} / \len{a}\ .$$
 
-Consequently, $$\|\vec{b}\| \cos(\theta) = \frac{\vec{u}\cdot \vec{b}}{\|\vec{u}\|}$$
+Scaling $\vec{a}$ by $\len{a}$ would produce a vector oriented in the model subspace, but it would have the wrong length: length $\len{a} \len{s}$. So we need to divide $\vec{a}$ by $\len{a}$ to get a ***unit length vector*** oriented along $\vec{a}$:
 
-The above quantity is a length. But the projection of $\vec{b}$ onto $\vec{u}$ will be a vector. Since we know $\vec{u}$, we know the direction of the result of the projection. and the previous formula gives  the length. We can create the ***unit-length vector*** pointing in the direction of $\vec{u}$ by appropriate scaling: $\vec{u} / \|\vec{u} \|$. So the projection of $\vec{b}$ onto $\vec{u}$, which we'll denote by $\overset{\longrightarrow}{b \|_{u}}$ is
-$$\overset{\longrightarrow}{{b}\|_{u}} = \underbrace{\frac{\vec{u}\cdot\vec{b}}{\|\vec{u}\|}}_\text{length}\underbrace{\frac{\vec{u}}{\|\vec{u} \|}}_\text{direction} = \frac{\vec{u}\cdot\vec{b}}{\vec{u}\cdot\vec{u}} \vec{u} = \alpha^\star\,\vec{u}$$
+$$\text{model vector:}\ \ \vec{s} = \left[\vec{b} \cdot \vec{a}\right] \,\vec{a} / {\len{a}^2} \ .$$
+. <!-- must have some text before a <div> -->
 
-Read $\overset{\longrightarrow}{b \|_{u}}$ as "the component of $\vec{b}$ parallel to $\vec{u}$," or as "$\vec{b}$ projected onto $\vec{u}$."
+::: {.rmosaic data-latex=""}
 
-Remember that the vector $\vec{b} - \alpha^\star\, \vec{u}$ is perpendicular to $\vec{u}$ and connects $\overset{\longrightarrow}{b \|_{u}}$ to $\vec{b}$. This vector, called the ***residual vector*** in statistics, we will denote with 
-$$\overset{\longrightarrow}{b\! \perp_u}$$
-which you can pronounce as "the component of $\vec{b}$ **perpendicular** to $\vec{u}$," or as "the residual from projecting $\vec{b}$ onto $\vec{u}$." Adding up the projection of $\vec{b}$ onto $\vec{u}$ and the residual vector from that projection reproduces the original $\vec{b}$:
-
-$$\overset{\longrightarrow}{b\|_u}\ +\ \overset{\longrightarrow}{b\! \perp_u} = \vec{b}\ .$$
-
-::: {.todo}
-MOVE THESE FUNCTIONS to `{mosaicCalc}`. We're going to give the students some training wheels
-```{r eval=FALSE}
-`%dot%` <- function(u, v) {
-  sum(u * v)
-}
-`%onto%` <- function(b, A) {
-  A %*% qr.solve(A, b)
-}
-`%perp%` <- function(b, A) {
-  b - (b %onto% A)
-}
-as_unit <- function(A) {
-  helper <- function(v) { v / sqrt(sum(v^2)) }
-  apply(A, 2, helper)
-}
-as_mag <- function(A, method=c("2", "O", "I", "F", "M")) {
-  method <- match.arg(method)
-  helper <- function(v) {Matrix::norm(v, type=method)}
-  
-  apply(A, 2, helper)
-}
+In R/mosaic, you can calculate the projection of $\vec{b}$ onto $\vec{a}$ using `%onto%`. For instance
+```{r}
+b <- rbind(-1, 2)
+a <- rbind(-2.5, -0.8)
+s <- b %onto% a
+s
 ```
-
-Using the geometry of vectors and a little bit of trigonometry, we have now created the arithmetic formulas needed to:
-
-i. **Project a vector $\vec{b}$ onto another vector $\vec{u}$**, and
-ii. **Find the residual vector from the projection.**
-
-To help you make the transition from arithmetic to computation, we provide you with two training-wheel functions, `%onto%` and `%perp`. Use them like this:
+Having found $\vec{s}$, the residual vector $\vec{r}$ can be calculated as $\vec{b}- \vec{s}$.
 
 ```{r}
-b <- rbind(3, 1, 7, 4)
-u <- rbind(1,1,1,1)
+r <- b - s
+r
 ```
+The two properties that a projection satisfies are:
 
-
-`r {b %onto% u} |> matrix_block()`
-
-`r {b %perp% u} |> matrix_block()`
-
+1. The residual vector is perpendicular to each and every vector in $\mathit{A}$. Since in this example, $\mathit{A}$ contains only the one vector $\vec{a}$, we need only look at $\vec{r} \cdot \vec{a}$ and confirm that it's zero.
+```{r}
+r %dot% a
+```
+2. The residual vector plus the model vector exactly equal the target vector. Since we computed ` r <- b - s`, we know this must be true, but still ...
+```{r}
+(r+s) - b
+```
 :::
+
+
+YOU WERE HERE.
+
+
+
+
+
+
+
 
 ::: {.example data-latex=""}
 Using `%dot%`, `%perp%` and `%onto%` and two vectors $\vec{b}$ and $\vec{u}$ of your own choosing, demonstrate that 
@@ -179,16 +174,16 @@ You should commit the commands used in the previous demonstrations to memory, ma
 
 As we have just seen, projecting a target $\vec{b}$ onto a single vector is a matter of arithmetic:
 $$\overset{\longrightarrow}{b\|_u} = \frac{\vec{u}\cdot\vec{b}}{\vec{u}\cdot\vec{u}} \vec{u}$$
-Now we take on the problem of projecting the target $\vec{b}$ onto **two vectors** simultaneously. Following our previous convention, The vectors to be projected onto will be $\vec{u}$ and $\vec{v}$. We'll package those vectors into a matrix $\mathbf A$, that is,
-$${\mathbf A} \equiv \left[\vec{u}, \vec{v}\right]\ .$$
-We'll refer to the space spanned by the vectors in ${\bf A}$ as $span(\mathbf A)$. Since there are two vectors in ${\bf A}$, that space is a plane.
+Now we take on the problem of projecting the target $\vec{b}$ onto **two vectors** simultaneously. Following our previous convention, The vectors to be projected onto will be $\vec{u}$ and $\vec{v}$. We'll package those vectors into a matrix $\mathit{A}$, that is,
+$$\mathit{A} \equiv \left[\vec{u}, \vec{v}\right]\ .$$
+We'll refer to the space spanned by the vectors in $\mathit{A}$ as $span(\mathit{A})$. Since there are two vectors in ${\bf A}$, that space is a plane.
 
-Finding the linear combination of the vectors in $\mathbf A$ that comes as close as possible to $\vec{b}$ involves two tasks.
-One task is to project $\vec{b}$ onto $span(\mathbf A)$. The resulting vector, which we will denote as $\overset{\longrightarrow}{b\|_{\mathbf A}}$, lives in $span(\mathbf A)$. (Of course it does, since $\overset{\longrightarrow}{b\|_{\mathbf A}}$ was **created** by projecting $\vec{b}$ onto $\mathbf A$.)
+Finding the linear combination of the vectors in $\mathit{A}$ that comes as close as possible to $\vec{b}$ involves two tasks.
+One task is to project $\vec{b}$ onto $span(\mathit{A})$. The resulting vector, which we will denote as $\overset{\longrightarrow}{b\|_\mathit{A}}$, lives in $span(\mathit{A})$. (Of course it does, since $\overset{\longrightarrow}{b\|_\mathit{A}}$ was **created** by projecting $\vec{b}$ onto $\mathit{A}$.)
 
-The other task is two express $\overset{\longrightarrow}{b\|_{\mathbf A}}$ as a linear combination of the vectors in $\mathbf A$. We know we can do this exactly because $span(\mathbf A)$ is *defined to be* those vectors that can be created by a linear combination of the vectors in $\mathbf A$. The vector $\overset{\longrightarrow}{b\|_{\mathbf A}}$ was *created* specifically to live in $span(\mathbf A)$.
+The other task is two express $\overset{\longrightarrow}{b\|_\mathit{A}}$ as a linear combination of the vectors in $\mathit{A}$. We know we can do this exactly because $span(\mathit{A})$ is *defined to be* those vectors that can be created by a linear combination of the vectors in $\mathit{A}$. The vector $\overset{\longrightarrow}{b\|_\mathit{A}}$ was *created* specifically to live in $span(\mathit{A})$.
 
-We'll start the description of the technique for approximating $\vec{b}$ as a linear combination of the two vectors in $\mathbf A$ with a reduced problem in which $\vec{b}$ happens to be already in $span(\mathbf A)$. 
+We'll start the description of the technique for approximating $\vec{b}$ as a linear combination of the two vectors in $\mathit{A}$ with a reduced problem in which $\vec{b}$ happens to be already in $span(\mathit{A})$. 
 
 You may already have encountered the technique in your childhood reading. The problem appears in Robert Louis Stevenson's famous novel, [*Treasure Island*](https://www.gutenberg.org/cache/epub/120/pg120-images.html#link2H_4_0039). The story is about the discovery of a treasure map indicating the location of buried treasure on the eponymous Island. There is a red X on the map labelled "bulk of treasure here," but that is hardly sufficient to guide the dig for treasure. After all, every buried treasure needs some secret to protect it.  On the back of the map is written a cryptic clue to the precise location:
 
@@ -215,7 +210,7 @@ The algorithm is based in Long John Silver's technique. Pick either $\vec{u}$ or
 To find the coefficient on $\vec{v}$, you'll need to march along the line of the telescope, taking steps of size $\|\vec{v}\|$. In the diagram, we've marked the march with copies of $\vec{v}$ to make the counting easier. We'll need to march *opposite* the direction of $\vec{v}$, so the coefficient will be negative. Taking 2.8 steps of size $\|\vec{v}\|$ brings us to the target. Thus:
 
 $$\vec{b} = 1.6 \vec{u} - 2.8 \vec{v}\ .$$
-We were able to find a linear combination of $\vec{u}$ and $\vec{v}$---the vectors making up matrix $\mathbf A$---because, as on Treasure Island, $\vec{b}$ happened to live in $span(\mathbf A)$. In a complete algorithm, we would have to project $\vec{b}$ onto $span(\mathbf A)$ before we started our march in $span(\mathbf A)$. Also, to make the algorithm general, we need to render it into a form that will work in **any** dimensional space. This means that telescopes and dotted lines are out, and we'll have to work with arithmetic.
+We were able to find a linear combination of $\vec{u}$ and $\vec{v}$---the vectors making up matrix $\mathit{A}$---because, as on Treasure Island, $\vec{b}$ happened to live in $span(\mathit{A})$. In a complete algorithm, we would have to project $\vec{b}$ onto $span(\mathit{A})$ before we started our march in $span(\mathit{A})$. Also, to make the algorithm general, we need to render it into a form that will work in **any** dimensional space. This means that telescopes and dotted lines are out, and we'll have to work with arithmetic.
 
 
 
@@ -235,7 +230,7 @@ knitr::include_graphics("www/tiny-blank.png")
 
 Many people have difficulty with a bare vector diagram in 3-space. Much of our visual ability to see in three dimensions has to do with shape, shadow, and, to some extent, our stereo vision (which doesn't apply to projection of an image onto the flat space of a screen or page of a book).
 
-Figure \@ref(fig:b-onto-u-v2) shows the same diagram as the previous, but a translucent plane has been placed onto onto the $\vec{u}$ and $\vec{v}$ vectors to mark $span(\mathbf A)$. Try the rotations as before, but this time you will have the subspace to refer to visually.
+Figure \@ref(fig:b-onto-u-v2) shows the same diagram as the previous, but a translucent plane has been placed onto onto the $\vec{u}$ and $\vec{v}$ vectors to mark $span(\mathit{A})$. Try the rotations as before, but this time you will have the subspace to refer to visually.
 
 
 ```{r child="CalcPlot3D/diagram6.Rmd"}
@@ -278,15 +273,15 @@ knitr::include_graphics("www/tiny-blank.png")
 ```{r child="CalcPlot3D/diagram8.Rmd"}
 ```
 
-Of course, a set of vectors is simply a ***matrix***, so we'll cast the problem as one of projecting $\vec{b}$ onto a matrix $\mathbf A$.
+Of course, a set of vectors is simply a ***matrix***, so we'll cast the problem as one of projecting $\vec{b}$ onto a matrix $\mathit{A}$.
 
-There is one case that is extremely simple: when the vectors in $\mathbf A$ are ***mutually orthogonal***. Let's make sure we understand this case well. The geometry is simple, as in Figure \@ref(fig:orthog-A).
+There is one case that is extremely simple: when the vectors in $\mathit{A}$ are ***mutually orthogonal***. Let's make sure we understand this case well. The geometry is simple, as in Figure \@ref(fig:orthog-A).
 
 ```{r orthog-A, echo=FALSE, fig.cap="Projecting $\\vec{b}$ onto two orthogonal vectors. REPLACE THIS WITH THE ACTUAL IMAGE."}
 knitr::include_graphics("www/tiny-blank.png")
 ```
 
-To demonstrate the projection a bit more generally, let's set up 3 orthogonal vectors in a four-dimensional space as $\mathbf A$:
+To demonstrate the projection a bit more generally, let's set up 3 orthogonal vectors in a four-dimensional space as $\mathit{A}$:
 ```{r}
 u <- rbind(2, 3, 0, 6)
 v <- rbind(0,-2,-2, 1)
@@ -294,7 +289,7 @@ w <- rbind(3,-2, 2, 0)
 b <- rbind(1, 1, 1, 1)
 A <- cbind(u, v, w)
 ```
-You should be able to confirm with simple arithmetic that $\vec{u}$ is orthogonal to $\vec{v}$, that $\vec{u}$ is orthogonal to $\vec{w}$, and that $\vec{w}$ is orthogonal to $\vec{v}$. (Hint: Use the dot product.) You can also see that $\vec{b}$ is not parallel to any one of the three columns in ${\mathbf A}$.
+You should be able to confirm with simple arithmetic that $\vec{u}$ is orthogonal to $\vec{v}$, that $\vec{u}$ is orthogonal to $\vec{w}$, and that $\vec{w}$ is orthogonal to $\vec{v}$. (Hint: Use the dot product.) You can also see that $\vec{b}$ is not parallel to any one of the three columns in $\mathit{A}$.
 
 We'll compute the correct answer and then see how we could do it with simple arithmetic.
 
@@ -302,12 +297,12 @@ We'll compute the correct answer and then see how we could do it with simple ari
 `r {qr.solve(A, b)} |> matrix_block()`
 
 This is telling us that 
-$$\overset{\longrightarrow}{b\|_{\mathbf A}} = \left[\begin{array}{r}0.9783914
+$$\overset{\longrightarrow}{b\|_\mathit{A}} = \left[\begin{array}{r}0.9783914
 \\0.9871949
 \\1.0196078
 \\1.0136054\end{array}\right] = 0.2244898 \vec{u} - 0.3333333 \vec{v} + 0.1764706 \vec{w}$$
 
-We can find the coefficients of the linear combination with simple, independent uses of the formula for projecting $\vec{b}$ onto each of the columns of ${\mathbf A}$ one at a time:
+We can find the coefficients of the linear combination with simple, independent uses of the formula for projecting $\vec{b}$ onto each of the columns of $\mathit{A}$ one at a time:
 
 `r {(b %dot% u) / (u %dot% u)} |> matrix_block(inline=FALSE)`
 
@@ -337,7 +332,7 @@ MAYBE ILLUSTRATE THIS WITH COMPUTER CODE?
 
 
 
-This simple procedure of independent projections **does not work** if the columns of $\mathbf A$ are **not mutually orthogonal***. For instance:
+This simple procedure of independent projections **does not work** if the columns of $\mathit{A}$ are **not mutually orthogonal***. For instance:
 ```{r}
 u <- rbind(1,2,3,4)
 v <- rbind(4,3,2,5)
@@ -353,13 +348,13 @@ Are different from the "one-projection-at-a-time" coefficients:
 `r {(b %dot% v) / (v %dot% v)} |> matrix_block(inline=FALSE)`
 
 
-Since independent projections won't solve the target problem (when the columns of $\mathbf A$ are not mutually orthogonal), how do we solve it?
+Since independent projections won't solve the target problem (when the columns of $\mathit{A}$ are not mutually orthogonal), how do we solve it?
 
-The strategy is two simplify the problem by constructing from $\mathbf A$ another matrix that we'll call  $\mathbf Q$ which spans exactly the same subspace as $\mathbf A$ but which has mutually orthogonal columns.
+The strategy is two simplify the problem by constructing from $\mathit{A}$ another matrix that we'll call  $\mathit{Q}$ which spans exactly the same subspace as $\mathit{A}$ but which has mutually orthogonal columns.
 
-To start, well set the first column of $\mathbf Q$ to be any one of the vectors in $\mathbf A$. We'll use $\vec{u}$ for the example.
+To start, well set the first column of $\mathit{Q}$ to be any one of the vectors in $\mathit{A}$. We'll use $\vec{u}$ for the example.
 
-The second column of $\mathbf Q$ will be based on one of the remaining vectors, say $\vec{v}$. But $\vec{v}$ is not orthogonal to $\vec{u}$. For the second column of $\mathbf Q$ we'll insert not $\vec{v}$ itself, but the component of $\vec{v}$ that is orthogonal to $\vec{u}$, that is:
+The second column of $\mathit{Q}$ will be based on one of the remaining vectors, say $\vec{v}$. But $\vec{v}$ is not orthogonal to $\vec{u}$. For the second column of $\mathit{Q}$ we'll insert not $\vec{v}$ itself, but the component of $\vec{v}$ that is orthogonal to $\vec{u}$, that is:
 $$\overset{\longrightarrow}{v\!\perp_u} = \vec{v} - \frac{\vec{u}\cdot\vec{v}}{\vec{u}\cdot\vec{u}} \vec{u}$$
 In computer notation, we'll refer to $\overset{\longrightarrow}{v\!\perp_u}$ with the name `v_perp_u`.
 
@@ -370,11 +365,11 @@ v_perp_u <- v - coef * u
 `r {coef} |> matrix_block(inline=FALSE)`
 
 
-Now the ${\mathbf Q}$ matrix is
-$${\mathbf Q} \equiv \left[\begin{array}{cc}|&|\\ \vec{u}&\overset{\longrightarrow}{v\!\perp_u}\\|&|\end{array}\right]$$
+Now the $\mathit{Q}$ matrix is
+$$\mathit{Q} \equiv \left[\begin{array}{cc}|&|\\ \vec{u}&\overset{\longrightarrow}{v\!\perp_u}\\|&|\end{array}\right]$$
 Caution: The next few paragraphs are rough going. It suffices to follow the flow of the argument and to note that the only operations used are scalar multiplication, addition, subtraction, and the simple dot-product form for the coefficient produced by projecting one vector onto another vector.
 
-Since $\vec{u}$ and $\overset{\longrightarrow}{v\!\perp_u}$ are orthogonal, we can easily calculate the coefficients on the two vectors for projecting $\vec{b}$ onto the subspace spanned by $\mathbf Q$.
+Since $\vec{u}$ and $\overset{\longrightarrow}{v\!\perp_u}$ are orthogonal, we can easily calculate the coefficients on the two vectors for projecting $\vec{b}$ onto the subspace spanned by $\mathit{Q}$.
 
 ```{r}
 alpha1 <- (u %dot% b) / (u %dot% u)
@@ -385,12 +380,12 @@ alpha2 <- (v_perp_u %dot% b) / (v_perp_u %dot% v_perp_u)
 `r {alpha2} |> matrix_block(inline=FALSE)`
 
 
-These coefficients---$\alpha_1 =\ $ `r alpha1` and $\alpha_2 =\ $ `r alpha2` respectively---when multiplied by $\vec{u}$ and $\overset{\longrightarrow}{v\!\perp_u}$ will give us the projection of $\vec{b}$ onto the subspace spanned by ${\mathbf Q}$. Since the subspace spanned by ${\mathbf Q}$ is exactly the same as the subspace spanned by ${\mathbf A}$, we have the answer for $\overset{\longrightarrow}{b\|_{\mathbf A}}$ and consequently for $$\overset{\longrightarrow}{b\!\perp_{\mathbf A}} = \vec{b} - \overset{\longrightarrow}{b\|_{\mathbf A}}\ .$$
+These coefficients---$\alpha_1 =\ $ `r alpha1` and $\alpha_2 =\ $ `r alpha2` respectively---when multiplied by $\vec{u}$ and $\overset{\longrightarrow}{v\!\perp_u}$ will give us the projection of $\vec{b}$ onto the subspace spanned by $\mathit{Q}$. Since the subspace spanned by $\mathit{Q}$ is exactly the same as the subspace spanned by $\mathit{A}$, we have the answer for $\overset{\longrightarrow}{b\|_\mathit{A}}$ and consequently for $$\overset{\longrightarrow}{b\!\perp_\mathit{A}} = \vec{b} - \overset{\longrightarrow}{b\|_\mathit{A}}\ .$$
 
-In terms of the coefficients, the projection of $\vec{b}$ onto $\mathbf A$ is 
-$$\overset{\longrightarrow}{b\|_{\mathbf A}} = 0.3333333 \vec{u} + 0.1851852 \overset{\longrightarrow}{v\!\perp_u}$$
+In terms of the coefficients, the projection of $\vec{b}$ onto $\mathit{A}$ is 
+$$\overset{\longrightarrow}{b\|_\mathit{A}} = 0.3333333 \vec{u} + 0.1851852 \overset{\longrightarrow}{v\!\perp_u}$$
 These are not the coefficients on $\vec{u}$ and $\vec{v}$ that we originally sought. But recognizing that $\overset{\longrightarrow}{v\!\perp_u} = v - 1.2 \vec{u}$, we have 
-$$\overset{\longrightarrow}{b\|_{\mathbf A}} = 0.3333333 \vec{u} + 0.1851852 \left[\strut \vec{v} - 1.2 \vec{u}\right] \\= [0.3333333 - 1.2\times0.1851852] \vec{u} + 0.1851852 \vec{v}\\= 0.1111111 \vec{u} + 0.1851852 \vec{v}$$
+$$\overset{\longrightarrow}{b\|_\mathit{A}} = 0.3333333 \vec{u} + 0.1851852 \left[\strut \vec{v} - 1.2 \vec{u}\right] \\= [0.3333333 - 1.2\times0.1851852] \vec{u} + 0.1851852 \vec{v}\\= 0.1111111 \vec{u} + 0.1851852 \vec{v}$$
 These coefficients on $\vec{u}$ and $\vec{v}$ are the ones we sought and the ones produced by the professional software.
 
 `r {qr.solve(A2, b)} |> matrix_block()`
@@ -494,7 +489,7 @@ Adding vectors. The result is a vector
 
 Scaling and adding vectors: a linear combination of vectors.
 
-As motivation for this "find $\vec{x}$" problem, we refer you to Figure \@ref(fig:water-dots) which showed the temperature-vs-time data from the `CoolingWater` data frame. That figure shows several possible linear combinations of the vectors $u(t) \equiv e^{-0.02 t}$ (we called this `expkt`) and $v(t) \equiv 1$ (we called this `intercept`). Suppose we seek to find the particular linear combination of $u(t)$ and $v(t)$ that comes as close as possible to the black dots in the figure. That is, we know ${\mathbf A}$: the two columns `expkt` and `intercept` from the data frame, and we know $\vec{b}$: the column `temp` from the data frame. 
+As motivation for this "find $\vec{x}$" problem, we refer you to Figure \@ref(fig:water-dots) which showed the temperature-vs-time data from the `CoolingWater` data frame. That figure shows several possible linear combinations of the vectors $u(t) \equiv e^{-0.02 t}$ (we called this `expkt`) and $v(t) \equiv 1$ (we called this `intercept`). Suppose we seek to find the particular linear combination of $u(t)$ and $v(t)$ that comes as close as possible to the black dots in the figure. That is, we know $\mathit{A}$: the two columns `expkt` and `intercept` from the data frame, and we know $\vec{b}$: the column `temp` from the data frame. 
 
 This sort of problem is extremely common and important throughout quantitative fields of all sorts, from astronomy to zoology, and is one of the foundation techniques in statistics and data science. We'll present the approach graphically, algorithmically, and computationally.
 
@@ -568,7 +563,7 @@ w <- rbind(4,  -1,  -3.5)
 
 ## Dot product and `%*%`
 
-Now to  introduce  a new R arithmetic function, written `%*%`. This symbol is pronounced "matrix multiply."  In traditional mathematical notation, matrix multiplication is indicated by putting the two quantities next to one another, like this: $\vec{\mathbf m}^T \vec{\mathbf x}$, or sometimes with a dot $\vec{\mathbf m}T\cdot \vec{\mathbf x}$. The superscript $^T$ means "transpose." For us, this  is merely a  book-keeping convention.
+Now to  introduce  a new R arithmetic function, written `%*%`. This symbol is pronounced "matrix multiply."  In traditional mathematical notation, matrix multiplication is indicated by putting the two quantities next to one another, like this: $\vec{m}^T \vec{x}$, or sometimes with a dot $\vec{m}T\cdot \vec{x}$. The superscript $^T$ means "transpose." For us, this  is merely a  book-keeping convention.
 
 The operation `%*%` will do several  different types  of  arithmetic  with  vectors. The one we will work with here is  called  a *dot product*.  (There are  also "matrix products"  and "outer products".)
 
