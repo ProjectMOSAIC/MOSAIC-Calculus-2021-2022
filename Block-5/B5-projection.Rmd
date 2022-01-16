@@ -53,13 +53,13 @@ knitr::include_graphics("www/project-b-onto-a.png")
 
 The angle between $\vec{a}$ and $\vec{b}$ is labelled $\theta$. You already know how to calculate $\theta$ from $\vec{b}$ and $\vec{a}$ by using the dot product:
 
-$$\cos(\theta) = \frac{\vec{b} \cdot \vec{a}}{\len{b} \len{a}}\ .$$
+$$\cos(\theta) = \frac{\vec{b} \bullet \vec{a}}{\len{b}\, \len{a}}\ .$$
 Knowing $\theta$ and $\len{b}$, you can calculate the length of the model vector $\vec{s}$: 
-$$\len{s} = \len{b} \cos(\theta) = \vec{b} \cdot \vec{a} / \len{a}\ .$$
+$$\len{s} = \len{b} \cos(\theta) = \vec{b} \bullet \vec{a} / \len{a}\ .$$
 
 Scaling $\vec{a}$ by $\len{a}$ would produce a vector oriented in the model subspace, but it would have the wrong length: length $\len{a} \len{s}$. So we need to divide $\vec{a}$ by $\len{a}$ to get a ***unit length vector*** oriented along $\vec{a}$:
 
-$$\text{model vector:}\ \ \vec{s} = \left[\vec{b} \cdot \vec{a}\right] \,\vec{a} / {\len{a}^2} \ .$$
+$$\text{model vector:}\ \ \vec{s} = \left[\vec{b} \bullet \vec{a}\right] \,\vec{a} / {\len{a}^2} = \frac{\vec{b} \bullet \vec{a}}{\vec{a} \bullet \vec{a}}\  \vec{a}.$$
 . <!-- must have some text before a <div> -->
 
 ::: {.rmosaic data-latex=""}
@@ -87,105 +87,29 @@ r %dot% a
 ```{r}
 (r+s) - b
 ```
+
+If the difference between two vectors is zero for every coordinate, the two vectors must be identical.
 :::
-
-
-YOU WERE HERE.
-
-
-
-
-
-
-
-
-::: {.example data-latex=""}
-Using `%dot%`, `%perp%` and `%onto%` and two vectors $\vec{b}$ and $\vec{u}$ of your own choosing, demonstrate that 
-$$\overset{\longrightarrow}{b\|_u}\ +\ \overset{\longrightarrow}{b\! \perp_u} = \vec{b}\|$$ and that $\overset{\longrightarrow}{b\|_u}$ is perpendicular to $\overset{\longrightarrow}{b\! \perp_u}$.
-
-For instance, 
-```{r}
-# create your own vectors!
-b <- rbind(8, -3, 2, 1, 4)
-u <- rbind(1,  2, 1, 2, 3)
-# demonstrate properties
-projected <- b %onto% u
-residual <- b %perp% u
-```
-
-`r {projected + residual} |> matrix_block()`
-
-`r {projected %dot% residual} |> matrix_block(inline=FALSE)`
-:::
-
-
-
-::: {.example data-latex=""}
-Show that $\overset{\longrightarrow}{b\|_u}$ is parallel to $\vec{u}$.
-
-Two vectors are parallel if one of them is a scalar multiple of the other. 
-For instance, suppose we have three vectors $\vec{u}$, $\vec{v}$, and $\vec{w}$, like this:
-```{r}
-u <- rbind(1, 2, 3)
-v <- rbind(2, 4, 6)
-b <- rbind(3, 1, 2)
-```
-
-Notice that $\vec{v} = 2 \vec{u}$, that is, $\vec{u}$ and $\vec{v}$ are parallel. Here's what we get when we divide $\vec{v}$ by $\vec{u}$ on a component-by-component basis:
-
-`r {v / u} |> matrix_block()`
-
-Every component of $\vec{v}$ is the same multiple of the corresponding component of $\vec{u}$.
-
-On the other hand, $\vec{b}$ is not a scalar multiple of $\vec{u}$. Consequently:
-
-`r {b / u} |> matrix_block()`
-
-The component-by-component multipliers are not all the same.
-
-Now to show $\overset{\longrightarrow}{b\|_u}$ is parallel to $\vec{u}$. First, we'll compute $\overset{\longrightarrow}{b\|_u}$ and then divide it, component-by-component, by $\vec{u}$
-
-`r {(b %onto% u) / u} |> matrix_block()`
-
-In contrast, $\overset{\longrightarrow}{b\!\perp_u}$ is, obviously, not parallel to $\vec{u}$:
-
-`r {(b %perp% u) / u} |> matrix_block()`
-:::
-
-
-::: {.example data-latex=""}
-Find the scalar multiplier $\alpha^\star$ such that $$\overset{\longrightarrow}{b\!\perp_u} = \alpha^\star\,\vec{u}\ .$$
-
-This is just a matter of dividing $\overset{\longrightarrow}{b\!\perp_u}$ by $\vec{u}$ on a component-by-component basis:
-
-`r {(b %onto% u) / u} |> matrix_block()` 
-
-We see that $\alpha^\star = 0.7857143$.
-
-:::
-
-
-::: {.takenote data-latex=""}
-You should commit the commands used in the previous demonstrations to memory, making sure you understand what each of the commands in the demonstration is doing.
-:::
-
 
 ## Projection onto a set of vectors
 
-As we have just seen, projecting a target $\vec{b}$ onto a single vector is a matter of arithmetic:
-$$\overset{\longrightarrow}{b\|_u} = \frac{\vec{u}\cdot\vec{b}}{\vec{u}\cdot\vec{u}} \vec{u}$$
+As we have just seen, projecting a target $\vec{b}$ onto a single vector is a matter of arithmetic.
+
 Now we take on the problem of projecting the target $\vec{b}$ onto **two vectors** simultaneously. Following our previous convention, The vectors to be projected onto will be $\vec{u}$ and $\vec{v}$. We'll package those vectors into a matrix $\mathit{A}$, that is,
 $$\mathit{A} \equiv \left[\vec{u}, \vec{v}\right]\ .$$
-We'll refer to the space spanned by the vectors in $\mathit{A}$ as $span(\mathit{A})$. Since there are two vectors in ${\bf A}$, that space is a plane.
+We'll refer to the space spanned by the vectors in $\mathit{A}$ as $span(\mathit{A})$. Since there are two vectors in ${\bf A}$, that span is a plane.
 
 Finding the linear combination of the vectors in $\mathit{A}$ that comes as close as possible to $\vec{b}$ involves two tasks.
-One task is to project $\vec{b}$ onto $span(\mathit{A})$. The resulting vector, which we will denote as $\overset{\longrightarrow}{b\|_\mathit{A}}$, lives in $span(\mathit{A})$. (Of course it does, since $\overset{\longrightarrow}{b\|_\mathit{A}}$ was **created** by projecting $\vec{b}$ onto $\mathit{A}$.)
 
-The other task is two express $\overset{\longrightarrow}{b\|_\mathit{A}}$ as a linear combination of the vectors in $\mathit{A}$. We know we can do this exactly because $span(\mathit{A})$ is *defined to be* those vectors that can be created by a linear combination of the vectors in $\mathit{A}$. The vector $\overset{\longrightarrow}{b\|_\mathit{A}}$ was *created* specifically to live in $span(\mathit{A})$.
+$\vec{b}\!\perp \!\mathit{A}$
 
-We'll start the description of the technique for approximating $\vec{b}$ as a linear combination of the two vectors in $\mathit{A}$ with a reduced problem in which $\vec{b}$ happens to be already in $span(\mathit{A})$. 
+i. Project $\vec{b}$ onto $span(\mathit{A})$. The resulting vector is called the ***model vector*** and we'll denote it by $\modeledby{\vec{b}}{\mathit{A}}$. You can pronounce $\modeledby{\vec{b}}{\mathit{A}}$ as "$\vec{b}$ **modeled by** $\mathit{A}$." A common metaphor is that $\modeledby{\vec{b}}{\mathit{A}}$ lives in $span(\mathit{A})$. Or, in terms of our clubhouse metaphor, $\modeledby{\vec{b}}{\mathit{A}}$ is always eligible for membership in the subspace sponsored by $\mathit{A}$.
 
-You may already have encountered the technique in your childhood reading. The problem appears in Robert Louis Stevenson's famous novel, [*Treasure Island*](https://www.gutenberg.org/cache/epub/120/pg120-images.html#link2H_4_0039). The story is about the discovery of a treasure map indicating the location of buried treasure on the eponymous Island. There is a red X on the map labelled "bulk of treasure here," but that is hardly sufficient to guide the dig for treasure. After all, every buried treasure needs some secret to protect it.  On the back of the map is written a cryptic clue to the precise location:
+ii. Find the scalar coefficients to make a linear combination of the vectors in $\mathit{A}$ that will produce $\modeledby{\vec{b}}{\mathit{A}}$. We know we can do this exactly because $span(\mathit{A})$ is *defined to be* those vectors that can be created by a linear combination of the vectors in $\mathit{A}$. The vector $\modeledby{\vec{b}}{\mathit{A}}$ was *created* specifically to live in $span(\mathit{A})$.
+
+We'll start with a reduced problem in which $\vec{b}$ happens to be already in $span(\mathit{A})$, that is, we'll work with some $\vec{b}$ such that $\vec{b} = \modeledby{\vec{b}}{\mathit{A}}$. Thus, step (i) is unnecessary and we can move on to step (ii).
+
+You may already have encountered the step (ii) technique in your childhood reading. The problem appears in Robert Louis Stevenson's famous novel, [*Treasure Island*](https://www.gutenberg.org/cache/epub/120/pg120-images.html#link2H_4_0039). The story is about the discovery of a treasure map indicating the location of buried treasure on the eponymous Island. There is a red X on the map labelled "bulk of treasure here," but that is hardly sufficient to guide the dig for treasure. After all, every buried treasure needs some secret to protect it.  On the back of the map is written a cryptic clue to the precise location:
 
 > Tall tree, Spy-glass shoulder, bearing a point to the N. of N.N.E.     
 Skeleton Island E.S.E. and by E.    
@@ -199,7 +123,7 @@ knitr::include_graphics("www/drawings/treasure-island-annotated.png")
 
 Long John Silver, obviously an accomplished mathematician, starts near Skeleton Island, moving on along the vector that keeps Skeleton Island to the compass bearing one point east of east-south-east. While on the march, he keeps a telescope trained on the shoulder of Spy-glass Hill. The goal  When that telescope points one point north of north-north-east, they are in the vicinity of a tall tree. That's the tree matching the clue.
 
-The vectors in *Treasure Island* are embedded on the Earth's surface, the set of positions spanned by latitude and longitude. Figure \@ref(fig:telescope) shows a slightly more general problem in a two-dimensional space, where the vectors $\vec{u}$ and $\vec{v}$ are not orthogonal. The task, still, is to find a linear combination of $\vec{u}$ and $\vec{v}$ that will match $\vec{b}$. The diagram shows the $\vec{u}$ vector and the subspace aligned with $\vec{u}$, and similarly for $\vec{v}$
+The vectors in *Treasure Island* were perpendicular to one another. We say of such a set of vectors that they are ***mutually orthogonal***.  The usual situation is that the vectors in $\mathit{A}$ will be somewhat aligned with one another: they are not mutually orthogonal. \@ref(fig:telescope) illustrates the situation: $\vec{v}$ is not perpendicular to $\vec{u}$. The task, still, is to find a linear combination of $\vec{u}$ and $\vec{v}$ that will match $\vec{b}$. The diagram shows the $\vec{u}$ vector and the subspace aligned with $\vec{u}$, and similarly for $\vec{v}$
 
 ```{r telescope, echo=FALSE, fig.cap="The telescope method of solving projection onto two vectors."}
 knitr::include_graphics("www/drawings/u-v-spyglass.png")
@@ -207,9 +131,22 @@ knitr::include_graphics("www/drawings/u-v-spyglass.png")
 
 The algorithm is based in Long John Silver's technique. Pick either $\vec{u}$ or $\vec{v}$, it doesn't matter which. In the diagram, we've picked $\vec{v}$. Align your telescope with that vector. Now march along the other vector, $\vec{u}$, carefully keeping the telescope on the bearing aligned with $\vec{v}$. From the diagram, you can see that when you've marched to $\frac{1}{2} \vec{u}$, the telescope does not yet have $\vec{b}$ in view. Similarly, at $1 \vec{u}$, the target $\vec{b}$ isn't yet visible. Marching a little further, to about $1.6 \vec{u}$ brings you to the point in the $\vec{u}$-subspace where the target falls into view. This tells us that the coefficient on $\vec{u}$ will be 1.6.
 
-To find the coefficient on $\vec{v}$, you'll need to march along the line of the telescope, taking steps of size $\|\vec{v}\|$. In the diagram, we've marked the march with copies of $\vec{v}$ to make the counting easier. We'll need to march *opposite* the direction of $\vec{v}$, so the coefficient will be negative. Taking 2.8 steps of size $\|\vec{v}\|$ brings us to the target. Thus:
+To find the coefficient on $\vec{v}$, you'll need to march along the line of the telescope, taking steps of size $\len{\vec{v}}$. In the diagram, we've marked the march with copies of $\vec{v}$ to make the counting easier. We'll need to march *opposite* the direction of $\vec{v}$, so the coefficient will be negative. Taking 2.8 steps of size $\|\vec{v}\|$ brings us to the target. Thus:
 
 $$\vec{b} = 1.6 \vec{u} - 2.8 \vec{v}\ .$$
+
+To handle vectors in spaces where telescopes are not available, we need an arithmetic algorithm. The easy case is the one faced by Long John Silver: the vectors in $\mathit{A}$ are mutually orthogonal.
+
+Exercise: Construct a 3-by-3 matrix whose columns are mutu
+
+
+
+
+
+
+
+
+
 We were able to find a linear combination of $\vec{u}$ and $\vec{v}$---the vectors making up matrix $\mathit{A}$---because, as on Treasure Island, $\vec{b}$ happened to live in $span(\mathit{A})$. In a complete algorithm, we would have to project $\vec{b}$ onto $span(\mathit{A})$ before we started our march in $span(\mathit{A})$. Also, to make the algorithm general, we need to render it into a form that will work in **any** dimensional space. This means that telescopes and dotted lines are out, and we'll have to work with arithmetic.
 
 
@@ -403,6 +340,13 @@ In the next chapter, we'll use this capability to solve real-world modeling prob
 
 `r insert_calcZ_exercise("XX.XX", "yeY17y", "Exercises/kangaroo-light-bowl.Rmd")`
 
+`r insert_calcZ_exercise("XX.XX", "xSoxzL", "Exercises/child-dig-shoe.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "zK7fQn", "Exercises/maple-draw-closet.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "vUbXdq", "Exercises/eagle-hold-piano.Rmd")`
+
+
 Exercises confirming that `qr.solve()` produces results that are as they should be: residual orthogonal to every vector in A, projected + residual = $\vec{b}$.
 
 Exercises confirming that adding more columns to A produces a smaller residual.
@@ -561,47 +505,6 @@ w <- rbind(4,  -1,  -3.5)
 </details>
 :::
 
-## Dot product and `%*%`
-
-Now to  introduce  a new R arithmetic function, written `%*%`. This symbol is pronounced "matrix multiply."  In traditional mathematical notation, matrix multiplication is indicated by putting the two quantities next to one another, like this: $\vec{m}^T \vec{x}$, or sometimes with a dot $\vec{m}T\cdot \vec{x}$. The superscript $^T$ means "transpose." For us, this  is merely a  book-keeping convention.
-
-The operation `%*%` will do several  different types  of  arithmetic  with  vectors. The one we will work with here is  called  a *dot product*.  (There are  also "matrix products"  and "outer products".)
-
-The R notation for a dot product very  much echoes the  traditional matrix  notation,  at least  with  respect to $^T$.  We'll  illustrate by creating  two vectors `u`  and `v` and then calculating their dot  product.
-
-```{r}
-u <- rbind(6, -3,  7)
-v <- rbind(2,  1,  3)
-t(u) %*%  v
-```
-
-Notice  that the  output  of a dot product is  a single number: a scalar. (R prints the output as if the scalar were  a vector in one-dimension.)
-
-Arithmetically, the dot product is calculated by multiplying the corresponding components in the two vectors  (e.g.  $6  \times 2$ and  $-3 \times 1$ and  $7 \times 3$) and adding up the  result. You can see why the dot product always involves two vectors with the same number of elements.
-
-The R `t()` function corresponds to  the mathematical notation for the transpose: $^T$. So `t(u)` would be written, mathematically, as $\vec{u}^T$. The  purpose of `t()` is to turn columns (like our vector `u`) into rows,  and vice versa.  If you  like,  try the command `t(u)` in  the sandbox to see how it  is printed.
-
-For us,  the purpose of writing `t(u)` is  to signal  to  the `%*%`  matrix multiplication  operation that we want a particular operation: the dot product.
-
-The  dot product always involves the transpose of a column vector on  the left side of  `%*%`  and a column vector on  the right side.
-
-You  can  also  write a command  `u %*% t(v)`,  but  this is not a  dot product. It is  called  an "outer product" and we will not need it in this course. Try it out in  the sandbox.
-
-::: {.caution}
-The ***dot product*** and the ***outer product*** are written in very similar ways but produce completely different results. We won't have much use for outer products in this course, but you should be aware what they look like so that you can diagnose the problem if your attempt at a dot product goes wrong.
-
-**Dot products**
-```{r}
-t(u) %*% v
-t(v) %*% u
-```
-
-**Outer product**
-```{r}
-u %*% t(v)
-v %*% t(u)
-```
-:::
 
 
 ## Vector lengths
