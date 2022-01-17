@@ -4,6 +4,29 @@
 library(Znotes)
 ```
 
+Diagram 1
+```{r child="CalcPlot3D/diagram1.Rmd"}
+```
+
+Diagram 2
+```{r child="CalcPlot3D/diagram2.Rmd"}
+```
+
+Diagram 5
+```{r child="CalcPlot3D/diagram5.Rmd"}
+```
+
+Diagram 6
+```{r child="CalcPlot3D/diagram6.Rmd"}
+```
+
+
+
+Diagram 8
+```{r child="CalcPlot3D/diagram8.Rmd"}
+```
+
+
 ::: {.underconstruction}
 Chapter not yet released
 :::
@@ -41,7 +64,18 @@ In projection problems, the model vector will always be a member of the model su
 
 The ***target problem*** is to find the model vector that is as close as possible to the target vector $\vec{b}$. Another way to see this is as finding the model vector that makes the residual vector as short as possible.
 
-## Projection onto a vector
+Figure \@ref(fig:b-onto-u-v2) shows an example in 3-dimensional space. The figure can be rotated or set spinning, which makes it much easier to interpret the diagram as a three dimensional object. In addition to $\vec{b}$ and the vectors $\vec{u}$ and $\vec{b}$ that constitute the matrix $\mathit{A}$, the diagram includes a translucent plane marking $span{\mathit{A}$, shows the model vector (in light green) and the residual vector (in red).
+
+```{r child="CalcPlot3D/diagram7.Rmd"}
+```
+
+```{r b-onto-u-v2, echo=FALSE, fig.cap="A three-dimensional diagram showing the target vector $\vec{b}$ and the vectors $\vec{u}$ and $\vec{v}$. The subspace spanned by $\vec{u}$ and $\vec{v}$ is indicated with a translucent plane.",out.width="1%"}
+knitr::include_graphics("www/tiny-blank.png")
+```
+
+How do we know that the translucent plane in Figure \@ref(fig:b-onto-u-v2) contains $\vec{u}$ and $\vec{v}$? As the diagram rotates, from time to time you will be looking edge on at the plane, so that the plane appears as a line on the screen. At such times, you can see that vectors $\vec{u}$ and $\vec{v}$ disappear. There is no component to $\vec{u}$ and $\vec{v}$ that sticks out from the plane. 
+
+## Projection onto a single vector
 
 As we said, projection involves a vector $\vec{b}$ and a matrix $\mathit{A}$ that defines the model space. We'll start with the simplest case, where $\mathit{A}$ has only one column. That column is, of course, a vector. We'll call that vector $\vec{a}$, so the projection problem is to project $\vec{b}$ onto the subspace spanned by $\vec{a}$.
 
@@ -97,17 +131,36 @@ As we have just seen, projecting a target $\vec{b}$ onto a single vector is a ma
 
 Now we take on the problem of projecting the target $\vec{b}$ onto **two vectors** simultaneously. Following our previous convention, The vectors to be projected onto will be $\vec{u}$ and $\vec{v}$. We'll package those vectors into a matrix $\mathit{A}$, that is,
 $$\mathit{A} \equiv \left[\vec{u}, \vec{v}\right]\ .$$
-We'll refer to the space spanned by the vectors in $\mathit{A}$ as $span(\mathit{A})$. Since there are two vectors in ${\bf A}$, that span is a plane.
+STRATEGY: Find the residual, which will be perpendicular to each and every vector in $\mathit{A}$.
 
-Finding the linear combination of the vectors in $\mathit{A}$ that comes as close as possible to $\vec{b}$ involves two tasks.
+```{r}
+b <- rbind(1,1,1,1)
+v1 <- rbind(2,3,4,5)
+v2 <- rbind(-4,2,4,1)
+A <- cbind(v1, v2)
+r1 <- b %perp% v1
+r2 <- r1 %perp% (v2 %perp% v1)
+target <- b - r2
 
-$\vec{b}\!\perp \!\mathit{A}$
+x <- qr.solve(A, b)
+A %*% x
+target
+
+```
+
+
+
+
+
+MOVE THIS TO TARGET PROBLEM CHAPTER, where we'll discuss how to get the scalar multipliers 
+
+It's helpful to divide the overall problem into two sub-tasks:
 
 i. Project $\vec{b}$ onto $span(\mathit{A})$. The resulting vector is called the ***model vector*** and we'll denote it by $\modeledby{\vec{b}}{\mathit{A}}$. You can pronounce $\modeledby{\vec{b}}{\mathit{A}}$ as "$\vec{b}$ **modeled by** $\mathit{A}$." A common metaphor is that $\modeledby{\vec{b}}{\mathit{A}}$ lives in $span(\mathit{A})$. Or, in terms of our clubhouse metaphor, $\modeledby{\vec{b}}{\mathit{A}}$ is always eligible for membership in the subspace sponsored by $\mathit{A}$.
 
 ii. Find the scalar coefficients to make a linear combination of the vectors in $\mathit{A}$ that will produce $\modeledby{\vec{b}}{\mathit{A}}$. We know we can do this exactly because $span(\mathit{A})$ is *defined to be* those vectors that can be created by a linear combination of the vectors in $\mathit{A}$. The vector $\modeledby{\vec{b}}{\mathit{A}}$ was *created* specifically to live in $span(\mathit{A})$.
 
-We'll start with a reduced problem in which $\vec{b}$ happens to be already in $span(\mathit{A})$, that is, we'll work with some $\vec{b}$ such that $\vec{b} = \modeledby{\vec{b}}{\mathit{A}}$. Thus, step (i) is unnecessary and we can move on to step (ii).
+We'll start with a reduced problem in which $\vec{b}$ happens to be already in $span(\mathit{A})$, that is, we'll work with some $\vec{b}$ such that $\vec{b} = \modeledby{\vec{b}}{\mathit{A}}$. Thus, in the reduced problem, step (i) is unnecessary and we can move on to step (ii).
 
 You may already have encountered the step (ii) technique in your childhood reading. The problem appears in Robert Louis Stevenson's famous novel, [*Treasure Island*](https://www.gutenberg.org/cache/epub/120/pg120-images.html#link2H_4_0039). The story is about the discovery of a treasure map indicating the location of buried treasure on the eponymous Island. There is a red X on the map labelled "bulk of treasure here," but that is hardly sufficient to guide the dig for treasure. After all, every buried treasure needs some secret to protect it.  On the back of the map is written a cryptic clue to the precise location:
 
@@ -137,17 +190,10 @@ $$\vec{b} = 1.6 \vec{u} - 2.8 \vec{v}\ .$$
 
 To handle vectors in spaces where telescopes are not available, we need an arithmetic algorithm. The easy case is the one faced by Long John Silver: the vectors in $\mathit{A}$ are mutually orthogonal.
 
-Exercise: Construct a 3-by-3 matrix whose columns are mutu
+E
 
 
 
-
-
-
-
-
-
-We were able to find a linear combination of $\vec{u}$ and $\vec{v}$---the vectors making up matrix $\mathit{A}$---because, as on Treasure Island, $\vec{b}$ happened to live in $span(\mathit{A})$. In a complete algorithm, we would have to project $\vec{b}$ onto $span(\mathit{A})$ before we started our march in $span(\mathit{A})$. Also, to make the algorithm general, we need to render it into a form that will work in **any** dimensional space. This means that telescopes and dotted lines are out, and we'll have to work with arithmetic.
 
 
 
@@ -167,15 +213,6 @@ knitr::include_graphics("www/tiny-blank.png")
 
 Many people have difficulty with a bare vector diagram in 3-space. Much of our visual ability to see in three dimensions has to do with shape, shadow, and, to some extent, our stereo vision (which doesn't apply to projection of an image onto the flat space of a screen or page of a book).
 
-Figure \@ref(fig:b-onto-u-v2) shows the same diagram as the previous, but a translucent plane has been placed onto onto the $\vec{u}$ and $\vec{v}$ vectors to mark $span(\mathit{A})$. Try the rotations as before, but this time you will have the subspace to refer to visually.
-
-
-```{r child="CalcPlot3D/diagram6.Rmd"}
-```
-
-```{r b-onto-u-v2, echo=FALSE, fig.cap="The same three vectors as in Figure \\@ref(fig:b-onto-u-v), but now the space spanned by $\\left[\\vec{u}, \\vec{v}\\right]$ marked with a translucent plane.",out.width="1%"}
-knitr::include_graphics("www/tiny-blank.png")
-```
 
 
 
@@ -201,20 +238,22 @@ A <- cbind(u, v)
 
 
 
-
+<!-- this diagram is too busy 
 
 ```{r ornamented-vectors, echo=FALSE, fig.cap="This diagram needs to show b projected and the residual vector.",out.width="1%"}
 knitr::include_graphics("www/tiny-blank.png")
 ```
 
-```{r child="CalcPlot3D/diagram8.Rmd"}
+```{r eval=FALSE, child="CalcPlot3D/diagram8.Rmd"}
 ```
+
+-->
 
 Of course, a set of vectors is simply a ***matrix***, so we'll cast the problem as one of projecting $\vec{b}$ onto a matrix $\mathit{A}$.
 
 There is one case that is extremely simple: when the vectors in $\mathit{A}$ are ***mutually orthogonal***. Let's make sure we understand this case well. The geometry is simple, as in Figure \@ref(fig:orthog-A).
 
-```{r orthog-A, echo=FALSE, fig.cap="Projecting $\\vec{b}$ onto two orthogonal vectors. REPLACE THIS WITH THE ACTUAL IMAGE."}
+```{r orthog-A, echo=FALSE, out.width="1%", fig.cap="Projecting $\\vec{b}$ onto two orthogonal vectors. REPLACE THIS WITH THE ACTUAL IMAGE."}
 knitr::include_graphics("www/tiny-blank.png")
 ```
 
