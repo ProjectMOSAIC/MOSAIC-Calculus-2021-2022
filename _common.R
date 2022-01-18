@@ -87,6 +87,7 @@ Chaps <- list(
   gradient = 24,
   taylor = 26,
   optimization = 23,
+  splines = 33,
   foobar = NA
 )
 
