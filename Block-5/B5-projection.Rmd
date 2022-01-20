@@ -4,43 +4,20 @@
 library(Znotes)
 ```
 
-Diagram 1
-```{r child="CalcPlot3D/diagram1.Rmd"}
-```
-
-Diagram 2
-```{r child="CalcPlot3D/diagram2.Rmd"}
-```
-
-Diagram 5
-```{r child="CalcPlot3D/diagram5.Rmd"}
-```
-
-Diagram 6
-```{r child="CalcPlot3D/diagram6.Rmd"}
-```
-
-
-
-Diagram 8
-```{r child="CalcPlot3D/diagram8.Rmd"}
-```
-
-
-::: {.underconstruction}
-Chapter not yet released
-:::
-
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-projection.Rmd)</div>
 
-Many problems in physics and engineering involve the task of ***decomposing*** a vector $\vec{b}$ into two perpendicular component vectors $\vec{s}$ and $\vec{r}$, such that $\vec{s} + \vec{r} = \vec{b}$ and 
-$\vec{s} \cdot \vec{r} = 0$. There is an infinite number of ways to accomplish such a decomposition, one for each way or orienting $\vec{s}$ relative to $\vec{b}$. Figure \@ref(fig:decompose-1) shows a few examples.
+Many problems in physics and engineering involve the task of ***decomposing*** a vector $\vec{b}$ into two perpendicular component vectors $\hat{b}$ and $\vec{r}$, such that $\hat{b} + \vec{r} = \vec{b}$ and 
+$\hat{b} \cdot \vec{r} = 0$. There is an infinite number of ways to accomplish such a decomposition, one for each way or orienting $\hat{b}$ relative to $\vec{b}$. Figure \@ref(fig:decompose-1) shows a few examples.
 
-```{r decompose-1, echo=FALSE, out.width="60%", fig.align="center", fig.cap="A few ways of decomposing $\\vec{b}$ into perpendicular components $\\vec{s}$ and $\\vec{r}$"}
+::: {.takenote data-latex=""}
+This is the first time that we are encountering a symbol like $\hat{b}$, pronounced "b-hat." You will see it especially in statistics and machine learning.
+:::
+
+```{r decompose-1, echo=FALSE, out.width="60%", fig.align="center", fig.cap="A few ways of decomposing $\\vec{b}$ into perpendicular components $\\hat{b}$ and $\\vec{r}$"}
 knitr::include_graphics("www/decompose-1.png")
 ```
 ::: {.example data-latex=""}
-Gravitational force, as you know, always points downward. The effective acceleration due to gravity of a mass depends, however, on how that mass is situated with respect to other elements of the structure. The figure below shows several diagrams that might well be found on the pages of a physics textbook. In each diagram, there is a mass and a constraining structure: a ramp, a pendulum, an inclined plane. The force of gravity on the mass always points directly downward. In each diagram, $\vec{s}$ is the effective gravitational force on the mass, pointing down the ramp, or perpendicular to the pendulum strut, or aligned with the gradient vector of the inclined plane.
+Gravitational force, as you know, always points downward. The effective acceleration due to gravity of a mass depends, however, on how that mass is situated with respect to other elements of the structure. The figure below shows several diagrams that might well be found on the pages of a physics textbook. In each diagram, there is a mass and a constraining structure: a ramp, a pendulum, an inclined plane. The force of gravity on the mass always points directly downward. In each diagram, $\hat{b}$ is the effective gravitational force on the mass, pointing down the ramp, or perpendicular to the pendulum strut, or aligned with the gradient vector of the inclined plane.
 
 ```{r echo=FALSE, out.width="100%", fig.align="center"}
 knitr::include_graphics("www/gravity-settings.png")
@@ -53,17 +30,17 @@ The task of ***decomposition*** is important also outside of physics and enginee
 
 ## Projection terminology
 
-The problem of decomposition can be considered to be a special case of ***projection***. The word "projection" may bring to mind the casting of shadows on a screen in the same manner as an old-fashioned slide projector or movie projector. The light source is arranged to generate parallel rays which arrive perpendicularly to the screen. A movie screen is two-dimensional, a subspace defined by two vectors. Imagining those two vectors to be collected into matrix $\mathit{A}$, the idea is to decompose $\vec{b}$ into a component that lies in the subspace defined by $\mathit{A}$ and another component that is perpendicular to the screen. That perpendicular component is what we have been calling $\vec{r}$ while the vector $\vec{s}$ is the projection of $\vec{b}$ onto the screen. To make it easier to keep track of the various roles played by $\vec{b}$, $\vec{s}$, $\vec{r}$ and $\mathit{A}$, we'll give these vectors English-language names. The motivation for these names will become apparent in later chapters, but for now, here they are. You will want to memorize them.
+The problem of decomposition can be considered to be a special case of ***projection***. The word "projection" may bring to mind the casting of shadows on a screen in the same manner as an old-fashioned slide projector or movie projector. The light source is arranged to generate parallel rays which arrive perpendicularly to the screen. A movie screen is two-dimensional, a subspace defined by two vectors. Imagining those two vectors to be collected into matrix $\mathit{A}$, the idea is to decompose $\vec{b}$ into a component that lies in the subspace defined by $\mathit{A}$ and another component that is perpendicular to the screen. That perpendicular component is what we have been calling $\vec{r}$ while the vector $\hat{b}$ is the projection of $\vec{b}$ onto the screen. To make it easier to keep track of the various roles played by $\vec{b}$, $\hat{b}$, $\vec{r}$ and $\mathit{A}$, we'll give these vectors English-language names. The motivation for these names will become apparent in later chapters, but for now, here they are. You will want to memorize them.
 
 - $\vec{b}$ the ***target vector***
-- $\vec{s}$ the ***model vector***
+- $\hat{b}$ the ***model vector***
 - $\vec{r}$ the ***residual vector***
 - $\mathit{A}$ the ***model space*** (or "model subspace")
 
 ***Projection*** is the process of finding the model vector that is as close as possible to the target vector $\vec{b}$. Another way to see this is as finding the model vector that makes the residual vector as short as possible.
 
 ::: {.example data-latex=""}
-Figure \@ref(fig:b-onto-u-v2) shows a a solved projection problem in 3-dimensional space. The figure can be rotated or set spinning, which makes it much easier to interpret the diagram as a three dimensional object. In addition to $\vec{b}$ and the vectors $\vec{u}$ and $\vec{b}$ that constitute the matrix $\mathit{A}$, the diagram includes a translucent plane marking $span{\mathit{A}$. The goal of projection is, from these givens, to find the model vector (shown in light green). Once the model vector $\vec{x}$ is known, the residual vector is easy to calculate $$\vec{r} \equiv \vec{b} - \vec{s}\ .$$ Another approach to the problem is to find the residual vector $r$ first, then use that to find the model vector as $$\vec{s} \equiv \vec{b} - \vec{r}\ .$$
+Figure \@ref(fig:b-onto-u-v2) shows a a solved projection problem in 3-dimensional space. The figure can be rotated or set spinning, which makes it much easier to interpret the diagram as a three dimensional object. In addition to $\vec{b}$ and the vectors $\vec{u}$ and $\vec{b}$ that constitute the matrix $\mathit{A}$, the diagram includes a translucent plane marking $span{\mathit{A}$. The goal of projection is, from these givens, to find the model vector (shown in light green). Once the model vector $\vec{x}$ is known, the residual vector is easy to calculate $$\vec{r} \equiv \vec{b} - \hat{b}\ .$$ Another approach to the problem is to find the residual vector $r$ first, then use that to find the model vector as $$\hat{b} \equiv \vec{b} - \vec{r}\ .$$
 
 ```{r child="CalcPlot3D/diagram7.Rmd"}
 ```
@@ -82,19 +59,19 @@ As we said, projection involves a vector $\vec{b}$ and a matrix $\mathit{A}$ tha
 
 Geometrically, the situation of projecting the target vector $\vec{b}$ onto the model space $\vec{a}$ is diagrammed in Figure \@ref{fig:b-onto-a}.
 
-```{r b-onto-a, out.width="100%", echo=FALSE, fig.align="center", fig.cap="The geometry of projecting $\\vec{b}$ onto $\\vec{a}$ to produce the model vector $\\vec{s}$."}
+```{r b-onto-a, out.width="100%", echo=FALSE, fig.align="center", fig.cap="The geometry of projecting $\\vec{b}$ onto $\\vec{a}$ to produce the model vector $\\hat{b}$."}
 knitr::include_graphics("www/project-b-onto-a.png")
 ```
 
 The angle between $\vec{a}$ and $\vec{b}$ is labelled $\theta$. You already know how to calculate $\theta$ from $\vec{b}$ and $\vec{a}$ by using the dot product:
 
 $$\cos(\theta) = \frac{\vec{b} \bullet \vec{a}}{\len{b}\, \len{a}}\ .$$
-Knowing $\theta$ and $\len{b}$, you can calculate the length of the model vector $\vec{s}$: 
+Knowing $\theta$ and $\len{b}$, you can calculate the length of the model vector $\hat{b}$: 
 $$\len{s} = \len{b} \cos(\theta) = \vec{b} \bullet \vec{a} / \len{a}\ .$$
 
 Scaling $\vec{a}$ by $\len{a}$ would produce a vector oriented in the model subspace, but it would have the wrong length: length $\len{a} \len{s}$. So we need to divide $\vec{a}$ by $\len{a}$ to get a ***unit length vector*** oriented along $\vec{a}$:
 
-$$\text{model vector:}\ \ \vec{s} = \left[\vec{b} \bullet \vec{a}\right] \,\vec{a} / {\len{a}^2} = \frac{\vec{b} \bullet \vec{a}}{\vec{a} \bullet \vec{a}}\  \vec{a}.$$
+$$\text{model vector:}\ \ \hat{b} = \left[\vec{b} \bullet \vec{a}\right] \,\vec{a} / {\len{a}^2} = \frac{\vec{b} \bullet \vec{a}}{\vec{a} \bullet \vec{a}}\  \vec{a}.$$
 . <!-- must have some text before a <div> -->
 
 ::: {.rmosaic data-latex=""}
@@ -106,7 +83,7 @@ a <- rbind(-2.5, -0.8)
 s <- b %onto% a
 s
 ```
-Having found $\vec{s}$, the residual vector $\vec{r}$ can be calculated as $\vec{b}- \vec{s}$.
+Having found $\hat{b}$, the residual vector $\vec{r}$ can be calculated as $\vec{b}- \hat{b}$.
 
 ```{r}
 r <- b - s
@@ -186,7 +163,7 @@ v2 <- rbind(-4,2,4,1)
 A <- cbind(v1, v2)
 ```
 
-We set out to find the ***residual*** $\vec{r}$ first. Then calculating the model vector will be easy: $\vec{s} =\vec{b} - \vec{r}$.
+We set out to find the ***residual*** $\vec{r}$ first. Then calculating the model vector will be easy: $\hat{b} =\vec{b} - \vec{r}$.
 
 The first step in the process is to calculate the residual from projecting $\vec{b}$ onto the first vector in $\mathit{A}$. This will be a matter of projecting $\vec{b}$ onto $\vec{v}$ and finding the residual, that is, `b - (b %onto% v1)`. We're going to be using this sort of residual-finding via projection a lot, so for convenience, R/mosaic packages up residual finding into an operator named `%perp%`.
 

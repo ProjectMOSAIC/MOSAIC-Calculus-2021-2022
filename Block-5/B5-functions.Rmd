@@ -245,3 +245,30 @@ gf_line(level ~ hour, data = Anchorage_tide)  %>%
 gf_line(resid ~ hour) 
 
 ```
+
+## Fourier transform
+
+```{r}
+# Fill in the missing data
+Raw <- Anchorage_tide %>% select(hour, level) %>%
+  mutate(hour = round(hour, 1))
+Even <- tibble(hour=seq(min(Raw$hour), max(Raw$hour), by=0.1))
+Both <- Even %>% full_join(Raw)
+# fill in the missing data
+Fix1 <- Both %>% 
+  mutate(level = ifelse(is.na(level), lag(level), level)) %>%
+  mutate(level = ifelse(is.na(level), lag(level), level)) %>%
+  mutate(level = ifelse(is.na(level), lag(level), level)) %>%
+  mutate(level = ifelse(is.na(level), lag(level), level)) %>%
+  mutate(level = ifelse(is.na(level), lag(level), level)) %>%
+# Fill in a constant value for the missing days
+  mutate(level = ifelse(is.na(level), 4.867, level))
+FFT <- abs(fft(Fix1$level))
+# bin 974 is 1 per day
+FFT2 <- 
+  tibble(freq=2*(1:10000)/974, amp=FFT[2:10001]) %>%
+  mutate(period = 24/freq) %>%
+  mutate(amp = ifelse(amp < .3e4, 0, amp)) %>%
+  mutate(speed = 360/period)
+gf_line(amp ~ period, size=.1,data = FFT2 %>% filter(period<100)) %>% gf_lims(x=c(10, 14))
+```
