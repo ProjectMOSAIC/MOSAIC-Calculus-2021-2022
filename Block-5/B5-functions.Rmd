@@ -7,6 +7,9 @@ This chapter is not available in the current release of *MOSAIC Calculus*
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-functions.Rmd)</div>
 
 
+
+
+
 ## Functions as vectors
 
 In Section `r Sections$exp_curve_fitting` we looked at the use of the exponential function to describe the temperature of hot water cooling to room temperature. The exponential decreasing function is of course $e^{-kt}$ and we can find $k$ by estimating the half-life of exponential decay, which is about 36 minutes in the data we used. (Figure \@ref(fig:water-scaled-exp)).
@@ -186,3 +189,59 @@ y_2\, p_2(x) + \cdots + y_k\, p_k(x)\ .$$
 Can you see why?
 :::
 
+## Time and tide
+
+Periodicities from <https://tidesandcurrents.noaa.gov/harcon.html?id=8451552&type=>
+
+```{r}
+hour <- with(RI_tide, hour)
+b    <- with(RI_tide, level)
+sin1 <- sin(2*pi*hour/12.41)
+cos1 <- cos(2*pi*hour/12.41)
+sin2 <- sin(2*pi*hour/23.94)
+cos2 <- cos(2*pi*hour/23.94)
+sin3 <- sin(2*pi*hour/12)
+cos3 <- cos(2*pi*hour/12)
+sin4 <- sin(2*pi*hour/12.66)
+cos4 <- cos(2*pi*hour/12.66)
+A <- cbind(1, sin1, cos1, sin2, cos2, sin3, cos3, sin4, cos4)
+mod1 <- b %onto% cbind(1, sin1, cos1)
+mod2 <- b %onto% cbind(1, sin1, cos1, sin2, cos2)
+x <- qr.solve(A, b)
+mod3 <- A %*% x
+gf_point(level ~ hour, data = RI_tide)  %>%
+  gf_line(mod3 ~ hour, color="magenta")
+
+```
+
+Anchorage, AK
+
+Components:
+- M2 12.42 hours
+- S2 12 hours
+- N2 12.658 hours
+- K1 23.935 hours
+
+```{r}
+hour <- with(Anchorage_tide, hour)
+b    <- with(Anchorage_tide, level)
+sin1 <- sin(2*pi*hour/12.42)
+cos1 <- cos(2*pi*hour/12.42)
+sin2 <- sin(2*pi*hour/23.935)
+cos2 <- cos(2*pi*hour/23.935)
+sin3 <- sin(2*pi*hour/12)
+cos3 <- cos(2*pi*hour/12)
+sin4 <- sin(2*pi*hour/12.658)
+cos4 <- cos(2*pi*hour/12.658)
+A <- cbind(1, sin1, cos1, sin2, cos2, sin3, cos3, sin4, cos4)
+mod1 <- b %onto% cbind(1, sin1, cos1)
+mod2 <- b %onto% cbind(1, sin1, cos1, sin2, cos2)
+x <- qr.solve(A, b)
+mod3 <- A %*% x
+resid <- b - mod3
+gf_line(level ~ hour, data = Anchorage_tide)  %>%
+  gf_line(mod3 ~ hour, color="magenta") %>%
+  gf_lims(x = c(0,1000))
+gf_line(resid ~ hour) 
+
+```

@@ -41,10 +41,19 @@ The focus of interest will be the familiar task
 
 $$\ \ \ \ \ \ \text{given}\ \ a x = b\,,\ \ \text{find}\ \ x\ .$$ All algebra students learn that $x = b/a$, with the proviso that if $a = 0$, "there is no solution."
 
-A somewhat more advanced algebra task is to work with "simultaneous linear equations," for example: $$\ \ \ \text{given}\ \ \ \begin{array}{rrrcr}3x & + &2y & = & 7\\-1&+&y&=&4\end{array} \ \ \ \ \text{find}\ \ x\,\&\,y\ .$$ Solving simultaneous linear equations is hard. It involves more arithmetic than $ax = b$ and requires the student to make good choices how to take linear combinations of the two equations to reduce the problem to two equations, one with $x$ as the only unknown and one with $y$. Also, the "there is no solution" proviso is not easy to state, so you can't know at a glance whether there is indeed a solution.
+A somewhat more advanced algebra task is to work with "simultaneous linear equations," for example: 
+$$\ \ \ \text{given}\ \ \ \begin{array}{rrrcr}
+3 x & + & 2 y & = & 7\\
+-1&+&y&=&4\end{array} 
+\ \ \ \ \text{find}\ \ x\,\&\,y\ .
+$$ 
+
+
+
+Solving simultaneous linear equations is hard. It involves more arithmetic than $ax = b$ and requires the student to make good choices how to take linear combinations of the two equations to reduce the problem to two equations, one with $x$ as the only unknown and one with $y$. Also, the "there is no solution" proviso is not easy to state, so you can't know at a glance whether there is indeed a solution.
 
 The simultaneous linear equation problem can be more compactly written using matrix and vector notation. $$\begin{array}{rrrcr}3x & + &2y & = & 7\\-1&+&y&=&4\end{array} \ \ \text{is the same as}\ \ \left[\begin{array}{r}3\\-1\end{array}\right] x + \left[\begin{array}{r}2\\1\end{array}\right] y =
-\left[\begin{array}{r}7\\4\end{array}\right] $$ You can see the vector form as a linear combination of two vectors. Collecting these two vectors into a matrix $\mathit{A}$ and $x\, \&\, y$ into a vector $\vec{x}$ gives $$\left[\begin{array}{rr}3&2\\-1&1\end{array}\right]\ \vec{x} = \left[\begin{array}{r}7\\4\end{array}\right]$$ Which can be expressed as $\mathit{A} \vec{x} = \vec{b}$.
+\left[\begin{array}{r}7\\4\end{array}\right] $$ You can see the vector form as a linear combination of two vectors. Collecting these two vectors into a matrix $\mathit{A}$, and similarly writing $x\, \text{and}\, y$ as the scalar components of a vector $\vec{x}$ gives $$\left[\begin{array}{rr}3&2\\-1&1\end{array}\right]\ \vec{x} = \left[\begin{array}{r}7\\4\end{array}\right]$$ Which can be expressed as $\mathit{A} \vec{x} = \vec{b}$.
 
 A student, recognizing the similarity of $\mathit{A}\vec{x} = \vec{b}$ to $a x = b$ would reasonably suggest the solution $\vec{x} = \vec{b}/ \mathit{A}$. Such a student might be instructed, "No, you can't do this." A better response would be, "Good. Now tell me what you mean by $\vec{b}/\mathit{A}$?"
 
@@ -54,7 +63,7 @@ To illustrate such a setting, recall the problems from Block 1 of finding the li
 ```{r echo=FALSE}
 and_so_on(CoolingWater)
 ```
-We seek scalars $C$ and $D$ such that the function $C f(time) + D g(time)$ gives the best possible match to `temp`.
+We seek scalars $C$ and $D$ such that the function $C f(\mathtt{time}) + D g(\mathtt{time})$ gives the best possible match to `temp`.
 
 We can compactly write the problem of finding the best linear combination into matrix form by evaluating $f()$ and $g()$ at the values listed in the `time` column:
 $$\underbrace{\left[\begin{array}{rr}1&1.0000\\1&0.9812\\1&0.9627\\\vdots\\1&0.0153\\1&0.0150\end{array}\right]}_{\!\!\!\!\!\!\!\!{\large\mathit{A}} = \left[\strut f(\mathtt{time})\,,\ \ \ g(\mathtt{time})\right]} \underbrace{\left[\begin{array}{r}C\\D\end{array}\right]}_{\large\vec{x}} \ \text{is the best match to}\  \underbrace{\left[\begin{array}{r}\mathtt{98.2}\\\mathtt{94.4}\\\mathtt{91.4}\\\vdots\\\mathtt{25.9}\\\mathtt{25.8}\end{array}\right]}_{\large\vec{b}}$$
@@ -69,7 +78,7 @@ At first glance, $\mathit{A} \vec{x} = \vec{b} - \vec{r}$ might seem intractable
 
 It's remarkable that one can find $\vec{r}$ even without knowing $\vec{x}$. That's why we introduced and solved the ***projection problem*** before taking on the ***target problem***.
 
-The part of the target problem that we have still to figure out is how, given $\vec{r}$, to find $\vec{x}$. But even at this point you can see that $\mathit{A}\vec{x} = \vec{b} - \vec{r}$ must have a solution, since $\vec{b} - \vec{r}$ is exactly the model vector $\vec{s}$ which, as we saw in Chapter \@ref(projection-residual), must lie in $\span{\mathit{A}}$.
+The part of the target problem that we have still to figure out is how, given $\vec{r}$, to find $\vec{x}$. But even at this point you can see that $\mathit{A}\vec{x} = \vec{b} - \vec{r}$ must have a solution, since $\vec{b} - \vec{r}$ is exactly the model vector $\hat{b}$ which, as we saw in Chapter \@ref(projection-residual), must lie in $span{\mathit{A}}$.
 
 ## Visualization in a two-dimensional subspace
 
@@ -113,7 +122,7 @@ To handle vectors in spaces where telescopes are not available, we need an arith
 ::: {.example data-latex=""}
 In 3-dimensional space, visualization of the solution to the target problem is possible, at least for those who have the talent of rotating three-dimensional objects in their head. For the rest of us, a physical model can help; take three pencils labeled $\vec{u}$, $\vec{v}$, and $\vec{b}$ and bury their tails in a small ball of putty. (Chemistry molecular construction kits are a good alternative.)
 
-In case putty, pencils, or a molecular model kit are not available, use the interactive diagram in Figure \@ref{fig:b-onto-u-v}. This diagram also includes $\vec{s}$ and $\vec{r}$ with the hope that this will guide you into orienting the diagram appropriately to see where the solution comes from.
+In case putty, pencils, or a molecular model kit are not available, use the interactive diagram in Figure \@ref{fig:b-onto-u-v}. This diagram also includes $\hat{b}$ and $\vec{r}$ with the hope that this will guide you into orienting the diagram appropriately to see where the solution comes from.
 
 ```{r child="CalcPlot3D/diagram8.Rmd"}
 ```
@@ -124,12 +133,12 @@ In case putty, pencils, or a molecular model kit are not available, use the inte
 knitr::include_graphics("www/tiny-blank.png")
 ```
 
-$\vec{u}$ and $\vec{v}$ are fixed in length. However, their lengths will appear to change as you rotate the space. This might be called the "gun-barrel" effect; a tube looks very short when you look down it's longitudinal axis, but looks longer when you look at it from the side.  Rotate the space until **both** $\vec{u}$ and $\vec{v}$ reach their maximum apparent length. The viewpoint that accomplishes this is looking downward perpendicularly onto the $\left[\vec{u},\vec{v}\right]$-plane. In this orientation, you will be looking down the barrel of the $\vec{r}$ gun. Vector $\vec{b}$ is not in that plane, as you can confirm by rotating the plot a bit out of the $\left[\vec{u},\vec{v}\right]$-plane. Returning to the perspective looking down perpendicularly on the place, you can see how $\vec{b}$ corresponds to $\vec{s}$, the point in the plane where the projection of $\vec{b}$ will fall. 
+$\vec{u}$ and $\vec{v}$ are fixed in length. However, their lengths will appear to change as you rotate the space. This might be called the "gun-barrel" effect; a tube looks very short when you look down it's longitudinal axis, but looks longer when you look at it from the side.  Rotate the space until **both** $\vec{u}$ and $\vec{v}$ reach their maximum apparent length. The viewpoint that accomplishes this is looking downward perpendicularly onto the $\left[\vec{u},\vec{v}\right]$-plane. In this orientation, you will be looking down the barrel of the $\vec{r}$ gun. Vector $\vec{b}$ is not in that plane, as you can confirm by rotating the plot a bit out of the $\left[\vec{u},\vec{v}\right]$-plane. Returning to the perspective looking down perpendicularly on the place, you can see how $\vec{b}$ corresponds to $\hat{b}$, the point in the plane where the projection of $\vec{b}$ will fall. 
 
 
-To find the scalar multiplier on $\vec{v}$, rotate the space until the vector $\vec{u}$ is pointing straight toward you. You'll see only the arrowhead of $\vec{u}$. Vectors $\vec{v}$ and $\vec{s}$ will appear parallel to each other, but that's because you are looking at the plane edge on. In this orientation, $\vec{s}$ will appear just a little longer than $\vec{v}$, perhaps 1.2 times longer. So 1.2 is the scalar multiplier on $\vec{v}$. 
+To find the scalar multiplier on $\vec{v}$, rotate the space until the vector $\vec{u}$ is pointing straight toward you. You'll see only the arrowhead of $\vec{u}$. Vectors $\vec{v}$ and $\hat{b}$ will appear parallel to each other, but that's because you are looking at the plane edge on. In this orientation, $\hat{b}$ will appear just a little longer than $\vec{v}$, perhaps 1.2 times longer. So 1.2 is the scalar multiplier on $\vec{v}$. 
 
-To figure out the scalar multiplier on $\vec{u}$, follow the same procedure as in the previous paragraph, but looking down the barrel of $\vec{v}$. From this perspective, $\vec{u}$ appears longer than $\vec{s}$; the scalar multiplier on $\vec{u}$ will be about 0.9. In terms of $\mathit{A} \vec{x} = \vec{s}$, the solution is 
+To figure out the scalar multiplier on $\vec{u}$, follow the same procedure as in the previous paragraph, but looking down the barrel of $\vec{v}$. From this perspective, $\vec{u}$ appears longer than $\hat{b}$; the scalar multiplier on $\vec{u}$ will be about 0.9. In terms of $\mathit{A} \vec{x} = \hat{b}$, the solution is 
 $$\vec{x} = \left[\begin{array}{r}0.9\\1.2\end{array}\right]\ .$$
 :::
 
@@ -163,7 +172,7 @@ r <- b - s
 
 Those two simple commands constitute a complete solution to the ***projection problem***, where see seek to model vector and the residual vector.
 
-In the ***target problem*** we want more: How to express $\vec{s}$ as a linear combination of the columns in $\mathit{A}$. At the risk of being repetitive, this means finding $\color{magenta}{\vec{x}}$ in $$\mathit{A}\ \color{magenta}{\large\vec{x}} = \vec{b}$$ where $\mathit{A}$ and $\vec{b}$ are given.
+In the ***target problem*** we want more: How to express $\hat{b}$ as a linear combination of the columns in $\mathit{A}$. At the risk of being repetitive, this means finding $\color{magenta}{\vec{x}}$ in $$\mathit{A}\ \color{magenta}{\large\vec{x}} = \vec{b}$$ where $\mathit{A}$ and $\vec{b}$ are given.
 
 The function `qr.solve()` finds $\vec{x}$.
 ```{r}
@@ -173,7 +182,7 @@ x <- qr.solve(A, b)
 x
 ```
 
-How can we confirm that this really is the solution to the target problem for this set of vectors? Easy! Just multiply $\mathit{A}$ by the $\vec{x}$ that we found. The result should be the target vector $\vec{s}$:
+How can we confirm that this really is the solution to the target problem for this set of vectors? Easy! Just multiply $\mathit{A}$ by the $\vec{x}$ that we found. The result should be the target vector $\hat{b}$:
 
 ```{r}
 A %*% x
@@ -237,9 +246,6 @@ gf_point(temp ~ time, data = CoolingWater, size=0) %>%
                12.67*exp(-0.06*time) ~ time,
              color="green")
 ```
-
-## How QR works
-
 
 ## Exercises
 
