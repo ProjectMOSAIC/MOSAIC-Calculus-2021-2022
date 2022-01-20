@@ -85,6 +85,7 @@ Chaps <- list(
   fun_notation = 5,
   slope_function = 9,
   gradient = 24,
+  local_approx = 25,
   taylor = 26,
   optimization = 23,
   splines = 33,
@@ -94,7 +95,8 @@ Chaps <- list(
 Sections <- list(
   exp_curve_fitting = "8.3",
   gradient_vector = "24.3",
-  functions_as_tables = "4.2"
+  functions_as_tables = "4.2",
+  likelihood = "35.4"
 )
 
 under_construction <- function() {
