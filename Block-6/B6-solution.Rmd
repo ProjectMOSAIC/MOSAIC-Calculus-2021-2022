@@ -47,7 +47,7 @@ Since $r$ has units of *rabbit density*, $\partial_t$ has units *rabbit density 
 The coordinate axis of rabbit-fox state space have units of *rabbit density* and *fox density*. We can't therefore plot rabbit density *per day* and fox density *per day* in the state space. However, the ratio $\frac{\partial_t f}{\partial_t r}$ has units fox density per rabbit density. These are the units of a *slope* in the state space.
 
 Centered at coordinate $(r=2, f = 1/4)$, draw an sloping line segment. Given the values $\partial_t f = 0.25$ and $\partial_t f = 0.66$, the segment should have slope $0.25/0.66 = 0.379$. Also, place an arrowhead on the segment. You can decide which end of the segment it goes by noting the signs of $\partial_t f$ and $\partial_t r$. Both are positive in this example, so the arrowhead should point up and to the right. This flow arrow is drawn in Figure \@ref(fig:rf-flow-arrow).
-```{r rf_flow-arrow, echo=FALSE, out.width="50%", fig.cap="The flow arrow for the state value $(r=2, f=1/4)$. "}
+```{r rf-flow-arrow, echo=FALSE, out.width="50%", fig.cap="The flow arrow for the state value $(r=2, f=1/4)$. "}
 gf_segment(0.125 + 0.375 ~ 1.67 + 2.33, color="black",
            arrow = grid::arrow(end="last", type="closed")) %>%
   gf_point(0.25 ~ 2, color="black") %>%
@@ -135,10 +135,12 @@ Soln <- Iterate(next_step, x0=c(t=0, x=0.2), n=100,
 Znotes::and_so_on(Soln)
 ```
 
+
 We can now plot the time series $x$ vs $t$:
 
 ```{r logistic-time-series, echo=FALSE, fig.cap="The time series by the Euler method with $dt=0.01$."}
-gf_lines(x ~ t, data=Soln)
+gf_line(x ~ t, data=Soln)
+```
 :::
 
 
