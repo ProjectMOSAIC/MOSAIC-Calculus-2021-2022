@@ -86,6 +86,7 @@ Chaps <- list(
   slope_function = 9,
   gradient = 24,
   local_approx = 25,
+  iteration = 32,
   taylor = 26,
   optimization = 23,
   splines = 33,

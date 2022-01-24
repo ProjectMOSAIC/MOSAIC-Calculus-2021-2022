@@ -2,6 +2,65 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-solution.Rmd)</div>
 
+::: {.underconstruction data-latex=""}
+1. Idea of accumulation
+2. Numerical solution: Euler method and iteration
+3. Analytic solution: 
+    i. Ansatze and confirming a solution
+    ii. Some special cases, separable equations
+    iii. Laplace transforms
+:::
+
+As you saw in the previous chapter, a differential equation relates the derivative of a function to the function itself, for instance $$\partial_t x(t) = x(t)\,(1-x(t))\ .$$ *Solving* a differential equation means to find a function $x(t)$ that is consistent with the equation. This chapter is about techniques for finding solutions.
+
+It's tempting---but not usually possible---to apply the symbolic anti-differentiation techniques from Block 3 to the problem. After all $$\int \partial_t x(t) dt = x(t)\,$$ as described in the "fundamental theorem of calculus". Following this logic, we would translate the equation to $$x(t) = \int x(t)\, (1-x(t))dt\ .$$ But in order to carry out the anti-differentiation, we would need to know $x(t)$ itself, which is the function we are trying to find. 
+
+Nonetheless, it's common to refer to ***integrating*** a differential equation, but this should be broadly understood as ***accumulating*** the increments $\partial_t x(t)$ starting at some initial condition $x(t_0)$, even if that accumulation is not carried out by symbolic anti-differentiation.
+
+In this chapter we'll introduce four different techniques to accumulating a solution to a differential equation or a pair of such equations. First, we'll look again at the ***graphical method*** of "following the flow" in a plot of the flow field. This technique is mainly of use for developing intuition about the dynamics.
+
+Second, we'll develop a simple Euler method for accumulating a solution. Third, we'll explore how to take a guess about the solution and, when the guess is good enough, refine that into an actual solution. This is called the ***method of ansëtze***.
+
+Fourth, and briefly, we'll look at some of the situations where symbolic anti-differentiation can be used. This includes a very brief introduction to ***transform methods***. 
+
+::: {.takenote data-latex=""}
+A differential equation like $$\partial_t x(t) = x(t)\,(1-x(t))$$ is very busy typographically. One reason is the repeated $(t)$ which play no role other than to state explicitly that $x$ is a function of $t$. A convenient shorthand simply replaces $x(t)$ to make the "is a function of $t$" *implicit*. Thus the equation appears as $$\partial_t x = x (1-x)\ .$$ It's the reader's responsibility, knowing that he or she is working with a differential equation, to remember that $x$ is a function of $t$. 
+
+An even more concise notation, originated by Isaac Newton, is to replace the $\partial_t$ with a simple $\dot{\ }$.  With this notation the equation looks like
+$$\dot{x} = x (1-x)\ ,$$ about as simple as it gets. 
+
+This dot notation is even more expressive when working with second-order differential equations involving second derivative. In the dot notation, $\partial_{tt}$ is written $\ddot{\ }$.
+:::
+
+## The flow field
+
+With a pair of differential equations, as with the pendulum or the rabbit-fox model, each equation gives one component of the change in state. To draw the flow field, pick one point at a time from the state space, and calculate the right-hand sides of the differential equation from each equation. If the parameters in the model have been assigned numerical values, the result of evaluating the right-hand sides will be two numbers.
+
+A case in point is the rabbit-fox model where the state variables are $r$ and $f$. The differential equations are $$\partial_t r = 0.66 r - 1.33 r f\\
+\partial_t f = -f + rf\\
+$$
+
+To draw the flow arrow at, say, $r=2, f=1/4$, plug those values into the right-hand side: $$\partial_t r = 1.33 - 0.66 = 0.66\\
+\partial_t f = -0.25 + 0.5 = 0.25\ .$$ 
+Since $r$ has units of *rabbit density*, $\partial_t$ has units *rabbit density per day* (or some other time unit). Similarly $\partial_t f$ has units of fox density per day. 
+
+The coordinate axis of rabbit-fox state space have units of *rabbit density* and *fox density*. We can't therefore plot rabbit density *per day* and fox density *per day* in the state space. However, the ratio $\frac{\partial_t f}{\partial_t r}$ has units fox density per rabbit density. These are the units of a *slope* in the state space.
+
+Centered at coordinate $(r=2, f = 1/4)$, draw an sloping line segment. Given the values $\partial_t f = 0.25$ and $\partial_t f = 0.66$, the segment should have slope $0.25/0.66 = 0.379$. Also, place an arrowhead on the segment. You can decide which end of the segment it goes by noting the signs of $\partial_t f$ and $\partial_t r$. Both are positive in this example, so the arrowhead should point up and to the right. This flow arrow is drawn in Figure \@ref(fig:rf-flow-arrow).
+```{r rf_flow-arrow, echo=FALSE, out.width="50%", fig.cap="The flow arrow for the state value $(r=2, f=1/4)$. "}
+gf_segment(0.125 + 0.375 ~ 1.67 + 2.33, color="black",
+           arrow = grid::arrow(end="last", type="closed")) %>%
+  gf_point(0.25 ~ 2, color="black") %>%
+ gf_lims(y = c(0,1), x = c(0,3)) %>%
+  gf_labs(y = "Fox density", x = "Rabbit density", subtitle="Rabbit/Fox state space") %>%
+  gf_refine(coord_fixed())
+```
+To draw the entire flow field, repeat this process at many other points in the state space. 
+
+To trace out the trajectory, select the initial condition for the system. Then follow the flow, taking only a small step in state space. The next step should be in the direction of the flow arrow at the end of the previous step.
+
+The trajectory you draw will be only a sketch, but it can be effective for developing intuition. Figure \@ref(fig:calcplot3d1) shows a semi-automated version of the go-with-the-flow method. The computer has been used to draw the arrows. When you click in the plot, the computer also undertakes calculation of the trajectory.
+
 
 ```{r child="CalcPlot3D/rabbits-foxes.Rmd"}
 ```
@@ -10,9 +69,81 @@
 knitr::include_graphics("www/tiny-blank.png")
 ```
 
-1. Idea of accumulation
-2. Numerical solution: Euler method and iteration
-3. Analytic solution: 
-    i. Ansatze and confirming a solution
-    ii. Some special cases, separable equations
-    iii. Laplace transforms
+Regretably, from such a sketch of the trajectory, you can't easily construct $r(t)$ and $f(t)$ for time-series plots. Also, you don't get a sense of how slow or fast the flow is going. Click at different initial conditions in the flow and you will see different trajectories, each of which is a closed loop. But the shape of the trajectory doesn't tell you whether it takes a long time or a short time to complete a loop.
+
+The next section will show you how the computer constructed the trajectory and how we can get information on the speed of the flow. 
+
+## Euler method
+
+Recall from Block 2 the ***limit definition of the derivative***: $$\partial_t x(t) = \lim_{dt \rightarrow 0} \frac{x(t + dt) - x(t)}{dt}\ .$$ We're going to use this definition to develop a very general way to solve differential equations: the ***Euler method***.
+
+From the differential equations, we already know $\partial_t x(t)$, so we don't have to worry about whether the limit exists; it does. So we'll disregard the limit except to note that $dt$ must be small. How small? Pick $dt$ to be small enough that the result wouldn't change in any substantial way if we used an even smaller time increment, say $dt/10$. 
+
+Our starting point for solving each differential equation is to re-write it as a finite difference. To illustrate, we'll solve the equation $\partial_t x = x (1 - x)$, which is often called the ***logistic equation***.
+
+Applying the finite difference definition, we get
+$$\frac{f(t + dt)- f(t)}{dt} = x (1-x)\\\text{implying}\\
+\ \\
+\underbrace{f(t + dt)}_{\text{future state}} = \underbrace{f(t)}_{\text{current state}} +\ \ \  \underbrace{x (1-x) dt}_{\text{step}}$$ We call this last equation the ***Euler formula***.
+
+To use this, we start at the initial condition, say $x(t=0) = 0.2$. This initial condition gives us the first row of a tabular representation of the function $x(t)$:
+
+time | state
+-----|-------
+0    | 0.2
+
+Next, pick a value for $dt$ that we will use for all the following steps, each of which will add a new row to the table. For the example, we'll set $dt = 0.1$. When we have constructed the whole table we can go back and check whether that was small enough.
+
+To fill in the next row, we apply the Euler formula. Sine $dt = 0.1$, the next time step will be $0.1$. Plug in the current state---which is 0.2 right now---to calculate the future state. The step will be $0.2 (1-0.2)\, dt = \color{brown}{0.016}$. Add this step to the current state to get the future state. The table now looks like this:
+
+time | state
+-----|-------
+0.0  | $0.2$
+0.1  | $0.2 + \color{brown}{0.016} = \color{blue}{0.216}$
+
+The next step will bring us to time $0.2$. Use the Euler formula, pluggin in the value of the present state, $\color{blue}{0.216}$, to find the step. Here that will be $0.216 (1-0.216)\, dt = \color{magenta}{0.0169.}$. Now the table looks like
+
+time | state
+-----|-------
+0.0  | $0.2$
+0.1  | $0.2 + \color{brown}{0.016} = \color{blue}{0.216}$
+0.2  | $\color{blue}{0.216} + \color{magenta}{0.0169} = 0.2329$
+
+Add as many rows to the table as you like; the process will be the same.
+
+You will recognize this as an iterative process, as discussed in Chapter `r Chaps$iteration`. 
+
+::: {.rmarkdown data-latex=""}
+To implement the iteration to solve $\partial_t x = x (1-x)$, we need to create a function that takes the current state as input and produces the next state as output. Our one-step function can be this:
+```{r}
+next_step <- function(t, x, dt=0.1) {
+  t <- t + dt
+  x <- x + x*(1-x)*dt
+  
+  c(t=t, x=x) # return value
+}
+```
+Notice that we wrote `next_step()` with an input slot for $dt$. This will not be part of the state being iterated, just a parameter that allows us easily to explore different values for $dt$.
+
+
+Use `Iterate()` to carry out the iteration of `next_step()`. Note that we use the `fargs` argument to `Iterate()` to pass our selected value for `dt` to the function `next_step()`. We'll run the iteration for 100 steps. With $dt=0.1$, those 100 steps will 10 units of time.
+```{r}
+Soln <- Iterate(next_step, x0=c(t=0, x=0.2), n=100,
+                fargs=list(dt=0.1))
+```
+```{r echo=FALSE}
+Znotes::and_so_on(Soln)
+```
+
+We can now plot the time series $x$ vs $t$:
+
+```{r logistic-time-series, echo=FALSE, fig.cap="The time series by the Euler method with $dt=0.01$."}
+gf_lines(x ~ t, data=Soln)
+:::
+
+
+
+
+
+
+
