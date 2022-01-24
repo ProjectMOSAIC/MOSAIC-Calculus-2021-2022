@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-10" />
+<meta name="date" content="2022-01-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,8 @@
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <span class="math inline">
@@ -69,15 +69,23 @@
 \newcommand{\diff}[1]{{\cal D}_#1}
 \newcommand{\pnorm}{\text{pnorm}}
 \newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -362,7 +370,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="fun-notation" class="section level1" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Notation for functions</h1>
-<p>Part of the difficulty of mathematics for many people is making sense of the nomenclature and notation. What you were taught in high school is a highly idiomatic system that can be mastered only with extensive experience. Mathematicians are undoubtedly skilled in logic, but mathematics itself has an ancient history which has littered the language with synonyms, near synonyms, inconsistencies, diacritical marks, and letters in unfamiliar alphabets. <span style="float: right; padding-left: 50px;"><a name="500" href="#500"><img src="www/icons8-signpost.png" title="Location: 500" width="12px"/></a><span style="color: red; font-size: 6pt;">500</red></span></p>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/05-notation.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<p>Part of the difficulty of mathematics for many people is making sense of the nomenclature and notation. What you were taught in high school is a highly idiomatic system that can be mastered only with extensive experience. Mathematicians are undoubtedly skilled in logic, but mathematics itself has an ancient history which has littered the language with synonyms, near synonyms, inconsistencies, diacritical marks, and letters in unfamiliar alphabets.</p>
 <div class="intheworld">
 <p>To illustrate the cultural admiration for abstraction in mathematics, consider this famous poem, <em>The Jabberwocky</em>, by a University of Oxford mathematician, Charles Lutwidge Dodgson (1832-1898):</p>
 <p><em>’Twas brillig, and the slithy toves<br />
@@ -380,7 +391,7 @@ All mimsy were the borogoves,<br />
 <li><span class="math inline">\(x^2 = x\)</span></li>
 <li><span class="math inline">\(x = \sqrt{x}\)</span></li>
 </ol>
-<p>All five sentences are <em>equations</em>. That’s easy, because they each have an equal sign between the two sides. Which are <em>formulas</em>? Which are <em>functions</em>? You’re used to calling <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> <em>variables</em>. When do they become <em>unknowns</em>? Sentence (v) involves <em>roots</em> (as in “square root”). But sentence (v) says the same thing as (iv) which is about squares rather than roots.<span style="float: right; padding-left: 50px;"><a name="510" href="#510"><img src="www/icons8-signpost.png" title="Location: 510" width="12px"/></a><span style="color: red; font-size: 6pt;">510</red></span></p>
+<p>All five sentences are <em>equations</em>. That’s easy, because they each have an equal sign between the two sides. Which are <em>formulas</em>? Which are <em>functions</em>? You’re used to calling <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> <em>variables</em>. When do they become <em>unknowns</em>? Sentence (v) involves <em>roots</em> (as in “square root”). But sentence (v) says the same thing as (iv) which is about squares rather than roots.</p>
 <div id="a-notation-for-computing" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> A notation for computing</h2>
 <p>The traditional notation is practically useless for computing. A programmer has to have a deep understanding of what the notation is intended to mean in any given circumstance before she can construct a computer expression that will carry that same meaning in the computer’s work.</p>
@@ -392,13 +403,13 @@ y^2 = 3\\
 y = \sqrt{3}\\
 y - x = 0\\
 0 = (x+3)(x-2)\]</span></p>
-<p>Imagine translating these statements into R, fixing things a little by inserting the required <code>*</code> in <code>(x+3)*(x-2)</code>, and using <code>sqrt()</code> instead of <span class="math inline">\(\sqrt{\strut\ }\)</span>. <span style="float: right; padding-left: 50px;"><a name="520" href="#520"><img src="www/icons8-signpost.png" title="Location: 520" width="12px"/></a><span style="color: red; font-size: 6pt;">520</red></span></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="fun-notation.html#cb20-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> x</span>
-<span id="cb20-2"><a href="fun-notation.html#cb20-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">sqrt</span>(x)</span>
-<span id="cb20-3"><a href="fun-notation.html#cb20-3" aria-hidden="true" tabindex="-1"></a>y<span class="sc">^</span><span class="dv">2</span> <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb20-4"><a href="fun-notation.html#cb20-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="dv">3</span>)</span>
-<span id="cb20-5"><a href="fun-notation.html#cb20-5" aria-hidden="true" tabindex="-1"></a>y <span class="sc">-</span> x <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb20-6"><a href="fun-notation.html#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="ot">=</span> (x<span class="sc">+</span><span class="dv">3</span>) <span class="sc">*</span> (x<span class="dv">-2</span>)</span></code></pre></div>
+<p>Imagine translating these statements into R, fixing things a little by inserting the required <code>*</code> in <code>(x+3)*(x-2)</code>, and using <code>sqrt()</code> instead of <span class="math inline">\(\sqrt{\strut\ }\)</span>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="fun-notation.html#cb18-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> x</span>
+<span id="cb18-2"><a href="fun-notation.html#cb18-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">sqrt</span>(x)</span>
+<span id="cb18-3"><a href="fun-notation.html#cb18-3" aria-hidden="true" tabindex="-1"></a>y<span class="sc">^</span><span class="dv">2</span> <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb18-4"><a href="fun-notation.html#cb18-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="dv">3</span>)</span>
+<span id="cb18-5"><a href="fun-notation.html#cb18-5" aria-hidden="true" tabindex="-1"></a>y <span class="sc">-</span> x <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb18-6"><a href="fun-notation.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="ot">=</span> (x<span class="sc">+</span><span class="dv">3</span>) <span class="sc">*</span> (x<span class="dv">-2</span>)</span></code></pre></div>
 <p>Running these statements in R (for instance, by copying them to a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>) will generate an error. Even if you copy and run the statements individually, one at a time, into the sandbox, you’ll get an error for all but one of the statements.</p>
 <p>Before reading on, see if you can figure out, just by reading the R statements, which one is valid.</p>
 <p>For some of the statements, the left-hand side of <code>&lt;-</code> is not a valid name in R (<code>0</code> and <code>y^2</code> and <code>y-x</code>). For others, the name <code>x</code> is being used before any value has been assigned to it.</p>
@@ -412,11 +423,11 @@ y - x = 0\\
 “Table a motion,” but not “desk a motion.”<br />
 “Bench a player,” but not “couch a player.”<br />
 “Couch a meaning” but not “bench a meaning.”</p>
-<p>In this book, we’re going to use a mathematical notation that corresponds to a usable computer notation. The first step is to stop using <span class="math inline">\(=\)</span> to mean so many different things. <span style="float: right; padding-left: 50px;"><a name="530" href="#530"><img src="www/icons8-signpost.png" title="Location: 530" width="12px"/></a><span style="color: red; font-size: 6pt;">530</red></span></p>
+<p>In this book, we’re going to use a mathematical notation that corresponds to a usable computer notation. The first step is to stop using <span class="math inline">\(=\)</span> to mean so many different things.</p>
 </div>
 <div id="words-for-using-functions" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> Words for using functions</h2>
-<p>Throughout this course, I use the words <strong><em>inputs</em></strong> and <strong><em>output</em></strong> to refer to what is handed off to a function and what is received back as the result. But “handed off” is a metaphor and not a clear naming of what we mean when we use a function. This section simply gives some vocabulary to describe various aspects of using functions. The concept of functions is so fundamental in mathematics and computing, that there are many synonyms for each aspect. It helps to be aware of these synonyms since different people will write about functions in different—but equivalent!—ways. <span style="float: right; padding-left: 50px;"><a name="540" href="#540"><img src="www/icons8-signpost.png" title="Location: 540" width="12px"/></a><span style="color: red; font-size: 6pt;">540</red></span></p>
+<p>Throughout this course, I use the words <strong><em>inputs</em></strong> and <strong><em>output</em></strong> to refer to what is handed off to a function and what is received back as the result. But “handed off” is a metaphor and not a clear naming of what we mean when we use a function. This section simply gives some vocabulary to describe various aspects of using functions. The concept of functions is so fundamental in mathematics and computing, that there are many synonyms for each aspect. It helps to be aware of these synonyms since different people will write about functions in different—but equivalent!—ways.</p>
 <p>In everyday speech, an “argument” is a discussion between people with differing views. But in computing, <strong><em>argument</em></strong> means something else entirely: it is a synonym for “input to a function.” It’s good to have a concrete image in mind, so I’ll suggest thinking of a computer printer as an analogy for a function. A computer printer takes several different kinds of input: electricity, paper, ink or toner, instructions transmitted via cable or wireless connection. Each of these inputs arrives at the printer through a particular interface: the electrical supply cord, a tray for holding paper, a tank or cartridge for ink, a radio receiver. These interfaces are the different inputs—or, to use the other word, arguments—of the printer.</p>
 <p>Common sense tells you that you shouldn’t put toner in the paper tray, or connect the electrical supply cord to the ink tank. You have to provide the right kind of stuff to each input interface in order to get the anticipated output from the printer.</p>
 <p>Our pattern-book functions all have a single input. With such functions it’s appropriate to speak of “the input to” or “the argument of” the function. In general, the functions we will construct for modeling purposes with have multiple inputs or arguments. For instance, the function <span class="math inline">\(g(x, y) \equiv e^x \sin(y)\)</span> has both an “x-input” and a “y-input”. You can just as well say “the x-argument of g()” or the “y-argument of g(),” or even the “first argument of g()” and the “second argument of g().” Whether you use the preposition “of” or “to” is a matter of personal style; either will do.</p>
@@ -429,7 +440,7 @@ y - x = 0\\
 </ol>
 <p>In (ii) and (iv), there is an implicit “on its arguments.” But any application/evaluation/running of a function necessarily involves giving specific values for the inputs.</p>
 <p>The difference between “a function” and “applying a function” is much the same as the difference between a printer and “printing a document,” or a screwdriver and “driving (or extracting) a screw, or, for wizard-world fans, the difference between a”spell" and the act of “casting a spell.”</p>
-<p>In R/mosaic, the application of a modeling function like <code>g()</code> (defined in an earlier paragraph) to its two arguments looks like <code>g(5, pi)</code> with the two arguments separated by a comma. It might also look like <code>g(z, pi)</code>, or even <code>g(x=z, y=pi)</code> or <code>g(y=pi, x=z)</code> where the use of the argument names save us the trouble of remembering which argument came first in the definition. <span style="float: right; padding-left: 50px;"><a name="550" href="#550"><img src="www/icons8-signpost.png" title="Location: 550" width="12px"/></a><span style="color: red; font-size: 6pt;">550</red></span></p>
+<p>In R/mosaic, the application of a modeling function like <code>g()</code> (defined in an earlier paragraph) to its two arguments looks like <code>g(5, pi)</code> with the two arguments separated by a comma. It might also look like <code>g(z, pi)</code>, or even <code>g(x=z, y=pi)</code> or <code>g(y=pi, x=z)</code> where the use of the argument names save us the trouble of remembering which argument came first in the definition.</p>
 <p>When applying a function of <strong>one</strong> argument, refrain from using the argument name. It’s unnecessary since you can hardly get the order of arguments wrong and, depending on who wrote the software for the function, they might not have used <code>x</code> as the name of the argument.</p>
 <p>It’s another matter when you are <strong><em>defining</em></strong> a function. For instance, <span class="math display">\[g(x, y) \equiv e^x \sin(y)\]</span> does <strong>not</strong> mean “apply <span class="math inline">\(g()\)</span> to the arguments <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.” Instead, it means, “I’m setting up <span class="math inline">\(g()\)</span> as a function, a kind of promise in the future that whenever you write <span class="math inline">\(g(3, \pi)\)</span> or something similar, the defined function will be applied to those arguments. But for now, you don’t need to do any arithmetic or other calculation, just remember that you’ve made a promise named <span class="math inline">\(g()\)</span>.”</p>
 <p>In R/mosaic, using a <strong><em>tilde-expression</em></strong> signals that you are asking for the same kind of promise to do something when the time for it comes.</p>
@@ -452,7 +463,7 @@ y - x = 0\\
 <p>An <strong><em>algorithm</em></strong> is a set of instructions for performing a computation written in terms of other algorithms that we already know how to perform.</p>
 </blockquote>
 <p>For our purposes, the “algorithms that we already know how to perform” will be taken to be arithmetic—addition, subtraction, multiplication, division—as well as the evaluation of the pattern-book functions. Admittedly, people cannot compute logarithms as fluently as they can add numbers, but you already have the R implementations of the basic modeling functions: <code>exp()</code>, <code>log()</code>, <code>sin()</code>, power-law, <code>dnorm()</code>, and <code>pnorm()</code>.
-The vast majority of functions you will see in this book (and in mathematical modeling in general) can be constructed out of basic arithmetic and the application of the pattern-book functions. <span style="float: right; padding-left: 50px;"><a name="560" href="#560"><img src="www/icons8-signpost.png" title="Location: 560" width="12px"/></a><span style="color: red; font-size: 6pt;">560</red></span></p>
+The vast majority of functions you will see in this book (and in mathematical modeling in general) can be constructed out of basic arithmetic and the application of the pattern-book functions.</p>
 </div>
 <div id="algorithms-without-formulas" class="section level2" number="5.4">
 <h2><span class="header-section-number">5.4</span> Algorithms without formulas</h2>
@@ -463,13 +474,13 @@ The vast majority of functions you will see in this book (and in mathematical mo
 <p>Algorithms, including the ones that are formulas, are written in terms of a set of <strong><em>symbols</em></strong> that stand for inputs. For instance, in <span class="math inline">\(mx + b\)</span>, the <span class="math inline">\(x\)</span>, <span class="math inline">\(m\)</span>, and <span class="math inline">\(b\)</span> are the names we give to the quantities being used in the calculation.</p>
 <p>The notation we are using for function definition lists some of these names in two places, and others in only one place. Again, look at <span class="math display">\[g(x) \equiv m x + b\]</span>
 The <span class="math inline">\(x\)</span> appears both in the algorithm and the list of input name <span class="math inline">\((x)\)</span> to the left of <span class="math inline">\(\equiv\)</span>.</p>
-<p>The <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> are different; they appear <strong>only</strong> in the algorithm. The word for such quantities in mathematics is <strong><em>parameter</em></strong>. Eventually, when the algorithm is followed, we’re going to have to put in specific numerical values in place of each parameter. <span style="float: right; padding-left: 50px;"><a name="570" href="#570"><img src="www/icons8-signpost.png" title="Location: 570" width="12px"/></a><span style="color: red; font-size: 6pt;">570</red></span></p>
+<p>The <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> are different; they appear <strong>only</strong> in the algorithm. The word for such quantities in mathematics is <strong><em>parameter</em></strong>. Eventually, when the algorithm is followed, we’re going to have to put in specific numerical values in place of each parameter.</p>
 <p><strong>Where will these parameter values come from?</strong> This is a subject on which mathematical notation is silent. You have to figure it out from context and experience. This is potentially very confusing, especially when a human is not around to sort things out.</p>
 </div>
 <div id="computer-notation" class="section level2" number="5.5">
 <h2><span class="header-section-number">5.5</span> Computer notation</h2>
 <p>The notation used in computer programming lets us be explicit about which symbols refer to function inputs and which to parameters of the function.
-Depending on the computer language things can be handled in one way or another. (For experienced computer programmers: This is the issue of <strong><em>scope</em></strong> and can be complex in its own right.) <span style="float: right; padding-left: 50px;"><a name="580" href="#580"><img src="www/icons8-signpost.png" title="Location: 580" width="12px"/></a><span style="color: red; font-size: 6pt;">580</red></span></p>
+Depending on the computer language things can be handled in one way or another. (For experienced computer programmers: This is the issue of <strong><em>scope</em></strong> and can be complex in its own right.)</p>
 <p>In the software used in CalcZ (R/<code>mosaic</code>, which is the R language augmented with the <code>mosaic</code> package of extensions), we will take a simple-to-use approach. It works like this:</p>
 <blockquote>
 <p>All modeling functions we construct with R/<code>mosaic</code> will list parameters formally as <strong><em>arguments</em></strong> to the function.</p>
@@ -477,21 +488,21 @@ Depending on the computer language things can be handled in one way or another. 
 <p>It is as if we wrote in traditional notation <span class="math display">\[g(x, m, b) \equiv m x + b\]</span></p>
 <p>There is also a way to give default numerical values to parameters so that you can write <span class="math inline">\(g(3.5)\)</span> and the computer will know where to find the parameter values. In writing about formulas using math notation, we’ll extend the traditional notation to write, for instance, <span class="math inline">\(g(x, m=2, b=3) \equiv m x + b\)</span>.</p>
 <p>In R/<code>mosaic</code>, we would construct a mathematical function like <span class="math inline">\(g()\)</span> using the <code>makeFun()</code> function:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="fun-notation.html#cb21-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x, <span class="at">m=</span><span class="dv">2</span>, <span class="at">b=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="fun-notation.html#cb19-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x, <span class="at">m=</span><span class="dv">2</span>, <span class="at">b=</span><span class="dv">3</span>)</span></code></pre></div>
 <p>You could also write</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="fun-notation.html#cb22-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
-<p>but this notation means that you will have to give specific numerical values for the <code>m</code> and <code>b</code> inputs whenever you evaluate <code>g()</code>. There won’t be any default values for the “parameters-as-inputs” <code>m</code> and <code>b</code>. <span style="float: right; padding-left: 50px;"><a name="590" href="#590"><img src="www/icons8-signpost.png" title="Location: 590" width="12px"/></a><span style="color: red; font-size: 6pt;">590</red></span></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="fun-notation.html#cb20-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
+<p>but this notation means that you will have to give specific numerical values for the <code>m</code> and <code>b</code> inputs whenever you evaluate <code>g()</code>. There won’t be any default values for the “parameters-as-inputs” <code>m</code> and <code>b</code>.</p>
 <!-- Relevant Blog post: CalculusBlog/post-formal-arguments.Rmd -->
 </div>
 <div id="calcz-naming-conventions" class="section level2" number="5.6">
 <h2><span class="header-section-number">5.6</span> CalcZ naming conventions</h2>
-<p>We’re going to be using and creating a lot of functions in CalcZ. Some of these functions already have <strong><em>proper names</em></strong>, usually written using short sequences of letters: for instance the pattern-book functions <span class="math inline">\(\sin()\)</span>, <span class="math inline">\(\ln()\)</span>, <span class="math inline">\(\exp()\)</span>. <span style="float: right; padding-left: 50px;"><a name="600" href="#600"><img src="www/icons8-signpost.png" title="Location: 600" width="12px"/></a><span style="color: red; font-size: 6pt;">600</red></span></p>
+<p>We’re going to be using and creating a lot of functions in CalcZ. Some of these functions already have <strong><em>proper names</em></strong>, usually written using short sequences of letters: for instance the pattern-book functions <span class="math inline">\(\sin()\)</span>, <span class="math inline">\(\ln()\)</span>, <span class="math inline">\(\exp()\)</span>.</p>
 <p>Other functions will be needed just for a sentence or a paragraph or a section, perhaps being used in an example or to lay out the steps of an algorithm. In <strong><em>natural languages</em></strong> such as English, we often use <strong><em>pronouns</em></strong> for such purposes: she, he, it, they, we, I, …. We also will use pronouns for identifying functions. Our policy is this:</p>
 <blockquote>
 <p>A pronoun for a function will be usually named <span class="math inline">\(f()\)</span> or <span class="math inline">\(g()\)</span> or <span class="math inline">\(h()\)</span> or the corresponding upper-case letters <span class="math inline">\(F()\)</span>, <span class="math inline">\(G()\)</span>, or <span class="math inline">\(H()\)</span>. <strong>The particular choice of letter f, g, or h has no significance whatsoever.</strong> It is just a way to give an unambiguous handle for a function that we are going to be using for a little while.</p>
 </blockquote>
 <p>On occasion, we will use subscripts or superscripts on these pronoun letters, for instance <span class="math inline">\(f_1()\)</span> or <span class="math inline">\(g^\star()\)</span>. This is a way to give us many more possible pronouns when we need them. Perhaps this is analogous to words like “sister,” “parent,” “husband,” “cousin,” etc. that allow us to refer, without a proper name, to a specific person.</p>
-<p>On other occasions, where a function relates to a specific quantity such as position or velocity, we will use the names <span class="math inline">\(x()\)</span>, <span class="math inline">\(y()\)</span>, <span class="math inline">\(z()\)</span>, <span class="math inline">\(u()\)</span>, <span class="math inline">\(v()\)</span>, <span class="math inline">\(w()\)</span>, and such. These letters are, of course, the same ones we frequently use to name the inputs to functions. How do you know whether the letter is meant to refer to an input rather than a function? The parentheses provide the clue: <span class="math inline">\(x()\)</span> is a function name, <span class="math inline">\(x\)</span> is an input name. <span style="float: right; padding-left: 50px;"><a name="610" href="#610"><img src="www/icons8-signpost.png" title="Location: 610" width="12px"/></a><span style="color: red; font-size: 6pt;">610</red></span></p>
+<p>On other occasions, where a function relates to a specific quantity such as position or velocity, we will use the names <span class="math inline">\(x()\)</span>, <span class="math inline">\(y()\)</span>, <span class="math inline">\(z()\)</span>, <span class="math inline">\(u()\)</span>, <span class="math inline">\(v()\)</span>, <span class="math inline">\(w()\)</span>, and such. These letters are, of course, the same ones we frequently use to name the inputs to functions. How do you know whether the letter is meant to refer to an input rather than a function? The parentheses provide the clue: <span class="math inline">\(x()\)</span> is a function name, <span class="math inline">\(x\)</span> is an input name.</p>
 <p>It can become tedious to give a name to every function, even if it’s not being used again. Consider this sentence as an example:</p>
 <blockquote>
 <p>“The functions <span class="math inline">\(g(x) \equiv \sqrt{\strut x}\)</span> and <span class="math inline">\(h(x) \equiv x^3\)</span> are examples of power-law functions.”</p>
@@ -502,7 +513,7 @@ Depending on the computer language things can be handled in one way or another. 
 </blockquote>
 <p>Without the formality provided by “<span class="math inline">\(g(x) \equiv\)</span>” it can be hard to know whether <span class="math inline">\(\sqrt{\strut x}\)</span> means “the square-root function” or "take the square root of a specific number <span class="math inline">\(x\)</span>. The convention we will use is based on the name used in the expression. When standard argument names from the end of the alphabet are being used with a subscript (e.g. <span class="math inline">\(x_0\)</span>) or with a special symbol used in a superscript (e.g. <span class="math inline">\(t^\star\)</span>), we intend the expression to be a function. However, when we want to <strong><em>apply a function</em></strong> to specific values for inputs we will write in any of the following styles:</p>
 <p><span class="math display">\[f(x^\star) \ \ \text{or}\ \ \sqrt{\strut x^\star}\ \ \text{or}\ \ \sqrt{\strut x=3}\ \ \text{or}\ \ \left.\sqrt{\strut x}\right|_{x=3}\ \ \text{or}\ \ \left.g(x)\strut \right|_{x=3}\]</span></p>
-<p>One of the important techniques of calculus is to take something we often think of as a number and turn it into a function whose output is a number. It will take you time to get used to the calculus notation and to be able to tell at a glance whether something is a function or a number. <span style="float: right; padding-left: 50px;"><a name="620" href="#620"><img src="www/icons8-signpost.png" title="Location: 620" width="12px"/></a><span style="color: red; font-size: 6pt;">620</red></span></p>
+<p>One of the important techniques of calculus is to take something we often think of as a number and turn it into a function whose output is a number. It will take you time to get used to the calculus notation and to be able to tell at a glance whether something is a function or a number.</p>
 <p>Here’s an illustration that will only make sense to those who have already studied some calculus:</p>
 <p><span class="math display">\[\int_0^3\!\! f(t) dt\ \ \text{is a number, but }\int_0^x\!\! f(t) dt \ \ \text{is a function.}\ \ \]</span></p>
 <p>In high-school math notation, it can be hard to tell if an expression is intended to be a function or a number. Careful attention to the CalcZ conventions will make it easier to figure whether an expression resolves to a function or a number. When you first read a mathematical expression, a good first question to ask is, “What kind of thing is this? A function? A number?”</p>
@@ -512,39 +523,39 @@ Depending on the computer language things can be handled in one way or another. 
 </div>
 <div id="functions-in-r" class="section level2" number="5.7">
 <h2><span class="header-section-number">5.7</span> Functions in R</h2>
-<p>Any name in the R language can refer to any sort of object. We will use the CalcZ naming conventions in our use of R, so that the ability you develop to read math notation should help reading R <strong>and vice versa</strong>. <span style="float: right; padding-left: 50px;"><a name="630" href="#630"><img src="www/icons8-signpost.png" title="Location: 630" width="12px"/></a><span style="color: red; font-size: 6pt;">630</red></span></p>
+<p>Any name in the R language can refer to any sort of object. We will use the CalcZ naming conventions in our use of R, so that the ability you develop to read math notation should help reading R <strong>and vice versa</strong>.</p>
 <p>R/mosaic provides additional clues to distinguish between numbers and functions.</p>
 <p>Almost all the time we will create a function using <code>makeFun()</code>. So when you see an R expression starting as <code>name &lt;- makeFun(</code>tilde expression<code>)</code> you know for sure the name refers to a function.</p>
 <p>As we get deeper into calculus, you will meet additional R operators that generate functions. We’ll introduce these in good time, but for someone reviewing the course, these include <code>D()</code>, <code>antiD()</code>, <code>compose()</code> and <code>iterate()</code>.</p>
 <div class="why">
 <p>Some readers may have encountered R previously in a statistics or data science course. Those readers will be wondering what is the purpose of <code>makeFun()</code>. Experienced programmers know that the way you make functions in R is by using the <code>function</code> keyword. For instance:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="fun-notation.html#cb23-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x }</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="fun-notation.html#cb21-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x }</span></code></pre></div>
 <p>That’s a completely correct and legitimate way to define a function in R and in most settings is the universal practice.</p>
 <p>We developed <code>makeFun()</code> to handle a situation where computers, in their insistence on avoiding ambiguity, will do something that is not what the person familiar with math notation is likely to suspect. The problem comes up in something as simple as</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="fun-notation.html#cb24-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { m<span class="sc">*</span>x <span class="sc">+</span> b }</span></code></pre></div>
-<p>In traditional math notation, <span class="math inline">\(g(x) \equiv m x + b\)</span>, we are usually silent on where parameters like <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> are coming from. And, to be honest, you don’t have to worry about this <strong>until you try to evaluate the function</strong>. <span style="float: right; padding-left: 50px;"><a name="630" href="#630"><img src="www/icons8-signpost.png" title="Location: 630" width="12px"/></a><span style="color: red; font-size: 6pt;">630</red></span></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="fun-notation.html#cb22-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { m<span class="sc">*</span>x <span class="sc">+</span> b }</span></code></pre></div>
+<p>In traditional math notation, <span class="math inline">\(g(x) \equiv m x + b\)</span>, we are usually silent on where parameters like <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> are coming from. And, to be honest, you don’t have to worry about this <strong>until you try to evaluate the function</strong>.</p>
 <p>If you evaluate, say, the command <span class="math inline">\(g(3)\)</span>, the R system knows how to find the right values for <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span>. If there are no such objects in the appropriate places in the R system, an error message will be generated. The rules that computer languages follow in tracking down symbols that aren’t in the argument list are called <strong><em>scoping rules</em></strong>. Scoping is an advanced programming concept and different languages use different rules.</p>
 <p>For those few whose programming background includes an understanding of scoping here’s an explanation. The ordinary scoping rules in R would make undefined parameters like <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> in a function definition have bindings in the environment in which the function was defined. This would typically be the global environment, an unsatisfactory arrangement it would be difficult to customize an individual function or invocation of a function to use a specific value for the parameters. <code>makeFun()</code> is arranged to add any parameters in the function algorithm to the argument list. The <code>makeFun()</code> command creates a function with 3 arguments.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="fun-notation.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">makeFun</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="fun-notation.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">makeFun</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
 <pre><code>## function (x, m, b) 
 ## m * x + b</code></pre>
 <p>The point of the <code>~ x</code> part of the tilde expression is simply to name which arguments should come first. To evaluate the function, you’ll have to provide values for <code>m</code> and <code>b</code>. But some operations on a function—differentiation and anti-differentiation, in particular—can be done without having to specify parameter values. For those of you who know what differentiation or anti-differentiation are, here is an example:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="fun-notation.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">D</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="fun-notation.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">D</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
 <pre><code>## function (x, b, m) 
 ## m</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="fun-notation.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">antiD</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="fun-notation.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">antiD</span>(m<span class="sc">*</span>x <span class="sc">+</span> b <span class="sc">~</span> x)</span></code></pre></div>
 <pre><code>## function (x, C = 0, m, b) 
 ## m * (1/2 * x^2) + b * x + C</code></pre>
-<p>Sometimes you have particular numerical values in mind for the parameters. For instance, if you are modeling the trajectory of a ball, you will undoubtedly need to make use of gravitational acceleration at the Earth’s surface, which is <span class="math inline">\(9.8 \text{m}/\text{s}^2\)</span>. You might prefer not to include the specific number 9.8 in your function definitions so that you can use the same functions to model a ball’s trajectory on Mars. But since most balls are thrown on Earth, maybe it’s not worthwhile to insist that the value 9.8 be specified every time the function is used. You can have it both ways by using <code>g</code> as the parameter name and instruct R to set <code>g</code> to 9.8 <em>unless otherwise specified</em>. The function will look like this: <span style="float: right; padding-left: 50px;"><a name="640" href="#640"><img src="www/icons8-signpost.png" title="Location: 640" width="12px"/></a><span style="color: red; font-size: 6pt;">640</red></span></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="fun-notation.html#cb31-1" aria-hidden="true" tabindex="-1"></a>ball_velocity <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(g<span class="sc">*</span>t <span class="sc">+</span> t0 <span class="sc">~</span> t, <span class="at">g =</span> <span class="fl">9.8</span>, <span class="at">t0 =</span> <span class="dv">0</span>)</span>
-<span id="cb31-2"><a href="fun-notation.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># For Earth: falling 3 seconds from a standstill</span></span>
-<span id="cb31-3"><a href="fun-notation.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ball_velocity</span>(<span class="dv">3</span>)</span></code></pre></div>
+<p>Sometimes you have particular numerical values in mind for the parameters. For instance, if you are modeling the trajectory of a ball, you will undoubtedly need to make use of gravitational acceleration at the Earth’s surface, which is <span class="math inline">\(9.8 \text{m}/\text{s}^2\)</span>. You might prefer not to include the specific number 9.8 in your function definitions so that you can use the same functions to model a ball’s trajectory on Mars. But since most balls are thrown on Earth, maybe it’s not worthwhile to insist that the value 9.8 be specified every time the function is used. You can have it both ways by using <code>g</code> as the parameter name and instruct R to set <code>g</code> to 9.8 <em>unless otherwise specified</em>. The function will look like this:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="fun-notation.html#cb29-1" aria-hidden="true" tabindex="-1"></a>ball_velocity <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(g<span class="sc">*</span>t <span class="sc">+</span> t0 <span class="sc">~</span> t, <span class="at">g =</span> <span class="fl">9.8</span>, <span class="at">t0 =</span> <span class="dv">0</span>)</span>
+<span id="cb29-2"><a href="fun-notation.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># For Earth: falling 3 seconds from a standstill</span></span>
+<span id="cb29-3"><a href="fun-notation.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ball_velocity</span>(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 29.4</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="fun-notation.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For Earth when the ball has an initial upward velocity of 10 m/s</span></span>
-<span id="cb33-2"><a href="fun-notation.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ball_velocity</span>(<span class="dv">3</span>, <span class="at">t0 =</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="fun-notation.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For Earth when the ball has an initial upward velocity of 10 m/s</span></span>
+<span id="cb31-2"><a href="fun-notation.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ball_velocity</span>(<span class="dv">3</span>, <span class="at">t0 =</span> <span class="sc">-</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] 19.4</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="fun-notation.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For Mars ...</span></span>
-<span id="cb35-2"><a href="fun-notation.html#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ball_velocity</span>(<span class="dv">3</span>, <span class="at">t0 =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">g =</span> <span class="fl">3.711</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="fun-notation.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For Mars ...</span></span>
+<span id="cb33-2"><a href="fun-notation.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ball_velocity</span>(<span class="dv">3</span>, <span class="at">t0 =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">g =</span> <span class="fl">3.711</span>)</span></code></pre></div>
 <pre><code>## [1] 1.133</code></pre>
 </div>
 </div>
@@ -553,10 +564,10 @@ Depending on the computer language things can be handled in one way or another. 
 <p>The <span class="math inline">\(=\)</span> sign carries a lot of weight in high-school notation. Too much weight. It is used for several meanings that ought to be distinguished one from another. Combining them all into one symbol leads to confusion and error.</p>
 <p><strong>Meaning 1</strong>: “Is defined to be …”</p>
 <p>We use <span class="math inline">\(\equiv\)</span> in mathematical notation and <code>&lt;-</code> in R. The notation in R is a bit simpler than the mathematical notation: it is a way of giving something a name.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="fun-notation.html#cb37-1" aria-hidden="true" tabindex="-1"></a>name <span class="ot">&lt;-</span> something</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="fun-notation.html#cb35-1" aria-hidden="true" tabindex="-1"></a>name <span class="ot">&lt;-</span> something</span></code></pre></div>
 <p>If the “something” is a function, you will see that on the left side of <code>&lt;-</code>, for instance by use of the <code>makeFun()</code> operator in <code>h &lt;- makeFun(x^2 ~ x)</code>. The left side is simply a name.</p>
 <p>In math notation, the equivalent would be written <span class="math inline">\(h(x) \equiv x^2\)</span>. The left side isn’t exactly a name. It’s a name followed by parentheses in which are the names being used in the algorithm.</p>
-<p>Keep in mind that in writing about functions, we will generally provide a hint that the name refers to the function, writing <span class="math inline">\(h()\)</span> or <code>h()</code>. The parentheses aren’t part of the name; the name here is <span class="math inline">\(h\)</span>. But the parentheses remind us that <span class="math inline">\(h\)</span> is a function. <span style="float: right; padding-left: 50px;"><a name="650" href="#650"><img src="www/icons8-signpost.png" title="Location: 650" width="12px"/></a><span style="color: red; font-size: 6pt;">650</red></span></p>
+<p>Keep in mind that in writing about functions, we will generally provide a hint that the name refers to the function, writing <span class="math inline">\(h()\)</span> or <code>h()</code>. The parentheses aren’t part of the name; the name here is <span class="math inline">\(h\)</span>. But the parentheses remind us that <span class="math inline">\(h\)</span> is a function.</p>
 <p><strong>Meaning 2</strong>: “Happens to be …”</p>
 <p>The acceleration due to gravity is often given the name <span class="math inline">\(g\)</span>. On Earth’s surface, it happens to be <span class="math inline">\(9.8 \text{m}/\text{s}^2\)</span>. In our math notation, we will use the equal sign for this narrow meaning, as in <span class="math inline">\(g=9.8\text{m}/\text{s}^2\)</span>. In R we will use <code>=</code>.</p>
 <p><strong>Meaning 3</strong>: “Gets closer and closer to …”</p>
@@ -688,6 +699,62 @@ Depending on the computer language things can be handled in one way or another. 
 <li><span class="Zchoice"><code>1/k e^kt</code><span class="mcanswer">︎✘ 1) Use <code>*</code> for multiplication. 2) Use <code>exp(x)</code> for <span class="math inline">\(e^x\)</span>.</span></span></li>
 </ol>
 </details>
+<details>
+<summary>
+<strong>Exercise 5.5</strong>: <span><a name="File: Exercises/pine-light-mug.Rmd" href="#ooJK5d"><img src="www/icons8-signpost.png" title="Location: Exercises/pine-light-mug.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ooJK5d</red></span>
+</summary>
+<p>Suppose you want to define a straight-line function named <span class="math inline">\(f()\)</span> such that <span class="math inline">\(f(x)\equiv m x + b\)</span>. Each of the following R statements is <strong>incorrect</strong> for this purpose. Say why.</p>
+<p><strong>Question A</strong> <code>f &lt;- m*x + b</code></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Need to use <code>makeFun()</code> to define a function.<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><code>m</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>b</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Should be <code>y &lt;- m*x + b</code>.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question B</strong> <code>f &lt;- makeFun(m*x + b)</code></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The first argument to <code>makeFun()</code> should be a <em>tilde expression</em>.<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><code>m</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>b</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>makeFun()</code> requires <strong>two</strong> inputs.<span class="mcanswer">︎✘ No, but it does require a tilde expression input.</span></span></li>
+</ol>
+<p><strong>Question C</strong> <code>f &lt;- makeFun(x ~ m*x + b)</code></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The tilde expression should have the input name on the right-hand side of the <code>~</code>.<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><code>m</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>b</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The first argument is not a tilde expression.<span class="mcanswer">︎✘ Actually, it is a tilde expression, just not the right sort of tilde expression.</span></span></li>
+</ol>
+<p><strong>Question D</strong> <code>f &lt;- makeFun(mx + b ~ x)</code></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The tilde expression is missing the multiplication operator <code>*</code> between <code>m</code> and <code>x</code><span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice"><code>m</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>b</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The name <code>f</code> is mis-spelled.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question E</strong> <code>f &lt;- makeFun(b*x + m ~ x)</code></p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The roles of <code>m</code> and <code>b</code> have been reversed.<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><code>m</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>b</code> is not defined.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><code>x</code> is not defined.<span class="mcanswer">︎✘ </span></span>
+</details></li>
+</ol>
 
 </div>
 </div>

@@ -1,13 +1,15 @@
-## Differential equations
+# Differential equations
 
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-diff-eq.Rmd)</div>
+
+::: {.underconstruction}
 
 i. Explain the format in which we present dynamics as opposed to trajectories
 i. Find qualitative solutions from an initial condition
 i. Articulate the difference between state, dynamics, and trajectory
 
-## Vocabulary
+**Vocabulary**
 
 * Differential equation
 * Initial condition (or, initial value or boundary value)
@@ -19,7 +21,7 @@ i. Articulate the difference between state, dynamics, and trajectory
 * Flow field
 * Euler integration (iteration)
 
-## Examples
+**Examples**
 
 
 
@@ -29,6 +31,7 @@ i. Articulate the difference between state, dynamics, and trajectory
 - Pendulum
 - Disease
 - Rocket
+:::
 
 ## The language for change
 
@@ -121,6 +124,8 @@ A simple example is the dynamics of retirement-account interest. In a retirement
 $$\partial_t V(t) = (1+r) V(t) + M\ .$$
 For the sake of simplicity, we can imagine that the interest rate and monthly contribution are constants: they are not part of the dynamical state. This leaves $V$ at any given time as the state variable. The dynamics tell the rate of change in the state variable, $\partial_t V(t)$ as a function of the current value $V(t)$ of the state variable.
 
+There is a special name for they equation describing dynamics: ***differential equation***. The above differential equation, having just one component to the state, is sometimes called a ***first-order differential equation***. Another way to recognize a first-order equation is that it is a single equation with just a first-order derivative appearing.
+
 A more complete model might include the monthly contribution $M(t)$ changing with time. For instance if you income changes over the years, your contribution will likely change along with it. Similarly, interest rates are notoriously variable over time. Still, these are not included in the dynamical state There's a simple reason: we don't have usually have any model describing how $r(t)$ and $M(t)$ change *as a function of* the state. That is, we can't say how $r(t)$ changes as a function of $V(t)$, $r(t)$, and $M(t)$. Quantities such as interest rate and contribution amount are said to be ***exogenous*** meaning "outside the system." (The word comes from the root "exo," meaning "outside," and "indigenous," meaning "native to.") Your retirement account doesn't *determine* the interest rate; interest rate is something (from your perspective) that comes from outside, largely uncontrollable factors. 
 
 Another example, found in physics textbooks, is the dynamics of the pendulum. In studying physics, you learn how to identify and keep track of the forces involved. Without getting involved much with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variable. We'll take these to be the angle $\theta(t)$ of the rod with respect to the vertical, and the angular velocity $v_\theta(t)$ telling how the velocity changes with time. The dynamics consist of two functions, the first being $\partial_t \theta(t)$ and the second $\partial_t v_\theta(t)$. They are:
@@ -133,7 +138,7 @@ Why did you bother to define a state variable $v_\theta(t)$ when it is, by defin
 
 Even though the dynamical equation $\partial_t \theta(t) = v_\theta(t)$ is a calculus tautology, we need always to be explicit about what are the two quantities in the dynamical state. The first of the two dynamical equations comes for free from basic calculus concepts. The second equation, however, is about the physics, the relationship between forces and acceleration.
 
-There is a style of writing dynamics equations that discards such tautologies. For example, the pendulum dynamics are often written $$\partial_{tt} \theta(t) = - \sin(\theta)$$. We'll return to this style in Chapter \@ref(second-order-de). We are avoiding this style because it obscures the fact that there are two state variables: $\theta(t)$ and $v_\theta(t)$,
+There is a style of writing dynamics equations that discards such tautologies. For example, the pendulum dynamics are often written $$\partial_{tt} \theta(t) = - \sin(\theta)\ .$$ This sort of equation, containing a second-order derivative, is called a second-order differential equation. It's exactly equivalent to the pair of first order equations, one for $\partial_t \theta(t)$ and one for $\partial v_\theta(t)$. We'll return to this style in Chapter \@ref(second-order-de). We are avoiding this style because it obscures the fact that there are two state variables: $\theta(t)$ and $v_\theta(t)$,
 :::
 
 ::: {.example data-latex=""}
@@ -163,7 +168,9 @@ The present state of the system might be any point in the state space. But if we
 
 Let's illustrate with the Rabbit-Fox system, whose dynamical equations are given above. To make a plot, we need numerical values for all the parameters in those equations. 
 
-```{r rabbit-fox-vectors, echo=FALSE, fig.cap="The dynamics of the rabbit/fox system shown as a vector field over the state space. The parameters have been set, for the purpose of illustration, to $\\alpha = 0.4$, $\\beta = 0.0005$, $\\gamma = 0.2$, and $\\delta = 0.1$."}
+The vector field corresponding to the dynamics is called a ***flow***, as if it were a pool of swirling water. Figure \@ref(fig:rabbit-fox-vectors) shows the flow of the rabbit/fox system.
+
+```{r rabbit-fox-vectors, echo=FALSE, fig.cap="The dynamics of the rabbit/fox system shown as a vector field over the state space. The parameters have been set, for the purpose of illustration, to $\\alpha = 2/3$, $\\beta = 4/3$, $\\gamma = 1$, and $\\delta = 1$."}
 alpha <- 0.4
 beta  <- 0.0005
 gamma <- 0.2
@@ -174,181 +181,51 @@ vectorfield_plot(0.66*r - 1.33*r*f ~ r & f,
   gf_labs(x="Rabbit density", y="Fox density")
 ```
 
+Staying with the analogy to a pool of swirling water or the currents in a river, you can place a lightweight marker such as a leaf at some point in the flow and follow its path over time. This path---position in state space as a function of time---is called the ***trajectory*** of the flow. There are many possible trajectories, depending on where you place the leaf.
 
+In Chapter `r Chaps$splines` we considered the path followed by a robot arm. In that chapter, we separated out the $x$- and $y$-components of the arm's position over time, calling them functions $x(t)$ and $y(t)$. Analogously, the the decomposition of a trajectory from an initial condition in the flow---this would be $R(t)$ and $F(t)$ for the rabbit/fox system---gives us the ***solution*** to the differential equation. 
 
-***Time series***
+Each component of the solution is called a ***time series*** and is often plotted as a function of time, for instance $R(t)$ versus $t$.
 
-***Trajectory*** plotted in state space.
+From the flow field, you can approximate the trajectory that will be followed from any initial condition. Starting from the ***initial condition***, just follow the flow. You already have some practice following a flow from your study of the ***gradient ascent*** method of optimization described in Chapter `r Chaps$optimization`. At the argmax, the gradient is nil. Thus, the gradient ascent method stops at the argmax. We'll see an analogous behavior in dynamical systems: any place where the flow is nil is a potential resting point for the state, called a ***fixed point***. 
 
-## Iteration
+::: {.example data-latex=""}
+Let's return to the pendulum and examine its flow field. We'll modify the equations just a little bit to include air resistance in the model. Air resistance is a force, so we know it will appear in the $\partial_t v_\theta(t)$ equation. A common model for air resistance has it proportional in size to the square of the velocity and with a direction that is the opposite of the velocity. In a differential equation, the model of air resistance can be written as $- \alpha\, L\, \text{sign}(v(t))\ v(t)^2$, where $\text{sign}()$ is a piecewise function that has the value $+1$ when the argument is positive and $-1$ when the argument is negative. $L$ is the length of the pendulum.
+$$\partial_t \theta = v_\theta\\
+\partial_t v_\theta = - \sin(\theta) - \alpha\,L\, \text{sign}(v)\ v^2$$
+Note that we've dropped the $(t)$ in $\theta(t)$ and in $v_\theta(t)$. Whenever you have a state variable, you know that it's a function of time and so the explicit $(t)$ is often omitted for the sake of conciseness.
 
+Figure \@ref(fig:pendulum-in-air) shows the flow field of the pendulum. Also shown is a trajectory and the two time series corresponding to that trajectory.
 
-
-
-
-Gradient ascent. Where you go depends on where you are: follow the flow. Big steps and small steps.
-
-Flow field and board games. Specify the velocity at each point in the space.
-
-Used to: $\partial_t x = gaussian(t)$. Solve this by anti-differentiation. 
-
-Now we'll consider systems where the change in the state depends on the state itself. That is:
-$$\partial_t x(t) = -2 x(t)$$
-$$\partial_t x(t) = \frac{x(t + dt) - x(t)}{dt} = -2x(t)\\
-\ \\
-x(t+dt) - x(t) = -2x(t) dt\\
-\ \\
-\underbrace{x(t+dt)}_{\text{future value}} = \underbrace{x(t)}_{\text{current value}} - \underbrace{2 x(t) dt}_{\text{increment}}$$
-
-Examples:
-
-- Increment is $e^{-kt}$: Gompertz growth: growth slows as you get older.
-- Increment is gaussian(t): there's a growth spurt
-- Increment is proportional to $a x$: population growth, bank interest. Dimension of $a$: people per year, percent per year.
-- Increment is proportional to $r x - A$: Paying back a mortgage at a rate of $A$ per year at an interest rate of $r$ per year.
-    - We'll move this to the linearization chapter. Let $y = x - A/r$. Then $dy = dx$. So $\partial_y = r y$ and $y = B e^{r t}$. Initial state is $Principal - A/r$ which is going to be negative so $y$ is exponential growth from a negative initial condition. 
-
-When the right-hand side has just $t$, simply integrate. But what to do when the right-hand side includes $x$?
-
-
-Tempting to try to integrate this:
-$$\int \partial_t x(t) dt = x(t) = \int (-2 x(t)) dt$$. We can't solve the RHS until we know $x(t)$. 
-
-Plot x versus t. All we know is the velocity field. 
-
-This is a relationship between two functions. The solving task is to find the function that satisfies this.
-
-Does $x(t) \equiv sin(2 t)$ satisfy the equation?
-$$\partial_t \sin(2t) = 2 \cos(2t) \overset{?}{=} 2 \sin(2t)$$
-
-Method of Ansatze: We make an (informed) guess of the function, see if it's feasible, and adjust parameters to make it true.
-
-Example: $\partial_t x = a x$. 
-    - Try $x = A e^{\omega t}$. We find that $\omega$ must equal $a$.
-    - Try $x = A e^{\omega t} + B$: Doesn't work. Or, rather, $B$ must be zero.
-
-
-## Exponential
-
-$\frac{d}{dt} x = a x$
-
-```{r}
-f <- function(t, x, dt = 0.1, a=0.3) {
-  c(t + dt, x + a*x*dt)
-}
-soln <- Iterate(f, x0=c(t=0, x=1), n=100, 
-                fargs=list(a=-.8, dt=.05))
-gf_line(x ~ t, data = soln)
+```{r pendulum-in-air, echo=FALSE, fig.cap="The flow field of a pendulum with air resistance. From the initial condition (marked by $\\color{red}{\\text{x}}$), a trajectory is sketched out for $0 \\leq t \\leq 20$. The individual components of that trajectory are graphed as time series.", fig.show="keep"}
+theta_exp <- latex2exp::TeX("$\\theta$")
+v_exp <- latex2exp::TeX("$v_\\theta$$")
+soln <- integrateODE(dtheta ~ v, dv ~ -sin(theta) - 0.1*2*sign(v)*v^2, theta = pi/4, v=+1, tdur=20)
+Flow <- traj_plot(v(t) ~ theta(t), soln, color="blue") %>%
+vectorfield_plot(v  ~ theta & v, 
+                 -sin(theta) - 0.1*2*sign(v)*v^2 ~ theta & v, 
+                 domain(theta=-(pi/2):(pi/2), v=-1:1), npts=20) %>% 
+  gf_point(1 ~ pi/4, color="red", shape="x", size=5) %>%
+  #gf_refine(coord_fixed()) %>%
+  gf_labs(y = v_exp, x = theta_exp, subtitle="Flow field in state space") %>% 
+  gf_refine(scale_x_continuous(
+    breaks=c(-pi/4, 0, pi/4),
+    labels=latex2exp::TeX(c("$-45^o$", 0, "$45^\\o$"))))
+  
+TS_theta <- slice_plot(soln$theta(t) ~ t, domain(t=0:20)) %>% gf_labs(y = theta_exp , subtitle="Time series") %>%
+  gf_refine(scale_y_continuous(breaks=c(-pi/4, 0, pi/4), labels=latex2exp::TeX(c("$-45^o$", 0, "$45^\\o$"))))
+TS_v <- slice_plot(soln$v(t) ~ t, domain(t=0:20)) %>% gf_labs(y = v_exp, subtitle="Time series")
+Flow
+gridExtra::grid.arrange(TS_theta, TS_v, nrow=2)
 ```
 
-## Using iteration
+The pendulum was started out by lifting it to an angle of $45^\circ$ and giving it an initial upward velocity. The bob swings up for a bit before being reversed by gravity and swinging toward $\theta = 0$ and beyond. Due to air resistance, the amplitude of swinging decreases over time. 
 
-```{r}
-f <- function(t, x, dt = 0.1, a=0.3) {
-  c(t + dt, x + a*(x*(1-x))*dt)
-}
-soln <- Iterate(f, x0=c(t=0, x=.001), n=1000, 
-                fargs=list(a=0.3, dt=.05))
-gf_line(x ~ t, data = soln)
-```
+:::
 
 
-
-
-
-
-A **trajectory** is a sequence of successive states. For example, here is a trajectory of six successive states: $$\{ {\mathbf S_0}, {\mathbf S_1},  {\mathbf S_2}, {\mathbf S_3}, {\mathbf S_4}, {\mathbf S_5}\}$$ `r mark(6100)`
-
-It's conventional to call ${\mathbf S}_0$ the "initial state" or, more often, the **initial condition**.
-
-Usually, we calculate a trajectory one step at a time:
-$$\left\{ {\mathbf S_0},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \\ {\mathbf S_1}=g({\mathbf S_0}),\\ {\mathbf S_2} = g({\mathbf S_1}),\\ {\mathbf S_3} = g({\mathbf S_2}),\\ {\mathbf S_4} = g({\mathbf S_3}),\\ \ \ \ \ \ {\mathbf S_5} = g({\mathbf S_4}))\ \ \ \right\}$$
-NOTE: We've written the above on several lines just to make it more readable. It could just as well have been written on one line.
-
------
-
-
-One common mathematical task in using finite-difference equations is **iteration**. In iterating a finite-difference equation, you are running a machine to construct the "future state" from the "present state." In iteration, you repeatedly do this. By plugging in the "future state" into the machine, you generate a state further in the future. `r mark(6105)`
-
-It can be helpful to think of "future" and "present" state in terms of a series of days. The system's state **today** is the present state. The system's state **tomorrow** is the next future state.  The system's state on the **day after tomorrow** is the future state after tomorrows's state. `r mark(6110)`
-
-A finite-difference equation is a statement about how tomorrow's state is a function of today's state. We could write this in the form
-$$\text{state}_{\small\text{tomorrow}} = g( \text{state}_{\small\text{ today}})$$
-This notation is wordy and hard to read. So we simplify it.
-
-- Today is day $n$
-- Tomorrow is day $n+1$
-- The state on day $n$ is written $\mathbf S_n$.
-- The state on day $n+1$ is written $\mathbf S_{n+1}$
-- The dynamics are represented by a function, say, $g({\mathbf S})$.
-- To remind us of the role played by $g()$, we write $${\mathbf S}_{n+1} = g({\mathbf S}_n)$$
-
-(Exercises: DtLAhm, mJRDLy)
-
-The ingredients for calculating a trajectory are:
-
-a. A function $g(S)$
-b. An initial condition ${\mathbf S}_0$.
-c. A choice of how many steps to take.
 
 <!--
-
-There are two basic styles to computing trajectories on the computer. The first is a **calculator style* series of commands. For instance, the code in the sandbox computes a trajectory of length 6 from the given $g()$ and initial condition. `r mark(6115)`
-
-```{r fdec1, exercise=TRUE, exercise.cap="Calculator style", exercise.nline=10, eval=FALSE}
-g <- makeFun(5 + x/2 ~ x)
-x0 <- 7
-x1 <- g(x0)
-x2 <- g(x1)
-x3 <- g(x2)
-x4 <- g(x3)
-x5 <- g(x4)
-x6 <- g(x5)
-
-```
-
-Computer programmers learn that this is a bad style for several reasons.
-
-i. The information about all these closely related things `x0`, `x1`, `x2` and so on is spread out over a bunch of different names. Most programming language provide no easy way to handle these as a group. An example of "handling as a group" is to plot out the trajectory versus $n$.
-ii. The statements are highly repetitive. Some people like this, because it gives them a sense of order. But programmers learn (through hard experience) that it is difficult for a human reader to confirm that every line is repeating exactly the same pattern. For instance, `x5 <- g(x3)` is a perfectly valid computer statement, but inconsistent with the dynamics that are supposed to be calculated. `r mark(6120)`
-
-A more effective style of programming is illustrated in the next sandbox which uses an "iteration operator":
-
--->
-
-To facilitate calculating a trajectory, use the `Iterate()` operator.
-
-```{r fdec3-2, exercise=TRUE, exercise.cap="An iteration operator", exercise.nlines=8, eval=FALSE}
-g <- makeFun(5 + x/2 ~ x)
-Traj <- Iterate(g, x0 = 7, n = 6)
-Traj
-```
-
-```{r fdec3-2-solution, echo=FALSE}
-g <- makeFun(-0.8*x + 2 ~ x)
-Traj <- Iterate(g, x0=10, 50)
-gf_point(x ~ n, data = Traj) %>%
-  gf_line(alpha=0.2)
-```
-
-The `Iterate()` operator takes as a first argument the dynamics in the form of the name of a function or a tilde-expression of the sort accepted by `makeFun()`. The next argument is the initial condition. (This argument is named `x0` regardless of the name used in the dynamics).  The third argument is the number of steps to iterate. `r mark(6125)`
-
-`Iterate()` returns a data frame with two (or more) columns. The first, named `n`, is the step number. The second is given the same name as the variable used in the dynamical function. Because the output of `Iterate()` is in the form of a data frame, you can employ any function set up to accept a data frame. `gf_point()` is particularly useful for plotting the trajectory as a function of $n$.
-
-`Iterate()` is for finite-difference equations in discrete time, so $n$ will always be an integer and the trajectory is appropriately plotted as a series of isolated points. Even so, it can be helpful to the human viewer to connect the points faintly with straight lines. This makes it a bit easier to see the sequence. For instance:
-
-```{r eval=FALSE}
-# Make the Traj then ...
-gf_point(x ~ n, data = Traj) %>%
-  gf_line(alpha=0.2)
-```
-
-(Exercises: DzIhgb)
-
-You can use the `Iterate()` function to compute the trajectory of any finite-difference system from any initial condition. Each trajectory is a sequence of numbers $\{x_n\}$ for $n=0, 1, 2, \ldots$.
-
-Sometimes it's possible to find an algebraic formula for a trajectory. Such a formula is unfortunately called a "solution," an over-used word in mathematics. In the days before computers were readily available, students of dynamics tended to study only those systems for which an algebraic solution could be found. A more modern style is to put the modeling setting first and foremost and not hesitate to use numerical methods like `Iterate()` instead of relying on algebra. `r mark(6130)`
-
 Because the word "solution" appears so often in textbooks it's helpful to know what they look like and how they are different from dynamics.
 
 i. Arithmetic sequences
@@ -361,42 +238,26 @@ iii. Combined sequences
     - Dynamics: $x_{n+1} = \alpha\, x_n + b$   <br>
     - Solution: $x_n = \left(x_0 - b/\alpha\right) \alpha^n + b/\alpha$
 
-The dynamics of a discrete-time system write tomorrow's state as a function of today's state. In contrast, the *solution* gives a formula for $x_n$ directly in terms of $n$, the initial condition $x_0$, and any parameters of the system (such as $\alpha$ and $b$ in the above examples). `r mark(6135)`
-
-As you can see, even for dynamics as simple as for the combined sequences, the solution is fairly complicated. Because solutions can be so complicated, they can be extremely hard to find and hard to use. The only ones we will use extensively will be composed of relatively simple terms like $(-1)^n$ and $\alpha^n$. The analogs of these for continuous time systems are $\sin(\omega t)$ and $e^{-kt}$. `r mark(6140)`
-
-(Exercises: 9mSE8t)
-
-<!--
-## 142Z Day 15 exercises
-
-`rr insert_calcZ_exercise("XX.XX", "DtLAhm", "Exercises/Dynamics/kitten-mean-tv.Rmd")`
-
-`rr insert_calcZ_exercise("XX.XX", "mJRDLy", "Exercises/Dynamics/rat-lend-piano.Rmd")`
-
-`rr insert_calcZ_exercise("XX.XX", "DzIhgb", "Exercises/Dynamics/ape-leave-shirt.Rmd")`
-
-`rr insert_calcZ_exercise("XX.XX", "9mSE8t", "Exercises/Dynamics/lobster-become-sofa.Rmd")`
-
-`rr insert_calcZ_exercise("XX.XX", "FUIt1Q", "Exercises/Dynamics/spider-find-book.Rmd")`
-
-AN EXERCISE THAT WAS IN DIFF, but better suited here:
-
-`rr insert_calcZ_exercise("24.20", "uifJjv", "Exercises/Diff/aspen-let-cotton.Rmd")`
-
-::: {.takenote  data-latex=""}
-We will be using a handful of Greek letters in our mathematical notation. You should learn these by heart:
-
-* $\alpha$  : alpha (lowercase)
-* $\beta$  : beta (lowercase)
-* $\lambda$  : lambda (lowercase)
-* $\Lambda$  : lambda (uppercase)
-* $\omega$  : omega (lowercase)
-* $\xi$  : xi (lowercase), pronounced "ex-eee"
-* $\eta$  : eta (lowercase)
-
-The last two of these, $\xi$ and $\eta$ are the Greek equivalents to the familiar $x$ and $y$. We'll see $\xi$ and $\eta$ as arguments to functions that we will quickly be re-scaling and renaming $x$ and $y$. `r mark(6145)`
-:::
-
 -->
+
+
+
+## Exercises
+
+`r insert_calcZ_exercise("XX.XX", "DtLAhm", "Exercises/kitten-mean-tv.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "mJRDLy", "Exercises/rat-lend-piano.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "DzIhgb", "Exercises/ape-leave-shirt.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "9mSE8t", "Exercises/lobster-become-sofa.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "FUIt1Q", "Exercises/spider-find-book.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "Amzsqx", "Exercises/sheep-chew-dish.Rmd")`
+
+`r insert_calcZ_exercise("24.20", "uifJjv", "Exercises/aspen-take-cotton.Rmd")`
+
+
+
 

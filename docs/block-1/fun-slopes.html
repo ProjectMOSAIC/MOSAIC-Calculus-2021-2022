@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-10" />
+<meta name="date" content="2022-01-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,8 @@
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <span class="math inline">
@@ -69,15 +69,23 @@
 \newcommand{\diff}[1]{{\cal D}_#1}
 \newcommand{\pnorm}{\text{pnorm}}
 \newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -362,7 +370,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="fun-slopes" class="section level1" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Slope function</h1>
-<p>For our purposes, the <strong><em>definition of calculus</em></strong> is <span style="float: right; padding-left: 50px;"><a name="1100" href="#1100"><img src="www/icons8-signpost.png" title="Location: 1100" width="12px"/></a><span style="color: red; font-size: 6pt;">1100</red></span></p>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/09-slopes.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<p>For our purposes, the <strong><em>definition of calculus</em></strong> is</p>
 <blockquote>
 <p><em>The use of functions to model and explore continuous change</em></p>
 </blockquote>
@@ -376,7 +387,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="continuous-change" class="section level2" number="9.2">
 <h2><span class="header-section-number">9.2</span> Continuous change</h2>
-<p>Most people are comfortable with the ideas of daily changes in temperature or monthly changes in credit-card debt or quarterly changes in the unemployment rate or annual changes in the height of a child. Such things are easy to record in, say, a spreadsheet. For example, as this paragraph is being written, the weather forecast for the next several days (in southeastern Colorado in mid-May) is <span style="float: right; padding-left: 50px;"><a name="1110" href="#1110"><img src="www/icons8-signpost.png" title="Location: 1110" width="12px"/></a><span style="color: red; font-size: 6pt;">1110</red></span></p>
+<p>Most people are comfortable with the ideas of daily changes in temperature or monthly changes in credit-card debt or quarterly changes in the unemployment rate or annual changes in the height of a child. Such things are easy to record in, say, a spreadsheet. For example, as this paragraph is being written, the weather forecast for the next several days (in southeastern Colorado in mid-May) is</p>
 <table>
 <thead>
 <tr class="header">
@@ -444,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <strong><em>y-intercept method</em></strong> is a special case of a more general method, the <strong><em>two-point method</em></strong>, that you can use even if the y-intercept isn’t shown on the graph. Pick two specific values of <span class="math inline">\(x\)</span>, which we’ll call <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_1\)</span>. Evalate the function at these input values and compute the rise over run: <span class="math display">\[\text{rise over run} \equiv \frac{f(x_1) - f(x_0)}{x_1 - x_0}\]</span>
 The rise over run is the slope of the straight line.</p>
 <p>The y-intercept method is exactly the same as the two-point method with <span class="math inline">\(x_1 = 0\)</span>.</p></li>
-<li><p><strong>Matching a straight-line function to data</strong>: You might not have been taught this formally, but the basic process is easy to imitate. The process is called <strong><em>line fitting</em></strong> or, in statistics and other fields, <strong><em>linear regression</em></strong>. <span style="float: right; padding-left: 50px;"><a name="1120" href="#1120"><img src="www/icons8-signpost.png" title="Location: 1120" width="12px"/></a><span style="color: red; font-size: 6pt;">1120</red></span></p></li>
+<li><p><strong>Matching a straight-line function to data</strong>: You might not have been taught this formally, but the basic process is easy to imitate. The process is called <strong><em>line fitting</em></strong> or, in statistics and other fields, <strong><em>linear regression</em></strong>.</p></li>
 </ul>
 </div>
 <div id="the-fitted-line" class="section level2" number="9.4">
@@ -463,8 +474,8 @@ Figure 9.1: Some candidate straight-line function models plotted on top of the c
 </div>
 <div id="average-rate-of-change" class="section level2" number="9.5">
 <h2><span class="header-section-number">9.5</span> Average rate of change</h2>
-<p>Since the slope is our standard way of representing a relationship of change, we will often use it as a way of summarizing a function. To illustrate, consider the exponential model we constructed to match the cooling-water data in Section <a href="process-of-modeling.html#fit-exponential">8.3</a>: <span style="float: right; padding-left: 50px;"><a name="1130" href="#1130"><img src="www/icons8-signpost.png" title="Location: 1130" width="12px"/></a><span style="color: red; font-size: 6pt;">1130</red></span></p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="fun-slopes.html#cb48-1" aria-hidden="true" tabindex="-1"></a>water <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">60</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.0173</span><span class="sc">*</span>t) <span class="sc">+</span> <span class="dv">25</span> <span class="sc">~</span> t)</span></code></pre></div>
+<p>Since the slope is our standard way of representing a relationship of change, we will often use it as a way of summarizing a function. To illustrate, consider the exponential model we constructed to match the cooling-water data in Section <a href="process-of-modeling.html#fit-exponential">8.3</a>:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="fun-slopes.html#cb46-1" aria-hidden="true" tabindex="-1"></a>water <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">60</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.0173</span><span class="sc">*</span>t) <span class="sc">+</span> <span class="dv">25</span> <span class="sc">~</span> t)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:water-average"></span>
 <img src="MOSAIC-Calculus_files/figure-html/water-average-1.png" alt="The exponential function that was previously matched to the cooling-water data. The slope of the straight line connecting two points on the function graph is the average rate of change during the interval." width="90%" />
 <p class="caption">
@@ -483,7 +494,7 @@ Figure 9.2: The exponential function that was previously matched to the cooling-
 Figure 9.3: The position of an imaginary car over time (black curve). The average rate of change over various intervals is the slope of the straight-line segment connecting the start and end of the black curve in that interval.
 </p>
 </div>
-<p>During the interval from B to C, the car was travelling relatively fast. The slope of the <span class="math inline">\(\color{magenta}{\text{magenta}}\)</span> segment connecting the position at times B and C is the <strong><em>average</em></strong> rate of change between times B and C. It’s easy to see that the average rate of change from B to C is larger than the overall average from <span class="math inline">\(t=0\)</span> to <span class="math inline">\(t=1\)</span>. Calculating that slope is a matter of evaluating the position at the endpoints and dividing by the length of the interval. <span style="float: right; padding-left: 50px;"><a name="1140" href="#1140"><img src="www/icons8-signpost.png" title="Location: 1140" width="12px"/></a><span style="color: red; font-size: 6pt;">1140</red></span></p>
+<p>During the interval from B to C, the car was travelling relatively fast. The slope of the <span class="math inline">\(\color{magenta}{\text{magenta}}\)</span> segment connecting the position at times B and C is the <strong><em>average</em></strong> rate of change between times B and C. It’s easy to see that the average rate of change from B to C is larger than the overall average from <span class="math inline">\(t=0\)</span> to <span class="math inline">\(t=1\)</span>. Calculating that slope is a matter of evaluating the position at the endpoints and dividing by the length of the interval.</p>
 </div>
 <div class="workedexample">
 <p>What is the average rate of change in the car’s position during the interval <span class="math inline">\(t_B = 0.40\)</span> to <span class="math inline">\(t_C=0.54\)</span>?</p>
@@ -494,7 +505,7 @@ Figure 9.3: The position of an imaginary car over time (black curve). The averag
 <p>The average rate of change during the interval is <span class="math inline">\(5.4/0.14 = 38.6\)</span> miles/hour.</p>
 </div>
 <div class="intheworld">
-<p>Figure <a href="fun-slopes.html#fig:aver-tree">9.4</a> shows a simplified model of the amount of usable wood that can be harvested from a typical tree in a managed forest of Ponderosa Pine. (You can see some actual forestry research models <a href="https://www.fs.fed.us/rm/pubs/rmrs_gtr292/1992_milner.pdf">here</a>.) <span style="float: right; padding-left: 50px;"><a name="1145" href="#1145"><img src="www/icons8-signpost.png" title="Location: 1145" width="12px"/></a><span style="color: red; font-size: 6pt;">1145</red></span></p>
+<p>Figure <a href="fun-slopes.html#fig:aver-tree">9.4</a> shows a simplified model of the amount of usable wood that can be harvested from a typical tree in a managed forest of Ponderosa Pine. (You can see some actual forestry research models <a href="https://www.fs.fed.us/rm/pubs/rmrs_gtr292/1992_milner.pdf">here</a>.)</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:aver-tree"></span>
 <img src="MOSAIC-Calculus_files/figure-html/aver-tree-1.png" alt="A model, somewhat realistic, of the amount of wood that can be harvested from a Ponderosa Pine as a function of years since planting to harvest." width="90%" />
 <p class="caption">
@@ -529,7 +540,7 @@ Figure 9.6: Graph of the average-growth function ave_growth(year), constructed b
 <h2><span class="header-section-number">9.6</span> Instantaneous rate of change</h2>
 <p>The <strong><em>average rate of change</em></strong> is the slope of a line segment connecting two points on the graph of a function, the points <span class="math inline">\(\left(\strut t_0, f(t_0)\right)\)</span> and <span class="math inline">\(\left(\strut t_1, f(t_1)\right)\)</span>. It reflects all the point-to-point changes in the value of the function over the interval <span class="math inline">\(t_0\)</span> to <span class="math inline">\(t_1\)</span> in the function’s domain.</p>
 <p>It turns out to be helpful to consider the rate of change of a function at an individual point <span class="math inline">\(t_0\)</span> in the domain, rather than the interval between two points. This rate of change <em>at a point</em> is called the <strong><em>instantaneous rate of change</em></strong>.
-In Block 2, we’ll see that a good way to define an instantaneous rate of change at <span class="math inline">\(t_0\)</span> is as the average rate of change over the interval <span class="math inline">\(t_0 \leq t \leq t_0 + h\)</span> with the proviso that the interval length <span class="math inline">\(h\)</span> goes as closely as it can to zero. Visually, this is the line that’s tangent to the function’s graph at the input value <span class="math inline">\(t_0\)</span> as in Figure <a href="fun-slopes.html#fig:tangent-line-exp">9.7</a>. <span style="float: right; padding-left: 50px;"><a name="1150" href="#1150"><img src="www/icons8-signpost.png" title="Location: 1150" width="12px"/></a><span style="color: red; font-size: 6pt;">1150</red></span></p>
+In Block 2, we’ll see that a good way to define an instantaneous rate of change at <span class="math inline">\(t_0\)</span> is as the average rate of change over the interval <span class="math inline">\(t_0 \leq t \leq t_0 + h\)</span> with the proviso that the interval length <span class="math inline">\(h\)</span> goes as closely as it can to zero. Visually, this is the line that’s tangent to the function’s graph at the input value <span class="math inline">\(t_0\)</span> as in Figure <a href="fun-slopes.html#fig:tangent-line-exp">9.7</a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:tangent-line-exp"></span>
 <img src="MOSAIC-Calculus_files/figure-html/tangent-line-exp-1.png" alt="A line tangent to a the curve at a single point. The slope of this line is the instantaneous rate of change." width="90%" />
 <p class="caption">
@@ -544,10 +555,10 @@ meaning, evaluate the”slope function of f()" at <span class="math inline">\(t_
 <p>To formalize this, we’ll define the <strong><em>slope function of f()</em></strong> as
 <span class="math display">\[{\cal D}f(t) \equiv \frac{f(t + 0.1) - f(t)}{0.1}\]</span>
 Let’s look at the slope functions that correspond to some of pattern-book functions: <span class="math inline">\(e^x\)</span>, <span class="math inline">\(\sin(x)\)</span>, <span class="math inline">\(x^{-1}\)</span> and <span class="math inline">\(\ln(x)\)</span>. We can define them easily enough in R:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="fun-slopes.html#cb49-1" aria-hidden="true" tabindex="-1"></a>Dexp <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">exp</span>(t<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">exp</span>(t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span>
-<span id="cb49-2"><a href="fun-slopes.html#cb49-2" aria-hidden="true" tabindex="-1"></a>Dsin <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">sin</span>(t<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">sin</span>(t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span>
-<span id="cb49-3"><a href="fun-slopes.html#cb49-3" aria-hidden="true" tabindex="-1"></a>Dxm1 <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(((<span class="dv">1</span><span class="sc">/</span>(t<span class="fl">+0.1</span>)) <span class="sc">-</span> (<span class="dv">1</span><span class="sc">/</span>t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span>
-<span id="cb49-4"><a href="fun-slopes.html#cb49-4" aria-hidden="true" tabindex="-1"></a>Dlog <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">log</span>(t<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">log</span>(t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="fun-slopes.html#cb47-1" aria-hidden="true" tabindex="-1"></a>Dexp <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">exp</span>(t<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">exp</span>(t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span>
+<span id="cb47-2"><a href="fun-slopes.html#cb47-2" aria-hidden="true" tabindex="-1"></a>Dsin <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">sin</span>(t<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">sin</span>(t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span>
+<span id="cb47-3"><a href="fun-slopes.html#cb47-3" aria-hidden="true" tabindex="-1"></a>Dxm1 <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(((<span class="dv">1</span><span class="sc">/</span>(t<span class="fl">+0.1</span>)) <span class="sc">-</span> (<span class="dv">1</span><span class="sc">/</span>t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span>
+<span id="cb47-4"><a href="fun-slopes.html#cb47-4" aria-hidden="true" tabindex="-1"></a>Dlog <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((<span class="fu">log</span>(t<span class="fl">+0.1</span>) <span class="sc">-</span> <span class="fu">log</span>(t))<span class="sc">/</span><span class="fl">0.1</span> <span class="sc">~</span> t)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:compare-pattern-book-slopes"></span>
 <img src="MOSAIC-Calculus_files/figure-html/compare-pattern-book-slopes-1.png" alt="Comparing the pattern-book function (blue) to its slope function (tan)" width="50%" /><img src="MOSAIC-Calculus_files/figure-html/compare-pattern-book-slopes-2.png" alt="Comparing the pattern-book function (blue) to its slope function (tan)" width="50%" /><img src="MOSAIC-Calculus_files/figure-html/compare-pattern-book-slopes-3.png" alt="Comparing the pattern-book function (blue) to its slope function (tan)" width="50%" /><img src="MOSAIC-Calculus_files/figure-html/compare-pattern-book-slopes-4.png" alt="Comparing the pattern-book function (blue) to its slope function (tan)" width="50%" />
 <p class="caption">
@@ -555,7 +566,7 @@ Figure 9.8: Comparing the pattern-book function (blue) to its slope function (ta
 </p>
 </div>
 <div class="why">
-<p>Why did you plot both the function and the slope function in the same graphics frame? <span style="float: right; padding-left: 50px;"><a name="1160" href="#1160"><img src="www/icons8-signpost.png" title="Location: 1160" width="12px"/></a><span style="color: red; font-size: 6pt;">1160</red></span></p>
+<p>Why did you plot both the function and the slope function in the same graphics frame?</p>
 <p>Excellent question! In general, it is illegitimate to plot a function and it’s slope function on the same vertical axis. The reason is the units of the two functions will be different. For instance, the output of a function position(t) might have units of “miles,” while the output of the slope function of position (that is, <span class="math inline">\({\cal D}\)</span>position(t) would have units such as miles-per-hour.) So, as a general rule, never plot a function and its corresponding slope function on the same scale.</p>
 <p>An exception is for the pattern-book functions. These always take a number as input and produce a number as output. The slope function of a pattern-book function also produces a number as output.</p>
 <p>This exception is not a good excuse for indulging a bad practice. Perhaps you’ll forgive the authors if they claim they wanted to emphasize the point by demonstrating it.</p>
@@ -602,7 +613,7 @@ Figure 9.9: The instantaneous investment return from the tree is the instantaneo
 <li><p>The change in the output value of a function <span class="math inline">\(f()\)</span> when the input changes from <span class="math inline">\(x = a\)</span> to <span class="math inline">\(x = b\)</span> is <span class="math display">\[f(x=b) - f(x=a)\]</span> Notice that when we talk about the change from <span class="math inline">\(x=a\)</span> to <span class="math inline">\(x=b\)</span> we subtract <span class="math inline">\(f(a)\)</span> from <span class="math inline">\(f(b)\)</span>. That change is sometimes called the <strong>rise</strong> in the value of the function. Rise always compares (by subtraction) the two <strong>output values</strong> corresponding to two specific input values. Remember that <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> stand for specific numbers.</p></li>
 <li><p>Corresponding with the idea of the change in output being <span class="math inline">\(f(b) - f(a)\)</span> the change in the input value to a function is <span class="math inline">\(b - a\)</span>. This is often called the <em>run</em> in the value of the input.</p></li>
 </ul>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-131-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-129-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p><strong>Question A</strong> True or false: In Graph I, the <em>rise</em> from a to b is positive.</p>
 <p>    <span class="Zchoice">TRUE<span class="mcanswer">︎✘ <span class="math inline">\(f(x=a) &gt; f(x=b)\)</span>, so the rise <span class="math inline">\(f(x=b) - f(x=a)\)</span> is <em>negative</em>.</span></span>       <span class="Zchoice">FALSE<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
 <p><strong>Question B</strong> True or false: In Graph I, the <em>run</em> from <span class="math inline">\(x=a\)</span> to <span class="math inline">\(x=b\)</span> is positive.</p>
@@ -611,7 +622,7 @@ Figure 9.9: The instantaneous investment return from the tree is the instantaneo
 </li>
 <li><span class="Zchoice">FALSE<span class="mcanswer">︎✘ The <em>run</em> is about the relative positions of <span class="math inline">\(x=a\)</span> and <span class="math inline">\(x=b\)</span> on the x-axis. Since <span class="math inline">\(a &lt; b\)</span>, the run from <span class="math inline">\(x=a\)</span> to <span class="math inline">\(x=b\)</span> is positive.</span></span></li>
 </ol>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-132-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-130-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p><strong>Question C</strong> True or false: In Graph II, the <em>run</em> from a to b is positive.</p>
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">TRUE<span class="mcanswer">Right!                                    </span></span><br />
@@ -655,9 +666,9 @@ Figure 9.9: The instantaneous investment return from the tree is the instantaneo
 </summary>
 <div class="scaffolding">
 <p>Open an R sandbox. You can use these function definitions to help you in your calculations.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="fun-slopes.html#cb50-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(x<span class="sc">+</span><span class="dv">1</span>) <span class="sc">~</span> x)</span>
-<span id="cb50-2"><a href="fun-slopes.html#cb50-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">3</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x) <span class="sc">~</span> x)</span>
-<span id="cb50-3"><a href="fun-slopes.html#cb50-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(x<span class="sc">*</span><span class="fu">exp</span>(x) <span class="sc">~</span> x)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="fun-slopes.html#cb48-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(x<span class="sc">+</span><span class="dv">1</span>) <span class="sc">~</span> x)</span>
+<span id="cb48-2"><a href="fun-slopes.html#cb48-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">3</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x) <span class="sc">~</span> x)</span>
+<span id="cb48-3"><a href="fun-slopes.html#cb48-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(x<span class="sc">*</span><span class="fu">exp</span>(x) <span class="sc">~</span> x)</span></code></pre></div>
 </div>
 <p>Using R, compute the <em>average</em> rate of change of the function over the given interval. Choose the closest answer for each problem.</p>
 <p><strong>Question A</strong> <span class="math inline">\(f(x) \equiv 2 e^{x+1}\)</span> over [-2, 2]</p>
@@ -668,11 +679,11 @@ Figure 9.9: The instantaneous investment return from the tree is the instantaneo
 <p>    <span class="Zchoice">-3<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1.54<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">2.72<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">4.68<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">9.85<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">11.32<span class="mcanswer">︎✘ </span></span></p>
 <p>It’s much less work if we use the R function <code>c()</code> to define the interval, and the R function <code>diff()</code> to calculate differences. The next sandbox contains an example asking you to compute the average rate of change of <span class="math inline">\(f(x) \equiv e^x\)</span> over the interval [0, 4]. You only need lines 1, 3, and 5. The other lines show intermediate results to help you understand what <code>diff()</code> is doing.</p>
 <div class="scaffolding">
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="fun-slopes.html#cb51-1" aria-hidden="true" tabindex="-1"></a>interval <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>)  <span class="co"># creates the interval</span></span>
-<span id="cb51-2"><a href="fun-slopes.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(interval)       <span class="co"># calculate the run</span></span>
-<span id="cb51-3"><a href="fun-slopes.html#cb51-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(x) <span class="sc">~</span> x)   <span class="co">#  create the function</span></span>
-<span id="cb51-4"><a href="fun-slopes.html#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(interval)     <span class="co"># evaluate  function at the endpoints of  the interval</span></span>
-<span id="cb51-5"><a href="fun-slopes.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(<span class="fu">f</span>(interval)) <span class="sc">/</span> <span class="fu">diff</span>(interval)  <span class="co"># complete answer</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="fun-slopes.html#cb49-1" aria-hidden="true" tabindex="-1"></a>interval <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>)  <span class="co"># creates the interval</span></span>
+<span id="cb49-2"><a href="fun-slopes.html#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(interval)       <span class="co"># calculate the run</span></span>
+<span id="cb49-3"><a href="fun-slopes.html#cb49-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(x) <span class="sc">~</span> x)   <span class="co">#  create the function</span></span>
+<span id="cb49-4"><a href="fun-slopes.html#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(interval)     <span class="co"># evaluate  function at the endpoints of  the interval</span></span>
+<span id="cb49-5"><a href="fun-slopes.html#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(<span class="fu">f</span>(interval)) <span class="sc">/</span> <span class="fu">diff</span>(interval)  <span class="co"># complete answer</span></span></code></pre></div>
 </div>
 <p><strong>Question D</strong> True or false: The average rate of change of <span class="math inline">\(f(x) \equiv e^{x^2}\)</span> over [0.0, 0.1] is 0.1005017</p>
 <p>    <span class="Zchoice">TRUE<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">FALSE<span class="mcanswer">︎✘ </span></span></p>
@@ -687,7 +698,7 @@ Figure 9.9: The instantaneous investment return from the tree is the instantaneo
 <strong>Exercise 9.7</strong>: <span><a name="File: Exercises/eagle-bring-car.Rmd" href="#rTSX3"><img src="www/icons8-signpost.png" title="Location: Exercises/eagle-bring-car.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">rTSX3</red></span>
 </summary>
 <p>Consider the sinusoid function, graphed below.</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-135-1.png" width="90%" style="display: block; margin: auto;" />
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-133-1.png" width="90%" style="display: block; margin: auto;" />
 <strong>Question A</strong> What is the average rate of change over the interval <span class="math inline">\(0 &lt; x &lt; \frac{1}{2}\)</span>? (Choose the closest value.)</p>
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">0<span class="mcanswer">︎✘ For this to be true, the function output would need to be the same at the two endpoints of the interval.</span></span><br />
@@ -806,9 +817,9 @@ Figure 9.9: The instantaneous investment return from the tree is the instantaneo
 </summary>
 <p>For each exercise, you are given a series of intervals that get smaller and smaller. Your job is to calculate the <em>average rate of change</em> of the function <span class="math inline">\(f(x) \equiv x^2\)</span> for each of the intervals. As the width of the intervals approach zero, our <em>average</em> rates of change become better approximations of the <em>instantaneous</em> rate of change. You should use the results you calculate to make an informed <em>estimate</em> of the <strong>instantaneous rate of change</strong>.</p>
 <div class="scaffolding">
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="fun-slopes.html#cb52-1" aria-hidden="true" tabindex="-1"></a>interval <span class="ot">&lt;-</span> <span class="fu">c</span>(__start__ , __end__ )</span>
-<span id="cb52-2"><a href="fun-slopes.html#cb52-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> x)</span>
-<span id="cb52-3"><a href="fun-slopes.html#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(<span class="fu">f</span>(interval)) <span class="sc">/</span> <span class="fu">diff</span>(interval)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="fun-slopes.html#cb50-1" aria-hidden="true" tabindex="-1"></a>interval <span class="ot">&lt;-</span> <span class="fu">c</span>(__start__ , __end__ )</span>
+<span id="cb50-2"><a href="fun-slopes.html#cb50-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> x)</span>
+<span id="cb50-3"><a href="fun-slopes.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(<span class="fu">f</span>(interval)) <span class="sc">/</span> <span class="fu">diff</span>(interval)</span></code></pre></div>
 </div>
 <p>A. Use these three intervals to estimate the instantaneous rate of change <span class="math inline">\(\partial_x f(x=3)\)</span>
 - [3, 3.1]

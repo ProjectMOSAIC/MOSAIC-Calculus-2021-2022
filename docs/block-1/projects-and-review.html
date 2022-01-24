@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-10" />
+<meta name="date" content="2022-01-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,8 @@
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <span class="math inline">
@@ -69,15 +69,23 @@
 \newcommand{\diff}[1]{{\cal D}_#1}
 \newcommand{\pnorm}{\text{pnorm}}
 \newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -362,6 +370,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="projects-and-review" class="section level1 unnumbered">
 <h1>Projects and review</h1>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/Block-1-projects.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
 <div id="block-1-project-1-ebola-in-guinea-part-i" class="section level2 unnumbered">
 <h2>Block 1 Project 1: Ebola in Guinea, part I</h2>
 <p>In December 2013, an 18-month-old boy from a village in Guinea suffered fatal diarrhea. Over the next months a broader outbreak was discovered, and in mid-March 2014, the Pasteur Institute in France confirmed the illness as Ebola-Virus Disease caused by the Zaire ebolavirus.</p>
@@ -391,7 +402,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>**Question 1**: Look at the shape of the graph. Of the functions we have studied, which would be most appropriate as a model for the new cases in Guinea? If none of the functions we have studied best matches this data, select &quot;None of the above.&quot; </code></pre>
 <p>Although we are tempted to regard data sets as definitive, they are the culmination of an imperfect process of data collection in the field and imperfect processing/correction/amendment by people. For instance, most of the cases (and deaths) in the epidemic were never confirmed by viral testing and are considered “suspected cases.” Cases and deaths reported on one day might possibly be from previous days, and some cases and deaths were, no doubt, not reported.</p>
 <p>In the Sandbox, run the following command to look at the data:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="projects-and-review.html#cb144-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(EbolaAll)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="projects-and-review.html#cb142-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(EbolaAll)</span></code></pre></div>
 <p>The resulting display is interactive; you can page through the many rows of data.</p>
 <blockquote>
 <p><strong>Question 2</strong>: Look through the data printout and find a data point form one of the World Health Organization reports that seems strange or inconsistent when compared with nearby reports. To receive full credit for this question, you must state the country and date of the report and explain your reasons for identifying this report as inconsistent.</p>
@@ -420,8 +431,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The graph of <code>G7Rcases</code> versus <code>Days</code> looks only vaguely like a gaussian hump. One possible explanation is that the data summarize more than one outbreak, as the virus spreads from one region to another. We’ll treat each individual output as a gaussian and try to figure out how many of them make up the whole data. The individual outbreaks will be modelled as a gaussian function with it’s own center and width. The center for each gaussian corresponds to the peak of the hypothesized outbreak in one particular region.</p>
 <p>We’ll combine the several gaussians in a linear combination. The scalar multiplying each gaussian is related to the size of the population exposed in each outbreak.</p>
 <p>Here is an R/mosaic definition of a linear combination of two gaussian outbreaks.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="projects-and-review.html#cb145-1" aria-hidden="true" tabindex="-1"></a>my_mod <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">15800</span><span class="sc">*</span>(A<span class="sc">*</span><span class="fu">dnorm</span>(t,m1,sd1) <span class="sc">+</span> </span>
-<span id="cb145-2"><a href="projects-and-review.html#cb145-2" aria-hidden="true" tabindex="-1"></a>                            (<span class="dv">1</span><span class="sc">-</span>A)<span class="sc">*</span><span class="fu">dnorm</span>(t,m2,sd2)) <span class="sc">~</span> t) </span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="projects-and-review.html#cb143-1" aria-hidden="true" tabindex="-1"></a>my_mod <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">15800</span><span class="sc">*</span>(A<span class="sc">*</span><span class="fu">dnorm</span>(t,m1,sd1) <span class="sc">+</span> </span>
+<span id="cb143-2"><a href="projects-and-review.html#cb143-2" aria-hidden="true" tabindex="-1"></a>                            (<span class="dv">1</span><span class="sc">-</span>A)<span class="sc">*</span><span class="fu">dnorm</span>(t,m2,sd2)) <span class="sc">~</span> t) </span></code></pre></div>
 <p>There are five parameters in the function. <code>m1</code> the time when the first hypothesized outbreak peaked, <code>m2</code> is the peak time of the second hypothesized outbreaks, and <code>sd1</code> and <code>sd2</code> reflect the duration of each outbreak. The parameter <code>A</code> represents the relative population sizes of the two regions. The number 15,800 reflects the total number of cases, which we know retrospectively. (The 15,800 includes a correction for the average day spacing between reports, but that detail need not concern us here.)</p>
 <p>Note that selecting <code>A</code> sets the amplitude for both Gaussians, i.e. <code>A</code> and <code>1−A</code>. The amplitudes <code>A</code> and <code>1-A</code> sum up to 1. Arranging things this way effectively make <code>A</code> the size of the one outbreak, leaving <code>1-A</code> to be the size of the other outbreak.</p>
 <p>To see how these Gaussians work together, start with the following values: <code>A = 0.5</code>, <code>m1 = 150</code>, <code>sd1 = 50</code>, <code>m2 = 350</code>, <code>sd2 = 50</code>. Do not change the 15800 number which reflects the overall size of the whole outbreak, as opposed to the relative size of the hypothesized individual outbreaks: <code>A</code> and <code>1-A</code>.</p>
@@ -438,10 +449,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The R function <code>cumsum()</code> calculates the cumulative sum on a column of data. You are going to need to do a little data wrangling; we can’t do it for you because we don’t know what model you decided to settle on.</p>
 <p>There are many computer systems for data wrangling. You may have heard of one called Structured Query Language (SQL) which is a required skill listed in many job listings and a multi-billion dollar component of the economy. We will use a system called <code>dplyr</code> specially designed for the R language. In the <code>dplyr</code> system, the function <code>mutate()</code> is used to create a new column in a data frame by carrying out calculations on the existing columns.</p>
 <p>Here is an R/dplyr command to generate the running total of cases. (We’re using <code>Gcases</code> instead of the smoothed <code>G7Rcases</code> because the cumulative summing will do the smoothing for us.)</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="projects-and-review.html#cb146-1" aria-hidden="true" tabindex="-1"></a>EbolaGuinea <span class="ot">&lt;-</span> EbolaGuinea <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">GcasesTotal =</span> <span class="fu">cumsum</span>(Gcases)) </span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="projects-and-review.html#cb144-1" aria-hidden="true" tabindex="-1"></a>EbolaGuinea <span class="ot">&lt;-</span> EbolaGuinea <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">GcasesTotal =</span> <span class="fu">cumsum</span>(Gcases)) </span></code></pre></div>
 <p>It’s worthwhile to parse that command carefully. The part to the right of <code>&lt;-</code> is an instruction for taking the <code>EbolaGuinea</code> data frame and adding a new column. The new column will be called <code>GcasesTotal</code>. The values in the new column will be generated by applying <code>cumsum()</code> to the <code>Gcases</code> column. Altogether, the right-hand side of the statement creates a <em>new</em> data frame that includes the new column. The left-hand side of the statement stores this new data frame under a name. For convenience, we’re using <code>EbolaGuinea</code> as that name. Effectively, the command as a whole, including the name assignment <code>EbolaGuinea &lt;-</code> can be seen as <strong>updating</strong> the data frame with the new column.</p>
 <p>You can verify that the new column is in place by showing the first several lines of the updated data frame:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="projects-and-review.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(EbolaGuinea) </span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="projects-and-review.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(EbolaGuinea) </span></code></pre></div>
 <p>Use <code>gf_point()</code> to plot <code>GCasesTotal</code> versus <code>Days</code>. The graph will show how the number of cases accumulated over time to to the overall total for the epidemic as a whole.</p>
 <blockquote>
 <p><strong>Question 5</strong>: Consider which of the functions we have studied could be fitted to represent the <code>GCasesTotal</code> versus <code>Days</code> curve in your graph? It’s likely that none of the functions we have studied fits the data particularly well, but one of them will be better than the others.</p>

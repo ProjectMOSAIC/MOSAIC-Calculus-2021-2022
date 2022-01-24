@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-10" />
+<meta name="date" content="2022-01-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,8 @@
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <span class="math inline">
@@ -69,15 +69,23 @@
 \newcommand{\diff}[1]{{\cal D}_#1}
 \newcommand{\pnorm}{\text{pnorm}}
 \newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -362,7 +370,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="dimensions" class="section level1" number="16">
 <h1><span class="header-section-number">Chapter 16</span> Dimensions</h1>
-<p>Next time you’re at a family gathering with your 10-year old cousin, give her the following math quiz. <span style="float: right; padding-left: 50px;"><a name="1700" href="#1700"><img src="www/icons8-signpost.png" title="Location: 1700" width="12px"/></a><span style="color: red; font-size: 6pt;">1700</red></span></p>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/16-dimensions.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<p>Next time you’re at a family gathering with your 10-year old cousin, give her the following math quiz.</p>
 <ol style="list-style-type: decimal">
 <li>What’s 3 + 2?</li>
 <li>What’s 7 - 3?</li>
@@ -393,7 +404,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Record the mileage on the car’s odometer when you fill up the car with gas. Drive. When you next get gas, measure the new odometer reading and the volume of gas you purchased. Divide the change in odometer reading by the gas volume. (In Europe, you would divide the gas volume by the change in odometer reading.)</li>
 <li>Weigh Dwayne. The scale is usually graduated in both pounds and kilograms: take your choice. Measure his height; the ruler-in-the-doorway method works well. Then divide his weight by the square of his height.</li>
 </ol>
-<p>Evidently, it makes sense to <em>multiply</em> and <em>divide</em> different types of quantities: feet, gallons, kilometers, kilograms, pounds, hours, …. But you won’t ever see a quantity constructed by <em>adding</em> or <em>subtracting</em> miles and hours or gallons and and square feet. You can square feet and cube centimeters, but can you take the square root of a gallon? Does it make sense to raise 2 to the power of 3 yards? <span style="float: right; padding-left: 50px;"><a name="1710" href="#1710"><img src="www/icons8-signpost.png" title="Location: 1710" width="12px"/></a><span style="color: red; font-size: 6pt;">1710</red></span></p>
+<p>Evidently, it makes sense to <em>multiply</em> and <em>divide</em> different types of quantities: feet, gallons, kilometers, kilograms, pounds, hours, …. But you won’t ever see a quantity constructed by <em>adding</em> or <em>subtracting</em> miles and hours or gallons and and square feet. You can square feet and cube centimeters, but can you take the square root of a gallon? Does it make sense to raise 2 to the power of 3 yards?</p>
 <p>This section is about the mathematical structure of combining quantities; which kinds of mathematical operations are legitimate and which are not.</p>
 <div id="mathematics-of-quantity" class="section level2" number="16.1">
 <h2><span class="header-section-number">16.1</span> Mathematics of quantity</h2>
@@ -423,11 +434,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Multiplication and division are used to construct a compound dimension from the fundamental dimensions L, T, and M.</p>
 <p>Addition and subtraction are <strong>never</strong> used to form a compound dimension.</p>
 <p>Much of the work in understanding dimensions involves overcoming the looseness of everyday speech. Remember the weight scale graduated in pounds <em>and</em> kilograms. The unit kilograms is a way of measuring M, but the unit of pounds is a way of measuring <em>force</em>: M L/T<span class="math inline">\(^2\)</span>.</p>
-<p>Weight is not the same as mass. This makes no sense to most people and doesn’t really matter in everyday life. It’s only when you venture off the surface of the Earth that the difference shows up. The Mars rover Perseverence has a weight of 1000 kg on Earth. It was weightless for most of its journey to Mars. After landing on Mars, Perseverence weighed just 380 kg. But the rover’s mass didn’t change at sll. <span style="float: right; padding-left: 50px;"><a name="1720" href="#1720"><img src="www/icons8-signpost.png" title="Location: 1720" width="12px"/></a><span style="color: red; font-size: 6pt;">1720</red></span></p>
+<p>Weight is not the same as mass. This makes no sense to most people and doesn’t really matter in everyday life. It’s only when you venture off the surface of the Earth that the difference shows up. The Mars rover Perseverence has a weight of 1000 kg on Earth. It was weightless for most of its journey to Mars. After landing on Mars, Perseverence weighed just 380 kg. But the rover’s mass didn’t change at sll.</p>
 <p>Another source of confusion carried over from everyday life is that sometimes we measure the same quantity using different dimensions. You can measure a volume by <em>weighing</em> water; a gallon of water weighs 8 pounds, a liter of water has a mass of 1 kg. Serious bakers measure flour by weight; a casual baker uses a measuring cup. We can measure water volume with length because water has a (more-or-less) constant mass density. But 8 pounds of gasoline is considerably more than a gallon. It turns out that the density of flour varies substantially depending on how it’s packed, on humidity, etc. This is why it matters whether you weigh flour for baking or measure it by volume. You can measure time by the swing of a pendulum. To measure the same time successfully with different pendula they need to have the same length, not the same mass.</p>
 <p>A <strong><em>unit</em></strong> is a conventional amount of a quantity of a given dimension. All lengths are the same dimensionally, but they can be measured with different conventions: inches, yards, meters, … Units for the same dimension can all be converted unambiguously one into the other. A meter is exactly the same quantity of length as 39.3701 inches, a mile is the same length as 1609.34 meters. Liters and gallons are both units of volume (L<span class="math inline">\(^3\)</span>): a gallon is the same as 3.78541 liters.</p>
 <p>You will hear it said that a kilogram is 2.2 pounds. That’s not strictly true. A kilogram has dimension M and a pound has dimension ML/T<span class="math inline">\(^2\)</span>. Quantities with different dimensions cannot be “equal” or even legitimately compared to one another. Unless you bring something else into the game that physically changes the situation, for instance gravity (dimension of acceleration due to gravity (dimension <span class="math inline">\(\text{L}/\text{T}^2\)</span>). The <em>weight</em> of a kilogram on the surface of the Earth is is 2.2 pounds because gravitational acceleration is (almost) the same everywhere on the surface of the Earth.</p>
-<p>It’s also potentially confusing that sometimes different dimensions are used to get at the same idea. For instance, the same car that gets 35 miles / gallon in the US (dimension <span class="math inline">\(\text{L}/\text{L}^3 = 1/\text{L}^2\)</span>) will use 6.7 liters per 100 kilometers (<span class="math inline">\(\text{L}^3 / L = \text{L}^2\)</span>) in Europe. Same car. Same fuel. Different conventions using different dimensions. <span style="float: right; padding-left: 50px;"><a name="1730" href="#1730"><img src="www/icons8-signpost.png" title="Location: 1730" width="12px"/></a><span style="color: red; font-size: 6pt;">1730</red></span></p>
+<p>It’s also potentially confusing that sometimes different dimensions are used to get at the same idea. For instance, the same car that gets 35 miles / gallon in the US (dimension <span class="math inline">\(\text{L}/\text{L}^3 = 1/\text{L}^2\)</span>) will use 6.7 liters per 100 kilometers (<span class="math inline">\(\text{L}^3 / L = \text{L}^2\)</span>) in Europe. Same car. Same fuel. Different conventions using different dimensions.</p>
 <p>Keeping track of the various compound dimensions can be tricky. For many people, it’s easier to keep track of the physical relationships involved and use that knowledge to put together the dimensions appropriately. Often, the relationship can be described using specific calculus operations, so knowing dimensions and units helps you use calculus successfully.</p>
 <p>Easy compound dimensions that you likely already know:</p>
 <ol style="list-style-type: lower-roman">
@@ -444,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>[<strong><em>Power</em></strong>] <span class="math inline">\(= \text{M}\, \text{L}^2/\text{T}^3\)</span> In the language of calculus, power is the derivative of energy with respect to time.</li>
 </ul>
 <div class="intheworld">
-<p><strong><em>Density</em></strong> sounds like a specific concept, but there are many different kinds of densities. These have in common that they are a ratio of a physical amount to a geometric extent: <span style="float: right; padding-left: 50px;"><a name="1740" href="#1740"><img src="www/icons8-signpost.png" title="Location: 1740" width="12px"/></a><span style="color: red; font-size: 6pt;">1740</red></span></p>
+<p><strong><em>Density</em></strong> sounds like a specific concept, but there are many different kinds of densities. These have in common that they are a ratio of a physical amount to a geometric extent:</p>
 <ol style="list-style-type: lower-roman">
 <li>a physical amount: which might be mass, charge, people, etc.</li>
 <li>a geometric extent: which might be length, area, or volume.</li>
@@ -562,7 +573,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="pendulum-dimensions" class="section level2" number="16.4">
 <h2><span class="header-section-number">16.4</span> Example: Dimensional analysis</h2>
-<p>We want to relate the <strong>period</strong> (in T) of a pendulum to it’s <strong>length</strong> and <strong>mass</strong>. Acceleration due to <strong>gravity</strong> also plays a role; that has dimension <span class="math inline">\(\text{L}\cdot \text{T}^{-2}\)</span>. For simplicity, we’ll assume that only the bob at the end of the pendulum cable or rod has mass. <span style="float: right; padding-left: 50px;"><a name="1750" href="#1750"><img src="www/icons8-signpost.png" title="Location: 1750" width="12px"/></a><span style="color: red; font-size: 6pt;">1750</red></span></p>
+<p>We want to relate the <strong>period</strong> (in T) of a pendulum to it’s <strong>length</strong> and <strong>mass</strong>. Acceleration due to <strong>gravity</strong> also plays a role; that has dimension <span class="math inline">\(\text{L}\cdot \text{T}^{-2}\)</span>. For simplicity, we’ll assume that only the bob at the end of the pendulum cable or rod has mass.</p>
 <p>The analysis strategy is to combine the four quantities we think play a role into one total quantity that is <strong>dimensionless</strong>. Since it is dimensionless, it can be constant regardless of the mass, length, period, gravity of each individual situation.</p>
 <p><span class="math display">\[\text{[Period]}^a \cdot \text{[Mass]}^b \cdot \text{[Length]}^c \cdot \text{[Gravity]}^d = T^a \cdot M^b \cdot L^c \cdot L^d \cdot T^{-2d} = [1]\]</span>
 To be dimensionless:</p>
@@ -579,7 +590,7 @@ To be dimensionless:</p>
 </div>
 <div id="conversion-flavors-of-1" class="section level2" number="16.5">
 <h2><span class="header-section-number">16.5</span> Conversion: Flavors of 1</h2>
-<p>Numbers are dimensionless but not necessarily unitless. Failure to accept this distinction is one of the prime reasons people have trouble figuring out how to convert from one unit to another. <span style="float: right; padding-left: 50px;"><a name="1760" href="#1760"><img src="www/icons8-signpost.png" title="Location: 1760" width="12px"/></a><span style="color: red; font-size: 6pt;">1760</red></span></p>
+<p>Numbers are dimensionless but not necessarily unitless. Failure to accept this distinction is one of the prime reasons people have trouble figuring out how to convert from one unit to another.</p>
 <p>The number one is a favorite of elementary school students because its multiplication and division tables are completely simple. Anything times one, or anything divided by one, is simply that thing. Addition and subtraction are pretty simple, too, a matter of counting up or down.</p>
 <p>When it comes to <strong><em>quantities</em></strong>, there’s not just one one but many. And often they look nothing like the numeral 1. Some examples of 1 as a quantity:</p>
 <ul>
@@ -604,7 +615,7 @@ To be dimensionless:</p>
 </div>
 <div id="dimensions-and-linear-combinations" class="section level2" number="16.6">
 <h2><span class="header-section-number">16.6</span> Dimensions and linear combinations</h2>
-<p>Low-order polynomials are a useful way of constructing model functions. For instance, suppose we want a model of the yield of corn in a field per inch of rain over the growing season, will call it corn(rain). The output will have units of bushels (of corn). The input will have units of inches (of rain). A second-order polynomial will be appropriate for reasons to be discussed in Chapter <a href="#optim-and-shape"><strong>??</strong></a>. <span style="float: right; padding-left: 50px;"><a name="1770" href="#1770"><img src="www/icons8-signpost.png" title="Location: 1770" width="12px"/></a><span style="color: red; font-size: 6pt;">1770</red></span></p>
+<p>Low-order polynomials are a useful way of constructing model functions. For instance, suppose we want a model of the yield of corn in a field per inch of rain over the growing season, will call it corn(rain). The output will have units of bushels (of corn). The input will have units of inches (of rain). A second-order polynomial will be appropriate for reasons to be discussed in Chapter <a href="#optim-and-shape"><strong>??</strong></a>.</p>
 <p><span class="math display">\[\text{corn(rain)} \equiv a_0 + a_1\, \text{rain} + \frac{1}{2} a_2\, \text{rain}^2\]</span>
 Of course, the addition in the linear combination will only make sense if all three terms <span class="math inline">\(a_0\)</span>, <span class="math inline">\(a_1\,\text{rain}\)</span>, and <span class="math inline">\(\frac{1}{2}\, a_2\, \text{rain}^2/2\)</span> have the same dimension. But clearly <span class="math inline">\([\text{rain}] \neq [\text{rain}^2]\)</span>. In order for things to work out, the <strong>coefficients must themselves have dimension</strong>. We know the output of the function will have dimension <span class="math inline">\([\text{volume}] = \text{L}^3\)</span>. Thus, <span class="math inline">\([a_0] = \text{L}^3\)</span>.</p>
 <p><span class="math inline">\([a_1]\)</span> must be different, because it has to combine with the <span class="math inline">\([\text{rain}] = \text{L}\)</span> and produce <span class="math inline">\(\text{L}^3\)</span>. Thus, <span class="math inline">\([a_1] = \text{L}^2\)</span>.</p>
@@ -619,25 +630,25 @@ For the civil engineers, introduce the words stress and strain and talk about th
 <p>In everyday communication as well as in most domains such as construction, geography, navigation, and astronomy we measure angles in <strong><em>degrees</em></strong>. 90 degrees is a right angle. But in mathematics, the unit of angle is <strong><em>radians</em></strong> where a right angle is 1.5708 radians. (1.5708 is the decimal version of <span class="math inline">\(\pi/2\)</span>.) The conversion function, which we’ll call raddeg(), is <span class="math display">\[\text{raddeg}(r) \equiv \frac{180}{\pi} r\]</span> The function that converts degrees to radians, which we’ll call degrad() is very similar: <span class="math display">\[\text{degrad}(d) \equiv \frac{\pi}{180} d\]</span>
 (Incidentally, <span class="math inline">\(\frac{180}{\pi} = 57.296\)</span> while <span class="math inline">\(\frac{\pi}{180} = 0.017453\)</span>.)</p>
 <p>In traditional notation, the trigonometric functions such as <span class="math inline">\(\sin()\)</span> and <span class="math inline">\(\tan()\)</span> can be written with an argument either in degrees or radians. For instance, <span class="math inline">\(\sin(90^\circ) = \sin\left(\frac{\pi}{2}\right)\)</span>. Similarly, for the inverse functions like <span class="math inline">\(\arccos()\)</span> the units of the output are not specified. This works because there is always a human to intervene between the written expression and the eventual computation.</p>
-<p>In R, as in many other computer languages like Python or spreadsheet packages, there is no valid expression like <code>sin(90 deg)</code>. In these languages, <code>90 deg</code> is not a valid expression (although it might be good if it were valid!). In these and many other languages, angles are always given in radians. Such consistency is admirable, but people are not always so consistent. It is a common source of computer bugs that angles in degrees are handed off to functions like <span class="math inline">\(\sin()\)</span> and that the output of <span class="math inline">\(\arccos()\)</span> is (wrongly) interpreted as degrees rather than radians. <span style="float: right; padding-left: 50px;"><a name="1780" href="#1780"><img src="www/icons8-signpost.png" title="Location: 1780" width="12px"/></a><span style="color: red; font-size: 6pt;">1780</red></span></p>
+<p>In R, as in many other computer languages like Python or spreadsheet packages, there is no valid expression like <code>sin(90 deg)</code>. In these languages, <code>90 deg</code> is not a valid expression (although it might be good if it were valid!). In these and many other languages, angles are always given in radians. Such consistency is admirable, but people are not always so consistent. It is a common source of computer bugs that angles in degrees are handed off to functions like <span class="math inline">\(\sin()\)</span> and that the output of <span class="math inline">\(\arccos()\)</span> is (wrongly) interpreted as degrees rather than radians.</p>
 <p>Function composition to the rescue!</p>
 <p>Consider this function given in the <a href="https://en.wikipedia.org/wiki/Position_of_the_Sun">Wikipedia article on the position of the sun</a> as seen from Earth.<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>
 <span class="math display">\[\delta_\odot(n) \equiv - 23.44^\circ \cdot \cos \left [ \frac{360^\circ}{365\, \text{days}} \cdot \left ( n + 10 \right ) \right ]\]</span>
 Where <span class="math inline">\(n\)</span> is zero at the midnight marking New Years and increases by 1 per day. (The <span class="math inline">\(n+10\)</span> has units of days and translates New Years back 10 days, to the day of the winter solstice.) <span class="math inline">\(\delta_\odot()\)</span> gives the declination of the sun: the latitude pieced by an imagined line connecting the centers of the earth and the sun.</p>
 <p>The Wikipedia formula is well written in that it uses some familiar numbers to help the reader see where the formula comes from. 365 is recognizably the length of the year in days. <span class="math inline">\(360^\circ\)</span> is the angle traversed when making a full cycle around a circle. <span class="math inline">\(23.44^\circ\)</span> is less familiar, but the student of geography might recognize it as the latitude of the Tropic of Cancer, the latitude farthest north where the sun is directly overhead at noon (on the day of the summer solstice).</p>
 <p>But there’s a world of trouble for programmer who implements the formula as</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="dimensions.html#cb133-1" aria-hidden="true" tabindex="-1"></a>dec_sun <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="sc">-</span><span class="fl">23.44</span> <span class="sc">*</span> <span class="fu">cos</span>((<span class="dv">360</span><span class="sc">/</span><span class="dv">365</span>)<span class="sc">*</span>(n<span class="sc">+</span><span class="dv">10</span>)) <span class="sc">~</span> n)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="dimensions.html#cb131-1" aria-hidden="true" tabindex="-1"></a>dec_sun <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="sc">-</span><span class="fl">23.44</span> <span class="sc">*</span> <span class="fu">cos</span>((<span class="dv">360</span><span class="sc">/</span><span class="dv">365</span>)<span class="sc">*</span>(n<span class="sc">+</span><span class="dv">10</span>)) <span class="sc">~</span> n)</span></code></pre></div>
 <p>For instance, the equinoxes are around March 21 (n=81) and Sept 21 (n=264). On an equinox, the delination of the sun is zero degrees. But let’s plug <span class="math inline">\(n=81\)</span> and <span class="math inline">\(n=264\)</span> into the formula and see what we get.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="dimensions.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun</span>(<span class="dv">81</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="dimensions.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun</span>(<span class="dv">81</span>)</span></code></pre></div>
 <pre><code>## [1] 5.070321</code></pre>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="dimensions.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun</span>(<span class="dv">264</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="dimensions.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun</span>(<span class="dv">264</span>)</span></code></pre></div>
 <pre><code>## [1] -23.38324</code></pre>
 <p>The equinoxes aren’t even equal! And they are not close to zero. Does this mean astronomy is wrong?</p>
 <p>The Wikipedia formula should have been programmed this way, using 2 <span class="math inline">\(\pi\)</span> radians instead of 360 degrees in the argument to the cosine function:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="dimensions.html#cb138-1" aria-hidden="true" tabindex="-1"></a>dec_sun_right <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="sc">-</span><span class="fl">23.44</span> <span class="sc">*</span> <span class="fu">cos</span>(( <span class="dv">2</span><span class="sc">*</span>pi <span class="sc">/</span> <span class="dv">365</span>)<span class="sc">*</span>(n<span class="sc">+</span><span class="dv">10</span>)) <span class="sc">~</span> n)</span>
-<span id="cb138-2"><a href="dimensions.html#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun_right</span>(<span class="dv">81</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="dimensions.html#cb136-1" aria-hidden="true" tabindex="-1"></a>dec_sun_right <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="sc">-</span><span class="fl">23.44</span> <span class="sc">*</span> <span class="fu">cos</span>(( <span class="dv">2</span><span class="sc">*</span>pi <span class="sc">/</span> <span class="dv">365</span>)<span class="sc">*</span>(n<span class="sc">+</span><span class="dv">10</span>)) <span class="sc">~</span> n)</span>
+<span id="cb136-2"><a href="dimensions.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun_right</span>(<span class="dv">81</span>)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="dimensions.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun_right</span>(<span class="dv">264</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="dimensions.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dec_sun_right</span>(<span class="dv">264</span>)</span></code></pre></div>
 <pre><code>## [1] -0.1008749</code></pre>
 <p>The deviation of one-tenth of a degree reflects rounding off the time of the equinox to the nearest day.</p>
 </div>

@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-10" />
+<meta name="date" content="2022-01-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,8 @@
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <span class="math inline">
@@ -69,15 +69,23 @@
 \newcommand{\diff}[1]{{\cal D}_#1}
 \newcommand{\pnorm}{\text{pnorm}}
 \newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -362,14 +370,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="pattern-book" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Functions for modeling</h1>
-<p><strong><em>Mathematical modeling</em></strong> is a process where mathematics is used to understand, analyze, or predict a real-world situation. This process often occurs in cycles that revisit each of the following three stages: <span style="float: right; padding-left: 50px;"><a name="200" href="#200"><img src="www/icons8-signpost.png" title="Location: 200" width="12px"/></a><span style="color: red; font-size: 6pt;">200</red></span></p>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/02-pattern-book.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<p><strong><em>Mathematical modeling</em></strong> is a process where mathematics is used to understand, analyze, or predict a real-world situation. This process often occurs in cycles that revisit each of the following three stages:</p>
 <ol style="list-style-type: decimal">
 <li>Translate the real-world situation into a mathematical form (called a model)</li>
 <li>Shape the model to answer the question at hand</li>
 <li>Evaluate the model’s reliability and agreement with the real-world situation</li>
 </ol>
 <p>We’ll discuss each stage of the modeling process in the following paragraphs and explore as a concrete example the way Sir Isaac Newton applied his theory of universal gravitation to the motion of planets.</p>
-<p>The first stage of mathematical modeling involves <strong>translating the real-world situation into a mathematical form</strong>; the output or result of this stage is called a <strong><em>mathematical model</em></strong>. <strong>In this book</strong> the objective of the translation phase will almost always be to choose or construct one or more <strong><em>function</em></strong>s that represent the relationships involved in the system being studied. You’ll learn several strategies for turning what you know about the system into appropriate functions. And you’ll learn some standard <strong><em>frameworks</em></strong> for organizing your ideas to help you determine how functions will be related, for instance Newton’s framework relating position, velocity, and acceleration as rates of change of one another. <span style="float: right; padding-left: 50px;"><a name="210" href="#210"><img src="www/icons8-signpost.png" title="Location: 210" width="12px"/></a><span style="color: red; font-size: 6pt;">210</red></span></p>
+<p>The first stage of mathematical modeling involves <strong>translating the real-world situation into a mathematical form</strong>; the output or result of this stage is called a <strong><em>mathematical model</em></strong>. <strong>In this book</strong> the objective of the translation phase will almost always be to choose or construct one or more <strong><em>function</em></strong>s that represent the relationships involved in the system being studied. You’ll learn several strategies for turning what you know about the system into appropriate functions. And you’ll learn some standard <strong><em>frameworks</em></strong> for organizing your ideas to help you determine how functions will be related, for instance Newton’s framework relating position, velocity, and acceleration as rates of change of one another.</p>
 <p>As a concrete example of this first stage, consider how Newton had to translate observations about planetary motion into a mathematical form. He was trying to make sense of the motion of planets in light of his novel theory that gravity is a universal force of attraction between <em>all</em> masses, rather than something peculiar to celestial bodies. He showed that the motions of planets, moons, and the Sun are governed by the same basic principles as an apple falling from a tree. To do this, he modeled force as a quantity that can be measured, simplified the complexity of the planets to mere masses (another measurable quantity), and supposed that position and motion were related.
 <!-- [[Taken out. because it's unclear what is being said about velocity & acceleration in this context.]] ##: He assumed ***velocity***  (the rate of change of position with respect to time) and ***acceleration*** (the rate of change of velocity with respect to time). -->
 His theory of the motion of planets was based on two fundamental mathematical models: First,
@@ -383,7 +394,7 @@ His theory of the motion of planets was based on two fundamental mathematical mo
 <div id="pattern-book-functions" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Pattern-book functions</h2>
 <p>In this section, we introduce the <strong><em>Pattern-book functions</em></strong>–a short list of simple mathematical functions that provide a large majority of the tools for representing the real world as a mathematical object.
-Think of the items in this list as different actors, each of whom is skilled in portraying an archetypical character: hero, outlaw, lover, fool, comic. A play brings together different characters, costumes them, and relates them to one another through dialog or other means. All this is for the purpose of telling a story and providing insight into human relationships and emotions. <span style="float: right; padding-left: 50px;"><a name="230" href="#230"><img src="www/icons8-signpost.png" title="Location: 230" width="12px"/></a><span style="color: red; font-size: 6pt;">230</red></span></p>
+Think of the items in this list as different actors, each of whom is skilled in portraying an archetypical character: hero, outlaw, lover, fool, comic. A play brings together different characters, costumes them, and relates them to one another through dialog or other means. All this is for the purpose of telling a story and providing insight into human relationships and emotions.</p>
 <p>A mathematical model is a kind of story and a mathematical modeler a kind of playwright. She combines mathematical character types to tell a story about relationships. But there is only a handful of archetypal mathematical functions, the analog of the character actors in drama and comedy. In creating a mathematical model, you clothe the actors to suit the era and location and assemble them together in harmony or discord.</p>
 <p>Costume designers and others do not start from nothing. There are reference guides that collect patterns which a designer can customize to the needs at hand. These reference guides are sometimes called “pattern books.” (See Figure <a href="pattern-book.html#fig:pattern-book">2.1</a> for an example.)</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:pattern-book"></span>
@@ -451,7 +462,7 @@ Figure 2.1: A pattern book of theatrical costumes
 </tr>
 </tbody>
 </table>
-<p>These functions are shown with a traditional formula notation to highlight the connections to the math you already studied, and <span class="math inline">\(x\)</span> is used as the input to these functions out of tradition. <span style="float: right; padding-left: 50px;"><a name="240" href="#240"><img src="www/icons8-signpost.png" title="Location: 240" width="12px"/></a><span style="color: red; font-size: 6pt;">240</red></span></p>
+<p>These functions are shown with a traditional formula notation to highlight the connections to the math you already studied, and <span class="math inline">\(x\)</span> is used as the input to these functions out of tradition.</p>
 <div class="takenote">
 <p>The list of pattern-book functions is short. You should memorize the names and be able easily to associate each name with the traditional notation.</p>
 <p>Over the next several chapters, we will introduce several features of functions. These features include:</p>
@@ -463,9 +474,9 @@ Figure 2.1: A pattern book of theatrical costumes
 <li>periodicity</li>
 <li>continuity</li>
 </ul>
-<p>By the end of Block 1, you should be able to list all the basic pattern-book functions and describe the features relevant to each. <span style="float: right; padding-left: 50px;"><a name="250" href="#250"><img src="www/icons8-signpost.png" title="Location: 250" width="12px"/></a><span style="color: red; font-size: 6pt;">250</red></span></p>
+<p>By the end of Block 1, you should be able to list all the basic pattern-book functions and describe the features relevant to each.</p>
 </div>
-<p>These pattern-book functions are widely applicable. But nobody would confuse the pictures in a pattern book with costumes that are ready for wear. Each pattern must be tailored to fit the actor and customized to fit the theme, setting, and action of the story. <span style="float: right; padding-left: 50px;"><a name="260" href="#260"><img src="www/icons8-signpost.png" title="Location: 260" width="12px"/></a><span style="color: red; font-size: 6pt;">260</red></span></p>
+<p>These pattern-book functions are widely applicable. But nobody would confuse the pictures in a pattern book with costumes that are ready for wear. Each pattern must be tailored to fit the actor and customized to fit the theme, setting, and action of the story.</p>
 <p>Similarly, the mathematical functions used in real-world applications—as opposed to the pattern-book functions—are adorned with <strong><em>parameters</em></strong>. Parameters do the work of fitting the pattern to the units and dimensions of the input and output quantities. Continuing our analogy, if the pattern is for a sock, the parameter is the size needed to fit the foot. And just as there are different systems for sizing shirts, trousers, shoes, and so on, tradition has favored idioms for parameterizing the different kinds of pattern-book functions. We haven’t yet introduced these idioms, but when we do in Chapter <a href="params-intro.html#params-intro">7</a> you are well advised to learn to interpret them at a glance.</p>
 <div class="why">
 <p>There is universal agreement about the names of all of the pattern-book functions except for two: the gaussian and the logarithm.</p>
@@ -477,7 +488,7 @@ Figure 2.1: A pattern book of theatrical costumes
 <div id="the-power-law-family" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> The power-law family</h2>
 <p>Three of the pattern-book functions—<span class="math inline">\(1/x\)</span>, <span class="math inline">\(x\)</span>, <span class="math inline">\(x^2\)</span>—actually belong to an infinite family called the <strong><em>power-law functions</em></strong>. The three shown above occur so often and are so closely related to the other pattern-book functions that they receive their own special names (inverse, proportional, and square) and place in our list; however, it is the <em>family</em> of power-law functions that form the more general pattern needed for modeling.</p>
-<p>Some other examples of power-law functions are <span class="math inline">\(x^3, x^4, \ldots\)</span> as well as <span class="math inline">\(x^{1/2}\)</span> (also written <span class="math inline">\(\sqrt{x}\)</span>), <span class="math inline">\(x^{1.36}\)</span>, and so on. Some of these also have special (albiet less frequently used) names, but <em>all</em> of the power-law functions can be written as <span class="math inline">\(x^p\)</span>, where <span class="math inline">\(x\)</span> is the input and <span class="math inline">\(p\)</span> is a number. <span style="float: right; padding-left: 50px;"><a name="290" href="#290"><img src="www/icons8-signpost.png" title="Location: 290" width="12px"/></a><span style="color: red; font-size: 6pt;">290</red></span>.</p>
+<p>Some other examples of power-law functions are <span class="math inline">\(x^3, x^4, \ldots\)</span> as well as <span class="math inline">\(x^{1/2}\)</span> (also written <span class="math inline">\(\sqrt{x}\)</span>), <span class="math inline">\(x^{1.36}\)</span>, and so on. Some of these also have special (albiet less frequently used) names, but <em>all</em> of the power-law functions can be written as <span class="math inline">\(x^p\)</span>, where <span class="math inline">\(x\)</span> is the input and <span class="math inline">\(p\)</span> is a number. .</p>
 <p>Within the power-law family, it is helpful to know and be able to differentiate between several overlapping groups:</p>
 <ol style="list-style-type: decimal">
 <li>The <strong><em>monomials</em></strong>. These are power-law functions such as <span class="math inline">\(m_0(x) \equiv x^0\)</span>, <span class="math inline">\(m_1(x) \equiv x^1\)</span>, <span class="math inline">\(m_2(x) \equiv x^2\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\(m_p(x) \equiv x^p\)</span>, <span class="math inline">\(\ldots\)</span>, where <span class="math inline">\(p\)</span> is a whole number (i.e., a non-negative integer). Of course, <span class="math inline">\(m_0()\)</span> is exactly the same as the constant function, since <span class="math inline">\(x^0 = 1\)</span>. Likewise, <span class="math inline">\(m_1(x)\)</span> is the same as the identity function since <span class="math inline">\(x^1 = x\)</span>. As for the rest, they have just two general shapes: both arms up for even powers of <span class="math inline">\(p\)</span> (like in <span class="math inline">\(x^2\)</span>, a parabola); one arm up and the other down for odd powers of <span class="math inline">\(p\)</span> (like in <span class="math inline">\(x^3\)</span>, a cubic).</li>
@@ -509,7 +520,7 @@ Figure 2.4: The domain of power-law functions with non-integer power is <span cl
 </div>
 <div id="constructing-functions" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Constructing functions</h2>
-<p>Often, modeling involves building a complicated function out of the simple shapes provided by the pattern-book functions. This is not yet the time to say much more, but we do want to show you what such a construction looks like in both a traditional style of notation and the style used for programming computers. As you’ll see later, in Chapter <a href="fun-assembling.html#fun-assembling">11</a>, to make complicated functions we generally combine simpler functions in one or more of three different ways: <strong><em>linear combinations</em></strong>, <strong><em>products</em></strong>, and <strong><em>composition</em></strong>. <span style="float: right; padding-left: 50px;"><a name="270" href="#270"><img src="www/icons8-signpost.png" title="Location: 270" width="12px"/></a><span style="color: red; font-size: 6pt;">270</red></span></p>
+<p>Often, modeling involves building a complicated function out of the simple shapes provided by the pattern-book functions. This is not yet the time to say much more, but we do want to show you what such a construction looks like in both a traditional style of notation and the style used for programming computers. As you’ll see later, in Chapter <a href="fun-assembling.html#fun-assembling">11</a>, to make complicated functions we generally combine simpler functions in one or more of three different ways: <strong><em>linear combinations</em></strong>, <strong><em>products</em></strong>, and <strong><em>composition</em></strong>.</p>
 <p>As a very brief introduction, consider these examples. A <strong><em>polynomial</em></strong> is a <strong><em>linear combination</em></strong> of simple functions called “monomials.” These are likely familiar to you in traditional notation:
 <span class="math display">\[g(x) \equiv 2 + 3 x - 7x^2\]</span>
 In the R/mosaic computer notation we will be using the function <span class="math inline">\(g()\)</span> would be defined like this:</p>
@@ -533,27 +544,24 @@ and like this in computer notation:</p>
 </div>
 <div id="function-shapes" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Function shapes</h2>
-<p>You are going to be building models by selecting an appropriate function or by putting functions together in various ways. This might remind you of Lego blocks. As you know, Legos come in different shapes: <span class="math inline">\(6\times 2\)</span>, <span class="math inline">\(4\times 2\)</span>, <span class="math inline">\(2\times 2\)</span>, and so on. Similarly, each of the pattern-book functions has a distinctively shaped graph. Knowing the shapes by name will help you when you need to build a model. <span style="float: right; padding-left: 50px;"><a name="280" href="#280"><img src="www/icons8-signpost.png" title="Location: 280" width="12px"/></a><span style="color: red; font-size: 6pt;">280</red></span></p>
+<p>You are going to be building models by selecting an appropriate function or by putting functions together in various ways. This might remind you of Lego blocks. As you know, Legos come in different shapes: <span class="math inline">\(6\times 2\)</span>, <span class="math inline">\(4\times 2\)</span>, <span class="math inline">\(2\times 2\)</span>, and so on. Similarly, each of the pattern-book functions has a distinctively shaped graph. Knowing the shapes by name will help you when you need to build a model.</p>
 <p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-8-2.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-8-3.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-8-4.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-8-5.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>The <strong><em>proportional function</em></strong> and the <strong><em>constant function</em></strong> have extremely simple shapes. Note that the graph of a constant function is not just any line, but a line with zero slope.</p>
-<pre><code>## Warning in validate_domain(domain, free_args): Missing domain names: x
-
-## Warning in validate_domain(domain, free_args): Missing domain names: x</code></pre>
 <p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-9-2.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>It is tempting to deny that the constant function is a function. After all, the output does not depend on the input. Still, this situation arises frequently in modeling: you start out supposing that one quantity depends on another, but it sometimes turns out that it does not. Since functions are our way of representing relationships, it is helpful to have a function for the situation of “no relationship.” The constant function does this job.</p>
 <p>You may also notice the proportional function shown above does nothing to change the input; it simply returns as output the same value it received as input. For this reason, the proportional pattern-book function (<span class="math inline">\(f(x)=x\)</span>) is sometimes called the <strong><em>identity function</em></strong>. Later we will show how this simple pattern-book function can be endowed with parameters that form the basis of many change relationships.</p>
 <div class="observation">
 <p>Functions like <code>sin()</code>, <code>log()</code>, <code>pnorm()</code> are always referred to by name with parentheses enclosing the arguments. Other functions are traditionally written without a name, for instance, like <span class="math inline">\(e^x\)</span> or <span class="math inline">\(1/x\)</span>. These two different conventions can lead to confusion. There is little that can be done to avoid that confusion, since the dual conventions appear throughout technical work.</p>
 <p>If absolute consistency of notation were the prime goal, we could have written this book in a style that gives a name to every pattern-book function writes it in the name/parentheses style. Something like this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="pattern-book.html#cb5-1" aria-hidden="true" tabindex="-1"></a>reciprocal <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">1</span><span class="sc">/</span>t <span class="sc">~</span> t)</span>
-<span id="cb5-2"><a href="pattern-book.html#cb5-2" aria-hidden="true" tabindex="-1"></a>constant <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">1</span> <span class="sc">~</span> z)</span>
-<span id="cb5-3"><a href="pattern-book.html#cb5-3" aria-hidden="true" tabindex="-1"></a>square <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> x)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="pattern-book.html#cb4-1" aria-hidden="true" tabindex="-1"></a>reciprocal <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">1</span><span class="sc">/</span>t <span class="sc">~</span> t)</span>
+<span id="cb4-2"><a href="pattern-book.html#cb4-2" aria-hidden="true" tabindex="-1"></a>constant <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="dv">1</span> <span class="sc">~</span> z)</span>
+<span id="cb4-3"><a href="pattern-book.html#cb4-3" aria-hidden="true" tabindex="-1"></a>square <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> x)</span></code></pre></div>
 <p>These would be used in the ordinary way, for instance:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="pattern-book.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reciprocal</span>(<span class="dv">7</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="pattern-book.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reciprocal</span>(<span class="dv">7</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1428571</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="pattern-book.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">constant</span>(<span class="fl">123.67</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="pattern-book.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">constant</span>(<span class="fl">123.67</span>)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="pattern-book.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">square</span>(<span class="dv">19</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="pattern-book.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">square</span>(<span class="dv">19</span>)</span></code></pre></div>
 <pre><code>## [1] 361</code></pre>
 <p>Writing reciprocal(<span class="math inline">\(x\)</span>) instead of <span class="math inline">\(1/x\)</span> is long-winded, which is perhaps why you never see it. But when you see <span class="math inline">\(1/x\)</span> you should think of it as a function being applied to <span class="math inline">\(x\)</span> and not as a bit of arithmetic.</p>
 <p>By the way … I used different names for the inputs in these three functions just to remind the reader that, for functions with one input, the name has no significance. You just have to make sure to use the same name on the left- and right-hand sides of the tilde expression.</p>
@@ -567,8 +575,8 @@ and like this in computer notation:</p>
 </summary>
 <div class="scaffolding">
 <p>Copy and paste the R/mosaic command below into a <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>. The command shows a simple way to graph a function, in this case <code>exp()</code>. Press “Run code” to execute the command and draw the graph.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="pattern-book.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">exp</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-90-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="pattern-book.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">exp</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-88-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>In this exercise, you’ll be modifying the sandbox code to draw different functions, so you can examine their shapes.</p>
 </div>
 <p>Your task is to read and interpret the graphs of the basic modeling functions. Here, you will be looking for <strong><em>zero-crossings</em></strong>: the neighborhood of a point in the function’s domain where the <strong>output</strong> of the function is negative for inputs on one side and positive for inputs on the other side. If zero is touched but not crossed, we’ll call that “touched zero.”</p>

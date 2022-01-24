@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-10" />
+<meta name="date" content="2022-01-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,8 @@
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <span class="math inline">
@@ -69,15 +69,23 @@
 \newcommand{\diff}[1]{{\cal D}_#1}
 \newcommand{\pnorm}{\text{pnorm}}
 \newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -362,7 +370,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="fun-piecewise" class="section level1" number="13">
 <h1><span class="header-section-number">Chapter 13</span> Piecewise functions</h1>
-<p>Each of our basic modeling functions, with two exceptions, has a domain that is the entire number line <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span>. No matter how big or small is the value of the input, the function has an output. Such functions are particularly nice to work with, since we never have to worry about the input going out of bounds. <span style="float: right; padding-left: 50px;"><a name="1500" href="#1500"><img src="www/icons8-signpost.png" title="Location: 1500" width="12px"/></a><span style="color: red; font-size: 6pt;">1500</red></span></p>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/13-piecewise.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<p>Each of our basic modeling functions, with two exceptions, has a domain that is the entire number line <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span>. No matter how big or small is the value of the input, the function has an output. Such functions are particularly nice to work with, since we never have to worry about the input going out of bounds.</p>
 <p>The two exceptions are:</p>
 <ol style="list-style-type: decimal">
 <li>the logarithm function, which is defined only for <span class="math inline">\(0 &lt; x\)</span>.</li>
@@ -373,46 +384,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ol>
 <p>It can be tedious to make sure that you are on the right side of the law when dealing with functions whose domain is not the whole number line. The designers of the hardware that does computer arithmetic, after several decades of work, found a clever system to make it easier. It’s a standard part of such hardware that whenever a function is handed an input that is not part of that function’s domain, one of two special “numbers” is returned. To illustrate:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="fun-piecewise.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="fun-piecewise.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="sc">-</span><span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="fun-piecewise.html#cb68-1" aria-hidden="true" tabindex="-1"></a>(<span class="sc">-</span><span class="dv">2</span>)<span class="sc">^</span><span class="fl">0.9999</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="fun-piecewise.html#cb66-1" aria-hidden="true" tabindex="-1"></a>(<span class="sc">-</span><span class="dv">2</span>)<span class="sc">^</span><span class="fl">0.9999</span></span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="fun-piecewise.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="fun-piecewise.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] Inf</code></pre>
 <p><code>NaN</code> stands for “not a number.” Just about any calculation involving <code>NaN</code> will generate <code>NaN</code> as a result, even those involving multiplication by zero or cancellation by subtraction or division.<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> For instance:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="fun-piecewise.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">*</span> <span class="cn">NaN</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="fun-piecewise.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">*</span> <span class="cn">NaN</span></span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="fun-piecewise.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="cn">NaN</span> <span class="sc">-</span> <span class="cn">NaN</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="fun-piecewise.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="cn">NaN</span> <span class="sc">-</span> <span class="cn">NaN</span></span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="fun-piecewise.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="cn">NaN</span> <span class="sc">/</span> <span class="cn">NaN</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="fun-piecewise.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="cn">NaN</span> <span class="sc">/</span> <span class="cn">NaN</span></span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
-<p>Division by zero produces <code>Inf</code>, whose name is reminiscent of “infinity.” <code>Inf</code> infiltrates any calculation in which it takes part: <span style="float: right; padding-left: 50px;"><a name="1510" href="#1510"><img src="www/icons8-signpost.png" title="Location: 1510" width="12px"/></a><span style="color: red; font-size: 6pt;">1510</red></span></p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="fun-piecewise.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">*</span> <span class="cn">Inf</span></span></code></pre></div>
+<p>Division by zero produces <code>Inf</code>, whose name is reminiscent of “infinity.” <code>Inf</code> infiltrates any calculation in which it takes part:</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="fun-piecewise.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">*</span> <span class="cn">Inf</span></span></code></pre></div>
 <pre><code>## [1] Inf</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="fun-piecewise.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="cn">Inf</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="fun-piecewise.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="cn">Inf</span>)</span></code></pre></div>
 <pre><code>## [1] Inf</code></pre>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="fun-piecewise.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">*</span> <span class="cn">Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="fun-piecewise.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">*</span> <span class="cn">Inf</span></span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="fun-piecewise.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="cn">Inf</span> <span class="sc">+</span> <span class="cn">Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="fun-piecewise.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="cn">Inf</span> <span class="sc">+</span> <span class="cn">Inf</span></span></code></pre></div>
 <pre><code>## [1] Inf</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="fun-piecewise.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="cn">Inf</span> <span class="sc">-</span> <span class="cn">Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="fun-piecewise.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="cn">Inf</span> <span class="sc">-</span> <span class="cn">Inf</span></span></code></pre></div>
 <pre><code>## [1] NaN</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="fun-piecewise.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="cn">Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="fun-piecewise.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="cn">Inf</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <div class="scaffolding">
 <p>To see the benefits of the <code>NaN</code> / <code>Inf</code> system let’s plot out the logarithm function over the graphics domain <span class="math inline">\(-5 \leq x \leq 5\)</span>. Of course, part of that graphics domain, <span class="math inline">\(-5 \leq x \leq 0\)</span> is not in the domain of the logarithm function and the computer is entitled to give us a slap on the wrists. The <code>NaN</code> provides some room for politeness.</p>
 <p>Open a sandbox and see what happens when you make the plot.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="fun-piecewise.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">log</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="fun-piecewise.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">log</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)))</span></code></pre></div>
 </div>
 <div id="splitting-the-domain" class="section level2" number="13.1">
 <h2><span class="header-section-number">13.1</span> Splitting the domain</h2>
 <p>In a purely mathematical sense, the problem with functions being undefined over an extended part of a domain has been handled with cunning and imagination, but the solution—the invention of complex numbers—is not our concern here. Instead, we’re going to embrace functions that have a domain smaller than the whole number line and see what we can do with them.</p>
 <p>To illustrate, let’s use computer notation to create a function whose domain is <span class="math inline">\(x &lt; 1\)</span>. To do this, we need a way to write “if,” as in, “If <span class="math inline">\(x\)</span> is 1 or greater, return <code>NaN</code>.” We’ll use a function in R that let’s us ask a TRUE/FALSE question and, depending on the answer, do one or another calculation. The question-answering R function is <code>ifelse()</code> whose name is remarkably descriptive. The <code>ifelse()</code> function takes three arguments. The first is the question to be asked, the second is the value to return if the answer is “yes,” and the third is the value to return for a “no” answer.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="fun-piecewise.html#cb91-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">1</span>, x, <span class="cn">NaN</span>) <span class="sc">~</span> x)</span>
-<span id="cb91-2"><a href="fun-piecewise.html#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>)))</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-57-1.png" width="90%" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="fun-piecewise.html#cb89-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>( <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">1</span>, x, <span class="cn">NaN</span>) <span class="sc">~</span> x)</span>
+<span id="cb89-2"><a href="fun-piecewise.html#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">g</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>)))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-55-1.png" width="90%" style="display: block; margin: auto;" />
 What takes getting used to here is the expression <code>x &lt; 1</code> which is a <strong><em>question</em></strong> not a statement of fact. There’s no standard traditional mathematical notation for questions, although some people use a question mark as in <span class="math inline">\(x \stackrel{?}{&lt;} 1\)</span>.</p>
-<p>The table shows computer notation for some common sorts of questions. <span style="float: right; padding-left: 50px;"><a name="1520" href="#1520"><img src="www/icons8-signpost.png" title="Location: 1520" width="12px"/></a><span style="color: red; font-size: 6pt;">1520</red></span></p>
+<p>The table shows computer notation for some common sorts of questions.</p>
 <table>
 <thead>
 <tr class="header">
@@ -455,30 +466,30 @@ construct <strong><em>piecewise functions</em></strong>. To illustrate, the func
 \begin{array}{ll}  x &amp; \text{for}\ 0 \leq x \\ \text{- x} &amp; \text{otherwise}\\\end{array}
 \right.\]</span>
 Or, in computer notation</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="fun-piecewise.html#cb92-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(x <span class="sc">&gt;=</span> <span class="dv">0</span>, x, <span class="sc">-</span>x) <span class="sc">~</span> x)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="fun-piecewise.html#cb90-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(x <span class="sc">&gt;=</span> <span class="dv">0</span>, x, <span class="sc">-</span>x) <span class="sc">~</span> x)</span></code></pre></div>
 <p>Note that the absolute value function is built-in to R in the form of the <code>abs()</code> function.</p>
 <p>Less familiar is the <strong><em>Heaviside function</em></strong> which has important uses in physics and engineering:</p>
 <p><span class="math display">\[\text{Heaviside}(x) \equiv \left\{ 
 \begin{array}{cl} 1 &amp; \text{for}\ 0 \leq x \\0 &amp; \text{otherwise}\end{array}
 \right.\]</span>
 In computer notation, this is</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="fun-piecewise.html#cb93-1" aria-hidden="true" tabindex="-1"></a>Heaviside <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">~</span> x)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-60-1.png" width="90%" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="fun-piecewise.html#cb91-1" aria-hidden="true" tabindex="-1"></a>Heaviside <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">~</span> x)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-58-1.png" width="90%" style="display: block; margin: auto;" />
 The vertical gap between the two pieces is called a <strong><em>discontinuity</em></strong>. Intuitively, you cannot draw a discontinuous function <strong><em>without lifting the pencil from the paper</em></strong>. The Heaviside function has a discontinuity at <span class="math inline">\(x=0\)</span>.</p>
 <p>Similarly, the <strong><em>ramp function</em></strong> (aka “ReLU”) is a kind of one-sided absolute value:
 <span class="math display">\[\text{ramp}(x) \equiv \left\{ 
 \begin{array}{cl} x &amp; \text{for}\ 0 \leq x\\0 &amp; \text{otherwise}\end{array}
 \right.\]</span>
 Or, in computer notation:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="fun-piecewise.html#cb94-1" aria-hidden="true" tabindex="-1"></a>ramp <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(<span class="dv">0</span> <span class="sc">&lt;</span> x, x, <span class="dv">0</span>) <span class="sc">~</span> x)</span>
-<span id="cb94-2"><a href="fun-piecewise.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">ramp</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-61-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="fun-piecewise.html#cb92-1" aria-hidden="true" tabindex="-1"></a>ramp <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(<span class="dv">0</span> <span class="sc">&lt;</span> x, x, <span class="dv">0</span>) <span class="sc">~</span> x)</span>
+<span id="cb92-2"><a href="fun-piecewise.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">ramp</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-59-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>A linear combination of two input-shifted ramp functions gives a piecewise version of the sigmoid.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="fun-piecewise.html#cb95-1" aria-hidden="true" tabindex="-1"></a>sig <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ramp</span>(x<span class="fl">+0.5</span>) <span class="sc">-</span> <span class="fu">ramp</span>(x<span class="fl">-0.5</span>) <span class="sc">~</span> x)</span>
-<span id="cb95-2"><a href="fun-piecewise.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">sig</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-62-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="fun-piecewise.html#cb93-1" aria-hidden="true" tabindex="-1"></a>sig <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ramp</span>(x<span class="fl">+0.5</span>) <span class="sc">-</span> <span class="fu">ramp</span>(x<span class="fl">-0.5</span>) <span class="sc">~</span> x)</span>
+<span id="cb93-2"><a href="fun-piecewise.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">sig</span>(x) <span class="sc">~</span> x, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>)))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-60-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <div class="intheworld">
-<p>Figure <a href="fun-piecewise.html#fig:gas-use-2">13.1</a> is a graph of monthly natural gas use in the author’s household versus average temperature during the month. (Natural gas is measured in cubic feet, appreviated <em>ccf</em>.) <span style="float: right; padding-left: 50px;"><a name="1530" href="#1530"><img src="www/icons8-signpost.png" title="Location: 1530" width="12px"/></a><span style="color: red; font-size: 6pt;">1530</red></span></p>
+<p>Figure <a href="fun-piecewise.html#fig:gas-use-2">13.1</a> is a graph of monthly natural gas use in the author’s household versus average temperature during the month. (Natural gas is measured in cubic feet, appreviated <em>ccf</em>.)</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:gas-use-2"></span>
 <img src="MOSAIC-Calculus_files/figure-html/gas-use-2-1.png" alt="The amount of natural gas used for heating the author's home varies with the outside temperature." width="90%" />
 <p class="caption">
@@ -490,7 +501,7 @@ Figure 13.1: The amount of natural gas used for heating the author’s home vari
 Even simpler is the model for the other uses of natural gas:
 <span class="math display">\[\text{other_ccf}(x) \equiv 15\]</span>.</p>
 </div>
-<p>Our last example concerns a bit of familiar technology: music synthesis. Generating a pure tone electronically is easily done using a sinusoid. Generating a note with rich instrumental timbre can be accomplished by a linear combination of sinusoids. Of course, the note will be localized in time. This could be accomplished by multiplying the sinusoids by a gaussian function envelope. <span style="float: right; padding-left: 50px;"><a name="1540" href="#1540"><img src="www/icons8-signpost.png" title="Location: 1540" width="12px"/></a><span style="color: red; font-size: 6pt;">1540</red></span></p>
+<p>Our last example concerns a bit of familiar technology: music synthesis. Generating a pure tone electronically is easily done using a sinusoid. Generating a note with rich instrumental timbre can be accomplished by a linear combination of sinusoids. Of course, the note will be localized in time. This could be accomplished by multiplying the sinusoids by a gaussian function envelope.</p>
 <p>It turns out that the gaussian function, <code>dnorm()</code>, does not generate a realistic sound. Instead, a more complicated envelope is used, such as the <a href="https://en.wikipedia.org/wiki/Envelope_(music)">ADSR function</a> shown in Figure <a href="fun-piecewise.html#fig:ADSR">13.2</a>. The function has six (!) parameters: the time the key is pressed, the duration A of the “attack” phase when the sound amplitude is increasing in response to the impulse imposed on the key, a decay of duration D to an output level S that lasts until the key is released, then a decay to zero over duration R. It’s reasonable to think of the D and S phases as a piecewise linear approximation to exponential decay.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ADSR"></span>
 <img src="www/adsr.png" alt="The ADSR envelope function used in music synthesis consists of 6 pieces including zero output before the key is pressed and after the pulse ends. [Source](https://en.wikipedia.org/wiki/Envelope_(music))" width="65%" />
@@ -506,9 +517,9 @@ Figure 13.2: The ADSR envelope function used in music synthesis consists of 6 pi
 <strong>Exercise 13.05</strong>: <span><a name="File: Exercises/bigger-two.Rmd" href="#EDKYV"><img src="www/icons8-signpost.png" title="Location: Exercises/bigger-two.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">EDKYV</red></span>
 </summary>
 <p>The function <code>bigger()</code> is defined piecewise in terms of two extremely simple functions. Each of the two simple functions has a contour plot with contours that are parallel. The piecewise combination of the simple functions has a more complicated contour plot, with each simple function’s parallel contours showing up in half of the domain. We’ll call these “pieces” of the domain.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="fun-piecewise.html#cb96-1" aria-hidden="true" tabindex="-1"></a>bigger <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(y <span class="sc">&gt;</span> x, y, x) <span class="sc">~</span> x <span class="sc">+</span> y)</span>
-<span id="cb96-2"><a href="fun-piecewise.html#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">bigger</span>(x,y) <span class="sc">~</span> x<span class="sc">+</span>y, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)))</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-172-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="fun-piecewise.html#cb94-1" aria-hidden="true" tabindex="-1"></a>bigger <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(y <span class="sc">&gt;</span> x, y, x) <span class="sc">~</span> x <span class="sc">+</span> y)</span>
+<span id="cb94-2"><a href="fun-piecewise.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contour_plot</span>(<span class="fu">bigger</span>(x,y) <span class="sc">~</span> x<span class="sc">+</span>y, <span class="fu">domain</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-170-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p><strong>Question A</strong> Which of the following best describes the two pieces of the domain?</p>
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">One is above and to the left of the line of identity (that is, <span class="math inline">\(y=x\)</span>) and the other is below and to the right of that line.<span class="mcanswer">Nice! </span></span><br />
@@ -522,17 +533,17 @@ Figure 13.2: The ADSR envelope function used in music synthesis consists of 6 pi
 <summary>
 <strong>Exercise 13.07</strong>: <span><a name="File: Exercises/goat-walk-window.Rmd" href="#E9e7c6"><img src="www/icons8-signpost.png" title="Location: Exercises/goat-walk-window.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">E9e7c6</red></span>
 </summary>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="fun-piecewise.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Zcalc)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="fun-piecewise.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Zcalc)</span></code></pre></div>
 <p>If you are unlucky and develop a serious ear or throat or other infection, and if the infection is bacterial and not viral, you may be prescribed antibiotics. You probably know how it goes. You go to the pharmacy to pick up a bottle of pills. There might be anywhere between 10 pills and 40. The directions will certainly tell you to make sure to finish the bottle; to take the full course of medication. It may say take a pill twice a day, or three times, or every six hours, perhaps with food.</p>
 <p>The details of this regimen are determined largely by the details of whether food inhibits or buffers absorption of the medicine and by the efficiency by which your body metabolizes the medicine and then removes it from your blood via your liver.</p>
 <p>Modeling this process—often called the *<strong>pharmacokinetics</strong> of the drug—is an important step in drug development. A simple but effective model of the drug concentration over time is a piecewise function: zero before you take the pill, then an exponential decay from an initial level of one unit after you take the pill.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="fun-piecewise.html#cb98-1" aria-hidden="true" tabindex="-1"></a>pill <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(t <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t)) <span class="sc">~</span> t, <span class="at">k =</span> <span class="fu">log</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="fl">1.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="fun-piecewise.html#cb96-1" aria-hidden="true" tabindex="-1"></a>pill <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">ifelse</span>(t <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="fu">exp</span>(<span class="sc">-</span>k <span class="sc">*</span> t)) <span class="sc">~</span> t, <span class="at">k =</span> <span class="fu">log</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="fl">1.5</span>)</span></code></pre></div>
 <p>The shape of the <code>pill()</code> function is seen in Figure <a href="fun-piecewise.html#fig:pharma1">13.3</a>. Another part of the model is the <strong><em>therapeutic threshold</em></strong>, the minimal concentration for medical effectiveness. Keep in mind that this is a model. In reality, the drug not is absorbed instantaneously as in the model, and the medical effectiveness varies smoothly with concentration rather than being an all-or-nothing affair.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="fun-piecewise.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">pill</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb99-2"><a href="fun-piecewise.html#cb99-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept =</span> <span class="sc">~</span> <span class="fl">0.25</span>, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb99-3"><a href="fun-piecewise.html#cb99-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_text</span>(<span class="fl">0.25</span> <span class="sc">~</span> <span class="dv">8</span>, <span class="at">label=</span><span class="st">&quot;Therapeutic threshold&quot;</span>, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>, </span>
-<span id="cb99-4"><a href="fun-piecewise.html#cb99-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.02</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb99-5"><a href="fun-piecewise.html#cb99-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">y=</span><span class="st">&quot;Drug availability&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time (hrs)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="fun-piecewise.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">pill</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb97-2"><a href="fun-piecewise.html#cb97-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept =</span> <span class="sc">~</span> <span class="fl">0.25</span>, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb97-3"><a href="fun-piecewise.html#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_text</span>(<span class="fl">0.25</span> <span class="sc">~</span> <span class="dv">8</span>, <span class="at">label=</span><span class="st">&quot;Therapeutic threshold&quot;</span>, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>, </span>
+<span id="cb97-4"><a href="fun-piecewise.html#cb97-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust=</span><span class="dv">0</span>, <span class="at">nudge_y=</span><span class="fl">0.02</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb97-5"><a href="fun-piecewise.html#cb97-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">y=</span><span class="st">&quot;Drug availability&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time (hrs)&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:pharma1"></span>
 <img src="MOSAIC-Calculus_files/figure-html/pharma1-1.png" alt="A simple illustrative model of drug availability from taking a unit dose at time zero. The therapeutic threshold depends on the drug: 0.25 is shown here." width="90%" />
 <p class="caption">
@@ -546,13 +557,13 @@ Figure 13.3: A simple illustrative model of drug availability from taking a unit
 <p><strong>Question B</strong> Occasionally, the prescription directs you to take a single pill once a day. Suppose the half-life of the medicine is 3 hours. How big would the dose <code>A</code> need to be in order to keep the availability above a threshold of 0.25 for a 24-hour period?</p>
 <p>    <span class="Zchoice">2 units<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">16 units<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">64 units<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">1024 units<span class="mcanswer">︎✘ </span></span></p>
 <p>Let’s explore a familiar-sounding directive: Take one pill every six hours. We can model this by a linear combination of time-shifted <code>pill()</code> functions. Each pill provides a dose of size <code>A</code>.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="fun-piecewise.html#cb100-1" aria-hidden="true" tabindex="-1"></a>six_hours <span class="ot">&lt;-</span> </span>
-<span id="cb100-2"><a href="fun-piecewise.html#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">makeFun</span>(A<span class="sc">*</span><span class="fu">pill</span>(t, k) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-6</span>, k) <span class="sc">+</span> </span>
-<span id="cb100-3"><a href="fun-piecewise.html#cb100-3" aria-hidden="true" tabindex="-1"></a>          A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-12</span>, k) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-18</span>, k) <span class="sc">+</span></span>
-<span id="cb100-4"><a href="fun-piecewise.html#cb100-4" aria-hidden="true" tabindex="-1"></a>          A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-24</span>, k) <span class="sc">~</span> t, </span>
-<span id="cb100-5"><a href="fun-piecewise.html#cb100-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">k=</span><span class="fu">log</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="dv">3</span>, <span class="at">A  =</span> <span class="dv">1</span>)</span>
-<span id="cb100-6"><a href="fun-piecewise.html#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">six_hours</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>))</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-175-1.png" width="90%" style="display: block; margin: auto;" />
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="fun-piecewise.html#cb98-1" aria-hidden="true" tabindex="-1"></a>six_hours <span class="ot">&lt;-</span> </span>
+<span id="cb98-2"><a href="fun-piecewise.html#cb98-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">makeFun</span>(A<span class="sc">*</span><span class="fu">pill</span>(t, k) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-6</span>, k) <span class="sc">+</span> </span>
+<span id="cb98-3"><a href="fun-piecewise.html#cb98-3" aria-hidden="true" tabindex="-1"></a>          A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-12</span>, k) <span class="sc">+</span> A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-18</span>, k) <span class="sc">+</span></span>
+<span id="cb98-4"><a href="fun-piecewise.html#cb98-4" aria-hidden="true" tabindex="-1"></a>          A<span class="sc">*</span><span class="fu">pill</span>(t<span class="dv">-24</span>, k) <span class="sc">~</span> t, </span>
+<span id="cb98-5"><a href="fun-piecewise.html#cb98-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">k=</span><span class="fu">log</span>(<span class="dv">2</span>)<span class="sc">/</span><span class="dv">3</span>, <span class="at">A  =</span> <span class="dv">1</span>)</span>
+<span id="cb98-6"><a href="fun-piecewise.html#cb98-6" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">six_hours</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="sc">-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-173-1.png" width="90%" style="display: block; margin: auto;" />
 The graph shows that the drug is above the therapeutic threshold (0.25) for the entire first day.</p>
 <blockquote>
 <p>From the graph of drug availability versus time, do you think continuing the one-pill-every-6-hours regimen will continue to keep the drug level over the therapeutic threshold for the remainder of the course of treatment? Explain why or why not.</p>
