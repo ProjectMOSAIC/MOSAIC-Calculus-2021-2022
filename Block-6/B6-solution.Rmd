@@ -113,7 +113,11 @@ Add as many rows to the table as you like; the process will be the same.
 
 You will recognize this as an iterative process, as discussed in Chapter `r Chaps$iteration`. 
 
-::: {.rmarkdown data-latex=""}
+::: {.example data-latex=""}
+As is so often the case, it's wise to think about carrying out processes in terms of fundamental tasks accomplished by calculus operations---evaluate, differentiate, anti-differentiate, solve, find argmax, iterate. The obvious choice for integrating differential equations is "anti-differentiate," but as described previously, the techniques we covered in Block 3 are not sufficient for the task. Instead, we use iteration to solve differential equations. 
+
+In this example we're going to use the software you have already seen, `Iterate()`, to carry out the task. In practice, however, you will use a special form of `Iterate()` called `integrateODE()` that makes use of interpolation techniques to give a more precise answer.
+
 To implement the iteration to solve $\partial_t x = x (1-x)$, we need to create a function that takes the current state as input and produces the next state as output. Our one-step function can be this:
 ```{r}
 next_step <- function(t, x, dt=0.1) {
@@ -143,9 +147,102 @@ gf_line(x ~ t, data=Soln)
 ```
 :::
 
+In the previous example using `Iterate()` to solve a differential equation, the output of the iteration was a data frame containing values for the solution at discrete times: 0, 0.1, 0.2, and so on. A data table is a perfectly good way to represent a function, but it's handier to have a function in a form that operations like `slice_plot()` and `D()` can be applied to. Another way to look at things is that, mathematically, the solution to a differential equation should be a ***continuous-time function***. Fortunately, we have at hand the ***interpolation*** techniques covered in Chapter `r Chaps$splines` to carry out the construction of a continuous-time function from a tabular representation. The R/mosaic function `integrateODE()` connects together the iteration and interpolation to provide a solution that is in the form of continuous-time function(s).
+
+::: {.rmosaic data-latex=""}
+Use the R/mosaic function `integrateODE()` to solve differential equations numerically. It is a specialized function that handles sets of ***first-order differential equations***, but any high-order differential equation can be separated into a set of first-order equations. 
+
+To illustrate, this command will solve the differential equation $\partial_t x = x (1-x)$ that we took on in the previous example with `Iterate()`.
+```{r}
+Soln2 <- integrateODE(dx ~ x*(1-x), x = 0.2, tdur=list(from=0, to=10, dt=0.01))
+```
+
+The first argument is a tilde expression, but in a form that's different from from that used in functions such as `D()` or `contour_plot()`, etc. To the left of the tilde is a single name composed of the state variable---`x` here---prefixed by a `d`. The `d` is just a reminder that we are describing not `x` itself, but $\partial_t\ \mathtt{x}$. On the right of the tilde is the function from the differential equation, in this case, $x(1-x)$.
+
+The next argument is the initial condition. We're starting the integration at $x=0.2$. Finally, the argument named `tdur=` consists of a description of the starting and ending times and the time-step size $dt$.
+
+The output of `integrateODE()` is an R structure that is new to us. It contains the function created by `integrateODE()` which you refer to by name (`x`) using a special form of R punctuation `$`. In other words, `Soln2$x` will be a function, which you can plot like any other function, for instance:
+
+```{r}
+slice_plot(Soln2$x(t) ~ t, domain(t=0:10))
+```
+
+An important feature of `integrateODE()` is its ability to handle *sets* of first-order differential equations. For instance, the rabbit/fox system $$\partial_t r = 0.66\, r - 1.33\, r f\\
+\partial_t f = -f + rf$$ will be integrated by this command:
+```{r}
+Eco_soln <- integrateODE(
+  dr ~ 0.66*r - 1.33*r*f, 
+  df ~     -f +      r*f,
+  r = 2, f = 0.5, #initial conditions
+  tdur=list(from=0, to=5, dt=0.1))
+```
+You can plot the time series using `slice_plot()`
+```{r fox-rabbit-ts, fig.cap="Times series of the rabbit and fox densities.", out.width="50%", fig.show="hold"}
+slice_plot(Eco_soln$r(t) ~ t, domain(t=0:5)) %>% gf_labs(title="Rabbits")
+slice_plot(Eco_soln$f(t) ~ t, domain(t=0:5)) %>% gf_labs(title="Foxes")
+```
+
+To plot the trajectory, use the `traj_plot()` function. Unlike `slice_plot()`, which creates a time series plot, `traj_plot()` shows the trajectory.
+
+```{r}
+traj_plot(f(t) ~ r(t), Eco_soln, nt=10)
+```          
+:::
+
+## Symbolic solutions
+
+Occasionally it is possible to integrate a differential equation using symbolic techniques. This is particularly true for differential equations that are linear. The example we will handle here is the first-order linear differential equation $$\partial_t x = a\, x\ .$$ An advantage of symbolic solutions is that parameters can be handled symbolically.
+
+A method we will use repeatedly in this block is called the "method of ansätze." An ***ansatz*** (singular of the German "ansätze") is, in this context, a guess for the solution. Since differential equations have been a central part of science for more than 200 years, you can imagine that a large library of equations and their solutions has been assembled. For the equations that are most frequently used and that can be solved symbolically, the solutions are already known. Thus, the "guess" for the solution can be a very well informed guess. 
+
+Let's see how this works for $\partial_t x = a\, x$. From experience, the ansatz will be an exponential function of time, which we can write $x(t) \equiv A e^{\omega t}$. We don't yet know what is the value of $\omega$ or $A$, so we plug the ansatz into both the left and right sides of the differential equation to work it out.
+
+Plugging in the ansatz, translates the differential equation to a new form:
+$$\underbrace{A \omega e^{\omega t}}_{\partial_t x(t)}\  =\  \underbrace{a A e^{\omega t}}_{a x(t)}\ .$$ Cancelling out the terms that appear on both sides of the equation gives $$\omega = a\ \ \ \text{which implies}\ \ \ x(t) = A e^{a t}\ .$$
+The ansatz substitution didn't give any result at all for $A$. That is to say, unlike $\omega$, 
+the $A$ is not determined by the differential equation itself. This means that $A$ must be related to the ***initial condition***. Setting $t=0$ gives $x(0) = A$, so in this simple differential equation, $A$ is the initial condition. 
+
+A technique that doesn't involve such guesses can work for differential equations that are ***separable***. This is mainly valuable, now that there are libraries of symbolic solutions to the common differential equations that have them, as a way of demonstrating to students where the solution comes from. We'll demonstrate by integrating $\partial_t x = x (1-x)$. The method is made more plausible by using the Leibnizian notation for derivatives, with which the differential equation has this form: $$\frac{dx}{dt} = x(1-x)\ .$$ The Leibnizian notation can be interpreted as the ratio of two differentials: $dx$ and $dt$ in this case. 
+
+The idea of separating the differential equation is to algebraically move all the $x$ terms to the left side of the equation and all the $t$ terms to the right and then to integrate each side of the equation.
+$$dx = x(1-x) dt \ \ \ \implies \ \ \ \frac{1}{x(x-1)}dx = dt\ \ \ \implies\ \ \ \int\frac{1}{x(x-1)}dx = \int dt .$$
+
+The integral on the right side, $\int dt$, should be easily recognizable, giving $\int dt = t + F$, where $F$ is the "constant of integration."
+
+The integral on the left side may not be as familiar, but the person solving this problem for the second time will remember that $$\frac{1}{x(1-x)} = \frac{1}{x} + \frac{1}{1-x}$$ as you can confirm by putting the right side over a common denominator. Each of $1/x$ and $1/(1-x)$ have integrals that are logs: $\int dx/x = \ln(x) + D$ and $\int dx/(1-x) = - \ln(1-x) + E$. Putting the equation back together again, produces 
+$$\ln(x) + D - \ln(1-x) + E = t + F\ .$$ 
+At this point, move all the constants of integration over to the right side and consolate them into a single constant of integration $C$. At the same time, collect together the two logarithmic terms, giving:
+$$\ln\left(\frac{x}{1-x}\right) = t + C\ .$$ Exponentiate both sides to get:
+$$\frac{x}{1-x} = \underbrace{e^C}_{A} e^t\  .$$ Since $e^C$ is just a constant, we'll write it more simply as $A$.
+
+Now we have $$x = Ae^t - x A e^t \ \ \implies\ \ \ x (1 + Ae^t) = Ae^t$$ which gives our solution $$x = \frac{Ae^t}{1 + Ae^t}\ .$$ To find the initial condition symbolically, plug in $t=0$, giving $x_0 = A/(1+A)$ or, equivalently $A = x_0/(1-x_0)$. Our previous examples used $x_0 = 0.2$, for which $A = 0.2/0.8 = 0.25$. Graphing this solution gives us the familiar sigmoid:
+```{r}
+Symb_soln = makeFun(A*exp(t)/(1 + A*exp(t)) ~ t)
+slice_plot(Symb_soln(t, A=0.2) ~ t, domain(t=-5:10))
+```
+
+Not all differential equations can be separated in this way, and even for those that can, the integrals may not be tractable. So this route to a solution is not a general-purpose one, unlike the Euler method. Still, the Euler method gives only an approximate solution, so with Euler we need to take care that the approximation is close enough for the purpose at hand. In this case, we have both an Euler solution (with $dt=0.1$) and a symbolic solution. Figure \@ref(fig:diff-Euler-separation) shows the *difference* between the two solutions, which ideally should be zero. To show more of the time domain of the solution, we'll reset the initial condition to $x_0 = 0.01$. This corresponds to $A = 1/99$.
+
+```{r diff-Euler-separation, echo=FALSE, fig.cap="The difference between the Euler and the symbolic solution to $\\partial_t x = x (1-x)$ as a fraction of the symbolic solution. At the worst, the Euler solution is off by 1.5 parts in one-million."}
+Euler <- integrateODE(dx ~ x*(1-x), x=0.01, tdur=list(from=0, to=20, dt=0.1))
+slice_plot((Symb_soln(t, A=1/99) - Euler$x(t))/Symb_soln(t, A=1/99) ~ t, domain(t=0:20))
+```
+
+```
+
+::: {.intheworld data-latex=""}
+Exact solution to an approximate problem or an approximate solution to an exact solution. Why a symbolic solution is not inherently better for a modeling purpose than an approximate solution.
+:::
 
 
 
 
 
+## Exercises
+
+`r insert_calcZ_exercise("XX.XX", "Z3Mq3G", "Exercises/rabbit-grow-candy.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "Ul19SO", "Exercises/turtle-show-sofa.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "jd6HE8", "Exercises/ape-grow-oven.Rmd")`
 
