@@ -84,7 +84,7 @@ In the middle, the arrows are very short. The **fixed point** is in between the 
 
 Although Figure \@ref(fig:ax-flow) is faithful to the one-dimensional state of $\partial_t x = a x$, it doesn't clearly show what is happening *between* consecutive arrows. For this reason, we are going to construct a special-purpose display intended only to show dynamics on the phase line. In this display (Figure \@ref(fig:ax-flow2)) we'll draw a graph of the dynamical function using the phase line as the horizontal axis and a vertical axis to show the numberical value of $\partial_t x$ at each point along the horizontal axis.
 
-```{r ax-flow2, echo=FALSE, fig.cap="A display showing the value of $\partial_t x$ as a graph, and the flow field as arrows."}
+```{r ax-flow2, echo=FALSE, fig.cap="A display showing the value of $\\partial_t x$ as a graph, and the flow field as arrows."}
 phase_line(x ~ x, domain(x=-2.05:2.3), nix_dyn=FALSE) %>%
   gf_point(0 ~ 0, size=.1, color="blue")
 ```
@@ -92,7 +92,7 @@ In this diagram, you can see that the flow arrows point rightward where $0 < \pa
 
 From the graph of $ax$ in Figure \@ref(fig:ax-flow2), you can see that $0 < a$ in this example. The case for $a < 0$ is very similar, but there is a fundamental difference in behavior. Let's look first at the flow plot in Figure \@ref(fig:ax-flow3).
 
-```{r ax-flow3, echo=FALSE, fig.cap="The flow field and graph of $\partial_t x$ for $\\partial_t x = a x$ with $a < 0$."}
+```{r ax-flow3, echo=FALSE, fig.cap="The flow field and graph of $\\partial_t x$ for $\\partial_t x = a x$ with $a < 0$."}
 phase_line(- x ~ x, domain(x=-2.05:2.3), nix_dyn=FALSE) %>%
   gf_point(0 ~ 0, size=.1, color="blue")
 ```
@@ -107,10 +107,191 @@ In contrast, when $0 < a$ (Figure \@ref(fig:ax-flow2)), all flow arrows point *a
 
 There's nothing in the differential equation $\partial_t x = a x$ that provides a mechanism to move off the fixed point, if it starts exactly on it. However, for a physical system $\partial_t = a x$ is a ***model*** and may not represent aspects of the complete system. A case in point: stand a pencil on its tip and let go. If $\theta$ is the angle the pencil makes with the vertical, a simplistic model of the dynamics is $\partial_t \theta = a \sin(\theta)$, with $0 < a$. This model has a fixed point $\theta^\star = 0$ and so, according to the model, if you can start the pencil standing exactly vertical, it should stay there. But any disturbance---a whisper of breeze, a gnat flapping its wings nearby---will push the pencil out of its vertical equilibrium. You can easily see what happens by doing the experiment: stand a pencil on its tip and let go.
 
+Nonlinear systems can have multiple fixed points. The differential equation $\partial_t x = x(1-x)$ has two: one at $x^\star = 0$ and the other at $x^\star = 1$. The flow-field/dynamics-graph (Figure \@ref(fig:logistic-phase-line)) makes it clear that one of these is stable and the other unstable.
+
+```{r logistic-phase-line, echo=FALSE, fig.cap="Flow field and dynamics function for $\\partial_t x = x (1-x)$. The fixed point at $x^\\star=0$ is unstable; that at $x^\\star =1$ is stable."}
+phase_line(x*(1-x) ~ x, domain(x=-0.05:1.05), nix_dyn=FALSE) %>%
+  gf_point(0 ~ 0, size=.1, color="blue") %>%
+  gf_point(0 ~ 1, size=.1, color="blue") 
+```
+For the system in Figure \@ref(fig:logistic-phase-line), a  initial condition $x_0 = 0.05$ or any other small positive number will produce a trajector that moves slowly to the right at first, then faster, then slows down again for asymptotically approaching the fixed point at $x=1$. In a time series plot, $x(t)$ is a sigmoidal function.
+
+::: {.intheworld data-latex=""}
+We have been using the differential equation $\partial_t x(1-x)$ as a mathematical equation, but the form has important applications in population modeling and ecology. When parameterized, the model becomes
+$$\partial_t x = h(x) \equiv r x \left(1 - \frac{x}{K}\right)$$
+For $x \ll K$, the dynamics are approximately $\partial_t x = rx$, which is the recipe for ***exponential growth***. Such growth is often seen in small populations. But "small" compared to what? To answer that, look at the situation for $x \approx K$. In this domain, the growth will be much smaller, because $(1 - x/K) \approx 0$. There's a fixed point at $x^\star = K$, and for $K < x$ the time derivative of $x$ is negative. 
+
+In ecology, the population size that can just barely sustain itself without growth or decay is called the ***carrying capacity***. Putting these different behaviors together, $\partial_t x = h(x)$ is a model of growth of a population when the environment has a finite carrying capacity. The pattern of change in such an environment is called ***logistic growth***, but might as well be called "sigmoidal growth." (The function $f(x) = \frac{e^t}{1 + e^t}$ is called the "logistic function.")
+
+In this problem, we're going to build a somewhat more complicated model of an ecosystem, based on the logistic growth model for grass. 
+
+To turn a field of growing grass into an eco**system**, we're going to add grazing cows to the field. A grazing cow has an impact on a field. To simplify, consider a single cow. She eats until she's full, then takes time off to chew the cud with other cows and ruminate on the day's events. But, if grass is very scarce, she may not be able to consume all that she would otherwise eat. She'll be a hungry, ill-fed cow. 
+
+When building a model, start by thinking what you want to use the model for. Imagine that we're interested in *sustainability*, that is, whether the cow/grass ecosystem is stable. And, since cows are raised for a purpose, we'd like to use the model to find out whether the cow would be well fed and how things would change if another cow were added to the field. Sustainability is a question about dynamics. Here, the system would be sustainable if the field produces more grass in a day than the cow (and her herd-mates if any) consumes consumes in a day.
+
+We'll model a cow's consumption as a sigmoidal function consumption(v) of the amount of grass (v -- for "vegetation") available. Like this:
+
+```{r echo=FALSE, height=3, out.width="75%", fig.align="center"}
+consumption <- makeFun((beta*v^2/(v0^2 + v^2))~ v, beta=0.1, v0=3)
+slice_plot(consumption(v) ~ v, domain(v=c(0,15))) %>%
+  gf_labs(y="Consumption (tons/day)", x="v: available biomass (tons)",
+          title="Daily consumption by one cow")
+```
+
+
+```{r cow1, echo=FALSE}
+explain <- "\"Most hungry\" suggests and extreme value of something. There's nothing extreme values in the middle."
+askMC(
+  "At what level of available biomass is the cow most hungry at the end of the day? (Hint: Think about how you would measure how hungry a cow is at the end of the day.)",
+  "+2 tons+" = "The consumption function is steepest here, meaning that if more grass were available the cow would eat the biggest proportion of it.",
+  "5 tons" = explain,
+  "10 tons" = explain,
+  "15 tons" = "Even if more grass were available, the cow wouldn't each much of it."
+)
+```
+
+The cow's consumption is one part of the dynamics. If there were no grass growing, the dynamics would be $$\partial_t G(v) = - H \times \text{consumption}(v)$$ where $H$ is the number of cows in the herd. `r mark(6330)`
+
+```{r cow2, echo=FALSE}
+etude2::etudeEssay("Explain why there is a minus sign in the previous dynamics.")
+```
+
+A more complete model will take into account the intrinsic growth of the grass when there are no cows.  We'll use a logistic model with a carrying capacity of 25 tons of grass in the field.
+$$ \partial_t v =  \frac{v}{3} \left(1-\frac{v}{25}\right)$$
+This means that, with no cows grazing, the field would reach an equilibrium with 25 tons of vegetation. Subtracting daily consumption from daily growth of grass gives the rate of change of the biomass of grass. 
+
+<p style="text-align:center">
+<iframe frameborder="0" height="780px"
+        src="https://maa-statprep.shinyapps.io/Grazing_cows/"
+        width="60%">
+</iframe>
+</p>
+        
+```{r cow-app, echo=FALSE, out.width="1%", fig.cap = "The graph can be made to display any of three functions:\n\n1. The intrinsic logistic model growth dynamics with no cows.\\2. The total consumption by the herd of cows.\\3. The **net growth**, which is the difference between (1) and (2)."}        
+
+```
+
+```{r}
+knitr::knit_exit()
+```
+
+```{r cow3, echo=FALSE}
+etude2::etudeEssay("With no cows, there are two fixed points in the grass dynamics. One of the is unstable, the other stable. Say which one is unstable and give an explanation for the instability based on what you know about fields and vegetation.")
+```
+
+In the following, we'll define a "well-fed cow" as a cow who eats at least 90% of what she would eat in ideal circumstances. A "starving" cow eats at most 50% of what she would eat in ideal circumstances. `r mark(6340)`
+
+```{r cow4, echo=FALSE}
+askMC(
+  "Add one cow to the field. Judging from the net dynamics, what will be her condition?",
+  "+well-fed+",
+  "starving",
+  "in between",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow5, echo=FALSE}
+explain <- "Is there a fixed point of the dynamics at 7 tons? No."
+askMC(
+  "Graze a total of ten cows in the field. These will reduce the biomass carrying capacity. What is that capacity with ten cows?",
+  "1.2 tons/day" = "This is the fastest daily growth possible in the field.",
+  "7 tons" =  explain,
+  "7 tons/day" = "Wrong in a couple of ways.",
+  "12 tons" = "This is the biomass that leads to the fastest growth, but it is still growth, not a fixed point.",
+  "+22 tons+",
+  "22 tons/day" = "Wrong dimensions.",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow6, echo=FALSE}
+askMC(
+  "Seeing your cows and the grass thrive, you gradually add more and more to the field. What's the largest number of cows you can have in the field and still have well fed cows?",
+  15, 19, "+22+", 24,
+  random_answer_order = TRUE
+)
+```
+
+```{r cow7, echo=FALSE}
+etude2::etudeEssay(
+  "We like sustainable systems to be robust against disturbances. For instance, there might be a week of cloudy weather that reduces grass growth by half. Explain why or why not the situation with 22 cows is robust." `r mark(6345)`
+)
+```
+
+```{r cow8, echo=FALSE}
+askMC(
+  "Soon after the disruption caused by the week of cloudy weather, the field again reaches a stable fixed point. What's the biomass at this fixed point? Assume: you are still in the 22 cow scenerio.",
+  "+less than 2 tons+",
+  "6 tons",
+  "12 tons",
+  "greater than 12 tons",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow9, echo=FALSE}
+askMC(
+  "After the disruption has passed and the system has again reached equilibrium, what will be the state of the 22 cows in the field?",
+  "well-fed",
+  "+starving+",
+  "in between",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow10, echo=FALSE}
+askMC(
+  "Seeing the state of your 22 cows, you decide that you need to decrease the herd size to a level where the cows were well fed: 20 cows. What stable biomass fixed point will the system reach?",
+  "+3 tons+",
+  "12 tons",
+  "18 tons",
+  "25 tons",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow11, echo=FALSE}
+askMC(
+  "You're going to reduce the herd size still more to get things back to a healthy, stable equilibrium with well-fed cows. What's the largest herd size that will accomplish this?",
+  5, 12, 15,  "+17+", 18, random_answer_order = FALSE
+)
+```
+
+```{r cow12, echo=FALSE}
+askMC(
+  "At a herd size of 15 cows, about how many days will it take to get back (look at your end biomass for 20 cows) to a point where the cows are well fed? (Hint: How much will the biomass increase each day? The consumption curves starts to flatten out when the cows are well fed.)",
+  "about 2 days",
+  "about 5 days",
+  "about 10 days",
+  "+about 20 days+",
+  random_answer_order = FALSE
+)
+```
+
+```{r cow13, echo=FALSE}
+askMC(
+  "Like the previous question, but with 2 more cows. At a herd size of 17 cows, about how many days will it take to get back (look at your end biomass for 20 cows) to a point where the cows are well fed?",
+  "about 10 days",
+  "about 20 days",
+  "about 30 days",
+  "+about 100 days+" = "It takes a long time to get through the 'waist' in the net dynamics where the biomass is around 3 tons but the net growth is only about 0.01 ton per day.",
+  random_answer_order = FALSE
+)
+```
+
+
+END OF MAYS COWS
+:::
+
+## Second-order dynamics
+
 
 ## Stability
 
 hurricanes, tornados, orbits, sand dunes and beach ripples, Galloping Gurdy, ..., orbit around Lagrange point, 
+
+## Linearization
 
 
 
@@ -121,6 +302,13 @@ Given a choice between a numerical and a symbolic solution to exactly the same p
 
 > *"Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise."* -- John Tukey (1915-2000)
 :::
+
+
+## Exercises
+
+`r insert_calcZ_exercise("XX.XX", "136TO6", "Exercises/ash-look-sofa.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "BbcPyk", "Exercises/finch-look-dish.Rmd")`
 
 
 
