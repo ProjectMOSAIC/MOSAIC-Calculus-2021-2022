@@ -1,4 +1,4 @@
-## Fixed points
+## Equilibrium and stability {#fixed-points}
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-fixed-points.Rmd)</div>
 
@@ -7,7 +7,59 @@ i. Classify fixed points as stable/unstable given the dynamics
 i. Identify the dynamics of constant growth
 i. Compute Euler solutions (format for expressing the system and the format of the result)
 i. Analyze models in application contexts (for example May’s Cows - a model of bistability in ecology)
+i. Examples of linearization: Newton's Law of Cooling, Hooke's Law
+
+[Last year's daily digitals](https://maa-statprep.shinyapps.io/142Z-DD-17) from DD-15 to about DD-20 
 :::
+
+
+```{r fig.height=1}
+# Draw a one-dimensional phase space with arrows.
+phase_line <- function(tilde, domain, narrows=15,
+                       nix_dyn = FALSE) {
+  dyn <- makeFun(tilde)
+  vname <- as.character(tilde[[3]])
+  min_x <- min(domain[[1]])
+  max_x <- max(domain[[1]])
+  arrow_offset <- (max_x - min_x)/(3*narrows)
+  arrow_x <- seq(min_x + arrow_offset, max_x - arrow_offset,
+                 length=narrows)
+  arrow_step <- dyn(arrow_x)
+  max_len <- max(abs(arrow_step))
+  arrow_step <- arrow_step/max_len
+  arrow_step <- arrow_step * (max_x - min_x)/(1.4*narrows)
+  ypts <- dyn(seq(min_x, max_x, length=200))
+  yrange <- range(ypts) %>% extendrange()
+  ymin <- pmin(0, min(yrange))
+  ymax <- pmax(0, max(yrange))
+  Arrows <- tibble(
+    xstart = arrow_x,
+    xend = arrow_x + arrow_step,
+    ystart = 0,
+    yend = 0
+  )
+  
+  if (nix_dyn) {
+    P <- ggplot()
+    the_theme <- theme_void()
+  } else {
+    P <- slice_plot(dyn(x) ~ x, domain)
+    the_theme <- theme_minimal()
+  }
+  P %>%
+    gf_lims(y = c(ymin, ymax)) %>%
+    gf_hline(yintercept = ~ 0, color="gray", size=3, alpha=.5) %>%
+    gf_segment(ystart + yend ~ xstart + xend, data = Arrows,
+               color="blue", arrow = grid::arrow(end="last", length=unit(1, "mm"), type="closed")) %>%
+    gf_theme(the_theme) %>%
+    gf_labs(y = paste0("d", vname, "/dt"))
+}
+
+phase_line(x*(1-x) ~ x, domain(x=-.2:1.2), nix_dyn=TRUE) 
+
+```
+
+
 
 
 ::: {.intheworld data-latex=""}
@@ -16,3 +68,340 @@ Given a choice between a numerical and a symbolic solution to exactly the same p
 
 > *"Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise."* -- John Tukey (1915-2000)
 :::
+
+
+
+
+
+
+## From 2020-2021
+
+### Fixed points
+An important strategy in creating and understanding models of dynamics involves **fixed points**.  A fixed point is a value of the state which the dynamics leave untouched. For finite-difference equation dynamics, $${\mathbf X}_{n+1} = g({\mathbf X}_n)$$
+
+At a fixed point, "tomorrow's" value is the same as "today": ${\mathbf X}_{n+1} = {\mathbf X}_n$; the state doesn't change with $n$. 
+
+A fixed point ${\mathbf X}^\star$ satisfies 
+$${\mathbf X}^\star = g({\mathbf X}^\star)\ \ \ \mbox{or, said another way,}\ \ \ g({\mathbf X}^\star) - {\mathbf x^\star} = 0$$
+"Fixed point" is a mathematical term. In the sciences, you will hear the term "equilibrium state," "steady state," "resting point," or "balance point." For example, chemistry has a concept of [chemical equilibrium](https://en.wikipedia.org/wiki/Chemical_equilibrium), a state where the concentration of reactants and products doesn't change. Finding such equilibria is an important task in many areas of science and engineering.
+
+Some dynamical systems don't display any fixed points, e.g. the orbit of the Earth around the Sun. Others have one or more. We're going to treat them mathematically by analysis of the function $g()$ that governs the dynamics.
+
+There are several ways to find fixed points. 
+
+1. If you have a simple algebraic form for $g()$ you can solve $g(x) = x$ for $x$. For instance, suppose $g(x) \equiv 4 x (1-x)$. Then the fixed points satisfy $$x^\star = 4x^\star (1-x^\star)$$  This has two solutions: one at $x^\star = 0$ and the other at $x^\star = 3/4$.
+
+```{r ffp-a, echo=FALSE, results="markup"}
+askMC(
+  "Consider the dynamical system $$x_{n+1} = 2 x_n + 3$$ To find the fixed point, re-write the equation as $x^\\star = 2 x^\\star + 3$ and solve for $x^\\star$. What is the fixed point $x^\\star$?",
+  "+-3+" = "Right. Plug in $-3$ for $x^\\star$ in $2 x^\\star + 3$ and you get ... -3. ",
+  "-1.5",
+  "0", 
+  "1.5",
+  "3",
+  random_answer_order = FALSE
+)
+```
+
+```{r ffp-b, echo=FALSE, results="markup"}
+askMC(
+  "Consider the dynamical system $$y_{n+1} =  1/y_n + 9$$ To find the fixed point, re-write the equation as $y^\\star = 1/y^\\star + 9$ and solve for $y^\\star$. How many fixed points are there",
+  0, 1, "+2+" = "Right, because the equation becomes $(y^\\star)^2 = 9$ which has two solutions, $y^\\star = \\pm 3$.", 3, 4, "an infinite number",
+  random_answer_order = FALSE
+)
+```
+
+```{r ffp-c, echo=FALSE, results="markup"}
+askMC(
+  "How come the first question used $x_n$ for the state while the second on used $y_n$?",
+  "Because you can't write $1/x_n$",
+  "Using $y_n$ is a mistake. Dear problem writer, Please be more careful in the future!",
+  "+Because you can use any name you like for a variable, so long as you use it consistently. And using $x$ all the time gets tiring, to say nothing about how hard it makes to work with more than one variable at a time.+" = "It would have been fun to use names like $\\mbox{dog_hunger}_n$ or $\\mbox{snowfall}_n$. We used $y_n$ so that we don't freak you out. But $y$ is just a name like any other."
+)
+```
+
+
+
+2. Numerical solving. If solving $g(x)=x$ is not so easy, then we can instead create a new function $h(x)\equiv g(x)-x$ and then solve for the zeros of $h()$.  The point of setting up the helper function $h()$ is that computer algorithms for finding zeros generally take a *function* as their input rather than an *equation*. 
+
+```{r ffp-1, echo=FALSE, results="markup"}
+askMC(
+  "Consider the system $$x_{n+1} = 5 [\\cos(x_n)]^2$$ Where are the fixed points? (You can use the sandbox to solve the system numerically.)",
+  "+$x^\\star \\in \\{1.086, 2.320, 3.681\\}$+",
+  paste("$x^\\star \\in \\{", paste(round(sort(runif(4, 0.5, 4)), 4), collapse=", "), "\\}$"),
+  paste0("$x^\\star \\in \\{", paste(round(sort(runif(4, 0.5, 4)), 3), collapse=", "), "\\}$"),
+  paste("$x^\\star \\in \\{", paste(round(sort(runif(4, 0.5, 4)), 2), collapse=", "), "\\}$"),
+  paste0("$x^\\star \\in \\{", paste(round(sort(runif(4, 0.5, 4)), 3), collapse=", "), "\\}$")
+)
+```
+
+```{r ffp-2, exercise=TRUE, exercise.cap="Solving for zeros", exercise.nlines = 6, eval=FALSE}
+g <- makeFun(4*x*(1-x) ~ x) #change this formula to answer the multiple choice question
+findZeros(g(x) - x ~ x)
+```
+
+
+3. Graphically. Plot out the function $g(x) - x$ versus $x$. Find values of $x$ where the graph crosses zero. Each of these valuesis a fixed point $x^\star$.
+
+For instance:
+```{r ffp-3, exercise=TRUE, exercise.cap="Finding fixed points graphically", exercise.nlines=8, eval=FALSE}
+dom <- domain(x = c(0,10))
+g <- makeFun(x + sin(x) ~ x) 
+slice_plot(g(x) - x ~ x, dom) 
+```
+
+
+4. By iteration. Sometimes you can identify a fixed point by iterating the dynamics starting from different initial conditions. The following sandbox iterates a system for 100 steps. The `tail(5)` function returns just the last 5 rows of the data table, making it easier to see where the state ended up after many iterations.
+
+```{r ffp-4, exercise=TRUE, exercise.cap="Finding fixed points by iteration", exercise.nlines=8, eval=FALSE}
+g <- makeFun(x + sin(x) ~ x)
+Iterate(g, x0=.872, 100) %>% tail(5)
+```
+You can look for different fixed points by trying different values for $x0$. 
+
+```{r fpp-4, echo=FALSE, results="markup"}
+askMC(
+  "Find the fixed points of $$g(x) \\equiv x + \\sin(x)$$ by picking several random initial conditions in the range $0 \\leq x \\leq 10$. Compare your results to the fixed points seen using the graphical method. Which of these fixed points does iteration **NOT** reveal? Hint: the initial condition is $x_0$, so this is the value you need to change.",
+  "$x^\\star = \\pi$",
+  "+$x^\\star = 2\\pi$+",
+  "$x^\\star = 3\\pi$",
+  random_answer_order = FALSE
+)
+```
+
+### Fly dynamics
+
+```{r fly_dyn_def, context="setup", echo=FALSE}
+fly_dyn <- function(x, K=1e3, r=1.75e-4) {
+  ifelse(x < K,
+         0.01*x^2,
+         0.01*K^2*exp(-r*(x - K)))
+}
+```
+
+The year-to-year growth/decline in the number of flies in a mangrove swamp is modeled by the function `fly_dyn()`:
+$$x_{t+1} = \mbox{fly_dyn}(x_t)$$
+
+The sandbox shows the function and enables you to perform other calculations using it.
+
+```{r mangrove1, exercise=TRUE, exercise.cap="Yearly fly population.", exercise.nlines=8, exercise.setup="fly-dyn-def"}
+slice_plot(fly_dyn(x) ~ x, domain(x=c(0,6000)))
+```
+
+```{r mangrove2, echo=FALSE}
+askMC(
+  "At which of these values of $x_t$ do the dynamics have a fixed point? (Hint: How would you confirm that a given value is a fixed point?)",
+  "+0, 100, 4981+",
+  "0, 100, 121" = "When you give 121 as the input, do you get 121 as the output?",
+  "0, 121, 5683",
+  "0, 100, 5683" = "When you give 5683 as the input, do you get 5683 as the output?"
+)
+```
+
+```{r mangrove3, echo=FALSE}
+askMC(
+  "Which one of these values for $x$ is an **unstable** fixed point?",
+  0, "+100+", 121, 4981, 5683,
+  random_answer_order = FALSE
+)
+```
+
+An important vocabulary word in dynamics is *transient*. In everyday speech, this means something like "just passing through." It's the same in dynamics: that part of the trajectory which precedes stable, fixed behavior such as at a fixed point. Transients occur whenever a dynamical system has an initial state not on a stable, fixed state. They are also common in systems that are disrupted by some external force, for example in the recovery of an electrical power distribution grid after a disturbance such as an ice storm. After a sharp bang, the ringing in your ears is a transient. When you stand up too suddenly, the "stars" you see are a transient due to diminished blood flow. Turn on an oven? The transient is the warming up until the oven reaches the temperature setting. 
+
+Although transients are ... well, transient, they can be very important. Key to the Wright Bros. success was their recognition that air turbulence elicits transients in attitude and that aircraft need control systems that can work fast enough for the craft to survive the transient. If you have driven a car with a broken suspension, you'll know that it can be hard to control after the transient caused by hitting a bump in the road.
+
+Small disturbances often elicit transients that decay away exponentially. Such transients, like all exponentially decaying processes, can be characterized by a half life: the time it takes the transient to shrink to half its original value. (Not all transients decay exponentially, but that's a story for another course.)
+
+Using the sandbox, iterate `fly_dyn()` for 50 years starting at $x_0 = 4500$. Here's the command to do this, which you'll have to copy to the sandbox.
+
+```{r results="hide", eval=FALSE, echo=TRUE}
+Trajectory <- Iterate(fly_dyn, x0=4500, n=50)
+gf_point(x ~ n, data = Trajectory) %>%
+  gf_line(alpha = 0.2)
+```
+
+```{r mangrove4, echo=FALSE}
+askMC(
+  "There is a transient that oscillates while exponentially approaching the fixed point. What is the half-life of the exponential transient?",
+  "1 year",
+  "3 years",
+  "+6 years+",
+  "12 years",
+  "24 years",
+  random_answer_order = FALSE
+)
+```
+
+### Tree example
+
+A tree provides a simple example of equilibrium. A living tree grows slowly, with essentially no change from day to day. The tree is usually in equilibrium with its surroundings. But there are disruptions that can place the tree out of equilibrium. The wind is a familiar disruption, changing the dynamics so that the tree no longer stands straight and still; it sways in the wind. A severe storm or a chain saw creates an opportunity for bigger disruption, removing the fixed point of upright posture and replacing it with an entirely different sort of fixed point. The steady, slow process of rot can weaken the equilibrium to the point where it no longer exists or is too weak to withstand the wind. The tree falls.
+
+Mathematics provides several concepts for thinking about equilibrium and the loss of equilibrium. The idea of a **fixed point** is at the center of things. The idea of disruption also has a mathematical equivalent called "forcing." The slow change (as in the rot of a tree) leading to a dramatic, sometimes sudden, collapse is represented by a "bifurcation." We'll explore forcing and bifurcation later, when we've developed better tools and ways of thinking to understand dynamics.
+
+Here we will examine the important topic of "stability." The word has a variety of related meanings in everyday life: a patient is stable when his or her condition is not worsening (or getting better), a chair is stable when it won't fall over, a stable personal relationship is much preferred to an unstable one, a person who is stable does not get upset or disturbed by a trivial incident.
+
+In mathematics, "stability" is a property of dynamics near a fixed point. A fixed point is stable when an initial trajectory close enough to the fixed point leads to a trajectory that continues to get closer to the fixed point. A fixed point is unstable when initial conditions close to the fixed point lead to trajectories that tend away from the fixed point. 
+
+In everyday life, we think about stability as a matter of how hard you can push something before it falls over. A coin standing on edge is not very stable in this sense, any palpable disturbance will cause it to fall over. But mathematically, stability is just about the response to infinitesimal disturbances. The coin standing on edge is mathematically stable. Large disturbances may lead to the state of a system leaving even a stable fixed point. Stability of mathematical fixed points is about *local* dynamics. The response to large disturbances is non-local or *global* dynamics, a much harder topic.
+
+The sandbox provides space to explore stability via iteration.
+
+```{r stb1-1, exercise=TRUE, exercise.cap="Stability sandbox", exercise.nlines = 6, eval=FALSE}
+g <- makeFun(5*sin(x)^2 ~ x)
+findZeros(g(x) - x ~ x)
+Iterate(g, x0 = 0.0001, n=10)
+```
+
+The dynamical system $x_{n+1} = 5 [\sin(x_n)]^2$ has five fixed points. Use iteration to determine whether each fixed point is stable or unstable.
+
+```{r stb1-2, echo=FALSE, results="markup"}
+askMC(
+  "Using iteration, is the fixed point at $x=0$ stable?", 
+  "Yes",
+  "No",
+  random_answer_order = FALSE,
+  right_one = "Yes"
+)
+```
+
+```{r stb1-3, echo=FALSE, results="markup"}
+askMC(
+  "Using iteration, is the fixed point at $x=0.2027$ stable?", 
+  "Yes",
+  "No",
+  random_answer_order = FALSE,
+  right_one = "No"
+)
+```
+
+```{r stb1-4, echo=FALSE, results="markup"}
+askMC(
+  "Using iteration, is the fixed point at $x=2.3802$ stable?", 
+  "Yes",
+  "No",
+  random_answer_order = FALSE,
+  right_one = "No"
+)
+```
+
+```{r stb1-5, echo=FALSE, results="markup"}
+askMC(
+  "Using iteration, is the fixed point at $x=4.3408$ stable?", 
+  "Yes",
+  "No",
+  random_answer_order = FALSE,
+  right_one = "No"
+)
+```
+
+```{r stb1-6, echo=FALSE, results="markup"}
+askMC(
+  "Using iteration, is the fixed point at $x=4.8726$ stable?", 
+  "Yes",
+  "No",
+  random_answer_order = FALSE,
+  right_one = "No"
+)
+```
+
+### Stability
+
+Previously, we examined the stability of fixed points by using iteration: start at an initial condition arbitrarily close (but not exactly on!) a fixed point and see if the trajectory tends toward or away from the fixed point.
+
+Now we'll look at stability another way, by considering the shape of of the dynamical function near a fixed point. At this point in CalcZ, you're aware that "near" suggests local, and that we routinely model (continuous) functions in terms of the value at a point, the value of the derivative at the point, and the value of the 2nd derivative at the point.
+
+The stability of a fixed point is determined in all but very special situations by the slope of the function at the fixed point. Here's the rule: 
+
+> In the dynamical system $x_{n+1} = g(x_n)$ with a fixed point at $x^\star$, the stability of that fixed point depends only on the magnitude of $\left| \partial_x g(x^\star) \right|$. The rule is: 
+
+> If $\left| \partial_x g(x^\star) \right| > 1$, the fixed point at $x^\star$ is **unstable**.
+
+> If $\left| \partial_x g(x^\star) \right| < 1$, the fixed point at $x^\star$ is **stable**.
+
+Notice that it doesn't matter what is the **sign** of $\partial_x g(x^\star)$; the fixed point will be stable or not depending just on the magnitude of the derivative.
+
+```{r stb2-1, exercise=TRUE, exercise.cap="Stability sandbox", exercise.nlines = 6, eval=FALSE}
+g <- makeFun(sin(x)^2 + 1 ~ x)
+fixed_points <- findZeros(g(x) - x ~ x)
+dg <- D(g(x) ~ x)
+
+## Now, apply dg() to the fixed point(s)
+dg(fixed_points)
+```
+
+```{r stb2-2, echo=FALSE, results="markup"}
+askMC(
+  "Calculate the derivative with respect to $x$ of $g(x) \\equiv  \\sin(x)^2 + 1$ at the fixed point at $x^\\star = 1.8972$. Is that fixed point stable?",
+  "+Yes+",
+  "No",
+  random_answer_order = FALSE
+)
+```
+
+Consider the simple dynamical system $$x_{n+1} = g(x_n) \equiv \frac{1}{2} x_n$$
+
+This has a fixed point $x^\star = 0$. You can see this by plugging in $x^\star = 0$ every place that $x_n$ or $x_{n+1}$ appears in the equation describing the dynamics and confirming that the left side is indeed equal to the right side.
+
+Is the fixed point stable? Calculate $\partial_x g(x^\star)$ and check whether it's absolute value is less than 1. If so, the fixed point is stable. Since $| \partial_x g(x^\star) | = \frac{1}{2} < 1$, the fixed point is stable.
+
+Now consider $$x_{n+1} = g(x_n) \equiv 2 x_n$$ Again, this system has a fixed point $x^\star = 0$. Is it stable? Well, $\partial_x g(x^\star) = 2$. The magnitude $| \partial_x g(x^\star) |$ is clearly greater than 1, so the fixed point is *unstable*.
+
+We could play this game for any number in place of the $\frac{1}{2}$ or $2$. It would quickly get boring, so better to deal with the question once and for all for all possible numbers. We will *parameterize* the system, replacing the quantity that has been $\frac{1}{2}$ or $2$ in the previous examples with a symbol that stands for "some number here":
+$$x_{n+1} = \alpha\, x_n$$
+Does this system have a fixed point and where is it? The dynamical function is $g(x) = \alpha x$, so solve $g(x) - x = \alpha x^\star - x^\star = 0$. This becomes $$(\alpha - 1) x^\star = 0$$ which implies that $x^\star = 0$ is a fixed point or, if $\alpha=1$, any value for $x^\star$ will satisfy the fixed-point condition.
+
+It's a common style in mathematical discourse to use parameters rather than specific numbers so that we can look at the same time at all systems of the same "form." For instance, we can summarize the stability of fixed points in the system $x_{n+1} = \alpha x_n$ by saying,
+
+- There is a single fixed point at $x^\star = 0$, regardless of $\alpha$.
+- That fixed point is stable if $|\alpha| < 1$, otherwise it's unstable. (Pedantic: In the singular case where $|\alpha| = 1$, the fixed point is "neutrally stable" and all points are fixed points.)
+
+The advantage of using parameters is that we can often find the location of fixed points and their stability once and for all *as a function of the parameters*, and then use observed or desired behavior to set conditions on the range of parameter values that will produce that behavior.
+
+```{r s4-1, echo=FALSE, results="markup"}
+askMC("Consider the parameterized dynamical system $$x_{n+1} = \\alpha x_n + \\beta$$ What is the location of the fixed points in terms of the parameters $\\alpha$ and $\\beta$?",
+  "+$x^\\star = \\frac{\\beta}{1-\\alpha}$+",
+  "$x^\\star = \\frac{\\alpha}{1-\\beta}$",
+  "$x^\\star = 0$",
+  "$x^\\star = \\beta / \\alpha$"
+  )
+```
+
+```{r s4-2, echo=FALSE, results="markup"}
+askMC("In the system $$x_{n+1} = \\alpha x_n + \\beta$$ what is the condition for the fixed point to be stable?",
+  "+$|\\alpha | < 1$+",
+  "$|\\alpha| < |\\beta|$",
+  "$|\\alpha| < \\beta$",
+  "$|\\beta| < 1$"
+)
+```
+
+```{r s4-3, echo=FALSE, results="markup"}
+askMC(
+  "You are modeling a real-world system with $$x_{n+1} = \\alpha x_n + \\beta$$ and you observe that the system tends toward a fixed value $x^\\star = 3.82$. Which one of these gives possible values for $\\alpha$ and $\\beta$?",
+  "+$\\beta = 1$ and $\\alpha = 1 - 1/3.82$+",
+  "$\\beta = 1$ and $\\alpha = 1 + 1/3.82$",
+  "$\\beta = 0.5$ and $\\alpha = 1 - 1/3.82$",
+  "$\\beta = 0.5$ and $\\alpha = 1 + 1/3.82$"
+)
+```
+
+```{r s4-4, echo=FALSE, results="markup"}
+askMC(
+  "Now consider the dynamical system $$x_{n+1} = x_n^2 + x_n + \\alpha$$ In terms of the parameter $\\alpha$, where is/are the fixed point/s?",
+  "+$x^\\star = \\pm \\sqrt{\\alpha}$+",
+  "$x^\\star = \\pm \\alpha$",
+  "$x^\\star = \\pm 1/\\alpha$",
+  "$x^\\star = \\pm 1/\\sqrt{\\alpha}$"
+  )
+```
+
+```{r s4-5, echo=FALSE, results="markup"}
+askMC(
+  "Again looking at the dynamical system $$x_{n+1} = x_n^2 + x_n + \\alpha$$ what are the conditions in terms of the parameter $\\alpha$ for the fixed point to be stable?",
+  "+$| \\, 2 \\alpha + 1 \\, | < 1$+",
+  "$| \\alpha | < 1$",
+  "$| \\alpha^2 + 2 \\alpha | < 1$",
+  "$\\alpha^2 < | \\alpha |$"
+  )
+```
+
