@@ -13,7 +13,7 @@ i. Examples of linearization: Newton's Law of Cooling, Hooke's Law
 :::
 
 
-```{r fig.height=1}
+```{r include=FALSE}
 # Draw a one-dimensional phase space with arrows.
 phase_line <- function(tilde, domain, narrows=15,
                        nix_dyn = FALSE) {
@@ -27,7 +27,7 @@ phase_line <- function(tilde, domain, narrows=15,
   arrow_step <- dyn(arrow_x)
   max_len <- max(abs(arrow_step))
   arrow_step <- arrow_step/max_len
-  arrow_step <- arrow_step * (max_x - min_x)/(1.4*narrows)
+  arrow_step <- arrow_step * (max_x - min_x)/(1.0*narrows)
   ypts <- dyn(seq(min_x, max_x, length=200))
   yrange <- range(ypts) %>% extendrange()
   ymin <- pmin(0, min(yrange))
@@ -50,14 +50,67 @@ phase_line <- function(tilde, domain, narrows=15,
     gf_lims(y = c(ymin, ymax)) %>%
     gf_hline(yintercept = ~ 0, color="gray", size=3, alpha=.5) %>%
     gf_segment(ystart + yend ~ xstart + xend, data = Arrows,
-               color="blue", arrow = grid::arrow(end="last", length=unit(1, "mm"), type="closed")) %>%
+               color="blue", arrow = grid::arrow(end="last", length=unit(.6, "mm"), type="closed")) %>%
     gf_theme(the_theme) %>%
     gf_labs(y = paste0("d", vname, "/dt"))
 }
-
-phase_line(x*(1-x) ~ x, domain(x=-.2:1.2), nix_dyn=TRUE) 
-
 ```
+
+
+
+
+
+
+Many of the natural and constructed objects and systems that we encounter---buildings, bridges, airplanes, the orbits of satellites, heating systems, birds in flight, and so on---are more fully understood if seen as dynamical systems. That may seem strange; a building doesn't move (we hope!), an airplane stays in steady flight, the seasons have been steady in their progression for as long as records have been kept. And yet ... a building might be shaken and even destroyed by an earthquake, airplanes require pilots and control systems for steady flight. Even satellites in far Earth orbit can drift from their desired positions and attitudes and require control corrections.
+
+A system is said to be in ***steady state*** when it stays put, unchanging. Another term often used to express such constancy is ***equilibrium*** which occurs when the various forces or processes acting on the system ***balance out.*** In the language of dynamical systems, the equilibrium state of a system is called a ***fixed point***.  Mathematically, this is a coordinate in the state space where all the right-hand sides of the differential equations equal zero. For a two-dimensional system with dynamics $$\partial_t x = f(x, y)\\\partial_t y = g(x,y)$$, a fixed point will be a particular value for the state which we'll write as $(x^\star, y^\star)$ where both $f(x^\star, y^\star) = 0$ and $g(x^\star, y^\star) = 0$.
+
+## First-order dynamics
+
+We start our exploration of the mathematics and phenomena of fixed points with first-order dynamical system, that is, systems that have a single state variable. (We'll use the letter $x$ for the state variable, even though the context might provide a more descriptive name.)
+
+A fundamental first-order system is $\partial_t x = a x$. To find the fixed point, find a state value $x^\star$ such that the right-hand side of the differential equation evaluated at $x^\star$ gives zero. This is a solving task and simple inspection gives the solution:  $x^\star = 0$.
+
+To develop intuition, consider the flow field of $\partial_t x = a x$. Since there is only a single state variable, $x$, the state space is simply the number line, not a two-dimensional region as in the rabbit-fox dynamics. The flow arrows will point one way or the opposite along the number line, as in Figure \@ref(fig:ax-flow):
+```{r ax-flow, echo=FALSE, fig.height=1, fig.cap="The flow field of $\\partial_t x = ax$ for $a > 0$."}
+phase_line(x ~ x, domain(x=-2:2.3), nix_dyn=TRUE) %>%
+  gf_point(0 ~ 0, size=.1, color="blue")
+```
+Simple as Figure \@ref(fig:ax-flow) is, it pays to examine it closely. Each arrow shows $\partial_t x$ at one point in the state space. The rightmost arrow is long and points to the right, that is, to larger values on the number line. As you move leftward, the arrows get shorter but continue to point to the right. This corresponds to $ax$ getting smaller as $x$ heads toward zero.
+
+Similarly, the leftmost arrow is long and points to the left, that is toward more negative values of the number line. As you move rightward from that leftmost arrow, the arrows get shorter but continue to point in the negative direction. 
+
+In the middle, the arrows are very short. The **fixed point** is in between the adjacent left-pointing arrow and right-pointing arrow. We've marked this with a small dot.
+
+Although Figure \@ref(fig:ax-flow) is faithful to the one-dimensional state of $\partial_t x = a x$, it doesn't clearly show what is happening *between* consecutive arrows. For this reason, we are going to construct a special-purpose display intended only to show dynamics on the phase line. In this display (Figure \@ref(fig:ax-flow2)) we'll draw a graph of the dynamical function using the phase line as the horizontal axis and a vertical axis to show the numberical value of $\partial_t x$ at each point along the horizontal axis.
+
+```{r ax-flow2, echo=FALSE, fig.cap="A display showing the value of $\partial_t x$ as a graph, and the flow field as arrows."}
+phase_line(x ~ x, domain(x=-2.05:2.3), nix_dyn=FALSE) %>%
+  gf_point(0 ~ 0, size=.1, color="blue")
+```
+In this diagram, you can see that the flow arrows point rightward where $0 < \partial_t x$ and point leftward where $\partial_t x < 0$. The fixed point is at $\partial_t x = 0$, that is, in-between the left- and right-pointing arrows. 
+
+From the graph of $ax$ in Figure \@ref(fig:ax-flow2), you can see that $0 < a$ in this example. The case for $a < 0$ is very similar, but there is a fundamental difference in behavior. Let's look first at the flow plot in Figure \@ref(fig:ax-flow3).
+
+```{r ax-flow3, echo=FALSE, fig.cap="The flow field and graph of $\partial_t x$ for $\\partial_t x = a x$ with $a < 0$."}
+phase_line(- x ~ x, domain(x=-2.05:2.3), nix_dyn=FALSE) %>%
+  gf_point(0 ~ 0, size=.1, color="blue")
+```
+
+As always, where the value of $\partial_t x$ is positive, the flow arrows point to the right and, when $\partial_t x$ is negative, the flow arrows point to the left. The fixed point is where $\partial_t x = 0$. 
+
+The fundamental difference between the $0 < a$ case and the $a < 0$ case has to do with whether and where the state variable reaches an equilibrium. In Figure \@ref(fig:ax-flow3), all flow arrows *point toward* the fixed point. This means that whatever is the initial condition $x_0$, eventually the system will end up at the fixed point $x^\star$ (which is $x^\star$ in this example).
+
+Such behavior of converging to a fixed point is said to be ***stable***.
+
+In contrast, when $0 < a$ (Figure \@ref(fig:ax-flow2)), all flow arrows point *away from* the fixed point. Whatever the initial condition $x_0$---with *one* exception---the state will head away from the fixed point. If $0 < x_0$, the state will grow more and more positive. If $x_0 < 0$, the state will grow more and more negative. The exception is when $x_0 = 0$. If the state is *exactly* on the fixed point, it will stay there. Such a situation is said to be ***unstable***, since any minute movement of the state off the fixed point will lead to the state moving farther and farther from the fixed point.
+
+There's nothing in the differential equation $\partial_t x = a x$ that provides a mechanism to move off the fixed point, if it starts exactly on it. However, for a physical system $\partial_t = a x$ is a ***model*** and may not represent aspects of the complete system. A case in point: stand a pencil on its tip and let go. If $\theta$ is the angle the pencil makes with the vertical, a simplistic model of the dynamics is $\partial_t \theta = a \sin(\theta)$, with $0 < a$. This model has a fixed point $\theta^\star = 0$ and so, according to the model, if you can start the pencil standing exactly vertical, it should stay there. But any disturbance---a whisper of breeze, a gnat flapping its wings nearby---will push the pencil out of its vertical equilibrium. You can easily see what happens by doing the experiment: stand a pencil on its tip and let go.
+
+
+## Stability
+
+hurricanes, tornados, orbits, sand dunes and beach ripples, Galloping Gurdy, ..., orbit around Lagrange point, 
 
 
 
@@ -68,6 +121,8 @@ Given a choice between a numerical and a symbolic solution to exactly the same p
 
 > *"Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise."* -- John Tukey (1915-2000)
 :::
+
+
 
 
 
