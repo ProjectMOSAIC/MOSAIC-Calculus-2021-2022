@@ -30,7 +30,7 @@
   
   
 
-
+<link rel="next" href="solve-DE.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -168,13 +168,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="../block-6/dynamics.html">Block 6: Dynamics</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="41" data-path="B6-diff-eq.html"><a href="#differential-equations"><i class="fa fa-check"></i><b>41</b> Differential equations</a>
+<li class="chapter" data-level="41" data-path="differential-equations.html"><a href="differential-equations.html"><i class="fa fa-check"></i><b>41</b> Differential equations</a>
 <ul>
-<li class="chapter" data-level="41.1" data-path="B6-diff-eq.html"><a href="#the-language-for-change"><i class="fa fa-check"></i><b>41.1</b> The language for change</a></li>
-<li class="chapter" data-level="41.2" data-path="B6-diff-eq.html"><a href="#state"><i class="fa fa-check"></i><b>41.2</b> State</a></li>
-<li class="chapter" data-level="41.3" data-path="B6-diff-eq.html"><a href="#dynamics"><i class="fa fa-check"></i><b>41.3</b> Dynamics</a></li>
-<li class="chapter" data-level="41.4" data-path="B6-diff-eq.html"><a href="#state-space-and-flow-field"><i class="fa fa-check"></i><b>41.4</b> State space and flow field</a></li>
-<li class="chapter" data-level="41.5" data-path="B6-diff-eq.html"><a href="#exercises"><i class="fa fa-check"></i><b>41.5</b> Exercises</a></li>
+<li class="chapter" data-level="41.1" data-path="differential-equations.html"><a href="differential-equations.html#the-language-for-change"><i class="fa fa-check"></i><b>41.1</b> The language for change</a></li>
+<li class="chapter" data-level="41.2" data-path="differential-equations.html"><a href="differential-equations.html#state"><i class="fa fa-check"></i><b>41.2</b> State</a></li>
+<li class="chapter" data-level="41.3" data-path="differential-equations.html"><a href="differential-equations.html#dynamics"><i class="fa fa-check"></i><b>41.3</b> Dynamics</a></li>
+<li class="chapter" data-level="41.4" data-path="differential-equations.html"><a href="differential-equations.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>41.4</b> State space and flow field</a></li>
+<li class="chapter" data-level="41.5" data-path="differential-equations.html"><a href="differential-equations.html#exercises"><i class="fa fa-check"></i><b>41.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="42" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>42</b> Finding a solution</a>
+<ul>
+<li class="chapter" data-level="42.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>42.1</b> The flow field</a></li>
+<li class="chapter" data-level="42.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>42.2</b> Euler method</a></li>
+<li class="chapter" data-level="42.3" data-path="solve-DE.html"><a href="solve-DE.html#symbolic-solutions"><i class="fa fa-check"></i><b>42.3</b> Symbolic solutions</a></li>
+<li class="chapter" data-level="42.4" data-path="solve-DE.html"><a href="solve-DE.html#exercises-1"><i class="fa fa-check"></i><b>42.4</b> Exercises</a></li>
 </ul></li>
 </ul>
 
@@ -289,7 +296,7 @@ which is a simple model of the force due to air resistance.</p>
 <div class="intheworld">
 <p>What does it take to describe the dynamical state of an epidemic?</p>
 <p>News reports of the COVID pandemic usually focus on the number of new cases each day and the fraction of the population that has been vaccinated. But this is not adequate, even for a simple description of the dynamics.</p>
-<p>From a history of new-case counts over time (e.g. Figure <a href="#fig:NYT-covid-history">41.1</a>) you can see that the number of new cases waxes and wanes. Knowing that the number of cases today is, say, 100 thousand doesn’t tell you what the number of cases <em>will be</em> in two weeks: 100 thousand is encountered both on the way up and on the way down.</p>
+<p>From a history of new-case counts over time (e.g. Figure <a href="differential-equations.html#fig:NYT-covid-history">41.1</a>) you can see that the number of new cases waxes and wanes. Knowing that the number of cases today is, say, 100 thousand doesn’t tell you what the number of cases <em>will be</em> in two weeks: 100 thousand is encountered both on the way up and on the way down.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:NYT-covid-history"></span>
 <img src="www/NYT-covid-report.png" alt="COVID-19 new-case counts in the US over the first two years of the pandemic. [Source: [*New York Times*]](https://www.nytimes.com/interactive/2021/us/covid-cases.html)" width="90%" />
 <p class="caption">
@@ -333,7 +340,7 @@ The quantities <span class="math inline">\(\alpha\)</span>, <span class="math in
 <p>A helpful representation of dynamics for the purpose of developing intuition is to represent the instantaneous state as a point in a graphical frame and the dynamics as a field of vectors showing how, for each possible state, the state changes. For instance, in the Rabbit-Fox dynamics, the state is the pair <span class="math inline">\((R, F)\)</span> and the <strong><em>state space</em></strong> is the coordinate plane spanned by <span class="math inline">\(R\)</span> and <span class="math inline">\(F\)</span>.</p>
 <p>The present state of the system might be any point in the state space. But if we know the present state, the vectors tell us how the state is changing with time: move the state in the direction of the vector at the present state.</p>
 <p>Let’s illustrate with the Rabbit-Fox system, whose dynamical equations are given above. To make a plot, we need numerical values for all the parameters in those equations.</p>
-<p>The vector field corresponding to the dynamics is called a <strong><em>flow</em></strong>, as if it were a pool of swirling water. Figure <a href="#fig:rabbit-fox-vectors">41.2</a> shows the flow of the rabbit/fox system.</p>
+<p>The vector field corresponding to the dynamics is called a <strong><em>flow</em></strong>, as if it were a pool of swirling water. Figure <a href="differential-equations.html#fig:rabbit-fox-vectors">41.2</a> shows the flow of the rabbit/fox system.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:rabbit-fox-vectors"></span>
 <img src="MOSAIC-Calculus_files/figure-html/rabbit-fox-vectors-1.png" alt="The dynamics of the rabbit/fox system shown as a vector field over the state space. The parameters have been set, for the purpose of illustration, to $\alpha = 2/3$, $\beta = 4/3$, $\gamma = 1$, and $\delta = 1$." width="90%" />
 <p class="caption">
@@ -349,7 +356,7 @@ Figure 41.2: The dynamics of the rabbit/fox system shown as a vector field over 
 <span class="math display">\[\partial_t \theta = v_\theta\\
 \partial_t v_\theta = - \sin(\theta) - \alpha\,L\, \text{sign}(v)\ v^2\]</span>
 Note that we’ve dropped the <span class="math inline">\((t)\)</span> in <span class="math inline">\(\theta(t)\)</span> and in <span class="math inline">\(v_\theta(t)\)</span>. Whenever you have a state variable, you know that it’s a function of time and so the explicit <span class="math inline">\((t)\)</span> is often omitted for the sake of conciseness.</p>
-<p>Figure <a href="#fig:pendulum-in-air">41.3</a> shows the flow field of the pendulum. Also shown is a trajectory and the two time series corresponding to that trajectory.</p>
+<p>Figure <a href="differential-equations.html#fig:pendulum-in-air">41.3</a> shows the flow field of the pendulum. Also shown is a trajectory and the two time series corresponding to that trajectory.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:pendulum-in-air"></span>
 <img src="MOSAIC-Calculus_files/figure-html/pendulum-in-air-1.png" alt="The flow field of a pendulum with air resistance. From the initial condition (marked by $\color{red}{\text{x}}$), a trajectory is sketched out for $0 \leq t \leq 20$. The individual components of that trajectory are graphed as time series." width="90%" /><img src="MOSAIC-Calculus_files/figure-html/pendulum-in-air-2.png" alt="The flow field of a pendulum with air resistance. From the initial condition (marked by $\color{red}{\text{x}}$), a trajectory is sketched out for $0 \leq t \leq 20$. The individual components of that trajectory are graphed as time series." width="90%" />
 <p class="caption">
@@ -399,7 +406,7 @@ iii. Combined sequences
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice"><span class="math inline">\(g(g(g({\mathbf S}_{n-2})))\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice"><span class="math inline">\(g({\mathbf S}_{n-1})\)</span><span class="mcanswer">Right! This is <span class="math inline">\({\mathbf S}_{n}\)</span>.</span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(g({\mathbf S}_{n-1})\)</span><span class="mcanswer">Nice! This is <span class="math inline">\({\mathbf S}_{n}\)</span>.</span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(g(g({\mathbf S}_{n-1}))\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -443,7 +450,7 @@ iii. Combined sequences
 </li>
 <li><span class="Zchoice">An oscillating exponential growth.<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice">An oscillating exponential decay to about <span class="math inline">\(x=1.1\)</span>.<span class="mcanswer">Correct. </span></span><br />
+<li><span class="Zchoice">An oscillating exponential decay to about <span class="math inline">\(x=1.1\)</span>.<span class="mcanswer">Nice! </span></span><br />
 </li>
 <li><span class="Zchoice">A sine wave with period <span class="math inline">\(P=\pi\)</span>.<span class="mcanswer">︎✘ </span></span></li>
 </ol>
@@ -458,7 +465,7 @@ iii. Combined sequences
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">1/1028<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice">1/512<span class="mcanswer">Correct. <span class="math inline">\(2 \times \frac{1}{2}^{10} = 2 / 1024 = 1/512\)</span></span></span><br />
+<li><span class="Zchoice">1/512<span class="mcanswer">Excellent! <span class="math inline">\(2 \times \frac{1}{2}^{10} = 2 / 1024 = 1/512\)</span></span></span><br />
 </li>
 <li><span class="Zchoice">512<span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -551,16 +558,16 @@ Figure 41.5: Scenarios C and D
 </li>
 <li><span class="Zchoice"><span class="math inline">\({\mathbf A}_4\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_5\)</span><span class="mcanswer">Right! </span></span><br />
+<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_5\)</span><span class="mcanswer">Good. </span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\({\mathbf A}_6\)</span><span class="mcanswer">︎✘ </span></span></li>
 </ol>
 <p>If you want to iterate the system <span class="math inline">\({\mathbf X}_{n+1} = {\mathbf A}\, {\mathbf X}_n\)</span>, you can use the <code>Iterate()</code> operator, handing it the matrix <span class="math inline">\({\mathbf A}\)</span> as argument <span class="math inline">\(A=\)</span>.</p>
 <p>Use the sandbox to create a matrix named <code>A</code> corresponding to the rabbit dynamics from the initial condition <span class="math inline">\((1, 0)\)</span>. (Note: the matrix that’s given by default is just a placeholder. It’s not the correct rabbit-dynamics matrix.)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># enter your matrix here</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>) </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="co"># print the matrix so you can confirm you have it right</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="at">A =</span> A, <span class="at">x0 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">n=</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="differential-equations.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># enter your matrix here</span></span>
+<span id="cb1-2"><a href="differential-equations.html#cb1-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>) </span>
+<span id="cb1-3"><a href="differential-equations.html#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="co"># print the matrix so you can confirm you have it right</span></span>
+<span id="cb1-4"><a href="differential-equations.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="at">A =</span> A, <span class="at">x0 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">n=</span><span class="dv">10</span>)</span></code></pre></div>
 <p>Once you have your matrix <span class="math inline">\({\mathbf A}\)</span> correctly defined for the rabbit dynamics, and have confirmed the trajectory is what it should be, replace the initial condition <code>(1, 0)</code> with this one:
 <code>(0.5247311, -0.8506508)</code></p>
 <p>That’s a funny initial condition for modeling rabbits, because you can’t have fractional rabbits and especially you can’t have negative rabbits. But that initial condition—even if it’s not about rabbits—produces a very special kind of dynamics.</p>
@@ -579,16 +586,10 @@ This behavior may seem strange now. You’ll understand it better when we introd
 
 </div>
 </div>
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>More generally, since the rod has mass and the pendulum bob is not a single point, you need to know the distribution of mass along the pendulum, from which you can calculate quantities such as the moment of inertia.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>More generally, since the rod has mass and the pendulum bob is not a single point, you need to know the distribution of mass along the pendulum, from which you can calculate quantities such as the moment of inertia.<a href="differential-equations.html#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -597,7 +598,7 @@ This behavior may seem strange now. You’ll understand it better when we introd
         </div>
       </div>
 
-
+<a href="solve-DE.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 42 Finding a solution | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 42 Finding a solution | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 42 Finding a solution | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="differential-equations.html"/>
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="../docs/welcome-to-calculus.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
+<hr>
+<li><strong><a href="../block-6/dynamics.html">Block 6: Dynamics</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="41" data-path="differential-equations.html"><a href="differential-equations.html"><i class="fa fa-check"></i><b>41</b> Differential equations</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="differential-equations.html"><a href="differential-equations.html#the-language-for-change"><i class="fa fa-check"></i><b>41.1</b> The language for change</a></li>
+<li class="chapter" data-level="41.2" data-path="differential-equations.html"><a href="differential-equations.html#state"><i class="fa fa-check"></i><b>41.2</b> State</a></li>
+<li class="chapter" data-level="41.3" data-path="differential-equations.html"><a href="differential-equations.html#dynamics"><i class="fa fa-check"></i><b>41.3</b> Dynamics</a></li>
+<li class="chapter" data-level="41.4" data-path="differential-equations.html"><a href="differential-equations.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>41.4</b> State space and flow field</a></li>
+<li class="chapter" data-level="41.5" data-path="differential-equations.html"><a href="differential-equations.html#exercises"><i class="fa fa-check"></i><b>41.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="42" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>42</b> Finding a solution</a>
+<ul>
+<li class="chapter" data-level="42.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>42.1</b> The flow field</a></li>
+<li class="chapter" data-level="42.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>42.2</b> Euler method</a></li>
+<li class="chapter" data-level="42.3" data-path="solve-DE.html"><a href="solve-DE.html#symbolic-solutions"><i class="fa fa-check"></i><b>42.3</b> Symbolic solutions</a></li>
+<li class="chapter" data-level="42.4" data-path="solve-DE.html"><a href="solve-DE.html#exercises-1"><i class="fa fa-check"></i><b>42.4</b> Exercises</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="solve-DE" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 42</span> Finding a solution</h1>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-solution.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<div class="underconstruction">
+<ol style="list-style-type: decimal">
+<li>Idea of accumulation</li>
+<li>Numerical solution: Euler method and iteration</li>
+<li>Analytic solution:
+<ol style="list-style-type: lower-roman">
+<li>Ansatze and confirming a solution</li>
+<li>Some special cases, separable equations</li>
+<li>Laplace transforms</li>
+</ol></li>
+</ol>
+</div>
+<p>As you saw in the previous chapter, a differential equation relates the derivative of a function to the function itself, for instance <span class="math display">\[\partial_t x(t) = x(t)\,(1-x(t))\ .\]</span> <em>Solving</em> a differential equation means to find a function <span class="math inline">\(x(t)\)</span> that is consistent with the equation. This chapter is about techniques for finding solutions.</p>
+<p>It’s tempting—but not usually possible—to apply the symbolic anti-differentiation techniques from Block 3 to the problem. After all <span class="math display">\[\int \partial_t x(t) dt = x(t)\,\]</span> as described in the “fundamental theorem of calculus”. Following this logic, we would translate the equation to <span class="math display">\[x(t) = \int x(t)\, (1-x(t))dt\ .\]</span> But in order to carry out the anti-differentiation, we would need to know <span class="math inline">\(x(t)\)</span> itself, which is the function we are trying to find.</p>
+<p>Nonetheless, it’s common to refer to <strong><em>integrating</em></strong> a differential equation, but this should be broadly understood as <strong><em>accumulating</em></strong> the increments <span class="math inline">\(\partial_t x(t)\)</span> starting at some initial condition <span class="math inline">\(x(t_0)\)</span>, even if that accumulation is not carried out by symbolic anti-differentiation.</p>
+<p>In this chapter we’ll introduce four different techniques to accumulating a solution to a differential equation or a pair of such equations. First, we’ll look again at the <strong><em>graphical method</em></strong> of “following the flow” in a plot of the flow field. This technique is mainly of use for developing intuition about the dynamics.</p>
+<p>Second, we’ll develop a simple Euler method for accumulating a solution. Third, we’ll explore how to take a guess about the solution and, when the guess is good enough, refine that into an actual solution. This is called the <strong><em>method of ansëtze</em></strong>.</p>
+<p>Fourth, and briefly, we’ll look at some of the situations where symbolic anti-differentiation can be used. This includes a very brief introduction to <strong><em>transform methods</em></strong>.</p>
+<div class="takenote">
+<p>A differential equation like <span class="math display">\[\partial_t x(t) = x(t)\,(1-x(t))\]</span> is very busy typographically. One reason is the repeated <span class="math inline">\((t)\)</span> which play no role other than to state explicitly that <span class="math inline">\(x\)</span> is a function of <span class="math inline">\(t\)</span>. A convenient shorthand simply replaces <span class="math inline">\(x(t)\)</span> to make the “is a function of <span class="math inline">\(t\)</span>” <em>implicit</em>. Thus the equation appears as <span class="math display">\[\partial_t x = x (1-x)\ .\]</span> It’s the reader’s responsibility, knowing that he or she is working with a differential equation, to remember that <span class="math inline">\(x\)</span> is a function of <span class="math inline">\(t\)</span>.</p>
+<p>An even more concise notation, originated by Isaac Newton, is to replace the <span class="math inline">\(\partial_t\)</span> with a simple <span class="math inline">\(\dot{\ }\)</span>. With this notation the equation looks like
+<span class="math display">\[\dot{x} = x (1-x)\ ,\]</span> about as simple as it gets.</p>
+<p>This dot notation is even more expressive when working with second-order differential equations involving second derivative. In the dot notation, <span class="math inline">\(\partial_{tt}\)</span> is written <span class="math inline">\(\ddot{\ }\)</span>.</p>
+</div>
+<div id="the-flow-field" class="section level2" number="2.1">
+<h2><span class="header-section-number">42.1</span> The flow field</h2>
+<p>With a pair of differential equations, as with the pendulum or the rabbit-fox model, each equation gives one component of the change in state. To draw the flow field, pick one point at a time from the state space, and calculate the right-hand sides of the differential equation from each equation. If the parameters in the model have been assigned numerical values, the result of evaluating the right-hand sides will be two numbers.</p>
+<p>A case in point is the rabbit-fox model where the state variables are <span class="math inline">\(r\)</span> and <span class="math inline">\(f\)</span>. The differential equations are <span class="math display">\[\partial_t r = 0.66 r - 1.33 r f\\
+\partial_t f = -f + rf\\
+\]</span></p>
+<p>To draw the flow arrow at, say, <span class="math inline">\(r=2, f=1/4\)</span>, plug those values into the right-hand side: <span class="math display">\[\partial_t r = 1.33 - 0.66 = 0.66\\
+\partial_t f = -0.25 + 0.5 = 0.25\ .\]</span>
+Since <span class="math inline">\(r\)</span> has units of <em>rabbit density</em>, <span class="math inline">\(\partial_t\)</span> has units <em>rabbit density per day</em> (or some other time unit). Similarly <span class="math inline">\(\partial_t f\)</span> has units of fox density per day.</p>
+<p>The coordinate axis of rabbit-fox state space have units of <em>rabbit density</em> and <em>fox density</em>. We can’t therefore plot rabbit density <em>per day</em> and fox density <em>per day</em> in the state space. However, the ratio <span class="math inline">\(\frac{\partial_t f}{\partial_t r}\)</span> has units fox density per rabbit density. These are the units of a <em>slope</em> in the state space.</p>
+Centered at coordinate <span class="math inline">\((r=2, f = 1/4)\)</span>, draw an sloping line segment. Given the values <span class="math inline">\(\partial_t f = 0.25\)</span> and <span class="math inline">\(\partial_t f = 0.66\)</span>, the segment should have slope <span class="math inline">\(0.25/0.66 = 0.379\)</span>. Also, place an arrowhead on the segment. You can decide which end of the segment it goes by noting the signs of <span class="math inline">\(\partial_t f\)</span> and <span class="math inline">\(\partial_t r\)</span>. Both are positive in this example, so the arrowhead should point up and to the right. This flow arrow is drawn in Figure <a href="solve-DE.html#fig:rf-flow-arrow">42.1</a>.
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rf-flow-arrow"></span>
+<img src="MOSAIC-Calculus_files/figure-html/rf-flow-arrow-1.png" alt="The flow arrow for the state value $(r=2, f=1/4)$. " width="50%" />
+<p class="caption">
+Figure 42.1: The flow arrow for the state value <span class="math inline">\((r=2, f=1/4)\)</span>.
+</p>
+</div>
+<p>To draw the entire flow field, repeat this process at many other points in the state space.</p>
+<p>To trace out the trajectory, select the initial condition for the system. Then follow the flow, taking only a small step in state space. The next step should be in the direction of the flow arrow at the end of the previous step.</p>
+<p>The trajectory you draw will be only a sketch, but it can be effective for developing intuition. Figure <a href="solve-DE.html#fig:calcplot3d1">42.2</a> shows a semi-automated version of the go-with-the-flow method. The computer has been used to draw the arrows. When you click in the plot, the computer also undertakes calculation of the trajectory.</p>
+<p style="text-align:center">
+<iframe frameborder="0" height="480px" src="https://c3d.libretexts.org/CalcPlot3D/dynamicFigure/index.html?type=vectorfield;vectorfield=vf;m=0.66x-1.33xy;n=xy-y;p=0;visible=true;view=undefined;scale=4;nx=9;ny=9;nz=1;mode=0;twod=true;constcol=true;color=rgb(0,0,255);norm=false;desystem=true&amp;type=slider;slider=t;value=0;steps=100;pmin=0;pmax=0.1;repeat=true;bounce=false;waittime=1;careful=false;noanimate=false;name=-1&amp;type=window;hsrmode=3;nomidpts=true;anaglyph=-1;center=0,0,40,1;focus=0,0,0,1;up=0,2,0,1;transparent=false;alpha=140;twoviews=false;unlinkviews=false;axisextension=0.7;xaxislabel=R;yaxislabel=F;zaxislabel=z;edgeson=false;faceson=true;showbox=true;showaxes=true;showticks=true;perspective=false;centerxpercent=0.32425144159290803;centerypercent=0.47897178357443876;rotationsteps=30;autospin=true;xygrid=false;yzgrid=false;xzgrid=false;gridsonbox=true;gridplanes=false;gridcolor=rgb(128,128,128);xmin=0;xmax=2;ymin=0;ymax=1;zmin=-8;zmax=8;xscale=0.5;yscale=0.25;zscale=4;zcmin=-16;zcmax=16;xscalefactor=1;yscalefactor=1;zscalefactor=1;tracemode=0;tracepoint=5.627,-1.622,0,1;keep2d=false;zoom=2.738" width="90%">
+</iframe>
+</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:calcplot3d1"></span>
+<img src="www/tiny-blank.png" alt="The flow field for the rabbit/fox dynamics. Click at an initial state to generate the trajectory from that state." width="1%" />
+<p class="caption">
+Figure 42.2: The flow field for the rabbit/fox dynamics. Click at an initial state to generate the trajectory from that state.
+</p>
+</div>
+<p>Regretably, from such a sketch of the trajectory, you can’t easily construct <span class="math inline">\(r(t)\)</span> and <span class="math inline">\(f(t)\)</span> for time-series plots. Also, you don’t get a sense of how slow or fast the flow is going. Click at different initial conditions in the flow and you will see different trajectories, each of which is a closed loop. But the shape of the trajectory doesn’t tell you whether it takes a long time or a short time to complete a loop.</p>
+<p>The next section will show you how the computer constructed the trajectory and how we can get information on the speed of the flow.</p>
+</div>
+<div id="euler-method" class="section level2" number="2.2">
+<h2><span class="header-section-number">42.2</span> Euler method</h2>
+<p>Recall from Block 2 the <strong><em>limit definition of the derivative</em></strong>: <span class="math display">\[\partial_t x(t) = \lim_{dt \rightarrow 0} \frac{x(t + dt) - x(t)}{dt}\ .\]</span> We’re going to use this definition to develop a very general way to solve differential equations: the <strong><em>Euler method</em></strong>.</p>
+<p>From the differential equations, we already know <span class="math inline">\(\partial_t x(t)\)</span>, so we don’t have to worry about whether the limit exists; it does. So we’ll disregard the limit except to note that <span class="math inline">\(dt\)</span> must be small. How small? Pick <span class="math inline">\(dt\)</span> to be small enough that the result wouldn’t change in any substantial way if we used an even smaller time increment, say <span class="math inline">\(dt/10\)</span>.</p>
+<p>Our starting point for solving each differential equation is to re-write it as a finite difference. To illustrate, we’ll solve the equation <span class="math inline">\(\partial_t x = x (1 - x)\)</span>, which is often called the <strong><em>logistic equation</em></strong>.</p>
+<p>Applying the finite difference definition, we get
+<span class="math display">\[\frac{f(t + dt)- f(t)}{dt} = x (1-x)\\\text{implying}\\
+\ \\
+\underbrace{f(t + dt)}_{\text{future state}} = \underbrace{f(t)}_{\text{current state}} +\ \ \  \underbrace{x (1-x) dt}_{\text{step}}\]</span> We call this last equation the <strong><em>Euler formula</em></strong>.</p>
+<p>To use this, we start at the initial condition, say <span class="math inline">\(x(t=0) = 0.2\)</span>. This initial condition gives us the first row of a tabular representation of the function <span class="math inline">\(x(t)\)</span>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>time</th>
+<th>state</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.2</td>
+</tr>
+</tbody>
+</table>
+<p>Next, pick a value for <span class="math inline">\(dt\)</span> that we will use for all the following steps, each of which will add a new row to the table. For the example, we’ll set <span class="math inline">\(dt = 0.1\)</span>. When we have constructed the whole table we can go back and check whether that was small enough.</p>
+<p>To fill in the next row, we apply the Euler formula. Sine <span class="math inline">\(dt = 0.1\)</span>, the next time step will be <span class="math inline">\(0.1\)</span>. Plug in the current state—which is 0.2 right now—to calculate the future state. The step will be <span class="math inline">\(0.2 (1-0.2)\, dt = \color{brown}{0.016}\)</span>. Add this step to the current state to get the future state. The table now looks like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th>time</th>
+<th>state</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.0</td>
+<td><span class="math inline">\(0.2\)</span></td>
+</tr>
+<tr class="even">
+<td>0.1</td>
+<td><span class="math inline">\(0.2 + \color{brown}{0.016} = \color{blue}{0.216}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The next step will bring us to time <span class="math inline">\(0.2\)</span>. Use the Euler formula, pluggin in the value of the present state, <span class="math inline">\(\color{blue}{0.216}\)</span>, to find the step. Here that will be <span class="math inline">\(0.216 (1-0.216)\, dt = \color{magenta}{0.0169.}\)</span>. Now the table looks like</p>
+<table>
+<thead>
+<tr class="header">
+<th>time</th>
+<th>state</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.0</td>
+<td><span class="math inline">\(0.2\)</span></td>
+</tr>
+<tr class="even">
+<td>0.1</td>
+<td><span class="math inline">\(0.2 + \color{brown}{0.016} = \color{blue}{0.216}\)</span></td>
+</tr>
+<tr class="odd">
+<td>0.2</td>
+<td><span class="math inline">\(\color{blue}{0.216} + \color{magenta}{0.0169} = 0.2329\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Add as many rows to the table as you like; the process will be the same.</p>
+<p>You will recognize this as an iterative process, as discussed in Chapter 32.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-3" class="example"><strong>Example 42.1  </strong></span>As is so often the case, it’s wise to think about carrying out processes in terms of fundamental tasks accomplished by calculus operations—evaluate, differentiate, anti-differentiate, solve, find argmax, iterate. The obvious choice for integrating differential equations is “anti-differentiate,” but as described previously, the techniques we covered in Block 3 are not sufficient for the task. Instead, we use iteration to solve differential equations.</p>
+<p>In this example we’re going to use the software you have already seen, <code>Iterate()</code>, to carry out the task. In practice, however, you will use a special form of <code>Iterate()</code> called <code>integrateODE()</code> that makes use of interpolation techniques to give a more precise answer.</p>
+<p>To implement the iteration to solve <span class="math inline">\(\partial_t x = x (1-x)\)</span>, we need to create a function that takes the current state as input and produces the next state as output. Our one-step function can be this:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="solve-DE.html#cb2-1" aria-hidden="true" tabindex="-1"></a>next_step <span class="ot">&lt;-</span> <span class="cf">function</span>(t, x, <span class="at">dt=</span><span class="fl">0.1</span>) {</span>
+<span id="cb2-2"><a href="solve-DE.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> t <span class="sc">+</span> dt</span>
+<span id="cb2-3"><a href="solve-DE.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> x <span class="sc">+</span> x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x)<span class="sc">*</span>dt</span>
+<span id="cb2-4"><a href="solve-DE.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-5"><a href="solve-DE.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">t=</span>t, <span class="at">x=</span>x) <span class="co"># return value</span></span>
+<span id="cb2-6"><a href="solve-DE.html#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Notice that we wrote <code>next_step()</code> with an input slot for <span class="math inline">\(dt\)</span>. This will not be part of the state being iterated, just a parameter that allows us easily to explore different values for <span class="math inline">\(dt\)</span>.</p>
+<p>Use <code>Iterate()</code> to carry out the iteration of <code>next_step()</code>. Note that we use the <code>fargs</code> argument to <code>Iterate()</code> to pass our selected value for <code>dt</code> to the function <code>next_step()</code>. We’ll run the iteration for 100 steps. With <span class="math inline">\(dt=0.1\)</span>, those 100 steps will 10 units of time.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="solve-DE.html#cb3-1" aria-hidden="true" tabindex="-1"></a>Soln <span class="ot">&lt;-</span> <span class="fu">Iterate</span>(next_step, <span class="at">x0=</span><span class="fu">c</span>(<span class="at">t=</span><span class="dv">0</span>, <span class="at">x=</span><span class="fl">0.2</span>), <span class="at">n=</span><span class="dv">100</span>,</span>
+<span id="cb3-2"><a href="solve-DE.html#cb3-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">fargs=</span><span class="fu">list</span>(<span class="at">dt=</span><span class="fl">0.1</span>))</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+t
+</th>
+<th style="text-align:right;">
+x
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.2000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2160000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+0.2329344
+</td>
+</tr>
+<tr>
+<td colspan="3" align="center">
+… and so on …
+</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+9.9
+</td>
+<td style="text-align:right;">
+0.9998595
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+10.0
+</td>
+<td style="text-align:right;">
+0.9998736
+</td>
+</tr>
+</tbody>
+</table>
+<p>We can now plot the time series <span class="math inline">\(x\)</span> vs <span class="math inline">\(t\)</span>:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:logistic-time-series"></span>
+<img src="MOSAIC-Calculus_files/figure-html/logistic-time-series-1.png" alt="The time series by the Euler method with $dt=0.01$." width="90%" />
+<p class="caption">
+Figure 42.3: The time series by the Euler method with <span class="math inline">\(dt=0.01\)</span>.
+</p>
+</div>
+</div>
+<p>In the previous example using <code>Iterate()</code> to solve a differential equation, the output of the iteration was a data frame containing values for the solution at discrete times: 0, 0.1, 0.2, and so on. A data table is a perfectly good way to represent a function, but it’s handier to have a function in a form that operations like <code>slice_plot()</code> and <code>D()</code> can be applied to. Another way to look at things is that, mathematically, the solution to a differential equation should be a <strong><em>continuous-time function</em></strong>. Fortunately, we have at hand the <strong><em>interpolation</em></strong> techniques covered in Chapter 33 to carry out the construction of a continuous-time function from a tabular representation. The R/mosaic function <code>integrateODE()</code> connects together the iteration and interpolation to provide a solution that is in the form of continuous-time function(s).</p>
+<div class="rmosaic">
+<p>Use the R/mosaic function <code>integrateODE()</code> to solve differential equations numerically. It is a specialized function that handles sets of <strong><em>first-order differential equations</em></strong>, but any high-order differential equation can be separated into a set of first-order equations.</p>
+<p>To illustrate, this command will solve the differential equation <span class="math inline">\(\partial_t x = x (1-x)\)</span> that we took on in the previous example with <code>Iterate()</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="solve-DE.html#cb4-1" aria-hidden="true" tabindex="-1"></a>Soln2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x), <span class="at">x =</span> <span class="fl">0.2</span>, <span class="at">tdur=</span><span class="fu">list</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">10</span>, <span class="at">dt=</span><span class="fl">0.01</span>))</span></code></pre></div>
+<p>The first argument is a tilde expression, but in a form that’s different from from that used in functions such as <code>D()</code> or <code>contour_plot()</code>, etc. To the left of the tilde is a single name composed of the state variable—<code>x</code> here—prefixed by a <code>d</code>. The <code>d</code> is just a reminder that we are describing not <code>x</code> itself, but <span class="math inline">\(\partial_t\ \mathtt{x}\)</span>. On the right of the tilde is the function from the differential equation, in this case, <span class="math inline">\(x(1-x)\)</span>.</p>
+<p>The next argument is the initial condition. We’re starting the integration at <span class="math inline">\(x=0.2\)</span>. Finally, the argument named <code>tdur=</code> consists of a description of the starting and ending times and the time-step size <span class="math inline">\(dt\)</span>.</p>
+<p>The output of <code>integrateODE()</code> is an R structure that is new to us. It contains the function created by <code>integrateODE()</code> which you refer to by name (<code>x</code>) using a special form of R punctuation <code>$</code>. In other words, <code>Soln2$x</code> will be a function, which you can plot like any other function, for instance:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="solve-DE.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(Soln2<span class="sc">$</span><span class="fu">x</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>An important feature of <code>integrateODE()</code> is its ability to handle <em>sets</em> of first-order differential equations. For instance, the rabbit/fox system <span class="math display">\[\partial_t r = 0.66\, r - 1.33\, r f\\
+\partial_t f = -f + rf\]</span> will be integrated by this command:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="solve-DE.html#cb6-1" aria-hidden="true" tabindex="-1"></a>Eco_soln <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(</span>
+<span id="cb6-2"><a href="solve-DE.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  dr <span class="sc">~</span> <span class="fl">0.66</span><span class="sc">*</span>r <span class="sc">-</span> <span class="fl">1.33</span><span class="sc">*</span>r<span class="sc">*</span>f, </span>
+<span id="cb6-3"><a href="solve-DE.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">~</span>     <span class="sc">-</span>f <span class="sc">+</span>      r<span class="sc">*</span>f,</span>
+<span id="cb6-4"><a href="solve-DE.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> <span class="dv">2</span>, <span class="at">f =</span> <span class="fl">0.5</span>, <span class="co">#initial conditions</span></span>
+<span id="cb6-5"><a href="solve-DE.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tdur=</span><span class="fu">list</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">5</span>, <span class="at">dt=</span><span class="fl">0.1</span>))</span></code></pre></div>
+<p>You can plot the time series using <code>slice_plot()</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="solve-DE.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(Eco_soln<span class="sc">$</span><span class="fu">r</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)) <span class="sc">%&gt;%</span> <span class="fu">gf_labs</span>(<span class="at">title=</span><span class="st">&quot;Rabbits&quot;</span>)</span>
+<span id="cb7-2"><a href="solve-DE.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(Eco_soln<span class="sc">$</span><span class="fu">f</span>(t) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)) <span class="sc">%&gt;%</span> <span class="fu">gf_labs</span>(<span class="at">title=</span><span class="st">&quot;Foxes&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fox-rabbit-ts"></span>
+<img src="MOSAIC-Calculus_files/figure-html/fox-rabbit-ts-1.png" alt="Times series of the rabbit and fox densities." width="50%" /><img src="MOSAIC-Calculus_files/figure-html/fox-rabbit-ts-2.png" alt="Times series of the rabbit and fox densities." width="50%" />
+<p class="caption">
+Figure 42.4: Times series of the rabbit and fox densities.
+</p>
+</div>
+<p>To plot the trajectory, use the <code>traj_plot()</code> function. Unlike <code>slice_plot()</code>, which creates a time series plot, <code>traj_plot()</code> shows the trajectory.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="solve-DE.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">f</span>(t) <span class="sc">~</span> <span class="fu">r</span>(t), Eco_soln, <span class="at">nt=</span><span class="dv">10</span>)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="symbolic-solutions" class="section level2" number="2.3">
+<h2><span class="header-section-number">42.3</span> Symbolic solutions</h2>
+<p>Occasionally it is possible to integrate a differential equation using symbolic techniques. This is particularly true for differential equations that are linear. The example we will handle here is the first-order linear differential equation <span class="math display">\[\partial_t x = a\, x\ .\]</span> An advantage of symbolic solutions is that parameters can be handled symbolically.</p>
+<p>A method we will use repeatedly in this block is called the “method of ansätze.” An <strong><em>ansatz</em></strong> (singular of the German “ansätze”) is, in this context, a guess for the solution. Since differential equations have been a central part of science for more than 200 years, you can imagine that a large library of equations and their solutions has been assembled. For the equations that are most frequently used and that can be solved symbolically, the solutions are already known. Thus, the “guess” for the solution can be a very well informed guess.</p>
+<p>Let’s see how this works for <span class="math inline">\(\partial_t x = a\, x\)</span>. From experience, the ansatz will be an exponential function of time, which we can write <span class="math inline">\(x(t) \equiv A e^{\omega t}\)</span>. We don’t yet know what is the value of <span class="math inline">\(\omega\)</span> or <span class="math inline">\(A\)</span>, so we plug the ansatz into both the left and right sides of the differential equation to work it out.</p>
+<p>Plugging in the ansatz, translates the differential equation to a new form:
+<span class="math display">\[\underbrace{A \omega e^{\omega t}}_{\partial_t x(t)}\  =\  \underbrace{a A e^{\omega t}}_{a x(t)}\ .\]</span> Cancelling out the terms that appear on both sides of the equation gives <span class="math display">\[\omega = a\ \ \ \text{which implies}\ \ \ x(t) = A e^{a t}\ .\]</span>
+The ansatz substitution didn’t give any result at all for <span class="math inline">\(A\)</span>. That is to say, unlike <span class="math inline">\(\omega\)</span>,
+the <span class="math inline">\(A\)</span> is not determined by the differential equation itself. This means that <span class="math inline">\(A\)</span> must be related to the <strong><em>initial condition</em></strong>. Setting <span class="math inline">\(t=0\)</span> gives <span class="math inline">\(x(0) = A\)</span>, so in this simple differential equation, <span class="math inline">\(A\)</span> is the initial condition.</p>
+<p>A technique that doesn’t involve such guesses can work for differential equations that are <strong><em>separable</em></strong>. This is mainly valuable, now that there are libraries of symbolic solutions to the common differential equations that have them, as a way of demonstrating to students where the solution comes from. We’ll demonstrate by integrating <span class="math inline">\(\partial_t x = x (1-x)\)</span>. The method is made more plausible by using the Leibnizian notation for derivatives, with which the differential equation has this form: <span class="math display">\[\frac{dx}{dt} = x(1-x)\ .\]</span> The Leibnizian notation can be interpreted as the ratio of two differentials: <span class="math inline">\(dx\)</span> and <span class="math inline">\(dt\)</span> in this case.</p>
+<p>The idea of separating the differential equation is to algebraically move all the <span class="math inline">\(x\)</span> terms to the left side of the equation and all the <span class="math inline">\(t\)</span> terms to the right and then to integrate each side of the equation.
+<span class="math display">\[dx = x(1-x) dt \ \ \ \implies \ \ \ \frac{1}{x(x-1)}dx = dt\ \ \ \implies\ \ \ \int\frac{1}{x(x-1)}dx = \int dt .\]</span></p>
+<p>The integral on the right side, <span class="math inline">\(\int dt\)</span>, should be easily recognizable, giving <span class="math inline">\(\int dt = t + F\)</span>, where <span class="math inline">\(F\)</span> is the “constant of integration.”</p>
+<p>The integral on the left side may not be as familiar, but the person solving this problem for the second time will remember that <span class="math display">\[\frac{1}{x(1-x)} = \frac{1}{x} + \frac{1}{1-x}\]</span> as you can confirm by putting the right side over a common denominator. Each of <span class="math inline">\(1/x\)</span> and <span class="math inline">\(1/(1-x)\)</span> have integrals that are logs: <span class="math inline">\(\int dx/x = \ln(x) + D\)</span> and <span class="math inline">\(\int dx/(1-x) = - \ln(1-x) + E\)</span>. Putting the equation back together again, produces
+<span class="math display">\[\ln(x) + D - \ln(1-x) + E = t + F\ .\]</span>
+At this point, move all the constants of integration over to the right side and consolate them into a single constant of integration <span class="math inline">\(C\)</span>. At the same time, collect together the two logarithmic terms, giving:
+<span class="math display">\[\ln\left(\frac{x}{1-x}\right) = t + C\ .\]</span> Exponentiate both sides to get:
+<span class="math display">\[\frac{x}{1-x} = \underbrace{e^C}_{A} e^t\  .\]</span> Since <span class="math inline">\(e^C\)</span> is just a constant, we’ll write it more simply as <span class="math inline">\(A\)</span>.</p>
+<p>Now we have <span class="math display">\[x = Ae^t - x A e^t \ \ \implies\ \ \ x (1 + Ae^t) = Ae^t\]</span> which gives our solution <span class="math display">\[x = \frac{Ae^t}{1 + Ae^t}\ .\]</span> To find the initial condition symbolically, plug in <span class="math inline">\(t=0\)</span>, giving <span class="math inline">\(x_0 = A/(1+A)\)</span> or, equivalently <span class="math inline">\(A = x_0/(1-x_0)\)</span>. Our previous examples used <span class="math inline">\(x_0 = 0.2\)</span>, for which <span class="math inline">\(A = 0.2/0.8 = 0.25\)</span>. Graphing this solution gives us the familiar sigmoid:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="solve-DE.html#cb9-1" aria-hidden="true" tabindex="-1"></a>Symb_soln <span class="ot">=</span> <span class="fu">makeFun</span>(A<span class="sc">*</span><span class="fu">exp</span>(t)<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> A<span class="sc">*</span><span class="fu">exp</span>(t)) <span class="sc">~</span> t)</span>
+<span id="cb9-2"><a href="solve-DE.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">Symb_soln</span>(t, <span class="at">A=</span><span class="fl">0.2</span>) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Not all differential equations can be separated in this way, and even for those that can, the integrals may not be tractable. So this route to a solution is not a general-purpose one, unlike the Euler method. Still, the Euler method gives only an approximate solution, so with Euler we need to take care that the approximation is close enough for the purpose at hand. In this case, we have both an Euler solution (with <span class="math inline">\(dt=0.1\)</span>) and a symbolic solution. Figure <a href="solve-DE.html#fig:diff-Euler-separation">42.5</a> shows the <em>difference</em> between the two solutions, which ideally should be zero. To show more of the time domain of the solution, we’ll reset the initial condition to <span class="math inline">\(x_0 = 0.01\)</span>. This corresponds to <span class="math inline">\(A = 1/99\)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:diff-Euler-separation"></span>
+<img src="MOSAIC-Calculus_files/figure-html/diff-Euler-separation-1.png" alt="The difference between the Euler and the symbolic solution to $\partial_t x = x (1-x)$ as a fraction of the symbolic solution. At the worst, the Euler solution is off by 1.5 parts in one-million." width="90%" />
+<p class="caption">
+Figure 42.5: The difference between the Euler and the symbolic solution to <span class="math inline">\(\partial_t x = x (1-x)\)</span> as a fraction of the symbolic solution. At the worst, the Euler solution is off by 1.5 parts in one-million.
+</p>
+</div>
+</div>
+<div id="exercises-1" class="section level2" number="2.4">
+<h2><span class="header-section-number">42.4</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/rabbit-grow-candy.Rmd" href="#Z3Mq3G"><img src="www/icons8-signpost.png" title="Location: Exercises/rabbit-grow-candy.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Z3Mq3G</red></span>
+</summary>
+<p>Figure <a href="solve-DE.html#fig:fox-rabbit-ts">42.4</a> shows time series for the rabbit and fox population density starting at the initial condition <span class="math inline">\(r=2, f=0.5\)</span> for the first 5 time units thereafter. The fox graph looks like a hump function, the rabbit graph show a little uptick near <span class="math inline">\(t=5\)</span>.</p>
+<p>Using the R/mosaic commands given in the text to make Figure <a href="solve-DE.html#fig:fox-rabbit-ts">42.4</a>, integrate the equations from <span class="math inline">\(t=0\)</span> to <span class="math inline">\(t=15\)</span> and plot the time series for both rabbits and foxes.</p>
+<p>A. Using the time-series plots, estimate the period of the cyclic oscillations.
+- What is the period of the fox population cycle? <!-- about 8 -->
+- How large in amplitude (peak to trough) is the fox population cycle? <!-- about 1.1 -->
+- How do the cycle period and amplitude for the rabbits compare to those for the foxes?</p>
+<p>B. Change the initial condition from <span class="math inline">\(r=2, f=0.5\)</span> to <span class="math inline">\(r=1, f=0.5\)</span> and plot the time series.
+- What is the period of the fox population cycle? <!-- still about 8 -->
+- How large in amplitude (peak-to-trough) is the fox population cycle? <!-- very small, about 0.01 --></p>
+<img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-13-2.png" width="90%" style="display: block; margin: auto;" />
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/turtle-show-sofa.Rmd" href="#Ul19SO"><img src="www/icons8-signpost.png" title="Location: Exercises/turtle-show-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Ul19SO</red></span>
+</summary>
+<p>Figure <a href="solve-DE.html#fig:diff-Euler-separation">42.5</a> shows the difference between the symbolic solution to <span class="math inline">\(\partial_t x = x (1-x)\)</span> and the Euler solution. The figure shows that the Euler solution (with <span class="math inline">\(dt=0.1\)</span>) has an approximation error that’s small. The worst case is when <span class="math inline">\(t \approx 3\)</span> at which point it is less than 1.5 parts per million. Another good way to quantify this is the decimal place at which the calculated solutions differ.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="solve-DE.html#cb10-1" aria-hidden="true" tabindex="-1"></a>Euler <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>x), <span class="at">x=</span><span class="fl">0.01</span>, </span>
+<span id="cb10-2"><a href="solve-DE.html#cb10-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tdur=</span><span class="fu">list</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">20</span>, <span class="at">dt=</span><span class="fl">0.1</span>))</span>
+<span id="cb10-3"><a href="solve-DE.html#cb10-3" aria-hidden="true" tabindex="-1"></a>Symb_soln <span class="ot">=</span> <span class="fu">makeFun</span>(A<span class="sc">*</span><span class="fu">exp</span>(t)<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> A<span class="sc">*</span><span class="fu">exp</span>(t)) <span class="sc">~</span> t, <span class="at">A=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">99</span>)</span>
+<span id="cb10-4"><a href="solve-DE.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Symb_soln</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1686648</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="solve-DE.html#cb12-1" aria-hidden="true" tabindex="-1"></a>Euler<span class="sc">$</span><span class="fu">x</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1686645</code></pre>
+<p>The approximation error occurs in the seventh decimal point.</p>
+<p>A. How large can <span class="math inline">\(dt\)</span> be to keep the approximation error in the fourth decimal place of the answer.</p>
+<p>B. How large can <span class="math inline">\(dt\)</span> be to keep the approximation error in the second decimal place of the answer.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/ape-grow-oven.Rmd" href="#jd6HE8"><img src="www/icons8-signpost.png" title="Location: Exercises/ape-grow-oven.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">jd6HE8</red></span>
+</summary>
+<p>The differential equation <span class="math inline">\(\partial_t x = a x\)</span> is so commonly encountered that you should simply memorize the solution: <span class="math display">\[x(t) = A e^{a t}\]</span> which you can recognize as exponential growth (or decay, if <span class="math inline">\(a &lt; 0\)</span>) from an initial condition <span class="math inline">\(x_0 = A\)</span>.</p>
+<p>Exponential growth is considered fast, but there are far faster forms of growth. To illustrate, consider the differential equation <span class="math display">\[\partial_t x = a x^2\ .\]</span></p>
+<p>This can be interpreted in terms of a model of the size of the flame as one lights a match. Think of the flame as a ball of hot gas of radius <span class="math inline">\(x\)</span>; the gas include oxygen (O_2_), nitrogen, and carbon dioxide, as well as a vapor of the combustible material such as the potassium chlorate of the match head.</p>
+<p>Within the ball of flame, O_2_ reacts with the cumbustible material to produce the products of combustion and heat. Needless to say, this reaction eliminates the O_2_ in the ball. But O_2_ can diffuse into the ball from outside. The O_2_ infusion rate available in this way is proportional to the surface area of the ball, that is, <span class="math inline">\(a x^2\)</span>. Thus the differential equation models the growth of the flame ball.</p>
+<p>The match-flame equation is one that can be separated into parts: all the <span class="math inline">\(x\)</span> components on one side, the <span class="math inline">\(t\)</span> on the other. That is:
+<span class="math display">\[\underbrace{\frac{dx}{dt} = a x^2}_{\text{original DE}}\ \ \ \implies \underbrace{\frac{dx}{x^2} = a dt}_{\text{separated DE}}\]</span></p>
+<p>Integrating both sides of the separated equation will produce <span class="math inline">\(a t + C\)</span> on the right side.</p>
+<p>A. Integrate the left side of the separated equation and use that to find a relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(a t + C\)</span>.</p>
+<p>B. The constant of integration, <span class="math inline">\(C\)</span>, will reflect the initial condition. Plug in <span class="math inline">\(t=0\)</span> and calculate from the relationship in (A) what is <span class="math inline">\(C\)</span> in terms of <span class="math inline">\(x_0\)</span>.</p>
+<p>C. Replace <span class="math inline">\(C\)</span> in your relationship with the expression in terms of <span class="math inline">\(x_0\)</span> you found in (B). Confirm that this is <span class="math display">\[x(t) = \frac{1}{a t - 1/x_0}\ .\]</span></p>
+<p>D. <span class="math inline">\(x(t)\)</span> has a vertical asymptote. Find it.</p>
+<p>E. Use <code>integrateODE()</code> to integrate the original differential equation. You will have to pick some numerical value for <span class="math inline">\(a\)</span> and <span class="math inline">\(x_0\)</span>. Take care to make <span class="math inline">\(dt\)</span> small enough. You’ll know that <span class="math inline">\(dt\)</span> is small enough when you get the approximately same solution using <span class="math inline">\(dt/10\)</span>.</p>
+<p>F. Describe in everyday words what the solution says and how big the ball of flame becomes.</p>
+The model <span class="math inline">\(\partial_t x = a x^2\)</span>, like all models, includes some features of the real-world system and excludes others. In this case, once the ball reaches a critical diameter, there is no longer enough combustion product to continue the reaction at the rate depicted in the model. If you watch a match being lit, you will see both the explosion and the eventual exhaustion of the combustion material.
+</details>
+
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="differential-equations.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-solution.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-solution.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
