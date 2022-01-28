@@ -131,49 +131,89 @@ When building a model, start by thinking what you want to use the model for. Ima
 
 We'll model a cow's consumption as a sigmoidal function consumption(v) of the amount of grass (v -- for "vegetation") available. Like this:
 
-```{r echo=FALSE, height=3, out.width="75%", fig.align="center"}
+```{r cow-consumption, echo=FALSE, height=3, fig.cap="The amount of vegetation consumed by a cow in a day depends on the amount of vegetation available. At very low levels of vegetation ($v < 1/2$ ton), it's hard to find more to eat, so a slight increase in vegetation doesn't increase consumption by much."}
 consumption <- makeFun((beta*v^2/(v0^2 + v^2))~ v, beta=0.1, v0=3)
 slice_plot(consumption(v) ~ v, domain(v=c(0,15))) %>%
   gf_labs(y="Consumption (tons/day)", x="v: available biomass (tons)",
           title="Daily consumption by one cow")
 ```
+The overall system is roughly analogous to the rabbit/fox model where we had rabbits as the food and foxes as the consumers. In the rabbit/fox system, we had one differential equation for the growth in the rabbit population density and another for the foxes. The rabbit dynamics consisted of two parts, the natural growth rate in the absence of foxes and the rate at which rabbits are taken by the foxes: $\partial_t r = 0.66\, r - 1.33\, r f$.
+
+We'll model the dynamics of grass in much the same way. In the absence of cows the grass grows in an environment with a limited carrying capacity. (Carrying capacity reflects limits to the amount of water and the amount of sunlight and space.) Taking the carrying capacity of the field as 25 tons of biomass, we'll set the model for $v(t)$ to be 
+$$ \partial_t v =  \frac{v}{3} \left(1-\frac{v}{25}\right)\ .$$
 
 
-```{r cow1, echo=FALSE}
-explain <- "\"Most hungry\" suggests and extreme value of something. There's nothing extreme values in the middle."
-askMC(
-  "At what level of available biomass is the cow most hungry at the end of the day? (Hint: Think about how you would measure how hungry a cow is at the end of the day.)",
-  "+2 tons+" = "The consumption function is steepest here, meaning that if more grass were available the cow would eat the biggest proportion of it.",
-  "5 tons" = explain,
-  "10 tons" = explain,
-  "15 tons" = "Even if more grass were available, the cow wouldn't each much of it."
-)
-```
+We now have two models for two different components of the ecosystem: the growth of vegetation and the daily consumption by a cow. It's time to put those components together into the overall model. But do we have everything we need?
+
+There are potentially two state variables, the amount of vegetation and the number of cows.  To be analogous to that situation, we would need a model for the number of cows in the field. However, the context for the model suggests some changes here. First, the number of cows $n$ in the field is not set by the cow's natural reproduction, it's set by the farmer's decision. As well, at 9 months, a cow's gestation period is long relative to the potential changes in the amount of vegetation. (In contrast, rabbits have a gestation period of 1 month and foxes 2 months.)
+
 
 The cow's consumption is one part of the dynamics. If there were no grass growing, the dynamics would be $$\partial_t G(v) = - H \times \text{consumption}(v)$$ where $H$ is the number of cows in the herd. `r mark(6330)`
 
 
-A more complete model will take into account the intrinsic growth of the grass when there are no cows.  We'll use a logistic model with a carrying capacity of 25 tons of grass in the field.
-$$ \partial_t v =  \frac{v}{3} \left(1-\frac{v}{25}\right)$$
-This means that, with no cows grazing, the field would reach an equilibrium with 25 tons of vegetation. Subtracting daily consumption from daily growth of grass gives the rate of change of the biomass of grass. 
+ Subtracting daily consumption from daily growth of grass gives the rate of change of the biomass of grass. 
 
 <p style="text-align:center">
-<iframe frameborder="0" height="780px"
+<iframe frameborder="0" height="780px" loading="lazy"
         src="https://maa-statprep.shinyapps.io/Grazing_cows/"
         width="60%">
 </iframe>
 </p>
         
 ```{r cow-app, echo=FALSE, out.width="1%", fig.cap = "The graph can be made to display any of three functions:\n\n1. The intrinsic logistic model growth dynamics with no cows.\\2. The total consumption by the herd of cows.\\3. The **net growth**, which is the difference between (1) and (2)."}        
-
+knitr::include_graphics("www/tiny-blank.png")
 ```
-
-
-
-:::
 
 ## Second-order dynamics
 
+Let's return to second-order dynamics such as the rabbit/fox system:
+$$\partial_t r = \alpha r - \beta r f\\
+\partial_t f = - \delta f + \gamma r f$$
+
+A fixed point in a second-order system exists at a state where both of the differential equations evaluate to zero. These simple dynamical functions can be manipulated algebraically to show that there is one fixed point:
+
+$$\alpha r^\star - \beta r^\star f^\star = 0 \ \ \ \implies\ \ \ f^\star = \frac{\alpha}{\beta}\\
+\ \\
+- \delta f^\star + \gamma r^\star f^\star = 0 \ \ \ \implies \ \ \ r^\star = \frac{\gamma}{\delta}$$
+
+More generally, considering that the dynamical functions have two inputs, $r$, and $f$, we can see where each of the functions is zero by looking at the zero contour of each function individually. Where the zero contours cross, there is a fixed point.  Figure \@ref(fig:rabbit-fox-nullclines) shows the situation for the rabbit/fox system. These zero contours are called ***nullclines***. At any point on the rabbit nullcline, the flow arrows have zero component in the rabbit direction in state space. Similarly, at any point on the fox nullcline, the flow field has zero component in the fox direction.
+
+
+
+```{r rabbit-fox-nullclines, echo=FALSE, fig.cap="Flow field for the rabbit/fox system. The rabbit nullcline } 
+contour_plot(0.66*r - 1.33*r*f ~ r & f, domain(r=.1:2, f=0.05:1), contours_at = 0, contour_color = "magenta", filled = FALSE, labels=FALSE) %>%
+  contour_plot(-f + f*r ~ r & f, contours_at=0, contour_color="blue", filled=FALSE, labels=FALSE ) %>%
+vectorfield_plot(0.66*r - 1.33*r*f ~ r & f, 
+                 1*f*r -1*f ~ r & f, 
+                 domain(r=.1:2, f=0.05:1), npts=20, 
+                 transform=I) %>%
+  gf_labs(x="Rabbit density", y="Fox density")
+```
+
+
+```{r}
+show_abcd <- function(a, b, c, d) {
+  dx <- makeFun(a*x + b*y ~ x & y)
+  dy <- makeFun(c*x + d*y ~ x & y)
+  # contour_plot(dx(x,y) ~ x&y, contour_color="red", labels=FALSE, filled=FALSE,  
+  #              contours_at=0, domain(x=-1:1, y=-1:1)) %>%
+  #   contour_plot(dy(x,y) ~ x&y, contour_color="blue", labels=FALSE, filled=FALSE, 
+  #                contours_at=0) %>%
+    inequality_constraint(dy(x,y) < 0 ~ x&y, fill="blue", alpha=0.3, domain(x=-1:1, y=-1:1)) %>%
+      inequality_constraint(dx(x,y) < 0 ~ x&y, fill="red", alpha=0.3, domain(x=-1:1, y=-1:1)) %>%
+  vectorfield_plot((dx(x,y)) ~ x&y, sign(dy(x,y)) ~ x & y, transform=function(x) x^0.3) %>%
+    gf_refine(coord_fixed())
+    #vectorfield_plot(sign(dx(x,y)) ~ x&y, 0 ~ x & y, color="red") %>%
+    #vectorfield_plot(0.001 ~ x&y, sign(dy(x,y)) ~ x&y, color="blue", transform=I)
+   }
+
+show_abcd(.5, 1, 1, -.7)
+show_abcd(-.5, -1, 1, .7)
+show_abcd(-1, -.5, -.2, -.7)
+show_abcd(1, .5, -.2, -.7)
+show_abcd(-1, -.5, .2, .7)
+show_abcd(1, .5, .2, .7)
+```
 
 ## Stability
 
@@ -200,17 +240,11 @@ Given a choice between a numerical and a symbolic solution to exactly the same p
 
 `r insert_calcZ_exercise("XX.XX", "9aVYdV", "Exercises/dolphin-hang-dish.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "83fMSu", "Exercises/lamb-lead-gloves.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "9qOKUM", "Exercises/spruce-fall-mug.Rmd")`
 
+`r insert_calcZ_exercise("XX.XX", "cAKQiT", "Exercises/hamster-dive-window.Rmd")`
 
-
-
-
-
-
-
-
-
+`r insert_calcZ_exercise("XX.XX", "oKNNim", "Exercises/lobster-go-lamp.Rmd")`
 
 
 

@@ -12,6 +12,7 @@ i. Articulate the difference between state, dynamics, and trajectory
 **Vocabulary**
 
 * Differential equation
+* Dynamical function
 * Initial condition (or, initial value or boundary value)
 * State & state variable & state space
 * Solution
@@ -118,13 +119,17 @@ knitr::include_graphics("www/NYT-covid-report.png")
 
 ## Dynamics
 
-The ***dynamics*** of a system is a description of how the individual components of the *state* change *as a function of the entire set of components of the state.*
+The ***dynamics*** of a system is a description of how the individual components of the *state* change as a *function of the entire set of components of the state.* In continuous-time dynamics, the state is a function of time. For instance, if the state has component $x$, $y$, and $z$, the state at any instant $t$ is the value of functions of $t$: 
+$$x(t)\ \ \ \ y(t) \ \ \ \ z(t)\ .$$the change in state is the derivative with respect to time of each of these components:
+$$\partial_t x(t)\ \ \ \partial_t y(t)\ \ \ \partial_t z(t)$$the instantaneous rate of change of state, $\partial_t r$ is described as a function of the 
+
+
 
 A simple example is the dynamics of retirement-account interest. In a retirement account, you put aside money---this is called "contributing"---each month. The value $V(t)$ of the account accumulates over time, both due to new monthly deposits and to the interest $r$ earned on the current account value. If you are setting aside $M$ dollars per month, the dynamics are:
 $$\partial_t V(t) = (1+r) V(t) + M\ .$$
 For the sake of simplicity, we can imagine that the interest rate and monthly contribution are constants: they are not part of the dynamical state. This leaves $V$ at any given time as the state variable. The dynamics tell the rate of change in the state variable, $\partial_t V(t)$ as a function of the current value $V(t)$ of the state variable.
 
-There is a special name for they equation describing dynamics: ***differential equation***. The above differential equation, having just one component to the state, is sometimes called a ***first-order differential equation***. Another way to recognize a first-order equation is that it is a single equation with just a first-order derivative appearing.
+There is a special name for the equation describing dynamics: ***differential equation***. The above differential equation, having just one component to the state, is sometimes called a ***first-order differential equation***. Another way to recognize a first-order equation is that it is a single equation with just a first-order derivative appearing.
 
 A more complete model might include the monthly contribution $M(t)$ changing with time. For instance if you income changes over the years, your contribution will likely change along with it. Similarly, interest rates are notoriously variable over time. Still, these are not included in the dynamical state There's a simple reason: we don't have usually have any model describing how $r(t)$ and $M(t)$ change *as a function of* the state. That is, we can't say how $r(t)$ changes as a function of $V(t)$, $r(t)$, and $M(t)$. Quantities such as interest rate and contribution amount are said to be ***exogenous*** meaning "outside the system." (The word comes from the root "exo," meaning "outside," and "indigenous," meaning "native to.") Your retirement account doesn't *determine* the interest rate; interest rate is something (from your perspective) that comes from outside, largely uncontrollable factors. 
 
@@ -171,13 +176,9 @@ Let's illustrate with the Rabbit-Fox system, whose dynamical equations are given
 The vector field corresponding to the dynamics is called a ***flow***, as if it were a pool of swirling water. Figure \@ref(fig:rabbit-fox-vectors) shows the flow of the rabbit/fox system.
 
 ```{r rabbit-fox-vectors, echo=FALSE, fig.cap="The dynamics of the rabbit/fox system shown as a vector field over the state space. The parameters have been set, for the purpose of illustration, to $\\alpha = 2/3$, $\\beta = 4/3$, $\\gamma = 1$, and $\\delta = 1$."}
-alpha <- 0.4
-beta  <- 0.0005
-gamma <- 0.2
-delta <- 0.1
 vectorfield_plot(0.66*r - 1.33*r*f ~ r & f, 
                  1*f*r -1*f ~ r & f, 
-                 domain(r=0:2, f=0:1), npts=20, 
+                 domain(r=.1:2, f=0:1), npts=20, 
                  transform=function(x) x^0.3) %>%
   gf_labs(x="Rabbit density", y="Fox density")
 ```
