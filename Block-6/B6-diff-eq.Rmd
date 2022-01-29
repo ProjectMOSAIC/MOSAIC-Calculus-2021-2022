@@ -119,23 +119,53 @@ knitr::include_graphics("www/NYT-covid-report.png")
 
 ## Dynamics
 
-The ***dynamics*** of a system is a description of how the individual components of the *state* change as a *function of the entire set of components of the state.* In continuous-time dynamics, the state is a function of time. For instance, if the state has component $x$, $y$, and $z$, the state at any instant $t$ is the value of functions of $t$: 
-$$x(t)\ \ \ \ y(t) \ \ \ \ z(t)\ .$$the change in state is the derivative with respect to time of each of these components:
-$$\partial_t x(t)\ \ \ \partial_t y(t)\ \ \ \partial_t z(t)$$the instantaneous rate of change of state, $\partial_t r$ is described as a function of the 
+The ***dynamics*** of a system is a description of how the individual components of the *state* change as a *function of the entire set of components of the state.* 
 
+At any instant in time, the state is a set of quantities. We'll use $x$, $y$, and $z$ for the purpose of illustration, although most of our work in this introduction will be with systems that have just two state variables.
+
+The state can change in time. This implies that the evolving state as a function of time is a set of functions: $x(t)$, $y(t)$, and $z(t)$ for our illustration. Sometimes these are called ***state variables*** because they vary in time.
+
+The dynamics of the system are described by another set of functions, one for each state variable. These functions---let's call them $g_x()$, $g_y()$, and $g_z()$ in our illustration---each take as inputs the value of the state variables. Thus, we have:
+$$g_x(x, y, z)\ \ \ \  g_y(x, y, z)\ \ \ \ g_z(x, y, z)\ .$$ We'll call these ***dynamical functions***, but they are perfectly ordinary functions. The term "dynamical function" is simply a way of reminding us the role they play in the mathematical description of the dynamics.
+
+Remember that $x$, $y$, and $z$ are state variables, so they are all *functions of time*. At any instant in time, the values $x$, $y$, $z$ have a specific value. Thus, at any instant in time, the functions $g_x(x, y, z)$, $g_y(x, y, z)$, and $g_z(x, y, z)$ also have a specific, scalar value. If we wanted to make this perfectly explicit, we could write $g_x(x(t), y(t), z(t))$, which makes it clear that the output of $g_x()$ is a function of time.
+
+The framework for a dynamics model is that the rate of change in time of each state variable is specified by the corresponding dynamical function. Of course, we write the "rate of change in time" as $\partial_t$, so the rate of change of $x$ is $\partial_t x(t)$, and similarly for the other state variables. The way to write mathematically that  "the rate of change of $x(t)$ is given by the appropriate dynamical function" is a set of equations:
+$$\partial_t x(t) = g_x(x(t), y(t), z(t))\ \, \\
+\partial_t y(t) = g_y(x(t), y(t), z(t))\ \, \\
+\partial_t z(t) = g_z(x(t), y(t), z(t))\ .$$
+This is practically impossible to read: all those $(t)$. So the convention is to omit the $(t)$:
+$$\partial_t x = g_x(x, y, z)\\
+\partial_t y = g_y(x, y, z)\\
+\partial_t z = g_z(x, y, z)$$
+and leave it to the reader to remember that $x$ is really $x(t)$ and so on.
+
+Such equations are called ***differential equations***. The dynamical functions $g_x()$, $g_y()$ and $g_z()$ on the right-hand side of the equations represent the dynamics of the system. These functions will be different depending on what we are trying to model. The art of modeling a system that evolves in time is to find the right form for the dynamical functions.
+
+::: {.takenote data-latex}
+Mathematically, a ***dynamical system*** consists of two things:
+
+i. The state variables, which is a set of quantities that vary in time.
+ii. They dynamics, which is the set of dynamical functions, one function for each of the state variables.
+
+:::
 
 
 A simple example is the dynamics of retirement-account interest. In a retirement account, you put aside money---this is called "contributing"---each month. The value $V(t)$ of the account accumulates over time, both due to new monthly deposits and to the interest $r$ earned on the current account value. If you are setting aside $M$ dollars per month, the dynamics are:
-$$\partial_t V(t) = (1+r) V(t) + M\ .$$
+$$\partial_t V = (1+r) V + M\ .$$
+The left-hand side of this equation is boiler plate; there is a single state variable named $V$ and we are describing about how $V$ varies with time, that is, we are describing $\partial_t V$. The description itself is on the right side of the equation. The description take the form of a dynamical function, which we could generically call $g_V(V)$. The dynamical function always takes the set of state variables as inputs. In this example, there's just the one state variable $V$, so $g_V()$ has only one argument: $V$. Of course, there can also be parameters in the function, like $r$ and $M$ here.
+
+
 For the sake of simplicity, we can imagine that the interest rate and monthly contribution are constants: they are not part of the dynamical state. This leaves $V$ at any given time as the state variable. The dynamics tell the rate of change in the state variable, $\partial_t V(t)$ as a function of the current value $V(t)$ of the state variable.
 
-There is a special name for the equation describing dynamics: ***differential equation***. The above differential equation, having just one component to the state, is sometimes called a ***first-order differential equation***. Another way to recognize a first-order equation is that it is a single equation with just a first-order derivative appearing.
+The above differential equation, having just one component to the state, is sometimes called a ***first-order differential equation***. 
 
-A more complete model might include the monthly contribution $M(t)$ changing with time. For instance if you income changes over the years, your contribution will likely change along with it. Similarly, interest rates are notoriously variable over time. Still, these are not included in the dynamical state There's a simple reason: we don't have usually have any model describing how $r(t)$ and $M(t)$ change *as a function of* the state. That is, we can't say how $r(t)$ changes as a function of $V(t)$, $r(t)$, and $M(t)$. Quantities such as interest rate and contribution amount are said to be ***exogenous*** meaning "outside the system." (The word comes from the root "exo," meaning "outside," and "indigenous," meaning "native to.") Your retirement account doesn't *determine* the interest rate; interest rate is something (from your perspective) that comes from outside, largely uncontrollable factors. 
+Remember that the dynamical function is something that the modeler constructs from her knowledge of the system. A modeler might decide to incorporate more or fewer details of the real-world system. For instance,
+a model more faithful to what happens over the course of years of saving for retirement might include the monthly contribution $M(t)$ changing with time. (If your income changes over the years, your contribution will likely change along with it.) Similarly, interest rates are notoriously variable over time. Still, these are not included in the dynamical state There's a simple reason: we don't have usually have any model describing how $r(t)$ and $M(t)$ change *as a function of* the state. That is, we can't say how $r(t)$ changes as a function of $V(t)$, $r(t)$, and $M(t)$. Quantities such as interest rate and contribution amount are said to be ***exogenous*** meaning "outside the system." (The word comes from the root "exo," meaning "outside," and "indigenous," meaning "native to.") Your retirement account doesn't *determine* the interest rate; interest rate is something (from your perspective) that comes from outside, largely uncontrollable factors. 
 
-Another example, found in physics textbooks, is the dynamics of the pendulum. In studying physics, you learn how to identify and keep track of the forces involved. Without getting involved much with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variable. We'll take these to be the angle $\theta(t)$ of the rod with respect to the vertical, and the angular velocity $v_\theta(t)$ telling how the velocity changes with time. The dynamics consist of two functions, the first being $\partial_t \theta(t)$ and the second $\partial_t v_\theta(t)$. They are:
-$$\partial_t \theta(t)  =  v_\theta(t)\\
-\partial_t v_\theta(t)  =  - \sin(\theta)
+Another example, found in physics textbooks, is the dynamics of the pendulum. In studying physics, you learn how to identify and keep track of the forces involved. Without getting involved much with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variables. We'll take these to be the angle $\theta(t)$ of the rod with respect to the vertical, and the angular velocity $v_\theta(t)$ telling how the velocity changes with time. Since there are two state variables, there must be two dynamical functions. For a pendulum, these functions can be developed from the general rule $F = m a$ and the geometry of the pendulum; they are $\partial_t v_\theta(t)$. They are:
+$$\partial_t \theta(t)  =  g_\theta(\theta, v_\theta) =  v_\theta(t)\\
+\partial_t v_\theta(t)  =  g_{v_\theta}(\theta, v_\theta) = - \sin(\theta)
 $$
 
 ::: {.why data-latex=""}
@@ -151,27 +181,36 @@ Consider the population of two interacting species, say rabbits and foxes. As yo
 
 Many people assume that such populations are more or less fixed: that the rabbits are in a steady balance with the foxes. In fact, as any gardener can tell you, some years there are lots of rabbits and others not: an oscillation. Just from this fact, we know that the dynamical state must have at least two components. 
 
-In a simple, but informative, model, the two components of the dynamical state are $R(t)$ and $F(t)$, the population of rabbits and foxes respectively. In the absence of foxes, the dynamics of rabbits are exponential growth; each successive generation is larger than the previous one. This can be described by a dynamical equation $\partial_t R(t) = \alpha R(t)$, where $\alpha$ is a fixed quantity that describes rabbit fecundity.
+In a simple, but informative, model, the two components of the dynamical state are $r(t)$ and $f(t)$, the population of rabbits and foxes respectively. In the absence of foxes, the dynamics of rabbits are exponential growth; each successive generation is larger than the previous one. This can be described by a dynamical equation $\partial_t r(t) = \alpha r(t)$, where $\alpha$ is a fixed quantity that describes rabbit fecundity.
 
-Similarly, in the absence of food (rabbits are fox food), the foxes will starve or emigrate, so the dynamical equation for foxes is very similar $\partial_t F(t) = - \gamma F(t)$, where $\gamma$ is a fixed quantity that indicates the rate at which foxes die or emigrate.
+Similarly, in the absence of food (rabbits are fox food), the foxes will starve or emigrate, so the dynamical equation for foxes is very similar $\partial_t f(t) = - \gamma f(t)$, where $\gamma$ is a fixed quantity that indicates the rate at which foxes die or emigrate.
 
 Of course, in real ecosystems there are many other quantities that change and that are relevant. For instance, foxes eat not only rabbits, but birds and frogs and earthworms and berries. And the diet of rabbits eat weeds and grass (which is generally in plentiful supply), but also the gardener's flowers and carrots (and other vegetables). Growth in the rabbit population leads to decrease in available flowers and vegetables, which in turn leads to slower growth (or even population decline) for rabbits.
 
-In the spirit of illustrating dynamics, we'll leave out these important complexities and imagine that the state consists of just two numbers: how many rabbits there are and how many foxes. The dynamics therefore involve two equations, one for $\partial_t R(t)$ and one for $\partial_t F(t)$, usually written:
-$$\partial_t R(t) = \alpha\, R(t) - \beta\, F(t) R(t)\\
-\partial_t F(t) = \delta\, R(t) F(t) - \gamma\, F(t)$$ 
-The quantities $\alpha$, $\beta$, $\gamma$, and $\delta$ quantify the biology of the system: the reproduction rate of rabbits, the need of foxes for food (rabbits) in order to reproduce, the hunting success of foxes, and the death or emigration of foxes in response to a shortage of food.
+In the spirit of illustrating dynamics, we'll leave out these important complexities and imagine that the state consists of just two numbers: how many rabbits there are and how many foxes. The dynamics therefore involve two equations, one for $\partial_t r$ and one for $\partial_t f$, usually written:
+$$\partial_t r = \alpha\, r - \beta\, f r\\
+\partial_t f = \delta\, r f - \gamma\, f$$ 
 
-Coming up with this description of dynamics requires knowing something about rabbits and foxes. The particular forms used, for instance the *interaction term* $R(t) F(t)$, coming from modeling experience. When we write such dynamics here, the point is to illustrate some of the forms commonly used to represent real-world phenomena. For instance, the interaction term is well named because it is about the literal, biological interaction of foxes and rabbits, for better ($+ \delta R(t) F(t)$) or for worse ($-\gamma R(t) F(t)$) depending on which species we are looking at.
+::: {.takenote data-latex=""}
+Keep in mind that $r$ is a function of time, as is $f$. But instead of writing them as $r(t)$ and $f(t)$, we use the shorthand $r$ and $f$.
+
+How are you supposed to know that $f$ stands for a function of time but $\beta$ and $\gamma$ are constant parameters? The clue is given by the left-hand sides of the differential equations, $\partial_t r$ and $\partial_t f$. If we are taking the derivative of $f$ with respect to $t$, it must be that $f$ is a function of $t$. That there is no differential equation involving $\partial_t \beta$ is the way we know that $\beta$ isn't part of the dynamical state.
+:::
+
+The quantities $\alpha$, $\beta$, $\gamma$, and $\delta$ are parameters quantify the biology of the system: the reproduction rate of rabbits, the need of foxes for food (rabbits) in order to reproduce, the hunting success of foxes, and the death or emigration of foxes in response to a shortage of food.
+
+Coming up with this description of dynamics requires knowing something about rabbits and foxes. The particular forms used, for instance the *interaction term* $r f$, coming from modeling experience. When we write such dynamics here, the point is to illustrate some of the forms commonly used to represent real-world phenomena. For instance, the interaction term is well named because it is about the literal, biological interaction of foxes and rabbits, for better ($+ \delta r(t) f(t)$) or for worse ($-\gamma r(t) f(t)$) depending on which species we are looking at.
 :::
 
 ## State space and flow field
 
-A helpful representation of dynamics for the purpose of developing intuition is to represent the instantaneous state as a point in a graphical frame and the dynamics as a field of vectors showing how, for each possible state, the state changes. For instance, in the Rabbit-Fox dynamics, the state is the pair $(R, F)$ and the ***state space*** is the coordinate plane spanned by $R$ and $F$.
+A helpful representation of dynamics for the purpose of developing intuition is to represent the instantaneous state as a point in a graphical frame and the dynamics as a field of vectors showing how, for each possible state, the state changes. For instance, in the Rabbit-Fox dynamics, the state is the pair $(r, f)$ and the ***state space*** is the coordinate plane spanned by $r$ and $f$.
 
-The present state of the system might be any point in the state space. But if we know the present state, the vectors tell us how the state is changing with time: move the state in the direction of the vector at the present state.
+The present state of the system might be any point in the state space. But if we know the present state, the dynamical functions *evaluated at the present state* tell us how the state changes over a small increment in time. The step over a small increment of time can be represented by a vector.
 
-Let's illustrate with the Rabbit-Fox system, whose dynamical equations are given above. To make a plot, we need numerical values for all the parameters in those equations. 
+Let's illustrate with the Rabbit-Fox system, whose dynamical equations are given above. The dynamical functions take a position in state space as input. Each of the functions returns a scalar. 
+
+To make a plot, we need numerical values for all the parameters in those equations. 
 
 The vector field corresponding to the dynamics is called a ***flow***, as if it were a pool of swirling water. Figure \@ref(fig:rabbit-fox-vectors) shows the flow of the rabbit/fox system.
 
@@ -185,9 +224,9 @@ vectorfield_plot(0.66*r - 1.33*r*f ~ r & f,
 
 Staying with the analogy to a pool of swirling water or the currents in a river, you can place a lightweight marker such as a leaf at some point in the flow and follow its path over time. This path---position in state space as a function of time---is called the ***trajectory*** of the flow. There are many possible trajectories, depending on where you place the leaf.
 
-In Chapter `r Chaps$splines` we considered the path followed by a robot arm. In that chapter, we separated out the $x$- and $y$-components of the arm's position over time, calling them functions $x(t)$ and $y(t)$. Analogously, the the decomposition of a trajectory from an initial condition in the flow---this would be $R(t)$ and $F(t)$ for the rabbit/fox system---gives us the ***solution*** to the differential equation. 
+In Chapter `r Chaps$splines` we considered the path followed by a robot arm. In that chapter, we separated out the $x$- and $y$-components of the arm's position over time, calling them functions $x(t)$ and $y(t)$. Analogously, the the decomposition of a trajectory from an initial condition in the flow---this would be $r(t)$ and $f(t)$ for the rabbit/fox system---gives us the ***solution*** to the differential equation. 
 
-Each component of the solution is called a ***time series*** and is often plotted as a function of time, for instance $R(t)$ versus $t$.
+Each component of the solution is called a ***time series*** and is often plotted as a function of time, for instance $r(t)$ versus $t$.
 
 From the flow field, you can approximate the trajectory that will be followed from any initial condition. Starting from the ***initial condition***, just follow the flow. You already have some practice following a flow from your study of the ***gradient ascent*** method of optimization described in Chapter `r Chaps$optimization`. At the argmax, the gradient is nil. Thus, the gradient ascent method stops at the argmax. We'll see an analogous behavior in dynamical systems: any place where the flow is nil is a potential resting point for the state, called a ***fixed point***. 
 
