@@ -150,9 +150,6 @@ There are potentially two state variables, the amount of vegetation and the numb
 
 The cow's consumption is one part of the dynamics. If there were no grass growing, the dynamics would be $$\partial_t G(v) = - H \times \text{consumption}(v)$$ where $H$ is the number of cows in the herd. `r mark(6330)`
 
-```{r cow2, echo=FALSE}
-etude2::etudeEssay("Explain why there is a minus sign in the previous dynamics.")
-```
 
  Subtracting daily consumption from daily growth of grass gives the rate of change of the biomass of grass. 
 
@@ -164,13 +161,59 @@ etude2::etudeEssay("Explain why there is a minus sign in the previous dynamics."
 </p>
         
 ```{r cow-app, echo=FALSE, out.width="1%", fig.cap = "The graph can be made to display any of three functions:\n\n1. The intrinsic logistic model growth dynamics with no cows.\\2. The total consumption by the herd of cows.\\3. The **net growth**, which is the difference between (1) and (2)."}        
-
+knitr::include_graphics("www/tiny-blank.png")
 ```
-
-:::
 
 ## Second-order dynamics
 
+Let's return to second-order dynamics such as the rabbit/fox system:
+$$\partial_t r = \alpha r - \beta r f\\
+\partial_t f = - \delta f + \gamma r f$$
+
+A fixed point in a second-order system exists at a state where both of the differential equations evaluate to zero. These simple dynamical functions can be manipulated algebraically to show that there is one fixed point:
+
+$$\alpha r^\star - \beta r^\star f^\star = 0 \ \ \ \implies\ \ \ f^\star = \frac{\alpha}{\beta}\\
+\ \\
+- \delta f^\star + \gamma r^\star f^\star = 0 \ \ \ \implies \ \ \ r^\star = \frac{\gamma}{\delta}$$
+
+More generally, considering that the dynamical functions have two inputs, $r$, and $f$, we can see where each of the functions is zero by looking at the zero contour of each function individually. Where the zero contours cross, there is a fixed point.  Figure \@ref(fig:rabbit-fox-nullclines) shows the situation for the rabbit/fox system. These zero contours are called ***nullclines***. At any point on the rabbit nullcline, the flow arrows have zero component in the rabbit direction in state space. Similarly, at any point on the fox nullcline, the flow field has zero component in the fox direction.
+
+
+
+```{r rabbit-fox-nullclines, echo=FALSE, fig.cap="Flow field for the rabbit/fox system. The rabbit nullcline } 
+contour_plot(0.66*r - 1.33*r*f ~ r & f, domain(r=.1:2, f=0.05:1), contours_at = 0, contour_color = "magenta", filled = FALSE, labels=FALSE) %>%
+  contour_plot(-f + f*r ~ r & f, contours_at=0, contour_color="blue", filled=FALSE, labels=FALSE ) %>%
+vectorfield_plot(0.66*r - 1.33*r*f ~ r & f, 
+                 1*f*r -1*f ~ r & f, 
+                 domain(r=.1:2, f=0.05:1), npts=20, 
+                 transform=I) %>%
+  gf_labs(x="Rabbit density", y="Fox density")
+```
+
+
+```{r}
+show_abcd <- function(a, b, c, d) {
+  dx <- makeFun(a*x + b*y ~ x & y)
+  dy <- makeFun(c*x + d*y ~ x & y)
+  # contour_plot(dx(x,y) ~ x&y, contour_color="red", labels=FALSE, filled=FALSE,  
+  #              contours_at=0, domain(x=-1:1, y=-1:1)) %>%
+  #   contour_plot(dy(x,y) ~ x&y, contour_color="blue", labels=FALSE, filled=FALSE, 
+  #                contours_at=0) %>%
+    inequality_constraint(dy(x,y) < 0 ~ x&y, fill="blue", alpha=0.3, domain(x=-1:1, y=-1:1)) %>%
+      inequality_constraint(dx(x,y) < 0 ~ x&y, fill="red", alpha=0.3, domain(x=-1:1, y=-1:1)) %>%
+  vectorfield_plot((dx(x,y)) ~ x&y, sign(dy(x,y)) ~ x & y, transform=function(x) x^0.3) %>%
+    gf_refine(coord_fixed())
+    #vectorfield_plot(sign(dx(x,y)) ~ x&y, 0 ~ x & y, color="red") %>%
+    #vectorfield_plot(0.001 ~ x&y, sign(dy(x,y)) ~ x&y, color="blue", transform=I)
+   }
+
+show_abcd(.5, 1, 1, -.7)
+show_abcd(-.5, -1, 1, .7)
+show_abcd(-1, -.5, -.2, -.7)
+show_abcd(1, .5, -.2, -.7)
+show_abcd(-1, -.5, .2, .7)
+show_abcd(1, .5, .2, .7)
+```
 
 ## Stability
 
@@ -195,12 +238,13 @@ Given a choice between a numerical and a symbolic solution to exactly the same p
 
 `r insert_calcZ_exercise("XX.XX", "BbcPyk", "Exercises/finch-look-dish.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "9qOKUM", "spruce-fall-mug.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "9aVYdV", "Exercises/dolphin-hang-dish.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "cAKQiT", "hamster-dive-window.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "9qOKUM", "Exercises/spruce-fall-mug.Rmd")`
 
-`r insert_calcZ_exercise("XX.XX", "oKNNim", "lobster-go-lamp.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "cAKQiT", "Exercises/hamster-dive-window.Rmd")`
 
+`r insert_calcZ_exercise("XX.XX", "oKNNim", "Exercises/lobster-go-lamp.Rmd")`
 
 
 

@@ -1,0 +1,134 @@
+---
+id: "dolphin-hang-dish"
+created: "Fri Jan 28 11:04:48 2022"
+global_id: "9aVYdV"
+---
+
+It's easy to misinterpret the *state space* of a first-order differential equation. Think of it is a wire-like number line: a single quantity.  The state at any instant (the "instantaneous state") can be well imagined as a bead sliding along the wire. 
+
+Newcomers understandably endow this bead-on-wire analogy with other familiar properties of the real world. For instance, a real-world wire has friction which needs to be overcome by applying a force. A real-world bead has momentum which prolongs motion even after force has been applied. As you will see, a differential equation system that involves force and momentum requires a two-dimensional (or higher) state space. 
+
+An exact physical analogy to a one-dimensional differential equation system will always be somewhat artificial, since the physical laws of motion can't be implemented with a one-dimensional state. Here's one such contrived analogy: 
+
+> The state space is represented by a road, the instantaneous state being the location of a car along that road. But instead of the car's motion being set by the accelerator and brakes, the velocity of the car is strictly dictated by an authoritarian government law: no exceptions. When the dictated speed is zero, the car will stand still and cannot start moving again. Ultimately, depending on the shape of the law, the car will head off to infinity or come to an eternal standstill at a stable fixed point. Two different cars can never collide on this road: if the cars are close together, they must be travelling at similar velocities. Cars can't pass one another in different directions. Passing requires that the two cars have opposite velocities: one positive and one negative.  If the mandated velocity at a point along the road is positive, every car that comes to that point must have the same positive velocity. `r 
+
+The diagram shows such a road as a grey line. The red numbers are mile-markers alongside the road. The curve shows the mandated speed at any point: you can read off the numerical value of the mandated speed on the y-axis. 
+
+```{r echo=FALSE, warning=FALSE}
+f <- rfun( ~ x, seed=999)
+xpts <- seq(-5,5,length=500)
+offset <- mean(f(xpts))
+scale <- sd(xpts)
+speed  <- function(x) 20*(f(x-10) - offset)/scale
+Signs <- tibble::tibble(
+  x = seq(0,20, by=2),
+  y = 13,
+  label = paste("Mile", x),
+  angle = -sign(x - 9)*90
+)
+slice_plot(speed(x) ~ x, domain(x=c(0,20)), color="dodgerblue") %>%
+  gf_text(y ~ x, label = ~ label, color="orange3", data = Signs, angle=~ angle) %>%
+  gf_text(-30 ~ 1, label=c("West"), inherit=FALSE ) %>%
+  gf_text(30 ~ 19, label=c("East"), inherit=FALSE ) %>%
+  gf_hline(yintercept=0, color="black", alpha=0.3, size=3) %>%
+  gf_labs(y = "Mandated speed (mph)", x="", title="County Road B") %>%
+  gf_theme(panel.grid = element_blank(), axis.text.x = element_blank())
+```
+
+
+```{r drive1-1, echo=FALSE, results="markup"}
+askMC(
+  "At mile marker 4, which way is the car going?",
+  "+West+" = "A negative velocity means heading west.",
+  "East",
+  "At a standstill"
+)
+```
+
+```{r drive1-2, echo=FALSE, results="markup"}
+askMC(
+  "How long will it take for the car to go from mile marker 4 to mile marker 0? (Choose the closest answer.)",
+  "5 minutes",
+  "15 minutes",
+  "+25 minutes+" = "The velocity is about -10 mph over that segment of the road. To go 4 miles at 10 mph takes 24 minutes.",
+  "45 minutes",
+  "Can't be done.",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-3, echo=FALSE, results="markup"}
+askMC(
+  "A car starts at mile marker 8. Where will it end up?",
+  "+All the way west+",
+  "About mile 9",
+  "About mile 10",
+  "About mile 13",
+  "All the way east",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-4, echo=FALSE, results="markup"}
+askMC(
+  "A car starts at mile marker 10. Where will it end up?",
+  "All the way west",
+  "About mile 9",
+  "About mile 10",
+  "+About mile 13+",
+  "All the way east",
+  random_answer_order = FALSE
+)
+```
+
+
+```{r drive1-5, echo=FALSE, results="markup"}
+askMC(
+  "You and your friend plan to bike along the road. (Bikes are not covered by the speed mandate.) You'll stop at a point where you can sell snacks to motorists through their car windows. What's the most profitable point for you to set up your business.",
+  "All the way west",
+  "About mile 9",
+  "About mile 10",
+  "+About mile 13+",
+  "All the way east",
+  random_answer_order = FALSE
+)
+```
+
+A government commission is exploring ways to improve road use by changing the speed mandate. They will add a constant to the existing speed mandate.
+
+```{r drive1-6, echo=FALSE, results="markup"}
+askMC(
+  "One group of citizens wants to facilitate east-to-west travel. Which of these would be a suitable value of the constant to add to the speed mandate?",
+  "+-75 mph+",
+  "-25 mph",
+  "15 mph",
+  "35 mph",
+  "60 mph",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-7, echo=FALSE, results="markup"}
+askMC(
+  "Another group of citizens wants to facilitate west-to-east travel. Which of these would be a suitable value of the constant to add to the speed mandate?",
+  "-75 mph",
+  "-25 mph",
+  "15 mph",
+  "35 mph",
+  "+60 mph+",
+  random_answer_order = FALSE
+)
+```
+
+```{r drive1-8, echo=FALSE, results="markup"}
+askMC(
+  "An angry chef has a road-side hamburger stand at mile 5. His business has been non-existent since the current speed mandate was implemented. To give his stand the best chance at success, which policy should he advocate?",
+  "-75 mph",
+  "-25 mph",
+  "+15 mph+",
+  "35 mph",
+  "60 mph",
+  random_answer_order = FALSE
+)
+```
+
