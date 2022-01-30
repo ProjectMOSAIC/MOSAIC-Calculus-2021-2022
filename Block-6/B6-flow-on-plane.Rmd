@@ -1,0 +1,111 @@
+## Flows on the plane {#flow-on-plane}
+
+<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-fixed-points.Rmd)</div>
+
+::: {.underconstruction}
+i. Classify fixed points as stable/unstable given the dynamics
+i. Identify the dynamics of constant growth
+i. Compute Euler solutions (format for expressing the system and the format of the result)
+i. Analyze models in application contexts (for example May’s Cows - a model of bistability in ecology)
+
+
+[Last year's daily digitals](https://maa-statprep.shinyapps.io/142Z-DD-17) from DD-15 to about DD-20 
+:::
+
+
+
+
+
+Many of the natural and constructed objects and systems that we encounter---buildings, bridges, airplanes, the orbits of satellites, heating systems, birds in flight, and so on---are more fully understood if seen as dynamical systems. That may seem strange; a building doesn't move (we hope!), an airplane stays in steady flight, the seasons have been steady in their progression for as long as records have been kept. And yet ... a building might be shaken and even destroyed by an earthquake, airplanes require pilots and control systems for steady flight. Even satellites in far Earth orbit can drift from their desired positions and attitudes and require control corrections.
+
+A system is said to be in ***steady state*** when it stays put, unchanging. Another term often used to express such constancy is ***equilibrium*** which occurs when the various forces or processes acting on the system ***balance out.*** In the language of dynamical systems, the equilibrium state of a system is called a ***fixed point***.  Mathematically, this is a coordinate in the state space where all the right-hand sides of the differential equations equal zero. For a two-dimensional system with dynamics $$\partial_t x = f(x, y)\\\partial_t y = g(x,y)$$, a fixed point will be a particular value for the state which we'll write as $(x^\star, y^\star)$ where both $f(x^\star, y^\star) = 0$ and $g(x^\star, y^\star) = 0$.
+
+An important vocabulary word in dynamics is *transient*. In everyday speech, this means something like "just passing through." It's the same in dynamics: that part of the trajectory which precedes stable, fixed behavior such as at a fixed point. Transients occur whenever a dynamical system has an initial state not on a stable, fixed state. They are also common in systems that are disrupted by some external force, for example in the recovery of an electrical power distribution grid after a disturbance such as an ice storm. After a sharp bang, the ringing in your ears is a transient. When you stand up too suddenly, the "stars" you see are a transient due to diminished blood flow. Turn on an oven? The transient is the warming up until the oven reaches the temperature setting. 
+
+Although transients are ... well, transient, they can be very important. Key to the Wright Bros. success was their recognition that air turbulence elicits transients in attitude and that aircraft need control systems that can work fast enough for the craft to survive the transient. If you have driven a car with a broken suspension, you'll know that it can be hard to control after the transient caused by hitting a bump in the road.
+
+Small disturbances often elicit transients that decay away exponentially. Such transients, like all exponentially decaying processes, can be characterized by a half life: the time it takes the transient to shrink to half its original value. (Not all transients decay exponentially, but that's a story for another course.)
+
+
+## Second-order dynamics
+
+Let's return to second-order dynamics such as the rabbit/fox system:
+$$\partial_t r = \alpha r - \beta r f\\
+\partial_t f = - \delta f + \gamma r f$$
+
+A fixed point in a second-order system exists at a state where both of the differential equations evaluate to zero. These simple dynamical functions can be manipulated algebraically to show that there is one fixed point:
+
+$$\alpha r^\star - \beta r^\star f^\star = 0 \ \ \ \implies\ \ \ f^\star = \frac{\alpha}{\beta}\\
+\ \\
+- \delta f^\star + \gamma r^\star f^\star = 0 \ \ \ \implies \ \ \ r^\star = \frac{\gamma}{\delta}$$
+
+More generally, considering that the dynamical functions have two inputs, $r$, and $f$, we can see where each of the functions is zero by looking at the zero contour of each function individually. Where the zero contours cross, there is a fixed point.  Figure \@ref(fig:rabbit-fox-nullclines) shows the situation for the rabbit/fox system. These zero contours are called ***nullclines***. At any point on the rabbit nullcline, the flow arrows have zero component in the rabbit direction in state space. Similarly, at any point on the fox nullcline, the flow field has zero component in the fox direction.
+
+
+
+```{r rabbit-fox-nullclines, echo=FALSE, fig.cap="Flow field for the rabbit/fox system. The rabbit nullcline is magenta, the fox nullcline is blue." } 
+contour_plot(0.66*r - 1.33*r*f ~ r & f, domain(r=.1:2, f=0.05:1), contours_at = 0, contour_color = "magenta", filled = FALSE, labels=FALSE) %>%
+  contour_plot(-f + f*r ~ r & f, contours_at=0, contour_color="blue", filled=FALSE, labels=FALSE ) %>%
+vectorfield_plot(0.66*r - 1.33*r*f ~ r & f, 
+                 1*f*r -1*f ~ r & f, 
+                 domain(r=.1:2, f=0.05:1), npts=20, 
+                 transform=I) %>%
+  gf_labs(x="Rabbit density", y="Fox density")
+```
+
+
+```{r}
+show_abcd <- function(a, b, c, d) {
+  dx <- makeFun(a*x + b*y ~ x & y)
+  dy <- makeFun(c*x + d*y ~ x & y)
+  # contour_plot(dx(x,y) ~ x&y, contour_color="red", labels=FALSE, filled=FALSE,  
+  #              contours_at=0, domain(x=-1:1, y=-1:1)) %>%
+  #   contour_plot(dy(x,y) ~ x&y, contour_color="blue", labels=FALSE, filled=FALSE, 
+  #                contours_at=0) %>%
+    inequality_constraint(dy(x,y) < 0 ~ x&y, fill="blue", alpha=0.3, domain(x=-1:1, y=-1:1)) %>%
+      inequality_constraint(dx(x,y) < 0 ~ x&y, fill="red", alpha=0.3, domain(x=-1:1, y=-1:1)) %>%
+  vectorfield_plot((dx(x,y)) ~ x&y, sign(dy(x,y)) ~ x & y, transform=function(x) x^0.3) %>%
+    gf_refine(coord_fixed())
+    #vectorfield_plot(sign(dx(x,y)) ~ x&y, 0 ~ x & y, color="red") %>%
+    #vectorfield_plot(0.001 ~ x&y, sign(dy(x,y)) ~ x&y, color="blue", transform=I)
+   }
+
+show_abcd(.5, 1, 1, -.7)
+show_abcd(-.5, -1, 1, .7)
+show_abcd(-1, -.5, -.2, -.7)
+show_abcd(1, .5, -.2, -.7)
+show_abcd(-1, -.5, .2, .7)
+show_abcd(1, .5, .2, .7)
+```
+
+## Stability
+
+hurricanes, tornados, orbits, sand dunes and beach ripples, Galloping Gurdy, ..., orbit around Lagrange point, 
+
+## Linearization
+
+
+
+
+::: {.intheworld data-latex=""}
+Given a choice between a numerical and a symbolic solution to exactly the same problem, the symbolic solution is generally better: it's exact and it can incorporate parameters symbolically.
+
+
+> *"Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise."* -- John Tukey (1915-2000)
+:::
+
+
+
+### Tree example
+
+A tree provides a simple example of equilibrium. A living tree grows slowly, with essentially no change from day to day. The tree is usually in equilibrium with its surroundings. But there are disruptions that can place the tree out of equilibrium. The wind is a familiar disruption, changing the dynamics so that the tree no longer stands straight and still; it sways in the wind. A severe storm or a chain saw creates an opportunity for bigger disruption, removing the fixed point of upright posture and replacing it with an entirely different sort of fixed point. The steady, slow process of rot can weaken the equilibrium to the point where it no longer exists or is too weak to withstand the wind. The tree falls.
+
+Mathematics provides several concepts for thinking about equilibrium and the loss of equilibrium. The idea of a **fixed point** is at the center of things. The idea of disruption also has a mathematical equivalent called "forcing." The slow change (as in the rot of a tree) leading to a dramatic, sometimes sudden, collapse is represented by a "bifurcation." We'll explore forcing and bifurcation later, when we've developed better tools and ways of thinking to understand dynamics.
+
+
+
+Previously, we examined the stability of fixed points by using iteration: start at an initial condition arbitrarily close (but not exactly on!) a fixed point and see if the trajectory tends toward or away from the fixed point.
+
+Now we'll look at stability another way, by considering the shape of of the dynamical function near a fixed point. At this point in CalcZ, you're aware that "near" suggests local, and that we routinely model (continuous) functions in terms of the value at a point, the value of the derivative at the point, and the value of the 2nd derivative at the point.
+
+
