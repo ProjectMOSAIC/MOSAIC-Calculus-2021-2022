@@ -4,37 +4,7 @@ created: "Fri Jan 28 11:04:48 2022"
 global_id: "9aVYdV"
 ---
 
-It's easy to misinterpret the *state space* of a first-order differential equation. Think of it is a wire-like number line: a single quantity.  The state at any instant (the "instantaneous state") can be well imagined as a bead sliding along the wire. 
-
-Newcomers understandably endow this bead-on-wire analogy with other familiar properties of the real world. For instance, a real-world wire has friction which needs to be overcome by applying a force. A real-world bead has momentum which prolongs motion even after force has been applied. As you will see, a differential equation system that involves force and momentum requires a two-dimensional (or higher) state space. 
-
-An exact physical analogy to a one-dimensional differential equation system will always be somewhat artificial, since the physical laws of motion can't be implemented with a one-dimensional state. Here's one such contrived analogy: 
-
-> The state space is represented by a road, the instantaneous state being the location of a car along that road. But instead of the car's motion being set by the accelerator and brakes, the velocity of the car is strictly dictated by an authoritarian government law: no exceptions. When the dictated speed is zero, the car will stand still and cannot start moving again. Ultimately, depending on the shape of the law, the car will head off to infinity or come to an eternal standstill at a stable fixed point. Two different cars can never collide on this road: if the cars are close together, they must be travelling at similar velocities. Cars can't pass one another in different directions. Passing requires that the two cars have opposite velocities: one positive and one negative.  If the mandated velocity at a point along the road is positive, every car that comes to that point must have the same positive velocity. `r 
-
-The diagram shows such a road as a grey line. The red numbers are mile-markers alongside the road. The curve shows the mandated speed at any point: you can read off the numerical value of the mandated speed on the y-axis. 
-
-```{r echo=FALSE, warning=FALSE}
-f <- rfun( ~ x, seed=999)
-xpts <- seq(-5,5,length=500)
-offset <- mean(f(xpts))
-scale <- sd(xpts)
-speed  <- function(x) 20*(f(x-10) - offset)/scale
-Signs <- tibble::tibble(
-  x = seq(0,20, by=2),
-  y = 13,
-  label = paste("Mile", x),
-  angle = -sign(x - 9)*90
-)
-slice_plot(speed(x) ~ x, domain(x=c(0,20)), color="dodgerblue") %>%
-  gf_text(y ~ x, label = ~ label, color="orange3", data = Signs, angle=~ angle) %>%
-  gf_text(-30 ~ 1, label=c("West"), inherit=FALSE ) %>%
-  gf_text(30 ~ 19, label=c("East"), inherit=FALSE ) %>%
-  gf_hline(yintercept=0, color="black", alpha=0.3, size=3) %>%
-  gf_labs(y = "Mandated speed (mph)", x="", title="County Road B") %>%
-  gf_theme(panel.grid = element_blank(), axis.text.x = element_blank())
-```
-
+Answer these questions with respect to Figure \@ref(fig:road-rules).
 
 ```{r drive1-1, echo=FALSE, results="markup"}
 askMC(
