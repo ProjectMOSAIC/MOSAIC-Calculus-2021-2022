@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 37 Mechanics | MOSAIC-Calculus.knit</title>
   <meta name="description" content="" />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 37 Mechanics | MOSAIC-Calculus.knit" />
   <meta property="og:type" content="book" />
@@ -33,6 +33,7 @@
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -63,17 +63,21 @@
 \newcommand{\dnorm}{\text{dnorm}}
 \let\origvec\vec
 \let\origmathit\mathit
-\newcommand{\vec}[1]{\overset{\uparrow}{\mathbf #1}}
-\newcommand{\mathit}[1]{\overset{{\strut\Updownarrow}}{\mathbf #1}}
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -218,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="divider"></li>
 <li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
-<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+<li><a href="../block-6/diff-eq-intro.html">Block 6: Dynamics</a></li>
 
 </ul>
 
@@ -433,17 +437,48 @@ and similarly for <span class="math inline">\(\bar{y}\)</span>.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="mechanics.html#cb52-1" aria-hidden="true" tabindex="-1"></a>xbar  <span class="ot">&lt;-</span> <span class="fu">box_set</span>(<span class="dv">10</span><span class="sc">*</span>x <span class="sc">~</span> x <span class="sc">+</span> y, Zcalc<span class="sc">::</span>Blob1, <span class="at">dx =</span> <span class="fl">0.01</span>, <span class="at">sum=</span><span class="cn">TRUE</span>) <span class="sc">/</span> mass</span></code></pre></div>
 <pre><code>## [1] -0.1513999</code></pre>
 </div>
+<p>There is more than one way to describe the perimeter of an object, and the manner of integration has to be selected to match the description.</p>
+<p>Consider this shape that might be the design of a panel in a large sculpture. The panel will be cut out of 3mm thick sheet aluminum <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are given in meters. In order for the panel to be balanced, it will be mounted at its center of mass</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:panel-shape"></span>
+<img src="MOSAIC-Calculus_files/figure-html/panel-shape-1.png" alt="A panel for which to find the location of the center of mass" width="90%" />
+<p class="caption">
+Figure 37.9: A panel for which to find the location of the center of mass
+</p>
+</div>
+<p>The shape is defined by two functions, <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span>, one of which sets the top edge and the other the bottom edge. The side edges are defined by the leftmost and rightmost values of <span class="math inline">\(x\)</span>. Here, that’s <span class="math inline">\(x_\text{left} = - 1.5\)</span> and <span class="math inline">\(x_\text{right} = 4.0\)</span>.</p>
+<p>The <strong><em>area</em></strong> of the object can be found using the integration techniques from Block 3. For the purpose of finding the center of mass, we need to calculate the <strong><em>mass</em></strong> of the object. For 3mm sheet aluminum the density is about 8.1 kg/m<sup>2</sup>. Here, that’s simply <span class="math display">\[\text{mass} = \int_{-1.5}^{4.0} 8.1 \left[\strut f(x) - g(x)\right] dx \approx 880 \text{kg}\ .\]</span></p>
+<p>What about the center of mass? Because the shape is not described as a set of boxes, as we did earlier in this section, we need a way to perform the accumulation that uses only the information in the functions.</p>
+<p>The differential <span class="math inline">\(8.1 \left[\strut f(x) - g(x)\right] dx\)</span> gives the mass of each vertical slice of the object, several of which are shown in <span class="math inline">\(\color{magenta}{\text{magenta}}\)</span> in Figure <a href="#fig:cm-fun-diff"><strong>??</strong></a>.The tops and bottoms of those slices don’t align exactly with the boundaries of the object. That’s because we’ve drawn them at a finite width so that you can see them. But the actual differentials being accumulated will have negligible width, and so will fit exactly.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fun-diff"></span>
+<img src="MOSAIC-Calculus_files/figure-html/fun-diff-1.png" alt="The panel can be divided into vertical slices, a few of which are shown here. The vertical mid-point of each slice is marked with a blue dash. Accumulating the slices' mid-point coordinates times the slices' mass, and dividing by the panel's mass, gives the $y$-component of the center of mass." width="90%" />
+<p class="caption">
+Figure 37.10: The panel can be divided into vertical slices, a few of which are shown here. The vertical mid-point of each slice is marked with a blue dash. Accumulating the slices’ mid-point coordinates times the slices’ mass, and dividing by the panel’s mass, gives the <span class="math inline">\(y\)</span>-component of the center of mass.
+</p>
+</div>
+<p>The horizontal positions of the vertical slices are given by <span class="math inline">\(x\)</span>. The <span class="math inline">\(x\)</span>-component of the center of mass of each individual vertical slice will be
+<span class="math display">\[x \left[\strut \text{top}(x) - \text{bottom}(x)\right] dx\ .\]</span>
+The center of mass of the entire object will be the accumulation
+<span class="math display">\[\bar{x}= \frac{1}{\text{mass}}\int_{-1.5}^{4.0} x\ \text{density} \left[\strut \text{top}(x) - \text{bottom}(x)\right] dx \approx 1.72 \text{m}\ .\]</span></p>
+<p>Finding the <span class="math inline">\(y\)</span>-component of the center of mass could be done in a similar way, by constructing <em>horizontal</em> slices. However, we would have to calculate the functions <span class="math inline">\(\text{left}(y)\)</span> and <span class="math inline">\(\text{right}(y)\)</span> that bound each slice.</p>
+<p>An easier way is to find the vertical center of each slice. For a slice at position <span class="math inline">\(x\)</span>, the vertical center is <span class="math display">\[y_{\text{mid}}(x) \equiv\left[\strut \text{top}(x) + \text{bottom}(x)\right]/ 2\ ,\]</span> the average of the top and bottom positions. (These are marked in <span class="math inline">\(\color{blue}{\text{blue}}\)</span> in Figure <a href="mechanics.html#fig:fun-diff">37.10</a>.)
+The <span class="math inline">\(y\)</span>-component of the center of mass is <span class="math display">\[\bar{y} = \frac{1}{\text{mass}} \int_{-1.5}^{4.0} \text{density}\ y_\text{mid}(x)\ \left[\strut \text{top}(x) - \text{bottom}(x)\right] dx = \\ 
+\ \\
+\frac{1}{\text{mass}} \int_{-1.5}^{4.0} \text{density}\ \frac{\left[\strut \text{top}(x) + \text{bottom}(x) \right]}{2}\ \left[\strut \text{top}(x) - \text{bottom}(x)\right] dx =\\
+\ \\
+\frac{1}{\text{mass}} \int_{-1.5}^{4.0} \text{density}\ \frac{\left[\strut \text{top}(x)^2 - \text{bottom}(x)^2 \right]}{2}\ \approx -5.43 \text{m}\ .
+\]</span></p>
+<p>The center of mass, <span class="math inline">\((x=1.72, y=-5.43)\)</span>, is plotted as <span class="math inline">\(\color{blue}{\Large\mathbf{\text{+}}}\)</span> on the object.</p>
 </div>
 <div id="angular-momentum-and-torque" class="section level2" number="6.5">
 <h2><span class="header-section-number">37.5</span> Angular momentum and torque</h2>
 <p>The relationship between force and momentum is familiar:
 <span class="math display">\[F = \partial_t\, m\, v =\ \underbrace{m \ \partial_t\  v}_\text{if mass is constant}\ .\]</span> Of course, the derivative of velocity with respect to time is also called “acceleration.”</p>
-<p>Consider the following situation. A space probe is being acted on by a constant force, as in Figure <a href="mechanics.html#fig:probe-constant">37.9</a>. The mass of the probe is <span class="math inline">\(m\)</span>, the thrust from the rocket engine provides the force <span class="math inline">\(F\)</span>. Starting from velocity <span class="math inline">\(\partial_t y(t=0)\)</span> and position <span class="math inline">\(y(t=0) = 0\)</span>, the thrust produces an acceleration <span class="math inline">\(\partial_{tt} y(t) = F/m\)</span>. Integrating the acceleration gives the velocity as a function of time
+<p>Consider the following situation. A space probe is being acted on by a constant force, as in Figure <a href="mechanics.html#fig:probe-constant">37.11</a>. The mass of the probe is <span class="math inline">\(m\)</span>, the thrust from the rocket engine provides the force <span class="math inline">\(F\)</span>. Starting from velocity <span class="math inline">\(\partial_t y(t=0)\)</span> and position <span class="math inline">\(y(t=0) = 0\)</span>, the thrust produces an acceleration <span class="math inline">\(\partial_{tt} y(t) = F/m\)</span>. Integrating the acceleration gives the velocity as a function of time
 <span class="math display">\[\partial_t y(t) = \frac{F}{m} t + C\ .\]</span></p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:probe-constant"></span>
 <img src="www/rocket-fly-by.png" alt="A space probe accelerating along a linear course. The position at time $t$ can be written as $y(t)$ or as $   heta(t)$." width="90%" />
 <p class="caption">
-Figure 37.9: A space probe accelerating along a linear course. The position at time <span class="math inline">\(t\)</span> can be written as <span class="math inline">\(y(t)\)</span> or as $ heta(t)$.
+Figure 37.11: A space probe accelerating along a linear course. The position at time <span class="math inline">\(t\)</span> can be written as <span class="math inline">\(y(t)\)</span> or as $ heta(t)$.
 </p>
 </div>
 <p>The function <span class="math inline">\(y(t)\)</span> is not the only way to represent where the probe is as a function of <span class="math inline">\(t\)</span>. Suppose that the probe is being observed by a telescope which measures the angle <span class="math inline">\(\theta(t)\)</span> with respect to the equatorial plane. If the distance to the probe is <span class="math inline">\(D(t)\)</span>, then the pair <span class="math inline">\(\left(\strut\theta(t), D(t)\right)\)</span> gives the position of the probe. As <span class="math inline">\(y(t)\)</span> increases, so do <span class="math inline">\(\theta(t)\)</span> and <span class="math inline">\(D(t)\)</span>.</p>
@@ -473,11 +508,11 @@ Multiplying both sides by <span class="math inline">\(D_0\)</span> and recalling
 <p>To summarize, we have two equivalent expressions for the dynamics of the space probe:</p>
 <p><span class="math display">\[\partial_t y(t) = \frac{\overbrace{\ F}^\text{force}}{\underbrace{M}_\text{mass}} t \ \ \text{and}\ \ \partial_t \theta(t) = \frac{\overbrace{F\, D_0}^\text{torque}}{\underbrace{m D(t)^2}_\text{moment of inertia}}\ t\ .\]</span>
 In rectangular <span class="math inline">\((x,y)\)</span> coordinates, the velocity is the accumulation of force divided by mass: the usual statement of Newton’s second law of motion. In the angular coordinates <span class="math inline">\((\theta, D)\)</span> the angular velocity is the accumulation of <strong><em>torque</em></strong> divided by ***moment of inertia.</p>
-<p>The angular coordinate representation is helpful when studying the <strong><em>rotation</em></strong> of objects. To illustrate, imagine a different configuration for the system than that in in Figure <a href="mechanics.html#fig:probe-constant">37.9</a> where the space probe was free to accelerate in a straight line. Instead, suppose the rocket is mounted on a carousel, that is a wheel whose axle goes through the center as in Figure <a href="mechanics.html#fig:rocket-on-disk">37.10</a>.</p>
+<p>The angular coordinate representation is helpful when studying the <strong><em>rotation</em></strong> of objects. To illustrate, imagine a different configuration for the system than that in in Figure <a href="mechanics.html#fig:probe-constant">37.11</a> where the space probe was free to accelerate in a straight line. Instead, suppose the rocket is mounted on a carousel, that is a wheel whose axle goes through the center as in Figure <a href="mechanics.html#fig:rocket-on-disk">37.12</a>.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:rocket-on-disk"></span>
 <img src="www/rocket-on-disk.png" alt="The space probe mounted on a rigid wheel that can spin around its center." width="50%" />
 <p class="caption">
-Figure 37.10: The space probe mounted on a rigid wheel that can spin around its center.
+Figure 37.12: The space probe mounted on a rigid wheel that can spin around its center.
 </p>
 </div>
 <p>In the rocket-on-wheel configuration, <span class="math inline">\(D(t)\)</span> is a constant; the rocket stays the same distance from the center. Therefore, the moment of inertia is <span class="math inline">\(m D_0^2\)</span>. Following the previous formula, <span class="math display">\[\partial_t \theta(t) = \frac{F D_0}{m D_0^2} t\]</span> which is easily differentiated to give the <strong><em>angular acceleration</em></strong> <span class="math display">\[\partial_{tt} \theta(t) = \frac{F D_0}{m D_0^2}\ .\]</span></p>
@@ -495,7 +530,7 @@ Figure 37.10: The space probe mounted on a rigid wheel that can spin around its 
 <h2><span class="header-section-number">37.6</span> Exercises</h2>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/beech-lead-saw.Rmd" href="#JJG2p2"><img src="www/icons8-signpost.png" title="Location: Exercises/beech-lead-saw.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">JJG2p2</red></span>
+<strong>Exercise 37.01</strong>: <span><a name="File: Exercises/beech-lead-saw.Rmd" href="#JJG2p2"><img src="www/icons8-signpost.png" title="Location: Exercises/beech-lead-saw.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">JJG2p2</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -505,7 +540,7 @@ Find the energy needed to lift the 1kg object in the example to 20,000 km from t
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/bear-hold-sofa.Rmd" href="#M6TuxS"><img src="www/icons8-signpost.png" title="Location: Exercises/bear-hold-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">M6TuxS</red></span>
+<strong>Exercise 37.03</strong>: <span><a name="File: Exercises/bear-hold-sofa.Rmd" href="#M6TuxS"><img src="www/icons8-signpost.png" title="Location: Exercises/bear-hold-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">M6TuxS</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -515,7 +550,7 @@ Lift an object 10,000 km from the surface of the Moon. [Show a picture of the Sa
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/lobster-tug-knife.Rmd" href="#qXhqT3"><img src="www/icons8-signpost.png" title="Location: Exercises/lobster-tug-knife.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">qXhqT3</red></span>
+<strong>Exercise 37.05</strong>: <span><a name="File: Exercises/lobster-tug-knife.Rmd" href="#qXhqT3"><img src="www/icons8-signpost.png" title="Location: Exercises/lobster-tug-knife.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">qXhqT3</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -527,7 +562,7 @@ Lift an object 10,000 km from the surface of the Moon. [Show a picture of the Sa
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/seaweed-drink-sofa.Rmd" href="#gJ5vh0"><img src="www/icons8-signpost.png" title="Location: Exercises/seaweed-drink-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">gJ5vh0</red></span>
+<strong>Exercise 37.07</strong>: <span><a name="File: Exercises/seaweed-drink-sofa.Rmd" href="#gJ5vh0"><img src="www/icons8-signpost.png" title="Location: Exercises/seaweed-drink-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">gJ5vh0</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -537,7 +572,7 @@ Provide polygons and a point generator. Find the center of mass. Find the moment
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/chicken-meet-stove.Rmd" href="#vuZtSr"><img src="www/icons8-signpost.png" title="Location: Exercises/chicken-meet-stove.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">vuZtSr</red></span>
+<strong>Exercise 37.09</strong>: <span><a name="File: Exercises/chicken-meet-stove.Rmd" href="#vuZtSr"><img src="www/icons8-signpost.png" title="Location: Exercises/chicken-meet-stove.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">vuZtSr</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -547,7 +582,7 @@ Length of cable laid out along a hill: <span class="math display">\[\int_a^b \rh
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/tiger-pitch-chair.Rmd" href="#eQQ8HL"><img src="www/icons8-signpost.png" title="Location: Exercises/tiger-pitch-chair.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">eQQ8HL</red></span>
+<strong>Exercise 37.11</strong>: <span><a name="File: Exercises/tiger-pitch-chair.Rmd" href="#eQQ8HL"><img src="www/icons8-signpost.png" title="Location: Exercises/tiger-pitch-chair.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">eQQ8HL</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -557,7 +592,7 @@ Snowball being rolled up hill: Calculate the work done to roll a snowball up hil
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/seahorse-get-pants.Rmd" href="#RPwX21"><img src="www/icons8-signpost.png" title="Location: Exercises/seahorse-get-pants.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">RPwX21</red></span>
+<strong>Exercise 37.13</strong>: <span><a name="File: Exercises/seahorse-get-pants.Rmd" href="#RPwX21"><img src="www/icons8-signpost.png" title="Location: Exercises/seahorse-get-pants.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">RPwX21</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -569,7 +604,7 @@ Snowball being rolled up hill: Calculate the work done to roll a snowball up hil
 </ul>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/kitten-drive-book.Rmd" href="#SPNGyV"><img src="www/icons8-signpost.png" title="Location: Exercises/kitten-drive-book.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">SPNGyV</red></span>
+<strong>Exercise 37.15</strong>: <span><a name="File: Exercises/kitten-drive-book.Rmd" href="#SPNGyV"><img src="www/icons8-signpost.png" title="Location: Exercises/kitten-drive-book.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">SPNGyV</red></span>
 </summary>
 <div class="underconstruction">
 <p><strong>Under Construction</strong></p>
@@ -577,7 +612,21 @@ Snowball being rolled up hill: Calculate the work done to roll a snowball up hil
 </div>
 Viscosity. Elaborate on air resistance. Show Reynolds number is dimensionless. So air resistence could be a function of Reynolds number. Similarly with Mach number.
 </details>
+<details>
+<summary>
+<strong>Exercise 37.17</strong>: <span><a name="File: Exercises/fir-run-piano.Rmd" href="#SSO6vF"><img src="www/icons8-signpost.png" title="Location: Exercises/fir-run-piano.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">SSO6vF</red></span>
+</summary>
+<p>Confirm the calculation of the center of mass of the panel shown in Figure <a href="mechanics.html#fig:panel-shape">37.9</a>. The left edge of the panel is at -1.5 m, the right edge at 4.0 m. The functions describing the top and bottom edges of the panel are</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="mechanics.html#cb56-1" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> <span class="fu">rfun</span>(<span class="sc">~</span> x, <span class="at">seed=</span><span class="dv">120</span>)</span>
+<span id="cb56-2"><a href="mechanics.html#cb56-2" aria-hidden="true" tabindex="-1"></a>bottom <span class="ot">&lt;-</span> <span class="fu">rfun</span>(<span class="sc">~</span> x, <span class="at">seed=</span><span class="dv">2894</span>)</span></code></pre></div>
+<p>A. Calculate the area of the panel. The coordinates have units of meters.</p>
+<p>B. Calculate the mass of the panel. The density of the sheet aluminum is 8.1 kg/m<sup>2</sup>.</p>
+<p>C. Calculate the <span class="math inline">\(x\)</span>-component of the center of mass.</p>
+D. Calculate the <span class="math inline">\(y\)</span>-component of the center of mass.
+</details>
+<div class="underconstruction">
 <p>Add Exercise on potential energy in springs.</p>
+</div>
 
 </div>
 </div>
@@ -608,7 +657,6 @@ Viscosity. Elaborate on air resistance. Show Reynolds number is dimensionless. S
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -639,7 +687,7 @@ gitbook.start({
 },
 "download": null,
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {
