@@ -63,17 +63,21 @@
 \newcommand{\dnorm}{\text{dnorm}}
 \let\origvec\vec
 \let\origmathit\mathit
-\newcommand{\vec}[1]{\overset{\uparrow}{\mathbf #1}}
-\newcommand{\mathit}[1]{\overset{{\strut\Updownarrow}}{\mathbf #1}}
+\let\orighat\hat
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf #1}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{\|{\mathbf #1}\|}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
 \newcommand{\CC}[1]{\color{#648fff}{#1}}
 \newcommand{\CE}[1]{\color{#785ef0}{#1}}
 \newcommand{\CA}[1]{\color{#dc267f}{#1}}
 \newcommand{\CB}[1]{\color{#fe6100}{#1}}
 \newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
 </span>
-
-
-
 
 
 
@@ -218,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="divider"></li>
 <li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
-<li><a href="../block-6/dynamics.html">Block 6: Dynamics</a></li>
+<li><a href="../block-6/diff-eq-intro.html">Block 6: Dynamics</a></li>
 
 </ul>
 
@@ -618,6 +622,32 @@ C. Taking into account the dimension of the input <span class="math inline">\(x\
 <p>    <span class="Zchoice"><code>antiD()</code><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><code>D()</code><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><code>Iterate()</code><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><code>Solve()</code><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
 <p><strong>Question C</strong> The R/mosaic functions <code>Solve()</code> and <code>argM()</code> return what kind of computer object?</p>
     <span class="Zchoice">a number<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">a function<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">a graph<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">a data frame<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>
+</details>
+<details>
+<summary>
+<strong>Exercise 32.13</strong>: <span><a name="File: Exercises/snake-get-ring.Rmd" href="#JBw8oV"><img src="www/icons8-signpost.png" title="Location: Exercises/snake-get-ring.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">JBw8oV</red></span>
+</summary>
+<p>A simple robot arm to move things in the <span class="math inline">\((x,y)\)</span> plane consists of two links, the first connected to the base of the robot and the second to the free end of the first link, as in the diagram. At the end of the second link is a tool, such as a drill. Such a robot would be used to drill a series of precisely positioned whole in a metal plate.</p>
+<p>Each link is moved by a digitally-controlled motor. To position the robot, commands are sent to the two motors to set their respective angles. For instance, in the diagram the motor-1 angle, <span class="math inline">\(\theta_1\)</span> is set to 45 degrees, while the motor-2 angle <span class="math inline">\(\theta_2\)</span> is set to -60 degrees.</p>
+<p>The problem faced by the robot designer is to allow the user to input a series of <span class="math inline">\((x,y)\)</span> coordinates (where the holes are to be drilled) and have the robot controller calculate the resulting angles.</p>
+<p>For simplicity, assume that the link lengths are both <span class="math inline">\(L = 1\)</span>, but generalizing this to two different link lengths would not be difficult.</p>
+<p>At this point, play with the problem a bit. Mark a point on your desk or paper. This will be the location of the base of the robot. Take two pencils, let’s call them “yellow” and “green,” putting the eraser of yellow at the base location and the eraser of green at the tip of yellow. Now, pick another point on your desk or paper to be the target for the robot arm. (This must be closer to the base than the sum of lengths of the two pencils.) Change the orientation of the pencils, keeping yellow attached to the base and green attached to the tip of yellow. Your job is to find an orientation that will place the tip of green on the target. Try different target points until you feel comfortable that you understand how to solve the problem.</p>
+<p>Now to create a mathematical model of the situation so that we can automate the solution. The purpose of this model is to find <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> given the <span class="math inline">\((x, y)\)</span> position of the target.</p>
+<p>From your experience using pencils as the model of the robot, you may have noticed that the location of the “elbow” of the robot arm is key to the solution. Find the right position for the elbow and the angles can be calculated from trigonometry.</p>
+<p>Note that the position of the elbow, which we will denote with coordinates <span class="math inline">\((u, v)\)</span> is determined solely by <span class="math inline">\(L\)</span> and <span class="math inline">\(\theta_1\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Write down a formula for the <span class="math inline">\(u\)</span> and for the <span class="math inline">\(v\)</span> position of the elbow as a function of <span class="math inline">\(\theta_1\)</span> (taking the base as the origin). Hint: sine and cosine functions are relevant.</p></li>
+<li><p>Implement the formulas from (1) into two functions, one called <code>elbow_u(theta1)</code> and the other <code>elbow_v(theta1)</code>.</p></li>
+<li><p>Write another function, <code>elbow_to_target_dist(theta1, x, y)</code> that will use <code>elbow_u()</code> and <code>elbow_v()</code> to calculate the distance from the elbow to the target point <span class="math inline">\((x, y)\)</span>. (The distance will be <span class="math inline">\(\sqrt{\strut (x - u)^2 + (y-v)^2}\)</span>.)</p></li>
+<li><p>Write yet another function, <code>dist_at_theta(theta1, x, y)</code> that, given an angle theta, will return the distance from the elbow to the target. The logic is to use <code>elbow_u()</code> and <code>elbow_v()</code> to find the location of the elbow <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> and then give these as the argments to <code>elbow_to_target_dist()</code>.</p></li>
+<li><p>The next phase of the solution is to use <code>elbow_to_target_dist(theta1, x, y)</code> to find a value of <code>theta1</code> that will make the distance equal to the length <span class="math inline">\(L\)</span> of link2. When you have found this <code>theta1</code>, you’ll know the position of the elbow that is consistent with reaching the target from the base with the two links.</p>
+<ol style="list-style-type: lower-roman">
+<li>Pick a target location. This can be anything within distance <span class="math inline">\(2L\)</span> from the base. We’ll call the coordinates of your target <code>target_x</code> and <code>target_y</code>.</li>
+<li>Plot out <code>elbow_to_target_dist(theta1, x=target_x, y=target_y)</code> as a function of <code>theta1</code> over the domain <span class="math inline">\(-\pi \leq \theta_1 \leq \pi\)</span>.</li>
+<li>Locate a value of <span class="math inline">\(\theta_1\)</span> where the output of the function is <span class="math inline">\(L\)</span>.</li>
+</ol></li>
+<li><p>Write another function, <code>elbow_theta1(x, y)</code> that takes the <span class="math inline">\((x, y)\)</span> position as input and produces as output suitable value(s) of <span class="math inline">\(\theta_1\)</span>. To do this within the <code>elbow_theta1(x, y)</code> function, use <code>Zeros(dist_at_theta(theta1) - L, domain(theta1=-pi:pi))</code>.</p></li>
+</ol>
 </details>
 
 </div>

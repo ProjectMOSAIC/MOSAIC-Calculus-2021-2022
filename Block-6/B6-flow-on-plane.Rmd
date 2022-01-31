@@ -16,28 +16,47 @@ i. Analyze models in application contexts (for example May’s Cows - a model of
 
 
 
-Many of the natural and constructed objects and systems that we encounter---buildings, bridges, airplanes, the orbits of satellites, heating systems, birds in flight, and so on---are more fully understood if seen as dynamical systems. That may seem strange; a building doesn't move (we hope!), an airplane stays in steady flight, the seasons have been steady in their progression for as long as records have been kept. And yet ... a building might be shaken and even destroyed by an earthquake, airplanes require pilots and control systems for steady flight. Even satellites in far Earth orbit can drift from their desired positions and attitudes and require control corrections.
-
-A system is said to be in ***steady state*** when it stays put, unchanging. Another term often used to express such constancy is ***equilibrium*** which occurs when the various forces or processes acting on the system ***balance out.*** In the language of dynamical systems, the equilibrium state of a system is called a ***fixed point***.  Mathematically, this is a coordinate in the state space where all the right-hand sides of the differential equations equal zero. For a two-dimensional system with dynamics $$\partial_t x = f(x, y)\\\partial_t y = g(x,y)$$, a fixed point will be a particular value for the state which we'll write as $(x^\star, y^\star)$ where both $f(x^\star, y^\star) = 0$ and $g(x^\star, y^\star) = 0$.
-
-An important vocabulary word in dynamics is *transient*. In everyday speech, this means something like "just passing through." It's the same in dynamics: that part of the trajectory which precedes stable, fixed behavior such as at a fixed point. Transients occur whenever a dynamical system has an initial state not on a stable, fixed state. They are also common in systems that are disrupted by some external force, for example in the recovery of an electrical power distribution grid after a disturbance such as an ice storm. After a sharp bang, the ringing in your ears is a transient. When you stand up too suddenly, the "stars" you see are a transient due to diminished blood flow. Turn on an oven? The transient is the warming up until the oven reaches the temperature setting. 
-
-Although transients are ... well, transient, they can be very important. Key to the Wright Bros. success was their recognition that air turbulence elicits transients in attitude and that aircraft need control systems that can work fast enough for the craft to survive the transient. If you have driven a car with a broken suspension, you'll know that it can be hard to control after the transient caused by hitting a bump in the road.
-
-Small disturbances often elicit transients that decay away exponentially. Such transients, like all exponentially decaying processes, can be characterized by a half life: the time it takes the transient to shrink to half its original value. (Not all transients decay exponentially, but that's a story for another course.)
 
 
-## Second-order dynamics
 
-Let's return to second-order dynamics such as the rabbit/fox system:
-$$\partial_t r = \alpha r - \beta r f\\
-\partial_t f = - \delta f + \gamma r f$$
 
-A fixed point in a second-order system exists at a state where both of the differential equations evaluate to zero. These simple dynamical functions can be manipulated algebraically to show that there is one fixed point:
+Let's return the rabbit/fox system as an example of flow. Since there are two state quantities, $r$ and $f$, the state space $(r, f)$ is a plane. At each point in the state space, the flow vector gives the direction and speed of motion. Like all vectors, a flow vector has only two properties: the direction and length. The speed of motion is the length of the flow vector.
 
-$$\alpha r^\star - \beta r^\star f^\star = 0 \ \ \ \implies\ \ \ f^\star = \frac{\alpha}{\beta}\\
+The flow itself is a ***vector field***. This is an assignment of a vector to each point of the state space. Graphically, we depict a flow field by selecting a grid of points in the state space, finding the flow vector for each grid point, and drawing those vectors positioned at their respective grid points.
+
+```{r rf-flow-2, echo=FALSE, fig.cap="The flow field has a vector at each point in state space but we can draw only a few if the plot is to be legible. Zooming in on a region produces more detail."}
+# commands to make the individual plots in the figure
+# vectorfield_plot(0.66*r - 1.33*r*f ~ r & f,
+#                  -f + r*f ~ r & f,
+#                  domain(r=0:2, f=0:1)) %>%
+#   gf_rect(.4 + .7 ~ .8 + 1.3, color="magenta", fill=NA) %>%
+#   gf_refine(coord_fixed())
+# vectorfield_plot(0.66*r - 1.33*r*f ~ r & f,
+#                  -f + r*f ~ r & f,
+#                  domain(r=.8:1.3, f=.4:.7)) %>% 
+#   gf_rect(.4 + .7 ~ .8 + 1.3, color="magenta", size=2, fill=NA) %>%
+#   gf_rect(.47 + .53 ~ .95 + 1.02, color="green", fill=NA) %>%
+#   gf_refine(coord_fixed())
+# vectorfield_plot(0.66*r - 1.33*r*f ~ r & f,
+#                  -f + r*f ~ r & f,
+#                  domain(r=.95:1.02, f=.47:.53)) %>% 
+#   gf_rect(.47 + .53 ~ .95 + 1.02, color="green", size=2, fill=NA) %>%
+#   gf_refine(coord_fixed())
+knitr::include_graphics("www/rf-zoom.png")
+```
+
+Recall from Block 5 that it's conventional to specify a vector by giving a coordinate pair for the tip of the vector with the understanding that the tail is at the origin. For the rabbit/fox system, the tip's coordinate is $\left({\Large\strut} g_r(r, f),\  g_f(r, f)\right)$. This notation is potentially confusing, because the letters $r$ and $f$ appear in so many places. Each each vector in Figure \@ref(fig:rf-flow2) is drawn at a particular point, say $(r=0.96, f=0.48)$. At that point, evaluate the dynamical functions: $g_r(r=0.96, f=0.48) = $ and $g_r(r=0.96, f=0.48)= , 
+a flow vector is given by the dynamical functions, $g_r(r, f)$ and $g_f(r, f)$. The state space is :
+$$\partial_t r = g_r(r, f) = \alpha r - \beta r f\\
+\partial_t f = g_f(r, f) = - \delta f + \gamma r f$$
+
+A fixed point in a second-order system exists at a state where both of the differential equations evaluate to zero. This amounts These simple dynamical functions can be manipulated algebraically to show that there is one fixed point:
+
+$$\text{zeros for}\ r:\ \ \alpha r - \beta r f = 0 \ \ \ \implies\ \ \ f^\star = \frac{\alpha}{\beta}\\
 \ \\
-- \delta f^\star + \gamma r^\star f^\star = 0 \ \ \ \implies \ \ \ r^\star = \frac{\gamma}{\delta}$$
+\text{zeros for}\ f:\ \ - \delta f + \gamma r f = 0 \ \ \ \implies \ \ \ r^\star = \frac{\gamma}{\delta}$$
+We were able to solve the above equations
+
 
 More generally, considering that the dynamical functions have two inputs, $r$, and $f$, we can see where each of the functions is zero by looking at the zero contour of each function individually. Where the zero contours cross, there is a fixed point.  Figure \@ref(fig:rabbit-fox-nullclines) shows the situation for the rabbit/fox system. These zero contours are called ***nullclines***. At any point on the rabbit nullcline, the flow arrows have zero component in the rabbit direction in state space. Similarly, at any point on the fox nullcline, the flow field has zero component in the fox direction.
 
