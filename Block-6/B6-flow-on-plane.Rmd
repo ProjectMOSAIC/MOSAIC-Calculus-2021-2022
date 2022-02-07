@@ -3,13 +3,6 @@
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-fixed-points.Rmd)</div>
 
 ::: {.underconstruction}
-i. Classify fixed points as stable/unstable given the dynamics
-i. Identify the dynamics of constant growth
-i. Compute Euler solutions (format for expressing the system and the format of the result)
-i. Analyze models in application contexts (for example May’s Cows - a model of bistability in ecology)
-
-
-[Last year's daily digitals](https://maa-statprep.shinyapps.io/142Z-DD-17) from DD-15 to about DD-20 
 :::
 
 Let's return the rabbit/fox system as an example of flow. Since there are two state quantities, $r$ and $f$, the state space $(r, f)$ is a plane. At each point in the state space, the flow vector gives the direction and speed of motion. Like all vectors, a flow vector has only two properties: the direction and length. The speed of motion is the length of the flow vector.
@@ -169,7 +162,7 @@ $$
 
 As for the orbits, one in a clockwise direction and the other counter-clockwise, we can't yet say from this simple theory whether they are stable or unstable. The orbit we have already met, the rabbit-fox dynamics, has counter-clockwise trajectories that form closed loops. This is called ***neutral stability***. 
 
-```{r rf-orbit, echo=FALSE, fig.cap="The rabbit/fox system is an orbit that is neutrally stable."}
+```{r rf-orbit, echo=FALSE, fig.cap="The rabbit/fox system has orbits that are neutrally stable."}
 traj1 <- integrateODE(dr ~ dt_rabbit(r, f), 
                       df ~ dt_fox(r,f), r=1.5, f=.25,
                       tdur=7.5
@@ -189,64 +182,67 @@ inequality_constraint(dt_rabbit(r, f) < 0 ~ r&f,
                    dt_fox(r,f) ~ r & f,
                    transform=function(x) x^0.3) %>%
   gf_lims(x = c(.35,2), y=c(0,1.1))
-  
-  
-
 ```
 
-To start, we'll modify the plot of nullclines to make clear 
 
+::: {.underconstruction}
+For exercises, have students determine the stability of these flows.
+```
 show_abcd(-.5, -1, 1, .7)
 show_abcd(-1, -.5, -.2, -.7)
 show_abcd(1, .5, -.2, -.7)
 show_abcd(-1, -.5, .2, .7)
 show_abcd(1, .5, .2, .7)
 ```
+:::
 
-
-
-Look carefully at the flow near the nullclines. Near the fox (blue) nullcline, the flow arrows are always horizontal. That's because $\partial_t f$ is zero on the nullcline, by definition. So any flow on the nullcline can only point in the positive or negative rabbit direction, with zero fox component. 
-
-Similarly, near the rabbit (red)
-
-
-
-$$\partial_t r = g_r(r, f) = \alpha r - \beta r f\\
-\partial_t f = g_f(r, f) = - \delta f + \gamma r f$$
-
-A fixed point in a second-order system exists at a state where both of the differential equations evaluate to zero. This amounts These simple dynamical functions can be manipulated algebraically to show that there is one fixed point:
-
-$$\text{zeros for}\ r:\ \ \alpha r - \beta r f = 0 \ \ \ \implies\ \ \ f^\star = \frac{\alpha}{\beta}\\
-\ \\
-\text{zeros for}\ f:\ \ - \delta f + \gamma r f = 0 \ \ \ \implies \ \ \ r^\star = \frac{\gamma}{\delta}$$
-We were able to solve the above equations
-
-
-More generally, considering that the dynamical functions have two inputs, $r$, and $f$, we can see where each of the functions is zero by looking at the zero contour of each function individually. Where the zero contours cross, there is a fixed point.  Figure \@ref(fig:rabbit-fox-nullclines) shows the situation for the rabbit/fox system. These zero contours are called ***nullclines***. At any point on the rabbit nullcline, the flow arrows have zero component in the rabbit direction in state space. Similarly, at any point on the fox nullcline, the flow field has zero component in the fox direction.
-
-
-
-```{r rabbit-fox-nullclines, echo=FALSE, fig.cap="Flow field for the rabbit/fox system. The rabbit nullcline is magenta, the fox nullcline is blue." } 
-contour_plot(0.66*r - 1.33*r*f ~ r & f, domain(r=.1:2, f=0.05:1), contours_at = 0, contour_color = "magenta", filled = FALSE, labels=FALSE) %>%
-  contour_plot(-f + f*r ~ r & f, contours_at=0, contour_color="blue", filled=FALSE, labels=FALSE ) %>%
-vectorfield_plot(0.66*r - 1.33*r*f ~ r & f, 
-                 1*f*r -1*f ~ r & f, 
-                 domain(r=.1:2, f=0.05:1), npts=20, 
-                 transform=I) %>%
-  gf_labs(x="Rabbit density", y="Fox density")
-```
-
-
-
-
-## Stability
-
-hurricanes, tornados, orbits, sand dunes and beach ripples, Galloping Gurdy, ..., orbit around Lagrange point, 
 
 ## Linearization
 
+For dynamical systems with two state variables, constructing a linear approximation to dynamics near a fixed point follows a similar procedure to that with one-state-variable systems.
+
+1. Locate the fixed point.
+2. Construct the first-order polynomial approximation to each of the dynamical functions at the fixed point. 
+
+For instance, the pendulum system has state variables $\theta$ and $v$ with dynamics
+$$\partial_t \theta  =  g_\theta(\theta, v) =  v\\
+\partial_t v  =  g_{v}(\theta, v) = - \sin(\theta)
+$$
+There is a fixed point at $\theta = 0$, $v=0$: this is just the situation of a pendulum hanging down that has no motion.
+
+The dynamical function $g_\theta(\theta, v) = v$ is already in first-order polynomial form.
+
+The other dynamical function, $g_v(\theta, v) = - \sin(\theta)$ is nonlinear. The first order polynomial approximation centered on the fixed point will be $$g_v(\theta, v) \approx \underbrace{\color{magenta}{g_{v}(0, 0)}}_0 + \underbrace{\color{magenta}{\partial_\theta g_v(0, 0)}}_{-\cos(0)}\ \theta + \underbrace{\color{magenta}{\partial_v g_v(0, 0)}}_0\, v$$
+The term $g_v(0, 0) = 0$ because we are evaluating $g_v()$ at a fixed point. The term $\partial_v g_v(0, 0) = 0$ because $g_v()$ does not depend on $v$. 
+
+We'll use $u$ and $w$ as the dynamical variables in the linear approximation in order to avoid confusion with the original, nonlinear equations. The linearized dynamics are therefore:
+$$\partial_t u = \ \ w\\
+\partial_t w = - u$$
+```{r linearized-pendulum, echo=FALSE, fig.cap="Flow field, nullclines, and trajectories of the pendulum (black) and the linearized pendulum (magenta) from three different initial conditions."}
+tnl0 <- integrateODE(dtheta ~ v, dv ~ - sin(theta), theta=1, v = 0, tdur=6)
+tnl1 <- integrateODE(dtheta ~ v, dv ~ - sin(theta), theta=2, v = 0, tdur=6)
+tnl2 <- integrateODE(dtheta ~ v, dv ~ - sin(theta), theta=2.8, v = 0, tdur=6)
+t0 <- integrateODE(dtheta ~ v, dv ~ - theta, theta=1, v = 0, tdur=6)
+t1 <- integrateODE(dtheta ~ v, dv ~ - theta, theta=2, v = 0, tdur=6)
+t2 <- integrateODE(dtheta ~ v, dv ~ - theta, theta=2.8, v = 0, tdur=6)
+
+contour_plot(-sin(theta) ~ theta & v, contours_at=0, contour_color="blue", , domain(theta=-3:3, v=-2.5:2.5), labels=FALSE) %>%
+  contour_plot(v ~ theta & v, contours_at=0, contour_color="red", labels=FALSE) %>%
+vectorfield_plot(v ~ theta & v, -sin(theta) ~ theta & v, domain(theta=-3:3, v=-2.5:2.5)) %>%
+  traj_plot(v(t) ~ theta(t), soln=tnl0, nt=0, size=2, alpha=0.4) %>%
+  traj_plot(v(t) ~ theta(t), soln=tnl1, nt=0, size=2, alpha=0.4) %>%
+  traj_plot(v(t) ~ theta(t), soln=tnl2, nt=0, size=2, alpha=0.4) %>%
+  traj_plot(v(t) ~ theta(t), soln=t0, nt=0, color="magenta") %>%
+  traj_plot(v(t) ~ theta(t), soln=t1, nt=0, color="magenta") %>%
+  traj_plot(v(t) ~ theta(t), soln=t2, nt=0, color="magenta") %>%
+  gf_lims(y=c(-2.5,2.5), x = c(-3, 3)) %>%
+  gf_refine(coord_fixed())
 
 
+  
+
+
+```
 
 ::: {.intheworld data-latex=""}
 Given a choice between a numerical and a symbolic solution to exactly the same problem, the symbolic solution is generally better: it's exact and it can incorporate parameters symbolically.
@@ -257,16 +253,10 @@ Given a choice between a numerical and a symbolic solution to exactly the same p
 
 
 
-### Tree example
-
-A tree provides a simple example of equilibrium. A living tree grows slowly, with essentially no change from day to day. The tree is usually in equilibrium with its surroundings. But there are disruptions that can place the tree out of equilibrium. The wind is a familiar disruption, changing the dynamics so that the tree no longer stands straight and still; it sways in the wind. A severe storm or a chain saw creates an opportunity for bigger disruption, removing the fixed point of upright posture and replacing it with an entirely different sort of fixed point. The steady, slow process of rot can weaken the equilibrium to the point where it no longer exists or is too weak to withstand the wind. The tree falls.
-
-Mathematics provides several concepts for thinking about equilibrium and the loss of equilibrium. The idea of a **fixed point** is at the center of things. The idea of disruption also has a mathematical equivalent called "forcing." The slow change (as in the rot of a tree) leading to a dramatic, sometimes sudden, collapse is represented by a "bifurcation." We'll explore forcing and bifurcation later, when we've developed better tools and ways of thinking to understand dynamics.
 
 
+## Exercises
 
-Previously, we examined the stability of fixed points by using iteration: start at an initial condition arbitrarily close (but not exactly on!) a fixed point and see if the trajectory tends toward or away from the fixed point.
 
-Now we'll look at stability another way, by considering the shape of of the dynamical function near a fixed point. At this point in CalcZ, you're aware that "near" suggests local, and that we routinely model (continuous) functions in terms of the value at a point, the value of the derivative at the point, and the value of the 2nd derivative at the point.
-
+`r insert_calcZ_exercise("XX.XX", "s5x504", "Exercises/bear-give-futon.Rmd")`
 
