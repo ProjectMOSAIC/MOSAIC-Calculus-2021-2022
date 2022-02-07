@@ -1,0 +1,69 @@
+Our goal is to scale the `expkt` vector so that the scaled numbers will be as close as possible to our destination, namely, `temp`. Comparing the two columns of numbers, you might anticipate that the scalar will be about 100. We'll see how to calculate it exactly in the next chapter. The result turns out to be 99.23. The resulting model will be $$T(t) = 99.23\, e^{-0.02 t}\ .$$
+
+How are we to judge whether this is a good model or not? Common sense suggests plotting out the model function along with the data, as in Figure \@ref(fig:just-exp).
+
+```{r just-exp, eval=FALSE, fig.cap="Comparing the model $99.23\\, e^{-0.02 t}$ to the recorded data in `CoolingWater."}
+gf_point(temp ~ time, data = CW) %>%
+  slice_plot(99.23*exp(-0.02*time) ~ time, color="magenta")
+
+```
+
+Judge for yourself whether this is a good model. The obvious deficiency is that the model falls, as decaying exponentials will do, toward a temperature of 0, whereas the water is cooling to a room temperature of about 25 degrees.
+
+Let's return to the model seen in terms of vectors. The advantage of doing this is to develop a general procedure we can use for interpreting models of all sorts, rather than just the particular situation of the cooling-water data.
+
+What are the geometric facts? We know that the `temp` vector has length 251.3 deg C. Similarly we can calculate the length of the `expkt` vector: 2.46 deg C.
+
+It might seem that the "direction" of the vector is meaningless, because it's a direction in an abstract, hard-to-envision 15-dimensional space. (There are 15 components to each of `temp` and `expkt`.) Even so, we can calculate the ***angle*** between the two vectors, using the formula $\cos(\theta) = \frac{\vec{v}\cdot \vec{w}}{\|\vec{v}\|\ \|\vec{w}\|}$. Doing the arithmetic gives $$\cos{\theta} = \frac{599.8}{251.3 \times 2.46} = 0.9708\ \ \implies \ \ \ \theta = 13.88^\circ$$
+
+```{r temp-expkt-picture, echo=FALSE, fig.cap="The vectors `temp` and `expkt` have an angle of 13.88 deg between them. Here, `expkt` has been drawn 10x it's actual size."}
+gvec(from = c(0,0), to = c(250, 25.1), color = "black") %>%
+  gf_segment(0 + 3*28.8 ~ 0 + 3*116.5,
+             color="magenta", linetype = "dotted") %>%
+  gvec(from=c(0,0), to = 2*c(11.6, 2.88), color="magenta") %>%
+  gf_refine(coord_fixed())
+```
+
+With these geometrical facts, we can draw a picture. Figure \@ref(fig:temp-expkt-picture) shows `temp` in black and `expkt` in magenta. (We've drawn it 10 times as long as it really is so that you can see it well.) For the `expkt` vector to be a good model of `temp`, we need to scale it so that the result, which must be on the dotted line in the picture, is as close as possible to the tip of `temp`. You can count off yourself how many `expkt` steps will bring you close to `temp`. (Remember to multiply your result by 10, since in the picture we drew `expkt` ten times longer than its arithmetic length.)
+
+One reasonable way to quantify how good a model of `temp` can be made by a properly scaled version of vector `expkt` is the angle between them: 13.88 degrees.
+
+Likewise, we can scale the vector `intercept` to make it match `temp` as well as possible. The angle between `intercept` and `temp` works out to be 75.7 degrees; the vectors are not very well aligned. Scaling by 58.2 will bring `intercept` as close as it is ever going to get to `temp`, which is not very close at all.
+
+The idea of a linear combination is to scale and add multiple vectors. As a **very rough start**, let's look at the combination 58.2 `intercept` + 99.23 `expkt`, the combination of the two individual models we constructed by vector analogy. CAUTION: The model will be poor. That's not because the vector analogy is poor but because we still have to work out, as we will in the next two chapters, how properly to work with vectors.
+
+```{r eval=FALSE}
+# This is broken
+CW <- CoolingWater
+CW <- CW %>%
+  mutate(model = 99.23*expkt + 58.2*intercept)
+```
+
+```{r eval=FALSE}
+# Broken
+Znotes::and_so_on(CW) %>% kableExtra::kable_minimal()
+```
+
+The resulting model is ... well, terrible! Figure \@ref(fig:two-temp-models) shows the linear combination
+
+```{r two-temp-models, eval=FALSE}
+gf_point(temp ~ time, data = CW) %>%
+  gf_point(model ~ time, data = CW, color="magenta") %>%
+  slice_plot(58.2+ 99.23*exp(-0.02*time) ~ time, color="magenta")
+```
+
+EXERCISE: Repeat the calculations for the entire `CoolingData` data frame.
+
+
+Adding vectors. The result is a vector
+
+Scaling and adding vectors: a linear combination of vectors.
+
+As motivation for this "find $\vec{x}$" problem, we refer you to Figure \@ref(fig:water-dots) which showed the temperature-vs-time data from the `CoolingWater` data frame. That figure shows several possible linear combinations of the vectors $u(t) \equiv e^{-0.02 t}$ (we called this `expkt`) and $v(t) \equiv 1$ (we called this `intercept`). Suppose we seek to find the particular linear combination of $u(t)$ and $v(t)$ that comes as close as possible to the black dots in the figure. That is, we know $\mathit{A}$: the two columns `expkt` and `intercept` from the data frame, and we know $\vec{b}$: the column `temp` from the data frame.
+
+This sort of problem is extremely common and important throughout quantitative fields of all sorts, from astronomy to zoology, and is one of the foundation techniques in statistics and data science. We'll present the approach graphically, algorithmically, and computationally.
+
+
+
+
+

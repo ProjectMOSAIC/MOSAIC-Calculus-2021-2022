@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 46 Functions as vectors | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 46 Functions as vectors | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 46 Functions as vectors | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="stat-modeling.html"/>
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\let\origbar\bar
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf{#1}}}
+\newcommand{\bar}[1]{\overset{{\rule[-1pt]{12pt}{.5mm}}}{\mathbf{#1}}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{{\|{\mathbf #1}\|}}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="../docs/welcome-to-calculus.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relatonships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></li>
+<hr>
+<li><strong><a href="./">Block 5: Linear combinations</strong></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="41" data-path="vectors.html"><a href="vectors.html"><i class="fa fa-check"></i><b>41</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="vectors.html"><a href="vectors.html#length-direction"><i class="fa fa-check"></i><b>41.1</b> Length &amp; direction</a></li>
+<li class="chapter" data-level="41.2" data-path="vectors.html"><a href="vectors.html#the-nth-dimension"><i class="fa fa-check"></i><b>41.2</b> The n<sup>th</sup> dimension</a></li>
+<li class="chapter" data-level="41.3" data-path="vectors.html"><a href="vectors.html#geometry-arithmetic"><i class="fa fa-check"></i><b>41.3</b> Geometry &amp; arithmetic</a></li>
+<li class="chapter" data-level="41.4" data-path="vectors.html"><a href="vectors.html#vector-length"><i class="fa fa-check"></i><b>41.4</b> Vector lengths</a></li>
+<li class="chapter" data-level="41.5" data-path="vectors.html"><a href="vectors.html#angles"><i class="fa fa-check"></i><b>41.5</b> Angles</a></li>
+<li class="chapter" data-level="41.6" data-path="vectors.html"><a href="vectors.html#orthogonality"><i class="fa fa-check"></i><b>41.6</b> Orthogonality</a></li>
+<li class="chapter" data-level="41.7" data-path="vectors.html"><a href="vectors.html#exercises"><i class="fa fa-check"></i><b>41.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="42" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html"><i class="fa fa-check"></i><b>42</b> Linear combinations of vectors</a>
+<ul>
+<li class="chapter" data-level="42.1" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#scaling-vectors"><i class="fa fa-check"></i><b>42.1</b> Scaling vectors</a></li>
+<li class="chapter" data-level="42.2" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#adding-vectors"><i class="fa fa-check"></i><b>42.2</b> Adding vectors</a></li>
+<li class="chapter" data-level="42.3" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#linear-combinations"><i class="fa fa-check"></i><b>42.3</b> Linear combinations</a></li>
+<li class="chapter" data-level="42.4" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#functions-as-vectors"><i class="fa fa-check"></i><b>42.4</b> Functions as vectors</a></li>
+<li class="chapter" data-level="42.5" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#matrices-and-linear-combinations"><i class="fa fa-check"></i><b>42.5</b> Matrices and linear combinations</a></li>
+<li class="chapter" data-level="42.6" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#sub-spaces"><i class="fa fa-check"></i><b>42.6</b> Sub-spaces</a></li>
+<li class="chapter" data-level="42.7" data-path="linear-combs-vectors.html"><a href="linear-combs-vectors.html#exercises-1"><i class="fa fa-check"></i><b>42.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="43" data-path="projection-residual.html"><a href="projection-residual.html"><i class="fa fa-check"></i><b>43</b> Projection &amp; residual</a>
+<ul>
+<li class="chapter" data-level="43.1" data-path="projection-residual.html"><a href="projection-residual.html#projection-terminology"><i class="fa fa-check"></i><b>43.1</b> Projection terminology</a></li>
+<li class="chapter" data-level="43.2" data-path="projection-residual.html"><a href="projection-residual.html#projection-onto-a-single-vector"><i class="fa fa-check"></i><b>43.2</b> Projection onto a single vector</a></li>
+<li class="chapter" data-level="43.3" data-path="projection-residual.html"><a href="projection-residual.html#projection-onto-a-set-of-vectors"><i class="fa fa-check"></i><b>43.3</b> Projection onto a set of vectors</a></li>
+<li class="chapter" data-level="43.4" data-path="projection-residual.html"><a href="projection-residual.html#a-becomes-q"><i class="fa fa-check"></i><b>43.4</b> A becomes Q</a></li>
+<li class="chapter" data-level="43.5" data-path="projection-residual.html"><a href="projection-residual.html#exercises-2"><i class="fa fa-check"></i><b>43.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="44" data-path="target-problem.html"><a href="target-problem.html"><i class="fa fa-check"></i><b>44</b> The target problem</a>
+<ul>
+<li class="chapter" data-level="44.1" data-path="target-problem.html"><a href="target-problem.html#linear-equations"><i class="fa fa-check"></i><b>44.1</b> Linear equations</a></li>
+<li class="chapter" data-level="44.2" data-path="target-problem.html"><a href="target-problem.html#visualization-in-a-two-dimensional-subspace"><i class="fa fa-check"></i><b>44.2</b> Visualization in a two-dimensional subspace</a></li>
+<li class="chapter" data-level="44.3" data-path="target-problem.html"><a href="target-problem.html#properties-of-the-solution"><i class="fa fa-check"></i><b>44.3</b> Properties of the solution</a></li>
+<li class="chapter" data-level="44.4" data-path="target-problem.html"><a href="target-problem.html#application-of-the-target-problem"><i class="fa fa-check"></i><b>44.4</b> Application of the target problem</a></li>
+<li class="chapter" data-level="44.5" data-path="target-problem.html"><a href="target-problem.html#exercises-3"><i class="fa fa-check"></i><b>44.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="45" data-path="stat-modeling.html"><a href="stat-modeling.html"><i class="fa fa-check"></i><b>45</b> Statistical modeling and R<sup>2</sup></a>
+<ul>
+<li class="chapter" data-level="45.1" data-path="stat-modeling.html"><a href="stat-modeling.html#r-squared"><i class="fa fa-check"></i><b>45.1</b> R-squared</a></li>
+<li class="chapter" data-level="45.2" data-path="stat-modeling.html"><a href="stat-modeling.html#interpreting-the-model"><i class="fa fa-check"></i><b>45.2</b> Interpreting the model</a></li>
+<li class="chapter" data-level="45.3" data-path="stat-modeling.html"><a href="stat-modeling.html#improving-the-model"><i class="fa fa-check"></i><b>45.3</b> Improving the model</a></li>
+<li class="chapter" data-level="45.4" data-path="stat-modeling.html"><a href="stat-modeling.html#machine-learning"><i class="fa fa-check"></i><b>45.4</b> Machine learning</a></li>
+<li class="chapter" data-level="45.5" data-path="stat-modeling.html"><a href="stat-modeling.html#exercises-4"><i class="fa fa-check"></i><b>45.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="46" data-path="functions-as-vectors-1.html"><a href="functions-as-vectors-1.html"><i class="fa fa-check"></i><b>46</b> Functions as vectors</a>
+<ul>
+<li class="chapter" data-level="46.1" data-path="functions-as-vectors-1.html"><a href="functions-as-vectors-1.html#functions-as-vectors-2"><i class="fa fa-check"></i><b>46.1</b> Functions as vectors</a></li>
+<li class="chapter" data-level="46.2" data-path="functions-as-vectors-1.html"><a href="functions-as-vectors-1.html#time-and-tide"><i class="fa fa-check"></i><b>46.2</b> Time and tide</a></li>
+<li class="chapter" data-level="46.3" data-path="functions-as-vectors-1.html"><a href="functions-as-vectors-1.html#fourier-transform"><i class="fa fa-check"></i><b>46.3</b> Fourier transform</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="../block-6/diff-eq-intro.html">Block 6: Dynamics</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="functions-as-vectors-1" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 46</span> Functions as vectors</h1>
+<div class="underconstruction">
+<p>This chapter is not available in the current release of <em>MOSAIC Calculus</em></p>
+</div>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-functions.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<p>Time for a bit of mathematical abstraction …. We defined a vector as a column of numbers because that’s easy to visualize and to do arithmetic on. The arithmetic we needed is</p>
+<ol style="list-style-type: lower-roman">
+<li>Scaling — multiplication of the vector by a scalar.</li>
+<li>Addition — adding two or more vectors together.</li>
+</ol>
+<p>Taken together, scaling and addition give linear combination.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Dot product — the sum of the component-wise product of two vectors.</li>
+</ol>
+<p>Dot product gives us an interpretation of vectors in terms of lengths and angles between vectors.</p>
+<p>We’ve been constructing linear combinations of functions since Block 1, for instance <span class="math inline">\(32 + 17 e^{-0.2 t}\)</span>. What about dot products between functions?</p>
+<p>Consider two vectors, <span class="math inline">\(\vec{f}\)</span> and <span class="math inline">\(\vec{g}\)</span>, each of which consists of a set of <span class="math inline">\(b\)</span> components <span class="math inline">\(f_0, f_1, f_2, \ldots, f_b\)</span> and <span class="math inline">\(g_0, g_1, g_2, \ldots, g_b\)</span>. The dot product is a sum:
+<span class="math display">\[\vec{f} \bullet \vec{g} \equiv \sum_{t=0}^b f_t\,g_t\ .\]</span>
+To generalize this to continuous functions of time, morph the <span class="math inline">\(\sum\)</span> into an <span class="math inline">\(\int\)</span>:
+<span class="math display">\[f(t) \bullet g(t) \equiv \int_0^b f(t)\, g(t) dt\ .\]</span></p>
+<div id="functions-as-vectors-2" class="section level2" number="6.1">
+<h2><span class="header-section-number">46.1</span> Functions as vectors</h2>
+<p>In Section 8.3 we looked at the use of the exponential function to describe the temperature of hot water cooling to room temperature. The exponential decreasing function is of course <span class="math inline">\(e^{-kt}\)</span> and we can find <span class="math inline">\(k\)</span> by estimating the half-life of exponential decay, which is about 36 minutes in the data we used. (Figure <a href="#fig:water-scaled-exp"><strong>??</strong></a>).</p>
+<p>In this section, we’re going to think about functions in terms of vectors. There are huge advantages to thinking in this way, but it will take some time for you to see them clearly.</p>
+<p>Recall the data on cooling water gave the temperature (in degrees C) versus time (in minutes). Economy on the page argues against showing all the rows of the <code>CoolingWater</code> data frame, but you have access to it in the <a href="https://maa-statprep.shinyapps.io/CalcZ-Sandbox/">SANDBOX</a>.</p>
+<table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+time
+</th>
+<th style="text-align:right;">
+temp
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+98.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+91.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+86.9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+83.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+78.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+71.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+66.3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+58.6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+53.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+48.8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+41.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+36.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+32.7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+149
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+174
+</td>
+<td style="text-align:right;">
+28.2
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>temp</code> column of the data frame is a set of numbers, hence interpretable as a vector. As a vector in 15 dimensions, there’s not much to be said about its <em>direction</em>, but the length is easy enough: take the square root of the sum of squares of the components. That comes to 251.3 degrees C. This is merely an arithmetic fact, the consequence of adding together 15 numbers. It has the dimension of temperature T, but has nothing to do with the hot-oven-like 251 C temperature.</p>
+<p>This <code>temp</code> vector is playing to role of the buried treasure; it’s the destination we want to reach. What have we got to reach it with?</p>
+<p>This is where our basic modeling function <span class="math inline">\(e^{-kt}\)</span> comes in. By evaluating <span class="math inline">\(e^{-kt}\)</span> at each of the values of <span class="math inline">\(t\)</span> in the <code>time</code> column, we create another column, which we’ll call <code>expkt</code>. Knowing that the half-life is about 36 minutes, we’ll use <span class="math inline">\(k=\ln(2)/36 \approx 0.02\)</span>. At the same time, anticipating what is to come, we’ll add another column which we’ll call, following statistical practice, the <code>intercept</code> column and which represents the constant function (evaluated at each of the times).</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="functions-as-vectors-1.html#cb127-1" aria-hidden="true" tabindex="-1"></a>CW <span class="ot">&lt;-</span> CW <span class="sc">%&gt;%</span> </span>
+<span id="cb127-2"><a href="functions-as-vectors-1.html#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">expkt =</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.02</span><span class="sc">*</span>time),</span>
+<span id="cb127-3"><a href="functions-as-vectors-1.html#cb127-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">intercept =</span> <span class="dv">1</span>)</span></code></pre></div>
+<table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+time
+</th>
+<th style="text-align:right;">
+temp
+</th>
+<th style="text-align:right;">
+expkt
+</th>
+<th style="text-align:right;">
+intercept
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+98.2
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+91.4
+</td>
+<td style="text-align:right;">
+0.9607894
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+86.9
+</td>
+<td style="text-align:right;">
+0.9231163
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+83.1
+</td>
+<td style="text-align:right;">
+0.8869204
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+78.0
+</td>
+<td style="text-align:right;">
+0.8352702
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+71.4
+</td>
+<td style="text-align:right;">
+0.7557837
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+66.3
+</td>
+<td style="text-align:right;">
+0.6838614
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+58.6
+</td>
+<td style="text-align:right;">
+0.5598984
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+53.0
+</td>
+<td style="text-align:right;">
+0.4584060
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+48.8
+</td>
+<td style="text-align:right;">
+0.3753111
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+41.2
+</td>
+<td style="text-align:right;">
+0.2276377
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+36.2
+</td>
+<td style="text-align:right;">
+0.1380692
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+32.7
+</td>
+<td style="text-align:right;">
+0.0837432
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+149
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+<td style="text-align:right;">
+0.0507928
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+174
+</td>
+<td style="text-align:right;">
+28.2
+</td>
+<td style="text-align:right;">
+0.0308074
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>Confirm for yourself that the <code>expkt</code> column really does match an exponential decay with a half-life of about 36 minutes. You can see that at time zero the value of expkt, just as expected for an exponential. At time 36, somewhere between the rows for times 29 and 39, the value is about 0.5. At time 72—two half-lives after the start—the value should be 0.25, closely matching the recorded temperature at time 74.</p>
+<p>The two vectors <code>expkt</code> and <code>intercept</code>, like any two (non-aligned) vectors, span a planar subspace. Since <code>expkt</code> and <code>intercept</code> are embedded in a 15-dimensional space—this is just saying that there are 15 rows in the data frame—the plane is a subspace of the 15-dimensional space. This statement can seem hopelessly abstract, so let’s try to give a more concrete visualization. For the visualization, we’ll move onto the familiar ground of a graph of temperature versus time.</p>
+<p>In the domain of temperature vs time, each of the linear combinations <span class="math inline">\(\alpha\)</span><code>expkt</code><span class="math inline">\(\ + \beta\)</span><code>intercept</code>, appears as a set of 15 dots. Figure <a href="functions-as-vectors-1.html#fig:water-dots">46.1</a> shows three such sets of 15 does in three different colors, along with the 15 points of the actual temperature data. To show more than the three sets of dots would be visually confusing. Instead, we’ll add to the graph functions of the form <span class="math inline">\(\alpha\, e^{-0.02 t} + \beta\, 1\)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:water-dots"></span>
+<img src="MOSAIC-Calculus_files/figure-html/water-dots-1.png" alt="Some of the possible linear combinations of the vectors `expkt` and `intercept`. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination." width="90%" />
+<p class="caption">
+Figure 46.1: Some of the possible linear combinations of the vectors <code>expkt</code> and <code>intercept</code>. Each combination is a set of 15 dots, but many of them are shown here as continuous functions that would connect the dots for that particular linear combination.
+</p>
+</div>
+<p>We we to plot <em>all</em> the linear combinations of <code>expkt</code> and <code>intercept</code>, the graphics frame would be completely covered with ink. But each individual vector produced by a linear combination will look much of a kind with the ten shown here.</p>
+<p>The functions shown in Figure <a href="functions-as-vectors-1.html#fig:water-dots">46.1</a> all inhabit the two-dimensional subspace spanned by <code>expkt</code> and <code>intercept</code>. But there is a lot more to the 15 dimensional space. What do functions look like that inhabit the space outside of the two-dimensional <code>expkt</code>&amp;<code>intercept</code> subspace? Figure <a href="functions-as-vectors-1.html#fig:13-handful">46.2</a> shows a handful of them. Each is different in kind from the functions shown in Figure <a href="functions-as-vectors-1.html#fig:water-dots">46.1</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:13-handful"></span>
+<img src="MOSAIC-Calculus_files/figure-html/13-handful-1.png" alt="A handful of the vectors in the 15-dimensional space outside of the 2-dimensional `expkt`&amp;`intercept` subspace." width="90%" />
+<p class="caption">
+Figure 46.2: A handful of the vectors in the 15-dimensional space outside of the 2-dimensional <code>expkt</code>&amp;<code>intercept</code> subspace.
+</p>
+</div>
+<p>There are a lot of crazy-looking functions out there in 15-dimensional space!</p>
+<p>Look back at Figure <a href="functions-as-vectors-1.html#fig:water-dots">46.1</a> and focus your attention on the function drawn in black. That function is a reasonable match to the data (plotted as black dots). The question we face now is how to find such a function by searching through a 15-dimensional space. That’s the task we take on in the next chapter.</p>
+<div class="intheworld">
+<p>It’s pretty easy to visualize the length of a vector and the arithmetic is straightforward even in n-dimensional space. For a vector <span class="math inline">\(\vec{v}\)</span> with components <span class="math display">\[\vec{v} \equiv \left[\strut \begin{array}{c}v_1\\v_2\\\vdots\\v_n\end{array}\right]\]</span> the length is <span class="math inline">\(\sqrt{\strut v_1^2 + v_2^2 + \cdots + v_n^2}\)</span>. Similarly, the <strong><em>dot product</em></strong> between <span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> is <span class="math inline">\(\vec{v} \cdot \vec{w} \equiv v_1 w_1 + v_2 w_2 + \cdots + v_n w_n\)</span>. In terms of the dot product, the vector length is <span class="math inline">\(\sqrt{\strut\vec{v} \cdot \vec{v}}\)</span>. And by combining the dot products, we can calculate the angle between two vectors: <span class="math display">\[\cos(\theta_{v,w}) = \frac{\vec{v}\cdot\vec{w}}{\sqrt{\strut (\vec{v}\cdot\vec{v})\ (\vec{w}\cdot\vec{w}})}\]</span></p>
+<p>As you know, a vector has two properties: length and direction. Both of these can be calculated using the dot product.</p>
+<p>This suggests a way to consider other mathematical objects, such as functions, as vectors. All we need is a reasonable definition for a dot product. Suppose we have two functions, <span class="math inline">\(f(t)\)</span> and <span class="math inline">\(g(t)\)</span> defined on some domain, say <span class="math inline">\(0 &lt; t &lt; 2\pi\)</span>. A dot product multiplies the objects together and accumulates the products. When the vectors are sets of numbers, the accumulation is to add up component-by-component products. By analogy, to take the dot product of <span class="math inline">\(f(t)\)</span> and <span class="math inline">\(g(t)\)</span> over the domain, we can do an integral: <span class="math display">\[f() \cdot g() \equiv \int_0^{2\pi} f(t) g(t) dt\ .\]</span></p>
+<p>To illustrate, consider these two functions: <span class="math inline">\(f(t) \equiv \sin(t)\)</span> and <span class="math inline">\(g(t) \equiv \sin(2 t)\)</span>, plotted below.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-80-1.png" width="90%" style="display: block; margin: auto;" />
+How “long” are <span class="math inline">\(f(t)\)</span> and <span class="math inline">\(g(t)\)</span>? `</p>
+<pre class='sourceCode'  style='width:90%;overflow:auto;'>Integrate(sin(t) * sin(t) ~ t, domain(t = 0:(2 * pi))) %>% sqrt()</pre>
+<p>       <span class="math inline">\(1.7725\)</span><br></p>
+<pre class='sourceCode'  style='width:90%;overflow:auto;'>Integrate(sin(2 * t) * sin(2 * t) ~ t, domain(t = 0:(2 * pi))) %>% sqrt()</pre>
+<p>       <span class="math inline">\(1.7725\)</span><br></p>
+<p>They are both the same “length”, which you might recognize as <span class="math inline">\(\sqrt{\strut\pi}\)</span>.</p>
+<p>What’s the cosine of the angle between them?</p>
+<pre class='sourceCode'  style='width:90%;overflow:auto;'>Integrate(sin(t) * sin(2 * t) ~ t, domain(t = 0:(2 * pi)))/pi</pre>
+<p>       <span class="math inline">\(0\)</span><br></p>
+<p>The cosine of the angle is zero—<code>1.3e-16</code> is just a round-off error. That means that the functions <span class="math inline">\(\sin(t)\)</span> and <span class="math inline">\(\sin(2t)\)</span> are <strong>orthogonal</strong> on the domain <span class="math inline">\(0 &lt; t &lt; 2\pi\)</span>.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-9" class="example"><strong>Example 46.1  </strong></span><strong>From Talyor to Lagrange</strong></p>
+<p>In Chapter 26 we met a method introduced by Brook Taylor (1685–1731) to construct a polynomial of order-<span class="math inline">\(n\)</span> that approximates any smooth function <span class="math inline">\(f(x)\)</span> close enough to some center <span class="math inline">\(x_0\)</span>. The method made use of the ability to differentiate <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x_0\)</span> and produced the general formula:
+<span class="math display">\[f(x) \approx f(x_0) + \frac{f&#39;(x_0)}{1} \left[x-x_0\right] + \frac{f&#39;&#39;(x_0)}{2!} \left[x-x_0\right]^2 + \frac{f&#39;&#39;&#39;(x_0)}{3!} \left[x-x_0\right]^3 + \cdots + \frac{f^{(n)}(x_0)}{n!} \left[x-x_0\right]^n\]</span> where <span class="math inline">\(f&#39;(x_0) \equiv \partial_x f(x)\left.{\Large\strut}\right|_{x=x_0}\)</span> and so on.</p>
+<p>Using polynomials as approximating functions has been an important theme in mathematics history. Brook Taylor was neither the first nor the last to take on the problem.</p>
+<p>In 1795, <a href="https://en.wikipedia.org/wiki/Joseph-Louis_Lagrange">Joseph-Louis Lagrange</a>
+(1736 – 1813) published another method for constructing an approximating polynomial of order <span class="math inline">\(n\)</span>. Whereas the Taylor polynomial builds the polynomial that exactly matches the first <span class="math inline">\(n\)</span> derivatives at the center point <span class="math inline">\(x_0\)</span>, the Lagrange polynomial has a different objective: to match exactly the values of the target function <span class="math inline">\(f(x)\)</span> at a set of <strong><em>knots</em></strong> (input values) <span class="math inline">\(x_0\)</span>, <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span>, <span class="math inline">\(\ldots, x_n\)</span>. Figure <a href="functions-as-vectors-1.html#fig:lagrange-sine">46.3</a> shows the situation with the knots shown as orange dots.</p>
+<pre><code>## Warning: Removed 38 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 8 row(s) containing missing values (geom_path).</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lagrange-sine"></span>
+<img src="MOSAIC-Calculus_files/figure-html/lagrange-sine-1.png" alt="The Lagrange polynomial of order $n$ is arranged to pass exactly through $n+1$ points on the graph of a function $f(x)$." width="90%" />
+<p class="caption">
+Figure 46.3: The Lagrange polynomial of order <span class="math inline">\(n\)</span> is arranged to pass exactly through <span class="math inline">\(n+1\)</span> points on the graph of a function <span class="math inline">\(f(x)\)</span>.
+</p>
+</div>
+<p>The Lagrange polynomial is constructed of a linear combinations of functions, one for each of the knots. In the example of Figure <a href="functions-as-vectors-1.html#fig:lagrange-sine">46.3</a>, there are 6 knots, hence six functions being combined. For knot 2, for instance, has coordinates <span class="math inline">\(\left(\strut x_2, f(x_2)\right)\)</span> and the corresponding function is:</p>
+<p><span class="math display">\[p_2(x) = \frac{(x-x_1)}{(x_2 -x_1)}\left[\strut\cdot\right]\frac{(x-x_3)(x-x_4)(x-x_5)(x-x_6)}{(x_2 -x_3)(x_2 -x_4)(x_2 -x_5)(x_2 -x_6)}\]</span>
+The gap indicated by <span class="math inline">\(\left[\strut\cdot\right]\)</span> marks where a term being excluded. For <span class="math inline">\(p_2(x)\)</span> that excluded term is <span class="math inline">\(\frac{(x-x_2)}{(x_2 - x_2)}\)</span>. The various functions <span class="math inline">\(p_1(x)\)</span>, <span class="math inline">\(p_2(x)\)</span>, <span class="math inline">\(p_3(x)\)</span> and so on each leave out an analogous term.</p>
+<p>Three important facts to notice about these ingenious polynomial functions:</p>
+<ol style="list-style-type: lower-roman">
+<li>They all have the same polynomial order. For <span class="math inline">\(k\)</span> knots, the order is <span class="math inline">\(k-1\)</span>.</li>
+<li>Evaluated at <span class="math inline">\(x_i\)</span>, the value of <span class="math inline">\(p_i(x_i) = 1\)</span>. For instance, <span class="math inline">\(p_2(x_2) = 1\)</span>.</li>
+<li>Evaluated at <span class="math inline">\(x_j\)</span>, where <span class="math inline">\(j\neq i\)</span>, the value of <span class="math inline">\(p_j(x_i) = 0\)</span>. For example, <span class="math inline">\(p_2(x_3) = 0\)</span>.</li>
+</ol>
+<p>The overall polynomial will be the linear combination <span class="math display">\[p(x) = y_1\, p_1(x) + 
+y_2\, p_2(x) + \cdots + y_k\, p_k(x)\ .\]</span>
+Can you see why?</p>
+</div>
+</div>
+<div id="time-and-tide" class="section level2" number="6.2">
+<h2><span class="header-section-number">46.2</span> Time and tide</h2>
+<p>Periodicities from <a href="https://tidesandcurrents.noaa.gov/harcon.html?id=8451552&amp;type=" class="uri">https://tidesandcurrents.noaa.gov/harcon.html?id=8451552&amp;type=</a></p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="functions-as-vectors-1.html#cb130-1" aria-hidden="true" tabindex="-1"></a>hour <span class="ot">&lt;-</span> <span class="fu">with</span>(RI_tide, hour)</span>
+<span id="cb130-2"><a href="functions-as-vectors-1.html#cb130-2" aria-hidden="true" tabindex="-1"></a>b    <span class="ot">&lt;-</span> <span class="fu">with</span>(RI_tide, level)</span>
+<span id="cb130-3"><a href="functions-as-vectors-1.html#cb130-3" aria-hidden="true" tabindex="-1"></a>sin1 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.41</span>)</span>
+<span id="cb130-4"><a href="functions-as-vectors-1.html#cb130-4" aria-hidden="true" tabindex="-1"></a>cos1 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.41</span>)</span>
+<span id="cb130-5"><a href="functions-as-vectors-1.html#cb130-5" aria-hidden="true" tabindex="-1"></a>sin2 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">23.94</span>)</span>
+<span id="cb130-6"><a href="functions-as-vectors-1.html#cb130-6" aria-hidden="true" tabindex="-1"></a>cos2 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">23.94</span>)</span>
+<span id="cb130-7"><a href="functions-as-vectors-1.html#cb130-7" aria-hidden="true" tabindex="-1"></a>sin3 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="dv">12</span>)</span>
+<span id="cb130-8"><a href="functions-as-vectors-1.html#cb130-8" aria-hidden="true" tabindex="-1"></a>cos3 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="dv">12</span>)</span>
+<span id="cb130-9"><a href="functions-as-vectors-1.html#cb130-9" aria-hidden="true" tabindex="-1"></a>sin4 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.66</span>)</span>
+<span id="cb130-10"><a href="functions-as-vectors-1.html#cb130-10" aria-hidden="true" tabindex="-1"></a>cos4 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.66</span>)</span>
+<span id="cb130-11"><a href="functions-as-vectors-1.html#cb130-11" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, sin1, cos1, sin2, cos2, sin3, cos3, sin4, cos4)</span>
+<span id="cb130-12"><a href="functions-as-vectors-1.html#cb130-12" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> b <span class="sc">%onto%</span> <span class="fu">cbind</span>(<span class="dv">1</span>, sin1, cos1)</span>
+<span id="cb130-13"><a href="functions-as-vectors-1.html#cb130-13" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> b <span class="sc">%onto%</span> <span class="fu">cbind</span>(<span class="dv">1</span>, sin1, cos1, sin2, cos2)</span>
+<span id="cb130-14"><a href="functions-as-vectors-1.html#cb130-14" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">qr.solve</span>(A, b)</span>
+<span id="cb130-15"><a href="functions-as-vectors-1.html#cb130-15" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> A <span class="sc">%*%</span> x</span>
+<span id="cb130-16"><a href="functions-as-vectors-1.html#cb130-16" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_point</span>(level <span class="sc">~</span> hour, <span class="at">data =</span> RI_tide)  <span class="sc">%&gt;%</span></span>
+<span id="cb130-17"><a href="functions-as-vectors-1.html#cb130-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_line</span>(mod3 <span class="sc">~</span> hour, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-81-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Anchorage, AK</p>
+<p>Components:
+- M2 12.42 hours
+- S2 12 hours
+- N2 12.658 hours
+- K1 23.935 hours</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="functions-as-vectors-1.html#cb131-1" aria-hidden="true" tabindex="-1"></a>hour <span class="ot">&lt;-</span> <span class="fu">with</span>(Anchorage_tide, hour)</span>
+<span id="cb131-2"><a href="functions-as-vectors-1.html#cb131-2" aria-hidden="true" tabindex="-1"></a>b    <span class="ot">&lt;-</span> <span class="fu">with</span>(Anchorage_tide, level)</span>
+<span id="cb131-3"><a href="functions-as-vectors-1.html#cb131-3" aria-hidden="true" tabindex="-1"></a>sin1 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.42</span>)</span>
+<span id="cb131-4"><a href="functions-as-vectors-1.html#cb131-4" aria-hidden="true" tabindex="-1"></a>cos1 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.42</span>)</span>
+<span id="cb131-5"><a href="functions-as-vectors-1.html#cb131-5" aria-hidden="true" tabindex="-1"></a>sin2 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">23.935</span>)</span>
+<span id="cb131-6"><a href="functions-as-vectors-1.html#cb131-6" aria-hidden="true" tabindex="-1"></a>cos2 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">23.935</span>)</span>
+<span id="cb131-7"><a href="functions-as-vectors-1.html#cb131-7" aria-hidden="true" tabindex="-1"></a>sin3 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="dv">12</span>)</span>
+<span id="cb131-8"><a href="functions-as-vectors-1.html#cb131-8" aria-hidden="true" tabindex="-1"></a>cos3 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="dv">12</span>)</span>
+<span id="cb131-9"><a href="functions-as-vectors-1.html#cb131-9" aria-hidden="true" tabindex="-1"></a>sin4 <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.658</span>)</span>
+<span id="cb131-10"><a href="functions-as-vectors-1.html#cb131-10" aria-hidden="true" tabindex="-1"></a>cos4 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>hour<span class="sc">/</span><span class="fl">12.658</span>)</span>
+<span id="cb131-11"><a href="functions-as-vectors-1.html#cb131-11" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, sin1, cos1, sin2, cos2, sin3, cos3, sin4, cos4)</span>
+<span id="cb131-12"><a href="functions-as-vectors-1.html#cb131-12" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> b <span class="sc">%onto%</span> <span class="fu">cbind</span>(<span class="dv">1</span>, sin1, cos1)</span>
+<span id="cb131-13"><a href="functions-as-vectors-1.html#cb131-13" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> b <span class="sc">%onto%</span> <span class="fu">cbind</span>(<span class="dv">1</span>, sin1, cos1, sin2, cos2)</span>
+<span id="cb131-14"><a href="functions-as-vectors-1.html#cb131-14" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">qr.solve</span>(A, b)</span>
+<span id="cb131-15"><a href="functions-as-vectors-1.html#cb131-15" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> A <span class="sc">%*%</span> x</span>
+<span id="cb131-16"><a href="functions-as-vectors-1.html#cb131-16" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> b <span class="sc">-</span> mod3</span>
+<span id="cb131-17"><a href="functions-as-vectors-1.html#cb131-17" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_line</span>(level <span class="sc">~</span> hour, <span class="at">data =</span> Anchorage_tide)  <span class="sc">%&gt;%</span></span>
+<span id="cb131-18"><a href="functions-as-vectors-1.html#cb131-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_line</span>(mod3 <span class="sc">~</span> hour, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb131-19"><a href="functions-as-vectors-1.html#cb131-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1000</span>))</span></code></pre></div>
+<pre><code>## Warning: Removed 75114 row(s) containing missing values (geom_path).
+## Removed 75114 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-82-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="functions-as-vectors-1.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_line</span>(resid <span class="sc">~</span> hour) </span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-82-2.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="fourier-transform" class="section level2" number="6.3">
+<h2><span class="header-section-number">46.3</span> Fourier transform</h2>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="functions-as-vectors-1.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill in the missing data</span></span>
+<span id="cb134-2"><a href="functions-as-vectors-1.html#cb134-2" aria-hidden="true" tabindex="-1"></a>Raw <span class="ot">&lt;-</span> Anchorage_tide <span class="sc">%&gt;%</span> <span class="fu">select</span>(hour, level) <span class="sc">%&gt;%</span></span>
+<span id="cb134-3"><a href="functions-as-vectors-1.html#cb134-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hour =</span> <span class="fu">round</span>(hour, <span class="dv">1</span>))</span>
+<span id="cb134-4"><a href="functions-as-vectors-1.html#cb134-4" aria-hidden="true" tabindex="-1"></a>Even <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">hour=</span><span class="fu">seq</span>(<span class="fu">min</span>(Raw<span class="sc">$</span>hour), <span class="fu">max</span>(Raw<span class="sc">$</span>hour), <span class="at">by=</span><span class="fl">0.1</span>))</span>
+<span id="cb134-5"><a href="functions-as-vectors-1.html#cb134-5" aria-hidden="true" tabindex="-1"></a>Both <span class="ot">&lt;-</span> Even <span class="sc">%&gt;%</span> <span class="fu">full_join</span>(Raw)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;hour&quot;</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="functions-as-vectors-1.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fill in the missing data</span></span>
+<span id="cb136-2"><a href="functions-as-vectors-1.html#cb136-2" aria-hidden="true" tabindex="-1"></a>Fix1 <span class="ot">&lt;-</span> Both <span class="sc">%&gt;%</span> </span>
+<span id="cb136-3"><a href="functions-as-vectors-1.html#cb136-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(level), <span class="fu">lag</span>(level), level)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-4"><a href="functions-as-vectors-1.html#cb136-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(level), <span class="fu">lag</span>(level), level)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-5"><a href="functions-as-vectors-1.html#cb136-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(level), <span class="fu">lag</span>(level), level)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-6"><a href="functions-as-vectors-1.html#cb136-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(level), <span class="fu">lag</span>(level), level)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-7"><a href="functions-as-vectors-1.html#cb136-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(level), <span class="fu">lag</span>(level), level)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-8"><a href="functions-as-vectors-1.html#cb136-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill in a constant value for the missing days</span></span>
+<span id="cb136-9"><a href="functions-as-vectors-1.html#cb136-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(level), <span class="fl">4.867</span>, level))</span>
+<span id="cb136-10"><a href="functions-as-vectors-1.html#cb136-10" aria-hidden="true" tabindex="-1"></a>FFT <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="fu">fft</span>(Fix1<span class="sc">$</span>level))</span>
+<span id="cb136-11"><a href="functions-as-vectors-1.html#cb136-11" aria-hidden="true" tabindex="-1"></a><span class="co"># bin 974 is 1 per day</span></span>
+<span id="cb136-12"><a href="functions-as-vectors-1.html#cb136-12" aria-hidden="true" tabindex="-1"></a>FFT2 <span class="ot">&lt;-</span> </span>
+<span id="cb136-13"><a href="functions-as-vectors-1.html#cb136-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">freq=</span><span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)<span class="sc">/</span><span class="dv">974</span>, <span class="at">amp=</span>FFT[<span class="dv">2</span><span class="sc">:</span><span class="dv">10001</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb136-14"><a href="functions-as-vectors-1.html#cb136-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">period =</span> <span class="dv">24</span><span class="sc">/</span>freq) <span class="sc">%&gt;%</span></span>
+<span id="cb136-15"><a href="functions-as-vectors-1.html#cb136-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">amp =</span> <span class="fu">ifelse</span>(amp <span class="sc">&lt;</span> .<span class="fl">3e4</span>, <span class="dv">0</span>, amp)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-16"><a href="functions-as-vectors-1.html#cb136-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speed =</span> <span class="dv">360</span><span class="sc">/</span>period)</span>
+<span id="cb136-17"><a href="functions-as-vectors-1.html#cb136-17" aria-hidden="true" tabindex="-1"></a><span class="fu">gf_line</span>(amp <span class="sc">~</span> period, <span class="at">size=</span>.<span class="dv">1</span>,<span class="at">data =</span> FFT2 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(period<span class="sc">&lt;</span><span class="dv">100</span>)) <span class="sc">%&gt;%</span> <span class="fu">gf_lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">14</span>))</span></code></pre></div>
+<pre><code>## Warning: Removed 9550 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-83-1.png" width="90%" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="stat-modeling.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "B5-functions.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "B5-functions.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"edit": {
+"link": "https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/%s",
+"text": "Edit me!"
+},
+"sharing": false
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
