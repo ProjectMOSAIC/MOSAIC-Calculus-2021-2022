@@ -3,24 +3,77 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-functions.Rmd)</div>
 
+A central strategy in calculus is to break complicated objects  into simpler components. The target problem breaks up the target vector $\vec{b}$ into a linear combination of the vectors in a matrix $\mathit{A}$. There's no requirement that the individual vectors in $\mathit{A}$ be "simpler" than $\vec{b}$, but often the vectors in $\mathit{A}$ can be traced back to some easy-to-interpret source, such as a column in a data frame.
+
+In this chapter we'll look at a different source for simple vectors that we can use to model a complicated phenomenon in terms of simple components. The phenomenon we'll use for an illustration comes from ***psychophysics***, the branch of psychology that relates human perception to the physical stimuli that elicit that perception. We'll look at sound waves and how they are perceived by the human listener.
+
+The table links to audio files recorded by a human speaker voicing various vowels. Play the sounds to convince yourself that they really are the vowels listed. (It may help to use the controls to slow down the playback.)
+
+
 Vowel | Player
 ------|-------
 "o" as in "stone" | <audio controls><source src = "https://linguistics.ucla.edu/people/hayes/103/Charts/VChart/o.wav" type = "audio/wav"></audio>
 "e" as in "eel" | <audio controls><source src = "https://linguistics.ucla.edu/people/hayes/103/Charts/VChart/y.wav" type = "audio/wav"></audio>
       
-      https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/ce9fb2b629e24f67e1b6cf94e764c99a21bf120a/www/i.wav
-      
-https://linguistics.ucla.edu/people/hayes/103/Charts/VChart/i.wav
+As you may know, the physical stimuli involved in sound are rapid oscillations in air pressure. Our standard model for oscillations is the sinusoid function, which is parameterized by its period and it's amplitude. The period of a sound oscillation is short: between 0.3 and 10 milliseconds. The amplitude is small. To get a sense for how small, consider the change in air pressure when you take an elevator up 10 stories in a building. The pressure amplitude of sound at a conversational level of loudness corresponds to taking that elevator upward by 1 to 10 mm.
 
+The shapes of the "e" (as in "eel") and "o" (as in "stone") sound waves---in short, the ***waveforms***---are drawn in Figure \@ref(fig:sound-waves). 
 
-Figure \@ref(fig:sam-sound) shows the graph of a real-world function of time. Such functions are omnipresent in our lives, even if we rarely see them as a graph. This one is a short recording of the sound wave that we perceive as the vowel "A" as in Sam.
-
-```{r sam-sound, echo=FALSE, fig.cap="A complicated function of time. The graphical domain is about 1/20th of a second."}
-knitr::include_graphics("www/SAM.png")
+```{r sound-waves, echo=FALSE, fig.cap="The waveforms of two vowel sounds. Only about five hundredths of a second is shown.",warning=FALSE}
+P1 <- gf_line(y ~ I(t-.352), data = Vowel_ee) %>% 
+  gf_labs(x="time (s)", title="e as in 'eel'") %>%
+  gf_lims(x=c(0,0.051))
+P2 <- gf_line(y ~ I(t-.151), data = Vowel_oh) %>% 
+  gf_labs(x="time (s)", title="o as in 'stone'") %>%
+  gf_lims(x=c(0,0.051))
+gridExtra::grid.arrange(P1, P2, ncol=1)
 ```
+
 The function resembles none of our small set of pattern-book functions. It is more complicated, more detailed, more irregular than any of the basic modeling functions featured in this book. 
 
-Yet, for many tasks it's helpful to have a modeling approach that's well suited to such functions. For example, we might want to identify the speaker from a recording, or to play the recording slower or faster without changing the essence of the sound, or to tweak the function to have additional properties such as being exactly on tune while maintaining its individuality as a sound. 
+For many tasks it's helpful to have a modeling approach that's well suited to such detailed and irregular functions. For example, we might want to identify the speaker from a recording, or to play the recording slower or faster without changing the essence of the sound, or to tweak the function to have additional properties such as being exactly on tune while maintaining its individuality as a sound. 
+
+A remarkable aspect of the waveforms in Figure \@ref(fig:sound-waves) is their ***periodicity***. The 0.05 sec graphics domain shown includes roughly seven repetitions of a basic waveform. That is, each cycle lasts about $\frac{0.05 \text{s}}{7} \approx 7 \text{ms}$.  what distinguishes the "e" waveform from the "o" waveform is the shape of the waveform that's being repeated. The individual cycle of the "o" has three peaks of diminishing amplitude. The "e" cycle has two main peaks, high then low. It also has a very fast wiggle superimposed on the two peaks.
+
+An important strategy for modeling such complicated oscillations is to ***decompose*** them into simpler parts. Here, those simple parts will be sinusoids and we'll model the waveform as a linear combination of many sinusoids, each with a particular period. This decomposition can be accomplished by solving the ***target problem*** $\mathit{A}\vec{x} = \vec{b}$, where $\vec{b}$ is the waveform, $\mathit{A}$ is the collection of sinusoids, and the coefficients $\vec{x}$ will become our new representation of the waveform.
+
+## Time and frequency domains
+
+Figure \@ref(fig:sound-waves) is a graph of time-varying sound pressure waves. The horizontal axis is measured in units of time; the graphics domain is time. Such presentations of waveforms are said to be in the ***time domain***, which is nothing more than saying that the domain is time. 
+
+However, time is not the only possible domain for a presenting a waveform that varies in time. Let's venture into another domain, the ***frequency domain***.
+
+Consider a time-domain waveform, $w(t)$ which we expand as a linear combination of sinusoids: $$w(t) = \sum_i a_i \cos(2\pi\,\omega_i t) + \sum_i b_i \sin(2\pi\,\omega_i t)\ .$$
+One change from our previous practice of using the period $P$ to parameterize a sinusoid is that we have switched to using the Greek letter "omega" and setting it to be $\omega = 1/P$. $\omega$ is called the ***frequency*** of the sinusoid and has dimension T^-1^. For instance, the period of repetition in the vowel waveforms is approximately 7 ms (or, 0.007 s). The corresponding frequency is $\frac{1}{0.007 \text{s}} = 140 \text{Hz}$. The unit here is called "Hertz" and is sometimes presented as "cycles per second." The dimension of Hz is T^-1^.
+
+In the linear combination of sinusoids, $a_i$ and $b_i$ are the scalar coefficients on the cosine and sine functions. The subscript $_i$ is there because we are going to use sinusoids of multiple different frequencies.
+
+That is, the matrix $\mathit{A}$ in the target problem will have columns composed of sines and cosines of different frequencies.
+
+$$\mathit{A} \equiv\left[\begin{array}{ccccccc}|&|&|&|&|&|&|\\
+\cos(2\pi\omega_1 t) & \sin(2\pi\omega_1 t) & \cos(2\pi\omega_2 t) & \sin(2\pi\omega_2 t) & \cdots & \cos(2\pi\omega_n t) & \sin(2\pi\omega_n t) \\
+|&|&|&|&|&|&|\\\end{array}\right]$$
+The vector $\vec{x}$ will have the coefficients
+$$\vec{x} \equiv \left[\begin{array}{c}a_1\\b_1\\a_2\\b_2\\\vdots\\a_n\\b_n\end{array}\right]$$
+and the vector $\vec{b}$ will be the waveform function:
+$$\vec{b} \equiv \left[\begin{array}{c}|\\w(t)\\|\end{array}\right]$$
+
+Once the target problem has been solved, we'll know the numerical values of the components of $\vec{x}$. Those numerical values, together with the list of the corresponding frequencies $\omega_i$ is the **frequency domain** representation of the waveform $w(t)$. 
+
+Before we can show you an example, we'll have to see how to set up and solve the target problem with the sine and cosine functions as the columns of $\vec{A}$.
+
+## Basis set
+
+The columns of A will be the "basis set". 
+
+
+Dot product. show orthogonality.
+
+
+
+
+You can imagine that we will carefully pick the set of frequencies $\omega_i$ to capture the essence of the waveform.
+
 
 In working with computers and communications, some technical terms have diffused into everyday language
 
