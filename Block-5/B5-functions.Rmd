@@ -3,10 +3,73 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-5/B5-functions.Rmd)</div>
 
-A central strategy in calculus is to break complicated objects  into simpler components. The target problem breaks up the target vector $\vec{b}$ into a linear combination of the vectors in a matrix $\mathit{A}$. There's no requirement that the individual vectors in $\mathit{A}$ be "simpler" than $\vec{b}$, but often the vectors in $\mathit{A}$ can be traced back to some easy-to-interpret source, such as a column in a data frame.
+Starting with Chapter \@ref(vectors), we have been working with the ***dot product***, an operation that combines two vectors to produce a scalar. $$\vec{b}\bullet\vec{a} \equiv 
+\left[\begin{array}{c}b_1\\b_2\\\vdots\\b_n\end{array}\right] \bullet
+\left[\begin{array}{c}a_1\\a_2\\\vdots\\a_n\end{array}\right] \equiv b_1 a_1 + b_2 a_2 + \cdots b_n a_n$$
+The dot product enables us to use arithmetic to calculate geometric properties of vectors, even in high dimensional spaces that are out of reach of a ruler or protractor. For instance
 
-In this chapter we'll look at a different source for simple vectors that we can use to model a complicated phenomenon in terms of simple components. The phenomenon we'll use for an illustration comes from ***psychophysics***, the branch of psychology that relates human perception to the physical stimuli that elicit that perception. We'll look at sound waves and how they are perceived by the human listener.
+* length: $\|\vec{a}\| = \sqrt{\strut\vec{a}\bullet\vec{a}}$
+* included angle: $$\cos(\theta_{ab}) = \frac{\vec{a}\bullet\vec{b}}{\sqrt{\strut \strut\vec{a}\bullet\vec{a}}\sqrt{\strut \strut\vec{b}\bullet\vec{b}}}$$
+* projection onto $\vec{a}$:
+$$\text{model vector:}\ \ \hat{b} = \left[\vec{b} \bullet \vec{a}\right] \,\vec{a} / {\len{a}^2} = \frac{\vec{b} \bullet \vec{a}}{\vec{a} \bullet \vec{a}}\  \vec{a}.$$
 
+We used such operations to solve the ***target problem***: finding the best approximation of a vector $\vec{b}$ as a linear combination of a set of vectors in a matrix $\mathit{A}$. 
+
+As early as Block 1, we constructed functions as a linear combination of other functions, for example: $$g(t) \equiv A + B \sin\left(\frac{2 \pi}{P} t\right)$$ where $A$ is the scalar multiplier for the function $\text{one}(t) \equiv 1$ and $B$ the scalar multiplier for the sinusoid of period $P$.
+
+We're going to revisit the idea of linear combinations of functions using our new tools of length, included angle, and projection. To do this, we need to have a definition of the dot product suitable for application to functions.
+
+## Dot product for functions
+
+Given two functions, $f(t)$ and $g(t)$ defined over some domain $D$, we'll compute the dot product of the functions as a sum of the product of the two functions, that is:
+$$f(t) \bullet g(t) \equiv \int_{D} f(t)\,g(t)\,dt\ .$$
+::: {.example data-latex=""}
+Suppose that our two functions are $\text{one}(t) \equiv 1$ and $\text{identity}(t) \equiv t$ on the domain $0 \leq t \leq 1$. Find the length of each function and the included angle between them. 
+
+- Length: $\|\text{one}(t)\| = \left[\int_0^1 1 \cdot 1\,dt\right]^{1/2} = \left[\ \strut t\left.{\large\strut}\right|_0^1\ \right]^{1/2} = 1$
+
+- Length: $\|\text{identity}(t)\| = \left[\int_0^1 t \cdot t\,dt\right]^{1/2} = \left[\ \strut \frac{1}{2}t^2\left.{\large\strut}\right|_0^1\ \right]^{1/2} = \frac{1}{\sqrt{2}}$
+
+- Included angle: $$\cos(\theta) = \frac{\text{one}(t) \bullet \text{identity}(t)}{\|\strut\text{one}(t)\| \, \|\text{identity}(t)\|}  = 
+\sqrt{2}\ \int_0^1 t\, dt = \sqrt{\strut 2} \left.{\Large\strut}\frac{1}{2} t^2\right|_0^1 = \sqrt{\frac{1}{2}}$$
+Since $\cos(\theta) = \sqrt{1/2}$, the angle $\theta$ is 45 degrees.
+:::
+
+::: {.example data-latex=""}
+Project $f(t) \equiv t^2$ onto $g(t) = \text{one}(t)$ over the domain $-1 \leq t \leq 1$.
+
+The projection of $f(t)$ onto $g(t)$ will be 
+$$\widehat{f(t)} = \frac{f(t) \bullet g(t)}{g(t) \bullet g(t)}\ g(t)$$
+
+- $f(t) \bullet g(t) \equiv \int_{-1}^{1} t^2 dt = \frac{1}{3} \left.{\Large \strut}t^3\right|_{-1}^{1} = \frac{2}{3}$
+
+- $g(t) \bullet g(t) \equiv \int_{-1}^1 \ dt = 2$
+
+Thus, $$\widehat{f(t)} = \frac{1}{3} \text{one(t)} = \frac{1}{3}\ .$$
+:::
+
+The left panel of Figure \@ref(fig:fhat-and-resid) shows the functions $f(t) \equiv t^2$ and $\color{magenta}{\widehat{f(t)} \equiv 1/3}$ on the domain. The center panel shows the residual function, that is $f(t) - \widehat{f(t)}$. The right panel gives the square of the length of the residual function, which is $\int_{-1}^1 \left[f(t) - \widehat{f(t)}\right]^{1/2}\, dt$ as indicated by the area shaded in $\color{blue}{\text{blue}}$.
+
+```{r fhat-and-resid, echo=FALSE, fig.cap="Projecting $f(t) \\equiv t^2$ onto $g(t) \\equiv \\text{one}(t)$."}
+library(latex2exp)
+P1 <- slice_plot(t^2 ~ t, domain(t=-1:1)) %>%
+  slice_plot(1/3 ~ t, color="magenta") %>%
+  gf_lims(y = c(-.34, 1)) %>% 
+  gf_labs(title = TeX("$f(t)$ and $\\widehat{f(t)}$"))
+P2 <- slice_plot(t^2 - 1/3 ~ t, domain(t=-1:1)) %>%
+  gf_lims(y = c(-.34, 1)) %>% 
+  gf_labs(title = TeX("Residual: $f(t)-\\widehat{f(t)}$"))
+Pts <- tibble::tibble(
+  x = seq(-1, 1, length=200),
+  y = (x^2 - 1/3)^2
+)
+P3 <- slice_plot((t^2 - 1/3)^2 ~ t, domain(t=-1:1)) %>%
+  gf_ribbon(0 + y ~ x, data = Pts, fill="blue", inherit=FALSE) %>%
+  gf_lims(y = c(-.34, 1)) %>% 
+  gf_labs(title = TeX("$\\int \\left[f(t) - \\widehat{f(t)}\\right]^{1/2} \\,dt$"))
+gridExtra::grid.arrange(P1, P2, P3, nrow=1)
+```
+::: {.intheworld data-latex=""}
 The table links to audio files recorded by a human speaker voicing various vowels. Play the sounds to convince yourself that they really are the vowels listed. (It may help to use the controls to slow down the playback.)
 
 
@@ -35,7 +98,155 @@ For many tasks it's helpful to have a modeling approach that's well suited to su
 
 A remarkable aspect of the waveforms in Figure \@ref(fig:sound-waves) is their ***periodicity***. The 0.05 sec graphics domain shown includes roughly seven repetitions of a basic waveform. That is, each cycle lasts about $\frac{0.05 \text{s}}{7} \approx 7 \text{ms}$.  what distinguishes the "e" waveform from the "o" waveform is the shape of the waveform that's being repeated. The individual cycle of the "o" has three peaks of diminishing amplitude. The "e" cycle has two main peaks, high then low. It also has a very fast wiggle superimposed on the two peaks.
 
-An important strategy for modeling such complicated oscillations is to ***decompose*** them into simpler parts. Here, those simple parts will be sinusoids and we'll model the waveform as a linear combination of many sinusoids, each with a particular period. This decomposition can be accomplished by solving the ***target problem*** $\mathit{A}\vec{x} = \vec{b}$, where $\vec{b}$ is the waveform, $\mathit{A}$ is the collection of sinusoids, and the coefficients $\vec{x}$ will become our new representation of the waveform.
+An important strategy for modeling such complicated oscillations is to ***decompose*** (synonym: ***analyze***) them into a linear combination of simpler parts.  
+:::
+
+## Sinusoids as vectors
+
+The sinusoid is our fundamental model of periodic phenomena. To get started with using sinusoids as vectors, we'll start with a simple setting: a single sinusoid of a specified frequency.
+
+Figure \@ref(fig:sinewave) shows three sinusoids all with the same frequency, but shifted somewhat in time:
+
+```{r sinewave, echo=FALSE, fig.cap="Three sinusoids with a frequency of $\\omega=3$ cycles per second."}
+omega <- 3
+waveA <- makeFun(sin(2*pi*3*t) ~ t)
+waveB <- makeFun(cos(2*pi*3*t) ~ t)
+waveC <- makeFun(sin(2*pi*3*(t-0.10)) ~ t)
+P1 <- slice_plot(waveA(t) ~ t, domain(t=0:1), npts=200) %>%
+  gf_vline(xintercept = ~ 0.419, color="magenta") %>%
+  gf_labs(y = "Wave A(t)",
+          subtitle = "(A)", x="")
+P2 <- slice_plot(waveB(t) ~ t, domain(t=0:1), npts=200) %>% 
+   gf_vline(xintercept = ~ 0.333, color="blue") %>%
+  gf_labs(y = "Wave B(t)",
+          subtitle = "(B)", x="")
+P3 <- slice_plot(waveC(t) ~ t, domain(t=0:1), npts=200) %>%
+  gf_vline(xintercept = ~ 0.183, color="brown")  %>%
+  gf_labs(y = "WaveC(t)",
+          subtitle = "(C)", x="t (secs)")
+gridExtra::grid.arrange(P1, P2, P3, nrow=3)
+```
+
+Since we have a dot product for functions, we can treat each of the three sinusoids as a vector. For instance, consider the length of waveforms A and B and the included angle between them.
+
+```{r}
+## vector lengths 
+lengthA <- Integrate(waveA(t) * waveA(t) ~ t, domain(t=0:1)) %>% sqrt() 
+lengthA
+lengthB <- Integrate(waveB(t) * waveB(t) ~ t, domain(t=0:1)) %>% sqrt()
+lengthB
+lengthC <- Integrate(waveC(t) * waveC(t) ~ t, domain(t=0:1)) %>% sqrt()
+lengthC
+## dot products
+dotAB   <- Integrate(waveA(t) * waveB(t) ~ t, domain(t=0:1)) 
+dotAB
+dotAC   <- Integrate(waveA(t) * waveC(t) ~ t, domain(t=0:1))
+dotAC
+dotBC   <- Integrate(waveB(t) * waveC(t) ~ t, domain(t=0:1))
+dotBC
+```
+The cosine of the included angle $\theta$ between functions A and B is calculated using the the dot product formula: $$\cos(\theta) = \frac{A\bullet B}{\|A\|\, \|B\|}$$ or, computationally
+```{r}
+dotAB / (lengthA * lengthB)
+```
+Since $\cos(\theta) = 0$, wave A and B are orthogonal. Admittedly, there is no right angle to be perceived from the graph, but the mathematics of angles gives this result.
+
+The graphical presentation of orthogonality between waveforms A and B is easier to appreciate if we plot out the dot product itself: the integral of waveform A times waveform B. Figure \@ref(fig:sin-cos-dot) shows this integral using colors, blue for positive and orange for negative. The integral is zero, since the positive (blue) areas exactly equal the negative (orange) areas.
+
+```{r sin-cos-dot, echo=FALSE, fig.cap="The dot product between waveforms A and B, graphically."}
+Pts <- tibble::tibble(
+  t = seq(0, 1, length=300),
+  y = waveA(t)*waveB(t),
+  top= ifelse(y>=0, y, 0),
+  bottom = ifelse(y<=0, y, 0)
+)
+slice_plot(waveA(t)*waveB(t) ~ t, domain(t=0:1), npts=300) %>%
+  gf_ribbon(0 + top ~ t, data = Pts, fill="blue", inherit=FALSE) %>%
+  gf_ribbon(bottom + 0 ~ t, data = Pts, fill="orange", inherit=FALSE) %>%
+  gf_labs(subtitle=latex2exp::TeX("$A \\bullet B$"), y="")
+```
+
+In contrast, waveform A is **not** orthogonal to waveform C, and similarly for waveform B. Figure \@ref(fig:AC-BC) shows this graphically: the positive and negative areas in the two integrals do not cancel out to zero.
+
+
+```{r AC-BC, echo=FALSE, fig.cap="The dot products between waveforms A and C (top panel) and between B and C (bottom panel)."}
+Pts <- tibble::tibble(
+  t = seq(0, 1, length=300),
+  y = waveA(t)*waveC(t),
+  top= ifelse(y>=0, y, 0),
+  bottom = ifelse(y<=0, y, 0)
+)
+P1 <- slice_plot(waveA(t)*waveC(t) ~ t, domain(t=0:1), npts=300) %>%
+  gf_ribbon(0 + top ~ t, data = Pts, fill="blue", inherit=FALSE) %>%
+  gf_ribbon(bottom + 0 ~ t, data = Pts, fill="orange", inherit=FALSE) %>%
+  gf_labs(subtitle=latex2exp::TeX("$A \\bullet C$"), y="")
+Pts <- tibble::tibble(
+  t = seq(0, 1, length=300),
+  y = waveB(t)*waveC(t),
+  top= ifelse(y>=0, y, 0),
+  bottom = ifelse(y<=0, y, 0)
+)
+P2 <- slice_plot(waveB(t)*waveC(t) ~ t, domain(t=0:1), npts=300) %>%
+  gf_ribbon(0 + top ~ t, data = Pts, fill="blue", inherit=FALSE) %>%
+  gf_ribbon(bottom + 0 ~ t, data = Pts, fill="orange", inherit=FALSE) %>%
+  gf_labs(subtitle=latex2exp::TeX("$B \\bullet C$"), y="")
+gridExtra::grid.arrange(P1, P2, nrow=2)
+```
+We can project waveform C onto the 2-dimensional subspace spanned by A and B. Since waveforms A and B are orthogonal, This can be done simply by projecting C onto each of A and B one at a time. Here's a calculation of the scalar multipliers for A and for B and the model vector (that is, the component of C in the A-B subspace):
+
+```{r}
+A_coef <- dotAC / lengthA^2
+B_coef <- dotBC / lengthB^2
+mod_vec <- makeFun(A_coef*waveA(t) + B_coef*waveB(t) ~ t)
+# length of mod_vec
+Integrate(mod_vec(t)*mod_vec(t) ~ t, domain(t=0:1)) %>% sqrt()
+```
+You can see that the length of the model vector is exactly the same as the length of the vector being projected. This means that waveform C lies exactly in the subspace spanned by waveforms A and B.
+
+A time-shifted sinusoid of frequency $\omega$ can *always* be written as a linear combination of $\sin(2\pi\omega t)$ and $\cos(2\pi\omega t)$. The coefficients of the linear combination tell us both the amplitude of the time-shifted sinusoid and the time shift.
+
+::: {.example data-latex=""}
+Consider the function $g(t) \equiv 17.3 \sin(2*pi*5*(t-0.02)$ on the domain $0 \leq t \leq 1$ seconds. The amplitude is 17.3. The time shift is 0.02 seconds. Let's confirm this using the coefficients on the linear combination of sine and cosine of the same frequency.
+
+```{r}
+g <- makeFun(17.3 * sin(2*pi*5*(t-0.02)) ~ t)
+sin5 <- makeFun(sin(2*pi*5*t) ~ t)
+cos5 <- makeFun(cos(2*pi*5*t) ~ t)
+A_coef <- Integrate(g(t) * sin5(t) ~ t, domain(t=0:1)) /
+  Integrate(sin5(t) * sin5(t) ~ t, domain(t=0:1))
+A_coef
+B_coef <- Integrate(g(t)*cos5(t) ~ t, domain(t=0:1)) /
+  Integrate(cos5(t) * cos5(t) ~ t, domain(t=0:1))
+B_coef
+```
+The amplitude of $g(t)$ is the Pythagorean sum of the two coefficients:
+```{r}
+sqrt(A_coef^2 + B_coef^2)
+atan2(A_coef, B_coef)
+2.12 / (2*pi*5) # not quite STILL NEED TO FIGURE IT OUT.
+```
+
+
+:::
+
+Figure \@ref(fig:cello_seg) (top) shows the waveform of a note played on a cello. The note lasts about 1 second. The bottom panel zooms in on the waveform, showing just over 80 ms.
+
+
+```{r cello-seg, echo=FALSE, fig.cap="Waveform recorded from a cello."}
+P1 <- gf_line(y ~ t, data = Cello) %>%
+  gf_line(y ~ t, data=Cello_seg, color="blue")
+P2 <- gf_line(y ~ t, data=Cello_seg, color="blue")
+gridExtra::grid.arrange(P1, P2, nrow=2)
+```
+
+The whole note starts with a sharp "attack," followed by a long period called a "sustain," and ending with a "decay." Within the sustain and decay, the waveform is remarkably repetitive, seen best in the bottom panel of the figure.
+
+
+
+
+In this chapter we'll look at a different source for simple vectors that we can use to model a complicated phenomenon in terms of simple components. The phenomenon we'll use for an illustration comes from ***psychophysics***, the branch of psychology that relates human perception to the physical stimuli that elicit that perception. We'll look at sound waves and how they are perceived by the human listener.
+
+
 
 ## Time and frequency domains
 
@@ -61,6 +272,17 @@ $$\vec{b} \equiv \left[\begin{array}{c}|\\w(t)\\|\end{array}\right]$$
 Once the target problem has been solved, we'll know the numerical values of the components of $\vec{x}$. Those numerical values, together with the list of the corresponding frequencies $\omega_i$ is the **frequency domain** representation of the waveform $w(t)$. 
 
 Before we can show you an example, we'll have to see how to set up and solve the target problem with the sine and cosine functions as the columns of $\vec{A}$.
+
+## Exercises
+
+EXERCISE: Find the angle between 1 and $t$ on the domain $-1 \leq t \leq 1$. (It will be 90 degrees.)
+
+Exercise: Approximate $t^2$ by a linear combination of 1 and $t$ on the domain $-1 \leq t \leq 1$.
+
+Exercise: As an optimization problem, show that 1/3 is the least squares approximation to $t^2$ on the interval $-1 \leq t \leq 1$.
+
+
+## Extras
 
 ## Basis set
 
