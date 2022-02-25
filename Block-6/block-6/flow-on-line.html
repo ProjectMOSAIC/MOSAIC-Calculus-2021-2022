@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 50 Flows on the line | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 50 Flows on the line | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 50 Flows on the line | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="solve-DE.html"/>
+<link rel="next" href="flow-on-plane.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\let\origbar\bar
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf{#1}}}
+\newcommand{\bar}[1]{\overset{{\rule[-1pt]{12pt}{.5mm}}}{\mathbf{#1}}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{{\|{\mathbf #1}\|}}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="../docs/welcome-to-calculus.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
+<hr>
+<li><strong><a href="../block-6/diff-eq-intro.html">Block 6: Dynamics</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="48" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html"><i class="fa fa-check"></i><b>48</b> Differential equations</a>
+<ul>
+<li class="chapter" data-level="48.1" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#the-language-for-change"><i class="fa fa-check"></i><b>48.1</b> The language for change</a></li>
+<li class="chapter" data-level="48.2" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state"><i class="fa fa-check"></i><b>48.2</b> State</a></li>
+<li class="chapter" data-level="48.3" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamics"><i class="fa fa-check"></i><b>48.3</b> Dynamics</a></li>
+<li class="chapter" data-level="48.4" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>48.4</b> State space and flow field</a></li>
+<li class="chapter" data-level="48.5" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#exercises"><i class="fa fa-check"></i><b>48.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="49" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>49</b> Finding a solution</a>
+<ul>
+<li class="chapter" data-level="49.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>49.1</b> The flow field</a></li>
+<li class="chapter" data-level="49.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>49.2</b> Euler method</a></li>
+<li class="chapter" data-level="49.3" data-path="solve-DE.html"><a href="solve-DE.html#symbolic-solutions"><i class="fa fa-check"></i><b>49.3</b> Symbolic solutions</a></li>
+<li class="chapter" data-level="49.4" data-path="solve-DE.html"><a href="solve-DE.html#exercises-1"><i class="fa fa-check"></i><b>49.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="50" data-path="flow-on-line.html"><a href="flow-on-line.html"><i class="fa fa-check"></i><b>50</b> Flows on the line</a>
+<ul>
+<li class="chapter" data-level="50.1" data-path="flow-on-line.html"><a href="flow-on-line.html#the-rules-of-the-road"><i class="fa fa-check"></i><b>50.1</b> The rules of the road</a></li>
+<li class="chapter" data-level="50.2" data-path="flow-on-line.html"><a href="flow-on-line.html#linearization"><i class="fa fa-check"></i><b>50.2</b> Linearization</a></li>
+<li class="chapter" data-level="50.3" data-path="flow-on-line.html"><a href="flow-on-line.html#nonlinearity"><i class="fa fa-check"></i><b>50.3</b> Nonlinearity</a></li>
+</ul></li>
+<li class="chapter" data-level="51" data-path="flow-on-plane.html"><a href="flow-on-plane.html"><i class="fa fa-check"></i><b>51</b> Flows on the plane</a>
+<ul>
+<li class="chapter" data-level="51.1" data-path="flow-on-plane.html"><a href="flow-on-plane.html#generic-behaviors"><i class="fa fa-check"></i><b>51.1</b> Generic behaviors</a></li>
+<li class="chapter" data-level="51.2" data-path="flow-on-plane.html"><a href="flow-on-plane.html#linearization-1"><i class="fa fa-check"></i><b>51.2</b> Linearization</a></li>
+<li class="chapter" data-level="51.3" data-path="flow-on-plane.html"><a href="flow-on-plane.html#exercises-2"><i class="fa fa-check"></i><b>51.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="52" data-path="modeling-dynamics.html"><a href="modeling-dynamics.html"><i class="fa fa-check"></i><b>52</b> Modeling dynamics</a>
+<ul>
+<li class="chapter" data-level="52.1" data-path="modeling-dynamics.html"><a href="modeling-dynamics.html#exercises-3"><i class="fa fa-check"></i><b>52.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="53" data-path="equilibria.html"><a href="equilibria.html"><i class="fa fa-check"></i><b>53</b> Equilibrium and transient</a>
+<ul>
+<li class="chapter" data-level="53.1" data-path="equilibria.html"><a href="equilibria.html#one-state-variable"><i class="fa fa-check"></i><b>53.1</b> One state variable</a></li>
+<li class="chapter" data-level="53.2" data-path="equilibria.html"><a href="equilibria.html#two-state-variables"><i class="fa fa-check"></i><b>53.2</b> Two state variables</a></li>
+</ul></li>
+<li class="chapter" data-level="54" data-path="eigenvalues-eigenvectors.html"><a href="eigenvalues-eigenvectors.html"><i class="fa fa-check"></i><b>54</b> Eigenvalues, eigenvectors</a>
+<ul>
+<li class="chapter" data-level="54.1" data-path="eigenvalues-eigenvectors.html"><a href="eigenvalues-eigenvectors.html#exercises-4"><i class="fa fa-check"></i><b>54.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="55" data-path="second-order-de.html"><a href="second-order-de.html"><i class="fa fa-check"></i><b>55</b> Force-balance equations</a></li>
+<li class="chapter" data-level="56" data-path="forcing-and-resonance.html"><a href="forcing-and-resonance.html"><i class="fa fa-check"></i><b>56</b> Forcing and resonance</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="flow-on-line" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 50</span> Flows on the line</h1>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-fixed-points.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<div class="underconstruction">
+<ol style="list-style-type: lower-roman">
+<li>Classify fixed points as stable/unstable given the dynamics</li>
+<li>Identify the dynamics of constant growth</li>
+<li>Compute Euler solutions (format for expressing the system and the format of the result)</li>
+<li>Analyze models in application contexts (for example May’s Cows - a model of bistability in ecology)</li>
+<li>Examples of linearization: Newton’s Law of Cooling, Hooke’s Law</li>
+</ol>
+<p><a href="https://maa-statprep.shinyapps.io/142Z-DD-17">Last year’s daily digitals</a> from DD-15 to about DD-20</p>
+</div>
+<p>The first chapter of this Block introduced a <strong>framework</strong> for modeling dynamics in continuous time: a dynamical state variables and dynamical functions giving the instantaneous change of each state variable as a function of the values of the state variables at that instant. The second chapter covered several methods of extracting a <strong>solution</strong> from the model, that is, a function of time for each of the state variables that is consistent with the differential equations. We looked at the solution in two ways: a <strong>trajectory</strong> in state space or a <strong>time-series</strong> graph.</p>
+<p>Ultimately, our goal is to make models of real-world systems. These models can enhance our understanding of the mechanisms active in the real world. The models can also make predictions of various sorts. But you are not yet in a position to know what “various sorts” of predictions can mean or to see how to construct a dynamical model. To get you there, you’ll need to learn about some general features of dynamical systems that allow us to think about them at a high level.</p>
+<p>We start with the simplest sort of dynamical system: first-order systems, that is, ones with a single state variable. With a single variable, the state space is one-dimensional: the number line.</p>
+<div id="the-rules-of-the-road" class="section level2" number="3.1">
+<h2><span class="header-section-number">50.1</span> The rules of the road</h2>
+<p>A physical analogy to give a better intuition about dynamics in a one-dimensional state space. We’ll imagine that the state space is represented by a road, the instantaneous state being the location of a car along that road.</p>
+<p>On a real road, the motion of the car is set by the driver using
+the accelerator and brakes and constrained by other traffic and road conditions. In our state-space road, the velocity of the car is strictly dictated by an authoritarian government law: no exceptions. When the dictated speed is zero, the car will stand still and cannot start moving again. Ultimately, depending on the shape of the law, the car will head off to infinity or come to an eternal standstill. Two different cars can never collide on this road: if the cars are close together, they must be travelling at similar velocities. Cars can’t pass one another in different directions. Passing requires that the two cars have opposite velocities: one positive and one negative. If the mandated velocity at a point along the road is positive, every car that comes to that point must have the same positive velocity as it passes that point in the road.</p>
+<p>The diagram in Figure <a href="#fig:road-rules"><strong>??</strong></a> shows one possible format for describing the regulations for a road. The road is shown as a grey line. The red numbers are mile-markers alongside the road. The function graph shows the mandated speed at any point: you can read off the numerical value of the mandated speed on the y-axis.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/road-rules-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>To better visualize the flow of traffic on the road, in Figure <a href="flow-on-line.html#fig:road-flow">50.1</a> we draw vectors on the road. The direction of each vector will be either east or west; the length of the vector gives the required speed for a car passing that point.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:road-flow"></span>
+<img src="MOSAIC-Calculus_files/figure-html/road-flow-1.png" alt="The mandatory speed on the road." width="90%" />
+<p class="caption">
+Figure 50.1: The mandatory speed on the road.
+</p>
+</div>
+<p>Cars arriving from the west are obliged to stop their journey at about <span class="math inline">\(x=4\)</span> where the arrows switch direction. Similarly, cars arriving from the east will be driving west, but their journey has a different destination, mile 13, where the velocity regulations change direction. The easterners will be obliged to stop at the point where the left-facing arrows meet the right-facing ones. A car starting near mile 10 will be obliged to drive east but can go only to mile 13; a car starting at mile 7 will drive west until reaching mile 4.</p>
+<p>This is a lot of detail in the shape of the dynamical function—I mean, the road regulations. So far as the consequences of the road regulations go, the situation is simpler: cars standing still at mile 4 or at mile 13, depending on where they started from.</p>
+<p>Zooming in on the dynamics near mile 4 or 13 helps to show what happens as the cars approach those points. (Figure <a href="flow-on-line.html#fig:road-flow-zoom">50.2</a>) At either point, the action is similar. Cars coming from the west have to slow down as the arrows get smaller. Similarly for cars from the east. Where east meets west the cars are forced to a standstill; in order for the vectors to have different directions on the west end of the road than on the east end, the length of the vectors has to go to zero.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:road-flow-zoom"></span>
+<img src="MOSAIC-Calculus_files/figure-html/road-flow-zoom-1.png" alt="The road regulations near mile-markers 4 and 13. The fixed point is marked with a small dot." width="90%" /><img src="MOSAIC-Calculus_files/figure-html/road-flow-zoom-2.png" alt="The road regulations near mile-markers 4 and 13. The fixed point is marked with a small dot." width="90%" />
+<p class="caption">
+Figure 50.2: The road regulations near mile-markers 4 and 13. The fixed point is marked with a small dot.
+</p>
+</div>
+<p>Such a point in the state space, where the flow arrows converge, is called a <strong><em>stable fixed point</em></strong>. The “fixed” merely means that the cars come to a standstill. “Stable” means that all cars starting near the fixed point are heading toward that point. Many details of the dynamics near the fixed point have no role in the eventual outcome. For instance, the dynamical function near mile-marker 4 is concave down, while that at mile-marker 13 is concave up. In both cases the behavior of the system is the same: convergence at the stable fixed point.</p>
+<div class="takenote">
+<p>Newcomers understandably endow the car-on-road or bead-on-wire analogies to the state space of a first-order system with other familiar properties of the real world. For instance, a real-world wire has friction which needs to be overcome by applying a force. A real-world car has momentum which prolongs motion even after force has been applied. As you will see, a differential equation system that involves force and momentum requires a two-dimensional (or higher) state space.</p>
+</div>
+<p>There is another fixed point on the road, but the behavior near it is different. Figure <a href="flow-on-line.html#fig:road-unstable-fp">50.3</a> zooms in on the situation near mile-marker 9. The outcome of the dynamics is very different than near miles 4 and 13. The fixed point near mile 9 is <strong><em>unstable</em></strong>. This means that any cars starting near the fixed point will drive away. Slowly at first and then faster as they get farther from the fixed point.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:road-unstable-fp"></span>
+<img src="MOSAIC-Calculus_files/figure-html/road-unstable-fp-1.png" alt="An unstable fixed point in the road regulations." width="90%" />
+<p class="caption">
+Figure 50.3: An unstable fixed point in the road regulations.
+</p>
+</div>
+<p>It’s an interesting philosophical question what happens to a car starting exactly on the fixed point. Since the velocity vector there has zero length, the car must stand still. But if the car happens to move one jot away from the fixed point, it will start to speed up and move away from the fixed point.</p>
+<p>The ideas of <strong><em>fixed points</em></strong> and their <strong><em>stability</em></strong> provides a much more concise description of the dynamical system: “There are stable fixed points near mile 4 and mile 13, as well as an unstable fixed point near mile 9.”</p>
+<p>It’s worth pointing out a consequence of the mathematics of continuous functions: if a system with a continuous dynamical function has a region of state space with two different fixed points, there must be an unstable fixed point in between them.</p>
+</div>
+<div id="linearization" class="section level2" number="3.2">
+<h2><span class="header-section-number">50.2</span> Linearization</h2>
+<p>“Stable” and “unstable” provide a useful <em>qualitative</em> indication of the dynamics near a fixed point. An approximate <em>quantitative</em> solution can also be found.</p>
+<p>Recall that any continuous function can be approximated locally by a low-order polynomial. For a function <span class="math inline">\(g(x)\)</span> with only one input, “locally” means “near <span class="math inline">\(x^\star\)</span>,” and the polynomial will be <span class="math display">\[g(x) \approx a + b \left[x-x^\star\right] + c \left[x-x^\star\right]^2 + \cdots\]</span>
+The coefficients <span class="math inline">\(a, b, c, \cdots\)</span> can be calculated from the value of the function and it’s derivatives <strong>at</strong> <span class="math inline">\(x^\star\)</span>:
+<span class="math display">\[a =  g(x^\star)\ \ \ \  b = \partial_x g(x^\star) \ \ \ \ c= \frac{1}{2} \partial_{xx} g(x^\star)\ \ \ \text{and so on.}\]</span>
+When <span class="math inline">\(x^\star\)</span> is a fixed point of the dynamics, then <span class="math inline">\(g(x^\star) = 0\)</span> so the approximating polynomial is
+<span class="math display">\[g(x) \approx b \left[x-x^\star\right] + c \left[x-x^\star\right]^2 + \cdots\]</span>
+If <span class="math inline">\(x-x^\star\)</span> is small enough, then the higher-power terms like <span class="math inline">\(\left[x-x^\star\right]^2\)</span> will be negligible and the approximation can be <span class="math display">\[g(x) = \partial_x g(x^\star)\ \left[x-x^\star\right]\ .\]</span></p>
+<p>To <strong><em>linearize a dynamical function</em></strong> near a fixed point requires two steps:</p>
+<ol style="list-style-type: lower-roman">
+<li>Solving task: Find a numerical value for the fixed point, that is, a value for <span class="math inline">\(x^\star\)</span> such that <span class="math inline">\(g(x^\star) = 0\)</span>.</li>
+<li>Differentiating task: Evaluate the derivative <span class="math inline">\(\partial_x g(x)\)</span> at <span class="math inline">\(x=x^\star\)</span>. (Another way of writing this is <span class="math inline">\(\partial_x g(x)\left.{\Large\strut}\right|_{x=x^\star}\)</span> or, more simply, <span class="math inline">\(\partial_x g(x^\star)\)</span>.)</li>
+</ol>
+<p>To find the solution to the differential equation near the fixed point requires additional a couple of additional steps:</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Translate the state variable <span class="math inline">\(x\)</span> into a new state variable <span class="math inline">\(y = x - x^\star\)</span>. In terms of this new state variable, the approximate dynamics are <span class="math inline">\(\partial_t y = b y\)</span>, where <span class="math inline">\(b\)</span> is the value found in step (ii).</li>
+</ol>
+<p>The solution to the differential equation in (iv) is <span class="math inline">\(y(t) = A e^{bt}\)</span>.</p>
+<ol start="4" style="list-style-type: lower-roman">
+<li>Find <span class="math inline">\(A\)</span> in the solution as <span class="math inline">\(y_0 = x_0 - x^\star\)</span>, where <span class="math inline">\(x_0\)</span> is the initial condition of the state variable. So, <span class="math inline">\(y(t) = (x_0 - x^\star) e^{bt}\)</span>.</li>
+<li>Finally, translate the solution in (iv) back into terms of <span class="math inline">\(x\)</span>. It will be <span class="math display">\[x(t) = (x - x_0) e^{b t} + x^\star\ .\]</span>
+Thus, the solution requires only two pieces of information knowing <span class="math inline">\(x^\star\)</span> and <span class="math inline">\(b = \partial_x g(x_0)\)</span>.</li>
+</ol>
+<p>The stability of the fixed point is simply a matter of whether the exponential function in the solution is exponential growth (unstable) or exponential decay (stable). This is, of course, determined by the sign of the constant <span class="math inline">\(b = \partial_x g(x_0)\)</span>: <span class="math display">\[\partial_x g(x_0) &gt; 0\ \ \  \implies \ \ \text{unstable}\\
+\partial_x g(x_0) &lt; 0 \ \ \ \ \implies\ \ \ \ \ \ \text{stable}\]</span></p>
+<div class="takenote">
+<p>It’s critical to distinguish carefully between <span class="math inline">\(x^\star\)</span>, which is the location of the fixed point being examined, and <span class="math inline">\(x_0\)</span>, which is the initial condition of the state, that is, <span class="math inline">\(x(t=0)\)</span>.</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 50.1  </strong></span>Let’s return to the model of saving for retirement in Chapter <a href="diff-eq-intro.html#diff-eq-intro">48</a>:
+<span class="math display">\[\partial_t V = r\, V + M\ .\]</span>
+The state variable here is named <span class="math inline">\(V\)</span>. The dynamical function is <span class="math display">\[g(V) = r\, V + M\]</span> where <span class="math inline">\(r\)</span> is the interest rate (say, 3% per year which is <span class="math inline">\(r=0.03\)</span> per year) and <span class="math inline">\(M\)</span> is the monthly contribution. To keep the units consistent, we set the units of <span class="math inline">\(t\)</span> to be years, of <span class="math inline">\(r\)</span> to be 1/years, of <span class="math inline">\(V\)</span> to be dollars and of <span class="math inline">\(M\)</span> to be dollars-per-year. So a monthly contribution of $1000 would come to
+<span class="math inline">\(M=12000\)</span> dollars-per-year.</p>
+<p>Find the amount <span class="math inline">\(V\)</span> that will result from 30 years of savings with an initial condition <span class="math inline">\(V_0 = 0\)</span>.</p>
+<p>Step i) Find the fixed point. This is a value <span class="math inline">\(V^\star\)</span> such that
+<span class="math display">\[r\, V^\star + M = 0\ \ \ \implies \ \ \ V^\star = -M/r\ .\]</span>
+Step ii) Find the derivative of the dynamical function evaluated at the fixed point: Since <span class="math inline">\(g(V)\)</span> happens to be a straight-line function, we know the derivative is a constant. So <span class="math inline">\(b = \partial_x g(V^\star) = r\)</span>.</p>
+<p>Step iii) Translate the state variable into <span class="math inline">\(y = V - V^\star\)</span>. The dynamics in terms of <span class="math inline">\(y\)</span> are <span class="math inline">\(\partial_t y = b y\)</span>, which has a solution <span class="math inline">\(y = A e^{bt}\)</span>.</p>
+<p>Step iv) <span class="math inline">\(A\)</span> is the initial condition in terms of <span class="math inline">\(y\)</span>. This will be <span class="math inline">\(y_0 = V_0 - V^\star\)</span>. Since we stated that <span class="math inline">\(V_0 = 0\)</span> (no savings at the start), <span class="math inline">\(y_0 = -V^\star\)</span> and the solution is <span class="math display">\[y(t) = -V^\star e^{bt} = \frac{M}{r} e^{rt}\ .\]</span></p>
+<p>Step v) Translate the solution in step (iv) back into terms of <span class="math inline">\(V(t)\)</span>. Since <span class="math inline">\(y(t) = V(t) - V^\star\)</span>, this will be <span class="math inline">\(V(t) = y(t) + V^\star\)</span> or, <span class="math display">\[V(t) = \frac{M}{r} e^{r t} + V^\star = \frac{M}{r} \left[ e^{r t} - 1\right]\ .\]</span>
+To get an idea of this retirement plan, that is, <span class="math inline">\(r=3\%\)</span> and <span class="math inline">\(M=12000\)</span> dollars-per-year, let’s see how much you’ll have after 30 years and 40 years.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="flow-on-line.html#cb14-1" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">makeFun</span>((M<span class="sc">/</span>r)<span class="sc">*</span>(<span class="fu">exp</span>(r<span class="sc">*</span>t)<span class="sc">-</span><span class="dv">1</span>) <span class="sc">~</span> t, <span class="at">r=</span><span class="fl">0.03</span>, <span class="at">M=</span><span class="dv">12000</span>)</span>
+<span id="cb14-2"><a href="flow-on-line.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(<span class="dv">30</span>)</span></code></pre></div>
+<pre><code>## [1] 583841.2</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="flow-on-line.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(<span class="dv">40</span>)</span></code></pre></div>
+<pre><code>## [1] 928046.8</code></pre>
+<p>After 40 years of contributions, your retirement account will have almost one-million dollars.</p>
+<p>You could have accomplished the same calculation using <code>integrateODE()</code>, like this:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="flow-on-line.html#cb18-1" aria-hidden="true" tabindex="-1"></a>Soln <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dV <span class="sc">~</span> r<span class="sc">*</span>V <span class="sc">+</span> M, <span class="at">V=</span><span class="dv">0</span>, <span class="at">M=</span><span class="dv">12000</span>, <span class="at">r=</span><span class="fl">0.03</span>,  </span>
+<span id="cb18-2"><a href="flow-on-line.html#cb18-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">tdur=</span><span class="dv">40</span>)</span>
+<span id="cb18-3"><a href="flow-on-line.html#cb18-3" aria-hidden="true" tabindex="-1"></a>Soln<span class="sc">$</span><span class="fu">V</span>(<span class="dv">30</span>)</span></code></pre></div>
+<pre><code>## [1] 583841.2</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="flow-on-line.html#cb20-1" aria-hidden="true" tabindex="-1"></a>Soln<span class="sc">$</span><span class="fu">V</span>(<span class="dv">40</span>)</span></code></pre></div>
+<pre><code>## [1] 928046.8</code></pre>
+</div>
+<p>EXERCISES:
++ some drill on setting up the solution near fixed points to linear and nonlinear equations, e.g. <span class="math inline">\(\dot{x} = r x (1-x)\)</span>.
++ Which of these is a function and which is a constant: <span class="math inline">\(V\)</span>, <span class="math inline">\(V^\star\)</span>, and <span class="math inline">\(V_0\)</span>.</p>
+</div>
+<div id="nonlinearity" class="section level2" number="3.3">
+<h2><span class="header-section-number">50.3</span> Nonlinearity</h2>
+<p>Systems with nonlinear dynamical functions can have multiple fixed points. The differential equation <span class="math inline">\(\partial_t x = x(1-x)\)</span> has two: one at <span class="math inline">\(x^\star = 0\)</span> and the other at <span class="math inline">\(x^\star = 1\)</span>. The flow-field/dynamics-graph (Figure <a href="flow-on-line.html#fig:logistic-phase-line">50.4</a>) makes it clear that one of these is stable and the other unstable.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:logistic-phase-line"></span>
+<img src="MOSAIC-Calculus_files/figure-html/logistic-phase-line-1.png" alt="Flow field and dynamics function for $\partial_t x = x (1-x)$. The fixed point at $x^\star=0$ is unstable; that at $x^\star =1$ is stable." width="90%" />
+<p class="caption">
+Figure 50.4: Flow field and dynamics function for <span class="math inline">\(\partial_t x = x (1-x)\)</span>. The fixed point at <span class="math inline">\(x^\star=0\)</span> is unstable; that at <span class="math inline">\(x^\star =1\)</span> is stable.
+</p>
+</div>
+<p>For the system in Figure <a href="flow-on-line.html#fig:logistic-phase-line">50.4</a>, a initial condition <span class="math inline">\(x_0 = 0.05\)</span> or any other small positive number will produce a trajectory that moves slowly to the right at first, then faster, then slows down again for asymptotically approaching the fixed point at <span class="math inline">\(x=1\)</span>. In a time series plot, <span class="math inline">\(x(t)\)</span> is a sigmoidal function.</p>
+<p>::: {.intheworld data-latex="“}
+We have been using the differential equation <span class="math inline">\(\partial_t x(1-x)\)</span> as a mathematical equation, but the form has important applications in population modeling and ecology. When parameterized, the model becomes
+<span class="math display">\[\partial_t x = h(x) \equiv r x \left(1 - \frac{x}{K}\right)\]</span>
+For <span class="math inline">\(x \ll K\)</span>, the dynamics are approximately <span class="math inline">\(\partial_t x = rx\)</span>, which is the recipe for <strong><em>exponential growth</em></strong>. Such growth is often seen in small populations. But”small" compared to what? To answer that, look at the situation for <span class="math inline">\(x \approx K\)</span>. In this domain, the growth will be much smaller, because <span class="math inline">\((1 - x/K) \approx 0\)</span>. There’s a fixed point at <span class="math inline">\(x^\star = K\)</span>, and for <span class="math inline">\(K &lt; x\)</span> the time derivative of <span class="math inline">\(x\)</span> is negative.</p>
+<p>In ecology, the population size that can just barely sustain itself without growth or decay is called the <strong><em>carrying capacity</em></strong>. Putting these different behaviors together, <span class="math inline">\(\partial_t x = h(x)\)</span> is a model of growth of a population when the environment has a finite carrying capacity. The pattern of change in such an environment is called <strong><em>logistic growth</em></strong>, but might as well be called “sigmoidal growth.” (The function <span class="math inline">\(f(x) = \frac{e^t}{1 + e^t}\)</span> is called the “logistic function.”)</p>
+<p>In this problem, we’re going to build a somewhat more complicated model of an ecosystem, based on the logistic growth model for grass.</p>
+<p>To turn a field of growing grass into an eco<strong>system</strong>, we’re going to add grazing cows to the field. A grazing cow has an impact on a field. To simplify, consider a single cow. She eats until she’s full, then takes time off to chew the cud with other cows and ruminate on the day’s events. But, if grass is very scarce, she may not be able to consume all that she would otherwise eat. She’ll be a hungry, ill-fed cow.</p>
+<p>When building a model, start by thinking what you want to use the model for. Imagine that we’re interested in <em>sustainability</em>, that is, whether the cow/grass ecosystem is stable. And, since cows are raised for a purpose, we’d like to use the model to find out whether the cow would be well fed and how things would change if another cow were added to the field. Sustainability is a question about dynamics. Here, the system would be sustainable if the field produces more grass in a day than the cow (and her herd-mates if any) consumes consumes in a day.</p>
+<p>We’ll model a cow’s consumption as a sigmoidal function consumption(v) of the amount of grass (v – for “vegetation”) available. Like this:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:cow-consumption"></span>
+<img src="MOSAIC-Calculus_files/figure-html/cow-consumption-1.png" alt="The amount of vegetation consumed by a cow in a day depends on the amount of vegetation available. At very low levels of vegetation ($v &lt; 1/2$ ton), it's hard to find more to eat, so a slight increase in vegetation doesn't increase consumption by much." width="90%" />
+<p class="caption">
+Figure 50.5: The amount of vegetation consumed by a cow in a day depends on the amount of vegetation available. At very low levels of vegetation (<span class="math inline">\(v &lt; 1/2\)</span> ton), it’s hard to find more to eat, so a slight increase in vegetation doesn’t increase consumption by much.
+</p>
+</div>
+<p>The overall system is roughly analogous to the rabbit/fox model where we had rabbits as the food and foxes as the consumers. In the rabbit/fox system, we had one differential equation for the growth in the rabbit population density and another for the foxes. The rabbit dynamics consisted of two parts, the natural growth rate in the absence of foxes and the rate at which rabbits are taken by the foxes: <span class="math inline">\(\partial_t r = 0.66\, r - 1.33\, r f\)</span>.</p>
+<p>We’ll model the dynamics of grass in much the same way. In the absence of cows the grass grows in an environment with a limited carrying capacity. (Carrying capacity reflects limits to the amount of water and the amount of sunlight and space.) Taking the carrying capacity of the field as 25 tons of biomass, we’ll set the model for <span class="math inline">\(v(t)\)</span> to be
+<span class="math display">\[ \partial_t v =  \frac{v}{3} \left(1-\frac{v}{25}\right)\ .\]</span></p>
+<p>We now have two models for two different components of the ecosystem: the growth of vegetation and the daily consumption by a cow. It’s time to put those components together into the overall model. But do we have everything we need?</p>
+<p>There are potentially two state variables, the amount of vegetation and the number of cows. To be analogous to that situation, we would need a model for the number of cows in the field. However, the context for the model suggests some changes here. First, the number of cows <span class="math inline">\(n\)</span> in the field is not set by the cow’s natural reproduction, it’s set by the farmer’s decision. As well, at 9 months, a cow’s gestation period is long relative to the potential changes in the amount of vegetation. (In contrast, rabbits have a gestation period of 1 month and foxes 2 months.)</p>
+<p>The cow’s consumption is one part of the dynamics. If there were no grass growing, the dynamics would be <span class="math display">\[\partial_t G(v) = - H \times \text{consumption}(v)\]</span> where <span class="math inline">\(H\)</span> is the number of cows in the herd.</p>
+<p>Subtracting daily consumption from daily growth of grass gives the rate of change of the biomass of grass.</p>
+<p style="text-align:center">
+<iframe frameborder="0" height="780px" loading="lazy" src="https://maa-statprep.shinyapps.io/Grazing_cows/" width="60%">
+</iframe>
+</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:cow-app"></span>
+<img src="www/tiny-blank.png" alt="The graph can be made to display any of three functions:
+
+1. The intrinsic logistic model growth dynamics with no cows.\2. The total consumption by the herd of cows.\3. The **net growth**, which is the difference between (1) and (2)." width="1%" />
+<p class="caption">
+<p>Figure 50.6: The graph can be made to display any of three functions:</p>
+<ol style="list-style-type: decimal">
+<li>The intrinsic logistic model growth dynamics with no cows.\2. The total consumption by the herd of cows.\3. The <strong>net growth</strong>, which is the difference between (1) and (2).
+</p>
+</div></li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Examples of linearization: Newton’s Law of Cooling, Hooke’s Law</li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="solve-DE.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="flow-on-plane.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-flow-on-line.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-flow-on-line.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

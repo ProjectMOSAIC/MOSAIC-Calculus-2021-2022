@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 48 Differential equations | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 48 Differential equations | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 48 Differential equations | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="solve-DE.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\let\origbar\bar
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf{#1}}}
+\newcommand{\bar}[1]{\overset{{\rule[-1pt]{12pt}{.5mm}}}{\mathbf{#1}}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{{\|{\mathbf #1}\|}}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="../docs/welcome-to-calculus.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
+<hr>
+<li><strong><a href="../block-6/diff-eq-intro.html">Block 6: Dynamics</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="48" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html"><i class="fa fa-check"></i><b>48</b> Differential equations</a>
+<ul>
+<li class="chapter" data-level="48.1" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#the-language-for-change"><i class="fa fa-check"></i><b>48.1</b> The language for change</a></li>
+<li class="chapter" data-level="48.2" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state"><i class="fa fa-check"></i><b>48.2</b> State</a></li>
+<li class="chapter" data-level="48.3" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamics"><i class="fa fa-check"></i><b>48.3</b> Dynamics</a></li>
+<li class="chapter" data-level="48.4" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>48.4</b> State space and flow field</a></li>
+<li class="chapter" data-level="48.5" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#exercises"><i class="fa fa-check"></i><b>48.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="49" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>49</b> Finding a solution</a>
+<ul>
+<li class="chapter" data-level="49.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>49.1</b> The flow field</a></li>
+<li class="chapter" data-level="49.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>49.2</b> Euler method</a></li>
+<li class="chapter" data-level="49.3" data-path="solve-DE.html"><a href="solve-DE.html#symbolic-solutions"><i class="fa fa-check"></i><b>49.3</b> Symbolic solutions</a></li>
+<li class="chapter" data-level="49.4" data-path="solve-DE.html"><a href="solve-DE.html#exercises-1"><i class="fa fa-check"></i><b>49.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="50" data-path="flow-on-line.html"><a href="flow-on-line.html"><i class="fa fa-check"></i><b>50</b> Flows on the line</a>
+<ul>
+<li class="chapter" data-level="50.1" data-path="flow-on-line.html"><a href="flow-on-line.html#the-rules-of-the-road"><i class="fa fa-check"></i><b>50.1</b> The rules of the road</a></li>
+<li class="chapter" data-level="50.2" data-path="flow-on-line.html"><a href="flow-on-line.html#linearization"><i class="fa fa-check"></i><b>50.2</b> Linearization</a></li>
+<li class="chapter" data-level="50.3" data-path="flow-on-line.html"><a href="flow-on-line.html#nonlinearity"><i class="fa fa-check"></i><b>50.3</b> Nonlinearity</a></li>
+</ul></li>
+<li class="chapter" data-level="51" data-path="flow-on-plane.html"><a href="flow-on-plane.html"><i class="fa fa-check"></i><b>51</b> Flows on the plane</a>
+<ul>
+<li class="chapter" data-level="51.1" data-path="flow-on-plane.html"><a href="flow-on-plane.html#generic-behaviors"><i class="fa fa-check"></i><b>51.1</b> Generic behaviors</a></li>
+<li class="chapter" data-level="51.2" data-path="flow-on-plane.html"><a href="flow-on-plane.html#linearization-1"><i class="fa fa-check"></i><b>51.2</b> Linearization</a></li>
+<li class="chapter" data-level="51.3" data-path="flow-on-plane.html"><a href="flow-on-plane.html#exercises-2"><i class="fa fa-check"></i><b>51.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="52" data-path="modeling-dynamics.html"><a href="modeling-dynamics.html"><i class="fa fa-check"></i><b>52</b> Modeling dynamics</a>
+<ul>
+<li class="chapter" data-level="52.1" data-path="modeling-dynamics.html"><a href="modeling-dynamics.html#exercises-3"><i class="fa fa-check"></i><b>52.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="53" data-path="equilibria.html"><a href="equilibria.html"><i class="fa fa-check"></i><b>53</b> Equilibrium and transient</a>
+<ul>
+<li class="chapter" data-level="53.1" data-path="equilibria.html"><a href="equilibria.html#one-state-variable"><i class="fa fa-check"></i><b>53.1</b> One state variable</a></li>
+<li class="chapter" data-level="53.2" data-path="equilibria.html"><a href="equilibria.html#two-state-variables"><i class="fa fa-check"></i><b>53.2</b> Two state variables</a></li>
+</ul></li>
+<li class="chapter" data-level="54" data-path="eigenvalues-eigenvectors.html"><a href="eigenvalues-eigenvectors.html"><i class="fa fa-check"></i><b>54</b> Eigenvalues, eigenvectors</a>
+<ul>
+<li class="chapter" data-level="54.1" data-path="eigenvalues-eigenvectors.html"><a href="eigenvalues-eigenvectors.html#exercises-4"><i class="fa fa-check"></i><b>54.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="55" data-path="second-order-de.html"><a href="second-order-de.html"><i class="fa fa-check"></i><b>55</b> Force-balance equations</a></li>
+<li class="chapter" data-level="56" data-path="forcing-and-resonance.html"><a href="forcing-and-resonance.html"><i class="fa fa-check"></i><b>56</b> Forcing and resonance</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
+<div id="diff-eq-intro" class="section level1" number="1">
+<h1><span class="header-section-number">Chapter 48</span> Differential equations</h1>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-diff-eq.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<div class="underconstruction">
+<ol style="list-style-type: lower-roman">
+<li>Explain the format in which we present dynamics as opposed to trajectories</li>
+<li>Find qualitative solutions from an initial condition</li>
+<li>Articulate the difference between state, dynamics, and trajectory</li>
+</ol>
+<p><strong>Vocabulary</strong></p>
+<ul>
+<li>Differential equation</li>
+<li>Dynamical function</li>
+<li>Initial condition (or, initial value or boundary value)</li>
+<li>State &amp; state variable &amp; state space</li>
+<li>Solution</li>
+<li>Time series (state variable versus time)</li>
+<li>Trajectory (Movement in the state space)</li>
+<li>Fixed point</li>
+<li>Flow field</li>
+<li>Euler integration (iteration)</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li>Bank interest or sapling growth.</li>
+<li>Gompertz growth</li>
+<li>Logistic growth (e.g. population, or change in height of tree versus height).</li>
+<li>Pendulum</li>
+<li>Disease</li>
+<li>Rocket</li>
+</ul>
+</div>
+<div id="the-language-for-change" class="section level2" number="1.1">
+<h2><span class="header-section-number">48.1</span> The language for change</h2>
+<p>Calculus is the dominant means of describing change. Developed initially in the 1600s as a means of relating planetary motion to the force of gravity felt on Earth, it nonetheless remained the way of describing heat, sound, and electromagnetism in the 1800s. It the 1900s, calculus was turned to representing the basic mechanisms of quantum mechanics.</p>
+<p>The beginning student may see calculus as consisting of manipulations and transformations (e.g. differentiation and integration). The first stages of learning calculus consists of applying such manipulations and transformations to textbook exercises. To use these observations productively in solving real-world problems, you need to have a way of describing the world and the mechanisms of the world in terms of calculus. For this, you need to start seeing calculus as a <strong><em>language</em></strong> for description.</p>
+<p>We’ll use four concepts of language in describing calculus: nouns, verbs, clauses, and sentences.</p>
+<ul>
+<li><p>A calculus <strong><em>noun</em></strong> is an object such as a function, scalar, vector, or matrix.</p></li>
+<li><p>A calculus <strong><em>verb</em></strong> is an operation such as differentiation and accumulation. Other verbs come from arithmetic and algebra: square roots, addition, multiplication, and so on.</p></li>
+<li><p>A calculus <strong><em>clause</em></strong> is the application of a verb to one or more nouns to produce a new noun. For instance, if the original noun is the function <span class="math inline">\(x(t)\)</span> representing the position of an object in time, then the application of the verb <span class="math inline">\(\partial_t\)</span> to the function is a new function <span class="math inline">\(\partial_t\, x(t)\)</span>, which we interpret as velocity.</p></li>
+<li><p>A calculus <strong><em>sentence</em></strong> is an equation: a statement of the equivalence of two nouns.</p></li>
+</ul>
+<p>Natural languages such as English or Chinese are much more complicated. Calculus involves sentences such as “The color of John’s bike is blue,” where “is” stands for equality:
+<span class="math display">\[\underbrace{\text{The color of John&#39;s bike}}_{\text{noun}}\  \underbrace{\text{is}}_{=}\ 
+\underbrace{\text{blue.}}_{\text{noun}}\]</span></p>
+<p>In both calculus and natural languages, such sentences allow us to draw conclusions that may be useful or informative. For instance, combined with the sentence, “The bike I see is red,” a conclusion might be, “The bike I see is not John’s.”</p>
+<p>Early calculus sentences were often about positions, velocities, forces, and accelerations, for instance <span class="math display">\[F_\text{air} = \alpha v^2\]</span>
+which is a simple model of the force due to air resistance.</p>
+<p>In this Block, we’ll use the language of calculus to represent <strong><em>dynamics</em></strong>, situations of motion, growth, decay, and oscillation. This Chapter introduces some of the nouns involved.</p>
+</div>
+<div id="state" class="section level2" number="1.2">
+<h2><span class="header-section-number">48.2</span> State</h2>
+<p>Here are a few of the situations we will construct calculus-language descriptions of:</p>
+<ul>
+<li>physics
+<ol style="list-style-type: lower-roman">
+<li>swing of a pendulum</li>
+<li>bobbing of a mass hanging from a string.</li>
+<li>a rocket shooting up from the launch pad</li>
+</ol></li>
+<li>commerce
+<ol style="list-style-type: lower-roman">
+<li>investment growth</li>
+<li>growth in equity in a house as a mortgage is paid up. (“Equity” is the amount of the value of the house that belongs to you.)</li>
+</ol></li>
+<li>biology
+<ol style="list-style-type: lower-roman">
+<li>growth of animal populations, including predator and prey.</li>
+<li>growth of a tumor</li>
+<li>growth of an organism or a crop.</li>
+</ol></li>
+</ul>
+<p>A model describing such situation has a basic component called the <strong><em>dynamical state</em></strong>, as in “the state of affairs,” or “his mental state,” or “the state of their finances.”</p>
+<p>One of the things you learn when you study a field such as physics or epidemiology or engineering is what constitutes a useful description of the dynamical state for different situations.</p>
+<p>As an example, consider the rather simple physical system of a pendulum. A pendulum, as you know, consists of a mass hanging from a rod or rope pivoting to another object such as the ceiling. In physics, you learn the essential elements of the pendulum system: the length of the rod, the gravitational acceleration. These aspects of the system are <em>fixed</em>, they don’t change in time. Although such characteristics may be important in describing the system, they are not elements of the <em>dynamical</em> state.</p>
+<p>The dynamical state consists of the aspects of the system that are changing in time, seen <strong><em>instantaneously</em></strong>. For instance, the angle that the pendulum makes from the vertical changes in time. Such changing aspects, seen at each <em>instant of time</em>, constitute the dynamical state. We say, for example, that angle-from-the-vertical is a <strong><em>state variable</em></strong> and that the state at any instant is the angle at that instant..</p>
+<p>In a physics class, you learn that angle is not a complete description of state. You need also to know the <em>velocity</em> of the pendulum, described for instance as the velocity of the mass at the end of the pendulum.</p>
+<p>To be complete, the dynamical state of a system has to include all those changing aspects of the system that allow you to calculate from the state at this instant what the state will be at the next instant. For example, from the angle of the pendulum at an instant it’s not possible so say what the angle will be at the next instant. You need to know which way the pendulum is swinging and how fast. And you also need to know the relevant <em>fixed</em> aspects of the system, such as the length of the pendulum.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>Figuring out what constitutes the dynamical state requires knowledge of the mechanics of the system, e.g. the action of gravity, the constraint imposed by the pivot of the pendulum. You get that knowledge by studying the relevant field: electrical engineering, economics, epidemiology, etc. You also learn what aspects of the system change slowly enough that they can be considered fixed.</p>
+<p>But there are a few things we can say mathematically about states that provide a valuable clue about the state of any continuous-time system.</p>
+<ol style="list-style-type: lower-roman">
+<li>If the change is <strong><em>monotonic</em></strong>, the state can consist of just a single element.</li>
+<li>If the change is <strong><em>non-monotonic</em></strong>, that is, oscillates back and forth, the state must have two or more elements.</li>
+<li>If the change is <strong><em>irregular</em></strong>, the state must have at least three elements.</li>
+</ol>
+<p>In this book, we will work almost exclusively with systems that have a one- or two-dimensional state. The methods you learn will be broadly applicable to systems with higher-dimensional state.</p>
+<div class="takenote">
+<p>One of the ways in which calculus is the language of change can be seen in the words used in this section. For instance, <em>instantaneous</em>, <em>continuous-time</em>, and <em>monotonic</em> are all words introduced in Block 1 of this book.</p>
+</div>
+<div class="intheworld">
+<p>What does it take to describe the dynamical state of an epidemic?</p>
+<p>News reports of the COVID pandemic usually focus on the number of new cases each day and the fraction of the population that has been vaccinated. But this is not adequate, even for a simple description of the dynamics.</p>
+<p>From a history of new-case counts over time (e.g. Figure <a href="diff-eq-intro.html#fig:NYT-covid-history">48.1</a>) you can see that the number of new cases waxes and wanes. Knowing that the number of cases today is, say, 100 thousand doesn’t tell you what the number of cases <em>will be</em> in two weeks: 100 thousand is encountered both on the way up and on the way down.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:NYT-covid-history"></span>
+<img src="www/NYT-covid-report.png" alt="COVID-19 new-case counts in the US over the first two years of the pandemic. [Source: [*New York Times*]](https://www.nytimes.com/interactive/2021/us/covid-cases.html)" width="90%" />
+<p class="caption">
+Figure 48.1: COVID-19 new-case counts in the US over the first two years of the pandemic. <a href="https://www.nytimes.com/interactive/2021/us/covid-cases.html">Source: [<em>New York Times</em>]</a>
+</p>
+</div>
+</div>
+</div>
+<div id="dynamics" class="section level2" number="1.3">
+<h2><span class="header-section-number">48.3</span> Dynamics</h2>
+<p>The <strong><em>dynamics</em></strong> of a system is a description of how the individual components of the <em>state</em> change as a <em>function of the entire set of components of the state.</em></p>
+<p>At any instant in time, the state is a set of quantities. We’ll use <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span> for the purpose of illustration, although most of our work in this introduction will be with systems that have just two state variables.</p>
+<p>The state can change in time. This implies that the evolving state as a function of time is a set of functions: <span class="math inline">\(x(t)\)</span>, <span class="math inline">\(y(t)\)</span>, and <span class="math inline">\(z(t)\)</span> for our illustration. Sometimes these are called <strong><em>state variables</em></strong> because they vary in time.</p>
+<p>The dynamics of the system are described by another set of functions, one for each state variable. These functions—let’s call them <span class="math inline">\(g_x()\)</span>, <span class="math inline">\(g_y()\)</span>, and <span class="math inline">\(g_z()\)</span> in our illustration—each take as inputs the value of the state variables. Thus, we have:
+<span class="math display">\[g_x(x, y, z)\ \ \ \  g_y(x, y, z)\ \ \ \ g_z(x, y, z)\ .\]</span> We’ll call these <strong><em>dynamical functions</em></strong>, but they are perfectly ordinary functions. The term “dynamical function” is simply a way of reminding us the role they play in the mathematical description of the dynamics.</p>
+<p>Remember that <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span> are state variables, so they are all <em>functions of time</em>. At any instant in time, the values <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span> have a specific value. Thus, at any instant in time, the functions <span class="math inline">\(g_x(x, y, z)\)</span>, <span class="math inline">\(g_y(x, y, z)\)</span>, and <span class="math inline">\(g_z(x, y, z)\)</span> also have a specific, scalar value. If we wanted to make this perfectly explicit, we could write <span class="math inline">\(g_x(x(t), y(t), z(t))\)</span>, which makes it clear that the output of <span class="math inline">\(g_x()\)</span> is a function of time.</p>
+<p>The framework for a dynamics model is that the rate of change in time of each state variable is specified by the corresponding dynamical function. Of course, we write the “rate of change in time” as <span class="math inline">\(\partial_t\)</span>, so the rate of change of <span class="math inline">\(x\)</span> is <span class="math inline">\(\partial_t x(t)\)</span>, and similarly for the other state variables. The way to write mathematically that “the rate of change of <span class="math inline">\(x(t)\)</span> is given by the appropriate dynamical function” is a set of equations:
+<span class="math display">\[\partial_t x(t) = g_x(x(t), y(t), z(t))\ \, \\
+\partial_t y(t) = g_y(x(t), y(t), z(t))\ \, \\
+\partial_t z(t) = g_z(x(t), y(t), z(t))\ .\]</span>
+This is practically impossible to read: all those <span class="math inline">\((t)\)</span>. So the convention is to omit the <span class="math inline">\((t)\)</span>:
+<span class="math display">\[\partial_t x = g_x(x, y, z)\\
+\partial_t y = g_y(x, y, z)\\
+\partial_t z = g_z(x, y, z)\]</span>
+and leave it to the reader to remember that <span class="math inline">\(x\)</span> is really <span class="math inline">\(x(t)\)</span> and so on.</p>
+<p>Such equations are called <strong><em>differential equations</em></strong>. The dynamical functions <span class="math inline">\(g_x()\)</span>, <span class="math inline">\(g_y()\)</span> and <span class="math inline">\(g_z()\)</span> on the right-hand side of the equations represent the dynamics of the system. These functions will be different depending on what we are trying to model. The art of modeling a system that evolves in time is to find the right form for the dynamical functions.</p>
+<p>::: {.takenote data-latex}
+Mathematically, a <strong><em>dynamical system</em></strong> consists of two things:</p>
+<ol style="list-style-type: lower-roman">
+<li>The state variables, which is a set of quantities that vary in time.</li>
+<li>They dynamics, which is the set of dynamical functions, one function for each of the state variables.</li>
+</ol>
+<p>:::</p>
+<p>A simple example is the dynamics of retirement-account interest. In a retirement account, you put aside money—this is called “contributing”—each month. The value <span class="math inline">\(V(t)\)</span> of the account accumulates over time, both due to new monthly deposits and to the interest <span class="math inline">\(r\)</span> earned on the current account value. If you are setting aside <span class="math inline">\(M\)</span> dollars per month, the dynamics are:
+<span class="math display">\[\partial_t V = r V + M\ .\]</span>
+The left-hand side of this equation is boiler plate; there is a single state variable named <span class="math inline">\(V\)</span> and we are describing how <span class="math inline">\(V\)</span> varies with time, that is, we are describing <span class="math inline">\(\partial_t V\)</span>. The description itself is on the right side of the equation. The description take the form of a dynamical function, which we could call <span class="math inline">\(g(V)\equiv rV + M\)</span>. The dynamical function always takes the set of state variables as inputs. In this example, there’s just the one state variable <span class="math inline">\(V\)</span>, so <span class="math inline">\(g_V()\)</span> has only one argument: <span class="math inline">\(V\)</span>. Of course, there can also be parameters in a dynamical function, like <span class="math inline">\(r\)</span> and <span class="math inline">\(M\)</span> here.</p>
+<p>For the sake of simplicity, we can imagine that the interest rate and monthly contribution are constants: they are not part of the dynamical state. This leaves <span class="math inline">\(V\)</span> at any given time as the state variable. The dynamics tell the rate of change in the state variable, <span class="math inline">\(\partial_t V(t)\)</span> as a function of the current value <span class="math inline">\(V(t)\)</span> of the state variable.</p>
+<p>The above differential equation, having just one component to the state, is sometimes called a <strong><em>first-order differential equation</em></strong>.</p>
+<p>Remember that the dynamical function is something that the modeler constructs from her knowledge of the system. A modeler might decide to incorporate more or fewer details of the real-world system. For instance,
+a model more faithful to what happens over the course of years of saving for retirement might include the monthly contribution <span class="math inline">\(M(t)\)</span> changing with time. (If your income changes over the years, your contribution will likely change along with it.) Similarly, interest rates are notoriously variable over time. Still, these are not included in the dynamical state There’s a simple reason: we don’t have usually have any model describing how <span class="math inline">\(r(t)\)</span> and <span class="math inline">\(M(t)\)</span> change <em>as a function of</em> the state. That is, we can’t say how <span class="math inline">\(r(t)\)</span> changes as a function of <span class="math inline">\(V(t)\)</span>, <span class="math inline">\(r(t)\)</span>, and <span class="math inline">\(M(t)\)</span>. Quantities such as interest rate and contribution amount are said to be <strong><em>exogenous</em></strong> meaning “outside the system.” (The word comes from the root “exo,” meaning “outside,” and “indigenous,” meaning “native to.”) Your retirement account doesn’t <em>determine</em> the interest rate; interest rate is something (from your perspective) that comes from outside, largely uncontrollable factors.</p>
+<p>Another example, found in physics textbooks, is the dynamics of the pendulum. In studying physics, you learn how to identify and keep track of the forces involved. Without getting involved much with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variables. We’ll take these to be the angle <span class="math inline">\(\theta(t)\)</span> of the rod with respect to the vertical, and the angular velocity <span class="math inline">\(v_\theta(t)\)</span> telling how the velocity changes with time. Since there are two state variables, there must be two dynamical functions. For a pendulum, these functions can be developed from the general rule <span class="math inline">\(F = m a\)</span> and the geometry of the pendulum; they are <span class="math inline">\(\partial_t v_\theta(t)\)</span>. They are:
+<span class="math display">\[\partial_t \theta(t)  =  g_\theta(\theta, v_\theta) =  v_\theta\\
+\partial_t v_\theta(t)  =  g_{v_\theta}(\theta, v_\theta) = - \sin(\theta)
+\]</span></p>
+<div class="why">
+<p>Why did you bother to define a state variable <span class="math inline">\(v_\theta\)</span> when it is, by definition, exactly the same as <span class="math inline">\(\partial_t \theta(t)\)</span>?</p>
+<p>Even though the dynamical equation <span class="math inline">\(\partial_t \theta(t) = v_\theta\)</span> is a calculus tautology, we need always to be explicit about what are the two quantities in the dynamical state. The first of the two dynamical equations comes for free from basic calculus concepts. The second equation, however, is about the physics, the relationship between forces and acceleration.</p>
+<p>There is a style of writing dynamics equations that discards such tautologies. For example, the pendulum dynamics are often written <span class="math display">\[\partial_{tt} \theta(t) = - \sin(\theta)\ .\]</span> This sort of equation, containing a second-order derivative, is called a second-order differential equation. It’s exactly equivalent to the pair of first order equations, one for <span class="math inline">\(\partial_t \theta(t)\)</span> and one for <span class="math inline">\(\partial v_\theta(t)\)</span>. We’ll return to this style in Chapter <a href="second-order-de.html#second-order-de">55</a>. We are avoiding this style because it obscures the fact that there are two state variables: <span class="math inline">\(\theta(t)\)</span> and <span class="math inline">\(v_\theta(t)\)</span>,</p>
+</div>
+<div class="example">
+<p><span id="exm:unlabeled-div-1" class="example"><strong>Example 48.1  </strong></span>Consider the population of two interacting species, say rabbits and foxes. As you know, the relationship between rabbits and foxes is rather unhappy from the rabbits’ point of view even if it is fulfilling for the foxes.</p>
+<p>Many people assume that such populations are more or less fixed: that the rabbits are in a steady balance with the foxes. In fact, as any gardener can tell you, some years there are lots of rabbits and others not: an oscillation. Just from this fact, we know that the dynamical state must have at least two components.</p>
+<p>In a simple, but informative, model, the two components of the dynamical state are <span class="math inline">\(r(t)\)</span> and <span class="math inline">\(f(t)\)</span>, the population of rabbits and foxes respectively. In the absence of foxes, the dynamics of rabbits are exponential growth; each successive generation is larger than the previous one. This can be described by a dynamical equation <span class="math inline">\(\partial_t r(t) = \alpha r(t)\)</span>, where <span class="math inline">\(\alpha\)</span> is a fixed quantity that describes rabbit fecundity.</p>
+<p>Similarly, in the absence of food (rabbits are fox food), the foxes will starve or emigrate, so the dynamical equation for foxes is very similar <span class="math inline">\(\partial_t f(t) = - \gamma f(t)\)</span>, where <span class="math inline">\(\gamma\)</span> is a fixed quantity that indicates the rate at which foxes die or emigrate.</p>
+<p>Of course, in real ecosystems there are many other quantities that change and that are relevant. For instance, foxes eat not only rabbits, but birds and frogs and earthworms and berries. And the diet of rabbits eat weeds and grass (which is generally in plentiful supply), but also the gardener’s flowers and carrots (and other vegetables). Growth in the rabbit population leads to decrease in available flowers and vegetables, which in turn leads to slower growth (or even population decline) for rabbits.</p>
+<p>In the spirit of illustrating dynamics, we’ll leave out these important complexities and imagine that the state consists of just two numbers: how many rabbits there are and how many foxes. The dynamics therefore involve two equations, one for <span class="math inline">\(\partial_t r\)</span> and one for <span class="math inline">\(\partial_t f\)</span>, usually written:
+<span class="math display">\[\partial_t r = \alpha\, r - \beta\, f r\\
+\partial_t f = \delta\, r f - \gamma\, f\]</span></p>
+<div class="takenote">
+<p>Keep in mind that <span class="math inline">\(r\)</span> is a function of time, as is <span class="math inline">\(f\)</span>. But instead of writing them as <span class="math inline">\(r(t)\)</span> and <span class="math inline">\(f(t)\)</span>, we use the shorthand <span class="math inline">\(r\)</span> and <span class="math inline">\(f\)</span>.</p>
+<p>How are you supposed to know that <span class="math inline">\(f\)</span> stands for a function of time but <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\gamma\)</span> are constant parameters? The clue is given by the left-hand sides of the differential equations, <span class="math inline">\(\partial_t r\)</span> and <span class="math inline">\(\partial_t f\)</span>. If we are taking the derivative of <span class="math inline">\(f\)</span> with respect to <span class="math inline">\(t\)</span>, it must be that <span class="math inline">\(f\)</span> is a function of <span class="math inline">\(t\)</span>. That there is no differential equation involving <span class="math inline">\(\partial_t \beta\)</span> is the way we know that <span class="math inline">\(\beta\)</span> isn’t part of the dynamical state.</p>
+</div>
+<p>The quantities <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\gamma\)</span>, and <span class="math inline">\(\delta\)</span> are parameters quantify the biology of the system: the reproduction rate of rabbits, the need of foxes for food (rabbits) in order to reproduce, the hunting success of foxes, and the death or emigration of foxes in response to a shortage of food.</p>
+<p>Coming up with this description of dynamics requires knowing something about rabbits and foxes. The particular forms used, for instance the <em>interaction term</em> <span class="math inline">\(r f\)</span>, coming from modeling experience. When we write such dynamics here, the point is to illustrate some of the forms commonly used to represent real-world phenomena. For instance, the interaction term is well named because it is about the literal, biological interaction of foxes and rabbits, for better (<span class="math inline">\(+ \delta r(t) f(t)\)</span>) or for worse (<span class="math inline">\(-\gamma r(t) f(t)\)</span>) depending on which species we are looking at.</p>
+</div>
+</div>
+<div id="state-space-and-flow-field" class="section level2" number="1.4">
+<h2><span class="header-section-number">48.4</span> State space and flow field</h2>
+<p>A helpful representation of dynamics for the purpose of developing intuition is to represent the instantaneous state as a point in a graphical frame and the dynamics as a field of vectors showing how, for each possible state, the state changes. For instance, in the Rabbit-Fox dynamics, the state is the pair <span class="math inline">\((r, f)\)</span> and the <strong><em>state space</em></strong> is the coordinate plane spanned by <span class="math inline">\(r\)</span> and <span class="math inline">\(f\)</span>.</p>
+<p>The present state of the system might be any point in the state space. But if we know the present state, the dynamical functions <em>evaluated at the present state</em> tell us how the state changes over a small increment in time. The step over a small increment of time can be represented by a vector.</p>
+<p>Let’s illustrate with the Rabbit-Fox system, whose dynamical equations are given above. The dynamical functions take a position in state space as input. Each of the functions returns a scalar.</p>
+<p>To make a plot, we need numerical values for all the parameters in those equations.</p>
+<p>The vector field corresponding to the dynamics is called a <strong><em>flow</em></strong>, as if it were a pool of swirling water. Figure <a href="diff-eq-intro.html#fig:rabbit-fox-vectors">48.2</a> shows the flow of the rabbit/fox system.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rabbit-fox-vectors"></span>
+<img src="MOSAIC-Calculus_files/figure-html/rabbit-fox-vectors-1.png" alt="The dynamics of the rabbit/fox system shown as a vector field over the state space. The parameters have been set, for the purpose of illustration, to $\alpha = 2/3$, $\beta = 4/3$, $\gamma = 1$, and $\delta = 1$." width="90%" />
+<p class="caption">
+Figure 48.2: The dynamics of the rabbit/fox system shown as a vector field over the state space. The parameters have been set, for the purpose of illustration, to <span class="math inline">\(\alpha = 2/3\)</span>, <span class="math inline">\(\beta = 4/3\)</span>, <span class="math inline">\(\gamma = 1\)</span>, and <span class="math inline">\(\delta = 1\)</span>.
+</p>
+</div>
+<p>Staying with the analogy to a pool of swirling water or the currents in a river, you can place a lightweight marker such as a leaf at some point in the flow and follow its path over time. This path—position in state space as a function of time—is called the <strong><em>trajectory</em></strong> of the flow. There are many possible trajectories, depending on where you place the leaf.</p>
+<p>In Chapter 33 we considered the path followed by a robot arm. In that chapter, we separated out the <span class="math inline">\(x\)</span>- and <span class="math inline">\(y\)</span>-components of the arm’s position over time, calling them functions <span class="math inline">\(x(t)\)</span> and <span class="math inline">\(y(t)\)</span>. Analogously, the the decomposition of a trajectory from an initial condition in the flow—this would be <span class="math inline">\(r(t)\)</span> and <span class="math inline">\(f(t)\)</span> for the rabbit/fox system—gives us the <strong><em>solution</em></strong> to the differential equation.</p>
+<p>Each component of the solution is called a <strong><em>time series</em></strong> and is often plotted as a function of time, for instance <span class="math inline">\(r(t)\)</span> versus <span class="math inline">\(t\)</span>.</p>
+<p>From the flow field, you can approximate the trajectory that will be followed from any initial condition. Starting from the <strong><em>initial condition</em></strong>, just follow the flow. You already have some practice following a flow from your study of the <strong><em>gradient ascent</em></strong> method of optimization described in Chapter 23. At the argmax, the gradient is nil. Thus, the gradient ascent method stops at the argmax. We’ll see an analogous behavior in dynamical systems: any place where the flow is nil is a potential resting point for the state, called a <strong><em>fixed point</em></strong>.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-2" class="example"><strong>Example 48.2  </strong></span>Let’s return to the pendulum and examine its flow field. We’ll modify the equations just a little bit to include air resistance in the model. Air resistance is a force, so we know it will appear in the <span class="math inline">\(\partial_t v_\theta(t)\)</span> equation. A common model for air resistance has it proportional in size to the square of the velocity and with a direction that is the opposite of the velocity. In a differential equation, the model of air resistance can be written as <span class="math inline">\(- \alpha\, L\, \text{sign}(v(t))\ v(t)^2\)</span>, where <span class="math inline">\(\text{sign}()\)</span> is a piecewise function that has the value <span class="math inline">\(+1\)</span> when the argument is positive and <span class="math inline">\(-1\)</span> when the argument is negative. <span class="math inline">\(L\)</span> is the length of the pendulum.
+<span class="math display">\[\partial_t \theta = v_\theta\\
+\partial_t v_\theta = - \sin(\theta) - \alpha\,L\, \text{sign}(v)\ v^2\]</span>
+Note that we’ve dropped the <span class="math inline">\((t)\)</span> in <span class="math inline">\(\theta(t)\)</span> and in <span class="math inline">\(v_\theta(t)\)</span>. Whenever you have a state variable, you know that it’s a function of time and so the explicit <span class="math inline">\((t)\)</span> is often omitted for the sake of conciseness.</p>
+<p>Figure <a href="diff-eq-intro.html#fig:pendulum-in-air">48.3</a> shows the flow field of the pendulum. Also shown is a trajectory and the two time series corresponding to that trajectory.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:pendulum-in-air"></span>
+<img src="MOSAIC-Calculus_files/figure-html/pendulum-in-air-1.png" alt="The flow field of a pendulum with air resistance. From the initial condition (marked by $\color{red}{\text{x}}$), a trajectory is sketched out for $0 \leq t \leq 20$. The individual components of that trajectory are graphed as time series." width="90%" /><img src="MOSAIC-Calculus_files/figure-html/pendulum-in-air-2.png" alt="The flow field of a pendulum with air resistance. From the initial condition (marked by $\color{red}{\text{x}}$), a trajectory is sketched out for $0 \leq t \leq 20$. The individual components of that trajectory are graphed as time series." width="90%" />
+<p class="caption">
+Figure 48.3: The flow field of a pendulum with air resistance. From the initial condition (marked by <span class="math inline">\(\color{red}{\text{x}}\)</span>), a trajectory is sketched out for <span class="math inline">\(0 \leq t \leq 20\)</span>. The individual components of that trajectory are graphed as time series.
+</p>
+</div>
+<p>The pendulum was started out by lifting it to an angle of <span class="math inline">\(45^\circ\)</span> and giving it an initial upward velocity. The bob swings up for a bit before being reversed by gravity and swinging toward <span class="math inline">\(\theta = 0\)</span> and beyond. Due to air resistance, the amplitude of swinging decreases over time.</p>
+</div>
+<!--
+Because the word "solution" appears so often in textbooks it's helpful to know what they look like and how they are different from dynamics.
+
+i. Arithmetic sequences
+    - Dynamics: $x_{n+1} = x_n + b$
+    - Solution: $x_n = x_0 + n b$
+ii. Geometric sequences
+    - Dynamics: $x_{n+1} = \alpha\, x_n$
+    - Solution: $x_n = x_0\, \alpha^n$
+iii. Combined sequences
+    - Dynamics: $x_{n+1} = \alpha\, x_n + b$   <br>
+    - Solution: $x_n = \left(x_0 - b/\alpha\right) \alpha^n + b/\alpha$
+
+-->
+</div>
+<div id="exercises" class="section level2" number="1.5">
+<h2><span class="header-section-number">48.5</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/kitten-mean-tv.Rmd" href="#DtLAhm"><img src="www/icons8-signpost.png" title="Location: Exercises/kitten-mean-tv.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">DtLAhm</red></span>
+</summary>
+<p><strong>Question A</strong> If today is <span class="math inline">\(n\)</span>, what is the day after tomorrow?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(n-1\)</span><span class="mcanswer">︎✘ <span class="math inline">\(n-1\)</span> is yesterday.</span></span>       <span class="Zchoice"><span class="math inline">\(n\)</span><span class="mcanswer">︎✘ <span class="math inline">\(n\)</span> is today.</span></span>       <span class="Zchoice"><span class="math inline">\(n+1\)</span><span class="mcanswer">︎✘ <span class="math inline">\(n+1\)</span> is tomorrow.</span></span>       <span class="Zchoice"><span class="math inline">\(n+2\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(n=3\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> If today is <span class="math inline">\(n\)</span>, what is the day one week from now?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(7n\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(n + 1 week\)</span><span class="mcanswer">︎✘ Although <span class="math inline">\(n\)</span> stands for “today”, <span class="math inline">\(n\)</span> is a pure number.</span></span>       <span class="Zchoice"><span class="math inline">\(n+7\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question C</strong> If today is <span class="math inline">\(n\)</span>, what is the day one week ago?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(-7 n\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(n - 1\)</span> week<span class="mcanswer">︎✘ Although <span class="math inline">\(n\)</span> stands for “today”, <span class="math inline">\(n\)</span> is a pure number.</span></span>       <span class="Zchoice"><span class="math inline">\(n-7\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question D</strong> Given <span class="math inline">\({\mathbf S}_{n+1} = g({\mathbf S}_n)\)</span>, what is <span class="math inline">\({\mathbf S}_{n+3}\)</span> ?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(g(g(g({\mathbf S}_n)))\)</span><span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(3 g({\mathbf S}_n)\)</span><span class="mcanswer">︎✘ <span class="math inline">\(3 g({\mathbf S}_n)\)</span> is “three times <span class="math inline">\({\mathbf S}_{n+1}\)</span>”, not <span class="math inline">\({\mathbf S}_{n+3}\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g({\mathbf S}_n)^3\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g({\mathbf S}_n) + 2 {\mathbf S}_{n}\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question E</strong> Given <span class="math inline">\({\mathbf S}_{n+1} = g({\mathbf S}_n)\)</span>, which of these is <strong>not</strong> <span class="math inline">\({\mathbf S}_{n+1}\)</span> ?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(g(g(g({\mathbf S}_{n-2})))\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g({\mathbf S}_{n-1})\)</span><span class="mcanswer">Excellent! This is <span class="math inline">\({\mathbf S}_{n}\)</span>.</span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g(g({\mathbf S}_{n-1}))\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(g(g(g(g(g(g(g(g({\mathbf S}_{n-7}))))))))\)</span><span class="mcanswer">︎✘ These 8 applications of <span class="math inline">\(g()\)</span> will take <span class="math inline">\({\mathbf S}_{n-7}\)</span> up to <span class="math inline">\({\mathbf S}_{n+1}\)</span></span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/rat-lend-piano.Rmd" href="#mJRDLy"><img src="www/icons8-signpost.png" title="Location: Exercises/rat-lend-piano.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">mJRDLy</red></span>
+</summary>
+<p><strong>Question A</strong> Given the system <span class="math inline">\({\mathbf S}_{n+1} = g( {\mathbf S}_n)\)</span> with <span class="math inline">\(g(S) \equiv 5 + S/2\)</span>, which of these is a trajectory of the system?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">{16, 13, 11.5, 10.75, 10.375, 10.1875, 10.09375}<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">{16, 8, 4, 2, 1}<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">{5, 7.5, 10, 12.5, 15}<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">{0, 5, 10, 15, 20, 25}<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question B</strong> Given the system <span class="math inline">\({\mathbf S}_{n+1} = g( {\mathbf S}_n)\)</span> with <span class="math inline">\(g(S) \equiv 5 + S/2\)</span>, which of these is <strong>NOT</strong> a trajectory of the system?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">{0, 5, 7.5, 8.75, 9.375, 9.6875, 9.84375, 9.921875, 9.9609375, 9.98046875, 9.990234375}<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">{1, 5.5, 7.75, 8.875, 9.4375, 9.71875, 9.859375, 9.9296875, 9.96484375, 9.982421875, 9.9912109375}<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">{-4, 3, 6.5, 8.25, 9.125, 9.5625, 9.78125, 9.890625, 9.9453125, 9.97265625, 9.986328125}<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10}<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">{4, 7, 10, 13}<span class="mcanswer">Good. </span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/ape-leave-shirt.Rmd" href="#DzIhgb"><img src="www/icons8-signpost.png" title="Location: Exercises/ape-leave-shirt.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">DzIhgb</red></span>
+</summary>
+<p><strong>Question A</strong> Use the sandbox above to construct 50 steps of the dynamics of <span class="math inline">\(g(x) \equiv -0.8 x + 2\)</span> starting at <span class="math inline">\(x_0 = 10\)</span>. Which of these best describes the graph <span class="math inline">\(x_n\)</span> versus <span class="math inline">\(n\)</span>? (Hint: It’s always best to try to figure out the command on your own. If you get stuck, press the ‘Solution’ button in the sandbox.)</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">A steady exponential decay to about <span class="math inline">\(x=3\)</span>.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">An oscillating exponential growth.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">An oscillating exponential decay to about <span class="math inline">\(x=1.1\)</span>.<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice">A sine wave with period <span class="math inline">\(P=\pi\)</span>.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/lobster-become-sofa.Rmd" href="#9mSE8t"><img src="www/icons8-signpost.png" title="Location: Exercises/lobster-become-sofa.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">9mSE8t</red></span>
+</summary>
+<p><strong>Question A</strong> For the arithmetic sequence with <span class="math inline">\(x_0 = 2\)</span> and <span class="math inline">\(b=3\)</span>, what is the numerical value <span class="math inline">\(x_{100}\)</span>?</p>
+<p>    <span class="Zchoice">203<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">230<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">302<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">320<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Not enough information given.<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> For the geometric sequence with <span class="math inline">\(x_0 = 2\)</span> and <span class="math inline">\(\alpha = \frac{1}{2}\)</span>, what is the numerical value <span class="math inline">\(x_{10}\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">1/1028<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">1/512<span class="mcanswer">Correct. <span class="math inline">\(2 \times \frac{1}{2}^{10} = 2 / 1024 = 1/512\)</span></span></span><br />
+</li>
+<li><span class="Zchoice">512<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">1028<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Not enough information given.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question C</strong> For the affine sequence with <span class="math inline">\(x_0 = 2\)</span> and <span class="math inline">\(\alpha = \frac{1}{2}\)</span> and <span class="math inline">\(b=10\)</span>, what is the numerical value of <span class="math inline">\(x_{100}\)</span>? (These answers are shown to only one decimal point.) Hint: What is <span class="math inline">\(\alpha^{100}\)</span>?</p>
+    <span class="Zchoice">20.0<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">-20.0<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\((1/2)^{100}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">0.0<span class="mcanswer">︎✘ </span></span>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/spider-find-book.Rmd" href="#FUIt1Q"><img src="www/icons8-signpost.png" title="Location: Exercises/spider-find-book.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">FUIt1Q</red></span>
+</summary>
+<p>A debit card is a way to make withdrawals from a bank account. Funds in the account earn interest. In the economic environment of 2021, the interest rate is practically zero. But to make it possible to see the growth on a graph, we will stipulate it to be 4% per year. But if the account is in debt, then the debt grows at a much faster rate, perhaps 15% per year.</p>
+<p>Suppose the amount in the bank account is <span class="math inline">\(m\)</span> (in dollars) and time is <span class="math inline">\(t\)</span> (in years). If <span class="math inline">\(m\)</span> is positive, you are earning interest. If negative, you are in debt and the debt will grow.</p>
+<ol style="list-style-type: decimal">
+<li><p>Which of the following graphs reflects the dynamics of the system?</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:one-two"></span>
+<img src="www/bank-bank1.png" alt="Scenarios A and B" width="50%" /><img src="www/bank-bank2.png" alt="Scenarios A and B" width="50%" />
+<p class="caption">
+Figure 48.4: Scenarios A and B
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:three-four"></span>
+<img src="www/bank-bank3.png" alt="Scenarios C and D" width="50%" /><img src="www/bank-bank4.png" alt="Scenarios C and D" width="50%" />
+<p class="caption">
+Figure 48.5: Scenarios C and D
+</p>
+</div></li>
+<li><p>On the graph paper below, sketch out the modifications of the bank-card dynamics described. Identify any fixed points by marking them on the graph and say if they are stable or unstable.</p>
+<p><img src="www/bank-paper.png" width="50%" style="display: block; margin: auto;" /></p>
+<ol style="list-style-type: lower-alpha">
+<li>In addition to the normal bank-card dynamics, your employer makes a steady retirement deposit into your account at the rate of $100 per year.<br />
+</li>
+<li>Your darling aunt looks at your account balance. If you have less than $300 in your account, she will add money daily at a rate of $100 per year. Otherwise, she does nothing.</li>
+</ol></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/sheep-chew-dish.Rmd" href="#Amzsqx"><img src="www/icons8-signpost.png" title="Location: Exercises/sheep-chew-dish.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Amzsqx</red></span>
+</summary>
+<p>We will be using a handful of Greek letters in our mathematical notation. You should learn these by heart:</p>
+<ul>
+<li><span class="math inline">\(\alpha\)</span> : alpha (lowercase)</li>
+<li><span class="math inline">\(\beta\)</span> : beta (lowercase)</li>
+<li><span class="math inline">\(\gamma\)</span> : gamma (lowercase)</li>
+<li><span class="math inline">\(\delta\)</span> : delta lowercase</li>
+<li><span class="math inline">\(\lambda\)</span> : lambda (lowercase)</li>
+<li><span class="math inline">\(\Lambda\)</span> : lambda (uppercase)</li>
+<li><span class="math inline">\(\omega\)</span> : omega (lowercase)</li>
+<li><span class="math inline">\(\xi\)</span> : xi (lowercase), pronounced “ex-eee”</li>
+<li><span class="math inline">\(\eta\)</span> : eta (lowercase)</li>
+</ul>
+<p>The last two of these, <span class="math inline">\(\xi\)</span> and <span class="math inline">\(\eta\)</span> are the Greek equivalents to the familiar <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We’ll see <span class="math inline">\(\xi\)</span> and <span class="math inline">\(\eta\)</span> as arguments to functions that we will quickly be re-scaling and renaming <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<p>On a piece of paper, write out each of the following Greek letters and, alongside it, the name of the letter.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(\gamma\)</span></li>
+<li><span class="math inline">\(\beta\)</span></li>
+<li>$</li>
+<li><span class="math inline">\(\xi\)</span></li>
+<li><span class="math inline">\(\Lambda\)</span></li>
+<li><span class="math inline">\(\lambda\)</span></li>
+<li><span class="math inline">\(\eta\)</span></li>
+<li><span class="math inline">\(\alpha\)</span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 24.20</strong>: <span><a name="File: Exercises/aspen-take-cotton.Rmd" href="#uifJjv"><img src="www/icons8-signpost.png" title="Location: Exercises/aspen-take-cotton.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">uifJjv</red></span>
+</summary>
+<p>Recall the medieval math problem about rabbits, which we wrote as a dynamical system <span class="math display">\[x_{n+1} = x_n + y_n\\y_{n+1} = x_n \ \ \  \ \ \ \ \ \ \]</span></p>
+<p>Rewrite this system in matrix form <span class="math display">\[{\mathbf X}_{n+1} = {\mathbf A} \cdot {\mathbf X}_n\ \ \ \text{where}\ \ {\mathbf X}_n \equiv \left[\begin{array}{c}x_n\\y_n\end{array}\right]\]</span></p>
+<p>Here are several candidates for the matrix <span class="math inline">\({\mathbf A}\)</span> that implements the rabbit dynamics:</p>
+<p><span class="math display">\[{\mathbf A}_1 \equiv \left[\begin{array}{cc}1 &amp; 1 \\ 0 &amp; 1\end{array}\right], \ \ 
+{\mathbf A}_2 \equiv \left[\begin{array}{cc}1 &amp; 0 \\ 0 &amp; 1\end{array}\right], \ \
+{\mathbf A}_3 \equiv \left[\begin{array}{cc}1 &amp; 0 \\ 1 &amp; 1\end{array}\right], \\ 
+{\mathbf A}_4 \equiv \left[\begin{array}{cc}1 &amp; 1 \\ 1 &amp; 1\end{array}\right], \ \
+{\mathbf A}_5 \equiv \left[\begin{array}{cc}1 &amp; 1 \\ 1 &amp; 0\end{array}\right], \ \
+{\mathbf A}_6 \equiv \left[\begin{array}{cc}1 &amp; 0 \\ 1 &amp; 0\end{array}\right]\ 
+\]</span></p>
+<p><strong>Question A</strong> Which of the candidates will implement the rabbit dynamics?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_1\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_2\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_3\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_4\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_5\)</span><span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\({\mathbf A}_6\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>If you want to iterate the system <span class="math inline">\({\mathbf X}_{n+1} = {\mathbf A}\, {\mathbf X}_n\)</span>, you can use the <code>Iterate()</code> operator, handing it the matrix <span class="math inline">\({\mathbf A}\)</span> as argument <span class="math inline">\(A=\)</span>.</p>
+<p>Use the sandbox to create a matrix named <code>A</code> corresponding to the rabbit dynamics from the initial condition <span class="math inline">\((1, 0)\)</span>. (Note: the matrix that’s given by default is just a placeholder. It’s not the correct rabbit-dynamics matrix.)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="diff-eq-intro.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># enter your matrix here</span></span>
+<span id="cb1-2"><a href="diff-eq-intro.html#cb1-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>) </span>
+<span id="cb1-3"><a href="diff-eq-intro.html#cb1-3" aria-hidden="true" tabindex="-1"></a>A <span class="co"># print the matrix so you can confirm you have it right</span></span>
+<span id="cb1-4"><a href="diff-eq-intro.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Iterate</span>(<span class="at">A =</span> A, <span class="at">x0 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">n=</span><span class="dv">10</span>)</span></code></pre></div>
+<p>Once you have your matrix <span class="math inline">\({\mathbf A}\)</span> correctly defined for the rabbit dynamics, and have confirmed the trajectory is what it should be, replace the initial condition <code>(1, 0)</code> with this one:
+<code>(0.5247311, -0.8506508)</code></p>
+<p>That’s a funny initial condition for modeling rabbits, because you can’t have fractional rabbits and especially you can’t have negative rabbits. But that initial condition—even if it’s not about rabbits—produces a very special kind of dynamics.</p>
+<p><strong>Question B</strong> Iterate the rabbit matrix <span class="math inline">\({\mathbf A}\)</span> from the initial condition <span class="math inline">\((0.5247311, -0.8506508)\)</span>. (Double check that you have entered it exactly as spelled out here.) The rabbit population starting at initial condition <span class="math inline">\((1, 0)\)</span> grew in an unbounded way. What happens when you use the funny initial condition instead?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The fixed point at (0,0) becomes stable.<span class="mcanswer">︎✘ The stability of the fixed point depends <strong>only</strong> on the <span class="math inline">\({\mathbf A}\)</span> matrix, not on the initial conditions.</span></span><br />
+</li>
+<li><span class="Zchoice">The x value oscillates and grows, then gets smaller again.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The x value oscillates and gets smaller, then grows without bound.<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">The x value oscillates around and around, without getting larger in magnitude.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+This behavior may seem strange now. You’ll understand it better when we introduce a powerful way of looking at matrix dynamics: eigenvalues and eigenvectors.
+</details>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>More generally, since the rod has mass and the pendulum bob is not a single point, you need to know the distribution of mass along the pendulum, from which you can calculate quantities such as the moment of inertia.<a href="diff-eq-intro.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="solve-DE.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-diff-eq.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-diff-eq.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

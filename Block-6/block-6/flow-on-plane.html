@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 51 Flows on the plane | MOSAIC-Calculus.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.24.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 51 Flows on the plane | MOSAIC-Calculus.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 51 Flows on the plane | MOSAIC-Calculus.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="flow-on-line.html"/>
+<link rel="next" href="modeling-dynamics.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<span class="math inline">
+\(\newcommand{\line}{\text{line}}
+\newcommand{\hump}{\text{hump}}
+\newcommand{\sigmoid}{\text{sigmoid}}
+\newcommand{\recip}{\text{recip}}
+\newcommand{\diff}[1]{{\cal D}_#1}
+\newcommand{\pnorm}{\text{pnorm}}
+\newcommand{\dnorm}{\text{dnorm}}
+\let\origvec\vec
+\let\origmathit\mathit
+\let\orighat\hat
+\let\origbar\bar
+\newcommand{\vec}[1]{\overset{{\rule[-1pt]{0mm}{1mm}}\rightharpoonup}{\mathbf{#1}}}
+\newcommand{\bar}[1]{\overset{{\rule[-1pt]{12pt}{.5mm}}}{\mathbf{#1}}}
+\newcommand{\mathit}[1]{\underset{\leftharpoondown}{\overset{{\rightharpoonup}}{\large\mathbf #1}}}
+\newcommand{\hat}[1]{\widehat{\ \mathbf#1\ }}
+\newcommand{\len}[1]{{\|{\mathbf #1}\|}}
+\newcommand{\tvec}[1]{\overset{\uparrow}{\mathbf #1}}
+\newcommand{\tmat}[1]{\overset{\leftrightarrows}{\mathbf #1}}
+\newcommand{\perpendicularto}[2]{#1\!\perp\!#2}
+\newcommand{\modeledby}[2]{#1\!\sim\!#2}
+\newcommand{\CC}[1]{\color{#648fff}{#1}}
+\newcommand{\CE}[1]{\color{#785ef0}{#1}}
+\newcommand{\CA}[1]{\color{#dc267f}{#1}}
+\newcommand{\CB}[1]{\color{#fe6100}{#1}}
+\newcommand{\CD}[1]{\color{#ffb000}{#1}}\)
+</span>
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="mosaic-calc-style-copy.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="../docs/welcome-to-calculus.html">Welcome to calculus</li>
+<li><a href="../block-1/change.html">Block 1: Functions & quantities</a></li>
+<li><a href="../block-2/change-relationships.html">Block 2: Differentiation</a></li>
+<li><a href="../block-3/change-accumulation.html">Block 3: Accumulation</a></li>
+<li><a href="../block-4/block4-intro.html">Block 4: Manifestations</a></li>
+<li><a href="../block-5/vectors.html">Block 5: Linear combinations</a></li>
+<hr>
+<li><strong><a href="../block-6/diff-eq-intro.html">Block 6: Dynamics</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="48" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html"><i class="fa fa-check"></i><b>48</b> Differential equations</a>
+<ul>
+<li class="chapter" data-level="48.1" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#the-language-for-change"><i class="fa fa-check"></i><b>48.1</b> The language for change</a></li>
+<li class="chapter" data-level="48.2" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state"><i class="fa fa-check"></i><b>48.2</b> State</a></li>
+<li class="chapter" data-level="48.3" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamics"><i class="fa fa-check"></i><b>48.3</b> Dynamics</a></li>
+<li class="chapter" data-level="48.4" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>48.4</b> State space and flow field</a></li>
+<li class="chapter" data-level="48.5" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#exercises"><i class="fa fa-check"></i><b>48.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="49" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>49</b> Finding a solution</a>
+<ul>
+<li class="chapter" data-level="49.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>49.1</b> The flow field</a></li>
+<li class="chapter" data-level="49.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>49.2</b> Euler method</a></li>
+<li class="chapter" data-level="49.3" data-path="solve-DE.html"><a href="solve-DE.html#symbolic-solutions"><i class="fa fa-check"></i><b>49.3</b> Symbolic solutions</a></li>
+<li class="chapter" data-level="49.4" data-path="solve-DE.html"><a href="solve-DE.html#exercises-1"><i class="fa fa-check"></i><b>49.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="50" data-path="flow-on-line.html"><a href="flow-on-line.html"><i class="fa fa-check"></i><b>50</b> Flows on the line</a>
+<ul>
+<li class="chapter" data-level="50.1" data-path="flow-on-line.html"><a href="flow-on-line.html#the-rules-of-the-road"><i class="fa fa-check"></i><b>50.1</b> The rules of the road</a></li>
+<li class="chapter" data-level="50.2" data-path="flow-on-line.html"><a href="flow-on-line.html#linearization"><i class="fa fa-check"></i><b>50.2</b> Linearization</a></li>
+<li class="chapter" data-level="50.3" data-path="flow-on-line.html"><a href="flow-on-line.html#nonlinearity"><i class="fa fa-check"></i><b>50.3</b> Nonlinearity</a></li>
+</ul></li>
+<li class="chapter" data-level="51" data-path="flow-on-plane.html"><a href="flow-on-plane.html"><i class="fa fa-check"></i><b>51</b> Flows on the plane</a>
+<ul>
+<li class="chapter" data-level="51.1" data-path="flow-on-plane.html"><a href="flow-on-plane.html#generic-behaviors"><i class="fa fa-check"></i><b>51.1</b> Generic behaviors</a></li>
+<li class="chapter" data-level="51.2" data-path="flow-on-plane.html"><a href="flow-on-plane.html#linearization-1"><i class="fa fa-check"></i><b>51.2</b> Linearization</a></li>
+<li class="chapter" data-level="51.3" data-path="flow-on-plane.html"><a href="flow-on-plane.html#exercises-2"><i class="fa fa-check"></i><b>51.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="52" data-path="modeling-dynamics.html"><a href="modeling-dynamics.html"><i class="fa fa-check"></i><b>52</b> Modeling dynamics</a>
+<ul>
+<li class="chapter" data-level="52.1" data-path="modeling-dynamics.html"><a href="modeling-dynamics.html#exercises-3"><i class="fa fa-check"></i><b>52.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="53" data-path="equilibria.html"><a href="equilibria.html"><i class="fa fa-check"></i><b>53</b> Equilibrium and transient</a>
+<ul>
+<li class="chapter" data-level="53.1" data-path="equilibria.html"><a href="equilibria.html#one-state-variable"><i class="fa fa-check"></i><b>53.1</b> One state variable</a></li>
+<li class="chapter" data-level="53.2" data-path="equilibria.html"><a href="equilibria.html#two-state-variables"><i class="fa fa-check"></i><b>53.2</b> Two state variables</a></li>
+</ul></li>
+<li class="chapter" data-level="54" data-path="eigenvalues-eigenvectors.html"><a href="eigenvalues-eigenvectors.html"><i class="fa fa-check"></i><b>54</b> Eigenvalues, eigenvectors</a>
+<ul>
+<li class="chapter" data-level="54.1" data-path="eigenvalues-eigenvectors.html"><a href="eigenvalues-eigenvectors.html#exercises-4"><i class="fa fa-check"></i><b>54.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="55" data-path="second-order-de.html"><a href="second-order-de.html"><i class="fa fa-check"></i><b>55</b> Force-balance equations</a></li>
+<li class="chapter" data-level="56" data-path="forcing-and-resonance.html"><a href="forcing-and-resonance.html"><i class="fa fa-check"></i><b>56</b> Forcing and resonance</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="flow-on-plane" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 51</span> Flows on the plane</h1>
+<div style="float:right;">
+<a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-fixed-points.Rmd"><img src="www/icons/edit.png" /></a>
+</div>
+<div class="underconstruction">
+
+</div>
+<p>Let’s return the rabbit/fox system as an example of flow. Since there are two state quantities, <span class="math inline">\(r\)</span> and <span class="math inline">\(f\)</span>, the state space <span class="math inline">\((r, f)\)</span> is a plane. At each point in the state space, the flow vector gives the direction and speed of motion. Like all vectors, a flow vector has only two properties: the direction and length. The speed of motion is the length of the flow vector.</p>
+<p>The flow itself is a <strong><em>vector field</em></strong>. This is an assignment of a vector to each point of the state space. Graphically, we depict a flow field by selecting a grid of points in the state space, finding the flow vector for each grid point, and drawing those vectors positioned at their respective grid points.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rf-flow-2"></span>
+<img src="www/rf-zoom.png" alt="The flow field has a vector at each point in state space but we can draw only a few if the plot is to be legible. Zooming in on a region produces more detail." width="90%" />
+<p class="caption">
+Figure 51.1: The flow field has a vector at each point in state space but we can draw only a few if the plot is to be legible. Zooming in on a region produces more detail.
+</p>
+</div>
+<p>Recall from Block 5 that it’s conventional to specify a vector by giving a coordinate pair for the tip of the vector with the understanding that the tail is at the origin. For the rabbit/fox system, the tip’s coordinate is <span class="math inline">\(\left({\Large\strut} g_r(r, f),\  g_f(r, f)\right)\)</span>. This notation is potentially confusing, because the letters <span class="math inline">\(r\)</span> and <span class="math inline">\(f\)</span> appear in so many places. Each each vector in Figure <a href="#fig:rf-flow2"><strong>??</strong></a> is drawn at a particular point, say <span class="math inline">\((r=0.96, f=0.48)\)</span>. At that point, evaluate the dynamical functions: <span class="math inline">\(g_r(r=0.96, f=0.48) = 0.0207\)</span> and <span class="math inline">\(g_r(r=0.96, f=0.48)= 0.941\)</span>.</p>
+<!--
+
+The state space has coordinates $r$ and $f$, and since $r$ and $f$ are quantities with dimension (rabbit density and fox density, respectively). The components of the flow vector have different dimension: rabbit density per time and fox density per time. Still, the direction of the flow vector can be accurately present in state space; it is after all how the state will change. The drawn length of the vector, however, is on a different scale.
+
+-->
+<p>A <strong><em>fixed point</em></strong> of the dynamics is a point in the state space where the dynamical functions both evaluate to zero. It’s convenient to mark fixed points as the intersection of zero contours of the dynamical functions. Figure <a href="flow-on-plane.html#fig:rf-nullclines">51.2</a> shows these zero contours (red for rabbits, blue for foxes) laid on top of the flow field. Such zero contours of dynamical functions are called <strong><em>nullclines</em></strong>. (The word means “zero slope”. “Null” corresponds to zero and “cline” is the root of words like “incline” or “decline.”)</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rf-nullclines"></span>
+<img src="MOSAIC-Calculus_files/figure-html/rf-nullclines-1.png" alt="Flow field and nullclines for the rabbit/fox dynamics." width="90%" />
+<p class="caption">
+Figure 51.2: Flow field and nullclines for the rabbit/fox dynamics.
+</p>
+</div>
+<p>Due to the nature of fixed points, if the initial condition is at the intersection of the nullclines the state will not change. But is the fixed point stable or unstable.</p>
+<p>As you will see, in two and higher dimensional dynamical systems, there is more than one kind of stability and more than one kind of instability. These different kinds of stability and instability have a direct correspondence to different kinds of behavior in real-world systems.</p>
+<p>Very near the fixed point, dynamics are approximately linear. We’ll return to a quantitative analysis of this in Chapter <a href="equilibria.html#equilibria">53</a>. Our objective here is to show that there are several generic types of behavior and that the stability of dynamics near the fixed point has to be one of a handful of different types.</p>
+<div id="generic-behaviors" class="section level2" number="4.1">
+<h2><span class="header-section-number">51.1</span> Generic behaviors</h2>
+<p>On a nullcline of a dynamical variable <span class="math inline">\(x\)</span>, the <span class="math inline">\(x\)</span>-component of the flow must be zero. The flow will point to positive <span class="math inline">\(x\)</span> on one side of the nullcline and negative <span class="math inline">\(x\)</span> on the other. This is really nothing more than saying that on one side of a zero contour the function value is positive and on the other side negative. We’ll indicate this on the following diagrams by shading the positive side of the nullcline with the same color as the nullcline itself. Figure <a href="flow-on-plane.html#fig:shaded-nullcline">51.3</a> shows the nullclines of a linear system on separate plots. Notice that flow in the shaded side of the <span class="math inline">\(x\)</span> (red) nullcline the flow always has a positive component to the right. Similarly, in the shaded side of the <span class="math inline">\(y\)</span> (blue) nullcline, the flow always has a positive component to the right.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:shaded-nullcline"></span>
+<img src="MOSAIC-Calculus_files/figure-html/shaded-nullcline-1.png" alt="The nullclines of a linear dynamical system near the fixed point. $x$ nullcline is red, $y$ nullcline is blue" width="50%" /><img src="MOSAIC-Calculus_files/figure-html/shaded-nullcline-2.png" alt="The nullclines of a linear dynamical system near the fixed point. $x$ nullcline is red, $y$ nullcline is blue" width="50%" />
+<p class="caption">
+Figure 51.3: The nullclines of a linear dynamical system near the fixed point. <span class="math inline">\(x\)</span> nullcline is red, <span class="math inline">\(y\)</span> nullcline is blue
+</p>
+</div>
+<p>Placing both nullclines on the same plot divides the region near the fixed point into four parts. This is generic behavior. Unless the two nullclines are exactly the same as each other, the two nullclines split the region into four quadrants.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:four-parts"></span>
+<img src="MOSAIC-Calculus_files/figure-html/four-parts-1.png" alt="Four quadrants of linear dynamics near the fixed point." width="90%" />
+<p class="caption">
+Figure 51.4: Four quadrants of linear dynamics near the fixed point.
+</p>
+</div>
+<p>We can identify the quadrants by their color—white, red, blue, purple. In each quadrant, the “compass direction” of all flow vectors point to one quadrant of the compass: white to the south-west, red to the south-east, blue to the north-west, and purple to the north-east.</p>
+<p>This particular linear flow is unstable. Notice that any initial condition in the purple quadrant will lead to a NE trajectory, away from the fixed point. Similarly, any initial condition in the white quadrant leads to a SW trajectory, again away from the fixed point. For an initial condition in the red or blue quadrants, the flow will take the trajectory into either the white or purple quandrants. The initial part of the trajectory may be towards the fixed point, but as soon as the trajectory crosses into white or purple territory, the trajectory leads away from the fixed point. So, the overall flow is unstable. This particular type of instability, where the initial path might be toward the fixed point but eventually leads away from it, is called a <strong><em>saddle</em></strong>. The flow is analogous to the movement of a marble placed on a horse saddle; it might start to roll toward the center of the saddle, but eventually it will roll off to the side.</p>
+<p>All linear flows will lead to this quadrant structure. Another feature of the structure is that the white quadrant must always be opposite to the purple, and the red opposite to the blue. This allows us to enumerate the different possible types of stability.</p>
+<p>A very compact summary of the dynamics shows just the four compass directions and the relative positions of the quadrants. For instance,
+<span class="math display">\[\begin{array}{c|c}
+\color{red}{\searrow} &amp; \color{purple}{\nearrow}\\\hline
+\color{gray}{\swarrow} &amp; \color{blue}{\nwarrow}
+\end{array}\ ,\]</span>
+corresponds to the saddle flow seen in the previous flow field.</p>
+<p>There are, altogether, eight possible configurations:</p>
+$
+<span class="math display">\[\begin{array}{cccc}
+\text{saddle} &amp; \text{saddle} &amp; \text{saddle} &amp; \text{saddle} \\
+\begin{array}{c|c}
+\color{red}{\searrow} &amp; \color{purple}{\nearrow}\\\hline
+\color{gray}{\swarrow} &amp; \color{blue}{\nwarrow}
+\end{array} &amp;
+
+
+\begin{array}{c|c}
+\color{gray}{\swarrow} &amp; \color{red}{\searrow} \\\hline
+\color{blue}{\nwarrow} &amp; \color{purple}{\nearrow} 
+\end{array} &amp;
+
+\begin{array}{c|c}
+\color{blue}{\nwarrow} &amp; \color{gray}{\swarrow}  \\\hline
+\color{purple}{\nearrow} &amp; \color{red}{\searrow} 
+\end{array} &amp;
+
+\begin{array}{c|c}
+ \color{purple}{\nearrow}&amp;   \color{blue}{\nwarrow}\\\hline
+\color{red}{\searrow} &amp;  \color{gray}{\swarrow}
+\end{array}
+\\
+\ \\
+
+\begin{array}{c|c}
+\color{red}{\searrow} &amp;  \color{gray}{\swarrow}\\\hline
+\color{purple}{\nearrow} &amp; \color{blue}{\nwarrow} 
+\end{array} &amp;
+
+\begin{array}{c|c}
+\color{purple}{\nearrow}&amp; \color{red}{\searrow} \\\hline
+   \color{blue}{\nwarrow}&amp;  \color{gray}{\swarrow}
+\end{array} &amp;
+
+\begin{array}{c|c}
+   \color{blue}{\nwarrow}&amp; \color{purple}{\nearrow} \\\hline
+ \color{gray}{\swarrow}&amp; \color{red}{\searrow}
+\end{array}&amp; 
+\begin{array}{c|c}
+   \color{gray}{\swarrow}&amp; \color{blue}{\nwarrow} \\\hline
+ \color{red}{\searrow}&amp; \color{purple}{\nearrow}
+\end{array}\\
+\text{center} &amp; \text{orbit} &amp; \text{source} &amp; \text{orbit}
+\end{array}\]</span>
+<p>$</p>
+<p><strong><em>Saddles</em></strong> are unstable, although the trajectory might approach the fixed point at first. A <strong><em>source</em></strong> is unstable; any trajectory heads away from the fixed point. A <strong><em>center</em></strong> is stable; any trajectory heads toward the fixed point.</p>
+<p>As for the orbits, one in a clockwise direction and the other counter-clockwise, we can’t yet say from this simple theory whether they are stable or unstable. The orbit we have already met, the rabbit-fox dynamics, has counter-clockwise trajectories that form closed loops. This is called <strong><em>neutral stability</em></strong>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rf-orbit"></span>
+<img src="MOSAIC-Calculus_files/figure-html/rf-orbit-1.png" alt="The rabbit/fox system has orbits that are neutrally stable." width="90%" />
+<p class="caption">
+Figure 51.5: The rabbit/fox system has orbits that are neutrally stable.
+</p>
+</div>
+</div>
+<div id="linearization-1" class="section level2" number="4.2">
+<h2><span class="header-section-number">51.2</span> Linearization</h2>
+<p>For dynamical systems with two state variables, constructing a linear approximation to dynamics near a fixed point follows a similar procedure to that with one-state-variable systems.</p>
+<ol style="list-style-type: decimal">
+<li>Locate the fixed point.</li>
+<li>Construct the first-order polynomial approximation to each of the dynamical functions at the fixed point.</li>
+</ol>
+<p>For instance, the pendulum system has state variables <span class="math inline">\(\theta\)</span> and <span class="math inline">\(v\)</span> with dynamics
+<span class="math display">\[\partial_t \theta  =  g_\theta(\theta, v) =  v\\
+\partial_t v  =  g_{v}(\theta, v) = - \sin(\theta)
+\]</span>
+There is a fixed point at <span class="math inline">\(\theta = 0\)</span>, <span class="math inline">\(v=0\)</span>: this is just the situation of a pendulum hanging down that has no motion.</p>
+<p>The dynamical function <span class="math inline">\(g_\theta(\theta, v) = v\)</span> is already in first-order polynomial form.</p>
+<p>The other dynamical function, <span class="math inline">\(g_v(\theta, v) = - \sin(\theta)\)</span> is nonlinear. The first order polynomial approximation centered on the fixed point will be <span class="math display">\[g_v(\theta, v) \approx \underbrace{\color{magenta}{g_{v}(0, 0)}}_0 + \underbrace{\color{magenta}{\partial_\theta g_v(0, 0)}}_{-\cos(0)}\ \theta + \underbrace{\color{magenta}{\partial_v g_v(0, 0)}}_0\, v\]</span>
+The term <span class="math inline">\(g_v(0, 0) = 0\)</span> because we are evaluating <span class="math inline">\(g_v()\)</span> at a fixed point. The term <span class="math inline">\(\partial_v g_v(0, 0) = 0\)</span> because <span class="math inline">\(g_v()\)</span> does not depend on <span class="math inline">\(v\)</span>.</p>
+<p>We’ll use <span class="math inline">\(u\)</span> and <span class="math inline">\(w\)</span> as the dynamical variables in the linear approximation in order to avoid confusion with the original, nonlinear equations. The linearized dynamics are therefore:
+<span class="math display">\[\partial_t u = \ \ w\\
+\partial_t w = - u\]</span></p>
+<pre><code>## Warning in contour_plot(-sin(theta) ~ theta &amp; v, contours_at = 0, contour_color
+## = &quot;blue&quot;, : No dependence of function on y variable. Contour labels may be
+## misplaced.</code></pre>
+<pre><code>## Warning in validate_domain(domain, free_args): Using -5 to 5 in domain for
+## missing domain names.</code></pre>
+<pre><code>## Warning in validate_domain(domain, free_args): Missing domain names: theta, v</code></pre>
+<pre><code>## Warning in contour_plot(., v ~ theta &amp; v, contours_at = 0, contour_color
+## = &quot;red&quot;, : No dependence of function on y variable. Contour labels may be
+## misplaced.</code></pre>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<pre><code>## Scale for &#39;fill&#39; is already present. Adding another scale for &#39;fill&#39;, which
+## will replace the existing scale.</code></pre>
+<pre><code>## Warning: Removed 76 rows containing missing values (geom_segment).</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:linearized-pendulum"></span>
+<img src="MOSAIC-Calculus_files/figure-html/linearized-pendulum-1.png" alt="Flow field, nullclines, and trajectories of the pendulum (black) and the linearized pendulum (magenta) from three different initial conditions." width="90%" />
+<p class="caption">
+Figure 51.6: Flow field, nullclines, and trajectories of the pendulum (black) and the linearized pendulum (magenta) from three different initial conditions.
+</p>
+</div>
+<div class="intheworld">
+<p>Given a choice between a numerical and a symbolic solution to exactly the same problem, the symbolic solution is generally better: it’s exact and it can incorporate parameters symbolically.</p>
+<blockquote>
+<p><em>“Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise.”</em> – John Tukey (1915-2000)</p>
+</blockquote>
+</div>
+</div>
+<div id="exercises-2" class="section level2" number="4.3">
+<h2><span class="header-section-number">51.3</span> Exercises</h2>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/bear-give-futon.Rmd" href="#s5x504"><img src="www/icons8-signpost.png" title="Location: Exercises/bear-give-futon.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">s5x504</red></span>
+</summary>
+<p>Figure <a href="flow-on-plane.html#fig:linearized-pendulum">51.6</a> shows a flow field of the pendulum system and three pairs of trajectories, one pair for each of three initial conditions. Each trajectory starts at <span class="math inline">\(t=0\)</span> and ends at <span class="math inline">\(t=6\)</span>.</p>
+<p>A. Read the three different initial conditions from the graph.</p>
+<p>B. The dark gray trajectories are for the original (nonlinear) pendulum system while the <span class="math inline">\(\color{magenta}{\text{magenta}}\)</span> trajectories are for the linearized dynamics. Describe in words the differences in the trajectories for the nonlinear and the linearized dynamics.</p>
+C. The Which does the flow field correspond to: the nonlinear or linearized dynamics.
+</details>
+<details>
+<summary>
+<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/finch-show-hamper.Rmd" href="#ePqij6"><img src="www/icons8-signpost.png" title="Location: Exercises/finch-show-hamper.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">ePqij6</red></span>
+</summary>
+<p>Describe the stability of each of the following flows.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</details>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="flow-on-line.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modeling-dynamics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-flow-on-plane.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/dtkaplan/MOSAIC-Calculus/shared/B6-flow-on-plane.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
