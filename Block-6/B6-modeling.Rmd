@@ -15,8 +15,79 @@
         i. Exercise: `insert_calcZ_exercise("XX.XX", "iRZfBY", "Exercises/walnut-tell-pot.Rmd")`
         i. Analysis of phase plane with nullclines
 
+It's a truism that starting a painting with a blank canvas can be daunting: so much choice and so many possibilities can be disabling. The same is true when it comes to constructing a model of a new phenomenon. You'll need to decide what are the essential features of the phenomena, how they are connected to one another and how they connect to the question you seek to answer with the model you will eventually build.
 
-There are a few differential-equation forms that show up again and again in modeling problems. We're going to introduce them to you here and, later, show you the solutions.
+For painters, there are numerous ways to confront the blank-canvas function. For instance, there are different types of paintings: landscapes, portraits, abstract, and so on. And there are different styles of painting: impressionist, rococo, cubist, art deco, and so on. I don't think that painters would use this term, but I think of these aids to decision making as a ***framework***, an organization of what you know to guide decision making.
+
+Three of the frameworks for modeling that we have worked with in this book might be called:
+
+i. ***Function shape***. Possibilities are hump, sigmoidal, oscillatory, exponential, and so on. We've also worked with the low-order polynomial as a function-shape framework, which reduces the decision making to which terms to include in the polynomial.
+ii. ***Differential equations***. Constructing a model as a differential equation enables the modeler to separate the accounting work of accumulation over time and focus on capturing the relationships that tell, at any instant in time, which way the change will go. In working with this framework, the modeler decides what will be the state variables. Then, the modeler turns to the function shape framework to describe how the state variables themselves determine in which direction the change of each goes.
+iii. ***Modeling cycle***. Most people are taught that mathematics is about precision, exactitude, and a correct answer. In many settings, this is appropriate. But often the role of mathematics is to provide a language to express ideas about relationships and then to play out the consequences of those ideas. It's not usually critical that the relationships are being *exactly* described; observing the calculated consequences from a given statement of the relationships can provide deeper understanding of the system being studied or reveal that the description of the relationships does not lead to realistic consequences and so is incomplete or wrong.
+
+## A single state quantity
+
+We'll start with situations that can be modeled with a single state variable.  Throughout our examples, we'll call that state variable $S$, so the differential equation describing how $S$ changes in time will always be $$\partial_t S = f(S)$$. The modeler chooses the shape of $f()$ depending on the situation being modeled.
+
+In principle, there is an infinite number of shapes for $f(S)$. But many modeling settings involve behavior that is simple. We'll work with function shapes where the dynamical function $f(S)$ is continuous and has one or two fixed points. 
+
+
+::: {.takenote data-latex=""}
+If $S$ is observed to oscillate or to reverse the direction of change, then there must be at least one more state variable, that is, at least one more quantity that changes in time. A single first-order differential equation will not be able to model the situation.
+
+If there are no fixed points, then the only possible dynamics are continuous increase in $S$ or continuous decrease in $S$. Often, the point of interest will be whether there is some other factor that changes increase to decrease or *vice versa*. Again, such situations should be modeled in the context of at least two state variables.
+:::
+
+Figure \@ref(fig:four-S-funs) shows four generic dynamical function shapes where these is one fixed point. The location of the fixed point is, of course, the $S_0$ at which $f(S_0)=0$, that is, the intersection of the function and the blue dashed line.
+
+```{r four-S-funs, echo=FALSE, fig.cap="Four generic functions shapes with one state variable having one fixed point."}
+kill_scales <- function(P) {
+  P %>% gf_refine(
+    scale_x_continuous(breaks=NULL),
+    scale_y_continuous(breaks=0, labels="0")
+  ) %>%
+    gf_hline(yintercept=~0, color="blue", linetype = "dashed")
+}
+L1 <- slice_plot(-S ~ S, domain(S=-2:2)) %>%
+  gf_labs(x = "S", y=latex2exp::TeX("$\\partial_t S = f(S)$"),
+          subtitle="linear stable") %>%
+    kill_scales()
+  
+L2 <-  
+  slice_plot(S ~ S, domain(S=-2:2)) %>%
+  gf_labs(x = "S", y=latex2exp::TeX("$\\partial_t S = f(S)$"),
+          subtitle="linear unstable") %>%
+    kill_scales()
+B1 <- slice_plot(0.5 - pnorm(S)  ~ S, domain(S=-4:4)) %>%
+  gf_labs(x = "S", y=latex2exp::TeX("$\\partial_t S = f(S)$"),
+          subtitle="bounded stable") %>%
+    kill_scales()
+  
+B2 <-  
+  slice_plot(pnorm(S) - 0.5 ~ S, domain(S=-4:4)) %>%
+  gf_labs(x = "S", y=latex2exp::TeX("$\\partial_t S = f(S)$"),
+          subtitle="bounded unstable") %>%
+    kill_scales()
+gridExtra::grid.arrange(L1, L2, B1, B2, ncol=2)
+
+```
+
+
+The fundamental distinction is between models with stable and models with unstable fixed points. When the situation being modeled has a steady equilibrium, only the stable shapes of $f(S)$ are relevant. A second distinction is between functions with a bounded shape and those with a linear shape. Use a linear shape when you are concerned only with the behavior near the fixed point. But when your model needs to account for behavior far from the fixed point, you need first to have a way to represent what is meant by "far from." That is represented by the location of the shoulder of the curve relative to the fixed point.
+
+A good example of a setting for a linear, stable model is the cooling or warming of an object to the ambient temperature. $S$ stands for the temperature of the object and the fixed point is the ambient temperature. This model often goes under the name ***Newton's Law of Cooling***. The prestige of the model name distracts from the fact that this is a very simple model. But in the real world there are likely to be complications that make Newton's Law imprecise, unlike, say, Newton's Second Law of Motion which is exact (at non-quantum and non-relativistic scales). For instance, a cup of hot water will cool faster than a cup of cold water. In hot water, evaporation from the surface speeds up the warming. When ice is involved, the rate of temperature change slows when melting or freezing is encountered.
+
+An example of a setting where the bounded stable model applies is one where $S$ stands for the amount of prey or food stock, and there is a constant population of predators who have a limited capacity for eating. The fixed point does not have to be at $S=0$. Consider, for example, $S$ being the availability of acorns. There might be a fixed population of, say, oaks that produce acorns at a given rate. When predation is low, the acorns accumulate. But when there are a lot of acorns, predators might focus on that bountiful food source.
+
+
+PREDATOR SATURATION and mast seeding versus berries ripening at different times. 
+
+Unstable bounded: Monod equation, Michaelis Menton kinetics
+
+Unstable linear: unlimited population growth. But since the world is bounded what we're really saying is that we only care what's happening near the fixed point and are ignoring the effects that come into play when the population get's very large.
+
+
+MATCH IGNITION
 
 - Growth
 - Limited growth
