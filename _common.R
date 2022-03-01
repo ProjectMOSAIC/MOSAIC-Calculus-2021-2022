@@ -90,6 +90,7 @@ Chaps <- list(
   taylor = 26,
   optimization = 23,
   splines = 33,
+  modeling_cycle = 14,
   foobar = NA
 )
 
