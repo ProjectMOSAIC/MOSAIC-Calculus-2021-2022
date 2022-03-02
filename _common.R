@@ -91,6 +91,7 @@ Chaps <- list(
   optimization = 23,
   splines = 33,
   modeling_cycle = 14,
+  expectation_value = 35,
   foobar = NA
 )
 
