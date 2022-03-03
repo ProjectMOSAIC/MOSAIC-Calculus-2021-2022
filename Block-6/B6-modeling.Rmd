@@ -3,6 +3,7 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-modeling.Rmd)</div>
 
+<!--
 5. Models leading to flow fields
     a. Objectives/topics
         i. Apply modeling techniques (from block 2) local low order polynomials
@@ -14,6 +15,8 @@
         i. (Richardson’s arms race model and conflict model, action potentials) Numerics, look at the trajectories 
         i. Exercise: `insert_calcZ_exercise("XX.XX", "iRZfBY", "Exercises/walnut-tell-pot.Rmd")`
         i. Analysis of phase plane with nullclines
+        
+-->
 
 It's a truism that starting a painting with a blank canvas can be daunting: so much choice and so many possibilities can be disabling. The same is true when it comes to constructing a model of a new phenomenon. You'll need to decide what are the essential features of the phenomena, how they are connected to one another and how they connect to the question you seek to answer with the model you will eventually build.
 
@@ -358,15 +361,14 @@ $$
 
 ## Exercises
 
-
-`r insert_calcZ_exercise("XX.XX", "L6hTUu", "Exercises/pine-win-oven.Rmd")`
-
 `r insert_calcZ_exercise("XX.XX", "VCWRBs", "Exercises/seal-fly-socks.Rmd")`
 
 `r insert_calcZ_exercise("XX.XX", "BbcPyk", "Exercises/finch-look-dish.Rmd")`
 
 `r insert_calcZ_exercise("XX.XX", "trcQuC", "Exercises/owl-sell-radio.Rmd")`
 
+`insert_calcZ_exercise("XX.XX", "iRZfBY", "Exercises/walnut-tell-pot.Rmd")`
+<!--
 
 EXERCISE: Set beta and alpha so that only about half the susceptibles are infected. (0.35 and alpha=.25 will do). How long until the epidemic is over. 
 
@@ -431,7 +433,8 @@ askMC(
 )
 ```
 
-```{r echo=FALSE, out.width="50%", fig.show="keep"}
+```{r eval=FALSE, echo=FALSE, out.width="50%", fig.show="keep"}
+# Need to integrate streamlines() into Zcalc or Znotes or mosaicCalc
 math141Z::streamlines(list(~ 0.001*R -2*B, ~ .001*B-R), 
                       domain(R=c(-1,5), B=c(-1, 5)), nsteps=15, stepsize=0.01) %>%
   gf_refine(coord_fixed(x=c(-1,5), y=c(-1,5), clip="on")) %>%
@@ -469,13 +472,14 @@ EXERCISE: 1) Show that $V(R, F) = \delta R - \gamma \ln(R) + \beta F - \alpha \l
 3) Choose an appropriate initial condition and draw the trajectory that corresponds to one of the contours in your graph.
 
 ```{r}
+# NEED TO INTEGRATE STREAMLINES()
 alpha=.66; beta = 1.33; gamma=1; delta = 1
 V <- makeFun(delta*R - gamma*log(R) + beta*F - alpha*log(F) ~ R & F)
 contour_plot(V(R, F) ~ R & F, domain(R = .1:3, F=0:2), skip=0,
              contours_at = c(1.6, 1.7, 1.9, 2, 2.15, 2.2, 2.3, 2.5, 2.8, 3, 4))
 
-math141Z::streamlines(list(~ alpha*R - beta*R*F, ~ delta*F + gamma*R*F ),
-                  domain(R = .1:3, F=0:2))
+# math141Z::streamlines(list(~ alpha*R - beta*R*F, ~ delta*F + gamma*R*F ),
+#                  domain(R = .1:3, F=0:2))
 ```
 
 
@@ -579,3 +583,5 @@ $$\partial_t x= x(4 − y − 2x)\\
 \partial_t y = y(3 − x − y)\ .$$
 
 A. Plot the flow fields. What is it about the models that justifies the labels "strong competition" and "weak competition." 
+
+-->
