@@ -5,7 +5,30 @@
     a. Objectives/topics
         i. Understand the geometry of the flow (what an eigenvector looks like in terms of the flow, as it emerges from the image of the flow field)
         i. Trajectories as linear combinations of eigenflows
+::: 
+
+
+In the previous chapters, you've seen how linear dynamics, when unstable, lead trajectories off to infinity. Chapter \@ref(modeling-dynamics) looked at some ways that nonlinearity can tame instability, as in the simple models of linear growth.
+
+In this chapter, we return to linear dynamics to develop a *quantitative theory of stability*. Such theory is important in many engineering and design applications. For instance, a building exposed to earthquake risk can be economically designed to be strong specifically against the type of shaking produced by earthquakes. An electronic circuit can be designed to be sensitive to certain kinds of communication signals while still resisting noise or jamming.
+
+::: {.example data-latex=""}
+***Cruise control*** is a feature of many modern automobiles. It enables a driver to set a desired speed for the car to follow automatically, thus reducing cognitive load on the driver.
+Early models of cruise control introduced in the 1970s (and still common in 2020) had an extremely simple logic. The speedometer constantly monitors the car's speed $v$. The driver sets a desired speed, which we'll call $v_0$. The cruise control actuator---the mechanism that works to maintain the speed at $v_0$ by, let's say, adjusting the throttle to increase or reduce speed as appropriate---is designed to produce a throttle input proportional to the deviation in actual speed $v$ from the set speed $v_0$.
+$$\text{throttle_input} = -a (v - v_0)\ .$$
+You can see that when $v = v_0$, the throttle input from the system is zero. When $v_0 < v$, as when starting to go downhill, the throttle input will be negative, reducing the speed. 
+
+A simple model is that the throttle input is proportional to $\partial_t\, v$: positive input increases speed, negative input decreases speed. The overall system is then described by a linear, first-order differential equation $$\partial_t\,v = -a(v-v_0)\ .$$ This equation has a fixed point at $v = v_0$ (as desired) and is stable: a deviation from $v_0$ will be followed by exponential decay back to $v_0$. 
+
+EXERCISE, SOLVE THIS EQUATION
+
+A modern cruise control system adds an important feature: the car slows down automatically if it gets too close to the car in front. Let's call the distance to the leading car $x$ and define "too close" to mean closer than distance $x_0$. The control system looks like this:
+$$\partial_t v = \left\{\begin{array}{l}- a (v-v_0) \ \text{if}\ x_0 < x\\
+-b(x-x_0) \ \text{otherwise}\end{array}\right.$$
+For a system to work, the dynamics must be stable. But the signs are not good. For instance, when in car-following mode, the dynamics are $$\partial_t v \equiv \partial_{tt} x = - b(x-x_0)\ .$$
+This system will show sinusoidal oscillations around the fixed point $x=x_0$. To see why, define $y=x-x_0$. Re-written in terms of $y$, the differential equation is $\partial_{tt} y = -b y$ which has a solution $y=A \sin\left(\sqrt{b} \ t\right)$.
 :::
+
 
 Show that starting on an eigenvector stays on an eigenvector. The time series will be either a growing exponential or a decaying exponential, depending on the sign of $\lambda$.
 
