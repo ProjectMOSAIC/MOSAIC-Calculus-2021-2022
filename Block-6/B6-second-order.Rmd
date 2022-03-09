@@ -8,6 +8,9 @@
         i. Equivalence to phase plane description
         i. Exponential Ansatz (solution is made up of exponentials, which one?)
         i. Complex eigenvalues
+        i. Complex exponentials and their equivalency to sinusoids 
+        i. Sinusoids with exponential amplitudes (damping)
+        i. Relation to the real and complex parts of the eigenvalues
         
 
 Up to now, we have been studying dynamics in the format of one or more first-order differential equations. For instance,
@@ -154,28 +157,28 @@ Consider the motion of a weight attached to a spring, as in Figure \@ref(fig:spr
 knitr::include_graphics("www/Animated-mass-spring.gif")
 ```
 According to Hooke's Law, a stretched or compressed spring exerts a force that is proportional to the amount of extension or compression. With our measuring $y$ relative to the fixed point, the Hooke's Law force will be
-$$m\, \partial_{tt} y = - k\, y\ ,$$ where $m$ is the amount of mass.
-This force-balance equation corresponds to the second-order differential equation $$\partial_{tt} y = - \frac{k}{m} y\ .$$
+$$m\, \partial_{tt} y = - s\, y\ ,$$ where $m$ is the amount of mass and $s$ is the stiffness of the spring.
+This force-balance equation corresponds to the second-order differential equation $$\partial_{tt} y = - \frac{s}{m} y\ .$$
 
 You can see that the motion is oscillatory, which suggests that the solution to the differential equation will be of the form $y(t) = A \sin(\omega t)$. Taking this as an ***ansatz*** leads to finding a value of $\omega$, which is called the ***angular frequency*** of the oscillation. (In terms of the period of oscillation $P$, the angular frequency is $\omega = 2 \pi/P$.)
 
 To find $\omega$, plug in the ansatz to the differential equation:
 
-$$\partial_{tt} A \sin(\omega t) = - \frac{k}{m}\, A \sin(\omega t)$$ 
+$$\partial_{tt} A \sin(\omega t) = - \frac{s}{m}\, A \sin(\omega t)$$ 
 Differentiating $\sin(\omega t)$ once let's us re-write the left-hand side of the equation in terms of a *first derivative*
 
-$$\partial_{t} A \omega\, \cos(\omega t) = - \frac{k}{m}\, A \sin(\omega t)$$
+$$\partial_{t} A \omega\, \cos(\omega t) = - \frac{s}{m}\, A \sin(\omega t)$$
 Differentiating again gives
-$$- \omega^2 A\sin(\omega\, t) = - \frac{k}{m}\, A\sin(\omega t)\ .$$
-Simplifying this by cancelling out the $A \sin(\omega t)$ term gives $\omega^2 = \frac{k}{m}$, where $\omega$ is the angular frequency of the oscillation.
+$$- \omega^2 A\sin(\omega\, t) = - \frac{s}{m}\, A\sin(\omega t)\ .$$
+Simplifying this by cancelling out the $A \sin(\omega t)$ term gives $\omega^2 = \frac{s}{m}$, where $\omega$ is the angular frequency of the oscillation.
 
 ::: {.takenote data-latex=""}
-Instead of using $A \sin(\omega t)$ as the *ansatz* we could have used $A \sin(\omega t) + B \cos(\omega t)$. Working through this ansatz would produce exactly the same result, that $\omega^2 = \frac{k}{m}$. So the solution to the spring-mass system will be, in general, a linear combination of the sine and the cosine functions with angular frequency $\omega$.
+Instead of using $A \sin(\omega t)$ as the *ansatz* we could have used $A \sin(\omega t) + B \cos(\omega t)$. Working through this ansatz would produce exactly the same result, that $\omega^2 = \frac{s}{m}$. So the solution to the spring-mass system will be, in general, a linear combination of the sine and the cosine functions with angular frequency $\omega$.
 :::
 
 ## Exponential or sinusoid?
 
-In Chapter \@ref(eigenvalues), we established that solutions to second-order linear differential equations have the form $m_1 e^{\lambda_1 t} + m_2 e^{\lambda_2 t}$. Yet in the previous section, we saw one linear second-order differential equation, $\partial_{tt} y = - \omega^2 y$ where the solution is a linear combination of a sine and a cosine function: $y(t) = A \sin(\omega t) + B \cos(\omega t)$ with $\omega = \sqrt{\frac{k}{m}}$.
+In Chapter \@ref(eigenvalues), we established that solutions to second-order linear differential equations have the form $m_1 e^{\lambda_1 t} + m_2 e^{\lambda_2 t}$. Yet in the previous section, we saw one linear second-order differential equation, $\partial_{tt} y = - \omega^2 y$ where the solution is a linear combination of a sine and a cosine function: $y(t) = A \sin(\omega t) + B \cos(\omega t)$ with $\omega = \sqrt{\frac{s}{m}}$.
 
 How is it possible for the solution to be both in the form of a linear combination of exponentials and a linear combination of sine and cosine? Sinusoids oscillate up and down and up and down, whereas exponentials are monotonic. 
 
@@ -254,27 +257,63 @@ slice_plot(Re(f(t)) ~ t,
 ## Damping
 
 It's common for there to be friction, called ***damping***, in a spring mass system. To keep things very simple, we'll consider that the friction is proportional to the velocity and, as in the cannonball example, in the direction opposite to velocity. That is:
-$$\partial_{tt} y = -a\, \partial_t y -b y\ ,$$ where $b$ would be the positive number $\frac{k}{m}$ and $a$ is another positive number reflecting the magnitude of friction.
+$$\partial_{tt} y = -r\, \partial_t y -b y\ ,$$ where $b$ would be the positive number $\frac{s}{m}$ and $r$ is another positive number reflecting the magnitude of friction. (Think of $r$ as standing for "resistance.")
 
 As always, this second-order differential equation can be written as a pair of first-order differential equations. One of the first-order differential equations will be
 $$\partial_t y = v\ ,$$, which is just the definition of velocity $v$. The other first-order equation will be
-$$\partial_t v = -a v  - b y\ .$$ Both equations are linear.
+$$\partial_t v = -r v  - b y\ .$$ Both equations are linear.
 
 In the previous chapter, we wrote such a pair of linear first-order differential equations in terms of a vector
 $$\vec{w(t)} = \left[\begin{array}{c}v(t)\\y(t)\end{array}\right]\ .$$
 In terms of the vector $\vec{w(t)}$ the dynamics can be written in vector/matrix form:
-$$\partial_t \vec{w} = \left[\begin{array}{cc}-a & -b\ \ \\1 & 0\end{array}\right]\, \vec{w}\ .$$
-This form suggests, at least  to the avid reader of the previous chapter, that we look for a solution $y(t) = m_1\, e^{\lambda_1\, t} + m_2\, e^{\lambda_2\, t}$ in terms of the eigenvectors and eigenvalues of the matrix $\left[\begin{array}{cc}a & b\\1 & 0\end{array}\right]$.
+$$\partial_t \vec{w} = \left[\begin{array}{cc}-r & -b\ \ \\1 & 0\end{array}\right]\, \vec{w}\ .$$
+This form suggests, at least  to the avid reader of the previous chapter, that we look for a solution $y(t) = m_1\, e^{\lambda_1\, t} + m_2\, e^{\lambda_2\, t}$ in terms of the eigenvectors and eigenvalues of the matrix $\left[\begin{array}{cc}r & b\\1 & 0\end{array}\right]$.
 
-We used the R function `eigen()` to compute the eigenvalues and eigenvectors of the matrix, given numerical values for $a$ and $b$. Let's now try to find an algebraic formula for the eigenvalues. After all, it's the eigenvalues that determine the stability of the fixed point.
+We used the R function `eigen()` to compute the eigenvalues and eigenvectors of the matrix, given numerical values for $r$ and $b$. Let's now try to find an algebraic formula for the eigenvalues. After all, it's the eigenvalues that determine the stability of the fixed point.
 
-As an *ansatz* for the for the original second-order differential equation $$\partial_{tt} y = a\, \partial_t y + b y\ ,$$ let's use $y(t) = A e^{\lambda t}$, a simple exponential function. Plugging in the ansatz to the differential equation gives:
-$$A \lambda^2 e^{\lambda t} = - a A \lambda e^{\lambda t} - b A e^{\lambda t}\ .$$ 
+As an *ansatz* for the for the original second-order differential equation $$\partial_{tt} y = r\, \partial_t y + b y\ ,$$ let's use $y(t) = A e^{\lambda t}$, a simple exponential function. Plugging in the ansatz to the differential equation gives:
+$$A \lambda^2 e^{\lambda t} = - r A \lambda e^{\lambda t} - b A e^{\lambda t}\ .$$ 
 We can cancel out the common term $A e^{\lambda t}$ from all the terms in the equation, and bring all the terms to the left-hand side of the equation, leaving us with
-$$\lambda^2 + a \lambda + b = 0\ .$$
-This is a quadratic polynomial in $\lambda$, so we can use the "quadratic formula" to find values for $\lambda$ that are consistent with the parameters $a$ and $b$. In applying the quadratic formula you have to remember that the standard statement is for the roots of $a x^2 + b x + c = 0$ and make adjustment for the fact that our polynomial uses the parameter names differently: $\lambda^2 + a \lambda + b = 0$.
+$$\lambda^2 + r \lambda + b = 0\ .$$
+This is a quadratic polynomial in $\lambda$, so we can use the "quadratic formula" to find values for $\lambda$ that are consistent with the parameters $a$ and $b$. In applying the quadratic formula you have to remember that the standard statement is for the roots of $a x^2 + b x + c = 0$ and make adjustment for the fact that our polynomial uses the parameter names differently: $\lambda^2 + r \lambda + b = 0$.
 
-$$\lambda = \frac{- a \pm \sqrt{\strut a^2 - 4 b}}{2}\ .$$
+$$\lambda = \frac{- r \pm \sqrt{\strut r^2 - 4 b}}{2}\ .$$
+Recall that the parameter $r$ describes the amount of friction or resistence in the system; it's a positive number. Similarly, the nature of springs is that $b$ is a positive number. The relative values of $r$ and $b$ determine the motion of the system.
+
+Suppose the stiffness of the spring is much larger than the friction. Then $r^2 < 4b$. This being the case, the $\sqrt{\strut r^2 - 4 b}/2$ will be an imaginary number. Altogether, the eigenvalues will be $\lambda = -\frac{r}{2} \pm {i \omega}$. The solution will be $$y = m_1 e^{\lambda_1 t} + m_2 e^{\lambda_2 t} \\
+= m_1 e^{-\frac{r}{2}t + i \omega t} + m_2 e^{\frac{r}{2} - i\omega t} \\
+= m_1 e^{-r t/2} e^{i\omega t} + m_2 e^{-r t/2} e^{-i \omega t} \\
+= e^{-r t/2}\underbrace{\left[m_1 e^{i \omega t} + m2 e^{i\omega t}\right]}_{\text{sinusoid}(\omega t)}$$
+Result: an exponentially decaying sinusoid.
+
+To graph this function, we need to choose appropriate numerical values for $r$ and $b$. Let's set $r=1$. Since $r^2 < 4b$, we must have $\frac{1}{4} < b$: we'll choose $b = 6$ which meets this criterion. Figure \@ref(fig:decay-sinusoid1) shows the solution to the differential equation:
+
+```{r decay-sinusoid1, echo=TRUE, fig.cap="An exponentially decaying sinusoid arising from $r = 1$ and $b = 6$."}
+traj <- integrateODE(dv~ -r*v - b*y, dy ~ v, v=10, y=0, r=1, b=6, tdur=20)
+traj_plot(y(t) ~ t, traj)
+```
+This is the situation with a swinging door. You shove it to swing open, after which it oscillates with a decreasing amplitude.
+
+
+In contrast, suppose the spring is weak compared to the damping such that $4b < r^2$. Now $\sqrt{\strut r^2 - 4b}$ is a positive number, not imaginary. What's more, since $b$ is positive, $\sqrt{\strut r^2 - 4 b} < r$.  This means that both eigenvalues are negative. We'll illustrate the situation with $r=1, b=0.2$:
+
+```{r overdamped1, echo=TRUE, fig.cap="A heavily damped spring-mass system with  $r = 1$ and $b = 0.1$."}
+traj2 <- integrateODE(dv~ -r*v - b*y, dy ~ v, v=10, y=0, r=1, b=0.1, tdur=20)
+traj_plot(y(t) ~ t, traj2) %>%
+  gf_lims(y = c(0, NA))
+```
+The situation in Figure \@ref(fig:overdamped1) is the sort of behavior one expects when giving a shove to an exit door in theater or stadium. The shove causes the door to swing open, after which it slowly returns to the closed position. That gives plenty of time for the people following you to get to the door before it closes.
+
+Finally, consider the case where $r^2 - 4 b = 0$, a balance between resistance and springiness. In this case, both eigenvalues are $\lambda = -r/2$.
+
+```{r critically-damped, echo=TRUE, fig.cap="A critically damped oscillation with $r=1$, $b=0.25$."}
+traj3 <- integrateODE(dv~ -r*v - b*y, dy ~ v, v=10, y=0, r=1, b=0.25, tdur=20)
+traj_plot(y(t) ~ t, traj3) %>%
+  gf_lims(y = c(0, NA))
+```
+This is a situation called ***critically damped***. The door swings open, then closes as fast as it can without any oscillation.
+
+
 ::: {.example data-latex=""}
 Consider the second-order linear differential equation $$\partial_{tt} y + 2\, \partial_t y - 3\, y = 0\ .$$ Is this system stable?
 
@@ -295,17 +334,26 @@ $$\vec{\Lambda_1} = \left[\begin{array}{c}\lambda_1\\1\end{array}\right]\ \ \tex
 For the system with $\lambda_1 = 3$ and $\lambda_2 = -1$, you can confirm that the eigenvectors calculated with this formula point in the same directions as the eigenvectors reported by `eigen()`.
 :::
 
-Recall that for the differential equation 
-$$\partial_{tt} y = -a\, \partial_t y -b y\ $$ to be a model of a damped spring-mass system, the parameters $a$ and $b$ both have to be positive. There are important consequences to this for the eigenvalues.
 
-FILL IN THIS PART. If the spring is weak compared to friction, then $b$ is small, and the eigenvalues will both be real. No oscillation, "over-damped"
+Let's return to the car-following control system introduced in Chapter \@ref(eigenvalues). Recall that $x$ was defined to be the distance between two cars and $x_0$ the distance to be maintained. In terms of $y = x - x_0$ the system was $$\partial_{tt} y = - b y\ .$$
+You can see that this system *has no damping*; $y(t)$ will be a sinusoidal oscillation. The ride will be more pleasant, however, if the oscillations can be damped out. To accomplish this, we should add a new term to the second-order differential equation, a damping term to give
+$$\partial_{tt} y = -a\, \partial_t y- b\, y\ .$$
+We should set the parameters $a$ and $b$ to make the real part of the eigenvalues negative. Only then will we have designed a workable control system.
 
-If the friction is weak compared to the spring, then $b$ is large and the eigenvalues will have a real and an imaginary part. WORK THROUGH $e^{\lambda t}$ to show that it is $e^{kt} e^{i\omega t}$: an exponentially decaying sinusoid.
+::: {.intheworld data-latex=""}
+For a human driver, following a car at a steady distance requires careful attention but in practice is not too difficult a task. Could it be the case that drivers have an intuitive understanding of the need for damping? Perhaps complex eigenvalues ought to be a standard topic in driving schools? That might be, but there is a more down-to-earth explanation of how humans handle the car-following task.
 
-::: {.example data-latex=""}
-Special case: $a^2 = 4 b$. "Critically damped" Show the solution relative to the "over-damped" case using `integrateODE()`.
+The quantity $\partial_{tt} y$ is the acceleration, and the control pedal that leads to positive acceleration is called the "accelerator." But the pedal does not actually set acceleration. In reality, the pedal sets velocity as well as acceleration. A simple model is $\text{pedal} = r \partial_t y + s \partial_{tt} y$, where $y$ is the velocity of the car and $r$ and $s$ are positive parameters. 
+
+To understand this model of the pedal, think what happens when you press the accelerator and hold it. The car accelerates, but only up to the point where a steady state velocity is reached. Or, consider what happens if you partially release the pedal. The car slows down until it reaches a new, slower, steady-state velocity.
+
+With a human driver, the control system is not $\partial_{tt} y = - b y$. Instead, the control system is $$\text{pedal} - p_0 =  - b y\ .$$ For steady-state driving at the desired velocity $\partial_t y$ we press the pedal by an amount $p_0$. To perform the car-following task, we push down or lighten up on the pedal, depending on whether we are farther or closer to the car ahead than our desired distance.
+
+Combining the models for how $\text{pedal}$ is controlled and how $\text{pedal}$ relates to velocity and acceleration, we have
+$$r \partial_t y + s \partial_{tt} y  - p_0 = -b y$$ or, re-arranging terms
+$$ \partial_{tt} y = \underbrace{- \frac{r}{s} \partial_t y}_{\text{damping}} - \frac{b}{s} y + p_0\ .$$
+The nature of the gas pedal itself leads to a damping term in the dynamics, without our having to think about it consciously.
 :::
-
 
 
 
@@ -323,5 +371,5 @@ Special case: $a^2 = 4 b$. "Critically damped" Show the solution relative to the
 
 `r insert_calcZ_exercise("XX.XX", "iX26Ra", "Exercises/falcon-have-mattress.Rmd")`
 
-
+`r insert_calcZ_exercise("XX.XX", "xkQnvD", "Exercises/spider-hide-cotton.Rmd")`
 
