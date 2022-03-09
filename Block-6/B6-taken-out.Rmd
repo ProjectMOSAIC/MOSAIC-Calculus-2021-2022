@@ -1,0 +1,99 @@
+## Removed from Eigen
+
+
+```{r eigen-trajs, echo=FALSE, fig.cap="The trajectories starting at the eigenvectors."}
+traj_plot(y(t) ~ x(t), traj_eigen1, color="magenta", nt=1, domain=domain(t=0:.1)) %>%
+  traj_plot(y(t) ~ x(t), traj_eigen2, color="blue", nt=1, domain=domain(t=0:.1)) %>%
+  gf_segment(0 + 0.7072 ~ 0 + 0.7071, color="magenta", inherit=FALSE, arrow=arrow(ends="last", type="closed", length=unit(2, "mm"))) %>%
+  gf_segment(0 + 0.8944 ~ 0 + -0.4472, color="blue", inherit=FALSE, arrow=arrow(ends="last",type="closed", length=unit(2, "mm"))) %>%
+  flow_field(dx ~ x + y, dy ~ 2*x, domain = domain(x=-3:5, y=-4:5), color="gray", npts=15) %>%
+  gf_refine(coord_fixed())
+
+```
+
+
+
+
+
+
+
+
+In Section \@ref(qualitative-stability) we looked at the stability from a qualitative point of view, finding eight generic situations for the two-state variable linear system.
+
+Now we will look at things from a quantitative perspective, at least for saddles, centers, and sources. The key insight comes from looking at the flow field around the fixed point. As an example, we'll look at the system:
+
+
+whose flow is shown in Figure \@ref(fig:linear-streamlines). The fixed point
+
+```{r linear-streamlines, echo=FALSE, fig.cap="Flow for a linear system. The lines going through the fixed point are the directions in which the flow is directly toward the fixed point or away from the fixed point."}
+gf_abline(intercept=~ 0, slope=~1, color="magenta", alpha=0.5, size=2) %>%
+  gf_abline(intercept=~ 0, slope=~-2, color="brown", alpha=0.5, size=2) %>%
+vectorfield_plot(x + y ~ x + y, 2*x ~ x + y, domain(x=-1:1, y=-1:1), npts=10, transform=function(x) x^0.3) %>%
+  gf_refine(coord_fixed())
+
+```
+The fixed point in the flow of Figure \@ref(fig:linear-streamlines) is at $(0,0)$. The plot is annotated with two lines. The flow on the $\color{magenta}{\text{magenta}}$ line is directly away from the fixed point, while the flow on the $\color{brown}{\text{brown}}$ line is directly toward the fixed point.
+
+As you'll see, for any saddle, center, or source, there are always two such directions from the fixed point such that a trajectory starting on a point in that direction will continue in a straight line in that direction toward or away from the fixed point. These directions are called ***eigenvectors***. The word "eigen" comes from the German for "own" or "self." In mathematics, it is usually translated as "proper" or "characteristic. That meaning is appropriate because the eigenvectors characterize the entire flow field.
+
+The eigenvectors in Figure \@ref(fig:linear-streamlines) are $$\vec{v_1} = \left[\begin{array}{c}1\\1\end{array}\right]\ \ \ \text{and}\ \ \ \vec{v_2} = \left[\begin{array}{c}-\frac{1}{2}\\\ 1\end{array}\right]\ .$$
+
+
+
+Here are two trajectories, one starting from $(x=0.1, y=0.1)$ and the other from $(x=-0.5, y=1)$
+
+```{r two-trajectories, fig.cap="Any trajectory starting on an eigenvector will stay on that eigenvector."}
+traj1 <- integrateODE(dx ~ x + y, dy ~ 2*x, x=0.1, y=0.1)
+traj2 <- integrateODE(dx ~ x + y, dy ~ 2*x, x = -.5, y=1)
+traj_plot(y(t) ~ x(t), traj1, color="magenta") %>%
+  traj_plot(y(t) ~ x(t), traj2, color="brown") %>%
+  vectorfield_plot(x + y ~ x + y, 2*x ~ x + y,
+                   domain(x=-1:1, y=-1:1),
+                   npts=10) %>%
+  gf_refine(coord_fixed()) %>%
+  gf_lims(x=c(-1,1), y=c(-1,1))
+```
+
+The idea that a trajectory starting on an eigenvector stays on an eigenvector has an important mathematical consequence for finding the solutions. For instance, the trajectory starting on $\vec{v_2} = \left[\begin{array}{c}-\frac{1}{2}\\1 \end{array}\right]$ will go only through points that have the relationship $y = -2 x$, since on $a \vec{v_2}$ the $y$ coordinate will always be negative 2 times the $x$ coordinate. This allows us to simplify the differential equations and immediately see the solution.
+$$\partial_t x = x + y \ \ \implies\ \ \ \partial_t x = x - 2x = -x \ \ \implies\ \ x(t) = A e^{-1t}\\
+\partial_t y = 2 x \ \ \implies\ \ \ \partial_t y = -y\ \ \implies \ \ \ y(t) = B e^{-1t}\ .$$ Since the solution will always be such that $y = -2 x$, we know that $B = -2 A$.
+
+Similarly, for a trajectory starting on the other eigenvector, where $x = y$, the differential equations simplify to
+$$\partial_t x = x + y \ \ \implies\ \ \ \partial_t x = x +y = 2x \ \ \implies\ \ x(t) = A e^{2t}\\
+\partial_t y = 2 x \ \ \implies\ \ \ \partial_t y = 2y\ \ \implies \ \ \ y(t) = B e^{2t}$$ where $B = A$ so that the initial condition is on the eigenvector.
+
+Solutions from an initial condition on an eigenvector are simple exponentials!
+
+## Linear combinations
+
+It's awkward having to write things like $B=A$ or $B = -2A$ to make clear that the initial condition is on an eigenvector.
+
+
+What about solutions from initial conditions not on an eigenvector. For instance, how about the initial condition $$\left[\begin{array}{c}x_0\\y_0\end{array}\right] = \left[\begin{array}{c}-0.9\\2.1\end{array}\right] = 0.1 \vec{v_1} + 2 \vec{v_2}$$
+
+
+
+
+
+Even more remarkable is the exponential shape of the solution, which we can see by plotting $y(t)$ vs $t$ on semi-log axes. (See Chapter `r Chaps$magnitudes`)
+```{r exp-shape-soln}
+traj_plot(y(t) ~ t, traj1, color="magenta") %>%
+  traj_plot(y(t) ~ t, traj2, color="brown") %>%
+  gf_refine(scale_y_log10(sec.axis = sec_axis( trans=~exp(.), name="y")))
+
+```
+
+
+Show that starting on an eigenvector stays on an eigenvector. The time series will be either a growing exponential or a decaying exponential, depending on the sign of $\lambda$.
+
+Every $n\times n$ matrix---we are working with $2\times 2$ matrices for simplicity--has associated with it a set of $n$ numbers called *eigenvalues*.  This is a mix of the German word "eigen" meaning "characteristic," and the English work "values." Sometime they are called *characteristic values* just to render them purely in English. But "eigen" has a single, specific meaning in mathematics, so the word "eigenvalue" is more evocative to mathematicians than is "characteristic values."
+
+The letter used to represent eigenvalues is the Greek lambda: $\lambda$. Since our $2\times 2$ matrices have 2 eigenvalues, we often write the pair as $\lambda_1$ and $\lambda_2$ or even as $\lambda_{1,2}$.
+
+For an [ab10] matrix, the formula for the eigenvalues is
+
+$$\lambda_{1,2} = \frac{1}{2} \left[a \pm \sqrt{a^2 + 4b\strut}\right]$$
+
+Note the use of the $\pm$ in the formula. The same formula gives *both* eigenvalues, one from the $+$ branch of the $\pm$, the other from the $-$ branch. Using the $\pm$ rather than two different formulas---one with $-$ and one with $+$---is merely a convenience to make it explicit what the two formulas would have in common.
+
+Writing $\lambda_{1,2}$ is nothing more than saying $\lambda_1$ *and* $\lambda_2$.
