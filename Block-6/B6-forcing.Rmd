@@ -8,3 +8,31 @@
 
 maybe return to the cruise control stability problem, putting in disturbances from the car in front.
 
+## Car following dynamics
+
+```{r}
+# random forcing of unit variance
+Pts <- tibble::tibble(
+  t = seq(0,1000, by=0.5),
+  y = rnorm(length(t))
+)
+random_forcing <- spliner(y ~ t, data = Pts)
+slice_plot(random_forcing(t) ~ t, domain(t=0:10))
+```
+
+
+```{r}
+traj <- integrateODE(
+  dx ~ -r*(x-x0) -(v - (vf+5*random_forcing(t))), 
+  dv ~ b*(x-x0),
+  dtime ~ 1,
+  vf = 100, # feet/second
+  x0 = 150, # feet
+  b = 0.1,    # per second,
+  r = .1,    # damping
+  x = 125,
+  v = 110,
+  time = 0,
+  tdur = 300)
+traj_plot(x(t) ~ t, traj)
+```
