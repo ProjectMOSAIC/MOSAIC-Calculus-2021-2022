@@ -17,22 +17,22 @@ Pts <- tibble::tibble(
   y = rnorm(length(t))
 )
 random_forcing <- spliner(y ~ t, data = Pts)
-slice_plot(random_forcing(t) ~ t, domain(t=0:10))
+slice_plot(random_forcing(t/5) ~ t, domain(t=0:100))
 ```
 
 
 ```{r}
 traj <- integrateODE(
-  dx ~ -r*(x-x0) -(v - (vf+5*random_forcing(t))), 
+  dx ~ -r*(x-x0) -(v - (vf+3*random_forcing(t/8))), 
   dv ~ b*(x-x0),
   dtime ~ 1,
   vf = 100, # feet/second
   x0 = 150, # feet
-  b = 0.1,    # per second,
-  r = .1,    # damping
+  b = .25,  # per second,
+  r = .5,    # damping
   x = 125,
   v = 110,
   time = 0,
-  tdur = 300)
-traj_plot(x(t) ~ t, traj)
+  tdur = list(to=300, dt=0.01))
+traj_plot(v(t) ~ t, traj, domain=domain(t=0:300)) 
 ```
