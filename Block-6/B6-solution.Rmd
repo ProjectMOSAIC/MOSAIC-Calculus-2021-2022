@@ -2,14 +2,14 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-solution.Rmd)</div>
 
-::: {.underconstruction data-latex=""}
+<!--
 1. Idea of accumulation
 2. Numerical solution: Euler method and iteration
 3. Analytic solution: 
     i. Ansatze and confirming a solution
     ii. Some special cases, separable equations
     iii. Laplace transforms
-:::
+-->
 
 As you saw in the previous chapter, a differential equation relates the derivative of a function to the function itself, for instance $$\partial_t x(t) = x(t)\,(1-x(t))\ .$$ *Solving* a differential equation means to find a function $x(t)$ that is consistent with the equation. This chapter is about techniques for finding solutions.
 
@@ -19,14 +19,14 @@ Nonetheless, it's common to refer to ***integrating*** a differential equation, 
 
 In this chapter we'll introduce four different techniques to accumulating a solution to a differential equation or a pair of such equations. First, we'll look again at the ***graphical method*** of "following the flow" in a plot of the flow field. This technique is mainly of use for developing intuition about the dynamics.
 
-Second, we'll develop a simple Euler method for accumulating a solution. Third, we'll explore how to take a guess about the solution and, when the guess is good enough, refine that into an actual solution. This is called the ***method of ansëtze***.
+Second, we'll develop a simple Euler method for accumulating a solution. Third, we'll explore how to take a guess about the solution and, when the guess is good enough, refine that into an actual solution. This is called the ***method of ansätze***.
 
 Fourth, and briefly, we'll look at some of the situations where symbolic anti-differentiation can be used. This includes a very brief introduction to ***transform methods***. 
 
 ::: {.takenote data-latex=""}
 A differential equation like $$\partial_t x(t) = x(t)\,(1-x(t))$$ is very busy typographically. One reason is the repeated $(t)$ which play no role other than to state explicitly that $x$ is a function of $t$. A convenient shorthand simply replaces $x(t)$ to make the "is a function of $t$" *implicit*. Thus the equation appears as $$\partial_t x = x (1-x)\ .$$ It's the reader's responsibility, knowing that he or she is working with a differential equation, to remember that $x$ is a function of $t$. 
 
-An even more concise notation, originated by Isaac Newton, is to replace the $\partial_t$ with a simple $\dot{\ }$.  With this notation the equation looks like
+An even more concise notation, originated by Isaac Newton, is to replace the $\partial_t$ with a simple dot over the function being differentiated as in $\Large\dot{x}$.  With this notation the equation looks like
 $$\dot{x} = x (1-x)\ ,$$ about as simple as it gets. 
 
 This dot notation is even more expressive when working with second-order differential equations involving second derivative. In the dot notation, $\partial_{tt}$ is written $\ddot{\ }$.
@@ -65,7 +65,7 @@ The trajectory you draw will be only a sketch, but it can be effective for devel
 ```{r child="CalcPlot3D/rabbits-foxes.Rmd"}
 ```
 
-```{r calcplot3d1, echo=FALSE, out.width="1%", fig.cap="The flow field for the rabbit/fox dynamics. Click at an initial state to generate the trajectory from that state."}
+```{r calcplot3d1, echo=FALSE, out.width="1%", fig.cap="The flow field for the rabbit/fox dynamics. Click at an initial state to generate the trajectory from that state. You may need to pinch in or out to see the flow arrows clearly."}
 knitr::include_graphics("www/tiny-blank.png")
 ```
 
@@ -97,14 +97,14 @@ Next, pick a value for $dt$ that we will use for all the following steps, each o
 To fill in the next row, we apply the Euler formula. Sine $dt = 0.1$, the next time step will be $0.1$. Plug in the current state---which is 0.2 right now---to calculate the future state. The step will be $0.2 (1-0.2)\, dt = \color{brown}{0.016}$. Add this step to the current state to get the future state. The table now looks like this:
 
 time | state
------|-------
+:-----|:-------
 0.0  | $0.2$
 0.1  | $0.2 + \color{brown}{0.016} = \color{blue}{0.216}$
 
 The next step will bring us to time $0.2$. Use the Euler formula, pluggin in the value of the present state, $\color{blue}{0.216}$, to find the step. Here that will be $0.216 (1-0.216)\, dt = \color{magenta}{0.0169.}$. Now the table looks like
 
 time | state
------|-------
+:-----|:-------
 0.0  | $0.2$
 0.1  | $0.2 + \color{brown}{0.016} = \color{blue}{0.216}$
 0.2  | $\color{blue}{0.216} + \color{magenta}{0.0169} = 0.2329$
@@ -114,6 +114,8 @@ Add as many rows to the table as you like; the process will be the same.
 You will recognize this as an iterative process, as discussed in Chapter `r Chaps$iteration`. 
 
 ::: {.example data-latex=""}
+$\ $
+
 As is so often the case, it's wise to think about carrying out processes in terms of fundamental tasks accomplished by calculus operations---evaluate, differentiate, anti-differentiate, solve, find argmax, iterate. The obvious choice for integrating differential equations is "anti-differentiate," but as described previously, the techniques we covered in Block 3 are not sufficient for the task. Instead, we use iteration to solve differential equations. 
 
 In this example we're going to use the software you have already seen, `Iterate()`, to carry out the task. In practice, however, you will use a special form of `Iterate()` called `integrateODE()` that makes use of interpolation techniques to give a more precise answer.

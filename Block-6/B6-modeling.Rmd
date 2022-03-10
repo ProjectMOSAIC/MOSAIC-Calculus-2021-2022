@@ -88,10 +88,6 @@ An example of a setting where the ***bounded stable model*** applies is one wher
 Remember that in a differential equation $\partial_t S = f(S)$, the input to $f()$ is has dimension $[S]$, while the output of $f()$ has a different dimension: $[S]/[t]$. Thus, in the oak/acorn example above, the output of $f()$ has a dimension corresponding to acorns per day, a *rate* of consumption. $S$ is acorns, the output of $f(S)$ is acorns per day.
 :::
 
-PREDATOR SATURATION and mast seeding versus berries ripening at different times. 
-
-Unstable bounded: Monod equation, Michaelis Menton kinetics
-
 
 The ***linear unstable model*** is often used to model population growth. The underlying idea, which might or might not correspond to reality, is that there is a set reproduction rate per member of the population.  The differential equation is 
 $$\partial_t{S} = a S + c$$ 
@@ -100,6 +96,8 @@ with $S$ being the size of the population. The parameter $c$ captures immigratio
 Take care to use the parameters $a$ and $c$ correctly. The output of $f(S) = a S + c$ must have dimension $[S]/[t]$, for instance organisms per hour might be appropriate for bacteria. Thus the individual terms $aS$ and $c$ must have dimenion $[S]/[t]$. Consequently, the parameter $a$ has dimension $1/[t]$ as in *per hour*. That might seem odd until you remember that $a$ is about the creation of new organisms, $[S]/t$, per existing organism. Thus the dimension of $a$ is $[S] / [S][t]$ which works out to be simply $1/[t]$.
 
 ::: {.example data-latex=""}
+$\ $
+
 Under ideal reproductive conditions, some bacteria can split in two every 20 minutes. What does this tell us about $a$?
 
 It's easy to get confused. For instance, a single bacterium that splits every 20 minutes will go from an initial population of $S=1$ at time $t=0$ to a population of $S=2$ at $t=\frac{1}{3}$ hour to $S=4$ at $t=\frac{2}{3}$ hour to $S=8$ at $t=1$ hour. This might make it seem that the reproduction rate is 8 per hour. But this calculation of the population size at hour 1 is redundant with the accumulation that will be accomplished in solving the differential equation. 
@@ -113,7 +111,6 @@ $$S(1/3) = S_0 e^{a/3} = e^{a/3} = 2\ .$$
 
 iii. Working from $e^{a/3} = 2$ gives the parameter value we see: $a = 3 \ln(2)$.
 
-EXERCISE TO COMPUTE such parameters in various forms: such as population increases 10 fold in an hour.
 
 :::
 
@@ -339,25 +336,6 @@ traj_plot(S(t) ~ t, T1)
 
 
 
-## Nerve pulses 
-
-Action potential
-
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1366333/pdf/biophysj00662-0010.pdf
-
-Fitzhugh-Nagumo. $v$ is membrane potential, $w$ is accomodation and refractoriness.
-
-Domain: $-2.5 \leq v \leq 2.5$ and $-1 \leq w \leq 2$, params $I_{\rm {ext}}=0.5,a=0.8,b=0.7, \tau=12.5$
-
-$$\begin{array}{rcl}
-\partial_t {v} & = & v-\frac{v^3}{3} - w + RI_{\rm ext} 
-\\
-\tau \partial_t {w} & = & v+a-b w
-\end{array}
-$$
-
-
-## Feedback
 
 ## Exercises
 
@@ -367,7 +345,12 @@ $$
 
 `r insert_calcZ_exercise("XX.XX", "trcQuC", "Exercises/owl-sell-radio.Rmd")`
 
-`insert_calcZ_exercise("XX.XX", "iRZfBY", "Exercises/walnut-tell-pot.Rmd")`
+<!-- `insert_calcZ_exercise("XX.XX", "iRZfBY", "Exercises/walnut-tell-pot.Rmd")` n-->
+
+<!-- EXERCISE TO COMPUTE the $a$ parameter in $\dot{x} = a x$ when the information is given in terms of doubling or that population increases 10 fold in an hour.
+-->
+
+
 <!--
 
 EXERCISE: Set beta and alpha so that only about half the susceptibles are infected. (0.35 and alpha=.25 will do). How long until the epidemic is over. 
@@ -584,4 +567,23 @@ $$\partial_t x= x(4 − y − 2x)\\
 
 A. Plot the flow fields. What is it about the models that justifies the labels "strong competition" and "weak competition." 
 
+-->
+
+<!--
+EXERCISE: Nerve pulses 
+
+Action potential
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1366333/pdf/biophysj00662-0010.pdf
+
+Fitzhugh-Nagumo. $v$ is membrane potential, $w$ is accomodation and refractoriness.
+
+Domain: $-2.5 \leq v \leq 2.5$ and $-1 \leq w \leq 2$, params $I_{\rm {ext}}=0.5,a=0.8,b=0.7, \tau=12.5$
+
+$$\begin{array}{rcl}
+\partial_t {v} & = & v-\frac{v^3}{3} - w + RI_{\rm ext} 
+\\
+\tau \partial_t {w} & = & v+a-b w
+\end{array}
+$$
 -->

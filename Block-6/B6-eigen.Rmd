@@ -1,11 +1,11 @@
 # Eigenvalues, eigenvectors {#eigenvalues}
 
-::: {.underconstruction}
+<!--
 8. Eigenvalue/Eigenvector analysis
     a. Objectives/topics
         i. Understand the geometry of the flow (what an eigenvector looks like in terms of the flow, as it emerges from the image of the flow field)
         i. Trajectories as linear combinations of eigenflows
-::: 
+-->
 
 
 In the previous chapters, you've seen how linear dynamics, when unstable, lead trajectories off to infinity. Chapter \@ref(modeling-dynamics) looked at some ways that nonlinearity can tame instability, as in the simple models of linear growth.
@@ -45,6 +45,8 @@ $$\vec{w(0)} =\left[\begin{array}{c}x(0)\\y(0)\end{array}\right] = m_1 \vec{u_1}
 For the moment, we won't worry about how best to choose $\vec{u_1}$ and $\vec{u_2}$; any two vectors that are not colinear will do. 
 
 ::: {.example data-latex=""}
+$\ $
+
 As a running example, we'll work with the pair of first-order differential equations
 $$\partial_t x = x + y\\
 \partial_t y = 2 x \ \ \ \ $$
@@ -59,7 +61,7 @@ traj <- integrateODE(dx ~ x + y, dy ~ 2*x, x=-1.1, y=2.1, tdur=2)
 traj_plot(y(t) ~ x(t), traj)
 ```
 
-```{r vec-example-1, echo=FALSE, fig.cap="The trajectory calculated starting at (-1.1, 2.1). The graph is annotated with the vectors $\\vec{u_1}$ and $\\vec{u_2}}$ and the flow field."}
+```{r vec-example-1, echo=FALSE, fig.cap="The trajectory calculated starting at (-1.1, 2.1). The graph is annotated with the vectors $\\vec{u_1}$ and $\\vec{u_2}$ and the flow field."}
 
 traj_plot(y(t) ~ x(t), traj, inherit=FALSE, nt=2) %>%
   gf_segment(0 + -3 ~ 0 + 1, color="magenta", inherit=FALSE, arrow=arrow(ends="last", type="closed", length=unit(2, "mm"))) %>%
@@ -114,6 +116,7 @@ In this section, we'll demonstrate that there is a particular way of selecting $
 Our task in this section is to show how to compute the eigenvectors $\vec{\Lambda_1}$ and $\vec{\Lambda_2}$ and that the solutions $\vec{\Lambda_1(t)}$ and $\vec{\Lambda_2(t)}$ are in fact simple exponentials. In Chapter \@ref(second-order-de) we'll derive the formula for the eigenvectors. Here, we'll use the R function `eigen()` to do the calculations for us.
 
 ::: {.example data-latex=""}
+$\ $
 Eigenvectors can be calculated using the R function `eigen()` applied to the abcd matrix that defines the linear differential equation.
 
 For the system of first-order differential equations $$\partial_t x = x + y\\\partial_t y = 2x\ \ \ \ \ $$

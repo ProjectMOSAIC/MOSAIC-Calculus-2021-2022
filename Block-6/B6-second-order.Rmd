@@ -2,6 +2,7 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-equalibria.Rmd)</div>
 
+<!-- 
 9. Calculus of second order differential equations
     a. Objectives/topics
         i. Force balance equations
@@ -11,7 +12,7 @@
         i. Complex exponentials and their equivalency to sinusoids 
         i. Sinusoids with exponential amplitudes (damping)
         i. Relation to the real and complex parts of the eigenvalues
-        
+-->       
 
 Up to now, we have been studying dynamics in the format of one or more first-order differential equations. For instance,
 $$\partial_t x = f(x, y)\\
@@ -62,7 +63,7 @@ A lot of the theory of second-order differential equations was developed in the 
 
 The importance of ballistics to Newton can be seen by a famous diagram he drew, shown in Figure \@ref(fig:newton-ballistics). In the diagram, Newton traces the path of a ball shot horizontally from a cannon placed at the top of a mountain. 
 
-```{r newton-ballistics, echo=FALSE, fig.cap="Newton's diagram showing ballistic motion under the force of gravity."}
+```{r newton-ballistics, echo=FALSE, fig.cap="Newton's diagram showing ballistic motion under the force of gravity.", out.width="60%"}
 knitr::include_graphics("www/Newton-cannon.png")
 ```
 
@@ -136,7 +137,7 @@ traj_plot(y(t) ~ x(t), traj)
 traj_plot(v(t) ~ u(t), traj)
 ```
 
-```{r cannon-shot-2, fig.cap="Adding air resistence to the model changes the trajectory. For reference, the trajectory *without air resistence* is plotted in $\color{orange}{\text{orange}}."}
+```{r cannon-shot-2, fig.cap="Adding air resistence to the model changes the trajectory. For reference, the trajectory *without air resistence* is plotted in $\\color{orange}{\\text{orange}}$.", warning=FALSE}
 P1 <- 
   gf_hline(yintercept=~0, color="brown") %>%
   traj_plot(y(t) ~ x(t), traj, nt=2, color="orange") %>%
@@ -153,7 +154,7 @@ Air resistance causes the cannon ball to travel a shorter horizontal distance an
 
 Consider the motion of a weight attached to a spring, as in Figure \@ref(fig:spring-mass). We'll denote the vertical position of the mass by $y(t)$. Such a spring-mass system has a fixed point where the spring is stretched just enough to cancel out gravity and the velocity is zero. We'll measure $y$ relative to this fixed point. 
 
-```{r spring-mass1, echo=FALSE, fig.cap = "A spring-mass system in motion. [Source: Svjo](https://commons.wikimedia.org/wiki/File:Animated-mass-spring.gif) [CC BY-SA](https://creativecommons.org/licenses/by-sa/3.0) via Wikimedia Commons"}
+```{r spring-mass1, echo=FALSE, fig.cap = "A spring-mass system in motion. [Source: Svjo](https://commons.wikimedia.org/wiki/File:Animated-mass-spring.gif) [CC BY-SA](https://creativecommons.org/licenses/by-sa/3.0) via Wikimedia Commons", out.width="30%"}
 knitr::include_graphics("www/Animated-mass-spring.gif")
 ```
 According to Hooke's Law, a stretched or compressed spring exerts a force that is proportional to the amount of extension or compression. With our measuring $y$ relative to the fixed point, the Hooke's Law force will be
@@ -266,7 +267,7 @@ $$\partial_t v = -r v  - b y\ .$$ Both equations are linear.
 In the previous chapter, we wrote such a pair of linear first-order differential equations in terms of a vector
 $$\vec{w(t)} = \left[\begin{array}{c}v(t)\\y(t)\end{array}\right]\ .$$
 In terms of the vector $\vec{w(t)}$ the dynamics can be written in vector/matrix form:
-$$\partial_t \vec{w} = \left[\begin{array}{cc}-r & -b\ \ \\1 & 0\end{array}\right]\, \vec{w}\ .$$
+$$\partial_t \vec{w} = \left[\begin{array}{c}-r \ \ \  -b\ \ \\1 \ \ \ \ \ \ \ 0\end{array}\right]\, \vec{w}\ .$$
 This form suggests, at least  to the avid reader of the previous chapter, that we look for a solution $y(t) = m_1\, e^{\lambda_1\, t} + m_2\, e^{\lambda_2\, t}$ in terms of the eigenvectors and eigenvalues of the matrix $\left[\begin{array}{cc}r & b\\1 & 0\end{array}\right]$.
 
 We used the R function `eigen()` to compute the eigenvalues and eigenvectors of the matrix, given numerical values for $r$ and $b$. Let's now try to find an algebraic formula for the eigenvalues. After all, it's the eigenvalues that determine the stability of the fixed point.
@@ -315,6 +316,7 @@ This is a situation called ***critically damped***. The door swings open, then c
 
 
 ::: {.example data-latex=""}
+$\ $
 Consider the second-order linear differential equation $$\partial_{tt} y + 2\, \partial_t y - 3\, y = 0\ .$$ Is this system stable?
 
 For this system, $a=2$ and $b = - 3$, so the eigenvalues are 
