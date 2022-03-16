@@ -172,13 +172,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="47" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html"><i class="fa fa-check"></i><b>47</b> Differential equations</a>
 <ul>
-<li class="chapter" data-level="47.1" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#the-language-for-change"><i class="fa fa-check"></i><b>47.1</b> The language for change</a></li>
+<li class="chapter" data-level="47.1" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamical-systems"><i class="fa fa-check"></i><b>47.1</b> Dynamical systems</a></li>
 <li class="chapter" data-level="47.2" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state"><i class="fa fa-check"></i><b>47.2</b> State</a></li>
-<li class="chapter" data-level="47.3" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamics"><i class="fa fa-check"></i><b>47.3</b> Dynamics</a></li>
-<li class="chapter" data-level="47.4" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>47.4</b> State space and flow field</a></li>
-<li class="chapter" data-level="47.5" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#exercises"><i class="fa fa-check"></i><b>47.5</b> Exercises</a></li>
+<li class="chapter" data-level="47.3" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space"><i class="fa fa-check"></i><b>47.3</b> State space</a></li>
+<li class="chapter" data-level="47.4" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamics"><i class="fa fa-check"></i><b>47.4</b> Dynamics</a></li>
+<li class="chapter" data-level="47.5" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>47.5</b> State space and flow field</a></li>
+<li class="chapter" data-level="47.6" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#exercises"><i class="fa fa-check"></i><b>47.6</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="48" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>48</b> Finding a solution</a>
+<li class="chapter" data-level="48" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>48</b> Finding a “solution”</a>
 <ul>
 <li class="chapter" data-level="48.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>48.1</b> The flow field</a></li>
 <li class="chapter" data-level="48.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>48.2</b> Euler method</a></li>
@@ -226,7 +227,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="54.5" data-path="second-order-de.html"><a href="second-order-de.html#damping"><i class="fa fa-check"></i><b>54.5</b> Damping</a></li>
 <li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-6"><i class="fa fa-check"></i><b>54.6</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="55" data-path="forcing.html"><a href="forcing.html"><i class="fa fa-check"></i><b>55</b> Forcing and resonance</a></li>
+<li class="chapter" data-level="55" data-path="forcing.html"><a href="forcing.html"><i class="fa fa-check"></i><b>55</b> Forcing and resonance</a>
+<ul>
+<li class="chapter" data-level="55.1" data-path="forcing.html"><a href="forcing.html#car-following-dynamics"><i class="fa fa-check"></i><b>55.1</b> Car following dynamics</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -255,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In the previous chapters, you’ve seen how linear dynamics, when unstable, lead trajectories off to infinity. Chapter <a href="modeling-dynamics.html#modeling-dynamics">51</a> looked at some ways that nonlinearity can tame instability, as in the simple models of linear growth.</p>
 <p>In this chapter, we return to linear dynamics to develop a <em>quantitative theory of stability</em>. Such theory is important in many engineering and design applications. For instance, a building exposed to earthquake risk can be economically designed to be strong specifically against the type of shaking produced by earthquakes. An electronic circuit can be designed to be sensitive to certain kinds of communication signals while still resisting noise or jamming.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 53.1  </strong></span><strong><em>Cruise control</em></strong> is a feature of many modern automobiles. It enables a driver to set a desired speed for the car to follow automatically, thus reducing cognitive load on the driver.
+<p><span id="exm:unlabeled-div-9" class="example"><strong>Example 53.1  </strong></span><strong><em>Cruise control</em></strong> is a feature of many modern automobiles. It enables a driver to set a desired speed for the car to follow automatically, thus reducing cognitive load on the driver.
 Early models of cruise control introduced in the 1970s (and still common in 2020) had an extremely simple logic. The speedometer constantly monitors the car’s speed <span class="math inline">\(v\)</span>. The driver sets a desired speed, which we’ll call <span class="math inline">\(v_0\)</span>. The cruise control actuator—the mechanism that works to maintain the speed at <span class="math inline">\(v_0\)</span> by, let’s say, adjusting the throttle to increase or reduce speed as appropriate—is designed to produce a throttle input proportional to the deviation in actual speed <span class="math inline">\(v\)</span> from the set speed <span class="math inline">\(v_0\)</span>.
 <span class="math display">\[\text{throttle_input} = -a (v - v_0)\ .\]</span>
 You can see that when <span class="math inline">\(v = v_0\)</span>, the throttle input from the system is zero. When <span class="math inline">\(v_0 &lt; v\)</span>, as when starting to go downhill, the throttle input will be negative, reducing the speed.</p>
@@ -271,14 +275,14 @@ The solution to this is <span class="math inline">\(y(t) = A \sin\left(\sqrt{b} 
 <p>The form in which we have been writing linear differential equations in two state variables is
 <span class="math display">\[\partial_t x = a x + b y\\
 \partial_t y = c x + d y\]</span></p>
-<p>A key part of constructing a theory of stability is finding a set of simple mathematical ideas that enable us to view dynamics in a simpler way. The idea we will introduce here is thinking about the state and trajectory of a differential equation in terms of <strong><em>vectors</em></strong>. We’ll work here with systems with a two-variable dynamical state, but the results apply just as well to higher dimensional states. That’s important in applied work, where the systems being modeled are complicated with many state components.</p>
+<p>A key part of constructing a theory of stability is finding a set of mathematical ideas that enable us to view dynamics in a simpler way. The idea we will introduce here is thinking about the state and trajectory of a differential equation in terms of <strong><em>vectors</em></strong>. We’ll work here with systems with a two-variable dynamical state, but the results apply just as well to higher dimensional states. That’s important in applied work, where the systems being modeled are complicated with many state components.</p>
 <p>We can re-write the linear differential equation using vector and matrix notation. Suppose that we collect the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> components of the state into a vector, <span class="math display">\[\vec{w(t)} =\left[\begin{array}{c}x(t)\\y(t)\end{array}\right]\ .\]</span> The differential equation, in terms of <span class="math inline">\(\vec{w(t)}\)</span> is
 <span class="math display">\[\partial_t \vec{w(t)} = \left[\begin{array}{cc}a&amp;b\\c&amp;d\end{array}\right] \vec{w(t)}\ .\]</span>
 Now imagine that we pick two non-colinear vectors, <span class="math inline">\(\vec{u_1}\)</span> and <span class="math inline">\(\vec{u_2}\)</span> that span the state space. Since the vectors are assumed to span the state, any initial condition can be written as a linear combination of those two vectors:
 <span class="math display">\[\vec{w(0)} =\left[\begin{array}{c}x(0)\\y(0)\end{array}\right] = m_1 \vec{u_1} + m_2 \vec{u_2}\ .\]</span></p>
 <p>For the moment, we won’t worry about how best to choose <span class="math inline">\(\vec{u_1}\)</span> and <span class="math inline">\(\vec{u_2}\)</span>; any two vectors that are not colinear will do.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-8" class="example"><strong>Example 53.2  </strong></span><span class="math inline">\(\ \)</span></p>
+<p><span id="exm:unlabeled-div-10" class="example"><strong>Example 53.2  </strong></span><span class="math inline">\(\ \)</span></p>
 <p>As a running example, we’ll work with the pair of first-order differential equations
 <span class="math display">\[\partial_t x = x + y\\
 \partial_t y = 2 x \ \ \ \ \]</span>
@@ -288,7 +292,7 @@ Imagine that we choose, arbitrarily, <span class="math display">\[\vec{u_1} = \c
 <p>For the example, we’ll calculate a trajectory starting at the initial condition <span class="math inline">\(\vec{w(0)} = \left[\begin{array}{r}-1.1\\ 2.1\end{array}\right]\)</span>:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="eigenvalues.html#cb29-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="sc">-</span><span class="fl">1.1</span>, <span class="at">y=</span><span class="fl">2.1</span>, <span class="at">tdur=</span><span class="dv">2</span>)</span>
 <span id="cb29-2"><a href="eigenvalues.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:vec-example-1"></span>
 <img src="MOSAIC-Calculus_files/figure-html/vec-example-1-1.png" alt="The trajectory calculated starting at (-1.1, 2.1). The graph is annotated with the vectors $\vec{u_1}$ and $\vec{u_2}$ and the flow field." width="90%" />
 <p class="caption">
@@ -330,7 +334,7 @@ The same will be true in general, that is, for the matrix <span class="math inli
 <p>In this section, we’ll demonstrate that there is a particular way of selecting <span class="math inline">\(\vec{u_1}\)</span> and <span class="math inline">\(\vec{u_2}\)</span> that makes the solutions <span class="math inline">\(\vec{u_1(t)}\)</span> and <span class="math inline">\(\vec{u_2(t)}\)</span> have a very simple, purely exponential format. The vectors to be chosen are the <strong><em>eigenvectors</em></strong> of the matrix <span class="math inline">\(\left[\begin{array}{cc}a&amp;b\\c&amp;d\end{array}\right]\)</span>. We’ll call these eigenvectors <span class="math inline">\(\vec{\Lambda_1}\)</span> and <span class="math inline">\(\vec{\Lambda_2}\)</span>. (This use of the Greek letter <span class="math inline">\(\Lambda\)</span> (capital “lambda”) and it’s lower-case version <span class="math inline">\(\lambda\)</span>, is conventional in mathematics, physics, and engineering. So it’s worth learning to identify the letters.)</p>
 <p>Our task in this section is to show how to compute the eigenvectors <span class="math inline">\(\vec{\Lambda_1}\)</span> and <span class="math inline">\(\vec{\Lambda_2}\)</span> and that the solutions <span class="math inline">\(\vec{\Lambda_1(t)}\)</span> and <span class="math inline">\(\vec{\Lambda_2(t)}\)</span> are in fact simple exponentials. In Chapter <a href="second-order-de.html#second-order-de">54</a> we’ll derive the formula for the eigenvectors. Here, we’ll use the R function <code>eigen()</code> to do the calculations for us.</p>
 <div class="example">
-<p><span id="exm:unlabeled-div-9" class="example"><strong>Example 53.3  </strong></span><span class="math inline">\(\ \)</span>
+<p><span id="exm:unlabeled-div-11" class="example"><strong>Example 53.3  </strong></span><span class="math inline">\(\ \)</span>
 Eigenvectors can be calculated using the R function <code>eigen()</code> applied to the abcd matrix that defines the linear differential equation.</p>
 <p>For the system of first-order differential equations <span class="math display">\[\partial_t x = x + y\\\partial_t y = 2x\ \ \ \ \ \]</span>
 the matrix is, as we’ve seen, <span class="math display">\[\left[\begin{array}{cc}1&amp;1\\2&amp;0\end{array}\right]\ .\]</span></p>

@@ -172,13 +172,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="47" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html"><i class="fa fa-check"></i><b>47</b> Differential equations</a>
 <ul>
-<li class="chapter" data-level="47.1" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#the-language-for-change"><i class="fa fa-check"></i><b>47.1</b> The language for change</a></li>
+<li class="chapter" data-level="47.1" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamical-systems"><i class="fa fa-check"></i><b>47.1</b> Dynamical systems</a></li>
 <li class="chapter" data-level="47.2" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state"><i class="fa fa-check"></i><b>47.2</b> State</a></li>
-<li class="chapter" data-level="47.3" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamics"><i class="fa fa-check"></i><b>47.3</b> Dynamics</a></li>
-<li class="chapter" data-level="47.4" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>47.4</b> State space and flow field</a></li>
-<li class="chapter" data-level="47.5" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#exercises"><i class="fa fa-check"></i><b>47.5</b> Exercises</a></li>
+<li class="chapter" data-level="47.3" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space"><i class="fa fa-check"></i><b>47.3</b> State space</a></li>
+<li class="chapter" data-level="47.4" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#dynamics"><i class="fa fa-check"></i><b>47.4</b> Dynamics</a></li>
+<li class="chapter" data-level="47.5" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#state-space-and-flow-field"><i class="fa fa-check"></i><b>47.5</b> State space and flow field</a></li>
+<li class="chapter" data-level="47.6" data-path="diff-eq-intro.html"><a href="diff-eq-intro.html#exercises"><i class="fa fa-check"></i><b>47.6</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="48" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>48</b> Finding a solution</a>
+<li class="chapter" data-level="48" data-path="solve-DE.html"><a href="solve-DE.html"><i class="fa fa-check"></i><b>48</b> Finding a “solution”</a>
 <ul>
 <li class="chapter" data-level="48.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>48.1</b> The flow field</a></li>
 <li class="chapter" data-level="48.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>48.2</b> Euler method</a></li>
@@ -226,7 +227,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="54.5" data-path="second-order-de.html"><a href="second-order-de.html#damping"><i class="fa fa-check"></i><b>54.5</b> Damping</a></li>
 <li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-6"><i class="fa fa-check"></i><b>54.6</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="55" data-path="forcing.html"><a href="forcing.html"><i class="fa fa-check"></i><b>55</b> Forcing and resonance</a></li>
+<li class="chapter" data-level="55" data-path="forcing.html"><a href="forcing.html"><i class="fa fa-check"></i><b>55</b> Forcing and resonance</a>
+<ul>
+<li class="chapter" data-level="55.1" data-path="forcing.html"><a href="forcing.html#car-following-dynamics"><i class="fa fa-check"></i><b>55.1</b> Car following dynamics</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -256,9 +260,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol></li>
 </ol>
 <p>maybe return to the cruise control stability problem, putting in disturbances from the car in front.</p>
+<div id="car-following-dynamics" class="section level2" number="9.1">
+<h2><span class="header-section-number">55.1</span> Car following dynamics</h2>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="forcing.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random forcing of unit variance</span></span>
+<span id="cb69-2"><a href="forcing.html#cb69-2" aria-hidden="true" tabindex="-1"></a>Pts <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb69-3"><a href="forcing.html#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">t =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1000</span>, <span class="at">by=</span><span class="fl">0.5</span>),</span>
+<span id="cb69-4"><a href="forcing.html#cb69-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(t))</span>
+<span id="cb69-5"><a href="forcing.html#cb69-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb69-6"><a href="forcing.html#cb69-6" aria-hidden="true" tabindex="-1"></a>random_forcing <span class="ot">&lt;-</span> <span class="fu">spliner</span>(y <span class="sc">~</span> t, <span class="at">data =</span> Pts)</span>
+<span id="cb69-7"><a href="forcing.html#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">random_forcing</span>(t<span class="sc">/</span><span class="dv">5</span>) <span class="sc">~</span> t, <span class="fu">domain</span>(<span class="at">t=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>))</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-35-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="forcing.html#cb70-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(</span>
+<span id="cb70-2"><a href="forcing.html#cb70-2" aria-hidden="true" tabindex="-1"></a>  dx <span class="sc">~</span> <span class="sc">-</span>r<span class="sc">*</span>(x<span class="sc">-</span>x0) <span class="sc">-</span>(v <span class="sc">-</span> (vf<span class="sc">+</span><span class="dv">3</span><span class="sc">*</span><span class="fu">random_forcing</span>(t<span class="sc">/</span><span class="dv">8</span>))), </span>
+<span id="cb70-3"><a href="forcing.html#cb70-3" aria-hidden="true" tabindex="-1"></a>  dv <span class="sc">~</span> b<span class="sc">*</span>(x<span class="sc">-</span>x0),</span>
+<span id="cb70-4"><a href="forcing.html#cb70-4" aria-hidden="true" tabindex="-1"></a>  dtime <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb70-5"><a href="forcing.html#cb70-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">vf =</span> <span class="dv">100</span>, <span class="co"># feet/second</span></span>
+<span id="cb70-6"><a href="forcing.html#cb70-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x0 =</span> <span class="dv">150</span>, <span class="co"># feet</span></span>
+<span id="cb70-7"><a href="forcing.html#cb70-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">b =</span> .<span class="dv">25</span>,  <span class="co"># per second,</span></span>
+<span id="cb70-8"><a href="forcing.html#cb70-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> .<span class="dv">5</span>,    <span class="co"># damping</span></span>
+<span id="cb70-9"><a href="forcing.html#cb70-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">125</span>,</span>
+<span id="cb70-10"><a href="forcing.html#cb70-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">v =</span> <span class="dv">110</span>,</span>
+<span id="cb70-11"><a href="forcing.html#cb70-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="dv">0</span>,</span>
+<span id="cb70-12"><a href="forcing.html#cb70-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">tdur =</span> <span class="fu">list</span>(<span class="at">to=</span><span class="dv">300</span>, <span class="at">dt=</span><span class="fl">0.01</span>))</span>
+<span id="cb70-13"><a href="forcing.html#cb70-13" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> t, traj, <span class="at">domain=</span><span class="fu">domain</span>(<span class="at">t=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">300</span>)) </span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-36-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
 </div>
-
+</div>
 
 
 
