@@ -35,41 +35,71 @@ i. Articulate the difference between state, dynamics, and trajectory
 
 -->
 
-ADD A TAKE-NOTE: Dynamical systems are written as ***autonomous differential equations*** where the dynamical function is takes the state variables as inputs. Contrast this to a ***homogeneous differential equation*** where $\partial_t x = f(t)$, 
-
 Add a pull out about discrete dynamical using Chutes and Ladders as an example and showing how the flow doesn't correspond to a simple continuous state space. Differential equation doesn't say what **state** you go to next, but **what direction and speed** you move in the continuum of states.
 
 
-## The language for change
+## Dynamical systems
 
-Calculus is the dominant mathematical mode of describing change. Developed initially in the 1600s as a means of relating planetary motion to the force of gravity felt on Earth, it nonetheless remained the way of describing heat, sound, and  electromagnetism in the 1800s. It the 1900s, calculus was turned to representing the basic mechanisms of quantum mechanics.
+In this Block, we take on what may be the most important application of ***derivatives***: the representation of ***dynamical systems***. 
 
-The beginning student may see calculus as consisting of manipulations and transformations (e.g. differentiation and integration). The first stages of learning calculus consists of applying such manipulations and transformations to textbook exercises. To use these observations productively in solving real-world problems, you need to have a way of describing the world and the mechanisms of the world in terms of calculus. For this, you need to start seeing calculus as a ***language*** for description.
+"Dynamical systems" (but not under that name) were developed initially in the 1600s as a way of relating planetary motion to the force of gravity. Nowadays, they are used to describe all sorts of physical systems, from oscillations in electrical circuits to the ecology of interacting species, to the spread of contagious disease.
 
-We'll use four concepts of language in describing calculus: nouns, verbs, clauses, and sentences.
+As examples of dynamical systems, consider a ball thrown thrown through the air or a rocket being launched to deploy a satellite. At each instant of time, a ball has a position---a point in $x,y,z$ space---and a velocity $\partial_t x$, $\partial_t y$, and $\partial_t z$. These six quantities, and perhaps others like spin, constitute the ***instantaneous state*** of the ball. Rockets have additional components of state, for example the mass of the fuel remaining. 
 
-- A calculus ***noun*** is an object such as a function, scalar, vector, or matrix.
+The "dynamical" in "dynamical systems" refers to the ***change in state***. For the ball, the state changes under the influence of mechanisms such as gravity and air resistance. The mathematical representation of a dynamical system codifies how the state changes *as a function of the instantaneous state*. For example, if the instantaneous state is a single quantity called $x$, the instantaneous change in state is the derivative of that quantity: $\partial_t x$. 
 
-- A calculus ***verb*** is an operation such as differentiation and accumulation. Other verbs come from arithmetic and algebra: square roots, addition, multiplication, and so on.
+To say that $x$ changes in time is to say that $x$ is a ***function of time***: $x(t)$. When we write $x$, we mean $x()$ evaluated at an instant. When we write $\partial_t x$, we mean "the derivative of $x(t)$ with respect to time" evaluated at the same instant as for $x$.
 
-- A calculus ***clause*** is the application of a verb to one or more nouns to produce a new noun. For instance, if the original noun is the function $x(t)$ representing the position of an object in time, then the application of the verb $\partial_t$ to the function is a new function $\partial_t\, x(t)$, which we interpret as velocity. 
+The dynamical system describing the motion of $x$ is written in the form of a ***differential equation***, like this:
 
-- A calculus ***sentence*** is an equation: a statement of the equivalence of two nouns.
+$$\partial_t x = f(x)\ .$$
+Notice that the function $f()$ is directly a function of $x$, not $t$. This is very different from the situation we studied in Block 3, where we might have written
+$\partial_t y = \cos\left(\frac{2\pi}{P} t\right)$ and assigned you the challenge of finding the function $y(t)$ by anti-differentiation. (The answer to the anti-differentiation problem, of course, is 
+$y(t) = \frac{P}{2\pi}\sin\left(\frac{2\pi}{P} t\right) + C$.)
 
-Natural languages such as English or Chinese are much more complicated. Calculus involves sentences such as "The color of John's bike is blue," where "is" stands for equality:
-$$\underbrace{\text{The color of John's bike}}_{\text{noun}}\  \underbrace{\text{is}}_{=}\ 
-\underbrace{\text{blue.}}_{\text{noun}}$$
+::: {.takenote data-latex=""}
+It is **essential** that you train yourself to distinguish two very different statements
 
-In both calculus and natural languages, such sentences allow us to draw conclusions that may be useful or informative. For instance, combined with the sentence, "The bike I see is red," a conclusion might be, "The bike I see is not John's."
+i. anti-differentiation problems like $\partial_\color{blue}{t} y = g(\color{blue}{t})$, which has $t$ as **both** the with-respect-to variable and as the argument to the function $g()$.
 
-Early calculus sentences were often about positions, velocities, forces, and accelerations, for instance $$F_\text{air} = \alpha v^2$$
-which is a simple model of the force due to air resistance.
+and
 
-In this Block, we'll use the language of calculus to represent ***dynamics***, situations of motion, growth, decay, and oscillation. This Chapter introduces some of the nouns involved. 
+ii. dynamical systems like $$\partial_\color{blue}{t} \color{magenta}{y} = g(\color{magenta}{y})\ .$$
 
-## State 
+This is one place where Leibniz's notation for derivatives can be useful:
+$$\underbrace{\frac{d\color{magenta}{y}}{d\color{blue}{t}} = g(\color{blue}{t})}_{\text{as in antidifferentiation}}\ \ \ \text{versus}\ \ \ \underbrace{\frac{d\color{magenta}{y}}{d\color{blue}{t}} = g(\color{magenta}{y})}_{\text{dynamical system}}$$
+:::
 
-The calculus language is able to describe a stunning range of systems, for example:
+Dynamical systems with multiple state quantities are written mathematically as sets of differential equations, for instance:
+$$\partial_t y = g(y, z)\\
+\partial_t z = h(y, z)$$
+We typically use the word ***system*** rather than "set," so a dynamical system is represented by a ***system of differential equations***.
+
+::: {.example data-latex=""}
+Let's illustrate the idea of a dynamical system with a children's game: "Chutes and ladders". Since hardly any children have studied calculus, the game isn't presented as differential equations, but as a simple board and the rules for the movement along the board.
+
+```{r echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics("www/Chutes-and-ladders.png")
+```
+
+A player's state in this game is shown by the position of a token, but we'll define the state to be the number of the square that the player's token is on. In chutes and ladders the state is one of the integers from 1 to 100. In contrast, the dynamical systems that we'll study with calculus have a state that is a point on the number line, or in the coordinate plane, or higher-dimensional space. Our calculus dynamical system describe the change of state using derivatives with respect to time, whereas in chutes and ladders the the state jumps from one value to the next value. 
+
+The game board displays not only the set of possible states but also the rule for ~~~changing state~~~ jumping from one state to another.
+
+In the real game, players roll a die to determine how many steps to take to the next state. But we'll play a simpler game: Just move one step forward on each turn. From place to place there are ladders that connect two squares. When the state reaches a square holding the foot of a ladder, the state is swept up to the higher-numbered square at the top of the ladder. Similarly, there are chutes. These work much like the ladders but carry the state from a higher-numbered square to a lower-numbered square.
+
+The small drawings on the board are not actually part of the action of the game. Rather, they represent the idea that good deeds lead the player to progress, while wrong-doing produces regression. Thus, the productive gardener in square 1 is rewarded by being moved upward to the harvest in square 38. In square 64 a brat is pulling on his sister's braids. This misdeed results in punishment: he is moved back to square 60.
+
+Our no-dice version of chutes and ladders is an example of a ***discrete-time, discrete-state dynamical system***. Since there is no randomness involved, the movement of the state is ***deterministic***. (With dice, the movement would be ***stochastic***.)
+
+The differential equations of a dynamical system correspond to a 
+***continuous-time, continuous-space system***. This continuity is the reason we need derivatives to describe the motion of the state. The movement in the systems we'll explore is also deterministic. (In Chapter \@ref(forcing) we'll encounter briefly some instances of stochastic systems.)
+
+:::
+
+## State
+
+The mathematical language of differential equations and dynamical systems is able to describe a stunning range of systems, for example:
 
 - physics
     i. swing of a pendulum
@@ -85,32 +115,37 @@ The calculus language is able to describe a stunning range of systems, for examp
     ii. spread of an infectious disease
     iii. growth of an organism or a crop.
 
-What all these systems have in common is that they have an ***state*** that describes the configuration of the system at a given instant in time. "State" in this sense is used in the sense of "the state of affairs," or "his mental state," or "the state of their finances."
+All these systems involve a ***state*** that describes the configuration of the system at a given instant in time. For the growth of a crop, the state would be, say, the amount of biomass per unit area. For the spread of infectious disease, the state would be the fraction of people who are infectious and the fraction who are susceptible to infection. "State" in this sense is used in the sense of "the state of affairs," or "his mental state," or "the state of their finances."
 
 Since we're interested in how the state changes over time, sometimes we refer to it as the ***dynamical state***.
 
-One of the things you learn when you study a field such as physics or epidemiology or engineering is what constitutes a useful description of the dynamical state for different situations. 
+One of the things you learn when you study a field such as physics or epidemiology or engineering is what constitutes a useful description of the dynamical state for different situations. In the crop and infectious disease examples above, the state mentioned is a strong simplification of reality: a model. Often, the ***modeling cycle*** leads the modeler to include more components to the state. For instance, some models of crop growth include the density of crop-eating insects. For infectious disease, a model might include the fraction of people who are incubating the disease but not yet contagious.
 
-As an example, consider the rather simple physical system of a pendulum. A pendulum, as you know, consists of a mass hanging from a rod or rope pivoting to another object such as the ceiling. In physics, you learn the essential elements of the pendulum system: the length of the rod, the gravitational acceleration. These aspects of the system are *fixed*, they don't change in time. Although such characteristics may be important in describing the system, they are not elements of the *dynamical* state.
+Consider the rather simple physical system of a pendulum, swinging back and forth under the influence of gravity. In physics, you learn the essential *dynamical* elements of the pendulum system: the current angle the pendulum makes to the vertical, and the rate at which that angle changes. There are also *fixed* elements of the system, for instance the length of the pendulum's rod and the local gravitational acceleration. Although such fixed characteristics may be important in describing the system, they are not elements of the *dynamical* state. Instead, they might appear as parameters in the functions on the right-hand side of the differential equations.
 
-The dynamical state consists of the  aspects of the system that are changing in time, seen ***instantaneously***. For instance, the angle that the pendulum makes from the vertical changes in time.  Such changing aspects, seen at each *instant of time*, constitute the dynamical state at that instant. We say, for example, that angle-from-the-vertical is a ***state variable*** and that the state at any instant is the angle at that instant..
+To be complete, the dynamical state of a system has to include all those changing aspects of the system that allow you to calculate from the state at this instant what the state will be at the next instant. For example, the angle of the pendulum at an instant tells you a lot about what the angle will be at the next instant, but not everything. You also need to know which way the pendulum is swinging and how fast.
 
-In a physics class, you learn that angle is not a complete description of state. You need also to know the *velocity* of the pendulum, described for instance as the velocity of the mass at the end of the pendulum.
+Figuring out what constitutes the dynamical state requires knowledge of the mechanics of the system, e.g. the action of gravity, the constraint imposed by the pivot of the pendulum. You get that knowledge by studying the relevant field: electrical engineering, economics, epidemiology, etc. You also learn what aspects of the system are fixed or change slowly enough that they can be considered fixed. (Sometimes you find out that something your intuition tells you is important to the dynamics is, in fact, not. An example is the *mass* of the pendulum.)
 
-To be complete, the dynamical state of a system has to include all those changing aspects of the system that allow you to calculate from the state at this instant what the state will be at the next instant. For example, the angle of the pendulum at an instant tells you a lot about what the angle will be at the next instant, but not everything. You also need to know which way the pendulum is swinging and how fast. 
+## State space
 
-Figuring out what constitutes the dynamical state requires knowledge of the mechanics of the system, e.g. the action of gravity, the constraint imposed by the pivot of the pendulum. You get that knowledge by studying the relevant field: electrical engineering, economics, epidemiology, etc. You also learn what aspects of the system change slowly enough that they can be considered fixed.
+The state of a dynamical system tells you the configuration of the system at any instant in time. It's appropriate to think about the instantaneous state as a single point in ***a state space***, a coordinate system with an axis for each component of state. As the system configuration changes with time---say, the pendulum loses velocity as it swings to the left---the instantaneous state moves along a ***path*** in the state space. Such a path is called a ***trajectory*** of the dynamical system.
 
-But there are a few things we can say mathematically about states that provide a valuable clue about the state of any continuous-time system.
+In this book, we will work almost exclusively with systems that have a one- or two-dimensional state. Consequently, the state space will be either the number line or the coordinate plane. The methods you learn will be broadly applicable to systems with higher-dimensional state.
 
-i. If the change is ***monotonic***, the state can consist of just a single element.
-ii. If the change is ***non-monotonic***, that is, oscillates back and forth, the state must have two or more elements.
-iii. If the change is ***irregular***, the state must have at least three elements.
+For the ***deterministic*** dynamical systems we will be working with, a basic principle is that ***a trajectory can never cross itself***. This can be demonstrated by contradiction. Suppose a trajectory did cross itself. This would mean that the motion from the crossing point couple possibly go in either of two directions; the state might follow one branch of the cross or the other. Such a system would not be deterministic. Determinism implies that from each point in state space the flow goes only in one direction.
 
-In this book, we will work almost exclusively with systems that have a one- or two-dimensional state. The methods you learn will be broadly applicable to systems with higher-dimensional state.
+The ***dimension of the state space*** is the same as the number of components of the state; one axis of state space for every component of the state. has important implications for the type of motion that can exist.
+
+i. If the state space is one-dimensional, the state as a function of time must be ***monotonic***. Otherwise, the trajectory would cross itself, which is not permitted.
+ii. A state space that is two- or higher-dimensional can support motion that oscillates back and forth. Such a trajectory does not cross itself, instead it goes round and round in a spiral or a closed loop.
+
+For many decades, it was assumed that all dynamical systems produce either monotonic behavior or spiral or loop behavior. In the 1960s, scientists working on a highly simplified model of the atmosphere discovered numerically that there is a third type of behavior, the irregular and practically unpredictable behavior called ***chaos***. To display chaos, the state space of the system must have at least three elements.
+
+
 
 ::: {.takenote data-latex="0"}
-One of the ways in which calculus is the language of change can be seen in the words used in this section. For instance, *instantaneous*, *continuous-time*, and *monotonic* are all words introduced in Block 1 of this book. 
+That calculus is the language of change can be seen in the words used in this section. For instance, *instantaneous*, *continuous*, and *monotonic* are all words introduced in Block 1 of this book. 
 :::
 
 ::: {.intheworld data-latex=""}
@@ -129,59 +164,53 @@ knitr::include_graphics("www/NYT-covid-report.png")
 
 The ***dynamics*** of a system is a description of how the individual components of the *state* change as a *function of the entire set of components of the state.* 
 
-At any instant in time, the state is a set of quantities. We'll use $x$, $y$, and $z$ for the purpose of illustration, although most of our work in this introduction will be with systems that have just two state variables.
+At any instant in time, the state is a set of quantities. We'll use $x$, $y$, and $z$ for the purpose of illustration, although most of our work in this introduction will be with systems that have just one or two state variables.
 
-The state can change in time. This implies that the evolving state as a function of time is a set of functions: $x(t)$, $y(t)$, and $z(t)$ for our illustration. Sometimes these are called ***state variables*** because they vary in time.
+The differential equations describing the $x, y, z$ system have a particular form:
 
-The dynamics of the system are described by another set of functions, one for each state variable. These functions---let's call them $g_x()$, $g_y()$, and $g_z()$ in our illustration---each take as inputs the value of the state variables. Thus, we have:
-$$g_x(x, y, z)\ \ \ \  g_y(x, y, z)\ \ \ \ g_z(x, y, z)\ .$$ We'll call these ***dynamical functions***, but they are perfectly ordinary functions. The term "dynamical function" is simply a way of reminding us the role they play in the mathematical description of the dynamics.
+$$\partial_t x(t) = f(x(t), y(t), z(t))\ \, \\
+\partial_t y(t) = g(x(t), y(t), z(t))\ \, \\
+\partial_t z(t) = h(x(t), y(t), z(t))\ .$$
 
-Remember that $x$, $y$, and $z$ are state variables, so they are all *functions of time*. At any instant in time, the values $x$, $y$, $z$ have a specific value. Thus, at any instant in time, the functions $g_x(x, y, z)$, $g_y(x, y, z)$, and $g_z(x, y, z)$ also have a specific, scalar value. If we wanted to make this perfectly explicit, we could write $g_x(x(t), y(t), z(t))$, which makes it clear that the output of $g_x()$ is a function of time.
+The way these equations are written is This is practically impossible to read: the expression $(t)$ is repeated 12 times! It take concentration to look beyond the $(t)$ to see the overall structure of the equations. In order to avoid this problem of not seeing the forest for the $(t)$s, the convention is to omit the $(t)$:
+$$\partial_t x = f(x, y, z)\\
+\partial_t y = g(x, y, z)\\
+\partial_t z = h(x, y, z)$$
+This leaves it to the reader to remember that $x$ is really $x(t)$ and so on.
 
-The framework for a dynamics model is that the rate of change in time of each state variable is specified by the corresponding dynamical function. Of course, we write the "rate of change in time" as $\partial_t$, so the rate of change of $x$ is $\partial_t x(t)$, and similarly for the other state variables. The way to write mathematically that  "the rate of change of $x(t)$ is given by the appropriate dynamical function" is a set of equations:
-$$\partial_t x(t) = g_x(x(t), y(t), z(t))\ \, \\
-\partial_t y(t) = g_y(x(t), y(t), z(t))\ \, \\
-\partial_t z(t) = g_z(x(t), y(t), z(t))\ .$$
-This is practically impossible to read: all those $(t)$. So the convention is to omit the $(t)$:
-$$\partial_t x = g_x(x, y, z)\\
-\partial_t y = g_y(x, y, z)\\
-\partial_t z = g_z(x, y, z)$$
-and leave it to the reader to remember that $x$ is really $x(t)$ and so on.
+This more concise way of writing the differential equations makes it easier to describe how to interpret the equations. Formally, $\partial_t x$ is a function, the derivative of the function $x(t)$ with respect to time. But try to put this highly literal interpretation on a back burner. Think of the expression $\partial_t x =$ as meaning, "the way the $x$-component of state changes in time is described by ...." We need three differential equations because there are three components of state in the $x,y,z$ system, and we need to describe for each component the way that component changes.
 
-Such equations are called ***differential equations***. The dynamical functions $g_x()$, $g_y()$ and $g_z()$ on the right-hand side of the equations represent the dynamics of the system. These functions will be different depending on what we are trying to model. The art of modeling a system that evolves in time is to find the right form for the dynamical functions.
+On the right side of each equation is a function that takes the state quantities as inputs. Each individual equation can be interpreted as completing the elliptical (that is, ...) sentence in the previous paragraph, so that the whole equation reads like, "The way the $x$-component of state changes at any instant in time is specified by the function $h()$ evaluated at the instantaneous state." These functions are called ***dynamical functions*** since they give the rules for the dynamics.
 
-::: {.takenote data-latex}
+Remember that $x$, $y$, and $z$ are state variables, so they are all *functions of time*. At any instant in time, the values $x$, $y$, $z$ have a specific value. Thus, at any instant in time, evaluating the functions $f(x, y, z)$, $g(x, y, z)$, and $h(x, y, z)$  at the current state produces a specific, scalar value. If we wanted to make this perfectly explicit, we could write $g_x(x(t), y(t), z(t))$, which makes it clear that the output of $g_x()$ is a function of time.
+
+
+::: {.takenote data-latex=""}
 Mathematically, a ***dynamical system*** consists of two things:
 
 i. The state variables, which is a set of quantities that vary in time.
-ii. They dynamics, which is the set of dynamical functions, one function for each of the state variables.
+ii. The dynamics, which is the set of dynamical functions, one function for each of the state variables.
 
 :::
 
 
 A simple example is the dynamics of retirement-account interest. In a retirement account, you put aside money---this is called "contributing"---each month. The value $V(t)$ of the account accumulates over time, both due to new monthly deposits and to the interest $r$ earned on the current account value. If you are setting aside $M$ dollars per month, the dynamics are:
 $$\partial_t V = r V + M\ .$$
-The left-hand side of this equation is boiler plate; there is a single state variable named $V$ and we are describing how $V$ varies with time, that is, we are describing $\partial_t V$. The description itself is on the right side of the equation. The description take the form of a dynamical function, which we could call $g(V)\equiv rV + M$. The dynamical function always takes the set of state variables as inputs. In this example, there's just the one state variable $V$, so $g_V()$ has only one argument: $V$. Of course, there can also be parameters in a dynamical function, like $r$ and $M$ here.
+The left-hand side of this equation is boilerplate for "the way the $V$ component of state changes is described by the dynamical function $rV + M$." This is a function of $V$ with parameters $r$ and $M$.  In this example, there's just the one state variable $V$, so the dynamical function has only one argument: $V$. 
+
+Remember that the dynamical function is something that the modeler constructs from her knowledge of the system. To model the dynamics of a pendulum, requires some knowledge of physics. Without getting involved with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variables. A physicist learns that a good way to describe the motion uses these two quantities: the angle $\theta(t)$ of the pendulum rod with respect to the vertical and the angular velocity $v(t)$ telling how the velocity changes with time. Since there are two state variables, there must be two dynamical functions. For a pendulum, one of the functions, the one for $\partial_t v$ comes from applying Newton's Second Law: $F = m a$. (Remember that $\partial_t v$ is an acceleration.) So one of the differential equations is $$\partial_t v  =  f(\theta, v) \equiv - \sin(\theta)$$
 
 
-For the sake of simplicity, we can imagine that the interest rate and monthly contribution are constants: they are not part of the dynamical state. This leaves $V$ at any given time as the state variable. The dynamics tell the rate of change in the state variable, $\partial_t V(t)$ as a function of the current value $V(t)$ of the state variable.
-
-The above differential equation, having just one component to the state, is sometimes called a ***first-order differential equation***. 
-
-Remember that the dynamical function is something that the modeler constructs from her knowledge of the system. A modeler might decide to incorporate more or fewer details of the real-world system. For instance,
-a model more faithful to what happens over the course of years of saving for retirement might include the monthly contribution $M(t)$ changing with time. (If your income changes over the years, your contribution will likely change along with it.) Similarly, interest rates are notoriously variable over time. Still, these are not included in the dynamical state There's a simple reason: we don't have usually have any model describing how $r(t)$ and $M(t)$ change *as a function of* the state. That is, we can't say how $r(t)$ changes as a function of $V(t)$, $r(t)$, and $M(t)$. Quantities such as interest rate and contribution amount are said to be ***exogenous*** meaning "outside the system." (The word comes from the root "exo," meaning "outside," and "indigenous," meaning "native to.") Your retirement account doesn't *determine* the interest rate; interest rate is something (from your perspective) that comes from outside, largely uncontrollable factors. 
-
-Another example, found in physics textbooks, is the dynamics of the pendulum. In studying physics, you learn how to identify and keep track of the forces involved. Without getting involved much with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variables. We'll take these to be the angle $\theta(t)$ of the rod with respect to the vertical, and the angular velocity $v_\theta(t)$ telling how the velocity changes with time. Since there are two state variables, there must be two dynamical functions. For a pendulum, these functions can be developed from the general rule $F = m a$ and the geometry of the pendulum; they are $\partial_t v_\theta(t)$. They are:
-$$\partial_t \theta(t)  =  g_\theta(\theta, v_\theta) =  v_\theta\\
-\partial_t v_\theta(t)  =  g_{v_\theta}(\theta, v_\theta) = - \sin(\theta)
+The other equation comes from the definition that the derivative of the position $\theta$ is the velocity.
+$$\partial_t \theta  =  g_\theta(\theta, v) \equiv  v\\
 $$
 
 ::: {.why data-latex=""}
-Why did you bother to define a state variable $v_\theta$ when it is, by definition, exactly the same as $\partial_t \theta(t)$?
+Why did you bother to define a state variable $v$ when it is, by definition, exactly the same as $\partial_t \theta(t)$?
 
-Even though the dynamical equation $\partial_t \theta(t) = v_\theta$ is a calculus tautology, we need always to be explicit about what are the two quantities in the dynamical state. The first of the two dynamical equations comes for free from basic calculus concepts. The second equation, however, is about the physics, the relationship between forces and acceleration.
+Even though the dynamical equation $\partial_t \theta(t) = v$ is a calculus tautology, we need always to be explicit about what are the two quantities in the dynamical state. The $\partial_t \theta$ differential equation comes for free from basic calculus concepts. The second equation is about the physics, that is, the relationship between forces and acceleration.
 
-There is a style of writing dynamics equations that discards such tautologies. For example, the pendulum dynamics are often written $$\partial_{tt} \theta(t) = - \sin(\theta)\ .$$ This sort of equation, containing a second-order derivative, is called a second-order differential equation. It's exactly equivalent to the pair of first order equations, one for $\partial_t \theta(t)$ and one for $\partial v_\theta(t)$. We'll return to this style in Chapter \@ref(second-order-de). We are avoiding this style because it obscures the fact that there are two state variables: $\theta(t)$ and $v_\theta(t)$,
+There is a style of writing dynamics equations that discards such tautologies. For example, the pendulum dynamics are often written $$\partial_{tt} \theta(t) = - \sin(\theta)\ .$$ This sort of equation, containing a second-order derivative, is called a ***second-order differential equation***. In contrast, the equations for the pendulum presented above are called ***firstIt's exactly equivalent to the pair of ***first-order differential equations*** because each involves a first-order derivative, specifically,  $\partial_t \theta(t)$ and $\partial v_\theta(t)$. We'll return to this second-order style in Chapter \@ref(second-order-de) since it is often encountered in physics and engineering. For now, we are avoiding the second-order style because it obscures the fact that there are two state variables: $\theta(t)$ and $v(t)$.
 :::
 
 ::: {.example data-latex=""}
@@ -201,15 +230,11 @@ In the spirit of illustrating dynamics, we'll leave out these important complexi
 $$\partial_t r = \alpha\, r - \beta\, f r\\
 \partial_t f = \delta\, r f - \gamma\, f$$ 
 
-::: {.takenote data-latex=""}
-Keep in mind that $r$ is a function of time, as is $f$. But instead of writing them as $r(t)$ and $f(t)$, we use the shorthand $r$ and $f$.
-
-How are you supposed to know that $f$ stands for a function of time but $\beta$ and $\gamma$ are constant parameters? The clue is given by the left-hand sides of the differential equations, $\partial_t r$ and $\partial_t f$. If we are taking the derivative of $f$ with respect to $t$, it must be that $f$ is a function of $t$. That there is no differential equation involving $\partial_t \beta$ is the way we know that $\beta$ isn't part of the dynamical state.
-:::
-
 The quantities $\alpha$, $\beta$, $\gamma$, and $\delta$ are parameters quantify the biology of the system: the reproduction rate of rabbits, the need of foxes for food (rabbits) in order to reproduce, the hunting success of foxes, and the death or emigration of foxes in response to a shortage of food.
 
-Coming up with this description of dynamics requires knowing something about rabbits and foxes. The particular forms used, for instance the *interaction term* $r f$, coming from modeling experience. When we write such dynamics here, the point is to illustrate some of the forms commonly used to represent real-world phenomena. For instance, the interaction term is well named because it is about the literal, biological interaction of foxes and rabbits, for better ($+ \delta r(t) f(t)$) or for worse ($-\gamma r(t) f(t)$) depending on which species we are looking at.
+How are you supposed to know that $r$ and $f$ are state variables while quantities like $\beta$ and $\gamma$ are parameters? Because there is a differential equation involving $\partial_t r$ and $\partial_t f$, while no differential equation has been given describing $\partial_t \beta$ or $\partial_t \alpha$.
+
+Coming up with this description of dynamics requires knowing something about rabbits and foxes. The particular forms used, for instance the *interaction term* $r f$, come from modeling experience. The interaction term is well named because it is about the literal, biological interaction of foxes and rabbits. 
 :::
 
 ## State space and flow field
@@ -276,7 +301,9 @@ The pendulum was started out by lifting it to an angle of $45^\circ$ and giving 
 
 :::
 
-
+::: {.example data-latex=""}
+Show the flow for the dice-free chutes and ladders game. Point out that looking at the flow immediately reveals some behavior such as the endless cycle involving squares 51, 52, ....
+:::
 
 <!--
 Because the word "solution" appears so often in textbooks it's helpful to know what they look like and how they are different from dynamics.
