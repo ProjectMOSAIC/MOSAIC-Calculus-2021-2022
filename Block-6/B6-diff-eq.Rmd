@@ -35,9 +35,6 @@ i. Articulate the difference between state, dynamics, and trajectory
 
 -->
 
-Add a pull out about discrete dynamical using Chutes and Ladders as an example and showing how the flow doesn't correspond to a simple continuous state space. Differential equation doesn't say what **state** you go to next, but **what direction and speed** you move in the continuum of states.
-
-
 ## Dynamical systems
 
 In this Block, we take on what may be the most important application of ***derivatives***: the representation of ***dynamical systems***. 
@@ -76,21 +73,24 @@ $$\partial_t y = g(y, z)\\
 We typically use the word ***system*** rather than "set," so a dynamical system is represented by a ***system of differential equations***.
 
 ::: {.example data-latex=""}
-Let's illustrate the idea of a dynamical system with a children's game: "Chutes and ladders". Since hardly any children have studied calculus, the game isn't presented as differential equations, but as a simple board and the rules for the movement along the board.
+
+$\ $
+
+Let's illustrate the idea of a dynamical system with a children's game: "Chutes and Ladders". Since hardly any children have studied calculus, the game isn't presented as differential equations, but as a simple board and the rules for the movement along the board.
 
 ```{r echo=FALSE, out.width="60%", fig.align="center"}
 knitr::include_graphics("www/Chutes-and-ladders.png")
 ```
 
-A player's state in this game is shown by the position of a token, but we'll define the state to be the number of the square that the player's token is on. In chutes and ladders the state is one of the integers from 1 to 100. In contrast, the dynamical systems that we'll study with calculus have a state that is a point on the number line, or in the coordinate plane, or higher-dimensional space. Our calculus dynamical system describe the change of state using derivatives with respect to time, whereas in chutes and ladders the the state jumps from one value to the next value. 
+A player's state in this game is shown by the position of a token, but we'll define the state to be the number of the square that the player's token is on. In Chutes and Ladders the state is one of the integers from 1 to 100. In contrast, the dynamical systems that we'll study with calculus have a state that is a point on the number line, or in the coordinate plane, or higher-dimensional space. Our calculus dynamical system describe the change of state using derivatives with respect to time, whereas in chutes and ladders the the state jumps from one value to the next value. 
 
-The game board displays not only the set of possible states but also the rule for ~~~changing state~~~ jumping from one state to another.
+The game board displays not only the set of possible states but also the rule for ~~changing state~~ jumping from one state to another.
 
-In the real game, players roll a die to determine how many steps to take to the next state. But we'll play a simpler game: Just move one step forward on each turn. From place to place there are ladders that connect two squares. When the state reaches a square holding the foot of a ladder, the state is swept up to the higher-numbered square at the top of the ladder. Similarly, there are chutes. These work much like the ladders but carry the state from a higher-numbered square to a lower-numbered square.
+In the real game, players roll a die to determine how many steps to take to the next state. But we'll play a simpler game: Just move one step forward on each turn, except ... from place to place there are ladders that connect two squares. When the state reaches a square holding the foot of a ladder, the state is swept up to the higher-numbered square at the top of the ladder. Similarly, there are chutes. These work much like the ladders but carry the state from a higher-numbered square to a lower-numbered square.
 
 The small drawings on the board are not actually part of the action of the game. Rather, they represent the idea that good deeds lead the player to progress, while wrong-doing produces regression. Thus, the productive gardener in square 1 is rewarded by being moved upward to the harvest in square 38. In square 64 a brat is pulling on his sister's braids. This misdeed results in punishment: he is moved back to square 60.
 
-Our no-dice version of chutes and ladders is an example of a ***discrete-time, discrete-state dynamical system***. Since there is no randomness involved, the movement of the state is ***deterministic***. (With dice, the movement would be ***stochastic***.)
+Our dice-free version of Chutes and Ladders is an example of a ***discrete-time, discrete-state dynamical system***. Since there is no randomness involved, the movement of the state is ***deterministic***. (With dice, the movement would be ***stochastic***.)
 
 The differential equations of a dynamical system correspond to a 
 ***continuous-time, continuous-space system***. This continuity is the reason we need derivatives to describe the motion of the state. The movement in the systems we'll explore is also deterministic. (In Chapter \@ref(forcing) we'll encounter briefly some instances of stochastic systems.)
@@ -121,7 +121,7 @@ Since we're interested in how the state changes over time, sometimes we refer to
 
 One of the things you learn when you study a field such as physics or epidemiology or engineering is what constitutes a useful description of the dynamical state for different situations. In the crop and infectious disease examples above, the state mentioned is a strong simplification of reality: a model. Often, the ***modeling cycle*** leads the modeler to include more components to the state. For instance, some models of crop growth include the density of crop-eating insects. For infectious disease, a model might include the fraction of people who are incubating the disease but not yet contagious.
 
-Consider the rather simple physical system of a pendulum, swinging back and forth under the influence of gravity. In physics, you learn the essential *dynamical* elements of the pendulum system: the current angle the pendulum makes to the vertical, and the rate at which that angle changes. There are also *fixed* elements of the system, for instance the length of the pendulum's rod and the local gravitational acceleration. Although such fixed characteristics may be important in describing the system, they are not elements of the *dynamical* state. Instead, they might appear as parameters in the functions on the right-hand side of the differential equations.
+Consider the relatively simple physical system of a pendulum, swinging back and forth under the influence of gravity. In physics, you learn the essential *dynamical* elements of the pendulum system: the current angle the pendulum makes to the vertical, and the rate at which that angle changes. There are also *fixed* elements of the system, for instance the length of the pendulum's rod and the local gravitational acceleration. Although such fixed characteristics may be important in describing the system, they are not elements of the *dynamical* state. Instead, they might appear as parameters in the functions on the right-hand side of the differential equations.
 
 To be complete, the dynamical state of a system has to include all those changing aspects of the system that allow you to calculate from the state at this instant what the state will be at the next instant. For example, the angle of the pendulum at an instant tells you a lot about what the angle will be at the next instant, but not everything. You also need to know which way the pendulum is swinging and how fast.
 
@@ -198,11 +198,11 @@ A simple example is the dynamics of retirement-account interest. In a retirement
 $$\partial_t V = r V + M\ .$$
 The left-hand side of this equation is boilerplate for "the way the $V$ component of state changes is described by the dynamical function $rV + M$." This is a function of $V$ with parameters $r$ and $M$.  In this example, there's just the one state variable $V$, so the dynamical function has only one argument: $V$. 
 
-Remember that the dynamical function is something that the modeler constructs from her knowledge of the system. To model the dynamics of a pendulum, requires some knowledge of physics. Without getting involved with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variables. A physicist learns that a good way to describe the motion uses these two quantities: the angle $\theta(t)$ of the pendulum rod with respect to the vertical and the angular velocity $v(t)$ telling how the velocity changes with time. Since there are two state variables, there must be two dynamical functions. For a pendulum, one of the functions, the one for $\partial_t v$ comes from applying Newton's Second Law: $F = m a$. (Remember that $\partial_t v$ is an acceleration.) So one of the differential equations is $$\partial_t v  =  f(\theta, v) \equiv - \sin(\theta)$$
+Remember that the dynamical function is something that the modeler constructs from her knowledge of the system. To model the dynamics of a pendulum requires some knowledge of physics. Without getting involved with the physics, we note that the oscillatory nature of pendulum movement means that there must be at least two state variables. A physicist learns that a good way to describe the motion uses these two quantities: the angle $\theta(t)$ of the pendulum rod with respect to the vertical and the angular velocity $v(t)$ telling how the velocity changes with time. Since there are two state variables, there must be two dynamical functions. For a pendulum, one of the functions, the one for $\partial_t v$ comes from applying Newton's Second Law: $F = m a$. (Remember that $\partial_t v$ is an acceleration.) So one of the differential equations is $$\partial_t v  =  f(\theta, v) \equiv - \sin(\theta)$$
 
 
 The other equation comes from the definition that the derivative of the position $\theta$ is the velocity.
-$$\partial_t \theta  =  g_\theta(\theta, v) \equiv  v\\
+$$\partial_t \theta  =  g(\theta, v) \equiv  v\\
 $$
 
 ::: {.why data-latex=""}
@@ -241,7 +241,7 @@ Coming up with this description of dynamics requires knowing something about rab
 
 A helpful representation of dynamics for the purpose of developing intuition is to represent the instantaneous state as a point in a graphical frame and the dynamics as a field of vectors showing how, for each possible state, the state changes. For instance, in the Rabbit-Fox dynamics, the state is the pair $(r, f)$ and the ***state space*** is the coordinate plane spanned by $r$ and $f$.
 
-The present state of the system might be any point in the state space. But if we know the present state, the dynamical functions *evaluated at the present state* tell us how the state changes over a small increment in time. The step over a small increment of time can be represented by a vector.
+The present state of the system might be any point in the state space. But once we know the present state, the dynamical functions *evaluated at the present state* tell us how the state changes over a small increment in time. The step over a small increment of time can be represented by a vector.
 
 Let's illustrate with the Rabbit-Fox system, whose dynamical equations are given above. The dynamical functions take a position in state space as input. Each of the functions returns a scalar. 
 
@@ -301,24 +301,30 @@ The pendulum was started out by lifting it to an angle of $45^\circ$ and giving 
 
 :::
 
+The flow of a dynamical system tells how different points in state space are connected. Because movement of the state is continuous in time and the state space itself is continuous, the connections cannot be stated in the form "this point goes to that point." Instead, as has been the case all along in calculus, we describe the movement in terms of a "velocity" vector. Each dynamical function specifies one component of the "velocity" vector, taken together they tell the ***direction*** and ***speed*** of movement of the state at each instant in time.
+
+Perhaps it would be better to use the term ***state velocity*** instead of "velocity." In physics and most aspects of everyday life, "velocity" refers to the rate of change of physical ***position*** of an object. Similarly, the state velocity tells the rate of change of the position of the state. It's a useful visualization technique to think of the state as an object skating around the state space in a manner directed by the dynamical functions. But the state space almost always includes components other than physical position. For instance, in the rabbit/fox model, the state says nothing about where individual rabbits and foxes are located in their environment; it's all about the ***density*** of animals in a region.
+
+In physics, often the state space consists of position in physical state as well as the physical velocity in physical space. For instance, the state might consist of the three $x, y, z$ components of physical position as well as the three $v_x, v_y, v_z$ components of physical velocity. Altogether, that's a six-dimensional state space. The ***state velocity*** also has six components. Three of those components will be the "velocity of the velocity," that is, the direction and speed with which the physical velocity is changing. 
+
+
 ::: {.example data-latex=""}
-Show the flow for the dice-free chutes and ladders game. Point out that looking at the flow immediately reveals some behavior such as the endless cycle involving squares 51, 52, ....
+$\ $
+
+Returning to the Chutes and Ladders game used as an example near the start of this chapter ...
+
+The state in chutes and ladders is one of the hundred numbers 1, 2, $\ldots$, 100. This is a discrete state space. Therefore, we can describe the "flow" in a very concrete way: how each state is directly connected to another. Figure \@ref(fig:chutes-flow) shows these connections. There is no velocity involved because there is no infinitesimal movement of state. For instance, state 47 connects directly to state 26.
+
+```{r chutes-flow, echo=FALSE, fig.cap="The \"flow\" connecting the discrete states in the dice-free Chutes and Ladders game. Source: Maj. Austin Davis"}
+knitr::include_graphics("www/chutes-and-ladders-flow.png")
+```
+In the no-dice game, the state follows the arrows. Looking carefully at Figure \@ref(fig:chutes-flow), you can see that each state has a forward connection to at most one state. This is the hallmark of determinism.
+
+In the children's game, the play is not deterministic because a die is used to indicate which state follows from each other state. A die has six faces with the six numbers 1 to 6. So, each state is connected to *six* other states in the forward direction. Which of the six is to be followed depends on the number that comes up on the die. Multiple forward connections is the hallmark of ***stochastic*** (random) dynamics.
+
+Straightforward examination of the flow often tells you a lot about the big picture of the system. In dice-free Chutes and Ladders, The 100 states are divided into three isolated islands. State 1 is part of the island in the lower right corner of Figure \@ref(fig:chutes-flow). Follow the arrows starting from any place on that island and you will eventually reach state 84. And state 84 is part of a cycle $84 \rightarrow 85 \rightarrow \cdots \rightarrow 28 \rightarrow 84 \rightarrow \cdots$. Once you are on that cycle, you never get off. We'll see such cycles in continuous-time dynamical systems as well. 
 :::
 
-<!--
-Because the word "solution" appears so often in textbooks it's helpful to know what they look like and how they are different from dynamics.
-
-i. Arithmetic sequences
-    - Dynamics: $x_{n+1} = x_n + b$
-    - Solution: $x_n = x_0 + n b$
-ii. Geometric sequences
-    - Dynamics: $x_{n+1} = \alpha\, x_n$
-    - Solution: $x_n = x_0\, \alpha^n$
-iii. Combined sequences
-    - Dynamics: $x_{n+1} = \alpha\, x_n + b$   <br>
-    - Solution: $x_n = \left(x_0 - b/\alpha\right) \alpha^n + b/\alpha$
-
--->
 
 
 
@@ -328,6 +334,8 @@ iii. Combined sequences
 
 `r insert_calcZ_exercise("XX.XX", "mJRDLy", "Exercises/rat-lend-piano.Rmd")`
 
+`r insert_calcZ_exercise("XX.XX", "OojcwF", "Exercises/bear-blow-kayak.Rmd")`
+
 `r insert_calcZ_exercise("XX.XX", "DzIhgb", "Exercises/ape-leave-shirt.Rmd")`
 
 `r insert_calcZ_exercise("XX.XX", "9mSE8t", "Exercises/lobster-become-sofa.Rmd")`
@@ -336,7 +344,7 @@ iii. Combined sequences
 
 `r insert_calcZ_exercise("XX.XX", "Amzsqx", "Exercises/sheep-chew-dish.Rmd")`
 
-`r insert_calcZ_exercise("24.20", "uifJjv", "Exercises/aspen-take-cotton.Rmd")`
+`r insert_calcZ_exercise("XX.XX", "uifJjv", "Exercises/aspen-take-cotton.Rmd")`
 
 
 
