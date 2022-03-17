@@ -2,18 +2,6 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-solution.Rmd)</div>
 
-<!--
-1. Idea of accumulation
-2. Numerical solution: Euler method and iteration
-3. Analytic solution: 
-    i. Ansatze and confirming a solution
-    ii. Some special cases, separable equations
-    iii. Laplace transforms
--->
-
-POINT OUT THAT "finding a solution" should really be "finding a trajectory." The word "solution" incorrectly suggests that it is the end-all and be-all of working with differential equations. Instead, finding trajectories is one tool for understanding a dynamical system. If the particular goal of your modeling is to make a prediction of the future state given the present state, then the "solution" does indeed give you what you are looking for. But for other modeling goals, the "solution" does not give you what you need.
-
-
 
 As you saw in the previous chapter, each differential equation in a dynamical system relates the derivative of a function to the function itself. For instance, in $$\partial_t x = x\,(1-x)$$ left-hand side of the equation involves the function $x(t)$. The equation dictates that whatever $x(t)$ might be, it has to be such that $\partial_t x(t)$ is exactly equal to the function $x(t)\,\left(\strut 1- x(t)\right)$  *Solving* a differential equation is the phrase used for finding such self-consistent functions. This chapter is about techniques for finding solutions.
 
@@ -31,11 +19,11 @@ $$\int \partial_t x(t) dt = x(t)\ .$$ Following this logic, we would translate t
 
 Admittedly, in mathematics it is common to refer to ***integrating*** a differential equation, but this should be broadly understood as ***accumulating*** the increments $\partial_t x(t)$ starting at some initial condition $x(t_0)$, even if that accumulation is not carried out by symbolic anti-differentiation.
 
-In this chapter we'll introduce four different techniques to accumulating a solution to a differential equation or a pair of such equations. First, we'll look again at the ***graphical method*** of "following the flow" in a plot of the flow field. This technique is mainly of use for developing intuition about the dynamics.
+In this chapter we'll introduce three different techniques to accumulating a solution to a differential equation or a pair of such equations. First, we'll look again at the ***graphical method*** of "following the flow" in a plot of the flow field. This technique is mainly of use for developing intuition about the dynamics.
 
 Second, we'll develop a simple Euler method for accumulating a solution. Third, we'll explore how to take a guess about the solution and, when the guess is good enough, refine that into an actual solution. This is called the ***method of ansätze***.
 
-Fourth, and briefly, we'll look at some of the situations where symbolic anti-differentiation can be used. This includes a very brief introduction to ***transform methods***. 
+Third, and briefly, we'll look at some of the situations where symbolic anti-differentiation can be used. This includes a very brief introduction to ***substitution methods***. 
 
 ::: {.takenote data-latex=""}
 A differential equation like $$\partial_t x(t) = x(t)\,(1-x(t))$$ is very busy typographically. One reason is the repeated $(t)$ which play no role other than to state explicitly that $x$ is a function of $t$. A convenient shorthand simply replaces $x(t)$ to make the "is a function of $t$" *implicit*. The shorthand form of the equation appears as $$\partial_t x = x (1-x)\ .$$ It's the reader's responsibility, knowing that she is working with a differential equation, to remember that $x$ is a function of $t$. 
@@ -231,7 +219,7 @@ traj_plot(f(t) ~ r(t), Eco_soln, nt=10)
 ```          
 :::
 
-## Symbolic solutions
+## Symbolic solutions {#symbolic-solutions-ODE}
 
 Occasionally it is possible to integrate a differential equation using symbolic techniques. This is particularly true for differential equations that are linear. The example we will handle here is the first-order linear differential equation $$\partial_t x = a\, x\ .$$ An advantage of symbolic solutions is that parameters can be handled symbolically.
 
@@ -244,7 +232,10 @@ $$\underbrace{A \omega e^{\omega t}}_{\partial_t x(t)}\  =\  \underbrace{a A e^{
 The ansatz substitution didn't give any result at all for $A$. That is to say, unlike $\omega$, 
 the $A$ is not determined by the differential equation itself. This means that $A$ must be related to the ***initial condition***. Setting $t=0$ gives $x(0) = A$, so in this simple differential equation, $A$ is the initial condition. 
 
-A technique that doesn't involve such guesses can work for differential equations that are ***separable***. This is mainly valuable, now that there are libraries of symbolic solutions to the common differential equations that have them, as a way of demonstrating to students where the solution comes from. We'll demonstrate by integrating $\partial_t x = x (1-x)$. The method is made more plausible by using the Leibnizian notation for derivatives, with which the differential equation has this form: $$\frac{dx}{dt} = x(1-x)\ .$$ The Leibnizian notation can be interpreted as the ratio of two differentials: $dx$ and $dt$ in this case. 
+A slightly more complex differential equation is $$\partial_t x = a\, (x - b)\ .$$ This also has an exponential solution. It's easiest to see this by defining a new variable $y \equiv x - b$. By the rules of differentiation, $\partial_t y = \partial_t x$, so the differential equation can be re-written in the form $\partial_t y = a y$. We already know the solution to this is $y(t) = y_0 e^{a t}$. Translating by to $x$ we get
+$$x(t) - b = (x_0 -b) e^{at}\ \ \ \implies x(t) = (x_0 -b)\,e^{at} + b)\ .$$
+
+For nonlinear dynamical function, there is no perfectly general way to find symbolic solutions. But for some dynamical functions, it can be done.  We'll demonstrate by integrating $\partial_t x = x (1-x)$. The method is made more plausible by using the Leibnizian notation for derivatives, with which the differential equation has this form: $$\frac{dx}{dt} = x(1-x)\ .$$ The Leibnizian notation can be interpreted as the ratio of two differentials: $dx$ and $dt$ in this case. 
 
 The idea of separating the differential equation is to algebraically move all the $x$ terms to the left side of the equation and all the $t$ terms to the right and then to integrate each side of the equation.
 $$dx = x(1-x) dt \ \ \ \implies \ \ \ \frac{1}{x(x-1)}dx = dt\ \ \ \implies\ \ \ \int\frac{1}{x(x-1)}dx = \int dt .$$
