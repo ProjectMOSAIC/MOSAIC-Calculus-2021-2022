@@ -200,52 +200,131 @@ Soln$V(40)
 
 ## Bifurcation
 
-We have been using the differential equation $\partial_t x(1-x)$ as a mathematical equation, but the form has important applications in population modeling and ecology. When parameterized, the model becomes
-$$\partial_t x = h(x) \equiv r x \left(1 - \frac{x}{K}\right)$$
-For $x \ll K$, the dynamics are approximately $\partial_t x = rx$, which is the recipe for ***exponential growth***. Such growth is often seen in small populations. But "small" compared to what? To answer that, look at the situation for $x \approx K$. In this domain, the growth will be much smaller, because $(1 - x/K) \approx 0$. There's a fixed point at $x^\star = K$, and for $K < x$ the time derivative of $x$ is negative. 
+A broad, pressing, social concern goes under the name ***sustainability***. Is it sustainable to burn fossil fuels at steady historical levels, let alone at the increasing rate seen since over the last century? Climate scientists answer resoundingly with a no. Is it sustainable to increase food production to the levels needed for developing economies to approach the sort of consumption seen in rich economies? 
 
-In ecology, the population size that can just barely sustain itself without growth or decay is called the ***carrying capacity***. Putting these different behaviors together, $\partial_t x = h(x)$ is a model of growth of a population when the environment has a finite carrying capacity. The pattern of change in such an environment is called ***logistic growth***, but might as well be called "sigmoidal growth." (The function $f(x) = \frac{e^t}{1 + e^t}$ is called the "logistic function.")
+Dynamical systems are highly relevant to the questions surrounding sustainability. If the economy is near a stable fixed point, then it is sustainable; the trajectory will bring the state of the economy toward the fixed point. On the other hand, if the economy is near an unstable fixed point, we can expect exponential change.
 
-In this problem, we're going to build a somewhat more complicated model of an ecosystem, based on the logistic growth model for grass. 
+If such exponential changes are not seen, does that mean we're not near an unstable fixed point? One of the terms used to mark the possibility that a stable system can quickly turn unstable is ***[tipping point](https://en.wikipedia.org/wiki/Tipping_point)***, defined as 
 
-To turn a field of growing grass into an eco**system**, we're going to add grazing cows to the field. A grazing cow has an impact on a field. To simplify, consider a single cow. She eats until she's full, then takes time off to chew the cud with other cows and ruminate on the day's events. But, if grass is very scarce, she may not be able to consume all that she would otherwise eat. She'll be a hungry, ill-fed cow. 
+> *The point at which a series of small changes or incidents becomes significant enough to cause a larger, more important change.* Source: New Oxford American Dictionary
 
-When building a model, start by thinking what you want to use the model for. Imagine that we're interested in *sustainability*, that is, whether the cow/grass ecosystem is stable. And, since cows are raised for a purpose, we'd like to use the model to find out whether the cow would be well fed and how things would change if another cow were added to the field. Sustainability is a question about dynamics. Here, the system would be sustainable if the field produces more grass in a day than the cow (and her herd-mates if any) consumes consumes in a day.
+The mathematics of tipping points is not at all the same as exponential growth. Certainly, in exponential growth one sees a relatively slow rate of change increase to a large rate of change, a situation described by journalists as "sky-rocketing" or "explosive" or, literally, "exponential." As you've seen, exponential growth is a phenomenon seen in linear dynamical systems; there is no special point at which the dynamics changes.
 
-We'll model a cow's consumption as a sigmoidal function consumption(v) of the amount of grass (v -- for "vegetation") available. Like this:
+There is actually an area of mathematical theory called ***[catastrophe theory](https://en.wikipedia.org/wiki/Catastrophe_theory)***. We'll use a famous example to show how catastrophes or tipping points are modeled mathematically.
 
-```{r cow-consumption, echo=FALSE, height=3, fig.cap="The amount of vegetation consumed by a cow in a day depends on the amount of vegetation available. At very low levels of vegetation ($v < 1/2$ ton), it's hard to find more to eat, so a slight increase in vegetation doesn't increase consumption by much."}
-consumption <- makeFun((beta*v^2/(v0^2 + v^2))~ v, beta=0.1, v0=3)
-slice_plot(consumption(v) ~ v, domain(v=c(0,15))) %>%
+The example comes from a 1977 article in *Nature*, one of the world's most prestigious scientific journals. The article, by Robert May, is entitled "Thresholds and breakpoints in ecosystems with a multiplicity of stable states." The words "thresholds" and "breakpoints" have not been encountered yet in this book, but "multiplicity of stable states" should bring to mind the sort of dynamics seen in Figure \@ref(fig:phase-line-intro2).
+
+The setting for the catastrophe is an otherwise bucolic scene, livestock grazing on a pasture. A pasture is a kind of factory for producing vegetable biomass; the grazing is the consumption of the biomass produced.
+
+As a model for the production of biomass, denoted $v$ for "vegetation," we'll use 
+$$\partial_t v = r v \left(1 - \frac{v}{K}\right)$$
+which, as we've seen, has an unstable fixed point at $v_1^\star=0$ and a stable fixed point at $v_2^\star=K$. Physically, the fixed point $v_1^\star$ corresponds to a bare field, without any vegetation. It's unstable because any small disturbance in the form of a stray seed landing in the dirt can lead to germination and the rapid growth of vegetation as seeds from the germinated plant spread across the field. Once the field is covered in vegetation, the growth can be exponentially rapid at first but then runs into limited resources: there is only so much sunlight that falls on the field, and the growing vegetation will eventually consume the soil nutrients and water.
+
+This biomass production model corresponds to a sustainable system. Once the biomass level is at $v_2^\star$ it will stay there.
+
+But biomass production is not the only thing going on in the pasture. The grazing animals---let's imagine they are cows---are consuming the grass. To start very simply, suppose that each cow consumes amount $C$ of biomass each day. If there are $H$ cows, the total consumption is $H C$ per day. This modifies the dynamics to a slightly new form $$\partial_t v = r \,v(1-\frac{v}{K}) - HC$$. The original, ungrazed dynamics are compared with the grazed dynamics in Figure \@ref(fig:grazing-comparison).
+
+```{r grazing-comparison, echo=FALSE, fig.cap="Comparing the pasture dynamics for different herd sizes.", out.width="50%", fig.show="keep", warning=FALSE, message=FALSE}
+r = .3; K=10; C=0.1; H=3
+Znotes::phase_line(r*x*(1-x/K) ~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="Ungrazed pasture dynamics", x="",
+          y = "Daily change in biomass") %>%
+  gf_lims(y=c(-1,1))
+Znotes::phase_line(r*x*(1-x/K) -H*C~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="3 cows grazing", x="",
+          y = "") %>%
+  gf_lims(y=c(-1,1))
+Znotes::phase_line(r*x*(1-x/K) - 7*C~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="7 cows grazing", x="v (biomass of vegetation)",
+          y = "Daily change in biomass") %>%
+  gf_lims(y=c(-1,1))
+Znotes::phase_line(r*x*(1-x/K) - 8*C~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="8 cows grazing", x="v (biomass of vegetation)",
+          y = "") %>%
+  gf_lims(y=c(-1,1))
+```
+With grazing, the ***net*** growth of biomass is reduced due to the removal of the consumed biomass by the cows' consumption. For a moderate herd size, there is still a stable fixed point, but it is at a lower level of biomass than would be seen in the ungrazed field. But if the herd size is too large, the ecosystem completely collapses.
+
+This is an example of a tipping point or catastrophe. For moderate herd sizes, there remains a stable fixed point. A farmer might be tempted to add another cow to the pasture, and that's sustainable: there is still a stable fixed point. Indeed, the movement of the stable fixed point might not even be noticed.  But add even one cow too many and the fixed point entirely disappears. Still, herd management can fix the problem; take away the cow that tipped the pasture and the fixed point will return.
+
+::: {.mathintheworld data-latex=""}
+We've often referred to the ***modeling cycle***, using the results of a model to suggest possible improvements in the model.
+
+Missing from the pasture model is a simple idea of how cows eat. If there is very little biomass, the cows can't continue to eat their fill. Will the reduction in consumption per cow preserve the stable fixed point?
+
+In his *Nature* article, May modeled the consumption rate by a single cow with the functional form $$C(v) \equiv \frac{\beta v^2}{v_0 - v^2}$$ which is graphed for $\beta=0.1$ and $v_0 = 3$ in Figure \@ref(fig:cow-consumption)
+```{r cow-consumption }
+consumption <- makeFun((beta*v^2/(v0^2 + v^2))~ v, beta=0.1, v0=1)
+slice_plot(consumption(v) ~ v, domain(v=c(0,10))) %>%
   gf_labs(y="Consumption (tons/day)", x="v: available biomass (tons)",
           title="Daily consumption by one cow")
 ```
-The overall system is roughly analogous to the rabbit/fox model where we had rabbits as the food and foxes as the consumers. In the rabbit/fox system, we had one differential equation for the growth in the rabbit population density and another for the foxes. The rabbit dynamics consisted of two parts, the natural growth rate in the absence of foxes and the rate at which rabbits are taken by the foxes: $\partial_t r = 0.66\, r - 1.33\, r f$.
+You can recognize this as a form of sigmoid. When the amount of vegetation is very large, a cow will eat her fill. That's the saturation of the sigmoid. For small $v$, the cow needs to hunt around for vegetation tall enough to eat, reducing the consumption steeply.
 
-We'll model the dynamics of grass in much the same way. In the absence of cows the grass grows in an environment with a limited carrying capacity. (Carrying capacity reflects limits to the amount of water and the amount of sunlight and space.) Taking the carrying capacity of the field as 25 tons of biomass, we'll set the model for $v(t)$ to be 
-$$ \partial_t v =  \frac{v}{3} \left(1-\frac{v}{25}\right)\ .$$
+Figure \@ref(fig:grazing-comparison2) modifies the pasture dynamics to incorporate this sigmoidal model of consumption.
 
-
-We now have two models for two different components of the ecosystem: the growth of vegetation and the daily consumption by a cow. It's time to put those components together into the overall model. But do we have everything we need?
-
-There are potentially two state variables, the amount of vegetation and the number of cows.  To be analogous to that situation, we would need a model for the number of cows in the field. However, the context for the model suggests some changes here. First, the number of cows $n$ in the field is not set by the cow's natural reproduction, it's set by the farmer's decision. As well, at 9 months, a cow's gestation period is long relative to the potential changes in the amount of vegetation. (In contrast, rabbits have a gestation period of 1 month and foxes 2 months.)
-
-
-The cow's consumption is one part of the dynamics. If there were no grass growing, the dynamics would be $$\partial_t G(v) = - H \times \text{consumption}(v)$$ where $H$ is the number of cows in the herd. `r mark(6330)`
-
-
- Subtracting daily consumption from daily growth of grass gives the rate of change of the biomass of grass. 
-
-<p style="text-align:center">
-<iframe frameborder="0" height="780px" loading="lazy"
-        src="https://maa-statprep.shinyapps.io/Grazing_cows/"
-        width="60%">
-</iframe>
-</p>
-        
-```{r cow-app, echo=FALSE, out.width="1%", fig.cap = "The graph can be made to display any of three functions:\n\n1. The intrinsic logistic model growth dynamics with no cows.\\2. The total consumption by the herd of cows.\\3. The **net growth**, which is the difference between (1) and (2)."}        
-knitr::include_graphics("www/tiny-blank.png")
+```{r grazing-comparison2, echo=FALSE, fig.cap="Pasture dynamics for a sigmoidal consumption function.", out.width="50%", fig.show="keep", warning=FALSE, message=FALSE}
+consumption <- makeFun(0.1*v^2/(1+v^2) ~ v)
+r = .3; K=10; C=0.1; H=3
+Znotes::phase_line(r*x*(1-x/K) -3*consumption(x)~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="3 cows grazing", x="",
+          y = "Daily change in biomass") %>%
+  gf_lims(y=c(-1,1))
+Znotes::phase_line(r*x*(1-x/K) -5*consumption(x)~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="5 cows grazing", x="",
+          y = "") %>%
+  gf_lims(y=c(-1,0.5))
+Znotes::phase_line(r*x*(1-x/K) - 7*consumption(x)~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="7 cows grazing", x="v (biomass of vegetation)",
+          y = "Daily change in biomass") %>%
+  gf_lims(y=c(-1,0.5))
+Znotes::phase_line(r*x*(1-x/K) - 8*consumption(x)~ x, 
+                   domain(x=0:10.5),
+                   nix_dyn=FALSE, narrows=15,
+                   transform=function(x) x^.75) %>%
+  gf_labs(subtitle="8 cows grazing", x="v (biomass of vegetation)",
+          y = "") %>%
+  gf_lims(y=c(-1,0.5))
 ```
+
+We can start the story with 3 cows in the pasture. Vegetation growth is more than sufficient to provide for these cows. You can see this from the stable fixed point at about 9 tons of biomass, which is more than enough to reach saturation of the sigmoidal consumption function. 
+
+The farmer decides to increase the herd to 5 cows. Nothing much happens. The stable fixed point is at about 8 tons of biomass, entirely adequate to keep the cows well fed in a sustainable manner.
+
+Can the pasture be sustainable with 7 cows? The stable fixed point remains, now at about 6.5 tons at biomass. The cows are still sustainably well fed.
+
+You can see in the 7-cow dynamics a hint of what of what might go wrong. There is a new, unstable fixed point at about 3 tons of biomass. If the pasture ever happened transiently to fall below 3 tons---say due to a summer frost followed by a return to normal weather---the vegetation biomass will head toward the new stable fixed point at 0.5 tons of biomass. At this level, the cows are eating only about one-quarter their normal amount and we can fairly say that the ecosystem has collapsed. But until such a disaster happens, the farmer will see only a sustainable level of biomass with cows well fed. 
+
+It is only we, who have a mathematical model of the situation, who can anticipate the potential problems.
+
+Since things are fine with 7 cows in the field, the farmer lets an eighth cow join the herd. That's the tipping point. The happy herd fixed point at 6.5 tons of biomass has disappeared, and the ecosystem collapses, even without a weather disaster.
+
+Removing the eighth cow from the pasture will not fix the situation. With seven or even six cows in the pasture, the system won't be able to grow out of the stable fixed point with 0.5 tons of biomass. Reducing the herd size to five will remove that 0.5 ton fixed point, but the grass will grow back very slowly; the dynamics give positive growth, but very close to zero.
+
+Avoiding such catastrophes is a major motivation for mathematical modeling.
+:::
+
 
 
 
@@ -264,4 +343,7 @@ knitr::include_graphics("www/tiny-blank.png")
 `r insert_calcZ_exercise("XX.XX", "9qOKUM", "Exercises/spruce-fall-mug.Rmd")`
 
 `r insert_calcZ_exercise("XX.XX", "owYlop", "Exercises/finch-write-fridge.Rmd")`
+
+`r insert_calcZ_exercise("XX.XX", "qd50WJ", "Exercises/bird-grow-sheet.Rmd")`
+
 
