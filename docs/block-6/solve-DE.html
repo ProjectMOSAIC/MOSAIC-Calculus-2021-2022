@@ -183,15 +183,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="48.1" data-path="solve-DE.html"><a href="solve-DE.html#the-flow-field"><i class="fa fa-check"></i><b>48.1</b> The flow field</a></li>
 <li class="chapter" data-level="48.2" data-path="solve-DE.html"><a href="solve-DE.html#euler-method"><i class="fa fa-check"></i><b>48.2</b> Euler method</a></li>
-<li class="chapter" data-level="48.3" data-path="solve-DE.html"><a href="solve-DE.html#symbolic-solutions"><i class="fa fa-check"></i><b>48.3</b> Symbolic solutions</a></li>
+<li class="chapter" data-level="48.3" data-path="solve-DE.html"><a href="solve-DE.html#symbolic-solutions-ODE"><i class="fa fa-check"></i><b>48.3</b> Symbolic solutions</a></li>
 <li class="chapter" data-level="48.4" data-path="solve-DE.html"><a href="solve-DE.html#exercises-1"><i class="fa fa-check"></i><b>48.4</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="49" data-path="flow-on-line.html"><a href="flow-on-line.html"><i class="fa fa-check"></i><b>49</b> Flows on the line</a>
 <ul>
-<li class="chapter" data-level="49.1" data-path="flow-on-line.html"><a href="flow-on-line.html#the-rules-of-the-road"><i class="fa fa-check"></i><b>49.1</b> The rules of the road</a></li>
-<li class="chapter" data-level="49.2" data-path="flow-on-line.html"><a href="flow-on-line.html#linearization"><i class="fa fa-check"></i><b>49.2</b> Linearization</a></li>
-<li class="chapter" data-level="49.3" data-path="flow-on-line.html"><a href="flow-on-line.html#nonlinear-on-line"><i class="fa fa-check"></i><b>49.3</b> Nonlinearity</a></li>
-<li class="chapter" data-level="49.4" data-path="flow-on-line.html"><a href="flow-on-line.html#exercises-2"><i class="fa fa-check"></i><b>49.4</b> Exercises</a></li>
+<li class="chapter" data-level="49.1" data-path="flow-on-line.html"><a href="flow-on-line.html#dynamical-function-and-flow"><i class="fa fa-check"></i><b>49.1</b> Dynamical function and flow</a></li>
+<li class="chapter" data-level="49.2" data-path="flow-on-line.html"><a href="flow-on-line.html#generic-behavior"><i class="fa fa-check"></i><b>49.2</b> Generic behavior</a></li>
+<li class="chapter" data-level="49.3" data-path="flow-on-line.html"><a href="flow-on-line.html#linearization"><i class="fa fa-check"></i><b>49.3</b> Linearization</a></li>
+<li class="chapter" data-level="49.4" data-path="flow-on-line.html"><a href="flow-on-line.html#bifurcation"><i class="fa fa-check"></i><b>49.4</b> Bifurcation</a></li>
+<li class="chapter" data-level="49.5" data-path="flow-on-line.html"><a href="flow-on-line.html#exercises-2"><i class="fa fa-check"></i><b>49.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="50" data-path="flow-on-plane.html"><a href="flow-on-plane.html"><i class="fa fa-check"></i><b>50</b> Flows on the plane</a>
 <ul>
@@ -253,15 +254,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div style="float:right;">
 <a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-solution.Rmd"><img src="www/icons/edit.png" /></a>
 </div>
-<!--
-1. Idea of accumulation
-2. Numerical solution: Euler method and iteration
-3. Analytic solution: 
-    i. Ansatze and confirming a solution
-    ii. Some special cases, separable equations
-    iii. Laplace transforms
--->
-<p>POINT OUT THAT “finding a solution” should really be “finding a trajectory.” The word “solution” incorrectly suggests that it is the end-all and be-all of working with differential equations. Instead, finding trajectories is one tool for understanding a dynamical system. If the particular goal of your modeling is to make a prediction of the future state given the present state, then the “solution” does indeed give you what you are looking for. But for other modeling goals, the “solution” does not give you what you need.</p>
 <p>As you saw in the previous chapter, each differential equation in a dynamical system relates the derivative of a function to the function itself. For instance, in <span class="math display">\[\partial_t x = x\,(1-x)\]</span> left-hand side of the equation involves the function <span class="math inline">\(x(t)\)</span>. The equation dictates that whatever <span class="math inline">\(x(t)\)</span> might be, it has to be such that <span class="math inline">\(\partial_t x(t)\)</span> is exactly equal to the function <span class="math inline">\(x(t)\,\left(\strut 1- x(t)\right)\)</span> <em>Solving</em> a differential equation is the phrase used for finding such self-consistent functions. This chapter is about techniques for finding solutions.</p>
 <div class="takenote">
 <p>In high-school mathematics, many algebraic problems were of the form, “Solve for <span class="math inline">\(x\)</span>.” In such problems, the answer you got was all you were looking for: the complete answer to the problem.</p>
@@ -272,9 +264,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 applying symbolic anti-differentiation techniques to the problem. After all, each differential equation in a dynamical system involves a function <span class="math inline">\(\partial_t x(t)\)</span>. To find <span class="math inline">\(x(t)\)</span> from <span class="math inline">\(\partial_t x(t)\)</span> seems like a matter of applying the “fundamental theorem of calculus,” namely<br />
 <span class="math display">\[\int \partial_t x(t) dt = x(t)\ .\]</span> Following this logic, we would translate the equation to <span class="math display">\[x(t) = \int x(t)\, (1-x(t))dt\  .\]</span> But the problems in Block 3 were all of the form <span class="math inline">\(\frac{d\color{magenta}{x}}{d\color{blue}{t}} = g(\color{blue}{t})\)</span>, whereas the problems we work with in this Block are generally of the entirely different form <span class="math inline">\(\frac{d\color{magenta}{x}}{d\color{blue}{t}} = g(\color{magenta}{x})\)</span>. Thus, we will usually need special techniques suited to the format of dynamical systems.</p>
 <p>Admittedly, in mathematics it is common to refer to <strong><em>integrating</em></strong> a differential equation, but this should be broadly understood as <strong><em>accumulating</em></strong> the increments <span class="math inline">\(\partial_t x(t)\)</span> starting at some initial condition <span class="math inline">\(x(t_0)\)</span>, even if that accumulation is not carried out by symbolic anti-differentiation.</p>
-<p>In this chapter we’ll introduce four different techniques to accumulating a solution to a differential equation or a pair of such equations. First, we’ll look again at the <strong><em>graphical method</em></strong> of “following the flow” in a plot of the flow field. This technique is mainly of use for developing intuition about the dynamics.</p>
+<p>In this chapter we’ll introduce three different techniques to accumulating a solution to a differential equation or a pair of such equations. First, we’ll look again at the <strong><em>graphical method</em></strong> of “following the flow” in a plot of the flow field. This technique is mainly of use for developing intuition about the dynamics.</p>
 <p>Second, we’ll develop a simple Euler method for accumulating a solution. Third, we’ll explore how to take a guess about the solution and, when the guess is good enough, refine that into an actual solution. This is called the <strong><em>method of ansätze</em></strong>.</p>
-<p>Fourth, and briefly, we’ll look at some of the situations where symbolic anti-differentiation can be used. This includes a very brief introduction to <strong><em>transform methods</em></strong>.</p>
+<p>Third, and briefly, we’ll look at some of the situations where symbolic anti-differentiation can be used. This includes a very brief introduction to <strong><em>substitution methods</em></strong>.</p>
 <div class="takenote">
 <p>A differential equation like <span class="math display">\[\partial_t x(t) = x(t)\,(1-x(t))\]</span> is very busy typographically. One reason is the repeated <span class="math inline">\((t)\)</span> which play no role other than to state explicitly that <span class="math inline">\(x\)</span> is a function of <span class="math inline">\(t\)</span>. A convenient shorthand simply replaces <span class="math inline">\(x(t)\)</span> to make the “is a function of <span class="math inline">\(t\)</span>” <em>implicit</em>. The shorthand form of the equation appears as <span class="math display">\[\partial_t x = x (1-x)\ .\]</span> It’s the reader’s responsibility, knowing that she is working with a differential equation, to remember that <span class="math inline">\(x\)</span> is a function of <span class="math inline">\(t\)</span>.</p>
 <p>In many texts and research papers, differential equations are written using Leibniz’s notation, like this:
@@ -527,7 +519,7 @@ Figure 48.5: Times series of the rabbit and fox densities.
 <p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-<div id="symbolic-solutions" class="section level2" number="2.3">
+<div id="symbolic-solutions-ODE" class="section level2" number="2.3">
 <h2><span class="header-section-number">48.3</span> Symbolic solutions</h2>
 <p>Occasionally it is possible to integrate a differential equation using symbolic techniques. This is particularly true for differential equations that are linear. The example we will handle here is the first-order linear differential equation <span class="math display">\[\partial_t x = a\, x\ .\]</span> An advantage of symbolic solutions is that parameters can be handled symbolically.</p>
 <p>A method we will use repeatedly in this block is called the “method of ansätze.” An <strong><em>ansatz</em></strong> (singular of the German “ansätze”) is, in this context, a guess for the solution. Since differential equations have been a central part of science for more than 200 years, you can imagine that a large library of equations and their solutions has been assembled. For the equations that are most frequently used and that can be solved symbolically, the solutions are already known. Thus, the “guess” for the solution can be a very well informed guess.</p>
@@ -536,7 +528,9 @@ Figure 48.5: Times series of the rabbit and fox densities.
 <span class="math display">\[\underbrace{A \omega e^{\omega t}}_{\partial_t x(t)}\  =\  \underbrace{a A e^{\omega t}}_{a x(t)}\ .\]</span> Cancelling out the terms that appear on both sides of the equation gives <span class="math display">\[\omega = a\ \ \ \text{which implies}\ \ \ x(t) = A e^{a t}\ .\]</span>
 The ansatz substitution didn’t give any result at all for <span class="math inline">\(A\)</span>. That is to say, unlike <span class="math inline">\(\omega\)</span>,
 the <span class="math inline">\(A\)</span> is not determined by the differential equation itself. This means that <span class="math inline">\(A\)</span> must be related to the <strong><em>initial condition</em></strong>. Setting <span class="math inline">\(t=0\)</span> gives <span class="math inline">\(x(0) = A\)</span>, so in this simple differential equation, <span class="math inline">\(A\)</span> is the initial condition.</p>
-<p>A technique that doesn’t involve such guesses can work for differential equations that are <strong><em>separable</em></strong>. This is mainly valuable, now that there are libraries of symbolic solutions to the common differential equations that have them, as a way of demonstrating to students where the solution comes from. We’ll demonstrate by integrating <span class="math inline">\(\partial_t x = x (1-x)\)</span>. The method is made more plausible by using the Leibnizian notation for derivatives, with which the differential equation has this form: <span class="math display">\[\frac{dx}{dt} = x(1-x)\ .\]</span> The Leibnizian notation can be interpreted as the ratio of two differentials: <span class="math inline">\(dx\)</span> and <span class="math inline">\(dt\)</span> in this case.</p>
+<p>A slightly more complex differential equation is <span class="math display">\[\partial_t x = a\, (x - b)\ .\]</span> This also has an exponential solution. It’s easiest to see this by defining a new variable <span class="math inline">\(y \equiv x - b\)</span>. By the rules of differentiation, <span class="math inline">\(\partial_t y = \partial_t x\)</span>, so the differential equation can be re-written in the form <span class="math inline">\(\partial_t y = a y\)</span>. We already know the solution to this is <span class="math inline">\(y(t) = y_0 e^{a t}\)</span>. Translating by to <span class="math inline">\(x\)</span> we get
+<span class="math display">\[x(t) - b = (x_0 -b) e^{at}\ \ \ \implies x(t) = (x_0 -b)\,e^{at} + b)\ .\]</span></p>
+<p>For nonlinear dynamical function, there is no perfectly general way to find symbolic solutions. But for some dynamical functions, it can be done. We’ll demonstrate by integrating <span class="math inline">\(\partial_t x = x (1-x)\)</span>. The method is made more plausible by using the Leibnizian notation for derivatives, with which the differential equation has this form: <span class="math display">\[\frac{dx}{dt} = x(1-x)\ .\]</span> The Leibnizian notation can be interpreted as the ratio of two differentials: <span class="math inline">\(dx\)</span> and <span class="math inline">\(dt\)</span> in this case.</p>
 <p>The idea of separating the differential equation is to algebraically move all the <span class="math inline">\(x\)</span> terms to the left side of the equation and all the <span class="math inline">\(t\)</span> terms to the right and then to integrate each side of the equation.
 <span class="math display">\[dx = x(1-x) dt \ \ \ \implies \ \ \ \frac{1}{x(x-1)}dx = dt\ \ \ \implies\ \ \ \int\frac{1}{x(x-1)}dx = \int dt .\]</span></p>
 <p>The integral on the right side, <span class="math inline">\(\int dt\)</span>, should be easily recognizable, giving <span class="math inline">\(\int dt = t + F\)</span>, where <span class="math inline">\(F\)</span> is the “constant of integration.”</p>
@@ -639,7 +633,7 @@ The model <span class="math inline">\(\partial_t x = a x^2\)</span>, like all mo
 </li>
 <li><span class="Zchoice">linear growth from zero<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice">exponential decay to zero<span class="mcanswer">Good. </span></span><br />
+<li><span class="Zchoice">exponential decay to zero<span class="mcanswer">Right! </span></span><br />
 </li>
 <li><span class="Zchoice">exponential growth from zero<span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -671,7 +665,7 @@ The model <span class="math inline">\(\partial_t x = a x^2\)</span>, like all mo
 </li>
 <li><span class="Zchoice">exponential growth from zero<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice">exponential decay to <span class="math inline">\(x = 5\)</span><span class="mcanswer">Right! </span></span><br />
+<li><span class="Zchoice">exponential decay to <span class="math inline">\(x = 5\)</span><span class="mcanswer">Correct. </span></span><br />
 </li>
 <li><span class="Zchoice">exponential growth from <span class="math inline">\(x = 5\)</span><span class="mcanswer">︎✘ </span></span></li>
 </ol>
@@ -685,7 +679,7 @@ The model <span class="math inline">\(\partial_t x = a x^2\)</span>, like all mo
 </li>
 <li><span class="Zchoice">exponential growth from zero<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice">exponential decay to <span class="math inline">\(x = 5\)</span><span class="mcanswer">Nice! </span></span><br />
+<li><span class="Zchoice">exponential decay to <span class="math inline">\(x = 5\)</span><span class="mcanswer">Excellent! </span></span><br />
 </li>
 <li><span class="Zchoice">exponential growth from <span class="math inline">\(x = 5\)</span><span class="mcanswer">︎✘ </span></span></li>
 </ol>
