@@ -2,12 +2,7 @@
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-fixed-points.Rmd)</div>
 
-<video controls width="500">
-    <source src="www/Stability-Animation.mp4"
-            type="video/mp4">
 
-    Sorry, your browser doesn't support mp4 videos.
-</video>
 
 The previous two chapters presented ideas relating to dynamical systems: state, state-space, dynamical function, flow, trajectory, "solution." Now we turn to the some of the phenomena seen in dynamical systems, starting in the simplest way possible: dynamical systems with a single state variable. We'll focus on ***fixed points*** and their ***stability***, which can be understood qualitatively (although you need to distinguish between a positive and a negative slope). Then we'll look at a technique we have encountered since Block 2: approximation of a function by a straight-line function. Such linear dynamics have a straightforward exponential "solution."
 
@@ -54,7 +49,7 @@ Znotes::phase_line(raw(x) - 2 ~ x, domain(x=-3.5:-1.25),
 ```
 Notice in Figure \@ref(fig:phase-line-intro3) that the flow is slower the nearer the state is to the fixed point, but it is only exactly zero at the fixed point.
 
-A calculus technique you will be familiar with from previous Blocks is to zoom in a region that we want to examine in detail. 
+A calculus technique you will be familiar with from previous Blocks is zooming in a region that we want to examine in detail. 
 
 ```{r phase-line-zoom1, echo=FALSE, fig.cap="Zooming in closely on each of the fixed points seen in Figure \\@ref(fig:phase-line-intro3).", out.width="50%", fig.show="keep"}
 raw <- rfun( ~ x, seed=920)
@@ -72,7 +67,24 @@ The short pieces of the dynamical function shown in Figure \@ref(fig:phase-line-
 For $x_0\approx-3.055$ the solution is  $$x(t) \approx (x_0 + 3.055)e^{-2.804 t} - 3.055\ ,$$ while for $x_0\approx -1.586$ the solution is $$x(t) \approx (x_0 +1.586)\, e^{5.065 t} - 1.586\ .$$
 There is something fundamentally different about these two solutions. One of them is exponential decay toward the fixed point, while the other grows exponentially away from the fixed point. We call the dynamics near the fixed-point with exponential decay ***stable*** and the dynamics near fixed-point with exponential growth ***unstable***.
 
-Very rarely in modeling would we ever know the dynamics so precisely to justify 4 significant digits in the solution. For example, our model dynamical function might be  different in detail, as in Figure \@ref(fig:phase-line-random), and still produce the same behavior.
+::: {.takenote data-latex=""}
+Graphics such as Figure \@ref(fig:phase-line-intro2) let you see both the flow and the dynamical functions together in one place. 
+
+How about also showing trajectories? Unfortunately, the two-dimensional extent of a computer screen or a piece of paper make it hard to include still more information in an intelligible way. It would be nice to have a third dimension for the display.
+
+Major Austin Davis developed such a display, using ***time*** as the third dimension. In the movie below, the state space is shown as a horizontal line, as before. The vertical axis shows the dynamical function as in Figure \@ref(fig:phase-line-intro2). The dynamical function is shown in another way: as the hue and intensity of color, which lets you focus on the activity in the state space. This activity is shown by the moving yellow triangles. Each triangle is placed on the phase line to mark an initial condition, then moves right or left according to the dynamics.
+
+<video controls width="500">
+    <source src="www/Stability-Animation.mp4"
+            type="video/mp4">
+
+    Sorry, your browser doesn't support mp4 videos.
+</video>
+:::
+
+## Generic behavior
+
+So long as two dynamical systems  have similar fixed points with the same stability, their trajectories will be much the same. For example, our model dynamical function might be  different in detail, as in Figure \@ref(fig:phase-line-random), and still produce the same behavior.
 
 ```{r phase-line-random, echo=FALSE, fig.cap="The dynamical function shown in black is a distortion of $f(x)$ from the previous plots. Yet the flow field is practically identical and leads to the same outcomes as $f(x)$ for any initial condition."}
 Pts <- tibble::tibble(x=seq(-4,4,length=100),
@@ -87,11 +99,9 @@ Znotes::phase_line(3*sin((raw(x) - 2)/5) ~ x,
 
 So long as two flows have similar fixed points with the same stability, their trajectories will be much the same. Consequently, studying the fixed points without worrying about the details of the dynamics gives a huge amount of information about the system.
 
-## Global behaviors
+For example, Figure \@ref(fig:many-trajs-1) shows a score of different time series following the solutions from a score of initial conditions. The long-term behaviors for all the time series is similar: they converge to one or another of the stable fixed points.
 
-MAYBE a time series plot for lots of initial conditions, showing how they converge to the stable fixed points and away from the unstable ones.
-
-```{r}
+```{r many-trajs-1, echo=FALSE, fig.cap="Time series from the differential equation $\\partial_t x = f(x)$ starting at many initial conditions. The locations of the three fixed points are marked with horizontal lines. All the solutions convert to one or the other of the two stable fixed points in the system, and depart from the unstable fixed point."}
 raw <- rfun( ~ x, seed=920)
 Pts <- tibble(
   x = seq(-4, 4, length=100),
@@ -116,103 +126,37 @@ P %>% gf_hline(yintercept = ~-3.06, color="blue",
            size=2, alpha=.3) %>%
   gf_labs(y="Initial condition")
 ```
-```{r road-rules, echo=FALSE, warning=FALSE}
-f <- rfun( ~ x, seed=999)
-xpts <- seq(-5,5,length=500)
-offset <- mean(f(xpts))
-scale <- sd(xpts)
-speed  <- function(x) {
-  raw <- 20*(f(x-10) - offset)/scale - 3* (x-9)
-  # sign(raw)*sqrt(abs(raw))
-  raw
-}
-Signs <- tibble::tibble(
-  x = seq(0,20, by=2),
-  y = 13,
-  label = paste("Mile", x),
-  angle = -sign(x - 9)*90
-)
-slice_plot(speed(x) ~ x, domain(x=c(0,20)), color="dodgerblue") %>%
-  gf_text(y ~ x, label = ~ label, color="orange3", data = Signs, angle=~ angle) %>%
-  gf_text(-10 ~ 1, label=c("West"), inherit=FALSE ) %>%
-  gf_text(20 ~ 19, label=c("East"), inherit=FALSE ) %>%
-  gf_hline(yintercept=0, color="black", alpha=0.3, size=3) %>%
-  gf_labs(y = "Mandated speed (mph)", x="", title="County Road B") %>%
-  gf_theme(panel.grid = element_blank(), axis.text.x = element_blank())
-```
-
-To better visualize the flow of traffic on the road, in Figure \@ref(fig:road-flow) we draw vectors on the road. The direction of each vector will be either east or west; the length of the vector gives the required speed for a car passing that point. 
-
-```{r road-flow, echo=FALSE, fig.cap="The mandatory speed on the road."}
-Znotes::phase_line(speed(x) ~ x, domain(x=-2:20), nix_dyn=FALSE, 
-           narrows=20, transform=sqrt) %>%
-  gf_text(10 ~ -1, label=c("West"), inherit=FALSE, size=3) %>%
-  gf_text(10 ~ 19, label=c("East"), inherit=FALSE, size=3, ) 
-```
-
-Cars arriving from the west are obliged to stop their journey at about $x=4$ where the arrows switch direction. Similarly, cars arriving from the east will be driving west, but their journey has a different destination,  mile 13,  where the velocity regulations change direction.  The easterners will be obliged to stop at the point where the left-facing arrows meet the right-facing ones. A car starting near mile 10 will be obliged to drive east but can go only to mile 13; a car starting at mile 7 will drive west until reaching mile 4.
-
-This is a lot of detail in the shape of the dynamical function---I mean, the road regulations. So far as the consequences of the road regulations go, the situation is simpler: cars standing still at mile 4 or at mile 13, depending on where they started from.
-
-Zooming in on the dynamics near mile 4 or 13 helps to show what happens as the cars approach those points. (Figure \@ref(fig:road-flow-zoom)) At either point, the action is similar. Cars coming from the west have to slow down as the arrows get smaller. Similarly for cars from the east. Where east meets west the cars are forced to a standstill; in order for the vectors to have different directions on the west end of the road than on the east end, the length of the vectors has to go to zero.
-
-```{r road-flow-zoom, echo=FALSE, fig.cap="The road regulations near mile-markers 4 and 13. The fixed point is marked with a small dot.", fig.show="hold"}
-Znotes::phase_line(speed(x) ~ x, domain(x=3.4:4.6), nix_dyn=FALSE, 
-           narrows=20) %>% gf_labs(title="Near mile 4") %>%
-  gf_point(0 ~ 4.043, color="magenta", size=1)
-Znotes::phase_line(speed(x) ~ x, domain(x=12.4:13.2), nix_dyn=FALSE, 
-           narrows=20) %>% gf_labs(title="Near mile 13") %>%
-  gf_point(0 ~ 12.762, color="magenta", size=1)
-```
-
-Such a point in the state space, where the flow arrows converge, is called a ***stable fixed point***. The "fixed" merely means that the cars come to a standstill. "Stable" means that all cars starting near the fixed point are heading toward that point. Many details of the dynamics near the fixed point have no role in the eventual outcome. For instance, the dynamical function near mile-marker 4 is concave down, while that at mile-marker 13 is concave up. In both cases the behavior of the system is the same: convergence at the stable fixed point.
-
-::: {.takenote data-latex=""}
-Newcomers understandably endow the car-on-road or bead-on-wire analogies to the state space of a first-order system with other familiar properties of the real world. For instance, a real-world wire has friction which needs to be overcome by applying a force. A real-world car has momentum which prolongs motion even after force has been applied. As you will see, a differential equation system that involves force and momentum requires a two-dimensional (or higher) state space.
-:::
-
-There is another fixed point on the road, but the behavior near it is different. Figure \@ref(fig:road-unstable-fp) zooms in on the situation near mile-marker 9. The outcome of the dynamics is very different than near miles 4 and 13. The fixed point near mile 9 is ***unstable***. This means that any cars starting near the fixed point will drive away. Slowly at first and then faster as they get farther from the fixed point.
-
-```{r road-unstable-fp, echo=FALSE, fig.cap="An unstable fixed point in the road regulations."}
-Znotes::phase_line(speed(x) ~ x, domain(x=8:10), nix_dyn=FALSE, 
-           narrows=20) %>% gf_labs(title="Near mile 9") %>%
-  gf_point(0 ~ 9.05, color="magenta", size=1)
-```
-
-It's an interesting philosophical question what happens to a car starting exactly on the fixed point. Since the velocity vector there has zero length, the car must stand still. But if the car happens to move one jot away from the fixed point, it will start to speed up and move away from the fixed point.
-
-The ideas of ***fixed points*** and their ***stability*** provides a much more concise description of the dynamical system: "There are stable fixed points near mile 4 and mile 13, as well as an unstable fixed point near mile 9."
 
 It's worth pointing out a consequence of the mathematics of continuous functions: if a system with a continuous dynamical function has a region of state space with two different fixed points, there must be an unstable fixed point in between them. 
 
 ## Linearization
 
-"Stable" and "unstable" provide a useful *qualitative* indication of the dynamics near a fixed point. An approximate *quantitative* solution can also be found.
+You can see in Figure \@ref(fig:many-trajs-1) that many of the solutions approach their final, equilibrium value in an exponential manner. This is particularly true for the solutions with initial conditions very near the stable fixed points. All these solutions are characterized quantitatively by the parameter $a$ in the exponential solution $A e^{a t}$. (Remember, $a < 0$ when there is exponential decay.)
 
-Recall that any continuous function can be approximated locally by a low-order polynomial. For a function $g(x)$ with only one input,  "locally"  means "near $x^\star$," and  the polynomial will be $$g(x) \approx a + b \left[x-x^\star\right] + c \left[x-x^\star\right]^2 + \cdots$$
-The coefficients $a, b, c, \cdots$ can be calculated from the value of the function and it's derivatives **at** $x^\star$:
-$$a =  g(x^\star)\ \ \ \  b = \partial_x g(x^\star) \ \ \ \ c= \frac{1}{2} \partial_{xx} g(x^\star)\ \ \ \text{and so on.}$$
-When $x^\star$ is a fixed point of the dynamics, then $g(x^\star) = 0$ so the approximating polynomial is
-$$g(x) \approx b \left[x-x^\star\right] + c \left[x-x^\star\right]^2 + \cdots$$
-If $x-x^\star$ is small enough, then the higher-power terms like $\left[x-x^\star\right]^2$ will be negligible and the approximation can be $$g(x) = \partial_x g(x^\star)\ \left[x-x^\star\right]\ .$$
+Quantitative knowledge of $a$ is helpful to understand the time scale of the exponential approach to stable fixed points. We can find a numerical value for $a$ for each fixed point by constructing a ***linear approximation*** to the dynamical function near each of the fixed points.
 
-To ***linearize a dynamical function*** near a fixed point requires two steps:
+The procedure involves the same principles as introduced in Block 2 for constructing low-order polynomial approximations to functions, but here "low-order" means "first order."
 
-i. Solving task: Find a numerical value for the fixed point, that is, a value for $x^\star$ such that $g(x^\star) = 0$.
-ii. Differentiating task: Evaluate the derivative $\partial_x g(x)$ at $x=x^\star$. (Another way of writing this is $\partial_x g(x)\left.{\Large\strut}\right|_{x=x^\star}$ or, more simply, $\partial_x g(x^\star)$.)
+The analysis is done separately for each of the fixed points, so the first step is to find the fixed points, the values $x^\star$ such that $f(x^\star) = 0$.
 
-To find the solution to the differential equation near the fixed point requires additional a couple of additional steps:
+Recall from Block 2 the Taylor polynomial approximation to a function $f(x)$ centered on a point $x^\star$:
+$$f(x) \approx f(x^\star) + \partial_x f(x^\star) \left[x - x^\star\right]$$
+When $x^\star$ is a fixed point, $f(x^\star) = 0$ so the approximation is simply $f(x) \approx \partial_x f(x^\star) \left[x - x^\star\right]$. Keep in mind that $\partial_x f(x^\star)$ is the derivative function $\partial_x f$ **evaluated** at the input $x^\star$, so $\partial_x f(x^star)$ is simply a quantity, not a function. Indeed, $\partial_x f(x^star)$ is exactly the quantity $a$ in the exponential solution $e^{a t}$.
 
-iii. Translate the state variable $x$ into a new state variable $y = x - x^\star$. In terms of this new state variable, the approximate dynamics are $\partial_t y = b y$, where $b$ is the value found in step (ii). 
+This process of constructing the linear approximation $f(x) \approx a \left[x - x^\star\right]$ is called ***linearization***. 
 
-The solution to the differential equation in (iv) is $y(t) = A e^{bt}$.
+::: {.example data-latex=""}
+Consider the first-order differential equation $$\partial_t x = f(x) \equiv r x (x - x/K)$$ where $r$ and $K$ are parameters that are greater than zero. Linearizing the nonlinear function $f(x)$ lets us figure out how fast or slow is the exponential growth or decay of the solutions for initial conditions near the fixed points.
 
-iv. Find $A$ in the solution as $y_0 = x_0 - x^\star$, where $x_0$ is the initial condition of the state variable. So, $y(t) = (x_0 - x^\star) e^{bt}$.
-v. Finally, translate the solution in (iv) back into terms of $x$. It will be $$x(t) = (x - x_0) e^{b t} + x^\star\ .$$
-Thus, the solution requires only two pieces of information knowing $x^\star$ and $b = \partial_x g(x_0)$.
+1. There are two fixed points, one at $x_1^\star = 0$ and the other at $x_2^\star = K$. What is the exponential parameter $a$ for each of the fixed points.
 
-The stability of the fixed point is simply a matter of whether the exponential function in the solution is exponential growth (unstable) or exponential decay (stable). This is, of course, determined by the sign of the constant $b = \partial_x g(x_0)$: $$\partial_x g(x_0) > 0\ \ \  \implies \ \ \text{unstable}\\
-\partial_x g(x_0) < 0 \ \ \ \ \implies\ \ \ \ \ \ \text{stable}$$
+2. The derivative (with respect to $x$) $\partial_x f(x)$ can be found with the ***product rule*** from Block 2. It is $$\partial_x f(x) = r\, (1 - x/K) - r\, x\, (1/K)$$
+
+3. Evaluating $\partial_x f(x)$ at the two fixed points $x_1^\star = 0$ and $x_2^\star = K$ gives
+
+$$\partial_x f(x_1^\star) = r\ \ \ \text{and}\ \ \ \partial_x f(x_2^\star) = -r$$
+Solutions near $x_1^\star$ will grow exponentially as $e^{r t}$, unstable since $0 < r$. Solutions near $x_2^\star$ will decay toward $x_2^\star$ in an exponential manner as $e^{-r t}$.
+:::
 
 ::: {.takenote data-latex=""}
 It's critical to distinguish carefully between $x^\star$, which is the location of the fixed point being examined, and $x_0$, which is the initial condition of the state, that is, $x(t=0)$.
@@ -232,7 +176,7 @@ Step i) Find the fixed point. This is a value $V^\star$ such that
 $$r\, V^\star + M = 0\ \ \ \implies \ \ \ V^\star = -M/r\ .$$
 Step ii) Find the derivative of the dynamical function evaluated at the fixed point: Since $g(V)$ happens to be a straight-line function, we know the derivative is a constant. So $b = \partial_x g(V^\star) = r$.
 
-Step iii) Translate the state variable into $y = V - V^\star$. The dynamics in terms of $y$ are $\partial_t y = b y$, which has a solution $y = A e^{bt}$.
+Step iii) Translate the state variable into $y = V - V^\star$. The dynamics in terms of $y$ are $\partial_t y = b y$, which has an exponential solution $y = A e^{bt}$.
 
 Step iv) $A$ is the initial condition in terms of $y$. This will be $y_0 = V_0 - V^\star$. Since we stated that $V_0 = 0$ (no savings at the start), $y_0 = -V^\star$ and the solution is $$y(t) = -V^\star e^{bt} = \frac{M}{r} e^{rt}\ .$$
 
@@ -254,19 +198,8 @@ Soln$V(40)
 ```
 :::
 
+## Bifurcation
 
-## Nonlinearity {#nonlinear-on-line}
-
-Systems with nonlinear dynamical functions can have multiple fixed points. The differential equation $\partial_t x = x(1-x)$ has two: one at $x^\star = 0$ and the other at $x^\star = 1$. The flow-field/dynamics-graph (Figure \@ref(fig:logistic-phase-line)) makes it clear that one of these is stable and the other unstable.
-
-```{r logistic-phase-line, echo=FALSE, fig.cap="Flow field and dynamics function for $\\partial_t x = x (1-x)$. The fixed point at $x^\\star=0$ is unstable; that at $x^\\star =1$ is stable."}
-Znotes::phase_line(x*(1-x) ~ x, domain(x=-0.05:1.05), nix_dyn=FALSE) %>%
-  gf_point(0 ~ 0, size=.1, color="blue") %>%
-  gf_point(0 ~ 1, size=.1, color="blue") 
-```
-For the system in Figure \@ref(fig:logistic-phase-line), a  initial condition $x_0 = 0.05$ or any other small positive number will produce a trajectory that moves slowly to the right at first, then faster, then slows down again for asymptotically approaching the fixed point at $x=1$. In a time series plot, $x(t)$ is a sigmoidal function.
-
-::: {.intheworld data-latex=""}
 We have been using the differential equation $\partial_t x(1-x)$ as a mathematical equation, but the form has important applications in population modeling and ecology. When parameterized, the model becomes
 $$\partial_t x = h(x) \equiv r x \left(1 - \frac{x}{K}\right)$$
 For $x \ll K$, the dynamics are approximately $\partial_t x = rx$, which is the recipe for ***exponential growth***. Such growth is often seen in small populations. But "small" compared to what? To answer that, look at the situation for $x \approx K$. In this domain, the growth will be much smaller, because $(1 - x/K) \approx 0$. There's a fixed point at $x^\star = K$, and for $K < x$ the time derivative of $x$ is negative. 
