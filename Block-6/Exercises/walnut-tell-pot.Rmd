@@ -6,34 +6,62 @@ global_id: "iRZfBY"
 
 # `r insert_calcZ_exercise("XX.XX", "iRZfBY", "Exercises/walnut-tell-pot.Rmd")`
 
-Use Block 4 ape-choose-closet.Rmd this to explore the importance of $dt$ in an exercise for Block 6.
+In this exercise, you'll work with a particular function `f()` of two variables. Construct the function this way:
 
-Here is the commentary that went with ape-choose-closet:
-
-In the code originally in the sandbox, the trajectory was constructed with 100 Euler steps; the time interval runs from $t=0$ to $t=10$ and $dt = 0.1$. Practical optimization algorithms are designed to take steps that are as large as feasible. But if the steps are too large, the trajectory can overshoot the target. Dealing with this problem is a major feature of optimization algorithms and is non-trivial.
-
-Purely to illustrate, we can investigate stepsize by changing `dt` in the two `integrateODE()` expressions. 
-
-```{r fg1-4, eval=FALSE, echo=FALSE, results="markup"}
-askMC(
-  "What happens when you set `dt=1.0`?",
-  "Both trajectories smoothly curve around and reach the maximum or minimum.",
-  "+The trajectories reach the maximum or minimum, but in a clunky, jerkwise fashion.+",
-  "The trajectories oscillate around the maximum or minimum without settling down.",
-  "Everything falls apart and the trajectories leave the domain of interest.",
-  random_answer_order = FALSE
-)
+```{r}
+f <- rfun( ~ x + y, seed=103)
 ```
 
-```{r fg1-5, eval=FALSE, echo=FALSE, results="markup"}
-askMC(
-  "What happens when you set `dt=10.0`?",
-  "Both trajectories smoothly curve around and reach the maximum or minimum.",
-  "The trajectories reach the maximum or minimum, but in a clunky, jerkwise fashion.",
-  "The trajectories oscillate around the maximum or minimum without settling down.",
-  "+Everything falls apart and the trajectories leave the domain of interest.+",
-  random_answer_order = FALSE
-)
+The goal of this exercise is to explore the connections between the optimization method of ***gradient ascent*** or ***descent*** and dynamical systems. 
+
+Here's a plot of the function and its ***gradient field***.
+```{r}
+contour_plot(f(x, y) ~ x + y, domain(x=c(-4, 4), y=c(-4, 4))) %>%
+  gradient_plot(f(x, y) ~ x + y) 
+```
+
+You can construct the $x$ and $y$ components of the gradient $\partial_x f(x,y)$ and $\partial_y f(x,y)$ of `f()` this way:
+
+```{r}
+dx_f <- D(f(x, y) ~ x)
+dy_f <- D(f(x, y) ~ y)
+```
+
+Use these two functions to define a dynamical system:
+$$ \partial_t x = \partial_x f(x,y)\\
+\partial_t y = \partial_y f(x,y)$$
+
+
+1. Use `integrateODE()` to integrate the equations numerically from the initial condition $(x=0, y=-3)$. Plot the resulting trajectory as a layer on top of the contour plot and gradient field. Make the `tdur=` parameter in `integrateODE()` large enough to get very close to the high-point in the contour plot.
+
+2. Modify the differential equations so that they correspond to gradient **descent** rather than ascent. Using the initial condition $(x=-1, y=1)$, numerically integrate the differential equations and, as in (1), plot the trajectory as a layer on the contour-plot/gradient-field. Make the `tdur=` parameter large enough to get very close to a local minimum of $f()$.
+
+3. From (2), change the initial condition to $(x=-1.25, y=1)$ and plot the trajectory. What's different from the result in (2).
+
+
+<!-- Solution -->
+```{r results="hide"}
+soln1 <- integrateODE(dx ~ dx_f(x=x, y=y), 
+                     dy ~ dy_f(x=x, y=y), 
+                     x = 0, y = -3,
+                     tdur = 10)
+soln2 <- integrateODE(dx ~ -dx_f(x=x, y=y), 
+                     dy ~ -dy_f(x=x, y=y), 
+                     x = -1., y = 1,
+                     tdur = list(from=0, to=10, dt=0.1))
+soln3 <- integrateODE(dx ~ -dx_f(x=x, y=y), 
+                     dy ~ -dy_f(x=x, y=y), 
+                     x = -1.25, y = 1,
+                     tdur = list(from=0, to=10, dt=0.1))
+
+Common <- contour_plot(f(x, y) ~ x + y, domain(x=c(-4, 4), y=c(-4, 4))) %>%
+  gradient_plot(f(x, y) ~ x + y) 
+Common %>% traj_plot(y(t) ~ x(t), soln1, color="dodgerblue") %>%
+  gf_labs(title="Plot 1")
+Common %>%   
+  traj_plot(y(t) ~ x(t), soln2, color="orange3") %>%
+  traj_plot(y(t) ~ x(t), soln3, color="magenta") %>%
+  gf_labs(title="Plot 2")
 ```
 
 
