@@ -325,24 +325,49 @@ To show the dynamics of the SIR model, we need to propose numerical values for $
 
 Figure \@ref(fig:SIR-half-seventh) shows the flow field for $\beta = 1/2$ and $\alpha = 1/7$.
 
-```{r SIR-half-seventh, echo=FALSE}
-vectorfield_plot(-.5*S*I ~ S & I, .5*S*I - I/3 ~ S & I, domain(S=0:1, I=0:.1))
+```{r SIR-half-seventh, echo=FALSE, fig.cap="SIR flow field for $\\beta=1/2, \\alpha = 1/7$, and the trajectory for initial conditions $S_0 = 0.999, I_0 = 0.001$."}
+T1 <- integrateODE(dS ~ -.5*S*I, dI ~ .5*S*I - I/7,
+                   S=0.999, I=0.001, tdur=100)
+
+traj_plot(I(t) ~ S(t), T1, nt=10) %>%
+  streamlines(dS ~ -.5*S*I , 
+            dI ~ .5*S*I - I/7,
+            domain=domain(S=0:1, I=0:.3), nsteps=5, dt=.1, npts=20) %>%
+  streamlines(dS ~ -.5*S*I , 
+            dI ~ .5*S*I - I/7,
+            domain=domain(S=0:.5, I=.3:.35), nsteps=5, dt=.1, npts=5) 
 ```
-```{r}
-T1 <- integrateODE(dS ~ -.5*S*I, dI ~ .77*S*I - I/1.75, S=0.999, I=0.001, tdur=200)
-traj_plot(S(t) ~ t, T1)
-```
+
+
+
 
 
 
 
 ## Exercises
 
-`r insert_calcZ_exercise("51.XX", "VCWRBs", "Exercises/seal-fly-socks.Rmd")`
+- S-BOXLN: Identify and interpret mechanistically interaction terms in a two-state variable system.
 
+- WP-205-61: Model and solve population growth problems using the natural and logistic growth models.
+
+- L-CGDLK: Understand "coupling" and why oscillation requires that the dynamical functions in a two-state variable system must each take the other state variable as an input.
+
+- X-LG744: Apply dynamics skills and concepts to develop a solution to a complex problem of an interdisciplinary nature.
+
+- D-OFZHG:  Draw the nullcline of a dynamical function using software.
+
+- X-HGCV2: Find fixed points of a 2nd-order dynamical function by finding the intersection point(s) of the nullclines.
+
+
+
+`r insert_calcZ_exercise("51.XX", "trcQuC", "Exercises/owl-sell-radio.Rmd", skill="X-LG744")`
+
+`r insert_calcZ_exercise("51.XX", "tzVzaH", "Exercises/puppy-take-pantry.Rmd", skill="P-3LIKO")`
+
+`r insert_calcZ_exercise("51.XX", "3mU3qO", "Exercises/hamster-bend-sofa.Rmd", skill="R-208IA")`
+
+<!-- details of dynamical function don't always matter -->
 `r insert_calcZ_exercise("51.XX", "BbcPyk", "Exercises/finch-look-dish.Rmd")`
-
-`r insert_calcZ_exercise("51.XX", "trcQuC", "Exercises/owl-sell-radio.Rmd")`
 
 <!-- fir-lie-tv --- about retirement savings. NEEDS WORK -->
 
@@ -354,221 +379,22 @@ traj_plot(S(t) ~ t, T1)
 
 <!--
 
-EXERCISE: Set beta and alpha so that only about half the susceptibles are infected. (0.35 and alpha=.25 will do). How long until the epidemic is over. 
-
-Find an alpha and beta so that about half the susceptibles are infected AND the epidemic is over by time 50.
+EXERCISE: 
 
 <!-- alpha in SIR for a 7-day average recovery -->
 `r insert_calcZ_exercise("51.XX", "iCYry2", "Exercises/wolf-come-saucer.Rmd")`
 
 
-EXERCISE: Lanchester's Laws: 
-Show that the conserved quantity is indeed conserved:
+`r insert_calcZ_exercise("XX.XX", "KkxELm", "Exercises/zebra-wake-shoe.Rmd", skill="X-DE4WK N-CB2LE X-LG744 U-5PMG7")`
 
-```{r lanch3, echo=FALSE, results="markup"}
-askMC(
-  "Calculate $\\partial_t r R^2$. Which of these is right? (Hint: Use the chain rule of differentiation and Lanchester's equations to simplify more.)",
-  "+$-2 rb RB$+",
-  "$2rR$",
-  "$-2r\\dot{R}$",
-  "$2r\\dot{R} B$ "
-)
-```
+`r insert_calcZ_exercise("XX.XX", "I2JVMB", "Exercises/dolphin-go-cotton.Rmd", skill="U-5PMG7 P-3LIKO")`
 
-```{r lanch4, echo=FALSE, results="markup"}
-askMC(
-  "Perform the similar calculation  $\\partial_t b B^2$. Is it the case that $\\partial_t r R^2 = \\partial_t b B^2$?",
-  "+Yes+",
-  "No",
-  "Depends on $b$ and $r$.",
-  "Depends on $B$ and $R$.",
-  random_answer_order=FALSE
-)
-```
+`r insert_calcZ_exercise("XX.XX", "uYXvfX", "Exercises/birch-bring-bed.Rmd", skill="L-ZPDIJ dimensions")`
+
+`r insert_calcZ_exercise("XX.XX", "4jkrKy", "Exercises/rhinosaurus-sharpen-knob.Rmd", skill: "L-ZPDIJ dimensions")`
 
 
 
-
-Here are two more candidates for conserved quantities:
-
-a. $rR - bB$
-b. $rB - bR$
-
-Take the derivative with respect to time of each of them to determine if they are conserved.
-
-```{r lanch5, echo=FALSE, results="markup"}
-askMC(
-  "Which of (a) and (b) are conserved?",
-  "Just (a).",
-  "Just (b).",
-  "Both (a) and (b).",
-  "+Neither (a) nor (b).+",
-  random_answer_order = FALSE
-)
-```
-
-EXERCISE: Lanchester's Laws: 
-
-```{r lanch-1, echo=FALSE, results="markup"}
-askMC(
-  "Which of the three flows below corresponds to Lanchester's Law?",
-  "+A+", "B", "C",
-  random_answer_order = FALSE
-)
-```
-
-```{r eval=FALSE, echo=FALSE, out.width="50%", fig.show="keep"}
-# Need to integrate streamlines() into Zcalc or Znotes or mosaicCalc
-math141Z::streamlines(list(~ 0.001*R -2*B, ~ .001*B-R), 
-                      domain(R=c(-1,5), B=c(-1, 5)), nsteps=15, stepsize=0.01) %>%
-  gf_refine(coord_fixed(x=c(-1,5), y=c(-1,5), clip="on")) %>%
-  gf_labs(title="(A)")
-
-math141Z::streamlines(list(~ 0.001*R +B/2, ~ .001*B-R), 
-                      domain(R=c(-1,5), B=c(-1, 5)), nsteps=15, stepsize=0.01) %>%
-  gf_refine(coord_fixed(x=c(-1,5), y=c(-1,5), clip="on")) %>%
-  gf_labs(title="(B)")
-
-math141Z::streamlines(list(~ 0.001*R +B/2, ~ .001*B+R), 
-                      domain(R=c(-1,5), B=c(-1, 5)), nsteps=15, stepsize=0.01) %>%
-  gf_refine(coord_fixed(x=c(-1,5), y=c(-1,5), clip="on")) %>%
-  gf_labs(title="(C)")
-```
-
-```{r lanch-2, echo=FALSE, results="markup"}
-askMC(
-  "Which of these sentences best describes the dynamics of Lanchester's Law?",
-  "Both forces battle to complete annihilation.",
-  "+The stronger force wipes out the weaker force.+",
-  "The weaker force holds off the stronger force."
-)
-```
-
-
-
-
-EXERCISE: Find the stable fixed point in these dynamics as functions of $b_0, b_1, d_0, d_1$.
-
-EXERCISE: 1) Show that $V(R, F) = \delta R - \gamma \ln(R) + \beta F - \alpha \ln(F)$ is a conserved quantity.
-
-2) This means that each of the level curves (contours) in the contour plot of $V(R, F)$ is follows the path of a trajectory. 
-
-3) Choose an appropriate initial condition and draw the trajectory that corresponds to one of the contours in your graph.
-
-```{r}
-# NEED TO INTEGRATE STREAMLINES()
-alpha=.66; beta = 1.33; gamma=1; delta = 1
-V <- makeFun(delta*R - gamma*log(R) + beta*F - alpha*log(F) ~ R & F)
-contour_plot(V(R, F) ~ R & F, domain(R = .1:3, F=0:2), skip=0,
-             contours_at = c(1.6, 1.7, 1.9, 2, 2.15, 2.2, 2.3, 2.5, 2.8, 3, 4))
-
-# math141Z::streamlines(list(~ alpha*R - beta*R*F, ~ delta*F + gamma*R*F ),
-#                  domain(R = .1:3, F=0:2))
-```
-
-
-EXERCISE: COMPUTE numerically the trajectories for the various models of love and war.
-The history of the 20th century is that parameter $d_1$ has decreased, as public health measures such as sanitation and vaccination have become more widespread. Similarly, $b_1$ became smaller, an observation attributed to link between higher standard of living and the costs (and necessity) of education.
-
-Afghanistan has a reported rate of just over 4 births per woman, Mexico 2 births per woman, and Canada 1.5 births per woman. South Korea has a fertility rate of about 1 birth per woman. 
-
-END OF EXERCISE
-
-EXERCISE
-* Newton's Law of Cooling is about how a hot (or cold) object comes into equilibrium with the ambient temperature. For instance, you might have a cup of coffee at $200^\circ$F in a room at $70^\circ$F. Unless you drink it, the coffee will cool with time until it reaches the room's temperature. In this setting, $x_\text{fixed} = 70^\circ$F. The value of $a$ depends on how insulated the cup is (and details of evaporation, etc.). But if the coffee reaches very near to room temperature in 60 minutes, $a \approx 0.5$ with units 1/minute. `r mark(6300)`
-
-
-```{r basic2a, echo=FALSE, results="markup"}
-askMC(
-  "What are the units of the output of $x(t)$?",
-  "degrees F per minute",
-  "+degrees F+",
-  "1/minute",
-  "1/degrees F"
-)
-```
-
-```{r basic2b, echo=FALSE, results="markup"}
-askMC(
-  "What are the units of $\\dot{x}$?",
-  "+degrees F per minute+",
-  "degrees F",
-  "1/minute",
-  "1/degrees F"
-)
-```
-
-```{r basic2c, echo=FALSE, results="markup"}
-askMC(
-  "What is $x$?",
-  "the room temperature",
-  "the initial temperature of the coffee",
-  "+the instantaneous coffee temperature as a function of time+",
-  "the fixed rate at which the coffee cools",
-  "the instantaneous rate at which the coffee cools as a function of time"
-)
-```
-
-```{r basic2d, echo=FALSE, results="markup"}
-askMC(
-  "What is $\\dot{x}$?",
-  "the room temperature",
-  "the initial temperature of the coffee",
-  "the instantaneous coffee temperature as a function of time",
-  "+the instantaneous rate at which the coffee cools as a function of time+"
-)
-```
-
-EXERCISE
-
-**Limited growth**, e.g. $\dot{x} = r x (1-x/k)$
-
-The proportional-growth model will lead to $x(t)$ increasing without limit. Sometimes that's a good model over short times, before $x(t)$ has a chance to get unrealistically big. But over long periods of time, something's gotta give. `r mark(6305)`
-
-* Population with a "carrying capacity." For $t$ when $x(t)$ is very small, the population growth is well approximated by the usual proportion-growth model.  For intermediate $t$, the population has grown to a large enough size that it is consuming a substantial fraction of the available resources and population growth slows. When the population reaches the "carrying capacity" the growth stops (e.g. birth rate = death rate). `r mark(6310)`
-
-```{r basic3a, echo=FALSE, results="markup"}
-askMC(
-  "If the units of $x(t)$ is, say, rabbits, what is the units of $k$?",
-  "+rabbits+",
-  "rabbits per day",
-  "rabbits per week",
-  "rabbits per year"
-)
-```
-
-```{r basic3b, echo=FALSE, results="markup"}
-askMC(
-  "Suppose the units of $\\dot{x}$ is, rabbits per month, what is the units of $r$?",
-  "+1/month+",
-  "rabbits per month",
-  "months per rabbit",
-  "rabbits per month-squared"
-)
-```
-
-```{r basic3c, echo=FALSE, results="markup"}
-askMC(
-  "Even without finding the full solution $x(t)$ to the differential equation, you can figure out how big the population will be when growth falls to zero. How big?",
-  "+$k$+",
-  "$k/r$",
-  "$r/k$",
-  "$1/r$"
-)
-```
-
-EXERCISE: Competition
-
-Our model for strong competition is
-$$\partial_t x =  x(3 − x − y)\\
-\partial_t y = y(4 − y − 2x)$$
-and for weak competition we take
-$$\partial_t x= x(4 − y − 2x)\\
-\partial_t y = y(3 − x − y)\ .$$
-
-A. Plot the flow fields. What is it about the models that justifies the labels "strong competition" and "weak competition." 
-
--->
 
 <!--
 EXERCISE: Nerve pulses 
