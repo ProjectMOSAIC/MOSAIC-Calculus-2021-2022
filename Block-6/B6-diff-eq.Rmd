@@ -1,45 +1,19 @@
 # Differential equations {#diff-eq-intro}
 
+```{r include=FALSE}
+book_file_name <- "block-6/diff-eq-intro.html"
+# Initialize skill file for the Block
+cat("link, exercise, hash, file, skill\n", file="Skill_list.csv")
+```
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-diff-eq.Rmd)</div>
 
-<!--
-
-i. Explain the format in which we present dynamics as opposed to trajectories
-i. Find qualitative solutions from an initial condition
-i. Articulate the difference between state, dynamics, and trajectory
-
-**Vocabulary**
-
-* Differential equation
-* Dynamical function
-* Initial condition (or, initial value or boundary value)
-* State & state variable & state space
-* Solution
-* Time series (state variable versus time)
-* Trajectory (Movement in the state space)
-* Fixed point
-* Flow field
-* Euler integration (iteration)
-
-**Examples**
-
-
-
-- Bank interest or sapling growth.
-- Gompertz growth
-- Logistic growth (e.g. population, or change in height of tree versus height).
-- Pendulum
-- Disease
-- Rocket
-
--->
 
 ## Dynamical systems
 
-In this Block, we take on what may be the most important application of ***derivatives***: the representation of ***dynamical systems***. 
+In this Block, we take on what an important application of derivatives: the representation of ***dynamical systems***. 
 
-"Dynamical systems" (but not under that name) were developed initially in the 1600s as a way of relating planetary motion to the force of gravity. Nowadays, they are used to describe all sorts of physical systems, from oscillations in electrical circuits to the ecology of interacting species, to the spread of contagious disease.
+"Dynamical systems" (but not under that name) were developed initially in the 1600s as a way of relating planetary motion to the force of gravity. Nowadays, they are used to describe all sorts of physical systems from oscillations in electrical circuits to the ecology of interacting species to the spread of contagious disease.
 
 As examples of dynamical systems, consider a ball thrown thrown through the air or a rocket being launched to deploy a satellite. At each instant of time, a ball has a position---a point in $x,y,z$ space---and a velocity $\partial_t x$, $\partial_t y$, and $\partial_t z$. These six quantities, and perhaps others like spin, constitute the ***instantaneous state*** of the ball. Rockets have additional components of state, for example the mass of the fuel remaining. 
 
@@ -93,7 +67,7 @@ The small drawings on the board are not actually part of the action of the game.
 Our dice-free version of Chutes and Ladders is an example of a ***discrete-time, discrete-state dynamical system***. Since there is no randomness involved, the movement of the state is ***deterministic***. (With dice, the movement would be ***stochastic***.)
 
 The differential equations of a dynamical system correspond to a 
-***continuous-time, continuous-space system***. This continuity is the reason we need derivatives to describe the motion of the state. The movement in the systems we'll explore is also deterministic. (In Chapter \@ref(forcing) we'll encounter briefly some instances of stochastic systems.)
+***continuous-time, continuous-space system***. This continuity is the reason we use derivatives to describe the motion of the state. The movement in the systems we'll explore is also deterministic. (In Chapter \@ref(forcing) we'll encounter briefly some instances of stochastic systems.)
 
 :::
 
@@ -129,7 +103,7 @@ Figuring out what constitutes the dynamical state requires knowledge of the mech
 
 ## State space
 
-The state of a dynamical system tells you the configuration of the system at any instant in time. It's appropriate to think about the instantaneous state as a single point in ***a state space***, a coordinate system with an axis for each component of state. As the system configuration changes with time---say, the pendulum loses velocity as it swings to the left---the instantaneous state moves along a ***path*** in the state space. Such a path is called a ***trajectory*** of the dynamical system.
+The state of a dynamical system tells you the configuration of the system at any instant in time. It's appropriate to think about the instantaneous state as a single point in a ***state space***, a coordinate system with an axis for each component of state. As the system configuration changes with time---say, the pendulum loses velocity as it swings to the left---the instantaneous state moves along a ***path*** in the state space. Such a path is called a ***trajectory*** of the dynamical system.
 
 In this book, we will work almost exclusively with systems that have a one- or two-dimensional state. Consequently, the state space will be either the number line or the coordinate plane. The methods you learn will be broadly applicable to systems with higher-dimensional state.
 
@@ -138,7 +112,7 @@ For the ***deterministic*** dynamical systems we will be working with, a basic p
 The ***dimension of the state space*** is the same as the number of components of the state; one axis of state space for every component of the state. has important implications for the type of motion that can exist.
 
 i. If the state space is one-dimensional, the state as a function of time must be ***monotonic***. Otherwise, the trajectory would cross itself, which is not permitted.
-ii. A state space that is two- or higher-dimensional can support motion that oscillates back and forth. Such a trajectory does not cross itself, instead it goes round and round in a spiral or a closed loop.
+ii. A state space that is two- or higher-dimensional can support motion that ***oscillates*** back and forth. Such a trajectory does not cross itself, instead it goes round and round in a spiral or a closed loop.
 
 For many decades, it was assumed that all dynamical systems produce either monotonic behavior or spiral or loop behavior. In the 1960s, scientists working on a highly simplified model of the atmosphere discovered numerically that there is a third type of behavior, the irregular and practically unpredictable behavior called ***chaos***. To display chaos, the state space of the system must have at least three elements.
 
@@ -172,7 +146,7 @@ $$\partial_t x(t) = f(x(t), y(t), z(t))\ \, \\
 \partial_t y(t) = g(x(t), y(t), z(t))\ \, \\
 \partial_t z(t) = h(x(t), y(t), z(t))\ .$$
 
-The way these equations are written is This is practically impossible to read: the expression $(t)$ is repeated 12 times! It take concentration to look beyond the $(t)$ to see the overall structure of the equations. In order to avoid this problem of not seeing the forest for the $(t)$s, the convention is to omit the $(t)$:
+The way these equations are written is practically impossible to read: the expression $(t)$ is repeated 12 times! It takes concentration to look beyond the $(t)$ to see the overall structure of the equations. In order to avoid this problem of not seeing the forest for the $(t)$s, the convention is to omit the $(t)$:
 $$\partial_t x = f(x, y, z)\\
 \partial_t y = g(x, y, z)\\
 \partial_t z = h(x, y, z)$$
@@ -180,7 +154,7 @@ This leaves it to the reader to remember that $x$ is really $x(t)$ and so on.
 
 This more concise way of writing the differential equations makes it easier to describe how to interpret the equations. Formally, $\partial_t x$ is a function, the derivative of the function $x(t)$ with respect to time. But try to put this highly literal interpretation on a back burner. Think of the expression $\partial_t x =$ as meaning, "the way the $x$-component of state changes in time is described by ...." We need three differential equations because there are three components of state in the $x,y,z$ system, and we need to describe for each component the way that component changes.
 
-On the right side of each equation is a function that takes the state quantities as inputs. Each individual equation can be interpreted as completing the elliptical (that is, ...) sentence in the previous paragraph, so that the whole equation reads like, "The way the $x$-component of state changes at any instant in time is specified by the function $h()$ evaluated at the instantaneous state." These functions are called ***dynamical functions*** since they give the rules for the dynamics.
+On the right side of each equation is a function that takes the state quantities as inputs. Each individual equation can be interpreted as completing the elliptical sentence (that is, ending in "...") in the previous paragraph, so that the whole equation reads like, "The way the $x$-component of state changes at any instant in time is specified by the function $h()$ evaluated at the instantaneous state." These functions are called ***dynamical functions*** since they give the rules for the dynamics.
 
 Remember that $x$, $y$, and $z$ are state variables, so they are all *functions of time*. At any instant in time, the values $x$, $y$, $z$ have a specific value. Thus, at any instant in time, evaluating the functions $f(x, y, z)$, $g(x, y, z)$, and $h(x, y, z)$  at the current state produces a specific, scalar value. If we wanted to make this perfectly explicit, we could write $g_x(x(t), y(t), z(t))$, which makes it clear that the output of $g_x()$ is a function of time.
 
@@ -210,7 +184,7 @@ Why did you bother to define a state variable $v$ when it is, by definition, exa
 
 Even though the dynamical equation $\partial_t \theta(t) = v$ is a calculus tautology, we need always to be explicit about what are the two quantities in the dynamical state. The $\partial_t \theta$ differential equation comes for free from basic calculus concepts. The second equation is about the physics, that is, the relationship between forces and acceleration.
 
-There is a style of writing dynamics equations that discards such tautologies. For example, the pendulum dynamics are often written $$\partial_{tt} \theta(t) = - \sin(\theta)\ .$$ This sort of equation, containing a second-order derivative, is called a ***second-order differential equation***. In contrast, the equations for the pendulum presented above are called ***firstIt's exactly equivalent to the pair of ***first-order differential equations*** because each involves a first-order derivative, specifically,  $\partial_t \theta(t)$ and $\partial v_\theta(t)$. We'll return to this second-order style in Chapter \@ref(second-order-de) since it is often encountered in physics and engineering. For now, we are avoiding the second-order style because it obscures the fact that there are two state variables: $\theta(t)$ and $v(t)$.
+There is a style of writing dynamics equations that discards such tautologies. For example, the pendulum dynamics are often written $$\partial_{tt} \theta(t) = - \sin(\theta)\ .$$ This sort of equation, containing a second-order derivative, is called a ***second-order differential equation***. In contrast, the two equations, one for $\partial_t \theta$ and one for $\partial_t v$ are called  ***first-order differential equations*** because each involves a first-order derivative. We'll return to this second-order style in Chapter \@ref(second-order-de) since it is often encountered in physics and engineering. For now, we are avoiding the second-order style because it obscures the fact that there are two state variables: $\theta(t)$ and $v(t)$.
 :::
 
 ::: {.example data-latex=""}
@@ -226,20 +200,20 @@ Similarly, in the absence of food (rabbits are fox food), the foxes will starve 
 
 Of course, in real ecosystems there are many other quantities that change and that are relevant. For instance, foxes eat not only rabbits, but birds and frogs and earthworms and berries. And the diet of rabbits eat weeds and grass (which is generally in plentiful supply), but also the gardener's flowers and carrots (and other vegetables). Growth in the rabbit population leads to decrease in available flowers and vegetables, which in turn leads to slower growth (or even population decline) for rabbits.
 
-In the spirit of illustrating dynamics, we'll leave out these important complexities and imagine that the state consists of just two numbers: how many rabbits there are and how many foxes. The dynamics therefore involve two equations, one for $\partial_t r$ and one for $\partial_t f$, usually written:
-$$\partial_t r = \alpha\, r - \beta\, f r\\
-\partial_t f = \delta\, r f - \gamma\, f$$ 
+In the spirit of illustrating dynamics, we'll leave out these important complexities and imagine that the state consists of just two numbers: how many rabbits there are and how many foxes. The dynamics therefore involve two equations, one for $\partial_t r$ and one for $\partial_t f$. For the rabbit/fox model, we'll allow the rabbit population change ($\partial_t r$) to be affected by fox prediation and similarly let the fox population change ($\partial_t f$) reflect the consumption of rabbits as food, writing:
+$$\partial_t r = \ \ \ \ \ \alpha\, r - \overbrace{\beta\, f r}^{\text{fox predation}}\\
+\partial_t f = \underbrace{\delta\, r f}_{\text{rabbits as food}} - \gamma\, f$$ 
 
 The quantities $\alpha$, $\beta$, $\gamma$, and $\delta$ are parameters quantify the biology of the system: the reproduction rate of rabbits, the need of foxes for food (rabbits) in order to reproduce, the hunting success of foxes, and the death or emigration of foxes in response to a shortage of food.
 
 How are you supposed to know that $r$ and $f$ are state variables while quantities like $\beta$ and $\gamma$ are parameters? Because there is a differential equation involving $\partial_t r$ and $\partial_t f$, while no differential equation has been given describing $\partial_t \beta$ or $\partial_t \alpha$.
 
-Coming up with this description of dynamics requires knowing something about rabbits and foxes. The particular forms used, for instance the *interaction term* $r f$, come from modeling experience. The interaction term is well named because it is about the literal, biological interaction of foxes and rabbits. 
+Coming up with this description of dynamics requires knowing something about rabbits and foxes. The particular forms used, for instance the ***interaction term*** $r f$, come from modeling experience. The interaction term is well named because it is about the literal, biological interaction of foxes and rabbits. 
 :::
 
 ## State space and flow field
 
-A helpful representation of dynamics for the purpose of developing intuition is to represent the instantaneous state as a point in a graphical frame and the dynamics as a field of vectors showing how, for each possible state, the state changes. For instance, in the Rabbit-Fox dynamics, the state is the pair $(r, f)$ and the ***state space*** is the coordinate plane spanned by $r$ and $f$.
+For the purpose of developing intuition it is helpful to represent the instantaneous state as a point in a graphical frame and the dynamics as a field of vectors showing how, for each possible state, the state changes. For instance, in the Rabbit-Fox dynamics, the state is the pair $(r, f)$ and the ***state space*** is the coordinate plane spanned by $r$ and $f$.
 
 The present state of the system might be any point in the state space. But once we know the present state, the dynamical functions *evaluated at the present state* tell us how the state changes over a small increment in time. The step over a small increment of time can be represented by a vector.
 
@@ -269,9 +243,9 @@ From the flow field, you can approximate the trajectory that will be followed fr
 $\ $
 
 Let's return to the pendulum and examine its flow field. We'll modify the equations just a little bit to include air resistance in the model. Air resistance is a force, so we know it will appear in the $\partial_t v_\theta(t)$ equation. A common model for air resistance has it proportional in size to the square of the velocity and with a direction that is the opposite of the velocity. In a differential equation, the model of air resistance can be written as $- \alpha\, L\, \text{sign}(v(t))\ v(t)^2$, where $\text{sign}()$ is a piecewise function that has the value $+1$ when the argument is positive and $-1$ when the argument is negative. $L$ is the length of the pendulum.
-$$\partial_t \theta = v_\theta\\
-\partial_t v_\theta = - \sin(\theta) - \alpha\,L\, \text{sign}(v)\ v^2$$
-Note that we've dropped the $(t)$ in $\theta(t)$ and in $v_\theta(t)$. Whenever you have a state variable, you know that it's a function of time and so the explicit $(t)$ is often omitted for the sake of conciseness.
+$$\partial_t \theta = v\\
+\partial_t v = - \sin(\theta) - \alpha\,L^2\, \text{sign}(v)\ v^2$$
+(Keep in mind as always that for dynamical systems a state variable like $\theta$ is also a function of time $\theta(t)$.) Whenever you have a state variable, you know that it's a function of time and so the explicit $(t)$ is often omitted for the sake of conciseness.
 
 Figure \@ref(fig:pendulum-in-air) shows the flow field of the pendulum. Also shown is a trajectory and the two time series corresponding to that trajectory.
 
@@ -320,7 +294,7 @@ knitr::include_graphics("www/chutes-and-ladders-flow.png")
 ```
 In the no-dice game, the state follows the arrows. Looking carefully at Figure \@ref(fig:chutes-flow), you can see that each state has a forward connection to at most one state. This is the hallmark of determinism.
 
-In the children's game, the play is not deterministic because a die is used to indicate which state follows from each other state. A die has six faces with the six numbers 1 to 6. So, each state is connected to *six* other states in the forward direction. Which of the six is to be followed depends on the number that comes up on the die. Multiple forward connections is the hallmark of ***stochastic*** (random) dynamics.
+In the children's game, the play is not deterministic because a die is used to indicate which state follows from each other state. A die has six faces with the six numbers 1 to 6. So, each state is connected to *six* other states in the forward direction. Which of the six is to be followed depends on the number that comes up on the die. Multiple forward connections means the dynamics are ***stochastic*** (random).
 
 Straightforward examination of the flow often tells you a lot about the big picture of the system. In dice-free Chutes and Ladders, The 100 states are divided into three isolated islands. State 1 is part of the island in the lower right corner of Figure \@ref(fig:chutes-flow). Follow the arrows starting from any place on that island and you will eventually reach state 84. And state 84 is part of a cycle $84 \rightarrow 85 \rightarrow \cdots \rightarrow 28 \rightarrow 84 \rightarrow \cdots$. Once you are on that cycle, you never get off. We'll see such cycles in continuous-time dynamical systems as well. 
 :::
@@ -334,7 +308,7 @@ Straightforward examination of the flow often tells you a lot about the big pict
 2. G-MC8XJ: Explain why determinism rules out two different trajectories passing through any single point in state space. 
 3. X-KZLDP: Distinguish between the **instantaneous state** and the **state space**.
 4. M-P1ZSV: Distinguish between graphics of time series and trajectories by examination or construction of the graph's axes.
-5. N-088YI: From a trajectory drawn on a graph of a flow field, construct a plausible time-series plot
+5. N-O88YI: From a trajectory drawn on a graph of a flow field, construct a plausible time-series plot
 6. X-MO2V8: Understand these terms and describe the relationships among them in the context of dynamics: instantaneous state, state space, state variable, dynamical function, flow field, trajectory, time-series, differential equation, initial condition, solution
 
 
@@ -352,7 +326,7 @@ Straightforward examination of the flow often tells you a lot about the big pict
 
 `r insert_calcZ_exercise("47.13", "x4CiKv", "Exercises/ant-keep-screen.Rmd", skill="M-P1ZSV")`
 
-`r insert_calcZ_exercise("47.15", "gLXhdu", "Exercises/bird-trim-bulb.Rmd", skill="N-088YI")`
+`r insert_calcZ_exercise("47.15", "gLXhdu", "Exercises/bird-trim-bulb.Rmd", skill="N-O88YI")`
 
 <!-- Greek letters -->
 `r insert_calcZ_exercise("47.17", "Amzsqx", "Exercises/sheep-chew-dish.Rmd", skill="A-JD4OX")`
