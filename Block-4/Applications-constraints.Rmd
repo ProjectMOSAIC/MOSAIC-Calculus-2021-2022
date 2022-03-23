@@ -203,7 +203,7 @@ P <- makeFun(b*L^a*K^(1-a) ~ K + L, a = 0.33, b=100)
 budget_constraint <- makeFun(K + L ~ K + L)
 g_union <- makeFun(L ~ K + L)
 g_invest <- makeFun(K/L ~ K + L)
-contour_plot(P(K, L) ~ K + L, domain(K=c(0.01,1), L=c(0.01,1))) %>%
+contour_plot(P(K, L) ~ K + L, domain(K=0.01:1, L=0.01:1)) %>%
   contour_plot(budget_constraint(K, L) ~ K + L,
                filled=FALSE, contour_color = "orange3",
                contours_at = c(1, 1.01)) %>%
@@ -331,7 +331,7 @@ Here's a sandbox to graph out a constraint along with the Cobb-Douglas productio
 ```{r sp2-1, exercise=TRUE, exercise.cap="Cobb-Douglas Production Function", exercise.nlines=8, warning=FALSE, message=FALSE}
 P <- makeFun(b*L^a*K^(1-a) ~ K + L, a = 0.33, b=100)
 g_budget <- makeFun(K + L ~ K + L)
-contour_plot(P(K, L) ~ K + L, domain(K=c(.6,.7), L=c(.3,.4))) %>%
+contour_plot(P(K, L) ~ K + L, domain(K=.6:.7, L=.3:.4)) %>%
   contour_plot(g_budget(K, L) ~ K + L,
                filled=FALSE, contour_color = "orange3",
 ## GET RID OF THE 1.01 contour before deploying

@@ -121,7 +121,7 @@ We're now going to see a different way of using the constraint in the optimizati
 ```{r cf2-2, exercise=TRUE, exercise.cap="Contours and constraints", exercise.nlines=10, warning=FALSE, message=FALSE}
 V <- makeFun(x*(y - 2*x)^2 ~ x)
 constraint <- makeFun(y^2 ~ x + y)
-contour_plot(V(x, y) ~ x + y, domain(x=c(0,10), y=c(20,30))) %>%
+contour_plot(V(x, y) ~ x + y, domain(x=0:10, y=20:30)) %>%
   gf_labs(title="Volume") %>%
   contour_plot(constraint(x, y) ~ x + y,
                filled=FALSE, contour_color = "orange3",
@@ -233,7 +233,7 @@ P <- makeFun(b*L^a*K^(1-a) ~ K + L, a = 0.33, b=100)
 budget_constraint <- makeFun(K + L ~ K + L)
 g_union <- makeFun(L ~ K + L)
 g_invest <- makeFun(K/L ~ K + L)
-contour_plot(P(K, L) ~ K + L, domain(K=c(0.01,1), L=c(0.01,1))) %>%
+contour_plot(P(K, L) ~ K + L, domain(K=0.01:1, L=0.01:1)) %>%
   contour_plot(budget_constraint(K, L) ~ K + L,
                filled=FALSE, contour_color = "orange3",
                contours_at = c(1, 1.01)) %>%
@@ -437,7 +437,7 @@ A very common heuristic is to simply deny that any trade-off exists. This is see
 
 Another heuristic is to play the trump cards of morality and human rights. Once someone claims the the issue is fundamentally one of morality, it's hard to have conversation about the trade-offs involved. (If everyone agreed about morality, it would be easier. But one person's divine truth is another person's opinion.) In the US, the debate about health-care policy is not a measured discussion of how available resources should be distributed to best effect but a competition between perceived moral or ethical stances: "the government has no business making medical decisions for me" versus "affordable health care is a human right." `r mark(4955)`
 
-It is not our place in CalcZ to enter into deep conversation about political or moral philosophy. Rather, by introducing the concepts of incommensurability and heuristic, we intend to guide the mathematical discussion toward a framework for making impossible decisions in a thoughtful and responsible manner. `r mark(4960)`
+It is not our place in *MOSAIC Calculus* to enter into deep conversation about political or moral philosophy. Rather, by introducing the concepts of incommensurability and heuristic, we intend to guide the mathematical discussion toward a framework for making impossible decisions in a thoughtful and responsible manner. `r mark(4960)`
 
 ## Multiple objectives
 
@@ -471,10 +471,6 @@ Second, we'll briefly discuss some **heuristics** that people and groups often u
 
 Later, we'll use the mathematics of **constraints** and **constraint functions** to support a process of rational decision making that nonetheless leaves space for subjectivity in valuing outcomes.
 
-::: {.todo}
-MAYBE TRANSCLUDE THIS INTO THE TEXT?
-:::
-
 ## Multi-objective decision making
 
 
@@ -506,11 +502,6 @@ Now, let's examine a small but important part of the procedure for multi-objecti
 Although we may think of objective functions and constraint functions as different kinds of things, the way they are used in constrained optimization gives them symmetrical roles. 
 
 In earlier exercises, we've looked at step (iii) in the multi-objective optimization procedure graphically, as in this diagram depicting as an objective function the *volume* of a cardboard box and depicting as a constraint the surface area of cardboard used in the box. `r mark(4995)`
-
-
-
-
-
 
 The constraint path is the contour of the constraint function at which the output of the constraint function is the set level; here that's 600 square-inches of cardboard.    
 The argmax in this problem is the point at which the constraint path is tangent to a contour of the objective function. Here, we need to **interpolate** visually and imagine the contour where the objective function output is about 1100, which will be tangent to the constraint path at about $x=4.2$.  `r mark(5000)`
@@ -550,7 +541,7 @@ gradf <- Vectorize(function(x, y) {
 gradg <- Vectorize(function(x, y){
   c(0, 2*y)
 })
-dom <- domain(x=c(3,5), y=c(23.5, 25))
+dom <- domain(x=3:5, y=23.5:25)
 contour_plot(angle(gradf(x,y), gradg(x,y)) ~ x + y, dom, 
              contours_at = c(10, 20, 30, 40, 50), 
              skip=0, npts=500, filled=FALSE) %>%
@@ -651,40 +642,6 @@ A very common heuristic is to simply deny that any trade-off exists. This is see
 Another heuristic is to play the trump cards of morality and human rights. Once someone claims the the issue is fundamentally one of morality, it's hard to have conversation about the trade-offs involved. (If everyone agreed about morality, it would be easier. But one person's divine truth is another person's opinion.) In the US, the debate about health-care policy is not a measured discussion of how available resources should be distributed to best effect but a competition between perceived moral or ethical stances: "the government has no business making medical decisions for me" versus "affordable health care is a human right."
 
 It is not our place in CalcZ to enter into deep conversation about political or moral philosophy. Rather, by introducing the concepts of incommensurability and heuristic, we intend to guide the mathematical discussion toward a framework for making impossible decisions in a thoughtful and responsible manner.
-
-
-
-## Multiple objectives
-
-It often happens that decisions involve multiple simultaneous objectives. In one context or another, each of these considerations can play a role in decision making:
-
-- safety
-- cost
-- human life
-- animal welfare
-- collateral damage
-- public or political reaction
-
-This is by no means an exclusive list. 
-
-In specialized domains more specific competing objectives are often part of the design goal. For instance, consider aircraft design: 
-
-- range
-- payload or cargo capacity
-- short take-off and landing
-- maneuverability 
-- mission suitability
-- multi-mission capability
-- maintenability
-- stealth
-
-Over the next few lessons, we're going to introduce concepts that are important to effective thinking about designing with multiple objectives as well as mathematical tools that help in balancing conflicting objectives. As you will see, there is no single "correct" or "best" solution to such problems. Indeed, there is a mathematical theorem about when there **cannot** be a best solution. However---and this may seem contractictory at first---some solutions are better than others. Mathematics also provides a framework for a systematic and documentable process which provides a role for the inevitable elements of human, subjective values.
-
-First, we'll cover elementary mathematical principles that demonstrate both that there is no single "best" solution while yet allowing some solutions to be better than others. Important vocabulary here includes **"incommensuate"**, **dominating** and **non-dominating** solutions(along with **pareto optimality**), **decision frontier**, and **social utility function**.
-
-Second, we'll briefly discuss some **heuristics** that people and groups often use, without necessarily realizing it, in solving multi-objective optimization problems. Awareness of such heuristics helps in identifying (often unstated) objectives implicit in the decision and enables you, by making them **explicit**, to clarify the problem and potentially open it up to useful discussion and **negotiation**. 
-
-Later, we'll use the mathematics of **constraints** and **constraint functions** to support a process of rational decision making that nonetheless leaves space for subjectivity in valuing outcomes.
 
 
 

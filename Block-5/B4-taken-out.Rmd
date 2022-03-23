@@ -66,4 +66,73 @@ This sort of problem is extremely common and important throughout quantitative f
 
 
 
+## Interpreting the model
+
+One of the ways statistics differs from mathematics is that statistics is concerned with the interpretation of the model, the ways the model is or is not fit for purpose, and the ways the model can be improved.
+
+Since the purpose of the body-fat model is to estimate the actual body fat percentage from easy-to-measure variables, let's examine how much knowing the output of the model tells us about the actual body fat. We've already seen that R^2^ is 75%, but there are other ways to look at things. Figure \@ref(fig:body-fat-pred) shows the actual body fat in each of the 252 men whose data are in `Body_fat` as a function of the model output.
+
+```{r body-fat-pred, echo=FALSE, fig.cap="Comparing the output of the model to the actual body-fat measurements made in the 252 men represented in the `Body_fat` data frame."}
+gf_point(bodyfat ~ fitted(mod_big), data = Body_fat) %>%
+  gf_lm(interval="prediction") %>%
+  gf_labs(y="Actual body fat %", x = "Model output", title="95% prediction interval")
+```
+Using the graph, consider what to make of a model output of 20. Looking at the dozen or so men whose measurements led to an output near 20, their actual body fat spans a range of values, from about 10% to 30%. The prediction error for any given man is the difference between the actual value of body fat and the model output. The gray band on the graph contains about 95% of all the men. The vertical width of the band---about -8% to +8%---gives a prediction error that encompasses 95% of the men. This is interpreted to mean that the model output reflects the actual body mass, plus-or-minus 8%. (There's no guarantee that the prediction error will be $\leq 8\%$, but in the large majority of cases (roughly 95%) the model output will have a prediction error that's no larger than $\pm 8\%$.)
+
+Another difference between statistics and mathematics is that good statistical work always requires some understanding of the system being studied, not just the manipulation of columns of numbers. Look back at the coefficients. Some make sense and some are questionable. For instance, the positive coefficient on `abdomen` makes intuitive sense since everyday experience is that body fat often appears there. But the negative coefficient on `neck`, what's that about?
+
+## Improving the model
+
+The model that we built of body fat, which we called `big_mod`, might just as well have been called "kitchen sink." It includes all possible explanatory variables. But it doesn't have terms higher than first order. That is, `neck` enters into the model just as a linear function. But in Chapter `r Chaps$local_approx` we introduced low-order polynomial terms, such as the quadratic `neck^2` or the interaction `neck*abdomen`.  Maybe we would do better by introducing such terms. Since there are 13 explanatory variables, this would add 13 quadratic terms and many interaction terms, one for each pair of variables. That's 78 vectors for the interaction plus 13 linear terms plus another 13 quadratic terms.
+
+Let's try adding these interaction terms a few at a time to see what happens. The modeling syntax for interaction terms uses the multiplication symbol `*`. We'll compare the new models to `big_mod` which had an R^2^ of 74.9%.
+
+```{r}
+mod2 <- lm(bodyfat ~ . * neck, data = Body_fat)
+rsquared(mod2)
+```
+Including the interactions with `neck` has increased R^2^ to 77.3%. Let's keep going:
+```{r}
+mod3 <- lm(bodyfat ~ . * neck + . * weight + . * abdomen, data=Body_fat)
+rsquared(mod3)
+```
+Again, R^2^ has gone up! Unfortunately, adding more terms is not a sure-fire way to improve a model. In model 3, we added 12 vectors from `*.neck`, 11 from `.*weight`, 10 from `.*abdomen`. (The reason for the decreasing counts is that `.*neck` already includes `weight*neck`, so the `neck*weight` that's included in `. * weight` is redundant.) Adding altogether 33 new vectors on top of the 13 in the original model, has increased the R^2^ from 74.9% to 79.3%. That's a gain of 4.4 percentage points from 33 new vectors.
+
+Is that gain worth it? To answer that question, we need to consider what is the cost induced by adding the 33 new vectors. The computational cost is not the issue, since even much bigger models are easily constructed on ordinary laptops. The issue has to do with the goal of predicting `bodyfat`. We don't need to predict body fat for the men in the data; we already know their body fat. Instead, the point is to make predictions for men *not in the data*. These two kinds of prediction are called ***in-sample prediction*** (men in the data set) and ***out-of-sample prediction*** (men not in the data set).
+
+The problem is that in-sample predictions tend to have a larger R^2^ than out-of-sample predictions. And it's the out-of-sample prediction that will matter in applications: predictions for people whose body fat is unknown and therefore will be estimated from the model.
+
+A major goal in statistics and machine learning is to estimate the R^2^ for out-of-sample prediction from just the data in the sample itself. Here's one way to get at the out-of-sample prediction error: divide the data at random into two halves, fitting the model on the first half and estimating the out-of-sample prediction error using the other half, the half that is out-of-sample for fitting the model. This strategy, and many refinements to it, are called ***cross-validation*** and is a major technique in machine learning.
+
+An older statistical technique gets at the problem of in- and out-of-sample by using models constructed from ***random stand-ins*** for explanatory vectors. For instance, we can examine whether the 33 interaction terms we added to the model are contributing to prediction by replacing them with 33 random vectors and examining the gain in R^2^ from that. Here's one way to do this, using `rand(33)` to generate the random variables:
+
+```{r}
+mod3R <- lm(bodyfat ~ . + rand(33), data=Body_fat)
+rsquared(mod3)
+```
+The random variables did every bit as well as the interaction terms! So there's no particular reason to think that the interaction terms are contributing to the prediction.
+
+::: {.intheworld data-latex=""}
+The example we just gave with `. + rand(33)` isn't completely adequate to the statistician's needs. Those 33 random vectors were just a particular random choice, a role of the vector dice. We need to establish whether the result we got, R^2^=79.3% was just good luck. The next code block shows one way to do this: we generate many trials of `rand(33)`, calculating R^2^ for each trial. Then compare the "genuine vectors" result to the distribution of results from the random trials. 
+
+You do not need to learn how to construct such code, but perhaps you will be able to gain some insight from it. We're doing 100 random trials.
+```{r}
+trials <- do(100) * {lm(bodyfat ~ . + rand(33), data=Body_fat) %>% rsquared()}
+table(rsquared(mod3) > trials)
+```
+The "genuine vectors" gave a result bigger than 90 out of 100 trials. This sort of "most of the time" doesn't cut muster. A convention is to insist  that the genuine vectors win at least 95% of the time. The 90-out-of-100 result would typically be reported as a ***p-value*** less than 10%.
+
+Another sort of standard statistical report carries out this same sort of comparison to random vectors, but building up the model one term at a time. This is called ***analysis of variance***. A standard report looks like this:
+
+```{r}
+anova(mod_big)
+```
+
+The first row of the report examines how well the model with just `age` does compared to random vectors. As you can see, the p-value (column `Pr(>F)`) is much smaller than the standard cut-off of 0.05. The next row in the report gives the improvement in the model when `weight` is included along with `age` in the model. And so on down the line. 
+
+The report highlights some stinkers among the explanatory variables: `hip`, `knee`, `ankle`, and `biceps`. Maybe this matches your intuition, for instance that ankle circumference is not the best way to look at body fat.
+
+This sort of analysis, which has many nuances not covered here, falls under the name ***statistical inference***. Another, more recent term is ***statistical learning***, often called ***machine learning***. The general idea of statistical or machine learning is to search through many combinations of possible explanatory variables to construct a "best" model. This search often involves models that are not simply linear combinations. Some of these model architectures have catchy names: "deep learning," "neural nets," "support vector machines," "lasso," and so on. Very often, these machine learning models are built by ***gradient descent***, and are elaborations of the basic $\mathit{A}\vec{x} = \vec{b}$ model architecture. But they often have capabilities beyond $\mathit{A}\vec{x} = \vec{b}$. For instance, deep learning and lasso are designed to handle situations where the number of explanatory variables---the number of columns in the data frame---is far larger than the number of rows. An example: learning to identify whether there is an animal in a photograph with 20,000 pixels. And returning to genetics: measuring 100,000 genetic expression products on a sample of 10 people with a disease and 10 healthy controls to determine which, if any, genes are related to the disease.
+:::
+
 

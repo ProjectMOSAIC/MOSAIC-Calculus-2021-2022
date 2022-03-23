@@ -70,17 +70,17 @@ dg <- makeFun((g(x+0.1) - g(x))/0.1 ~ x)
 
 Whenever you calculate a derivative function, you should check against mistakes or other sources of error. For instance, whenever the derivative is zero, the original function should have an instantaneous slope of zero. Figure \@ref(fig:check-dg) shows a suitable plot for supporting this sort of check.
 ```{r check-dg, fig.cap="The x-position of zero crossings of the derivative function (magenta) are marked with blue lines. The zero crossings correspond to local maxima or minima in the original function (black). This is because the original function has slope zero at maxima and minima." }
-zeros_of_dg <- findZeros(dg(x) ~ x, xlim=c(-5,5))
-slice_plot(g(x) ~ x, domain(x=c(-5,5)), npts=500) %>%
+zeros_of_dg <- Zeros(dg(x) ~ x, domain(x=-5:5))
+slice_plot(g(x) ~ x, domain(x=-5:5), npts=500) %>%
   slice_plot(dg(x) ~ x, color="magenta", npts=500) %>%
   gf_hline(yintercept = ~ 0, color = "orange", size=2, alpha=0.2) %>%
   gf_vline(xintercept = ~ x, data=zeros_of_dg, color="blue")
 ```
 
-Look very closely at Figure \@ref(fig:check-dg), particularly at the places where the blue vertical markers cross the function $g(x)$ (black). They should cross exactly at the flat zone, but they are a little shifted to the left. (You might have to zoom in on the plot to see the offset between the vertical blue marker and the local maximum of the function.) That's the sense in which the finite-difference approach gives an approximation. The small left-shift stems from the use of 0.1 in the definition of the zero function. Use a smaller value, say 0.01 or 0.001, and you won't be able to see the shift at all. `r mark(2185)`
+Look very closely at Figure \@ref(fig:check-dg), particularly at the places where the blue vertical markers cross the function $g(x)$ (black). They should cross exactly at the flat zone, but they are a little shifted to the left. (You might have to zoom in on the plot to see the offset between the vertical blue marker and the local maximum of the function.) That's the sense in which the finite-difference approach gives an approximation. The small left-shift stems from the use of 0.1 in the definition of the zero function. Use a smaller value, say 0.01 or 0.001, and you won't be able to see the shift at all. 
 
 ::: {.takenote  data-latex=""}
-In modeling work, there's nothing wrong with an approximation so long as it is good enough for your purposes. We picked the value 0.1 for our definition of the slope function because it works very well with the pattern-book functions. Here, "very well" means you can't easily see in the graph any deviation compared to the exact derivative. `r mark(2190)`
+In modeling work, there's nothing wrong with an approximation so long as it is good enough for your purposes. We picked the value 0.1 for our definition of the slope function because it works very well with the pattern-book functions. Here, "very well" means you can't easily see in the graph any deviation compared to the exact derivative. 
 
 When a calculation can be done exactly (without outrageous effort) it certainly makes sense to use the exact method. However:
 

@@ -93,12 +93,12 @@ Straight-line (with non-zero slope), exponential ($e^{kt}$ where $k\neq 0$), and
 There's an easy graphical test for whether there is a unique inverse function or not. Draw the graph, then see if any horizontal line touches the graph of the function in more than one place. If so, there is no unique inverse function.
 
 ```{r Fun-3a2-1, echo=FALSE, out.width="50%", warning=FALSE, fig.show="hold"}
-Exp <- findZeros(exp(x) - 1.5 ~ x, xlim=c(-2, 2)) %>%
+Exp <- Zeros(exp(x) - 1.5 ~ x, domain(x=-2:2)) %>%
   mutate(y = exp(x))
-Square <- findZeros(x^2 -1.75 ~ x, xlim=c(-2, 2)) %>%
+Square <- Zeros(x^2 -1.75 ~ x, domain(x=-2:2)) %>%
   mutate(y = x^2)
-Sinusoid <- findZeros(sin(2*pi*x/0.7) -0.5 ~ x, within=5) %>%
-  rbind(findZeros(sin(2*pi*x/0.7) - 0.5 ~ x, near=-1.8, within = 0.2)) %>%
+Sinusoid <- Zeros(sin(2*pi*x/0.7) -0.5 ~ x, domain(x=-10:10)) %>%
+  rbind(Zeros(sin(2*pi*x/0.7) - 0.5 ~ x, domain(x=-2:-1.6))) %>%
   mutate(y = sin(2*pi*x/0.7))
 slice_plot(exp(x) ~ x, domain(x=c(-2, 2))) %>%
   gf_labs(title = "Exponential has unique inverse.") %>%
@@ -192,10 +192,10 @@ For example, the investment-club problem given earlier in this chapter can be re
 
 ```{r}
 money_raised <- makeFun((x-2)*(9000/x + 50) ~ x)
-findZeros(money_raised(x) - 9000 ~ x)
+Zeros(money_raised(x) - 9000 ~ x, domain(x=-100:100))
 ```
 
-It turns out that there are three zeros for `money_raised(x) - 9000$. Only one of them has any sensible interpretation as the number of investors in the club.
+It turns out that there are two zeros for `money_raised(x) - 9000$. Only one of them has any sensible interpretation as the number of investors in the club.
 
 ## Exercises
 

@@ -51,7 +51,7 @@ Figure \@ref(fig:changing-slope) shows a simple function that is concave down.
 ```{r changing-slope, echo=FALSE, fig.cap="A function that is concave down."}
 fraw <- rfun(~ x, seed=93872)
 f <- makeFun(fraw((x-5.5)/3) ~ x )
-slice_plot(f(x) ~ x, domain(x=c(0.4, 4)))
+slice_plot(f(x) ~ x, domain(x=0.4:4))
 ```
 Notice that the concavity is not about the slope. The curve in Figure \@ref(fig:changing-slope) is concave down everywhere in the domain $0 \leq x \leq 4$, but the slope is positive for $0 \leq x \leq 1$ and negative for larger $x$. Slope and concavity are two different aspects of a function.
 
@@ -101,7 +101,7 @@ As you see from Section \@ref(concavity-deriv), it's easy to quantify the concav
 To illustrate, consider the square function, $f(x) \equiv x^2$. (See Figure \@ref(fig:square34).)
 
 ```{r square34, echo=FALSE, fig.cap="Does the concavity of the square function vary with $x$?"}
-slice_plot(x^2 ~ x, domain(x=c(-2,2))) %>%
+slice_plot(x^2 ~ x, domain(x=-2:2)) %>%
   gf_labs(title="Square function")
 ```
 
@@ -119,7 +119,7 @@ The concavity-related property that the human eye reads from the graph of a func
 Figure \@ref(fig:inscribed-circles) illustrates the changing curvature  of $f(x) \equiv x^2$ by inscribing tangent circles at several points on the function graph, marked with dots. You can see the tangency of the circle to the function graph; the function's thin black line goes right down the middle of the broader lines used to draw the circles.
 
 ```{r inscribed-circles, echo=FALSE, fig.cap="At any point on the graph of a smooth function, a circle tangent to the graph can be drawn. The radius of this circle is $1/{\\cal K}$."}
-slice_plot(x^2 ~ x, domain(x=c(-2,2))) %>%
+slice_plot(x^2 ~ x, domain(x=-2:2)) %>%
   gf_path(y ~ x, data = inscribed_circle(x^2 ~ x, 1), color="tan", size=2, alpha=0.4) %>%
   gf_path(y ~ x, data = inscribed_circle(x^2 ~ x, 0.0), color="blue", size=2, alpha=0.5) %>%
   gf_path(y ~ x, data = inscribed_circle(x^2 ~ x, -1.5), color="green", size=2, alpha=0.5) %>%

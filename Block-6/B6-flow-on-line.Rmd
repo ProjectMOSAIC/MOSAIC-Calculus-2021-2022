@@ -269,7 +269,7 @@ Missing from the pasture model is a simple idea of how cows eat. If there is ver
 In his *Nature* article, May modeled the consumption rate by a single cow with the functional form $$C(v) \equiv \frac{\beta v^2}{v_0 - v^2}$$ which is graphed for $\beta=0.1$ and $v_0 = 3$ in Figure \@ref(fig:cow-consumption)
 ```{r cow-consumption, fig.cap="Consumption of vegetation by a single cow as a function of the amount available in the pasture."}
 consumption <- makeFun((beta*v^2/(v0^2 + v^2))~ v, beta=0.1, v0=1)
-slice_plot(consumption(v) ~ v, domain(v=c(0,10))) %>%
+slice_plot(consumption(v) ~ v, domain(v=0:10)) %>%
   gf_labs(y="Consumption (tons/day)", x="v: available biomass (tons)")
 ```
 You can recognize this as a form of sigmoid. When the amount of vegetation is very large, a cow will eat her fill. That's the saturation of the sigmoid. For small $v$, the cow needs to hunt around for vegetation tall enough to eat, reducing the consumption steeply.
