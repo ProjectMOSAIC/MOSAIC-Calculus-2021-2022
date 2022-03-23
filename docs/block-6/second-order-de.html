@@ -220,12 +220,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="52.1" data-path="equilibria.html"><a href="equilibria.html#one-state-variable"><i class="fa fa-check"></i><b>52.1</b> One state variable<span></span></a></li>
 <li class="chapter" data-level="52.2" data-path="equilibria.html"><a href="equilibria.html#two-state-variables"><i class="fa fa-check"></i><b>52.2</b> Two state variables<span></span></a></li>
+<li class="chapter" data-level="52.3" data-path="equilibria.html"><a href="equilibria.html#exercises-5"><i class="fa fa-check"></i><b>52.3</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="53" data-path="eigenvalues.html"><a href="eigenvalues.html"><i class="fa fa-check"></i><b>53</b> Eigenvalues, eigenvectors<span></span></a>
 <ul>
 <li class="chapter" data-level="53.1" data-path="eigenvalues.html"><a href="eigenvalues.html#vector-solutions-to-linear-differential-equations"><i class="fa fa-check"></i><b>53.1</b> Vector solutions to linear differential equations<span></span></a></li>
 <li class="chapter" data-level="53.2" data-path="eigenvalues.html"><a href="eigenvalues.html#eigenvectors-and-eigenvalues"><i class="fa fa-check"></i><b>53.2</b> Eigenvectors and eigenvalues<span></span></a></li>
-<li class="chapter" data-level="53.3" data-path="eigenvalues.html"><a href="eigenvalues.html#exercises-5"><i class="fa fa-check"></i><b>53.3</b> Exercises<span></span></a></li>
+<li class="chapter" data-level="53.3" data-path="eigenvalues.html"><a href="eigenvalues.html#exercises-6"><i class="fa fa-check"></i><b>53.3</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="54" data-path="second-order-de.html"><a href="second-order-de.html"><i class="fa fa-check"></i><b>54</b> Force-balance equations<span></span></a>
 <ul>
@@ -234,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="54.3" data-path="second-order-de.html"><a href="second-order-de.html#exponential-or-sinusoid"><i class="fa fa-check"></i><b>54.3</b> Exponential or sinusoid?<span></span></a></li>
 <li class="chapter" data-level="54.4" data-path="second-order-de.html"><a href="second-order-de.html#exponentials-with-imaginary-inputs"><i class="fa fa-check"></i><b>54.4</b> Exponentials with “imaginary” inputs<span></span></a></li>
 <li class="chapter" data-level="54.5" data-path="second-order-de.html"><a href="second-order-de.html#damping"><i class="fa fa-check"></i><b>54.5</b> Damping<span></span></a></li>
-<li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-6"><i class="fa fa-check"></i><b>54.6</b> Exercises<span></span></a></li>
+<li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-7"><i class="fa fa-check"></i><b>54.6</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="55" data-path="forcing.html"><a href="forcing.html"><i class="fa fa-check"></i><b>55</b> Forcing and resonance<span></span></a>
 <ul>
@@ -262,17 +263,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div style="float:right;">
 <a href="https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-6/B6-equalibria.Rmd"><img src="www/icons/edit.png" /></a>
 </div>
-<!-- 
-9. Calculus of second order differential equations
-    a. Objectives/topics
-        i. Force balance equations
-        i. Equivalence to phase plane description
-        i. Exponential Ansatz (solution is made up of exponentials, which one?)
-        i. Complex eigenvalues
-        i. Complex exponentials and their equivalency to sinusoids 
-        i. Sinusoids with exponential amplitudes (damping)
-        i. Relation to the real and complex parts of the eigenvalues
--->
 <p>Up to now, we have been studying dynamics in the format of one or more first-order differential equations. For instance,
 <span class="math display">\[\partial_t x = f(x, y)\\
 \partial_t y = g(x, y)\]</span>
@@ -329,21 +319,21 @@ The zero on the right-hand side of the equation of horizontal movement reflects 
 \]</span>
 To illustrate, we’ll solve this set of four first-order equations numerically. We need to specify the initial values for <span class="math inline">\(x_0\)</span>, <span class="math inline">\(y_0\)</span>, <span class="math inline">\(u_0\)</span> and <span class="math inline">\(v_0\)</span>. We’ll let the cannon be located at horizontal position <span class="math inline">\(x_0 = 0\)</span> and vertical position <span class="math inline">\(y_0 = 100\)</span> meters. The vertical velocity is, initially, zero, so <span class="math inline">\(v_0 = 0\)</span>. And suppose the cannon produces an initial horizontal velocity of <span class="math inline">\(u_0 = 250\)</span> meters/sec. The constant <span class="math inline">\(g\)</span> is known to be 9.8 meters/sec<sup>2</sup>.</p>
 <p>Here’s the trajectory:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="second-order-de.html#cb58-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(</span>
-<span id="cb58-2"><a href="second-order-de.html#cb58-2" aria-hidden="true" tabindex="-1"></a>  dx <span class="sc">~</span> u, dy <span class="sc">~</span> v, du <span class="sc">~</span> <span class="dv">0</span>, dv <span class="sc">~</span> <span class="sc">-</span><span class="fl">9.8</span>, <span class="co">#dynamics</span></span>
-<span id="cb58-3"><a href="second-order-de.html#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="dv">100</span>, <span class="at">u =</span> <span class="dv">250</span>, <span class="at">v=</span><span class="dv">0</span>, <span class="co">#initial conditions</span></span>
-<span id="cb58-4"><a href="second-order-de.html#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">tdur=</span><span class="dv">5</span></span>
-<span id="cb58-5"><a href="second-order-de.html#cb58-5" aria-hidden="true" tabindex="-1"></a>) </span>
-<span id="cb58-6"><a href="second-order-de.html#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="second-order-de.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-30-2.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="second-order-de.html#cb60-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj) <span class="sc">%&gt;%</span></span>
-<span id="cb60-2"><a href="second-order-de.html#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept=</span><span class="sc">~</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb60-3"><a href="second-order-de.html#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(x, y) position as a function of time&quot;</span>)</span>
-<span id="cb60-4"><a href="second-order-de.html#cb60-4" aria-hidden="true" tabindex="-1"></a>P2 <span class="ot">&lt;-</span> <span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj) <span class="sc">%&gt;%</span></span>
-<span id="cb60-5"><a href="second-order-de.html#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(u, v) velocity as a function of time&quot;</span>)</span>
-<span id="cb60-6"><a href="second-order-de.html#cb60-6" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(P1, P2, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="second-order-de.html#cb56-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(</span>
+<span id="cb56-2"><a href="second-order-de.html#cb56-2" aria-hidden="true" tabindex="-1"></a>  dx <span class="sc">~</span> u, dy <span class="sc">~</span> v, du <span class="sc">~</span> <span class="dv">0</span>, dv <span class="sc">~</span> <span class="sc">-</span><span class="fl">9.8</span>, <span class="co">#dynamics</span></span>
+<span id="cb56-3"><a href="second-order-de.html#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="dv">100</span>, <span class="at">u =</span> <span class="dv">250</span>, <span class="at">v=</span><span class="dv">0</span>, <span class="co">#initial conditions</span></span>
+<span id="cb56-4"><a href="second-order-de.html#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">tdur=</span><span class="dv">5</span></span>
+<span id="cb56-5"><a href="second-order-de.html#cb56-5" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb56-6"><a href="second-order-de.html#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="second-order-de.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-34-2.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="second-order-de.html#cb58-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj) <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="second-order-de.html#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept=</span><span class="sc">~</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-3"><a href="second-order-de.html#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(x, y) position as a function of time&quot;</span>)</span>
+<span id="cb58-4"><a href="second-order-de.html#cb58-4" aria-hidden="true" tabindex="-1"></a>P2 <span class="ot">&lt;-</span> <span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj) <span class="sc">%&gt;%</span></span>
+<span id="cb58-5"><a href="second-order-de.html#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(u, v) velocity as a function of time&quot;</span>)</span>
+<span id="cb58-6"><a href="second-order-de.html#cb58-6" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(P1, P2, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:cannon-shot-1"></span>
 <img src="MOSAIC-Calculus_files/figure-html/cannon-shot-1-1.png" alt="Trajectory of the cannon ball shot with an initial horizontal velocity and no initial vertical velocity. The trajectory is plotted in slices of state space: position $(x, y)$ and velocity $(u, v)$. The time at which the ball reaches the points marked on the trajectory give the time." width="90%" />
 <p class="caption">
@@ -364,24 +354,24 @@ Figure 54.2: Trajectory of the cannon ball shot with an initial horizontal veloc
 \partial_t u = -u\, r(u,v)\\
 \partial_t v = -g - v\, r(u,v)\]</span>
 ENIAC would have been programmed to carry out the calculation we now do with <code>integrateODE()</code>:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="second-order-de.html#cb61-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(alpha<span class="sc">*</span><span class="fu">sqrt</span>(u<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> v<span class="sc">^</span><span class="dv">2</span>) <span class="sc">~</span> u <span class="sc">&amp;</span> v, <span class="at">alpha=</span><span class="fl">0.003</span>)</span>
-<span id="cb61-2"><a href="second-order-de.html#cb61-2" aria-hidden="true" tabindex="-1"></a>traj2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(</span>
-<span id="cb61-3"><a href="second-order-de.html#cb61-3" aria-hidden="true" tabindex="-1"></a>  dx <span class="sc">~</span> u, dy <span class="sc">~</span> v, du <span class="sc">~</span> <span class="sc">-</span>u<span class="sc">*</span><span class="fu">r</span>(u,v), dv <span class="sc">~</span> <span class="sc">-</span><span class="fl">9.8</span> <span class="sc">-</span> v<span class="sc">*</span><span class="fu">r</span>(u,v), <span class="co">#dynamics</span></span>
-<span id="cb61-4"><a href="second-order-de.html#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="dv">100</span>, <span class="at">u =</span> <span class="dv">250</span>, <span class="at">v=</span><span class="dv">0</span>, <span class="co">#initial conditions</span></span>
-<span id="cb61-5"><a href="second-order-de.html#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tdur=</span><span class="dv">6</span></span>
-<span id="cb61-6"><a href="second-order-de.html#cb61-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb61-7"><a href="second-order-de.html#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="second-order-de.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-31-2.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="second-order-de.html#cb63-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> </span>
-<span id="cb63-2"><a href="second-order-de.html#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept=</span><span class="sc">~</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb63-3"><a href="second-order-de.html#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj, <span class="at">nt=</span><span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;orange&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb63-4"><a href="second-order-de.html#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj2) <span class="sc">%&gt;%</span></span>
-<span id="cb63-5"><a href="second-order-de.html#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(x, y) position as a function of time&quot;</span>)</span>
-<span id="cb63-6"><a href="second-order-de.html#cb63-6" aria-hidden="true" tabindex="-1"></a>P2 <span class="ot">&lt;-</span> <span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj2) <span class="sc">%&gt;%</span></span>
-<span id="cb63-7"><a href="second-order-de.html#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(u, v) velocity as a function of time&quot;</span>)</span>
-<span id="cb63-8"><a href="second-order-de.html#cb63-8" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(P1, P2, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="second-order-de.html#cb59-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(alpha<span class="sc">*</span><span class="fu">sqrt</span>(u<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> v<span class="sc">^</span><span class="dv">2</span>) <span class="sc">~</span> u <span class="sc">&amp;</span> v, <span class="at">alpha=</span><span class="fl">0.003</span>)</span>
+<span id="cb59-2"><a href="second-order-de.html#cb59-2" aria-hidden="true" tabindex="-1"></a>traj2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(</span>
+<span id="cb59-3"><a href="second-order-de.html#cb59-3" aria-hidden="true" tabindex="-1"></a>  dx <span class="sc">~</span> u, dy <span class="sc">~</span> v, du <span class="sc">~</span> <span class="sc">-</span>u<span class="sc">*</span><span class="fu">r</span>(u,v), dv <span class="sc">~</span> <span class="sc">-</span><span class="fl">9.8</span> <span class="sc">-</span> v<span class="sc">*</span><span class="fu">r</span>(u,v), <span class="co">#dynamics</span></span>
+<span id="cb59-4"><a href="second-order-de.html#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="dv">100</span>, <span class="at">u =</span> <span class="dv">250</span>, <span class="at">v=</span><span class="dv">0</span>, <span class="co">#initial conditions</span></span>
+<span id="cb59-5"><a href="second-order-de.html#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tdur=</span><span class="dv">6</span></span>
+<span id="cb59-6"><a href="second-order-de.html#cb59-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-7"><a href="second-order-de.html#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-35-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="second-order-de.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-35-2.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="second-order-de.html#cb61-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> </span>
+<span id="cb61-2"><a href="second-order-de.html#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_hline</span>(<span class="at">yintercept=</span><span class="sc">~</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb61-3"><a href="second-order-de.html#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj, <span class="at">nt=</span><span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;orange&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb61-4"><a href="second-order-de.html#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj2) <span class="sc">%&gt;%</span></span>
+<span id="cb61-5"><a href="second-order-de.html#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(x, y) position as a function of time&quot;</span>)</span>
+<span id="cb61-6"><a href="second-order-de.html#cb61-6" aria-hidden="true" tabindex="-1"></a>P2 <span class="ot">&lt;-</span> <span class="fu">traj_plot</span>(<span class="fu">v</span>(t) <span class="sc">~</span> <span class="fu">u</span>(t), traj2) <span class="sc">%&gt;%</span></span>
+<span id="cb61-7"><a href="second-order-de.html#cb61-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_labs</span>(<span class="at">subtitle=</span><span class="st">&quot;(u, v) velocity as a function of time&quot;</span>)</span>
+<span id="cb61-8"><a href="second-order-de.html#cb61-8" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(P1, P2, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:cannon-shot-2"></span>
 <img src="MOSAIC-Calculus_files/figure-html/cannon-shot-2-1.png" alt="Adding air resistence to the model changes the trajectory. For reference, the trajectory *without air resistence* is plotted in $\color{orange}{\text{orange}}$." width="90%" />
 <p class="caption">
@@ -456,31 +446,31 @@ which exactly matches the Taylor polynomial for <span class="math inline">\(\cos
 <span class="math display">\[(2 + 3i)^2 = (2+3i)(2+3i) = \underbrace{4}_{2\times 2} + \underbrace{ \ 6 i\ }_{2 (3i)} +   \underbrace{\ 6 i\ }_{(3i)2}\ \  \underbrace{- 9}_{(3i)(3i)}\  = -5 +12 i.\]</span>
 R knows the rules for arithmetic on complex numbers. Here’s a demonstration of the oscillations that result from raising a complex number to successive powers.</li>
 </ol>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="second-order-de.html#cb64-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.65</span> <span class="sc">+</span> <span class="fl">0.76</span>i</span>
-<span id="cb64-2"><a href="second-order-de.html#cb64-2" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="second-order-de.html#cb62-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.65</span> <span class="sc">+</span> <span class="fl">0.76</span>i</span>
+<span id="cb62-2"><a href="second-order-de.html#cb62-2" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] -0.1551+0.988i</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="second-order-de.html#cb66-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">3</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="second-order-de.html#cb64-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">3</span></span></code></pre></div>
 <pre><code>## [1] -0.851695+0.524324i</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="second-order-de.html#cb68-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">4</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="second-order-de.html#cb66-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">4</span></span></code></pre></div>
 <pre><code>## [1] -0.952088-0.3064776i</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="second-order-de.html#cb70-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">5</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="second-order-de.html#cb68-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">5</span></span></code></pre></div>
 <pre><code>## [1] -0.3859342-0.9227973i</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="second-order-de.html#cb72-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">6</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="second-order-de.html#cb70-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">6</span></span></code></pre></div>
 <pre><code>## [1] 0.4504687-0.8931283i</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="second-order-de.html#cb74-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">7</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="second-order-de.html#cb72-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">7</span></span></code></pre></div>
 <pre><code>## [1] 0.9715821-0.2381771i</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="second-order-de.html#cb76-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">8</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="second-order-de.html#cb74-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">8</span></span></code></pre></div>
 <pre><code>## [1] 0.812543+0.5835873i</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="second-order-de.html#cb78-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">9</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="second-order-de.html#cb76-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">9</span></span></code></pre></div>
 <pre><code>## [1] 0.0846266+0.9968644i</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="second-order-de.html#cb80-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="second-order-de.html#cb78-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="sc">^</span><span class="dv">10</span></span></code></pre></div>
 <pre><code>## [1] -0.7026097+0.7122781i</code></pre>
 <p>Notice that the real part of the result oscillates between negative and positive. The imaginary part also oscillates, but delayed a bit from the real part. Just like sine and cosine.</p>
 <p>We can get a clearer picture by plotting <span class="math inline">\(e^{i\omega t}\)</span> over the domain <span class="math inline">\(0 &lt; t &lt; 10\)</span>. As an example, in Figure <a href="second-order-de.html#fig:complex-exponential-plot">54.5</a> we’ll set <span class="math inline">\(\omega = 2\)</span>. We need to be a little careful, since our plotting functions are not arranged to display complex numbers. But there is an easy workaround: plot the “real” and “imaginary” parts separately. The R operators <code>Re()</code> and <code>Im()</code> do this work.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="second-order-de.html#cb82-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(1i <span class="sc">*</span> omega <span class="sc">*</span> t) <span class="sc">~</span> t, <span class="at">omega =</span> <span class="dv">2</span>)</span>
-<span id="cb82-2"><a href="second-order-de.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">Re</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, </span>
-<span id="cb82-3"><a href="second-order-de.html#cb82-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)), <span class="at">color =</span> <span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb82-4"><a href="second-order-de.html#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">Im</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="second-order-de.html#cb80-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(1i <span class="sc">*</span> omega <span class="sc">*</span> t) <span class="sc">~</span> t, <span class="at">omega =</span> <span class="dv">2</span>)</span>
+<span id="cb80-2"><a href="second-order-de.html#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">Re</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, </span>
+<span id="cb80-3"><a href="second-order-de.html#cb80-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)), <span class="at">color =</span> <span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb80-4"><a href="second-order-de.html#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">Im</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:complex-exponential-plot"></span>
 <img src="MOSAIC-Calculus_files/figure-html/complex-exponential-plot-1.png" alt="The real and imaginary parts of $e^{i \omega t}$ plotted as a function of $t$." width="90%" />
 <p class="caption">
@@ -514,8 +504,8 @@ Recall that the parameter <span class="math inline">\(r\)</span> describes the a
 = e^{-r t/2}\underbrace{\left[m_1 e^{i \omega t} + m2 e^{i\omega t}\right]}_{\text{sinusoid}(\omega t)}\]</span>
 Result: an exponentially decaying sinusoid.</p>
 <p>To graph this function, we need to choose appropriate numerical values for <span class="math inline">\(r\)</span> and <span class="math inline">\(b\)</span>. Let’s set <span class="math inline">\(r=1\)</span>. Since <span class="math inline">\(r^2 &lt; 4b\)</span>, we must have <span class="math inline">\(\frac{1}{4} &lt; b\)</span>: we’ll choose <span class="math inline">\(b = 6\)</span> which meets this criterion. Figure <a href="second-order-de.html#fig:decay-sinusoid1">54.6</a> shows the solution to the differential equation:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="second-order-de.html#cb83-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dv<span class="sc">~</span> <span class="sc">-</span>r<span class="sc">*</span>v <span class="sc">-</span> b<span class="sc">*</span>y, dy <span class="sc">~</span> v, <span class="at">v=</span><span class="dv">10</span>, <span class="at">y=</span><span class="dv">0</span>, <span class="at">r=</span><span class="dv">1</span>, <span class="at">b=</span><span class="dv">6</span>, <span class="at">tdur=</span><span class="dv">20</span>)</span>
-<span id="cb83-2"><a href="second-order-de.html#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="second-order-de.html#cb81-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dv<span class="sc">~</span> <span class="sc">-</span>r<span class="sc">*</span>v <span class="sc">-</span> b<span class="sc">*</span>y, dy <span class="sc">~</span> v, <span class="at">v=</span><span class="dv">10</span>, <span class="at">y=</span><span class="dv">0</span>, <span class="at">r=</span><span class="dv">1</span>, <span class="at">b=</span><span class="dv">6</span>, <span class="at">tdur=</span><span class="dv">20</span>)</span>
+<span id="cb81-2"><a href="second-order-de.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:decay-sinusoid1"></span>
 <img src="MOSAIC-Calculus_files/figure-html/decay-sinusoid1-1.png" alt="An exponentially decaying sinusoid arising from $r = 1$ and $b = 6$." width="90%" />
 <p class="caption">
@@ -524,9 +514,9 @@ Figure 54.6: An exponentially decaying sinusoid arising from <span class="math i
 </div>
 <p>This is the situation with a swinging door. You shove it to swing open, after which it oscillates with a decreasing amplitude.</p>
 <p>In contrast, suppose the spring is weak compared to the damping such that <span class="math inline">\(4b &lt; r^2\)</span>. Now <span class="math inline">\(\sqrt{\strut r^2 - 4b}\)</span> is a positive number, not imaginary. What’s more, since <span class="math inline">\(b\)</span> is positive, <span class="math inline">\(\sqrt{\strut r^2 - 4 b} &lt; r\)</span>. This means that both eigenvalues are negative. We’ll illustrate the situation with <span class="math inline">\(r=1, b=0.2\)</span>:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="second-order-de.html#cb84-1" aria-hidden="true" tabindex="-1"></a>traj2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dv<span class="sc">~</span> <span class="sc">-</span>r<span class="sc">*</span>v <span class="sc">-</span> b<span class="sc">*</span>y, dy <span class="sc">~</span> v, <span class="at">v=</span><span class="dv">10</span>, <span class="at">y=</span><span class="dv">0</span>, <span class="at">r=</span><span class="dv">1</span>, <span class="at">b=</span><span class="fl">0.1</span>, <span class="at">tdur=</span><span class="dv">20</span>)</span>
-<span id="cb84-2"><a href="second-order-de.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj2) <span class="sc">%&gt;%</span></span>
-<span id="cb84-3"><a href="second-order-de.html#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_lims</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="second-order-de.html#cb82-1" aria-hidden="true" tabindex="-1"></a>traj2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dv<span class="sc">~</span> <span class="sc">-</span>r<span class="sc">*</span>v <span class="sc">-</span> b<span class="sc">*</span>y, dy <span class="sc">~</span> v, <span class="at">v=</span><span class="dv">10</span>, <span class="at">y=</span><span class="dv">0</span>, <span class="at">r=</span><span class="dv">1</span>, <span class="at">b=</span><span class="fl">0.1</span>, <span class="at">tdur=</span><span class="dv">20</span>)</span>
+<span id="cb82-2"><a href="second-order-de.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj2) <span class="sc">%&gt;%</span></span>
+<span id="cb82-3"><a href="second-order-de.html#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_lims</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:overdamped1"></span>
 <img src="MOSAIC-Calculus_files/figure-html/overdamped1-1.png" alt="A heavily damped spring-mass system with  $r = 1$ and $b = 0.1$." width="90%" />
 <p class="caption">
@@ -535,9 +525,9 @@ Figure 54.7: A heavily damped spring-mass system with <span class="math inline">
 </div>
 <p>The situation in Figure <a href="second-order-de.html#fig:overdamped1">54.7</a> is the sort of behavior one expects when giving a shove to an exit door in theater or stadium. The shove causes the door to swing open, after which it slowly returns to the closed position. That gives plenty of time for the people following you to get to the door before it closes.</p>
 <p>Finally, consider the case where <span class="math inline">\(r^2 - 4 b = 0\)</span>, a balance between resistance and springiness. In this case, both eigenvalues are <span class="math inline">\(\lambda = -r/2\)</span>.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="second-order-de.html#cb85-1" aria-hidden="true" tabindex="-1"></a>traj3 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dv<span class="sc">~</span> <span class="sc">-</span>r<span class="sc">*</span>v <span class="sc">-</span> b<span class="sc">*</span>y, dy <span class="sc">~</span> v, <span class="at">v=</span><span class="dv">10</span>, <span class="at">y=</span><span class="dv">0</span>, <span class="at">r=</span><span class="dv">1</span>, <span class="at">b=</span><span class="fl">0.25</span>, <span class="at">tdur=</span><span class="dv">20</span>)</span>
-<span id="cb85-2"><a href="second-order-de.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj3) <span class="sc">%&gt;%</span></span>
-<span id="cb85-3"><a href="second-order-de.html#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_lims</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="second-order-de.html#cb83-1" aria-hidden="true" tabindex="-1"></a>traj3 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dv<span class="sc">~</span> <span class="sc">-</span>r<span class="sc">*</span>v <span class="sc">-</span> b<span class="sc">*</span>y, dy <span class="sc">~</span> v, <span class="at">v=</span><span class="dv">10</span>, <span class="at">y=</span><span class="dv">0</span>, <span class="at">r=</span><span class="dv">1</span>, <span class="at">b=</span><span class="fl">0.25</span>, <span class="at">tdur=</span><span class="dv">20</span>)</span>
+<span id="cb83-2"><a href="second-order-de.html#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj3) <span class="sc">%&gt;%</span></span>
+<span id="cb83-3"><a href="second-order-de.html#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_lims</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:critically-damped"></span>
 <img src="MOSAIC-Calculus_files/figure-html/critically-damped-1.png" alt="A critically damped oscillation with $r=1$, $b=0.25$." width="90%" />
 <p class="caption">
@@ -552,8 +542,8 @@ Consider the second-order linear differential equation <span class="math display
 <span class="math display">\[\lambda = \left(-2 \pm \sqrt{\strut 4 + 12}\right)/2 = 1 \pm \sqrt{\strut 16}/2 = -1 \pm 2\]</span>
 In other words, <span class="math inline">\(\lambda_1 = -3\)</span> and <span class="math inline">\(\lambda_2 = +1\)</span>. This indicates that the system is a saddle: unstable in one direction and stable in the other.</p>
 <p>To confirm our work, let’s use <code>eigen()</code> to find the eigenvalues of the matrix <span class="math inline">\(\left[\begin{array}{cc}2 &amp; 3\\1 &amp; 0\end{array}\right]\)</span>:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="second-order-de.html#cb86-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>), <span class="fu">rbind</span>(<span class="dv">3</span>,<span class="dv">0</span>))</span>
-<span id="cb86-2"><a href="second-order-de.html#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(M)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="second-order-de.html#cb84-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>), <span class="fu">rbind</span>(<span class="dv">3</span>,<span class="dv">0</span>))</span>
+<span id="cb84-2"><a href="second-order-de.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(M)</span></code></pre></div>
 <pre><code>## eigen() decomposition
 ## $values
 ## [1] -3  1
@@ -581,11 +571,241 @@ We should set the parameters <span class="math inline">\(a\)</span> and <span cl
 The nature of the gas pedal itself leads to a damping term in the dynamics, without our having to think about it consciously.</p>
 </div>
 </div>
-<div id="exercises-6" class="section level2 hasAnchor" number="8.6">
-<h2><span class="header-section-number">54.6</span> Exercises<a href="second-order-de.html#exercises-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="exercises-7" class="section level2 hasAnchor" number="8.6">
+<h2><span class="header-section-number">54.6</span> Exercises<a href="second-order-de.html#exercises-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>T-ZO94U: Identify the components of a force-balance differential equation: mass, acceleration, friction (damping, air resistance), restorative force.</p></li>
+<li><p>S-BOXLN: Identify and interpret mechanistically interaction terms in a second-order differential equation</p></li>
+<li><p>F-189B3: Interpret the complex exponential <span class="math inline">\(e^{i\omega t}\)</span> as a sinusoid of frequency <span class="math inline">\(\omega\)</span>.</p></li>
+<li><p>P-7PXE3: Identify a differential equation in force-balance form and, for linear equations, determine if the solution is stable or unstable and, if oscillatory, what the frequency of oscillation is.</p></li>
+<li><p>Z-DPT7M: For a linear differential equation in force-mass form, use the ansatz <span class="math inline">\(e^{kt}\)</span> to find the quadratic polynomial in <span class="math inline">\(k\)</span> (“characteristic equation”) that describes the eigenvalues of the differential equation.</p></li>
+<li><p>W-5ZT92: Construct and solve numerically a system of two first-order differential equations that represent a vertically rising or falling object in the presence of gravity and air resistance.</p></li>
+</ul>
 <details>
 <summary>
-<strong>Exercise 53.03</strong>: <span><a name="File: Exercises/falcon-shut-hamper.Rmd" href="#IVEjiX"><img src="www/icons8-signpost.png" title="Location: Exercises/falcon-shut-hamper.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">IVEjiX </red></span>
+<strong>Exercise 54.05</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/pine-bring-window.Rmd" width="12px"/><span id="P4xpYP" style="color: red; font-size: 9pt;">P4xpYP T-ZO94U</red></span>
+</summary>
+<p><strong>Friction</strong> is an inevitable feature of real-world spring-mass systems. Without friction the spring-mass force-balance differential equation is <span class="math inline">\(m\partial_{tt} x = -k\, x\)</span>. How does friction fit in?</p>
+<p>For a mass moving at velocity <span class="math inline">\(\partial_t{x}\)</span>, the friction force will be in the direction <em>opposed</em> to the velocity and, when velocity is zero, friction goes away. Following our general calculus idea of approximating with a simple straight-line function, we get a force <span class="math inline">\(\text{friction} = -r \partial_t{x}\)</span>. Adding in the friction force gives a new force-balance equation which has a famous name in physics: the “damped harmonic oscillator.”</p>
+<p><span class="math display">\[m \partial_{tt}{x} = -r \partial_t{x} - k x\]</span>
+Note that all of the coefficients <span class="math inline">\(m, r\)</span>, and <span class="math inline">\(k\)</span> are positive</p>
+<p>Since we’ve gotten in the habit of using <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> on the right side of the equation, we’ll re-write the force-balance equation as
+<span class="math display">\[\partial_{tt}{x} = a \partial_t{x} + b x\]</span> where <span class="math inline">\(a = -r/m\)</span> and <span class="math inline">\(b = -k/m\)</span>.</p>
+<p>As the name “damped harmonic oscillator” suggests, we expect that the solution to the force-balance equation will be a “damped” oscillation, that is an oscillation that decreases in amplitude over time as friction draws energy out of the system (and dissipates it as heat). But how fast and in what form will the amplitude decrease?</p>
+<p><strong>Question A</strong> Suppose that friction is strong, that is <span class="math inline">\(a\)</span> is big. More specifically, suppose <span class="math inline">\(a^2 &gt; 4 b\)</span>. What will be true about <span class="math inline">\(\sqrt{\strut a^2 - 4b}\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">It will be purely “imaginary”.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It will be purely “real”.<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice">It will be <em>complex</em>, that is with a non-zero real part and a non-zero imaginary part.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">There’s no way to tell for sure.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question B</strong> When <span class="math inline">\(a^2 &gt; 4b\)</span>, can either of the eigenvalues be positive?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">No<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice">Yes, one eigenvalue can be positive.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Both eigenvalues <em>must</em> be positive.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Depends on the specific values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>When <em>friction</em> dominates (that is, large <span class="math inline">\(|a|\)</span>) the eigenvalues are both real and negative. This means there is no oscillation and the motion decays to <span class="math inline">\(x = 0\)</span>.</p>
+<p><strong>Question C</strong> Question: Suppose that friction is weak, that is <span class="math inline">\(a^2 &lt; 4|b|\)</span>. What will be true about <span class="math inline">\(\sqrt{a^2 + 4b}\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">It will be purely “imaginary”.<span class="mcanswer">Correct. </span></span><br />
+</li>
+<li><span class="Zchoice">It will be purely “real”.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">It will be <em>complex</em>, that is with a non-zero real part and a non-zero imaginary part.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">There’s no way to tell for sure.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>Suppose that we define <span class="math inline">\(\omega \equiv \sqrt{\strut 4b - a^2}/2\)</span> and <span class="math inline">\(k = a/2\)</span>. (Recall, that for <span class="math inline">\(a\)</span> to describe friction, we must have <span class="math inline">\(a &lt; 0\)</span>.) The eigenvalues will be of the form <span class="math inline">\({k + i\omega}\)</span> and a solution to the differential equation will be <span class="math inline">\(e^{(k + i\omega)t} = e^{kt} e^{ i \omega t}\)</span>.</p>
+<p><strong>Question D</strong> What will <span class="math inline">\(e^{-kt} e^{i \omega t}\)</span> be?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">An exponentially decaying sinusoid<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice">An exponentially growing sinusoid<span class="mcanswer">︎✘ Remember that <span class="math inline">\(a &gt; 0\)</span>, so <span class="math inline">\(k = a/2 &gt; 0\)</span> and <span class="math inline">\(e^{-kt}\)</span> is a decaying exponential.</span></span><br />
+</li>
+<li><span class="Zchoice">An ordinary sinusoid.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 54.07</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/cat-sleep-door.Rmd" width="12px"/><span id="Yn47ct" style="color: red; font-size: 9pt;">Yn47ct W-5ZT92</red></span>
+</summary>
+<p>Section <a href="second-order-de.html#ballistics">54.1</a> gives the equations for the motion of a cannonball with a simple model of air resistance and shows how to integrate them numerically with <code>integrateODE()</code>.</p>
+<p>You task is to set the initial conditions for velocity so that the ball is being fired 250 feet per second at an angle <span class="math inline">\(\theta\)</span> from the horizontal. These initial conditions will be
+<span class="math inline">\(v_0 = 250 \sin\left(\strut \pi \theta/180\right)\)</span> and
+<span class="math inline">\(u_0 = 250 \cos\left(\strut \pi \theta/180\right)\)</span>, where <span class="math inline">\(\theta\)</span> has units of degrees.</p>
+Once you have the numerical integration working, find an argmin for <span class="math inline">\(\theta\)</span> that maximizes the horizontal distance travelled by the cannonball.
+</details>
+<details>
+<summary>
+<strong>Exercise 54.09</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/falcon-have-mattress.Rmd" width="12px"/><span id="iX26Ra" style="color: red; font-size: 9pt;">iX26Ra D-BRUPM</red></span>
+</summary>
+<p>Most any mathematics textbook devotes a considerable amount of space to <strong>deriving</strong> formulas. This is well and good. But in practical work, there is considerable room for error even if you already know the formula.</p>
+<p>It’s a good professional practice to try to have at least two ways to perform a calculation so that you can confirm that you are doing the calculation properly. In this exercise, we give you a formulas for the eigenvalues and eigenvectors of an abcd matrix. And, of course, there is the <code>eigen()</code> function that should give the same results as the formula.</p>
+<p>Your task is to use both <code>eigen()</code> and the formulas directly to confirm that the two calculations are the same. The formulas have symbols; replace these with numbers of your choice to do the calculations.</p>
+<p>You might start out with numbers that are simple integers, then switch to numbers that are more or less random.</p>
+<p>The formula for the eigenvalues of an abcd matrix <span class="math display">\[\left[\begin{array}{cc}a &amp; b\\c &amp; d\end{array}\right]\]</span> is
+<span class="math display">\[\lambda_{1,2} = \frac{1}{2}\left[{\large\strut}(a-d)^2 \pm \sqrt{\strut(a+d)^2 - 4bc}\right]\ .\]</span></p>
+<p>Once you know the eigenvalues, the eigenvectors can be calculated this way:
+<span class="math display">\[\vec{\Lambda_1} = \left[\begin{array}{c}\lambda_1 - d\\c\end{array}\right]\ \ \text{and}\ \ \vec{\Lambda_2} = \left[\begin{array}{c}\lambda_2 - d\\c\end{array}\right]\]</span></p>
+<ol style="list-style-type: decimal">
+<li><p>Calculate the eigenvalues and eigenvectors of
+<span class="math display">\[\left[\begin{array}{rr}1 &amp; 0 \\-2 &amp; 6\end{array}\right]\]</span></p></li>
+<li><p>Calculate the eigenvalues and eigenvectors of
+<span class="math display">\[\left[\begin{array}{rr}8 &amp; 6 \\4 &amp; -1\end{array}\right]\]</span></p></li>
+<li><p>Calculate the eigenvalues and eigenvectors of
+<span class="math display">\[\left[\begin{array}{rr}-9 &amp; 2\\8 &amp; -6\end{array}\right]\]</span></p></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 54.11</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/deer-cost-door.Rmd" width="12px"/><span id="Pl64dp" style="color: red; font-size: 9pt;">Pl64dp WP-103-14</red></span>
+</summary>
+<p>An eigenvector <span class="math inline">\(\vec{\Lambda}\)</span> of a matrix <span class="math inline">\(\mathit{M}\)</span> always has this property:</p>
+<p><span class="math display">\[\mathit{M} \vec{\Lambda} = \lambda \vec{\Lambda}\]</span>
+This merely says that if you multiply a matrix by one of its eigenvectors, the result is a vector that points in the same direction as the eigenvector but may have a different length or reversed orientation.</p>
+<p>Your task:</p>
+<ol style="list-style-type: decimal">
+<li><p>Construct a numerical abcd matrix with whatever values you like and, using <code>eigen()</code>, calculate its eigenvalues and eigenvectors.</p></li>
+<li><p>Multiply the matrix by one of the eigenvectors to create a new vector.</p></li>
+<li><p>Confirm that the vector in (2) is proportional to the eigenvector. When two vectors are proportional, dividing component-wise one vector by the other will create a vector with every element the same. (Note: if both of the vectors in the division have any zero component, the result of the division will be <code>NaN</code>. In contrast, if one of the vectors has a zero component, but the other doesn’t, you will get a result of 0 or <code>Inf</code> for that component.)</p></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 54.13</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/chicken-make-room.Rmd" width="12px"/><span id="JsRKvA" style="color: red; font-size: 9pt;">JsRKvA D-BRUPM</red></span>
+</summary>
+<p>You’ve seen that sometimes the two eigenvalues of an abcd matrix are <strong>complex numbers</strong>, that is, have a nonzero imaginary part. You may also have noticed that the eigenvalues are closely related to one another: the imaginary part of one will be the negative of the imaginary part of the other. Such vectors are called <strong><em>complex conjugates</em></strong>.</p>
+<p>Whenever a matrix has a complex eigenvalue, it will also have the complex conjugate of that eigenvalue; complex eigenvalues <em>always</em> come in pairs.</p>
+<p>For a 2x2 matrix, there will be two eigenvalues. If one is complex, the other will be the complex conjugate.</p>
+<p>For a 3x3 matrix, either one or all three of the eigenvalues will <strong>not</strong> be complex.</p>
+<p>Here’s a way to generate a random nxn matrix:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="second-order-de.html#cb86-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb86-2"><a href="second-order-de.html#cb86-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n<span class="sc">^</span><span class="dv">2</span>), <span class="at">nrow=</span>n)</span>
+<span id="cb86-3"><a href="second-order-de.html#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(M)<span class="sc">$</span>values</span></code></pre></div>
+<pre><code>## [1] -1.4448837  1.0267628  0.2770959</code></pre>
+Your task: for <span class="math inline">\(n=3\)</span>, run the previous commands over and over, 20 times altogether. Report what fraction of the time the random matrix generated has 3 real eigenvalues. (Note: Something like <code>1.548950+0.00000i</code> is a real eigenvalue, because the imaginary part is zero.)
+</details>
+<details>
+<summary>
+<strong>Exercise 54.17</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/tiger-sharpen-fork.Rmd" width="12px"/><span id="CMBvRg" style="color: red; font-size: 9pt;">CMBvRg F-189B3</red></span>
+</summary>
+<p>Let’s plot <span class="math inline">\(e^{i\omega t}\)</span> over the domain <span class="math inline">\(0 &lt; t &lt; 10\)</span> using <span class="math inline">\(\omega = 2\)</span>. We need to be a little careful, since our plotting functions are not arranged to display complex numbers. But there is an easy workaround: plot the “real” and “imaginary” parts separately.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="second-order-de.html#cb88-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(1i <span class="sc">*</span> omega <span class="sc">*</span> t) <span class="sc">~</span> t, <span class="at">omega =</span> <span class="dv">2</span>)</span>
+<span id="cb88-2"><a href="second-order-de.html#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">Re</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, </span>
+<span id="cb88-3"><a href="second-order-de.html#cb88-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)), <span class="at">color =</span> <span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb88-4"><a href="second-order-de.html#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">Im</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/cn1-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question A</strong> Which part of <span class="math inline">\(e^{i \omega t}\)</span> is the cosine function?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The “real” part<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">The “imaginary” part<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The negative of the “imaginary” part<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The negative of the “real” part<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p>Now let’s consider <span class="math inline">\(e^{(k + i\omega) t}\)</span>, where the input to the exponential function has a real part <span class="math inline">\(k\)</span> and an imaginary part <span class="math inline">\(\omega\)</span>. As before, the output of the exponential will be a complex number, so we’ll plot the real and imaginary parts separately.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="second-order-de.html#cb89-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>((k <span class="sc">+</span> 1i <span class="sc">*</span> omega) <span class="sc">*</span> t) <span class="sc">~</span> t, <span class="at">omega =</span> <span class="dv">2</span>, <span class="at">k=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb89-2"><a href="second-order-de.html#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">Re</span>(<span class="fu">g</span>(t)) <span class="sc">~</span> t, </span>
+<span id="cb89-3"><a href="second-order-de.html#cb89-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)), <span class="at">color =</span> <span class="st">&quot;orange3&quot;</span>, <span class="at">npts=</span><span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb89-4"><a href="second-order-de.html#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">Im</span>(<span class="fu">g</span>(t)) <span class="sc">~</span> t, <span class="at">color=</span><span class="st">&quot;dodgerblue&quot;</span>, <span class="at">npts=</span><span class="dv">500</span>)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/cn3-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><strong>Question B</strong> At what time <span class="math inline">\(t\)</span> does the sine-like function complete one full oscillation?</p>
+<p>    <span class="Zchoice">At about <span class="math inline">\(t=1.6\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">At about <span class="math inline">\(t=3.14\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">At about <span class="math inline">\(t=4.7\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">At about <span class="math inline">\(t=6.28\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question C</strong> Find a value for <span class="math inline">\(\omega\)</span> that will produce one full oscillation every two time units. Graph it out to make sure that you have five full oscillations over the <span class="math inline">\(0 &lt; t &lt; 10\)</span> domain. What is that <span class="math inline">\(\omega\)</span>?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(\omega = 1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\omega = \pi/2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\omega = \pi\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(\omega = 2 \pi\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question D</strong> Keeping <span class="math inline">\(\omega\)</span> at the value that produce five complete cycles over <span class="math inline">\(0 &lt; t &lt; 10\)</span>, find a value for <span class="math inline">\(k\)</span> such that the amplitude of the oscillation at <span class="math inline">\(t=10\)</span> will be half that of the amplitude at <span class="math inline">\(t=0\)</span>. What is <span class="math inline">\(k\)</span>?</p>
+<p>    <span class="Zchoice"><span class="math inline">\(k \approx -0.70\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(k \approx -0.07\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(k \approx 0.07\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(k \approx 0.70\)</span><span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question E</strong> Set <span class="math inline">\(\omega\)</span> at the value that produces 20 complete cycles over <span class="math inline">\(0 &lt; t &lt; 10\)</span> and <span class="math inline">\(k\)</span> at the value such that the amplitude of the oscillation at <span class="math inline">\(t=10\)</span> will be <em>twice</em> that of the amplitude at <span class="math inline">\(t=0\)</span>. What are <span class="math inline">\(\omega\)</span> and <span class="math inline">\(k\)</span>?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\omega = \pi,\ k \approx 0.35\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\omega = 2 \pi,\ k \approx 0.35\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\omega = 4 \pi,\ k \approx 0.070\)</span><span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\omega = 6 \pi,\ k \approx 0.7\)</span><span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 54.19</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/chicken-say-lamp.Rmd" width="12px"/><span id="N9iexG" style="color: red; font-size: 9pt;">N9iexG F-189B3</red></span>
+</summary>
+<p>At the very beginning of <a href="http://www.ukclimbing.com/news/item.php?id=49981">this 1987 video</a>, the climber, <a href="https://en.wikipedia.org/wiki/Catherine_Destivelle">Catherine Destivelle</a>, is dangling from a rope. Make an estimate of how long the rope is (specifically the length of the rope from the climber’s harness to the bolts at the top of the route), based on the eigenvalues of the linear dynamics of swinging.</p>
+<p>The standard differential-equation model for the changing angle <span class="math inline">\(\theta\)</span> of a pendulum is <span class="math display">\[L \partial_{tt} \theta = - g \theta\]</span> where <span class="math inline">\(L\)</span> is the length of the pendulum (in meters) and <span class="math inline">\(g\)</span> is the acceleration due to gravity (9.8 m/s^2 on the Earth’s surface).</p>
+<p><strong>Question A</strong> What are the eigenvalues of the standard model for swinging?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice"><span class="math inline">\(\lambda_1 = L\)</span> and <span class="math inline">\(\lambda_2 = g\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\lambda_{1,2} = \pm \frac{L}{g}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\lambda_{1,2} = \pm \sqrt{L/g}\)</span><span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice"><span class="math inline">\(\lambda_{1,2} = \pm ⅈ \sqrt{L/g}\)</span><span class="mcanswer">Good. </span></span></li>
+</ol>
+<p><strong>Question B</strong> Units for <span class="math inline">\(L\)</span> and <span class="math inline">\(g\)</span> were given in the paragraph above. Using these units, what are the corresponding units of the eigenvalues?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Since ⅈ is “imaginary”, it makes no sense to talk about units.<span class="mcanswer">︎✘ Since we multiply <span class="math inline">\(\lambda\)</span> by <span class="math inline">\(t\)</span> in the solution <span class="math inline">\(e^{\lambda t}\)</span>, there had better be some units to <span class="math inline">\(\lambda\)</span>!</span></span><br />
+</li>
+<li><span class="Zchoice">seconds/meter<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">1/seconds<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice">meters per second<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question C</strong> From the video, estimate the period of the oscillation. Which of these is closest to the duration of a full back-and-forth swing?</p>
+<p>    <span class="Zchoice">2 seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">3 seconds<span class="mcanswer">︎✘ This is a good estimate of <em>half</em> a cycle.</span></span>       <span class="Zchoice">4 seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">6 seconds<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question D</strong> It’s conventional to give separate names to the components of <span class="math inline">\(\lambda\)</span>. The “real” part is often denoted <span class="math inline">\(k\)</span>, the ⅈ part is called <span class="math inline">\(\omega\)</span>. The period (in seconds, say) is the quantity <span class="math inline">\(P\)</span> such that <span class="math inline">\(\omega P = 2 \pi\)</span>. What are the units of <span class="math inline">\(\omega\)</span> for <span class="math inline">\(P\)</span> in seconds?</p>
+<p>    <span class="Zchoice">seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1/seconds<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">meters per second<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">It has no units.<span class="mcanswer">︎✘ </span></span></p>
+<p>Put together these three facts to find a formula for <span class="math inline">\(L\)</span>. Remember: <span class="math inline">\(\omega = \sqrt{L/g}\)</span> and <span class="math inline">\(6\,\text{sec}\,\omega = 2 \pi\)</span> and <span class="math inline">\(g = 9.8\)</span>m/s.</p>
+<p><strong>Question E</strong> What’s a good estimate of <span class="math inline">\(L\)</span>?</p>
+<p>    <span class="Zchoice">5 meters<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">10 meters<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">15 meters<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">20 meters<span class="mcanswer">︎✘ </span></span></p>
+PS. Glad to report that in 2022, Catherine turned 62 years old.
+</details>
+<details>
+<summary>
+<strong>Exercise 54.23</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/sheep-bend-sheet.Rmd" width="12px"/><span id="6OL44y" style="color: red; font-size: 9pt;">6OL44y WP-103-14 P-7PXE3</red></span>
+</summary>
+<p>Consider the second-order linear differential equation</p>
+<p><span class="math display">\[\partial_{tt}x = - b\ \partial_t x - a\ x\]</span> where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are scalars.</p>
+<p>The only state variable listed explicitly in the second-order equation is <span class="math inline">\(x\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Define a new state variable <span class="math inline">\(v \equiv \partial_t x\)</span> and use it to re-write the second-order equation as <strong>two first-order</strong> differential equations: <span class="math display">\[\partial_t v = ????\\\partial_t x = ????\]</span></p></li>
+<li><p>Confirm that the matrix equivalent to the pair of first order equations is <span class="math display">\[\left[\begin{array}{cc}a &amp; b\\1 &amp; 0\end{array}\right]\ .\]</span></p></li>
+<li><p>With only 2 parameters, <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, can the matrix in (2) create the full range of behaviors seen in the 4-parameter abcd matrix
+<span class="math display">\[\left[\begin{array}{cc}a &amp; b\\c &amp; d\end{array}\right]\ ?\]</span></p></li>
+</ol>
+<p>To answer this question, we’ll return to the app that displays flows:</p>
+<p><a href="https://maa-statprep.shinyapps.io/142Z-Eigenflows/" target="_blank"><img src='www/eigenflow-app.png' width="50%"></a></p>
+<p>You can see in the ab-selector graph on the left annotations for several types of generic behaviour:</p>
+<ul>
+<li>Saddle (unstable along one eigenvector, stable along the other)</li>
+<li>Sources (unstable along both eigenvectors)</li>
+<li>Sinks (stable along both eigenvectors)</li>
+<li>Stable oscillation (spirals toward the fixed point)</li>
+<li>Unstable oscillation (spirals away from the fixed point)</li>
+</ul>
+<p>In the ab-selector graph, these are encoded by color and shading. The blue parabola marks the ab-region of oscillation; stability is indicated using dark shading. Saddles are at the top of the ab-graph. Sources and sinks are the gray arches rising up from the edges of the graph.</p>
+<p>The shading is set by calculating the eigenvalues for each (a, b)-pair</p>
+<p><strong>What sorts of trajectories, if any, are not produced by ab10 compared to the possibilities provided by the abcd matrix?</strong></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Underneath the graph are two numeric-input widgets, one to set the <span class="math inline">\(c\)</span> parameter, the other to set <span class="math inline">\(d\)</span>. By default, these are set to display an [ab10] matrix, but you can change them.</li>
+</ol>
+<p>Play with the <span class="math inline">\(c\)</span>- and <span class="math inline">\(d\)</span>-inputs to see how that changes the flow field (right graph) and the shaded regions. Make small changes to <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span> at first to get a feeling for what the controls do to the display. Then you can explore large changes.</p>
+<strong>Does any new type of behavior appear when <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span> are moved from their [ab10] settings?</strong>
+</details>
+<details>
+<summary>
+<strong>Exercise 54.25</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/falcon-shut-hamper.Rmd" width="12px"/><span id="IVEjiX" style="color: red; font-size: 9pt;">IVEjiX F-189B3</red></span>
 </summary>
 <p><strong>Passive electrical circuits</strong></p>
 <p>Second-order differential equations are used to model simple electrical circuits. In a step outside of calculus (meaning: you won’t be examined on it) it’s worth pointing out the correspondence between concepts of motion (acceleration, velocity, position) and electrical circuits (voltage, current, charge).
@@ -605,358 +825,17 @@ There are three classical idealized passive components of circuits:</p>
 <p><img src="www/lrc.png" width="40%" style="display: block; margin: auto;" /></p>
 <p>To prime the circuit, we’re going to connect the two dots at the bottom of the circuit with a battery. This will charge up the capacitor in much the same way as we “charge up” a spring by pulling on it. Next remove the battery and get ready to observe the motion. Complete the circuit by closing the switch between the two dots. Doing so establishes the circuit, analogous to setting up the dynamics of the system. The initial condition is the amount of charge <span class="math inline">\(x\)</span> on the capacitor and, at the instant the switch is closed, no flow of current, giving <span class="math inline">\(\dot{x} = 0\)</span>.</p>
 <p>The “force-balance” is the requirement that the sum of the voltages across the circuit elements be zero. This amounts to</p>
-<p><span class="math display">\[L \ddot{x} = -R\, \dot{x} - \frac{1}{C} x \]</span></p>
+<p><span class="math display">\[L \partial_{tt} {x} = -R\, \partial_t{x} - \frac{1}{C} x \]</span></p>
 <ol style="list-style-type: decimal">
-<li>Consider a circuit with inductance <span class="math inline">\(L=1\)</span>, resistance <span class="math inline">\(R=3\)</span> and capacitance <span class="math inline">\(C = 1\)</span>. What will be the eigenvalues of the dynamics? Will the fixed point at <span class="math inline">\(x=0\)</span> be stable or not?</li>
+<li>Consider a circuit with inductance <span class="math inline">\(L=1\)</span>, resistance <span class="math inline">\(R=3\)</span> and capacitance <span class="math inline">\(C = 1\)</span>. What will be the eigenvalues of the dynamics? <strong>Will the fixed point at <span class="math inline">\(x=0\)</span> be stable or not?</strong></li>
 </ol>
 <!--
 Solution: $\lambda_{1,2} = \frac{1}{2}\left[-3 \pm \sqrt{\strut 9 - 4 }\right] = (-3 \pm \sqrt{5})/2$ so $\lambda_1 \approx -0.382$ and $\lambda_2 \approx -2.618$. Since both eigenvalues are negative, the fixed point is stable. 
 -->
-</details>
-<details>
-<summary>
-<strong>Exercise 53.05</strong>: <span><a name="File: Exercises/pine-bring-window.Rmd" href="#P4xpYP"><img src="www/icons8-signpost.png" title="Location: Exercises/pine-bring-window.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">P4xpYP </red></span>
-</summary>
-<p><strong>Friction</strong> is an inevitable feature of real-world spring-mass systems. Without friction the spring-mass force-balance differential equation is <span class="math inline">\(m\partial_{tt} x = -k\, x\)</span>. How does friction fit in?</p>
-<p>For a mass moving at velocity <span class="math inline">\(\dot{x}\)</span>, the friction force will be in the direction <em>opposed</em> to the velocity and, when velocity is zero, friction goes away. Following our general calculus idea of approximating with a simple straight-line function, we get a force <span class="math inline">\(\text{friction} = -r \dot{x}\)</span>. Adding in the friction force gives a new force-balance equation which has a famous name in physics: the “damped harmonic oscillator.”</p>
-<p><span class="math display">\[m \ddot{x} = -r \dot{x} - k x\]</span>
-Note that all of the coefficients <span class="math inline">\(m, r\)</span>, and <span class="math inline">\(k\)</span> are positive</p>
-<p>Since we’ve gotten in the habit of using <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> on the right side of the equation, we’ll re-write the force-balance equation as
-<span class="math display">\[\ddot{x} = a \dot{x} + b x\]</span> where <span class="math inline">\(a = -r/m\)</span> and <span class="math inline">\(b = -k/m\)</span>.</p>
-<p>As the name “damped harmonic oscillator” suggests, we expect that the solution to the force-balance equation will be a “damped” oscillation, that is an oscillation that decreases in amplitude over time as friction draws energy out of the system (and dissipates it as heat). But how fast and in what form will the amplitude decrease?</p>
-<p><strong>Question A</strong> Suppose that friction is strong, that is <span class="math inline">\(a\)</span> is big. More specifically, suppose <span class="math inline">\(a^2 &gt; 4 b\)</span>. What will be true about <span class="math inline">\(\sqrt{\strut a^2 - 4b}\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">It will be purely “imaginary”.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">It will be purely “real”.<span class="mcanswer">Excellent! </span></span><br />
-</li>
-<li><span class="Zchoice">It will be <em>complex</em>, that is with a non-zero real part and a non-zero imaginary part.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">There’s no way to tell for sure.<span class="mcanswer">︎✘ </span></span></li>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>What will be the frequency of the solution <span class="math inline">\(x(t)\)</span>?</strong>
+</details></li>
 </ol>
-<p><strong>Question B</strong> When <span class="math inline">\(a^2 &gt; 4b\)</span>, can either of the eigenvalues be positive?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">No<span class="mcanswer">Right! </span></span><br />
-</li>
-<li><span class="Zchoice">Yes, one eigenvalue can be positive.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Both eigenvalues <em>must</em> be positive.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Depends on the specific values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<p>When <em>friction</em> dominates (that is, large <span class="math inline">\(|a|\)</span>) the eigenvalues are both real and negative. This means there is no oscillation and the motion decays to <span class="math inline">\(x = 0\)</span>.</p>
-<p><strong>Question C</strong> Question: Suppose that friction is weak, that is <span class="math inline">\(a^2 &lt; 4|b|\)</span>. What will be true about <span class="math inline">\(\sqrt{a^2 + 4b}\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">It will be purely “imaginary”.<span class="mcanswer">Excellent! </span></span><br />
-</li>
-<li><span class="Zchoice">It will be purely “real”.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">It will be <em>complex</em>, that is with a non-zero real part and a non-zero imaginary part.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">There’s no way to tell for sure.<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<p>Suppose that we define <span class="math inline">\(\omega \equiv \sqrt{\strut 4b - a^2}/2\)</span> and <span class="math inline">\(k = a/2\)</span>. (Recall, that for <span class="math inline">\(a\)</span> to describe friction, we must have <span class="math inline">\(a &lt; 0\)</span>.) The eigenvalues will be of the form <span class="math inline">\({k + i\omega}\)</span> and a solution to the differential equation will be <span class="math inline">\(e^{(k + i\omega)t} = e^{kt} e^{ i \omega t}\)</span>.</p>
-<p><strong>Question D</strong> What will <span class="math inline">\(e^{-kt} e^{i \omega t}\)</span> be?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">An exponentially decaying sinusoid<span class="mcanswer">Nice! </span></span><br />
-</li>
-<li><span class="Zchoice">An exponentially growing sinusoid<span class="mcanswer">︎✘ Remember that <span class="math inline">\(a &gt; 0\)</span>, so <span class="math inline">\(k = a/2 &gt; 0\)</span> and <span class="math inline">\(e^{-kt}\)</span> is a decaying exponential.</span></span><br />
-</li>
-<li><span class="Zchoice">An ordinary sinusoid.<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-</details>
-<details>
-<summary>
-<strong>Exercise 53.07</strong>: <span><a name="File: Exercises/cat-sleep-door.Rmd" href="#Yn47ct"><img src="www/icons8-signpost.png" title="Location: Exercises/cat-sleep-door.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Yn47ct </red></span>
-</summary>
-<p>Section <a href="second-order-de.html#ballistics">54.1</a> gives the equations for the motion of a cannonball with a simple model of air resistance and shows how to integrate them numerically with <code>integrateODE()</code>.</p>
-<p>You task is to set the initial conditions for velocity so that the ball is being fired 250 feet per second at an angle <span class="math inline">\(\theta\)</span> from the horizontal. These initial conditions will be
-<span class="math inline">\(v_0 = 250 \sin\left(\strut \pi \theta/180\right)\)</span> and
-<span class="math inline">\(u_0 = 250 \cos\left(\strut \pi \theta/180\right)\)</span>, where <span class="math inline">\(\theta\)</span> has units of degrees.</p>
-Once you have the numerical integration working, find an argmin for <span class="math inline">\(\theta\)</span> that maximizes the horizontal distance travelled by the cannonball.
-</details>
-<details>
-<summary>
-<strong>Exercise 53.09</strong>: <span><a name="File: Exercises/falcon-have-mattress.Rmd" href="#iX26Ra"><img src="www/icons8-signpost.png" title="Location: Exercises/falcon-have-mattress.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">iX26Ra </red></span>
-</summary>
-<p>Most any mathematics textbook devotes a considerable amount of space to <strong>deriving</strong> formulas. This is well and good. But in practical work, there is considerable room for error even if you already know the formula.</p>
-<p>It’s a good professional practice to try to have at least two ways to perform a calculation so that you can confirm that you are doing the calculation properly. In this exercise, we give you a formulas for the eigenvalues and eigenvectors of an abcd matrix. And, of course, there is the <code>eigen()</code> function that should give the same results as the formula.</p>
-<p>Your task is to use both <code>eigen()</code> and the formulas directly to confirm that the two calculations are the same. The formulas have symbols; replace these with numbers of your choice to do the calculations.</p>
-<p>You might start out with numbers that are simple integers, then switch to numbers that are more or less random.</p>
-<p>The formula for the eigenvalues of an abcd matrix <span class="math display">\[\left[\begin{array}{cc}a &amp; b\\c &amp; d\end{array}\right]\]</span> is
-<span class="math display">\[\lambda_{1,2} = \frac{1}{2}\left[{\large\strut}(a-d)^2 \pm \sqrt{\strut(a+d)^2 - 4bc}\right]\ .\]</span></p>
-<p>Once you know the eigenvalues, the eigenvectors can be calculated this way:
-<span class="math display">\[\vec{\Lambda_1} = \left[\begin{array}{c}\lambda_1 - d\\c\end{array}\right]\ \ \text{and}\ \ \vec{\Lambda_2} = \left[\begin{array}{c}\lambda_2 - d\\c\end{array}\right]\]</span></p>
-</details>
-<details>
-<summary>
-<strong>Exercise 53.11</strong>: <span><a name="File: Exercises/deer-cost-door.Rmd" href="#Pl64dp"><img src="www/icons8-signpost.png" title="Location: Exercises/deer-cost-door.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Pl64dp </red></span>
-</summary>
-<p>An eigenvector <span class="math inline">\(\vec{\Lambda}\)</span> of a matrix <span class="math inline">\(\mathit{M}\)</span> always has this property:</p>
-<p><span class="math display">\[\mathit{M} \vec{\Lambda} = \lambda \vec{\Lambda}\]</span>
-This merely says that if you multiply a matrix by one of its eigenvectors, the result is a vector that points in the same direction as the eigenvector but may have a different length or reversed orientation.</p>
-<p>Your task:</p>
-<ol style="list-style-type: decimal">
-<li><p>Construct a numerical abcd matrix with whatever values you like and, using <code>eigen()</code>, calculate its eigenvalues and eigenvectors.</p></li>
-<li><p>Multiply the matrix by one of the eigenvectors to create a new vector.</p></li>
-<li><p>Confirm that the vector in (2) is proportional to the eigenvector. When two vectors are proportional, dividing component-wise one vector by the other will create a vector with every element the same. (Note: if both of the vectors in the division have any zero component, the result of the division will be <code>NaN</code>. In contrast, if one of the vectors has a zero component, but the other doesn’t, you will get a result of 0 or <code>Inf</code> for that component.)</p></li>
-</ol>
-</details>
-<details>
-<summary>
-<strong>Exercise 53.13</strong>: <span><a name="File: Exercises/chicken-make-room.Rmd" href="#JsRKvA"><img src="www/icons8-signpost.png" title="Location: Exercises/chicken-make-room.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">JsRKvA </red></span>
-</summary>
-<p>You’ve seen that sometimes the two eigenvalues of an abcd matrix are <strong>complex numbers</strong>, that is, have a nonzero imaginary part. You may also have noticed that the eigenvalues are closely related to one another: the imaginary part of one will be the negative of the imaginary part of the other. Such vectors are called <strong><em>complex conjugates</em></strong>.</p>
-<p>Whenever a matrix has a complex eigenvalue, it will also have the complex conjugate of that eigenvalue; complex eigenvalues <em>always</em> come in pairs.</p>
-<p>For a 2x2 matrix, there will be two eigenvalues. If one is complex, the other will be the complex conjugate.</p>
-<p>For a 3x3 matrix, either one or all three of the eigenvalues will <strong>not</strong> be complex.</p>
-<p>Here’s a way to generate a random nxn matrix:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="second-order-de.html#cb88-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb88-2"><a href="second-order-de.html#cb88-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n<span class="sc">^</span><span class="dv">2</span>), <span class="at">nrow=</span>n)</span>
-<span id="cb88-3"><a href="second-order-de.html#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(M)<span class="sc">$</span>values</span></code></pre></div>
-<pre><code>## [1] -1.0116945  0.8665988  0.3070530</code></pre>
-Your task: for <span class="math inline">\(n=3\)</span>, run the previous commands over and over, 20 times altogether. Report what fraction of the time the random matrix generated has 3 real eigenvalues. (Note: Something like <code>1.548950+0.00000i</code> is a real eigenvalue, because the imaginary part is zero.)
-</details>
-<details>
-<summary>
-<strong>Exercise 53.15</strong>: <span><a name="File: Exercises/spider-hide-cotton.Rmd" href="#xkQnvD"><img src="www/icons8-signpost.png" title="Location: Exercises/spider-hide-cotton.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">xkQnvD </red></span>
-</summary>
-<p>The only fixed point of the rabbit-fox system is
-<span class="math inline">\(\left(r^\star, f^\star\right) = \left(\frac{\alpha}{\beta}, -\frac{\delta}{\gamma}\right)\)</span></p>
-<p>The linearized dynamics around this fixed point are:
-<span class="math display">\[\partial_t r = 
-\left(\alpha + \frac{\beta\gamma}{\delta}\right) [r - r^\star] + 
-\alpha [f - f^\star]\\
-\partial_t f = 
-- \delta [r - r^\star] + 
-\left(\delta + \frac{\alpha\beta}{\delta}\right) [f - f^\star]\]</span></p>
-Using the formula for eigenvalues, calculate the eigenvalues symbolically and report on the stability of the fixed point.
-</details>
-<details>
-<summary>
-<strong>Exercise 53.17</strong>: <span><a name="File: Exercises/tiger-sharpen-fork.Rmd" href="#CMBvRg"><img src="www/icons8-signpost.png" title="Location: Exercises/tiger-sharpen-fork.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">CMBvRg </red></span>
-</summary>
-<p>Let’s plot <span class="math inline">\(e^{i\omega t}\)</span> over the domain <span class="math inline">\(0 &lt; t &lt; 10\)</span> using <span class="math inline">\(\omega = 2\)</span>. We need to be a little careful, since our plotting functions are not arranged to display complex numbers. But there is an easy workaround: plot the “real” and “imaginary” parts separately.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="second-order-de.html#cb90-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>(1i <span class="sc">*</span> omega <span class="sc">*</span> t) <span class="sc">~</span> t, <span class="at">omega =</span> <span class="dv">2</span>)</span>
-<span id="cb90-2"><a href="second-order-de.html#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">Re</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, </span>
-<span id="cb90-3"><a href="second-order-de.html#cb90-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)), <span class="at">color =</span> <span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb90-4"><a href="second-order-de.html#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">Im</span>(<span class="fu">f</span>(t)) <span class="sc">~</span> t, <span class="at">color=</span><span class="st">&quot;brown&quot;</span>)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/cn1-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p><strong>Question A</strong> Which part of <span class="math inline">\(e^{i \omega t}\)</span> is the cosine function?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">The “real” part<span class="mcanswer">Right! </span></span><br />
-</li>
-<li><span class="Zchoice">The “imaginary” part<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">The negative of the “imaginary” part<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">The negative of the “real” part<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<p>Now let’s consider <span class="math inline">\(e^{(k + i\omega) t}\)</span>, where the input to the exponential function has a real part <span class="math inline">\(k\)</span> and an imaginary part <span class="math inline">\(\omega\)</span>. As before, the output of the exponential will be a complex number, so we’ll plot the real and imaginary parts separately.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="second-order-de.html#cb91-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">makeFun</span>(<span class="fu">exp</span>((k <span class="sc">+</span> 1i <span class="sc">*</span> omega) <span class="sc">*</span> t) <span class="sc">~</span> t, <span class="at">omega =</span> <span class="dv">2</span>, <span class="at">k=</span><span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb91-2"><a href="second-order-de.html#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_plot</span>(<span class="fu">Re</span>(<span class="fu">g</span>(t)) <span class="sc">~</span> t, </span>
-<span id="cb91-3"><a href="second-order-de.html#cb91-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">domain</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)), <span class="at">color =</span> <span class="st">&quot;orange3&quot;</span>, <span class="at">npts=</span><span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb91-4"><a href="second-order-de.html#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_plot</span>(<span class="fu">Im</span>(<span class="fu">g</span>(t)) <span class="sc">~</span> t, <span class="at">color=</span><span class="st">&quot;dodgerblue&quot;</span>, <span class="at">npts=</span><span class="dv">500</span>)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/cn3-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p><strong>Question B</strong> At what time <span class="math inline">\(t\)</span> does the sine-like function complete one full oscillation?</p>
-<p>    <span class="Zchoice">At about <span class="math inline">\(t=1.6\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">At about <span class="math inline">\(t=3.14\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">At about <span class="math inline">\(t=4.7\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">At about <span class="math inline">\(t=6.28\)</span><span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question C</strong> Find a value for <span class="math inline">\(\omega\)</span> that will produce one full oscillation every two time units. Graph it out to make sure that you have five full oscillations over the <span class="math inline">\(0 &lt; t &lt; 10\)</span> domain. What is that <span class="math inline">\(\omega\)</span>?</p>
-<p>    <span class="Zchoice"><span class="math inline">\(\omega = 1\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\omega = \pi/2\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(\omega = \pi\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(\omega = 2 \pi\)</span><span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question D</strong> Keeping <span class="math inline">\(\omega\)</span> at the value that produce five complete cycles over <span class="math inline">\(0 &lt; t &lt; 10\)</span>, find a value for <span class="math inline">\(k\)</span> such that the amplitude of the oscillation at <span class="math inline">\(t=10\)</span> will be half that of the amplitude at <span class="math inline">\(t=0\)</span>. What is <span class="math inline">\(k\)</span>?</p>
-<p>    <span class="Zchoice"><span class="math inline">\(k \approx -0.70\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(k \approx -0.07\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(k \approx 0.07\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(k \approx 0.70\)</span><span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question E</strong> Set <span class="math inline">\(\omega\)</span> at the value that produces 20 complete cycles over <span class="math inline">\(0 &lt; t &lt; 10\)</span> and <span class="math inline">\(k\)</span> at the value such that the amplitude of the oscillation at <span class="math inline">\(t=10\)</span> will be <em>twice</em> that of the amplitude at <span class="math inline">\(t=0\)</span>. What are <span class="math inline">\(\omega\)</span> and <span class="math inline">\(k\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\omega = \pi,\ k \approx 0.35\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\omega = 2 \pi,\ k \approx 0.35\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\omega = 4 \pi,\ k \approx 0.070\)</span><span class="mcanswer">Good. </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\omega = 6 \pi,\ k \approx 0.7\)</span><span class="mcanswer">︎✘ </span></span></li>
-</ol>
-</details>
-<details>
-<summary>
-<strong>Exercise 53.19</strong>: <span><a name="File: Exercises/chicken-say-lamp.Rmd" href="#N9iexG"><img src="www/icons8-signpost.png" title="Location: Exercises/chicken-say-lamp.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">N9iexG </red></span>
-</summary>
-<p>At the very beginning of <a href="http://www.ukclimbing.com/news/item.php?id=49981">this 1987 video</a>, the climber, <a href="https://en.wikipedia.org/wiki/Catherine_Destivelle">Catherine Destivelle</a>, is dangling from a rope. Make an estimate of how long the rope is (specifically the length of the rope from the climber’s harness to the bolts at the top of the route), based on the eigenvalues of the linear dynamics of swinging.</p>
-<p>The standard differential-equation model for the changing angle <span class="math inline">\(\theta\)</span> of a pendulum is <span class="math display">\[L \partial_{tt} \theta = - g \theta\]</span> where <span class="math inline">\(L\)</span> is the length of the pendulum (in meters) and <span class="math inline">\(g\)</span> is the acceleration due to gravity (9.8 m/s^2 on the Earth’s surface).</p>
-<p><strong>Question A</strong> What are the eigenvalues of the standard model for swinging?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\lambda_1 = L\)</span> and <span class="math inline">\(\lambda_2 = g\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\lambda_{1,2} = \pm \frac{L}{g}\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\lambda_{1,2} = \pm \sqrt{L/g}\)</span><span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\lambda_{1,2} = \pm ⅈ \sqrt{L/g}\)</span><span class="mcanswer">Right! </span></span></li>
-</ol>
-<p><strong>Question B</strong> Units for <span class="math inline">\(L\)</span> and <span class="math inline">\(g\)</span> were given in the paragraph above. Using these units, what are the corresponding units of the eigenvalues?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">Since ⅈ is “imaginary”, it makes no sense to talk about units.<span class="mcanswer">︎✘ Since we multiply <span class="math inline">\(\lambda\)</span> by <span class="math inline">\(t\)</span> in the solution <span class="math inline">\(e^{\lambda t}\)</span>, there had better be some units to <span class="math inline">\(\lambda\)</span>!</span></span><br />
-</li>
-<li><span class="Zchoice">seconds/meter<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">1/seconds<span class="mcanswer">Correct. </span></span><br />
-</li>
-<li><span class="Zchoice">meters per second<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<p><strong>Question C</strong> From the video, estimate the period of the oscillation. Which of these is closest to the duration of a full back-and-forth swing?</p>
-<p>    <span class="Zchoice">2 seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">3 seconds<span class="mcanswer">︎✘ This is a good estimate of <em>half</em> a cycle.</span></span>       <span class="Zchoice">4 seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">6 seconds<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
-<p><strong>Question D</strong> It’s conventional to give separate names to the components of <span class="math inline">\(\lambda\)</span>. The “real” part is often denoted <span class="math inline">\(k\)</span>, the ⅈ part is called <span class="math inline">\(\omega\)</span>. The period (in seconds, say) is the quantity <span class="math inline">\(P\)</span> such that <span class="math inline">\(\omega P = 2 \pi\)</span>. What are the units of <span class="math inline">\(\omega\)</span> for <span class="math inline">\(P\)</span> in seconds?</p>
-<p>    <span class="Zchoice">seconds<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1/seconds<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">meters per second<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">It has no units.<span class="mcanswer">︎✘ </span></span></p>
-<p>Put together these three facts to find a formula for <span class="math inline">\(L\)</span>. Remember: <span class="math inline">\(\omega = \sqrt{L/g}\)</span> and <span class="math inline">\(6\,\text{sec}\,\omega = 2 \pi\)</span> and <span class="math inline">\(g = 9.8\)</span>m/s.</p>
-<p><strong>Question E</strong> What’s a good estimate of <span class="math inline">\(L\)</span>?</p>
-<p>    <span class="Zchoice">5 meters<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">10 meters<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">15 meters<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">20 meters<span class="mcanswer">︎✘ </span></span></p>
-PS. Glad to report that in 2022, Catherine turned 62 years old.
-</details>
-<details>
-<summary>
-<strong>Exercise 53.21</strong>: <span><a name="File: Exercises/panda-teach-door.Rmd" href="#PD3CiZ"><img src="www/icons8-signpost.png" title="Location: Exercises/panda-teach-door.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">PD3CiZ </red></span>
-</summary>
-<p>In this exercise, you’ll be using an app that allows you to set <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in the [ab10] matrix and hunt for eigenvectors.</p>
-<p><a href="https://maa-statprep.shinyapps.io/142Z-Eigenflows/" target="_blank">
-<img src="www/eigenflow-app.png" width="60%">
-</a></p>
-<p>Open up the app in another browser tab and arrange it side-by-side with this document, so you can see both at the same time.</p>
-<p>You used a somewhat similar app when exploring linear, two-dimensional finite-difference equations. <a href="https://maa-statprep.shinyapps.io/142Z-Matrix-iteration/">Here’s a link</a>, but you don’t need to open that app for this exercise.</p>
-<p>This new app does a few things differently:</p>
-<ul>
-<li>In the old app, you had four number-entry boxes to set the values of the [abcd] matrix. Here, because we’re using the [ab10] format, you need only set <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. You can do this by clicking within the left-hand graph.</li>
-<li>The a-b selector graph is annotated with the type of generic behavior that the differential-equation system will show for any combination of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. This allows you to reason backward from the behavior you are interested in to the corresponding values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. Since the type of behavior is encoded in the eigenvalues, you are effectively inverting the eigenvalue formula to find <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</li>
-<li>The flow field (right-hand graph) shows <em>stream-lines</em> of continuous-time motion. Imagine you had a bunch of glitter which you cast out over a pool of water with a given flow pattern. If you took a time-exposure photo, you would see each piece of glitter as it moved along with the water in which it is embedded.</li>
-<li>You can click in the flow field to start a trajectory at that point. You can control the time domain—that is, how long is the time exposure of the photo—with the radio buttons at the bottom.</li>
-<li>There is a thin, green line annotating the flow field. This line runs from the fixed point (right in the center) in the direction of the point on which you click to start a trajectory. A vector with the same orientation as the green line is given numerically below the graph. This orientation is also described using an angle measurement in degrees.</li>
-<li>There is no display of the <em>solution</em>, that is, <span class="math inline">\(x()\)</span> versus <span class="math inline">\(t\)</span>. This is because we want you to understand the <em>geometry</em> of the flow.</li>
-</ul>
-<p>First, play around with the app. Choose miscellaneous values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, observe the flow, and click in the flow field to draw a red trajectory. Notice what happens when you make the number of steps larger or smaller. In unstable directions, you can get a good view of the trajectory by starting it near the fixed point. If you start it at the periphery of the graph, most of the trajectory will be outside the display. And if the number of steps is very small, you may not see it at all because the glyph is so thin near the start.</p>
-<p>When coming from a stable direction, click near the periphery of the graph to get a good view, since the red trajectory will naturally be heading in towards the origin. When estimating the orientation of an eigenvector, try to get the green line heading straight down the middle of the red trajectory. This often requires a bit of fiddling, moving the starting point just a tiny amount to find one that is just right.</p>
-<p>When you are <em>on</em> an eigenvector, the trajectory will be dead straight on the green line. Any trajectory not starting on an eigenvector will be curved to a greater or lesser extent, depending on the relative sizes of the eigenvalues.</p>
-<p>In the following questions, pick the choice <strong>closest</strong> to the answer you found. The exact choice of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> stemming from a click depends somewhat on the graphics resolution of your display, so you should expect only to be able to get close to the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> values given in the question.</p>
-<p><strong>Question A</strong> Set <span class="math inline">\(a=-1.0\)</span> and <span class="math inline">\(b = 0.5\)</span> (or as close as you can get) and observe the flow. This is a saddle: stable in one direction, unstable in another. There will be one stable eigenvector, where the flow moves <strong>directly outward</strong> from the origin, and one unstable eigenvector, where the flow moves <strong>directly inward</strong> toward the origin. Which one of these is the orientation (in degrees) of the unstable eigenvector?</p>
-<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question B</strong> Which of these best describes the eigenvalue corresponding to the unstable eigenvector?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">Negative and real<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Zero and real<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Positive and real<span class="mcanswer">Nice! </span></span><br />
-</li>
-<li><span class="Zchoice">Complex with a negative real part<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Complex with a positive real part<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<p><strong>Question C</strong> Keeping <span class="math inline">\(a=-1.0\)</span> and <span class="math inline">\(b = 0.5\)</span>, hunt for the stable eigenvector. Which one of these is the orientation (in degrees) of the stable eigenvector?</p>
-<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
-<hr />
-<p><strong>Question D</strong> Set <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span> and observe the flow. This is a source: all initial conditions lead to motion away from the fixed point. But for this <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, some directions are “faster” than others. Which one of these is the orientation (in degrees) of the fast eigenvector?</p>
-<p>    <span class="Zchoice">-149.7<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question E</strong> Keeping <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, what is the orientation of the slow eigenvector?</p>
-<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question F</strong> Staying with the flow from <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, which of these best describes the pair of eigenvalues?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">Both are real and positive<span class="mcanswer">Good. </span></span><br />
-</li>
-<li><span class="Zchoice">Both are real and negative<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">One is complex, the other real<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Both are complex, one has negative real part<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<hr />
-<p><strong>Question G</strong> Set <span class="math inline">\(a=-2\)</span> and <span class="math inline">\(b = -0.5\)</span> and observe the flow. This is a sink: all initial conditions lead to motion toward the fixed point. Which one of these is the orientation (in degrees) of the fast eigenvector?</p>
-<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
-<p><strong>Question H</strong> Keeping <span class="math inline">\(a=-2\)</span> and <span class="math inline">\(b = -0.5\)</span>, what is the orientation of the slow eigenvector?</p>
-<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question I</strong> Staying with the flow from <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, which of these best describes the pair of eigenvalues?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">Both are real and positive<span class="mcanswer">Right! </span></span><br />
-</li>
-<li><span class="Zchoice">Both are real and negative<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">One is complex, the other real<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Both are complex, one has negative real part<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Both are complex, both have negative real part<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<hr />
-<p><strong>Question J</strong> Set <span class="math inline">\(a=-1\)</span> and <span class="math inline">\(b = -1\)</span> and observe the flow. This is a node: the flow is spiral with the fixed point at the center. Is the flow stable or unstable?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">stable<span class="mcanswer">Right! </span></span><br />
-</li>
-<li><span class="Zchoice">unstable<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">neither stable nor unstable<span class="mcanswer">︎✘ Is it getting closer to the fixed point or further away? That’s the question that determines stability.</span></span></li>
-</ol>
-<p><strong>Question K</strong> Keeping <span class="math inline">\(a=-1\)</span> and <span class="math inline">\(b = -1\)</span>, what can you correctly say about the eigenvectors?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">They have almost the same orientation<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">There is only one eigenvector<span class="mcanswer">︎✘ There are almost aways two eigenvectors.</span></span><br />
-</li>
-<li><span class="Zchoice">There are no eigenvectors<span class="mcanswer">Correct. This is true in the sense that there is no place where the motion is on a straight line toward or away from the origin.</span></span></li>
-</ol>
-<p><strong>Question L</strong> Staying with the flow from <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, which of these best describes the pair of eigenvalues?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">Both are real and positive<span class="mcanswer">Correct. </span></span><br />
-</li>
-<li><span class="Zchoice">Both are real and negative<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">One is complex, the other real<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Both are complex, one has negative real part<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">Both are complex, both have negative real part<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<hr />
-<p><strong>Question M</strong> Set <span class="math inline">\(a=0\)</span> and some <span class="math inline">\(b &lt; 0\)</span>. The result will be a trajectory that goes around in a closed loop. (You will want to make the number of steps large to see a complete loop.) You may not be able to click on exactly <span class="math inline">\(a=0\)</span>, but you should be able to get close enough that the trajectory is a very tightly wound spiral. We’re interested here in how many cycles the trajectory covers in a fixed number of time steps, that is, whether the trajectory moves quickly or slowly around the loop. Which of these statements is true about the relationship between <span class="math inline">\(b\)</span> and the speed of the motion?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">There’s no relationship between <span class="math inline">\(b\)</span> and speed of oscillation.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">When <span class="math inline">\(b\)</span> is closer to zero, the speed is higher.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">When <span class="math inline">\(b\)</span> is further from zero, the speed is higher.<span class="mcanswer">Right! </span></span></li>
-</ol>
-<p><strong>Question N</strong> We’re going to look at the relationship between the eigenvalues and the speed of oscillation. Keep <span class="math inline">\(a=0\)</span> and <span class="math inline">\(b &lt; 0\)</span>, which guarantees that the motion will be circular. Vary <span class="math inline">\(b\)</span>, each time observing how many loops the trajectory makes (for a fixed number of steps), and what the eigenvalues are. Which of these statements is <strong>not</strong> true about the speed of oscillation and the eigenvalues.</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">The larger the magnitude of the imaginary part of the eigenvalues, the faster the oscillation.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">The two eigenvalues have exactly the same imaginary part, except one is positive and the other negative.<span class="mcanswer">︎✘ </span></span><br />
-</li>
-<li><span class="Zchoice">The speed of oscillation relates to the <em>difference</em> between the imaginary part of the eigenvalues.<span class="mcanswer">Good. </span></span><br />
-</li>
-<li><span class="Zchoice">The real part of the eigenvalues is the same for both when there is oscillatory motion.<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-</details>
-<details>
-<summary>
-<strong>Exercise 53.23</strong>: <span><a name="File: Exercises/sheep-bend-sheet.Rmd" href="#6OL44y"><img src="www/icons8-signpost.png" title="Location: Exercises/sheep-bend-sheet.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">6OL44y </red></span>
-</summary>
-<p>We are studying linear continuous-time dynamics near a fixed point using a simplified matrix:</p>
-<p><span class="math display">\[\left[\begin{array}{cc}a &amp; b\\1 &amp; 0\end{array}\right]
-\ \ \ \text{instead of the fully parameterized system}\ \ \ 
-\left[\begin{array}{cc}a &amp; b\\c &amp; d\end{array}\right]\]</span>
-We’re doing this because it makes the algebra easier—two parameters rather than four—and because it has a stronger connection to another format for differential equations which we’ll study under the name “force-balance equations.” But what do we lose by dropping two parameters?</p>
-<p>You’ve seen a small set of generic behavior in flows near a fixed point: saddles, sources, sinks, oscillation. Are there other types of generic behavior that appear in the 4-parameter system but not the 2-parameter one?</p>
-<p>To answer this question, we’ll return to the app that displays flows:</p>
-<p><a href="https://maa-statprep.shinyapps.io/142Z-Eigenflows/" target="_blank"><img src='www/eigenflow-app.png' width="50%"></a></p>
-<p>You can see in the ab-selector graph on the left annotations for several types of generic behaviour:</p>
-<ul>
-<li>Saddle (unstable along one eigenvector, stable along the other)</li>
-<li>Sources (unstable along both eigenvectors)</li>
-<li>Sinks (stable along both eigenvectors)</li>
-<li>Stable oscillation (spirals toward the fixed point)</li>
-<li>Unstable oscillation (spirals away from the fixed point)</li>
-</ul>
-<p>In the ab-selector graph, these are encoded by color and shading. The blue parabola marks the ab-region of oscillation; stability is indicated using dark shading. Saddles are at the top of the ab-graph. Sources and sinks are the gray arches rising up from the edges of the graph.</p>
-<p>The shading is set by calculating the eigenvalues for each (a, b)-pair</p>
-<p>Underneath the graph are two numeric-input widgets, one to set the <span class="math inline">\(c\)</span> parameter, the other to set <span class="math inline">\(d\)</span>. By default, these are set to display an [ab10] matrix, but you can change them.</p>
-<p>Play with the <span class="math inline">\(c\)</span>- and <span class="math inline">\(d\)</span>-inputs to see how that changes the flow field (right graph) and the shaded regions. Make small changes to <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span> at first to get a feeling for what the controls do to the display. Then you can explore large changes.</p>
-<p>The question you are to answer is this: Does any new behavior appear when <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span> are moved from their [ab10] settings?</p>
-<strong>Essay</strong>: Describe in a couple of dozen words the results of your explorations in <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>.
-</details>
 
 </div>
 </div>

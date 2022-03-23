@@ -220,12 +220,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="52.1" data-path="equilibria.html"><a href="equilibria.html#one-state-variable"><i class="fa fa-check"></i><b>52.1</b> One state variable<span></span></a></li>
 <li class="chapter" data-level="52.2" data-path="equilibria.html"><a href="equilibria.html#two-state-variables"><i class="fa fa-check"></i><b>52.2</b> Two state variables<span></span></a></li>
+<li class="chapter" data-level="52.3" data-path="equilibria.html"><a href="equilibria.html#exercises-5"><i class="fa fa-check"></i><b>52.3</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="53" data-path="eigenvalues.html"><a href="eigenvalues.html"><i class="fa fa-check"></i><b>53</b> Eigenvalues, eigenvectors<span></span></a>
 <ul>
 <li class="chapter" data-level="53.1" data-path="eigenvalues.html"><a href="eigenvalues.html#vector-solutions-to-linear-differential-equations"><i class="fa fa-check"></i><b>53.1</b> Vector solutions to linear differential equations<span></span></a></li>
 <li class="chapter" data-level="53.2" data-path="eigenvalues.html"><a href="eigenvalues.html#eigenvectors-and-eigenvalues"><i class="fa fa-check"></i><b>53.2</b> Eigenvectors and eigenvalues<span></span></a></li>
-<li class="chapter" data-level="53.3" data-path="eigenvalues.html"><a href="eigenvalues.html#exercises-5"><i class="fa fa-check"></i><b>53.3</b> Exercises<span></span></a></li>
+<li class="chapter" data-level="53.3" data-path="eigenvalues.html"><a href="eigenvalues.html#exercises-6"><i class="fa fa-check"></i><b>53.3</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="54" data-path="second-order-de.html"><a href="second-order-de.html"><i class="fa fa-check"></i><b>54</b> Force-balance equations<span></span></a>
 <ul>
@@ -234,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="54.3" data-path="second-order-de.html"><a href="second-order-de.html#exponential-or-sinusoid"><i class="fa fa-check"></i><b>54.3</b> Exponential or sinusoid?<span></span></a></li>
 <li class="chapter" data-level="54.4" data-path="second-order-de.html"><a href="second-order-de.html#exponentials-with-imaginary-inputs"><i class="fa fa-check"></i><b>54.4</b> Exponentials with “imaginary” inputs<span></span></a></li>
 <li class="chapter" data-level="54.5" data-path="second-order-de.html"><a href="second-order-de.html#damping"><i class="fa fa-check"></i><b>54.5</b> Damping<span></span></a></li>
-<li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-6"><i class="fa fa-check"></i><b>54.6</b> Exercises<span></span></a></li>
+<li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-7"><i class="fa fa-check"></i><b>54.6</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="55" data-path="forcing.html"><a href="forcing.html"><i class="fa fa-check"></i><b>55</b> Forcing and resonance<span></span></a>
 <ul>
@@ -438,7 +439,7 @@ The dynamics of the <span class="math inline">\(I\)</span> variable are a just a
 <p><span class="math display">\[\partial_t I = \beta S I - \alpha I\]</span>
 This is famously called the <strong><em>SIR model</em></strong>, standing for the susceptible, infective, recovered chain of events.</p>
 <p>In the model, recovery means “no longer able to infect.” Thus, a person who has been isolated is considered “recovered,” whether or not they display symptoms of the disease.</p>
-<p>We usually think of recover in terms of a time span, for instance taking a week to recover. But <span class="math inline">\(\alpha I\)</span> doesn’t work this way. To see why, consider the situation starting on the day that there are no more infective people, that is, <span class="math inline">\(S=0\)</span>. The dynamics from this day forward are simplified: <span class="math inline">\(\partial_t I = =\alpha I\)</span>.</p>
+<p>We usually think of recovery in terms of a time span, for instance taking a week to recover. But <span class="math inline">\(\alpha I\)</span> doesn’t work this way. To see why, consider the situation starting on the day that there are no more infective people, that is, <span class="math inline">\(S=0\)</span>. The dynamics from this day forward are simplified: <span class="math inline">\(\partial_t I = =\alpha I\)</span>.</p>
 <p>Of course, the solution to this simplified differential equation is <span class="math inline">\(I(t) = I_0 e^{-\alpha t}\)</span>; the size of the infective group gets smaller exponentially. Figure <a href="modeling-dynamics.html#fig:recovery-pattern">51.2</a> compares what <span class="math inline">\(I(t)\)</span> would look like if it takes, say, one week to recover and what <span class="math inline">\(I(t)\)</span> looks like under the model’s <span class="math inline">\(\partial_t I = =\alpha I\)</span> dynamics.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:recovery-pattern"></span>
 <img src="MOSAIC-Calculus_files/figure-html/recovery-pattern-1.png" alt="Comparing $I(t)$ for the &quot;takes a week to recover&quot; model and the $\partial_t I = -\alpha I$ model." width="90%" />
@@ -447,94 +448,37 @@ Figure 51.2: Comparing <span class="math inline">\(I(t)\)</span> for the “take
 </p>
 </div>
 <p>To show the dynamics of the SIR model, we need to propose numerical values for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. This is not a trivial matter if the goal is to match the dynamics to a particular disease and size of population. For our purposes here, we’ll imagine that <span class="math inline">\(S(0) = 0.999\)</span> and <span class="math inline">\(I(0) = 0.001\)</span>, which is to say we are looking at the <em>proportion</em> of the population that is susceptible or infective.</p>
-<p>Figure <a href="#fig:SIR-half-seventh"><strong>??</strong></a> shows the flow field for <span class="math inline">\(\beta = 1/2\)</span> and <span class="math inline">\(\alpha = 1/7\)</span>.</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/SIR-half-seventh-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="modeling-dynamics.html#cb44-1" aria-hidden="true" tabindex="-1"></a>T1 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dS <span class="sc">~</span> <span class="sc">-</span>.<span class="dv">5</span><span class="sc">*</span>S<span class="sc">*</span>I, dI <span class="sc">~</span> .<span class="dv">77</span><span class="sc">*</span>S<span class="sc">*</span>I <span class="sc">-</span> I<span class="sc">/</span><span class="fl">1.75</span>, <span class="at">S=</span><span class="fl">0.999</span>, <span class="at">I=</span><span class="fl">0.001</span>, <span class="at">tdur=</span><span class="dv">200</span>)</span>
-<span id="cb44-2"><a href="modeling-dynamics.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">S</span>(t) <span class="sc">~</span> t, T1)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Figure <a href="modeling-dynamics.html#fig:SIR-half-seventh">51.3</a> shows the flow field for <span class="math inline">\(\beta = 1/2\)</span> and <span class="math inline">\(\alpha = 1/7\)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:SIR-half-seventh"></span>
+<img src="MOSAIC-Calculus_files/figure-html/SIR-half-seventh-1.png" alt="SIR flow field for $\beta=1/2, \alpha = 1/7$, and the trajectory for initial conditions $S_0 = 0.999, I_0 = 0.001$." width="90%" />
+<p class="caption">
+Figure 51.3: SIR flow field for <span class="math inline">\(\beta=1/2, \alpha = 1/7\)</span>, and the trajectory for initial conditions <span class="math inline">\(S_0 = 0.999, I_0 = 0.001\)</span>.
+</p>
+</div>
 </div>
 <div id="exercises-4" class="section level2 hasAnchor" number="5.5">
 <h2><span class="header-section-number">51.5</span> Exercises<a href="modeling-dynamics.html#exercises-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>S-BOXLN: Identify and interpret mechanistically interaction terms in a two-state variable system.</p></li>
+<li><p>WP-205-61: Model and solve population growth problems using the natural and logistic growth models.</p></li>
+<li><p>L-CGDLK: Understand “coupling” and why oscillation requires that the dynamical functions in a two-state variable system must each take the other state variable as an input.</p></li>
+<li><p>X-LG744: Apply dynamics skills and concepts to develop a solution to a complex problem of an interdisciplinary nature.</p></li>
+<li><p>D-OFZHG: Draw the nullcline of a dynamical function using software.</p></li>
+<li><p>X-HGCV2: Find fixed points of a 2nd-order dynamical function by finding the intersection point(s) of the nullclines.</p></li>
+</ul>
 <details>
 <summary>
-<strong>Exercise 51.XX</strong>: <span><a name="File: Exercises/seal-fly-socks.Rmd" href="#VCWRBs"><img src="www/icons8-signpost.png" title="Location: Exercises/seal-fly-socks.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">VCWRBs </red></span>
+<strong>Exercise 51.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/owl-sell-radio.Rmd" width="12px"/><span id="trcQuC" style="color: red; font-size: 9pt;">trcQuC X-LG744</red></span>
 </summary>
-<p>You and your older cousin are on a road trip. She rented a car that has not only “cruise control” (a technology from the 1970s that holds a constant speed without driver intervention) but also “car following,” that keeps the car a set distance <span class="math inline">\(D\)</span> behind the car in front. Your cousin, knowing that you are a CalcZ student, asks you how the “car following” system works.</p>
-<p>First, define some terms. You tell your cousin to denote the current, instantaneous distance from the car ahead as <span class="math inline">\(\xi\)</span>. You point out that when <span class="math inline">\(\xi - D &gt; 0\)</span>, you’re a greater distance than <span class="math inline">\(D\)</span> from the car ahead and therefore the velocity should be increased so you catch up. On the other hand, when you’re too close (<span class="math inline">\(\xi &lt; D\)</span>) you should decrease your velocity. The car-following system automates this, the relationship being <span class="math inline">\(\partial_t \xi = b (\xi - D)\)</span>.</p>
-<p>Your cousin has never encountered a name like <span class="math inline">\(\xi\)</span> so you decide to simplify. “Let <span class="math inline">\(x = \xi - D\)</span>, so <span class="math inline">\(x\)</span> is positive if you are too far behind, zero when you’re at the right distance, and negative if you are too far ahead.” Conveniently <span class="math inline">\(\partial_t x = \partial_t \xi\)</span>, so you can write down the automatic relationship in terms of <span class="math inline">\(x\)</span>:
-<span class="math inline">\(\partial_t x = b x\)</span> with <span class="math inline">\(b\)</span> a positive number, such as 1.</p>
-<p><strong>Question A</strong> Where is the fixed point of the dynamics <span class="math inline">\(\partial_t\, x = b x\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(x=D\)</span><span class="mcanswer">︎✘ No, it should be <span class="math inline">\(\xi=D\)</span>, which means that <span class="math inline">\(x=0\)</span>.</span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(x=0\)</span><span class="mcanswer">Excellent! </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\xi = 0\)</span><span class="mcanswer">︎✘ This corresponds to zero distance between you and the car in front of you. Not what we want!</span></span><br />
-</li>
-<li><span class="Zchoice">There’s no fixed point.<span class="mcanswer">︎✘ </span></span></li>
-</ol>
-<p><strong>Question B</strong> Is the fixed point of <span class="math inline">\(\partial_t\, x = b x\)</span> (with <span class="math inline">\(b &gt; 0\)</span>) stable?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice">Yes, that’s why we can leave it to the automatic system.<span class="mcanswer">︎✘ True, we would want the automatic system to show stable fixed point behavior, but that’s not what’s happening here.</span></span><br />
-</li>
-<li><span class="Zchoice">No, the solution grows exponentially as <span class="math inline">\(e^{bt}\)</span>.<span class="mcanswer">Nice! </span></span><br />
-</li>
-<li><span class="Zchoice">Yes, the solution decays exponentially as <span class="math inline">\(e^{bt}\)</span><span class="mcanswer">︎✘ But since <span class="math inline">\(b &gt; 0\)</span>, this wouldn’t be exponential decay but growth.</span></span></li>
-</ol>
-<p>Something’s wrong with the system you’ve sketched out. You want a stable following distance, doing the right thing if the car ahead speeds up or slows down, but your system is unstable.</p>
-<p><strong>Question C</strong> Which of the following rules will have a stable fixed point at <span class="math inline">\(x=0\)</span>?</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\partial_t\, x = -b x\)</span> (with <span class="math inline">\(b &gt; 0\)</span>)<span class="mcanswer">Correct. </span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\partial_t\, x = b^2 x\)</span><span class="mcanswer">︎✘ The coefficient on <span class="math inline">\(x\)</span> is still positive, so this system is unstable.</span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\partial_t\, x = b x^2\)</span><span class="mcanswer">︎✘ This system is stable for disturbances that make <span class="math inline">\(x &lt; 0\)</span>, but <strong>unstable</strong> for disturbances that make <span class="math inline">\(x &gt; 0\)</span>.</span></span><br />
-</li>
-<li><span class="Zchoice"><span class="math inline">\(\partial_t\, x = 0 x\)</span><span class="mcanswer">︎✘ In this system, <span class="math inline">\(x\)</span> doesn’t change.</span></span></li>
-</ol>
-The word “feedback” is used to describe systems where the change in the state is a function of the state. “Negative feedback” is when the change is negative when the state is positive, as in <span class="math inline">\(\partial_t\, x = -b\, x\)</span>. Negative feedback is desirable when you want to keep things stable. “Positive feedback” is when the change is the same sign as the state, as in <span class="math inline">\(\partial_t\, x = b\, x\)</span> and makes things unstable.
-</details>
-<details>
-<summary>
-<strong>Exercise 51.XX</strong>: <span><a name="File: Exercises/finch-look-dish.Rmd" href="#BbcPyk"><img src="www/icons8-signpost.png" title="Location: Exercises/finch-look-dish.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">BbcPyk </red></span>
-</summary>
-<p>Here are three different first-order differential equations with fixed points at <span class="math inline">\(x^\star = 0\)</span> and <span class="math inline">\(x^\star=1\)</span>.</p>
-<ol style="list-style-type: lower-roman">
-<li><span class="math inline">\(\partial_t x = g_1(x) \equiv x (1-x)\)</span></li>
-<li><span class="math inline">\(\partial_t x = g_2(x) \equiv 0.25 \sin(2\pi x)\)</span></li>
-<li><span class="math display">\[\partial_t x = g_3(x) \equiv \left\{\begin{array}{ll}
-x &amp; x &lt; 0.18\\
-0.18 &amp; 0.18 \leq x \leq 0.82\\
-1 -x &amp; 0.82 &lt; x
-\end{array}\right.\]</span>
-The <span class="math inline">\(g_i()\)</span> functions are graphed below.</li>
-</ol>
-<p>A. For each of the equations, match the number (i, ii, iii) to the color (magenta, blue, black). Comment on the differences in shape among them.</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-80-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>B. Integrate each of the differential equations from initial condition <span class="math inline">\(x_0 = 0.01\)</span>. Compare the time series plots. Do the dynamics of <span class="math inline">\(g_3()\)</span> product a similar or radically different time series than <span class="math inline">\(g_1()\)</span> and <span class="math inline">\(g_2()\)</span>?</p>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-81-1.png" width="90%" style="display: block; margin: auto;" /></p>
-Comment: Usually, many different mathematical functions can be used to model a given phenomenon. The different functions will have similar shapes, but do not need to be identical.
-</details>
-<details>
-<summary>
-<strong>Exercise 51.XX</strong>: <span><a name="File: Exercises/owl-sell-radio.Rmd" href="#trcQuC"><img src="www/icons8-signpost.png" title="Location: Exercises/owl-sell-radio.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">trcQuC </red></span>
-</summary>
-<p>Lewis Fry Richardson (1881-1953) was an English scientist who worked
-in many areas, including weather prediction. (See Block 1.) This problem concerns a
-model Richardson built to account for arms races between countries.</p>
-In the model, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> respectively refer to the size of the
-military of the two countries. The equations model how the size of
-the militaries change in time:
-<div style="font-size: 30px; text-align:center;">
-<p><span class="math display">\[\begin{eqnarray*}
-\dot{x} &amp; = &amp; a y - m x + r\\
-\dot{y} &amp; = &amp; b x - n y + s\\
-\end{eqnarray*}\]</span></p>
-</div>
+<p>Lewis Fry Richardson (1881-1953) was an English scientist who worked in many areas, including weather prediction. (See Block 1.) This problem concerns a model Richardson built to account for arms races between countries.</p>
+<p>In the model, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> respectively refer to the size of the military of the two countries. The equations model how the size of the militaries change in time:</p>
+<p><span class="math display">\[\left[\begin{eqnarray*}
+\dot{x} &amp; = &amp; a y - m x &amp; + r\\
+\dot{y} &amp; = &amp; b x - n y &amp; + s\\
+\end{eqnarray*}\right]\]</span></p>
 <p>The terms <span class="math inline">\(r\)</span> and <span class="math inline">\(s\)</span> represent the basic grievances between the two countries.</p>
 <p>The parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> represent “fear,” that is, the extent to which one country feels the need to build up arms in response to the other country’s arms.</p>
-<p>The parameters <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> are about the internal dynamics of the
-country: its ability/desire to sustain a large military.</p>
+<p>The parameters <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> are about the internal dynamics of the country: its ability/desire to sustain a large military.</p>
 <p><strong>Question A</strong> What should the signs of <span class="math inline">\(r\)</span> and <span class="math inline">\(s\)</span> be if the countries have substantial grievances against each other?</p>
 <p>    <span class="Zchoice">positive<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">negative<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">zero<span class="mcanswer">︎✘ </span></span></p>
 <p><strong>Question B</strong> What should be the signs of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, given that they represent
@@ -554,20 +498,79 @@ country: its ability/desire to sustain a large military.</p>
 <p><strong>Question E</strong> In this plot which if the parameters is reversed?</p>
     <span class="Zchoice">a<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">b<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">m<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">n<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">r<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">s<span class="mcanswer">︎✘ </span></span>
 </details>
-<!-- fir-lie-tv --- about retirement savings. NEEDS WORK -->
-<!-- `insert_calcZ_exercise("51.XX", "iRZfBY", "Exercises/walnut-tell-pot.Rmd")` n-->
-<!-- EXERCISE TO COMPUTE the $a$ parameter in $\dot{x} = a x$ when the information is given in terms of doubling or that population increases 10 fold in an hour.
--->
-<!--
-
-EXERCISE: Set beta and alpha so that only about half the susceptibles are infected. (0.35 and alpha=.25 will do). How long until the epidemic is over. 
-
-Find an alpha and beta so that about half the susceptibles are infected AND the epidemic is over by time 50.
-
-<!-- alpha in SIR for a 7-day average recovery -->
 <details>
 <summary>
-<strong>Exercise 51.XX</strong>: <span><a name="File: Exercises/wolf-come-saucer.Rmd" href="#iCYry2"><img src="www/icons8-signpost.png" title="Location: Exercises/wolf-come-saucer.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">iCYry2 </red></span>
+<strong>Exercise 51.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/puppy-take-pantry.Rmd" width="12px"/><span id="tzVzaH" style="color: red; font-size: 9pt;">tzVzaH P-3LIKO</red></span>
+</summary>
+<p>Lanchester’s model of combat is
+<span class="math display">\[\partial_t R = - b B\\
+\partial_t B = -r R\]</span> with both parameters <span class="math inline">\(r\)</span> and <span class="math inline">\(b\)</span> taken to be positive.</p>
+<p>Obviously, the state variables <span class="math inline">\(R\)</span> and <span class="math inline">\(B\)</span> are to be thought of as functions of time.</p>
+<ol style="list-style-type: decimal">
+<li><p>Locate the fixed point of the model of combat. <!--0,0 --></p></li>
+<li><p>Is it stable? In answering this question, consider two different state spaces and explain why your answer is different in the two spaces:</p>
+<ol style="list-style-type: lower-alpha">
+<li>All four quadrants of the <span class="math inline">\((R, B)\)</span> plane.</li>
+<li>Only the first quadrant—that is, <span class="math inline">\(0 \leq R, 0 \leq B\)</span>—of the <span class="math inline">\((R, B)\)</span> pane.</li>
+</ol></li>
+</ol>
+<p>At a stable fixed point the state quantities—<span class="math inline">\(R\)</span> and <span class="math inline">\(B\)</span> here—do not change. But sometimes there are other functions of the state variables that do not change even when the state is off of any fixed point. These are called <strong><em>conserved quantities</em></strong>. Conserved quantities such as momentum and energy are important in physics.</p>
+<p>The text introduced this conserved quantity for Lanchester’s model: <span class="math display">\[Q(R, B) \equiv rR^2 - b B^2\ .\]</span>
+Let’s explore whether the components of the quantity are conserved individually.</p>
+<p><strong>Question A</strong> 3. Calculate <span class="math inline">\(\partial_t r R^2\)</span>. Which of these is right? (Hint: Use the chain rule of differentiation and Lanchester’s equations to simplify more.)</p>
+<p>    <span class="Zchoice"><span class="math inline">\(-2 rb RB\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(2rR\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(-2r\dot{R}\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(2r\dot{R} B\)</span> <span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> 4. Perform the similar calculation <span class="math inline">\(\partial_t b B^2\)</span>. Using your result and the result from question (3), is it the case that <span class="math inline">\(\partial_t r R^2 = \partial_t b B^2\)</span>?</p>
+<p>    <span class="Zchoice">Yes<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">No<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Depends on <span class="math inline">\(b\)</span> and <span class="math inline">\(r\)</span>.<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Depends on <span class="math inline">\(B\)</span> and <span class="math inline">\(R\)</span>.<span class="mcanswer">︎✘ </span></span></p>
+<p>Here are two more candidates for conserved quantities:</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(rR - bB\)</span></li>
+<li><span class="math inline">\(rB - bR\)</span></li>
+</ol>
+<p>Take the derivative with respect to time of each of them to determine if they are conserved.</p>
+<p><strong>Question C</strong> 5. Which of (a) and (b) are conserved?</p>
+    <span class="Zchoice">Just (a).<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Just (b).<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Both (a) and (b).<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">Neither (a) nor (b).<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>
+</details>
+<details>
+<summary>
+<strong>Exercise 51.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/hamster-bend-sofa.Rmd" width="12px"/><span id="3mU3qO" style="color: red; font-size: 9pt;">3mU3qO R-208IA</red></span>
+</summary>
+<p><strong>Question A</strong> Which of the three flows below corresponds to Lanchester’s Law?</p>
+<p>    <span class="Zchoice">A<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">B<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">C<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> Which of these sentences best describes the dynamics of Lanchester’s Law?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Both forces battle to complete annihilation.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The stronger force wipes out the weaker force.<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">The weaker force holds off the stronger force.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
+<!-- details of dynamical function don't always matter -->
+<details>
+<summary>
+<strong>Exercise 51.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/finch-look-dish.Rmd" width="12px"/><span id="BbcPyk" style="color: red; font-size: 9pt;">BbcPyk unassigned</red></span>
+</summary>
+<p>Here are three different first-order differential equations with fixed points at <span class="math inline">\(x^\star = 0\)</span> and <span class="math inline">\(x^\star=1\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(\partial_t x = g_1(x) \equiv x (1-x)\)</span></li>
+<li><span class="math inline">\(\partial_t x = g_2(x) \equiv 0.25 \sin(2\pi x)\)</span></li>
+<li><span class="math display">\[\partial_t x = g_3(x) \equiv \left\{\begin{array}{ll}
+x &amp; x &lt; 0.18\\
+0.18 &amp; 0.18 \leq x \leq 0.82\\
+1 -x &amp; 0.82 &lt; x
+\end{array}\right.\]</span>
+The <span class="math inline">\(g_i()\)</span> functions are graphed below.</li>
+</ol>
+<p>A. For each of the equations, match the number (i, ii, iii) to the color (magenta, blue, black). Comment on the differences in shape among them.</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-88-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>B. Integrate each of the differential equations from initial condition <span class="math inline">\(x_0 = 0.01\)</span>. Compare the time series plots. Do the dynamics of <span class="math inline">\(g_3()\)</span> product a similar or radically different time series than <span class="math inline">\(g_1()\)</span> and <span class="math inline">\(g_2()\)</span>?</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-89-1.png" width="90%" style="display: block; margin: auto;" /></p>
+Comment: Usually, many different mathematical functions can be used to model a given phenomenon. The different functions will have similar shapes, but do not need to be identical.
+</details>
+<!-- fir-lie-tv --- about retirement savings. NEEDS WORK -->
+<details>
+<summary>
+<strong>Exercise 51.03</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/wolf-come-saucer.Rmd" width="12px"/><span id="iCYry2" style="color: red; font-size: 9pt;">iCYry2 unassigned</red></span>
 </summary>
 <p>In the description of the SIR model, we pointed out how a model of recovery <span class="math inline">\(\partial_t I = -\alpha I\)</span> differs from the usual “recover after 7 days” style of description. (See Figure <a href="modeling-dynamics.html#fig:recovery-pattern">51.2</a>.)</p>
 <p>Find a value of <span class="math inline">\(\alpha\)</span> such that the <strong><em>expectation value</em></strong> of the time to recovery is 7 days. To do this:</p>
@@ -577,96 +580,61 @@ Find an alpha and beta so that about half the susceptibles are infected AND the 
 <li>Construct the appropriate integral using <span class="math inline">\(I(t)\)</span> to find the expectation value of <span class="math inline">\(t\)</span>. (See Chapter 35.)</li>
 <li>Modify your guess for <span class="math inline">\(\alpha\)</span> until the expectation value comes out to 7.</li>
 </ol>
-<pre><code>## # A tibble: 1 × 2
-##       t    .output.
-##   &lt;dbl&gt;       &lt;dbl&gt;
-## 1 0.378 -0.00000187
-```&lt;/details&gt;
-
-
-EXERCISE: Lanchester&#39;s Laws: 
-Show that the conserved quantity is indeed conserved:
-
-**Question A**  Calculate $\partial_t r R^2$. Which of these is right? (Hint: Use the chain rule of differentiation and Lanchester&#39;s equations to simplify more.) 
-
-    &lt;span class=&#39;Zchoice&#39;&gt;$-2 rb RB$&lt;span class=&#39;mcanswer&#39;&gt;$\heartsuit\ $&lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;$2rR$&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;$-2r\dot{R}$&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;$2r\dot{R} B$ &lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;
-
-**Question B**  Perform the similar calculation  $\partial_t b B^2$. Is it the case that $\partial_t r R^2 = \partial_t b B^2$? 
-
-    &lt;span class=&#39;Zchoice&#39;&gt;Yes&lt;span class=&#39;mcanswer&#39;&gt;$\heartsuit\ $&lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;No&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;Depends on $b$ and $r$.&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;Depends on $B$ and $R$.&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;
-
-
-
-
-Here are two more candidates for conserved quantities:
-
-a. $rR - bB$
-b. $rB - bR$
-
-Take the derivative with respect to time of each of them to determine if they are conserved.
-
-**Question C**  Which of (a) and (b) are conserved? 
-
-    &lt;span class=&#39;Zchoice&#39;&gt;Just (a).&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;Just (b).&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;Both (a) and (b).&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;Neither (a) nor (b).&lt;span class=&#39;mcanswer&#39;&gt;$\heartsuit\ $&lt;/span&gt;&lt;/span&gt;
-
-EXERCISE: Lanchester&#39;s Laws: 
-
-**Question D**  Which of the three flows below corresponds to Lanchester&#39;s Law? 
-
-    &lt;span class=&#39;Zchoice&#39;&gt;A&lt;span class=&#39;mcanswer&#39;&gt;$\heartsuit\ $&lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;B&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;       &lt;span class=&#39;Zchoice&#39;&gt;C&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;
-
-
-
-**Question E**  Which of these sentences best describes the dynamics of Lanchester&#39;s Law? 
-
-i. &lt;span class=&#39;Zchoice&#39;&gt;Both forces battle to complete annihilation.&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;     
-ii. &lt;span class=&#39;Zchoice&#39;&gt;The stronger force wipes out the weaker force.&lt;span class=&#39;mcanswer&#39;&gt;Excellent! &lt;/span&gt;&lt;/span&gt;     
-iii. &lt;span class=&#39;Zchoice&#39;&gt;The weaker force holds off the stronger force.&lt;span class=&#39;mcanswer&#39;&gt;︎✘ &lt;/span&gt;&lt;/span&gt;
-
-
-
-
-EXERCISE: Find the stable fixed point in these dynamics as functions of $b_0, b_1, d_0, d_1$.
-
-EXERCISE: 1) Show that $V(R, F) = \delta R - \gamma \ln(R) + \beta F - \alpha \ln(F)$ is a conserved quantity.
-
-2) This means that each of the level curves (contours) in the contour plot of $V(R, F)$ is follows the path of a trajectory. 
-
-3) Choose an appropriate initial condition and draw the trajectory that corresponds to one of the contours in your graph.
-
-
-```r
-# NEED TO INTEGRATE STREAMLINES()
-alpha=.66; beta = 1.33; gamma=1; delta = 1
-V &lt;- makeFun(delta*R - gamma*log(R) + beta*F - alpha*log(F) ~ R &amp; F)
-contour_plot(V(R, F) ~ R &amp; F, domain(R = .1:3, F=0:2), skip=0,
-             contours_at = c(1.6, 1.7, 1.9, 2, 2.15, 2.2, 2.3, 2.5, 2.8, 3, 4))</code></pre>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="modeling-dynamics.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># math141Z::streamlines(list(~ alpha*R - beta*R*F, ~ delta*F + gamma*R*F ),</span></span>
-<span id="cb46-2"><a href="modeling-dynamics.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                  domain(R = .1:3, F=0:2))</span></span></code></pre></div>
-<p>EXERCISE: COMPUTE numerically the trajectories for the various models of love and war.
-The history of the 20th century is that parameter <span class="math inline">\(d_1\)</span> has decreased, as public health measures such as sanitation and vaccination have become more widespread. Similarly, <span class="math inline">\(b_1\)</span> became smaller, an observation attributed to link between higher standard of living and the costs (and necessity) of education.</p>
-<p>Afghanistan has a reported rate of just over 4 births per woman, Mexico 2 births per woman, and Canada 1.5 births per woman. South Korea has a fertility rate of about 1 birth per woman.</p>
-<p>END OF EXERCISE</p>
-<p>EXERCISE
-* Newton’s Law of Cooling is about how a hot (or cold) object comes into equilibrium with the ambient temperature. For instance, you might have a cup of coffee at <span class="math inline">\(200^\circ\)</span>F in a room at <span class="math inline">\(70^\circ\)</span>F. Unless you drink it, the coffee will cool with time until it reaches the room’s temperature. In this setting, <span class="math inline">\(x_\text{fixed} = 70^\circ\)</span>F. The value of <span class="math inline">\(a\)</span> depends on how insulated the cup is (and details of evaporation, etc.). But if the coffee reaches very near to room temperature in 60 minutes, <span class="math inline">\(a \approx 0.5\)</span> with units 1/minute.</p>
-<p><strong>Question F</strong> What are the units of the output of <span class="math inline">\(x(t)\)</span>?</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 51.05</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/zebra-wake-shoe.Rmd" width="12px"/><span id="KkxELm" style="color: red; font-size: 9pt;">KkxELm X-DE4WK N-CB2LE X-LG744 U-5PMG7</red></span>
+</summary>
+<p>The Susceptible-Infective-Recovered (SIR) model has only two parameters, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
+<p><span class="math display">\[\partial_t S = -\beta S I\\
+\partial_t I = \beta S I - \alpha I\]</span></p>
+<p>The <span class="math inline">\(\alpha\)</span> parameter controls how long it takes for an infective to recover. If we are considering only recovery, and not the introduction of new infectives from the susceptible population, the relevant differential equation is simply
+<span class="math display">\[\partial_t I = \alpha I\ .\]</span>
+1. Set <span class="math inline">\(\alpha\)</span> so that the half-life for infectiveness is 5 days.</p>
+<!-- 0.139 -->
+<ol start="2" style="list-style-type: decimal">
+<li><p>Using <span class="math inline">\(\beta = 0.5\)</span> and <span class="math inline">\(\alpha\)</span> as in (1), set up a numerical integration of the SIR model. Integrate out to <span class="math inline">\(t=100\)</span> from an initial condition of <span class="math inline">\(S=0.999\)</span> and <span class="math inline">\(I=0.001\)</span>, corresponding to 0.1% of the population being infected. Plot out the time series <span class="math inline">\(S(t)\)</span>. From the time series, what fraction of the population eventually get the disease?</p></li>
+<li><p>One sort of government tactic to keep small the spread of disease is to close borders, with the idea that there will be fewer infectives at the start of the epidemic which will keep the epidemic smaller. Public health professionals are skeptical of this common-sense tactic. Follow the same procedure in (2), but set the initial condition to <span class="math inline">\(S=0.99999\)</span> and <span class="math inline">\(I=0.00001\)</span>. Does common sense hold?</p></li>
+<li><p>Another strategy is “social distancing” and isolating infectives. To model this, reduce <span class="math inline">\(\beta\)</span>, the rate at which susceptibles interact with infectives. Keeping <span class="math inline">\(\alpha\)</span> at the value you determined in (1), set <span class="math inline">\(\beta\)</span> that only about half the susceptibles are ever infected.</p></li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 51.07</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/dolphin-go-cotton.Rmd" width="12px"/><span id="I2JVMB" style="color: red; font-size: 9pt;">I2JVMB U-5PMG7 P-3LIKO</red></span>
+</summary>
+<p>In the rabbit/fox system, the quantity
+<span class="math display">\[Q(R, F) = \delta R - \gamma \ln(R) + \beta F - \alpha \ln(F)\]</span> is conserved.</p>
+<p>This means that each of the level curves (contours) in the contour plot of <span class="math inline">\(Q(R, F)\)</span> is follows the path of a trajectory.</p>
+<ol style="list-style-type: decimal">
+<li><p>Make a contour plot of <span class="math inline">\(Q(R, F)\)</span> over the domain <span class="math inline">\(0.1 \leq R \leq 3\)</span>, <span class="math inline">\(0 \leq F \leq 2\)</span> for <span class="math inline">\(\alpha=.66, \beta = 1.33, \gamma=1, \delta = 1\)</span>.</p></li>
+<li><p>From the graph you made in (1), choose an appropriate initial condition that falls on one of the contours.</p></li>
+<li><p>Using <code>integrateODE()</code>, find the trajectory from from the initial condition in (1) for <code>tdur=10</code>. Add a layer to the graphic in (1) showing the trajectory to confirm that the conserved quantities are indeed conserved.</p></li>
+<li><p>Symbolically, calculate <span class="math inline">\(\partial_t Q(R, V)\)</span>. You will need to use the chain rule, which will leave you with terms <span class="math inline">\(\partial_t R\)</span> and <span class="math inline">\(\partial_t F\)</span>. Plug in the values for these from the differential equations and show that <span class="math inline">\(\partial_t Q(R, V) = 0\)</span>.</p></li>
+</ol>
+<!-- Solution to 1-3 -->
+</details>
+<details>
+<summary>
+<strong>Exercise 51.09</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/birch-bring-bed.Rmd" width="12px"/><span id="uYXvfX" style="color: red; font-size: 9pt;">uYXvfX L-ZPDIJ dimensions</red></span>
+</summary>
+<p>Newton’s Law of Cooling is about how a hot (or cold) object comes into equilibrium with the ambient temperature. For instance, you might have a cup of coffee at <span class="math inline">\(200^\circ\)</span>F in a room at <span class="math inline">\(70^\circ\)</span>F. Unless you drink it, the coffee will cool with time until it reaches the room’s temperature. In this setting, <span class="math inline">\(x_\text{fixed} = 70^\circ\)</span>F. The value of <span class="math inline">\(a\)</span> depends on how insulated the cup is (and details of evaporation, etc.). But if the coffee reaches very near to room temperature in 60 minutes, <span class="math inline">\(a \approx 0.5\)</span> with units 1/minute.</p>
+<p><strong>Question A</strong> What are the units of the output of <span class="math inline">\(x(t)\)</span>?</p>
 <p>    <span class="Zchoice">degrees F per minute<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">degrees F<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">1/minute<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1/degrees F<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question G</strong> What are the units of <span class="math inline">\(\dot{x}\)</span>?</p>
+<p><strong>Question B</strong> What are the units of <span class="math inline">\(\dot{x}\)</span>?</p>
 <p>    <span class="Zchoice">degrees F per minute<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">degrees F<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1/minute<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">1/degrees F<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question H</strong> What is <span class="math inline">\(x\)</span>?</p>
+<p><strong>Question C</strong> What is <span class="math inline">\(x\)</span>?</p>
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">the room temperature<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">the initial temperature of the coffee<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice">the instantaneous coffee temperature as a function of time<span class="mcanswer">Good. </span></span><br />
+<li><span class="Zchoice">the instantaneous coffee temperature as a function of time<span class="mcanswer">Correct. </span></span><br />
 </li>
 <li><span class="Zchoice">the fixed rate at which the coffee cools<span class="mcanswer">︎✘ </span></span><br />
 </li>
 <li><span class="Zchoice">the instantaneous rate at which the coffee cools as a function of time<span class="mcanswer">︎✘ </span></span></li>
 </ol>
-<p><strong>Question I</strong> What is <span class="math inline">\(\dot{x}\)</span>?</p>
+<p><strong>Question D</strong> What is <span class="math inline">\(\dot{x}\)</span>?</p>
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">the room temperature<span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -676,27 +644,23 @@ The history of the 20th century is that parameter <span class="math inline">\(d_
 </li>
 <li><span class="Zchoice">the instantaneous rate at which the coffee cools as a function of time<span class="mcanswer">Excellent! </span></span></li>
 </ol>
-<p>EXERCISE</p>
-<p><strong>Limited growth</strong>, e.g. <span class="math inline">\(\dot{x} = r x (1-x/k)\)</span></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 51.11</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/rhinosaurus-sharpen-knob.Rmd" width="12px"/><span id="4jkrKy" style="color: red; font-size: 9pt;">4jkrKy L-ZPDIJ dimensions</red></span>
+</summary>
+<p>Our generic model for limited growth is</p>
+<p><span class="math display">\[\partial_t x = r x (1-x/k)\ ,\]</span>
+which you can see as a modification of the proportional-growth model <span class="math display">\[\partial_t x = r x\ .\]</span></p>
 <p>The proportional-growth model will lead to <span class="math inline">\(x(t)\)</span> increasing without limit. Sometimes that’s a good model over short times, before <span class="math inline">\(x(t)\)</span> has a chance to get unrealistically big. But over long periods of time, something’s gotta give.</p>
-<ul>
-<li>Population with a “carrying capacity.” For <span class="math inline">\(t\)</span> when <span class="math inline">\(x(t)\)</span> is very small, the population growth is well approximated by the usual proportion-growth model. For intermediate <span class="math inline">\(t\)</span>, the population has grown to a large enough size that it is consuming a substantial fraction of the available resources and population growth slows. When the population reaches the “carrying capacity” the growth stops (e.g. birth rate = death rate).</li>
-</ul>
-<p><strong>Question J</strong> If the units of <span class="math inline">\(x(t)\)</span> is, say, rabbits, what is the units of <span class="math inline">\(k\)</span>?</p>
+<p>The limited growth model involves a <strong><em>carrying capacity</em></strong> <span class="math inline">\(k\)</span>. For <span class="math inline">\(t\)</span> when <span class="math inline">\(x(t)\)</span> is very small, the population growth is well approximated by the usual proportion-growth model. For intermediate <span class="math inline">\(t\)</span>, the population has grown to a large enough size that it is consuming a substantial fraction of the available resources and population growth slows. When the population reaches the carrying capacity the growth stops (e.g. birth rate = death rate).</p>
+<p><strong>Question A</strong> If the units of <span class="math inline">\(x(t)\)</span> is, say, rabbits, what is the units of <span class="math inline">\(k\)</span>?</p>
 <p>    <span class="Zchoice">rabbits<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">rabbits per day<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">rabbits per week<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">rabbits per year<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question K</strong> Suppose the units of <span class="math inline">\(\dot{x}\)</span> is, rabbits per month, what is the units of <span class="math inline">\(r\)</span>?</p>
+<p><strong>Question B</strong> Suppose the units of <span class="math inline">\(\dot{x}\)</span> is, rabbits per month, what is the units of <span class="math inline">\(r\)</span>?</p>
 <p>    <span class="Zchoice">1/month<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">rabbits per month<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">months per rabbit<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">rabbits per month-squared<span class="mcanswer">︎✘ </span></span></p>
-<p><strong>Question L</strong> Even without finding the full solution <span class="math inline">\(x(t)\)</span> to the differential equation, you can figure out how big the population will be when growth falls to zero. How big?</p>
-<p>    <span class="Zchoice"><span class="math inline">\(k\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(k/r\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(r/k\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(1/r\)</span><span class="mcanswer">︎✘ </span></span></p>
-<p>EXERCISE: Competition</p>
-<p>Our model for strong competition is
-<span class="math display">\[\partial_t x =  x(3 − x − y)\\
-\partial_t y = y(4 − y − 2x)\]</span>
-and for weak competition we take
-<span class="math display">\[\partial_t x= x(4 − y − 2x)\\
-\partial_t y = y(3 − x − y)\ .\]</span></p>
-<p>A. Plot the flow fields. What is it about the models that justifies the labels “strong competition” and “weak competition.”</p>
-<p>–&gt;</p>
+<p><strong>Question C</strong> Even without finding the full solution <span class="math inline">\(x(t)\)</span> to the differential equation, you can figure out how big the population will be when growth falls to zero. How big?</p>
+    <span class="Zchoice"><span class="math inline">\(k\)</span><span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice"><span class="math inline">\(k/r\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(r/k\)</span><span class="mcanswer">︎✘ </span></span>       <span class="Zchoice"><span class="math inline">\(1/r\)</span><span class="mcanswer">︎✘ </span></span>
+</details>
 <!--
 EXERCISE: Nerve pulses 
 

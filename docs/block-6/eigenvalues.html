@@ -220,12 +220,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="52.1" data-path="equilibria.html"><a href="equilibria.html#one-state-variable"><i class="fa fa-check"></i><b>52.1</b> One state variable<span></span></a></li>
 <li class="chapter" data-level="52.2" data-path="equilibria.html"><a href="equilibria.html#two-state-variables"><i class="fa fa-check"></i><b>52.2</b> Two state variables<span></span></a></li>
+<li class="chapter" data-level="52.3" data-path="equilibria.html"><a href="equilibria.html#exercises-5"><i class="fa fa-check"></i><b>52.3</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="53" data-path="eigenvalues.html"><a href="eigenvalues.html"><i class="fa fa-check"></i><b>53</b> Eigenvalues, eigenvectors<span></span></a>
 <ul>
 <li class="chapter" data-level="53.1" data-path="eigenvalues.html"><a href="eigenvalues.html#vector-solutions-to-linear-differential-equations"><i class="fa fa-check"></i><b>53.1</b> Vector solutions to linear differential equations<span></span></a></li>
 <li class="chapter" data-level="53.2" data-path="eigenvalues.html"><a href="eigenvalues.html#eigenvectors-and-eigenvalues"><i class="fa fa-check"></i><b>53.2</b> Eigenvectors and eigenvalues<span></span></a></li>
-<li class="chapter" data-level="53.3" data-path="eigenvalues.html"><a href="eigenvalues.html#exercises-5"><i class="fa fa-check"></i><b>53.3</b> Exercises<span></span></a></li>
+<li class="chapter" data-level="53.3" data-path="eigenvalues.html"><a href="eigenvalues.html#exercises-6"><i class="fa fa-check"></i><b>53.3</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="54" data-path="second-order-de.html"><a href="second-order-de.html"><i class="fa fa-check"></i><b>54</b> Force-balance equations<span></span></a>
 <ul>
@@ -234,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="54.3" data-path="second-order-de.html"><a href="second-order-de.html#exponential-or-sinusoid"><i class="fa fa-check"></i><b>54.3</b> Exponential or sinusoid?<span></span></a></li>
 <li class="chapter" data-level="54.4" data-path="second-order-de.html"><a href="second-order-de.html#exponentials-with-imaginary-inputs"><i class="fa fa-check"></i><b>54.4</b> Exponentials with “imaginary” inputs<span></span></a></li>
 <li class="chapter" data-level="54.5" data-path="second-order-de.html"><a href="second-order-de.html#damping"><i class="fa fa-check"></i><b>54.5</b> Damping<span></span></a></li>
-<li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-6"><i class="fa fa-check"></i><b>54.6</b> Exercises<span></span></a></li>
+<li class="chapter" data-level="54.6" data-path="second-order-de.html"><a href="second-order-de.html#exercises-7"><i class="fa fa-check"></i><b>54.6</b> Exercises<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="55" data-path="forcing.html"><a href="forcing.html"><i class="fa fa-check"></i><b>55</b> Forcing and resonance<span></span></a>
 <ul>
@@ -259,12 +260,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="eigenvalues" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Chapter 53</span> Eigenvalues, eigenvectors<a href="eigenvalues.html#eigenvalues" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<!--
-8. Eigenvalue/Eigenvector analysis
-    a. Objectives/topics
-        i. Understand the geometry of the flow (what an eigenvector looks like in terms of the flow, as it emerges from the image of the flow field)
-        i. Trajectories as linear combinations of eigenflows
--->
 <p>In the previous chapters, you’ve seen how linear dynamics, when unstable, lead trajectories off to infinity. Chapter <a href="modeling-dynamics.html#modeling-dynamics">51</a> looked at some ways that nonlinearity can tame instability, as in the simple models of linear growth.</p>
 <p>In this chapter, we return to linear dynamics to develop a <em>quantitative theory of stability</em>. Such theory is important in many engineering and design applications. For instance, a building exposed to earthquake risk can be economically designed to be strong specifically against the type of shaking produced by earthquakes. An electronic circuit can be designed to be sensitive to certain kinds of communication signals while still resisting noise or jamming.</p>
 <div class="example">
@@ -299,9 +294,9 @@ which, in vector/matrix form are
 <span class="math display">\[\partial_t \vec{w(t)} = \left[\begin{array}{cc}1&amp;1\\2&amp;0\end{array}\right] \vec{w(t)}\ .\]</span>
 Imagine that we choose, arbitrarily, <span class="math display">\[\vec{u_1} = \color{magenta}{\left[\begin{array}{r}1\\-3\end{array}\right]}\ \ \ \text{and}\ \ \ \vec{u_2} = \color{blue}{\left[\begin{array}{r}1.0\\0\end{array}\right]}\ .\]</span></p>
 <p>For the example, we’ll calculate a trajectory starting at the initial condition <span class="math inline">\(\vec{w(0)} = \left[\begin{array}{r}-1.1\\ 2.1\end{array}\right]\)</span>:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="eigenvalues.html#cb51-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="sc">-</span><span class="fl">1.1</span>, <span class="at">y=</span><span class="fl">2.1</span>, <span class="at">tdur=</span><span class="dv">2</span>)</span>
-<span id="cb51-2"><a href="eigenvalues.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj)</span></code></pre></div>
-<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="eigenvalues.html#cb48-1" aria-hidden="true" tabindex="-1"></a>traj <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="sc">-</span><span class="fl">1.1</span>, <span class="at">y=</span><span class="fl">2.1</span>, <span class="at">tdur=</span><span class="dv">2</span>)</span>
+<span id="cb48-2"><a href="eigenvalues.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> <span class="fu">x</span>(t), traj)</span></code></pre></div>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:vec-example-1"></span>
 <img src="MOSAIC-Calculus_files/figure-html/vec-example-1-1.png" alt="The trajectory calculated starting at (-1.1, 2.1). The graph is annotated with the vectors $\vec{u_1}$ and $\vec{u_2}$ and the flow field." width="90%" />
 <p class="caption">
@@ -310,17 +305,17 @@ Figure 53.1: The trajectory calculated starting at (-1.1, 2.1). The graph is ann
 </div>
 <p>The initial condition (marked “0” in Figure <a href="eigenvalues.html#fig:vec-example-1">53.1</a>) is, like any other point in the state space, a linear combination of <span class="math inline">\(\vec{u_1}\)</span> and <span class="math inline">\(\vec{u_2}\)</span>. We can find the scalar coefficients of the linear combination using any of the methods presented in Block 5, for instance the telescope method.
 We’ll illustrate with <code>qr.solve()</code>:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="eigenvalues.html#cb52-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">3</span>), <span class="fu">rbind</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb52-2"><a href="eigenvalues.html#cb52-2" aria-hidden="true" tabindex="-1"></a>w0 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="sc">-</span><span class="fl">1.1</span>, <span class="fl">2.1</span>)</span>
-<span id="cb52-3"><a href="eigenvalues.html#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qr.solve</span>(M, w0)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="eigenvalues.html#cb49-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">3</span>), <span class="fu">rbind</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb49-2"><a href="eigenvalues.html#cb49-2" aria-hidden="true" tabindex="-1"></a>w0 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="sc">-</span><span class="fl">1.1</span>, <span class="fl">2.1</span>)</span>
+<span id="cb49-3"><a href="eigenvalues.html#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qr.solve</span>(M, w0)</span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,] -0.7
 ## [2,] -0.4</code></pre>
 <p>So, <span class="math inline">\(\vec{w(0)} = -0.7 \vec{u_1} - 0.4 \vec{u_2}\)</span>. Keep these scalar coefficients, <span class="math inline">\(-0.7\)</span> and <span class="math inline">\(-0.4\)</span> in mind for the next example.</p>
 </div>
 <p>We can use <code>integrateODE()</code> to find the solution starting at any initial condition. In particular, we can find the solution <span class="math inline">\(\vec{u_1}\)</span> as the initial condition and, similarly, using <span class="math inline">\(\vec{u_2}\)</span> as the initial condition.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="eigenvalues.html#cb54-1" aria-hidden="true" tabindex="-1"></a>traj_u1 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="sc">-</span><span class="dv">3</span>, <span class="at">tdur=</span><span class="dv">2</span>)</span>
-<span id="cb54-2"><a href="eigenvalues.html#cb54-2" aria-hidden="true" tabindex="-1"></a>traj_u2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span> <span class="dv">0</span>, <span class="at">tdur=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="eigenvalues.html#cb51-1" aria-hidden="true" tabindex="-1"></a>traj_u1 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="sc">-</span><span class="dv">3</span>, <span class="at">tdur=</span><span class="dv">2</span>)</span>
+<span id="cb51-2"><a href="eigenvalues.html#cb51-2" aria-hidden="true" tabindex="-1"></a>traj_u2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span> <span class="dv">0</span>, <span class="at">tdur=</span><span class="dv">2</span>)</span></code></pre></div>
 <p>Figure <a href="eigenvalues.html#fig:vec-example-2">53.2</a> shows these trajectories.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:vec-example-2"></span>
 <img src="MOSAIC-Calculus_files/figure-html/vec-example-2-1.png" alt="Trajectories from the initial conditions $\color{magenta}{\vec{u_1}}$ and $\color{blue}{\vec{u_2}}$." width="90%" />
@@ -348,8 +343,8 @@ Eigenvectors can be calculated using the R function <code>eigen()</code> applied
 <p>For the system of first-order differential equations <span class="math display">\[\partial_t x = x + y\\\partial_t y = 2x\ \ \ \ \ \]</span>
 the matrix is, as we’ve seen, <span class="math display">\[\left[\begin{array}{cc}1&amp;1\\2&amp;0\end{array}\right]\ .\]</span></p>
 <p>Carrying out the eigenvector calculation is straightforward:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="eigenvalues.html#cb55-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="fu">rbind</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb55-2"><a href="eigenvalues.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(M)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="eigenvalues.html#cb52-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rbind</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="fu">rbind</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb52-2"><a href="eigenvalues.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(M)</span></code></pre></div>
 <pre><code>## eigen() decomposition
 ## $values
 ## [1]  2 -1
@@ -375,11 +370,11 @@ Figure 53.3: The eigenvectors for the <span class="math inline">\(\left[\begin{a
 <p>The eigenvectors mark the directions where the flow is either directly toward the fixed point or directly away from it. Here, the flow on the subspace of <span class="math inline">\(\color{magenta}{\vec{\Lambda_1}}\)</span> is away from the fixed point, while the flow along the subspace of <span class="math inline">\(\color{blue}{\vec{\Lambda_2}}\)</span> is inward to the fixed point.</p>
 <p>The consequence of this alignment of the flow with the eigenvectors is that the trajectory from any initial condition <span class="math inline">\(m_1 \vec{\Lambda_1}\)</span> will have the form <span class="math inline">\(m_1(t) \vec{\Lambda_1}\)</span> and similarly for an initial condition <span class="math inline">\(m_2(t) \vec{\Lambda_2}\)</span>.</p>
 <p>As we did in the previous section, let’s calculate the trajectories <span class="math inline">\(\color{magenta}{\vec{\Lambda_1(t)}}\)</span> and <span class="math inline">\(\color{blue}{\vec{\Lambda_2(t)}}\)</span> starting at the two eigenvectors and plot out the <span class="math inline">\(y(t)\)</span> component of the solution. Since we’re anticipating an exponential form for the function, we’ll use semi-log axes, where an exponential will look like a straight line.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="eigenvalues.html#cb57-1" aria-hidden="true" tabindex="-1"></a>traj_eigen1 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="fl">0.7071</span>, <span class="at">y=</span><span class="fl">0.7071</span>)</span>
-<span id="cb57-2"><a href="eigenvalues.html#cb57-2" aria-hidden="true" tabindex="-1"></a>traj_eigen2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="sc">-</span><span class="fl">0.4472</span>, <span class="at">y=</span><span class="fl">0.8944</span>)</span>
-<span id="cb57-3"><a href="eigenvalues.html#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj_eigen1, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb57-4"><a href="eigenvalues.html#cb57-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj_eigen2, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb57-5"><a href="eigenvalues.html#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_refine</span>(<span class="fu">scale_y_log10</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="fl">0.3290</span>, <span class="fl">0.7071</span>, <span class="fl">0.8944</span>, <span class="fl">5.2248</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="eigenvalues.html#cb54-1" aria-hidden="true" tabindex="-1"></a>traj_eigen1 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="fl">0.7071</span>, <span class="at">y=</span><span class="fl">0.7071</span>)</span>
+<span id="cb54-2"><a href="eigenvalues.html#cb54-2" aria-hidden="true" tabindex="-1"></a>traj_eigen2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>(dx <span class="sc">~</span> x <span class="sc">+</span> y, dy <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>x, <span class="at">x=</span><span class="sc">-</span><span class="fl">0.4472</span>, <span class="at">y=</span><span class="fl">0.8944</span>)</span>
+<span id="cb54-3"><a href="eigenvalues.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj_eigen1, <span class="at">color=</span><span class="st">&quot;magenta&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb54-4"><a href="eigenvalues.html#cb54-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">traj_plot</span>(<span class="fu">y</span>(t) <span class="sc">~</span> t, traj_eigen2, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-5"><a href="eigenvalues.html#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gf_refine</span>(<span class="fu">scale_y_log10</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="fl">0.3290</span>, <span class="fl">0.7071</span>, <span class="fl">0.8944</span>, <span class="fl">5.2248</span>)))</span></code></pre></div>
 <p><img src="MOSAIC-Calculus_files/figure-html/eigen-time-series-1.png" width="90%" style="display: block; margin: auto;" />
 We’ve marked the <span class="math inline">\(y\)</span> axis with the starting and ending values of each function, so that you can find the exponential parameter <span class="math inline">\(k\)</span> for each function.</p>
 <p><span class="math display">\[\color{magenta}{y_1(t) = 0.7071 e^{k_1 t}}\\
@@ -392,11 +387,25 @@ Every solution to the differential equation has the form
 <span class="math display">\[m_1\, e^{\lambda_1 t} \vec{\Lambda_1} + m_2\, e^{\lambda_2 t} \vec{\Lambda_2}\ .\]</span>
 The scalar coefficients <span class="math inline">\(m_1\)</span> and <span class="math inline">\(m_2\)</span> can be found from the initial condition. The stability of the system depends only on <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span>. If either one of these is positive, then the system is unstable.</p>
 </div>
-<div id="exercises-5" class="section level2 hasAnchor" number="7.3">
-<h2><span class="header-section-number">53.3</span> Exercises<a href="eigenvalues.html#exercises-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="exercises-6" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">53.3</span> Exercises<a href="eigenvalues.html#exercises-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>WP-103-16: Using eigenvalues, eigenvectors, and vector decomposition, develop closed form solutions to initial value problems involving systems of linear equations.</p></li>
+<li><p>D-BRUPM: Calculate the eigenvalues of a 2x2 numerical matrix by hand, and larger matrices by computer.</p></li>
+<li><p>WP-103-14: Explain the graphical/geometrical interpretation of an eigenvector and eigenvalue and how to compute each for a two-by-two matrix.</p></li>
+</ul>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/child-buy-drawer.Rmd" href="#OwCtGH"><img src="www/icons8-signpost.png" title="Location: Exercises/child-buy-drawer.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">OwCtGH </red></span>
+<strong>Exercise 53.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/dog-rise-window.Rmd" width="12px"/><span id="uA9YI7" style="color: red; font-size: 9pt;">uA9YI7 WP-103-14</red></span>
+</summary>
+<p>Using an angle from -90 to 90 degrees to specify directions, say in what directions each of the eigenvectors is pointed. (Your answer should be good to <span class="math inline">\(\pm 10 degrees\)</span>. Remember, 0 degrees is horizontal.)</p>
+<p><img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-92-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-93-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="MOSAIC-Calculus_files/figure-html/unnamed-chunk-94-1.png" width="90%" style="display: block; margin: auto;" />
+</details>
+<details>
+<summary>
+<strong>Exercise 53.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/child-buy-drawer.Rmd" width="12px"/><span id="OwCtGH" style="color: red; font-size: 9pt;">OwCtGH WP-103-14</red></span>
 </summary>
 <p>The exercise is based on the interactive applet shown below. Click on the image to open up the applet in another tab of your browser. Then arrange so that the applet’s tab is side by side with this one. That way you can see the questions and figure out the answer at the same time.</p>
 <p><a href="https://maa-statprep.shinyapps.io/142Z-Eigenflows/" target="_blank"><img src='www/eigenflow-app.png' width="50%"></a></p>
@@ -417,7 +426,7 @@ The scalar coefficients <span class="math inline">\(m_1\)</span> and <span class
 <ol style="list-style-type: lower-roman">
 <li><span class="Zchoice">A more tightly wound spiral<span class="mcanswer">︎✘ </span></span><br />
 </li>
-<li><span class="Zchoice">A more loosely wound spiral<span class="mcanswer">Good. </span></span><br />
+<li><span class="Zchoice">A more loosely wound spiral<span class="mcanswer">Nice! </span></span><br />
 </li>
 <li><span class="Zchoice">A spiral that goes the other way round<span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -426,11 +435,11 @@ The scalar coefficients <span class="math inline">\(m_1\)</span> and <span class
 </details>
 <details>
 <summary>
-<strong>Exercise XX.XX</strong>: <span><a name="File: Exercises/beech-ride-bowl.Rmd" href="#Rdc7vE"><img src="www/icons8-signpost.png" title="Location: Exercises/beech-ride-bowl.Rmd" width="12px"/></a><span style="color: red; font-size: 9pt;">Rdc7vE </red></span>
+<strong>Exercise 53.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/beech-ride-bowl.Rmd" width="12px"/><span id="Rdc7vE" style="color: red; font-size: 9pt;">Rdc7vE D-BRUPM</red></span>
 </summary>
 <p><strong>Question A</strong> What are the numerical values of the eigenvalues of the matrix <span class="math inline">\(\left[\begin{array}{rc}-1 &amp; \frac{3}{4} \\ 1 &amp; 0\end{array}\right]\)</span>?</p>
 <ol style="list-style-type: lower-roman">
-<li><span class="Zchoice"><span class="math inline">\(\frac{1}{2}\)</span> and <span class="math inline">\(-\frac{3}{2}\)</span><span class="mcanswer">Nice! </span></span><br />
+<li><span class="Zchoice"><span class="math inline">\(\frac{1}{2}\)</span> and <span class="math inline">\(-\frac{3}{2}\)</span><span class="mcanswer">Right! </span></span><br />
 </li>
 <li><span class="Zchoice"><span class="math inline">\(\frac{1}{2}\)</span> and <span class="math inline">\(-\frac{5}{2}\)</span><span class="mcanswer">︎✘ </span></span><br />
 </li>
@@ -457,7 +466,7 @@ $${\mathbf M}\cdot {\mathbf \Lambda} = \lambda {\mathbf \Lambda}$$
 
 **Question C**  Which of these is an eigenvector of the matrix $\left[\begin{array}{rc}-1 & \frac{3}{4} \\ 1 & 0\end{array}\right]$? (Hint: Multiply the matrix by each of the vectors listed. For one of them, the result of the multiplication will be aligned with the vector used. You can use the constant of proportionality to answer the next question, but you'll have to start by choosing the right one of the options that follow.) 
 
-i. <span class='Zchoice'>$\left[\begin{array}{r}-3\\2\end{array}\right]$<span class='mcanswer'>Excellent! </span></span>     
+i. <span class='Zchoice'>$\left[\begin{array}{r}-3\\2\end{array}\right]$<span class='mcanswer'>Nice! </span></span>     
 ii. <span class='Zchoice'>$\left[\begin{array}{r}3\\2\end{array}\right]$<span class='mcanswer'>︎✘ </span></span>     
 iii. <span class='Zchoice'>$\left[\begin{array}{r}-2\\3\end{array}\right]$<span class='mcanswer'>︎✘ </span></span>     
 iv. <span class='Zchoice'>$\left[\begin{array}{r}2\\3\end{array}\right]$<span class='mcanswer'>︎✘ </span></span>
@@ -470,7 +479,7 @@ iv. <span class='Zchoice'>$\left[\begin{array}{r}2\\3\end{array}\right]$<span cl
 
 i. <span class='Zchoice'>$\left[\begin{array}{r}6\\1\end{array}\right]$<span class='mcanswer'>︎✘ </span></span>     
 ii. <span class='Zchoice'>$\left[\begin{array}{r}-1\\1\end{array}\right]$<span class='mcanswer'>︎✘ </span></span>     
-iii. <span class='Zchoice'>$\left[\begin{array}{r}3\\2\end{array}\right]$<span class='mcanswer'>Correct. </span></span>     
+iii. <span class='Zchoice'>$\left[\begin{array}{r}3\\2\end{array}\right]$<span class='mcanswer'>Nice! </span></span>     
 iv. <span class='Zchoice'>$\left[\begin{array}{r}3.02\\10\end{array}\right]$<span class='mcanswer'>︎✘ </span></span>     
 v. <span class='Zchoice'>$\left[\begin{array}{r}3.30\\-1\end{array}\right]$<span class='mcanswer'>︎✘ </span></span>
 
@@ -484,8 +493,160 @@ v <- rbind(5.6155, 10)
 
 -->
 </details>
-<p>EXERCISES: Give numbers for <span class="math inline">\(abcd\)</span> and <span class="math inline">\(x(0)\)</span> and <span class="math inline">\(\partial_t x(0)\)</span>. Find the eigenvalues and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</p>
-<p>EXERCISE: CALCULATE THE EIGENVALUES and eigenvectors from a series of matrices. What is their stability? What is the solution starting from this or that initial condition.</p>
+<details>
+<summary>
+<strong>Exercise 53.XX</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/kangaroo-wear-knife.Rmd" width="12px"/><span id="CUfA2c" style="color: red; font-size: 9pt;">CUfA2c WP-103-16</red></span>
+</summary>
+<p>We’ll work with the linear dynamical system</p>
+<p><span class="math display">\[\partial_t x = -x\\
+\partial_t y = -11 x - 2 y\]</span></p>
+<p>Using <code>integrateODE()</code> find the solution <span class="math inline">\(x(t)\)</span> for <code>tdur=10</code> for each of these three initial conditions:</p>
+<p>Trajectory 1) <span class="math inline">\(x_0=1, y_0=-1\)</span></p>
+<p>Trajectory 2) <span class="math inline">\(x_0=0, y_0=1\)</span></p>
+<p>Trajectory 3) <span class="math inline">\(x_0=1, y_0=0\)</span></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="eigenvalues.html#cb55-1" aria-hidden="true" tabindex="-1"></a>T1 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>( ...., <span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">tdur=</span><span class="dv">10</span>)</span>
+<span id="cb55-2"><a href="eigenvalues.html#cb55-2" aria-hidden="true" tabindex="-1"></a>T2 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>( ...., <span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="dv">1</span>,  <span class="at">tdur=</span><span class="dv">10</span>) </span>
+<span id="cb55-3"><a href="eigenvalues.html#cb55-3" aria-hidden="true" tabindex="-1"></a>T3 <span class="ot">&lt;-</span> <span class="fu">integrateODE</span>( ...., <span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="dv">0</span>,  <span class="at">tdur=</span><span class="dv">10</span>)</span></code></pre></div>
+<p>The three solutions will be the functions <code>T1$x()</code>, <code>T2$x()</code>, and <code>T3$x()</code>.</p>
+<p>Since the dynamics are linear, there will be a simple relationship between the three solutions, just as there is a simple relationship between three vectors in a 2-dimensional vector space.</p>
+<p>Find this simple relationship and make a graph that demonstrate it.</p>
+<!-- solution -->
+</details>
+<details>
+<summary>
+<strong>Exercise 54.15</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/spider-hide-cotton.Rmd" width="12px"/><span id="xkQnvD" style="color: red; font-size: 9pt;">xkQnvD D-BRUPM X-DE4WK</red></span>
+</summary>
+<p>The only fixed point of the rabbit-fox system is
+<span class="math inline">\(\left(r^\star, f^\star\right) = \left(\frac{\alpha}{\beta}, -\frac{\delta}{\gamma}\right)\)</span></p>
+<p>The linearized dynamics around this fixed point are:
+<span class="math display">\[\partial_t r = 
+\left(\alpha + \frac{\beta\gamma}{\delta}\right) [r - r^\star] + 
+\alpha [f - f^\star]\\
+\partial_t f = 
+- \delta [r - r^\star] + 
+\left(\delta + \frac{\alpha\beta}{\delta}\right) [f - f^\star]\]</span></p>
+Using the formula for eigenvalues, calculate the eigenvalues symbolically and report on the stability of the fixed point.
+</details>
+<details>
+<summary>
+<strong>Exercise 53.21</strong>: <span><img src="www/icons8-signpost.png" title="Location:Exercises/panda-teach-door.Rmd" width="12px"/><span id="PD3CiZ" style="color: red; font-size: 9pt;">PD3CiZ WP-103-14</red></span>
+</summary>
+<p>In this exercise, you’ll be using an app that allows you to set <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in the [ab10] matrix and hunt for eigenvectors.</p>
+<p><a href="https://maa-statprep.shinyapps.io/142Z-Eigenflows/" target="_blank">
+<img src="www/eigenflow-app.png" width="60%">
+</a></p>
+<p>Open up the app in another browser tab and arrange it side-by-side with this document, so you can see both at the same time.</p>
+<p>You used a somewhat similar app when exploring linear, two-dimensional finite-difference equations. <a href="https://maa-statprep.shinyapps.io/142Z-Matrix-iteration/">Here’s a link</a>, but you don’t need to open that app for this exercise.</p>
+<p>This new app does a few things differently:</p>
+<ul>
+<li>In the old app, you had four number-entry boxes to set the values of the [abcd] matrix. Here, because we’re using the [ab10] format, you need only set <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. You can do this by clicking within the left-hand graph.</li>
+<li>The a-b selector graph is annotated with the type of generic behavior that the differential-equation system will show for any combination of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. This allows you to reason backward from the behavior you are interested in to the corresponding values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. Since the type of behavior is encoded in the eigenvalues, you are effectively inverting the eigenvalue formula to find <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</li>
+<li>The flow field (right-hand graph) shows <em>stream-lines</em> of continuous-time motion. Imagine you had a bunch of glitter which you cast out over a pool of water with a given flow pattern. If you took a time-exposure photo, you would see each piece of glitter as it moved along with the water in which it is embedded.</li>
+<li>You can click in the flow field to start a trajectory at that point. You can control the time domain—that is, how long is the time exposure of the photo—with the radio buttons at the bottom.</li>
+<li>There is a thin, green line annotating the flow field. This line runs from the fixed point (right in the center) in the direction of the point on which you click to start a trajectory. A vector with the same orientation as the green line is given numerically below the graph. This orientation is also described using an angle measurement in degrees.</li>
+<li>There is no display of the <em>solution</em>, that is, <span class="math inline">\(x()\)</span> versus <span class="math inline">\(t\)</span>. This is because we want you to understand the <em>geometry</em> of the flow.</li>
+</ul>
+<p>First, play around with the app. Choose miscellaneous values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, observe the flow, and click in the flow field to draw a red trajectory. Notice what happens when you make the number of steps larger or smaller. In unstable directions, you can get a good view of the trajectory by starting it near the fixed point. If you start it at the periphery of the graph, most of the trajectory will be outside the display. And if the number of steps is very small, you may not see it at all because the glyph is so thin near the start.</p>
+<p>When coming from a stable direction, click near the periphery of the graph to get a good view, since the red trajectory will naturally be heading in towards the origin. When estimating the orientation of an eigenvector, try to get the green line heading straight down the middle of the red trajectory. This often requires a bit of fiddling, moving the starting point just a tiny amount to find one that is just right.</p>
+<p>When you are <em>on</em> an eigenvector, the trajectory will be dead straight on the green line. Any trajectory not starting on an eigenvector will be curved to a greater or lesser extent, depending on the relative sizes of the eigenvalues.</p>
+<p>In the following questions, pick the choice <strong>closest</strong> to the answer you found. The exact choice of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> stemming from a click depends somewhat on the graphics resolution of your display, so you should expect only to be able to get close to the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> values given in the question.</p>
+<p><strong>Question A</strong> Set <span class="math inline">\(a=-1.0\)</span> and <span class="math inline">\(b = 0.5\)</span> (or as close as you can get) and observe the flow. This is a saddle: stable in one direction, unstable in another. There will be one stable eigenvector, where the flow moves <strong>directly outward</strong> from the origin, and one unstable eigenvector, where the flow moves <strong>directly inward</strong> toward the origin. Which one of these is the orientation (in degrees) of the unstable eigenvector?</p>
+<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question B</strong> Which of these best describes the eigenvalue corresponding to the unstable eigenvector?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Negative and real<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Zero and real<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Positive and real<span class="mcanswer">Right! </span></span><br />
+</li>
+<li><span class="Zchoice">Complex with a negative real part<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Complex with a positive real part<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<p><strong>Question C</strong> Keeping <span class="math inline">\(a=-1.0\)</span> and <span class="math inline">\(b = 0.5\)</span>, hunt for the stable eigenvector. Which one of these is the orientation (in degrees) of the stable eigenvector?</p>
+<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
+<hr />
+<p><strong>Question D</strong> Set <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span> and observe the flow. This is a source: all initial conditions lead to motion away from the fixed point. But for this <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, some directions are “faster” than others. Which one of these is the orientation (in degrees) of the fast eigenvector?</p>
+<p>    <span class="Zchoice">-149.7<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question E</strong> Keeping <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, what is the orientation of the slow eigenvector?</p>
+<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question F</strong> Staying with the flow from <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, which of these best describes the pair of eigenvalues?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Both are real and positive<span class="mcanswer">Excellent! </span></span><br />
+</li>
+<li><span class="Zchoice">Both are real and negative<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">One is complex, the other real<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Both are complex, one has negative real part<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<hr />
+<p><strong>Question G</strong> Set <span class="math inline">\(a=-2\)</span> and <span class="math inline">\(b = -0.5\)</span> and observe the flow. This is a sink: all initial conditions lead to motion toward the fixed point. Which one of these is the orientation (in degrees) of the fast eigenvector?</p>
+<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span></p>
+<p><strong>Question H</strong> Keeping <span class="math inline">\(a=-2\)</span> and <span class="math inline">\(b = -0.5\)</span>, what is the orientation of the slow eigenvector?</p>
+<p>    <span class="Zchoice">-149.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-63.6<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">-31.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">69.1<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">73.5<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">106.6<span class="mcanswer"><span class="math inline">\(\heartsuit\ \)</span></span></span>       <span class="Zchoice">143.7<span class="mcanswer">︎✘ </span></span>       <span class="Zchoice">149<span class="mcanswer">︎✘ </span></span></p>
+<p><strong>Question I</strong> Staying with the flow from <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, which of these best describes the pair of eigenvalues?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Both are real and positive<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">Both are real and negative<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">One is complex, the other real<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Both are complex, one has negative real part<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Both are complex, both have negative real part<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<hr />
+<p><strong>Question J</strong> Set <span class="math inline">\(a=-1\)</span> and <span class="math inline">\(b = -1\)</span> and observe the flow. This is a node: the flow is spiral with the fixed point at the center. Is the flow stable or unstable?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">stable<span class="mcanswer">Nice! </span></span><br />
+</li>
+<li><span class="Zchoice">unstable<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">neither stable nor unstable<span class="mcanswer">︎✘ Is it getting closer to the fixed point or further away? That’s the question that determines stability.</span></span></li>
+</ol>
+<p><strong>Question K</strong> Keeping <span class="math inline">\(a=-1\)</span> and <span class="math inline">\(b = -1\)</span>, what can you correctly say about the eigenvectors?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">They have almost the same orientation<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">There is only one eigenvector<span class="mcanswer">︎✘ There are almost aways two eigenvectors.</span></span><br />
+</li>
+<li><span class="Zchoice">There are no eigenvectors<span class="mcanswer">Correct. This is true in the sense that there is no place where the motion is on a straight line toward or away from the origin.</span></span></li>
+</ol>
+<p><strong>Question L</strong> Staying with the flow from <span class="math inline">\(a=2\)</span> and <span class="math inline">\(b = -0.5\)</span>, which of these best describes the pair of eigenvalues?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">Both are real and positive<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">Both are real and negative<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">One is complex, the other real<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Both are complex, one has negative real part<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">Both are complex, both have negative real part<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+<hr />
+<p><strong>Question M</strong> Set <span class="math inline">\(a=0\)</span> and some <span class="math inline">\(b &lt; 0\)</span>. The result will be a trajectory that goes around in a closed loop. (You will want to make the number of steps large to see a complete loop.) You may not be able to click on exactly <span class="math inline">\(a=0\)</span>, but you should be able to get close enough that the trajectory is a very tightly wound spiral. We’re interested here in how many cycles the trajectory covers in a fixed number of time steps, that is, whether the trajectory moves quickly or slowly around the loop. Which of these statements is true about the relationship between <span class="math inline">\(b\)</span> and the speed of the motion?</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">There’s no relationship between <span class="math inline">\(b\)</span> and speed of oscillation.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">When <span class="math inline">\(b\)</span> is closer to zero, the speed is higher.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">When <span class="math inline">\(b\)</span> is further from zero, the speed is higher.<span class="mcanswer">Correct. </span></span></li>
+</ol>
+<p><strong>Question N</strong> We’re going to look at the relationship between the eigenvalues and the speed of oscillation. Keep <span class="math inline">\(a=0\)</span> and <span class="math inline">\(b &lt; 0\)</span>, which guarantees that the motion will be circular. Vary <span class="math inline">\(b\)</span>, each time observing how many loops the trajectory makes (for a fixed number of steps), and what the eigenvalues are. Which of these statements is <strong>not</strong> true about the speed of oscillation and the eigenvalues.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="Zchoice">The larger the magnitude of the imaginary part of the eigenvalues, the faster the oscillation.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The two eigenvalues have exactly the same imaginary part, except one is positive and the other negative.<span class="mcanswer">︎✘ </span></span><br />
+</li>
+<li><span class="Zchoice">The speed of oscillation relates to the <em>difference</em> between the imaginary part of the eigenvalues.<span class="mcanswer">Good. </span></span><br />
+</li>
+<li><span class="Zchoice">The real part of the eigenvalues is the same for both when there is oscillatory motion.<span class="mcanswer">︎✘ </span></span></li>
+</ol>
+</details>
 
 </div>
 </div>
