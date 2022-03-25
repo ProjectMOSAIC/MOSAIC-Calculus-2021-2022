@@ -1,23 +1,46 @@
-# Structure of a function
+# Data and data graphics
 
-<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/03-structure.Rmd)</div>
+<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Preliminaries/07-data-and-data-graphics.Rmd)</div>
 
-> *The ideas which are here expressed so laboriously are extremely simple .... The difficulty lies, not in the new ideas, but in escaping from the old ones, which [branch]^[Original word: "ramify"], for those brought up as most of us have been, into every corner of our minds.* --- J. M Keynes, 1936, [*The General Theory of Employment, Interest, and Money*](files.ethz.ch/isn/125515/1366_KeynesTheoryofEmployment.pdf), 1936
-
-You're used to mathematical functions being stated as ***formulas***, expressions composed of addition, multiplication, square roots, and so on. `r mark(300)`
-
-- The expression $m x + b$ uses a multiplication and an addition. 
-- $\sqrt{\strut 1 - x^2}$ uses squaring ($x^2$), subtraction and square root. 
-- $3\sin\left(\frac{2 \pi}{P} x\right) + 4$ uses multiplications, division, sin function, and an addition
-
-There's nothing in the mathematical concept of "function" that requires a formula. And computer functions in general are not based on an algebraic formula. The word used to describe the internals of a computer function is ***algorithm***, which is a generalization of "formula" that includes many non-arithmetic operations such as looping and branching.
-
-When you press a function button like "sin" or "ln" or "exp" on a calculator, you likely have little idea what process is being set in action to create the result. Indeed, very few people do, even among professionals. This is not a problem. You can ***name*** the function that's appropriate for your purpose, you can ***apply*** the function to an input, and you can do something with the ***output***.
-
-This chapter is about what functions are and how functions are organized: where the name goes, where the input goes, and what determines the output. 
+```{r include=FALSE}
+book_file_name <- "preliminaries/07-data-and-data-graphics.html"
+```
 
 
-## Inputs to output {#inputs-to-output}
+
+
+## Data frames
+
+frame, case, variable, row, column
+
+accessing and basic operations
+- built-in data frames, by name
+- names(), head(), 
+- URLs, might use files, but only occasionally
+
+::: {.takenote}
+We use the word ***variable*** to refer to a column of a data frame.
+When refering to a quantity that is an input to a function, we use "input" or "argument" (they're equivalent)
+:::
+
+Before modern computing, tables were one of the primary means to describe functions. People working with calculus needed a reference collection of books containing tables for the functions they used. `r mark(420)`
+
+With computers, we have better and faster ways to get the output of a function from the input. Still, modelers often use recorded data to construct functions. Tables are perhaps the most widely used method for storing and accessing data, although electronic spreadsheets are used today instead of printed tables.
+
+Even today, a table can be a nice way to describe a function when we are interested in the output from only a handful of the possible inputs. 
+
+Conceptually, it's helpful to keep in mind that every pattern-book function is just a way of organizing information that could have been stored in a table. 
+
+You will not have to generate tabular descriptions of functions to follow this book. It's much more convient to implement the function in software so that the output can easily be displayed for any given inputs. On the other hand, in this book we'll often use data in tabular form to create a modeling function. There's little point in introducing this until you have some additional calculus concepts, so be patient.
+
+
+## Discrete vs continuous
+
+This is calculus, so we'll be working with continuous inputs. Tables have discrete inputs.
+
+- Spliner, smoother, fitting, as examples of turning discrete into continuous.
+
+## Tables and functions
 
 We will be using formulas extensively, but best if you can visualize functions generally as something that's not necessarily a formula. This section gives another perspective on how to describe and think about a function. Remember, functions ***take inputs*** and ***return the corresponding output***. Any arrangement that accomplishes this (and ensures  the same output is always returned for a given input) is a function, even if arithmetic is nowhere in sight. For example, a simple and useful framework for organizing information is the ***table***, generally set up as an array of rows and columns. A table can be thought of as a function, despite it not containing any formulas or arithmetic: it relates one or more columns (the input) to another column (the output).
 
@@ -46,12 +69,12 @@ If you examined the relationship between engine power (`BHP`) and bore, stroke, 
 
 Often, we're interested in having a ***quantitative*** description of a relationship such as the one (bore, stroke) $\rightarrow$ power. Remarkably, many otherwise well-educated people are uncomfortable with the idea of using quantitative descriptions of a relationship: what sort of language the description should be written with; how to perform the calculations to use the description; how to translate between data (such as in the table) and a quantitative description; how to translate the quantitative description to address a particular question or make a decision.
 
-This course is about constructing and using such quantitative descriptions: that is, ***mathematical modeling***. Skills for modeling are essential for work in engineering and science, and highly valued in many other fields in commerce, management, and government. Often, the work of applying such quantitative skills is called ***calculation***. The name ***calculus*** is used to describe the methods that are widely used for undertaking calculations.
 
-***Functions*** are a fundamental way of organizing mathematical models and calculations. You have undoubtedly seen them in your previous mathematics education, but it's worth reviewing them from the basics so that we can share a vocabulary for communicating about them.
 
-- A function is a transformation from one or more ***inputs*** to an ***output***.
-- To keep things simple, for now we'll focus on inputs and outputs that are ***numeric***. Later, we'll need a more nuanced view of "numeric" that takes into account the different kinds of things that are represented by numbers, e.g. length, power, RPM.
+
+
+
+
 
 ## A bureaucratic analogy {#bureaucratic}
 
@@ -82,17 +105,6 @@ The reader familiar with floors and corridors and office doors may note that the
 A slight modification to the procedure will produce a continuous function. It works like this: for an input of 321.487... the messenger goes to both office 321 and 322 and collects their respective outputs. Let's imagine that they are -14.3 and 12.5 respectively. All that's needed is a small calculation, which in this case will look like $$-14.3 \times (1 - 0.487...)   + 12.5 \times 0.487...$$ This is called ***linear interpolation*** and lets us construct continuous functions out of discrete data.
 
 In Blocks 2 and 5 we'll discuss other widely used ways to do this that produce not just continuous functions but ***smooth*** functions. Understanding the difference between continuous and smooth will have to wait until we introduce a couple more calculus concepts: derivatives and limits.
-
-## Domain: input space
-
-As you know, there is a powerful way of thinking about numbers in terms of ***space*** and ***geometry***. For instance, a single number corresponds to a point on a line: the so-called ***number line***. A pair of inputs, say, (x, y) corresponds to a point in a plane, often called the ***Cartesian coordinate plane***. Three numbers corresponds to a point in space, perhaps organized into (x, y, z) of a Cartesian space. There are higher-dimensional spaces, but usually special training is needed to become comfortable with them. If you are having this discomfort, you might prefer to work with the office analogy. Just for fun, here's how you can think of a 10-dimensional space: 10 numbers, one telling you which planet, the next specifying the continent on that planet, and so on for country, state, city, street, building, floor, corridor, door.
-
-The set of inputs with which the function can be evaluated is called the ***domain*** of the function. Sometimes we describe the domain as a space, e.g. the number line, the plane, and so on. Sometimes domains including more restrictions. For instance, a particular input might have meaning only when positive, with no offices corresponding to negative values for that input. Or, an input might be restricted to be in the interval 0 to 1. Sometimes in calculus, the domain excludes an isolated point. For instance, there may be no office at the door marked 0 but the neighboring doors open into working offices. `r mark(350)`
-
-
-## Range: output space
-
-The ***range*** of a function is the set of all the *outputs* that can be produced. Since at this stage we're working only with functions that return a single number as output, it's common to describe the range as all or part of the number line. For instance, some functions only have positive outputs. Other functions' outputs are always in the interval 0 to 1. (This is the case, for instance, when the function returns a probability as the output.)
 
 
 ::: {.intheworld  data-latex=""}
@@ -128,103 +140,19 @@ Calculus provides both the notation for describing the physics of climate and th
 
 
 
+## Point plots
+
+Two quantitative variables
 
 
-## Formulas in R
 
-<!-- moved two exercise files inline: 
-chicken-chew-screen.Rmd (was exercise 3.6)
-dolphin-toss-candy.Rmd (was 3.7) -->
 
-You're familiar to some extent with traditional mathematical notation for formulas. Yet in applied work, you will often need to translate such formulas into computer notation. This book is written using R, but particularly when mathematical formulas are involved, commands are similar across many computer languages, so what you learn will be applicable to any other languages such as Python or MATLAB.
-
-The first high-level computer language was FORTRAN, released in 1957. The name stands for "formula translation." FORTRAN enabled arithmetic operations to be written in a way very nearly that of traditional notation. Until then, computer programs were written using alpha-numeric codes that were meaningless to a casual reader. We unfortunately still use the term "computer code" to refer to programs, despite 70-years progress in improving legibility. 
-
-The best way to learn to implement mathematical formulas in a computer language is to read examples and practice writing them. 
-
-Here are some examples:
-
-Traditional notation | R notation 
----------------------|-------------
-$3 + 2$              | `3 + 2`
-$3 \div 2$           | `3 / 2`
-$6 \times 4$         | `6 * 4`
-$\sqrt{\strut4}$     | `sqrt(4)`
-$\ln 5$              | `log(5)`
-$2 \pi$              | `2 * pi`
-$\frac{1}{2} 17$     | `(1 / 2) * 17`
-$17 - 5 \div 2$      | `17 - 5 / 2`
-$\frac{17 - 5}{\strut 2}$   | `(17 - 5) / 2`
-$3^2$                | `3^2`
-$e^{-2}$             | `exp(-2)`
-
-Each of these examples has been written using numbers as inputs to the mathematical operations. The syntax will be exactly the same when using an input name such as `x` or `y` or `altitude`, for instance `(x - y) / 2`. In order for that command using `x` and `y` to work, some meaning must have been previously attached to the symbols. We'll come back to this important topic on another day.
-
-Read through the above table of examples several times. Note down any that you find at all confusing. Then cover up the right side of the table and write down the R expression for each item on the left side. Similarly, cover up the left side of the table and translate the R expression into traditional notation.
-
-::: {.scaffolding  data-latex=""}
-Open a `r sandbox_link()` and, one at a time, write and run the R expression for each of these traditional-notation expressions. We give the numerical result for each of the traditional expressions to let you confirm that your R version is correct.
-
-i. $(16 - 3)/2$ gives result `r (16-3)/2`
-ii. $\sqrt{\frac{19}{3}}$ gives `r sqrt(19/3)`
-iii. $\cos(\frac{2 \pi}{3})$ gives `r cos(2 * pi / 3)`
-iv. $\pi^3 + 2$ gives `r pi^3 + 2`
-v. $\pi^{3+2}$ gives `r pi^(3+2)`
-
+::: {.intheworld}
+Other statistical graphics, e.g. densities
 :::
 
-Once you have a grasp of how to render traditional-notation formulas into R, read these few principles to help consolidate your understanding.
+## Graphics layers
 
-i. Computer languages generally, and R in particular, involve expressions that are written in a typewriter format: one conventional character after another in a straight line. There are no superscripts or subscripts used. So, $\frac{1}{3}$ will be written `1/3`. The equivalent of $\sqrt{7}$ is `sqrt(7)`.
-ii. Parentheses:
-    a. When an opening parenthesis directly follows a name, as in `sqrt(`, it means that the named operation is to be ***applied*** to the quantity inside the parentheses. So `sqrt(7)` means "take the square root of 7" and `log(10)` means "take the (natural) logarithm of 10." The common mathematical functions typically take only one input. We'll stick with those for now.
-    b. When an opening parenthesis does not directly follow a name, as in `6 - (2+3)`, the parentheses stand for ***grouping*** in exactly the same way as in traditional notation. For instance, $(6 + 15) / 3$ is translated as `(6 + 15) / 3`.
-iii. Multiplication and exponentiation are often written traditionally in terms of the relative position of quantities. So $(3 + 2)\pi$ means to multiply 5 times $\pi$, even though there is no multiplication sign being written. Similar, $\pi^{3 + 2}$ means to raise $\pi$ to the fifth power. There is no "exponentiation sign" used, just the positioning of $3+2$ as a superscript: $^{3+2}$. In R (and almost every computer language) multiplication and exponentiation **must be written explicitly**. The quantities $(3 + 2)\pi$ and $\pi^{3 + 2}$ would be translated as `(3 + 2) * pi` and `pi^(3+2)`. 
-    
-One additional note: All these examples can be written with a single line of code, as is true for many short formulas. Later on, we'll encounter longer formulas that *could* be written on a single line but are more readable when spread over two or more consecutive lines.   
+Add a function on top of a data set
 
-
-
-When your R command is not a complete sentence, the `r sandbox_link()` will display an error like this:
-
-<span style="font-color: red;"><code>Error in parse(text = x, keep.source = TRUE) : <text>:5:0: unexpected end of input </code></span>
-
-The "unexpected end of input" is the computer's way of saying, "You haven't finished your sentence so I don't know what to do."
-
-Each of these R expressions is incomplete. Your job, which you should do in a sandbox, is to turn each into a complete expression. Sometimes you'll have to be creative, since when a sentence is incomplete you, like the computer, don't really know what it means to say! But each of these erroneous expressions can be fixed by **adding** or **changing** text.
-
-Open a sandbox and copy each of the items below, one at a time, into a sandbox. Press "Run code" for that item and verify that you get an error message. 
-
-For the first item, the sandbox will look like this:
-
-```{r echo=FALSE, fig.cap="Running an invalid command will produce an error message." }
-knitr::include_graphics(normalizePath("www/sandbox-error.png"))
-```
-
-Then, fix the command so you get a numerical result rather than the error message.
-
-Working through all of these will help you develop an eye and finger-memory for R commands.
-
-i.  `sin 3`
-iv. `((16 - 4) + (14 + 2) / sqrt(7)`
-v. `pnorm(3; mean=2, sd=4)`
-vi. `log[7]`
-vii. `14(3 + 7)`
-viii. `e^2`
-ix. `3 + 4 x + 2 x^2`
-
-
-## Exercises
-
-
-`r insert_calcZ_exercise(3.1, "RLUCX", "Exercises/range-domain.Rmd")`
-
-`r insert_calcZ_exercise("3.2", "pUKm4c", "Exercises/sheep-buy-dress.Rmd")`
-
-`r insert_calcZ_exercise(3.3, "DLWSA", "Exercises/pattern-book-domain.Rmd")`
-
-`r insert_calcZ_exercise(3.4, "MNCLS2", "Exercises/pattern-book-range.Rmd")`
-
-`r insert_calcZ_exercise("3.5", "BXCA4", "Exercises/fish-sees-tree.Rmd")`
-
-
+Dots on axis, horizontal and vertical lines (e.g. zeros)

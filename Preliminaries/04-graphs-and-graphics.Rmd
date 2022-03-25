@@ -21,6 +21,21 @@ Drawing graphs with R/mosaic
 
 Some other types of graphs that we'll be using: vector fields, flow fields, contour plots, surface plots.
 
+The tilde expression and the graphics domain specifier are the two mandatory arguments to `slice_plot()`. All of these are correct commands for drawing a graph:
 
+```{r warning=FALSE}
+slice_plot(sin(t) ~ t, domain(t=c(-5,5)))
+slice_plot(exp(x) ~ x, domain(x=c(-3,2)))
+slice_plot(log(z) ~ z, domain(z=c(-0.5, 10)))
+slice_plot(t^2 ~ t, domain(t=c(-2, 2)))
+```
+
+
+You can draw graphs of single-input functions using the `slice_plot()` R/mosaic operator. You need to specify two pieces of information to `slice_plot()`:
+
+1. Which function to graph. In R/mosaic, You state this with what's called a ***tilde expression***. A couple of examples will suffice for the moment.
+    a. When the function has a name, like `exp()` or `log()` or `sin()`, the tilde expression looks like `exp(x) ~ x`. On the left side of the tilde you put the name of the function you want to graph with the input name in parentheses. You can choose any input name you like: here we are using `x`, but we are not limited to using `x` or any other letter. Sometimes we even use named inputs (e.g. `exp(time)`). On the right side of the tilde, place the input name again. We'll explain why the name appears in two places later.
+    b. When the function is being written as a formula, for instance `1/z` or `t^2`, put the formula on the left side of the tilde and the input name on the right side, like `1/z ~ z` or `t^2 ~ t`.
+2. The ***graphics domain***. As you know, the ***domain*** of a function is the collection of all possible legitimate inputs. For most of the pattern-book functions, the domain is $-\infty < x < \infty$. As you might expect, it's impractical to have a graphical axis that is infinitely long. So you have to choose some finite interval of the function domain to use. This finite interval is called the "graphics domain." You specify the domain with a statement like `domain(x = -5:5)`, which is setting the graphics domain to $-5 \leq x \leq 5$. Note that the input name used in `domain()` must match the input name you selected in the tilde expression. [[[ Explain to R experts that, inside `domain()`, the expression `-5:5` is interpreted as `c(-5, 5)`. Elsewhere in R `-5:5` refers to a **sequence** of numbers: $-5, -4, -3, -2, -1, 0, 1 2, 3, 4, 5$]]]
 
 

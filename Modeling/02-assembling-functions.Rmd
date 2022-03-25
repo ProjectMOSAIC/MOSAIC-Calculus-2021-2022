@@ -6,3 +6,24 @@
 book_file_name <- "modeling/02-assembling-functions.html"
 ```
 
+::: {.takenote  data-latex=""}
+- `g <-` means to give the function the **name** $g.$ (In this book, I usually write function names with a pair of parentheses as a suffix, e.g. $g(x).$ This reminds you that the name refers to a function. But the R name is simply `g`, even though I often write it as `g()` in the text.) The `<-` is called the ***assignment operator***, the instruction in R to give a name to an object. Here, the object will be the R function created by `makeFun()`.
+- `2 + 3*x - 7*x^2` is the **formula** for the function, that is, the expression found on the right-hand side of $\equiv$ in the traditional notation.
+- `~ x` is the part of the R/mosaic notation that says, "The name of the input will be `x`." In traditional notation, the name of the input is in parentheses following the name of the function $g\,{\mathbf{(x)}}$, but in R/mosaic notation, the two are in different places: the function name is to the left of the assignment operator (`<-`) and the name of the name of the input follows the tilde (`~`). 
+- The formula and the name of the input are always related in the R/mosaic notation by what is called a ***tilde expression***. The formula is on the left-hand side of the tilde (<span style="font-size: 24pt; line-height: 0.7;">`~`</span>) and the argument name is on the right-hand side of the tilde. If there is more than one argument, all the names go on the right-hand side of the tilde expression, separated by `&`. (Some people prefer to use `+` as the separator. That's fine, but we use the `&` convention throughout this book.)
+- `makeFun()` is the R/mosaic operator that takes the information contained in the tilde expression and turns it into an R function; it literally "makes an R function", hence the name, `makeFun()`.
+:::
+
+
+Functions constructed as a ***product*** of simple functions can look like this in tradition notation:
+$$h(t) \equiv \sin(t) e^{-t}$$
+and like this in computer notation:
+```{r}
+h <- makeFun(sin(t)*exp(-t) ~ t)
+```
+
+In function ***composition***, the output of one function is the input to a second function, as with $$H(t) \equiv \sin\left(e^{-t}\right)$$ or, in computer notation,
+```{r}
+H <- makeFun(sin(exp(-t)) ~ t)
+```
+
