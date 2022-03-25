@@ -1,10 +1,15 @@
-# Local approximations {#local-approximations}
+# Low order polynomials {#assembling}
 
-<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-2/25-approximation.Rmd)</div>
+<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/modeling/06-low-order-polynomails.Rmd)</div>
+
+```{r include=FALSE}
+book_file_name <- "modeling/06-low-order-polynomials.html"
+```
 
 NOTE NOTE NOTE
 
-The material in this first section has been moved to the new Block 1 chapter 6. CHANGE THIS CHAPTER TO FOCUS ON THE ANALYSIS OF LOW-ORDER POLYNOMIALS BY differentiation.
+Much of this material is redundant with Block 2 chapter 25. Make sure to take it out of there. Let Chapter 25 focus on the analysis of low-order polynomials by differentiation and the interpretation of terms.
+
 
 We have focused in this book on a small set of basic modeling functions and three operations for assembling new functions out of old ones: ***linear combination***, ***multiplication***, and ***composition***. All of these have a domain that is the whole number line, or the positive half of the number line, or perhaps the whole number line leaving out zero or some other isolated point. Consider such domains to be ***global***. `r mark(2750)`
 
@@ -224,118 +229,31 @@ Thus, $d_{FL}$ will have to be positive.
 :::
 
 
-<!-- about shapes of contour lines when zooming in. needs work `rrr insert_calcZ_exercise("XX.XX", "bmdrd", "Exercises/approx-tan.Rmd")`
-
-Original formulation of flying/leadership/merit
-`rrr insert_calcZ_exercise("XX.XX", "slks", "Exercises/rooster-red.Rmd")`
--->
-
-## Thinking partially {#partial-thought}
-
-The expression for a general low-order polynomial in two inputs can be daunting to think about all at once:
-$$g(x, y) \equiv a_0 + a_x x + a_y y + a_{xy} x y + a_{xx} x^2 + a_{yy} y^2$$
-As with many complicated settings, a good approach can be to split things up into simpler pieces. With a low-order polynomial, one such splitting up involves partial derivatives. There are six potentially non-zero partial derivatives for a low-order polynomial, of which two are exactly the same; so only five quantities to consider.
-
-1. $\partial_x g(x,y) = a_x + a_{xy}y + 2 a_{xx} x$ 
-2. $\partial_y g(x,y) = a_y + a_{xy}x + 2 a_{yy} y$
-3. $\partial_{xy} g(x,y) = \partial_{yx} g(x,y) = a_{xy}$. These are the so-called ***mixed partial derivatives***. It doesn't matter whether you differentiate by $x$ first or by $y$ first. The result will always be the same for any smooth function.
-4. $\partial_{xx} g(x,y) = 2 a_{xx}$
-5. $\partial_{yy} g(x,y) = 2 a_{yy}$
-
-The above list states neutral mathematical facts that apply generally to any low-order polynomial whatsoever.^[Note that any other derivative you construct, for instance $\partial_{xxy} g(x,y)$ must always be zero.] Those facts, however, shape a way of asking questions of yourself that can help you shape the model of a given phenomenon based on what you already know about how things work.
-
-To illustrate, consider the situation of modeling the effect of study $S$ and of tutoring $T$ (a.k.a. office hours, extended instruction) on performance $P(S,T)$ on an exam. In the spirit of partial derivatives, we'll assume that all other factors (student aptitude, workload, etc.) are held constant.
-
-To start, pick fiducial values for $S$ and $T$ to define the local domain for the model. Since $S=0$ and $T=0$ are easy to envision, we'll use those for the fiducial values. 
-
-Next, ask five questions, in this order, about the system being modeled.
-
-1. Does performance increase with study time? Don't over-think this. Remember that the approximation is around a fiducial point. Here, a reasonable answer is, "yes." We'll take$\partial_S P(S, T) > 0$ to imply that $a_S > 0$. This is appropriate because close to the fiducial point, the other contributors to  $\partial_S P(S, T)$, namely $a_{ST}T + 2 a_{SS} S$ will be vanishingly small.
-2. Does performance increase with time spent being tutored? Again, don't over-think this. Don't worry (yet) that your social life is collapsing because of the time spent studying and being tutored, and the consequent emotional depression will cause you to fail the exam. We're building a model here and the heuristic being used is to consider factors in isolation. Since (as we expect you'll agree) $\partial_T P(S, T) > 0$, we have that $a_T > 0$.
-
-Now the questions get a little bit harder and will exercise your calculus-intuition since you'll have to think about *changes* in the rates of change.
-
-3. This question has to do with the mixed partial derivative, which we've written variously as $\partial_{ST} P(S,T)$ or $\partial_{TS} P(S,T)$ and which it might be better to think about as $\partial_S \left[\partial_T P(S,T) \right]$ or $\partial_T \left[\partial S P(S,T)\right]$. Although these are mathematically equal, often your intuition will favor one form or the other. Recall that we're working on the premise that $\partial_S P(S,T) > 0$, or, in other words, study will help you do better on the exam. Now for $\partial_T \left[\partial S P(S,T)\right]$. This is a the matter of whether some tutoring will make your study more effective. Let's say yes here, since tutoring can help you overcome a misconception that's a roadblock to effective study. So $\partial_{TS} P(S,T) > 0$ which implies $a_{ST} > 0$.
-
-The other way round, $\partial_S \left[\partial_T P(S,T) \right]$ is a matter of whether increasing study will enhance the positive effect of tutoring. We'll say yes here again, because a better knowledge of the material from studying will help you follow what the tutor is saying and doing. From pure mathematics, we already know that the two forms of mixed partials are equivalent, but to the human mind they sometimes (and incorrectly) appear to be different in some subtle, ineffable way.
-
-In some modeling contexts, there might be no clear answer to the question of $\partial_{xy}\, g(x,y)$. That's also a useful result, since it tells us that the $a_{xy}$ term may not be important to understanding that system.
-
-4. On to the question of $\partial_{SS} P(S,T)$, that is, whether  $a_{SS}$ is positive, negative, or negligible. We know that $a_{SS} S^2$ will be small whenever $S$ is small, so this is our opportunity to think about bigger $S$. So does the impact of a unit of additional study increase or decrease the more you study? One point of view is that there is some moment when "it all comes together" and you understand the topic well. But after that epiphany, more study might not accomplish as much as before the epiphany. Another bit of experience is that "cramming" is not an effective study strategy. And then there's your social life ... So let's say, provisionally, that there is an argmax to study, beyond which point you're not helping yourself. This means that $a_{SS} < 0$.
-
-5. Finally, consider $\partial_{TT} P(S, T)$. Reasonable people might disagree here, which is itself a reason to suspect that $a_{TT}$ is negligible. 
-
-Answering these questions doesn't provide a numerical value for the coefficients on the low-order polynomial, and says nothing at all about $a_0$, since all the questions are about change. 
-
-Another step forward in extracting what you know about the system you are modeling is to construct the polynomial informed by questions 1 through 5. Since you don't know the numerical values for the coefficients, this might seem impossible. But there is a another modeler's trick that might help. 
-
-Let's imagine that the domain of both $S$ and $T$ or the interval zero to one. This is not to say that we think one hour of study is the most possible but simply to defer the question of what are appropriate units for $S$ and $T$. Very much in this spirit, for the coefficients we'll use $+0.5$ when are previous answers indicated that the coefficient should be greater than zero, $-0.5$ when the answers pointed to a negative coefficient, and zero if we don't know. Using this technique, here's the model, which mainly serves as a basis for checking whether our previous answers are in line with our broader intuition before we move on quantitatively.
-
-```{r zero-one, fig.cap="The result of our intuitive investigation of the effects of study and tutoring on exam performance. The units are not yet assigned."}
-P <- makeFun(0.5*S + 0.5*T + 0.5*S*T - 0.5*S^2 ~ S & T)
-contour_plot(P(S, T) ~ S & T, domain(S=0:1, T=0:1))
-```
- 
-Notice that for small values of $T$, the horizontal spacing between adjacent contours is large. That is, it takes a lot of study to improve performance a little. At large values of $T$ the horizontal spacing between contours is smaller.
 
 
 
-## Finding coefficients from data
+## Two-variable modeling polynomial
 
-Low-order polynomials are often used for constructing functions from data. In this section, I'll demonstrate briefly how this can be done. The full theory will be introduced in Block 5 of this text. 
+In Section \@ref(modeling-polynomial-1) we introduced the low-order polynomial, either $g_1(x) \equiv a_0 + a_1 x$ or $g_1(x) \equiv b_0 + b_1 x + b_2 x^2$ as a general-purpose way of generating a function with a smoothly curved shape. The same applies in constructing simple functions of two variables.
 
-The data I'll use for the demonstration is a set of physical measurements of height, weight, abdominal circumference, etc. on 252 human subjects. These are contained in the `Body_fat` data frame, shown below. 
-```{r echo=FALSE}
-if (knitr::is_html_output()) {
-  Zcalc::Body_fat %>% DT::datatable()
-} else {
-  knitr::kable(math141Z::Body_fat %>% head(10))
-}
-```
+Almost always, you should use at least a first-order polynomial, which is:
+$$h_1(x, y) \equiv a_0 + a_x x + a_y y$$
+But there is an important extension of this, using what's called a ***bilinear term*** or, more evocatively in statistics, an ***interaction term***.  This is
+$$h_2(x, y) \equiv \underbrace{b_0}_\text{intercept} + \underbrace{b_x\, x + b_y\, y}_\text{linear terms} + \underbrace{b_{xy}\,x\, y}_\text{bilinear term}$$
 
-One of the variables records the body-fat percentage, that is, the fraction of the body's mass that is fat. This is thought to be an indicator of fitness and health, but it is extremely hard to measure and involves weighing the person when they are fully submerged in water. This difficulty motivates the development of a method to approximation body-fat percentage from other, easier to make measurements such as height, weight, and so on.
+The bilinear term arises  in models of phenemona such as the spread of epidemics, the population dynamics of predator and prey animals, and the rates of chemical reactions. In each of these situations one thing is interacting with another: a predator killing a prey animal, an infective individual meeting a person susceptible to the disease, one chemical compound reacting with another. `r mark(1420)`
 
-For the purpose of this demonstration, we'll build a local polynomial model of body-fat percentage as a function of height (in inches) and weight (in pounds). 
-
-The polynomial we choose will omit the quadratic terms. It will contain the constant, linear, and interaction terms only. That is
-$$\text{body.fat}(h, w) \equiv c_0 + c_h h + c_w w + c_{hw} h w$$
-The process of finding the best coefficients in the polynomial is called ***linear regression***. Without going into the details, we'll use linear regression to build the body-fat model and then display the model function as a contour plot.
-
-```{r bodyfat-mod, fig.cap="A low order polynomial model of body fat percentage as a function of height (inches) and weight (lbs)."}
-mod <- lm(bodyfat ~ height + weight + height*weight,
-          data = math141Z::Body_fat)
-body_fat_fun <- makeFun(mod)
-contour_plot(body_fat_fun(height, weight) ~ height + weight,
-             domain(weight=c(100, 250), height = c(60, 80))) %>%
-  gf_labs(title = "Body fat percentage")
-```
-
-That we can build such a model doesn't mean that it's useful for anything. In Block 5 of the text we'll return to the question of how well a model constructed from data represents the real-world relationships that the model attempts to describe.
+Under certain circumstances, modelers include one or both ***quadratic terms***, as in
+$$h_3(x, y) \equiv c_0 + c_x\, x + c_y\, y + c_{xy}\,x\, y + \underbrace{c_{yy}\, y^2}_\text{quadratic in y}$$
+The skilled modeler can often deduce which terms to include from basic facts about the system being modeled. We'll need some additional calculus concepts before we can explain this in a straightforward way.
 
 
-<!--
-::: {.todo}
-Interpreting the model in terms of partial derivatives and gradients. To increase the body-fat percentage, a person can either lose height or gain weight. The former is impractical. Compare a tall person (say, 75 inches) to a short person (say, 63 inches). Who has to gain more weight to increase the body-fat percentage from 10% to 20%?
+::: {.why  data-latex=""}
+In writing polynomials like $$h_1(x, y) \equiv a_0 + a_x x + a_y y$$ or $$h_3(x, y) \equiv c_0 + c_x x + c_y\ y + c_{xy} x\ y$$
+we are using **letters** as subscripts on the coefficients. Think of $c_x$ as saying, "I am the coefficient on the $x$ term in the polynomial." Using this style lets us use different letters from the start of the alphabet for the names of coefficients in the different polynomials while still making it clear which term each coefficient is scaling.
+
 :::
 
-
-::: {.todo}
-Example about modeling walking
-
-There's an exercise in DailyDigitals/ 141 DD-35 with some narrative
-
-and the project is in DD-37
-:::
-
--->
-
-
-## Exercises
-
-`r insert_calcZ_exercise("25.02", "ckslw", "Exercises/rooster-pink.Rmd")`
-
-`r insert_calcZ_exercise("25.04", "ikdlx", "Exercises/rooster-violet.Rmd")`
-
-
+## What's wrong with polynomials
 
 

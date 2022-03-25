@@ -193,6 +193,50 @@ Writing reciprocal($x$) instead of $1/x$ is long-winded, which is perhaps why yo
 By the way ... I used different names for the inputs in these three functions just to remind the reader that, for functions with one input, the name has no significance. You just have to make sure to use the same name on the left- and right-hand sides of the tilde expression. 
 :::
 
+## Exceptions
+
+Each of our basic modeling functions, with two exceptions, has a domain that is the entire number line $-\infty < x < \infty$. No matter how big or small is the value of the input, the function has an output. Such functions are particularly nice to work with, since we never have to worry about the input going out of bounds. `r mark(1500)` 
+
+The two exceptions are:
+
+1. the logarithm function, which is defined only for $0 < x$.
+2. some of the power-law functions: $x^p$. 
+    - When $p$ is negative, the output of the function is undefined when $x=0$. You can see why with a simple example: $g(x) \equiv x^{-2}$. Most students had it drilled into them that "division by zero is illegal," and $g(0) = \frac{1}{0} \frac{1}{0}$, a double law breaker. 
+    - When $p$ is not an integer, that is $p \neq 1, 2, 3, \cdots$ the domain of the power-law function does not include negative inputs. To see why, consider the function $h(x) \equiv x^{1/3}$. 
+    
+It can be tedious to make sure that you are on the right side of the law when dealing with functions whose domain is not the whole number line. The designers of the hardware that does computer arithmetic, after several decades of work, found a clever system to make it easier. It's a standard part of such hardware that whenever a function is handed an input that is not part of that function's domain, one of two special "numbers" is returned. To illustrate:
+```{r warning=FALSE}
+sqrt(-3)
+(-2)^0.9999
+1/0
+```
+`NaN` stands for "not a number." Just about any calculation involving `NaN` will generate `NaN` as a result, even those involving multiplication by zero or cancellation by subtraction or division.^[One that does produce a number is `NaN^0`.] For instance:
+```{r warning=FALSE}
+0 * NaN
+NaN - NaN
+NaN / NaN
+```
+
+Division by zero produces `Inf`, whose name is reminiscent of "infinity." `Inf` infiltrates any calculation in which it takes part:  `r mark(1510)` 
+```{r warning=FALSE}
+3 * Inf
+sqrt(Inf)
+0 * Inf
+Inf + Inf
+Inf - Inf
+1/Inf
+```
+::: {.scaffolding  data-latex=""}
+To see the benefits of the `NaN` / `Inf` system let's plot out the logarithm function over the graphics domain $-5 \leq x \leq 5$. Of course, part of that graphics domain, $-5 \leq x \leq 0$ is not in the domain of the logarithm function and the computer is entitled to give us a slap on the wrists. The `NaN` provides some room for politeness. 
+
+Open a sandbox and see what happens when you make the plot.
+```{r eval=FALSE}
+slice_plot(log(x) ~ x, domain(x=c(-5,5)))
+```
+:::
+
+
+
 ## Exercises
 
 `r insert_calcZ_exercise(2.1, "H2KG3", "Exercises/pattern-book-zeros.Rmd")`
@@ -200,6 +244,8 @@ By the way ... I used different names for the inputs in these three functions ju
 `r insert_calcZ_exercise("2.2", "Pdt9jy", "Exercises/lobster-ride-glasses.Rmd")`
 
 `r insert_calcZ_exercise(2.3, "VIW7T","Exercises/pattern-book-axis-crossing.Rmd")`
+
+`r insert_calcZ_exercise(7.4, "ILESX", "Exercises/cat-lend-futon.Rmd")`
 
 `r insert_calcZ_exercise("2.4", "Qj0JAr", "Exercises/bear-lay-plant.Rmd")`
 

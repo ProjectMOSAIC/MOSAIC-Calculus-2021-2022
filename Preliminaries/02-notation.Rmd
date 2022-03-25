@@ -88,8 +88,72 @@ In writing $\line(x) \equiv a [x - x_0]$ I used ***square braces*** $\left[\stru
 :::
 
 
-## Naming conventions
+## Names for functions vs quantities
 
+We're going to be using and creating a lot of functions in CalcZ. Some of these functions already have ***proper names***, usually written using short sequences of letters: for instance the pattern-book functions $\sin()$, $\ln()$, $\exp()$. `r mark(600)`
+
+Other functions will be needed just for a sentence or a paragraph or a section, perhaps being used in an example or to lay out the steps of an algorithm. In ***natural languages*** such as English, we often use ***pronouns*** for such purposes: she, he, it, they, we, I, .... We also will use pronouns for identifying functions. Our policy is this:
+
+> A pronoun for a function will be usually named $f()$ or $g()$ or $h()$ or the corresponding upper-case letters $F()$, $G()$, or $H()$. **The particular choice of letter f, g, or h has no significance whatsoever.** It is just a way to give an unambiguous handle for a function that we are going to be using for a little while. 
+
+On occasion, we will use subscripts or superscripts on these pronoun letters, for instance $f_1()$ or $g^\star()$. This is a way to give us many more possible pronouns when we need them. Perhaps this is analogous to words like "sister," "parent," "husband," "cousin," etc. that allow us to refer, without a proper name, to a specific person.
+
+On other occasions, where a function relates to a specific quantity such as position or velocity, we will use the names $x()$, $y()$, $z()$, $u()$, $v()$, $w()$, and such. These letters are, of course, the same ones we frequently use to name the inputs to functions. How do you know whether the letter is meant to refer to an input rather than a function? The parentheses provide the clue: $x()$ is a function name, $x$ is an input name. `r mark(610)`
+
+It can become tedious to give a name to every function, even if it's not being used again. Consider this sentence as an example: 
+
+> "The functions $g(x) \equiv \sqrt{\strut x}$ and $h(x) \equiv x^3$ are examples of power-law functions." 
+
+Long and awkward. So we'll feel free to write instead, 
+
+> "$\sqrt{\strut x}$ and $x^3$ are examples of power-law functions."
+
+Without the formality provided by "$g(x) \equiv$" it can be hard to know whether $\sqrt{\strut x}$ means "the square-root function" or "take the square root of a specific number $x$. The convention we will use is based on the name used in the expression. When standard argument names from the end of the alphabet are being used with a subscript (e.g. $x_0$) or with a special symbol used in a  superscript (e.g. $t^\star$), we intend the expression to be a function. However, when we want to ***apply a function*** to specific values for inputs we will write in any of the following styles:
+
+$$f(x^\star) \ \ \text{or}\ \ \sqrt{\strut x^\star}\ \ \text{or}\ \ \sqrt{\strut x=3}\ \ \text{or}\ \ \left.\sqrt{\strut x}\right|_{x=3}\ \ \text{or}\ \ \left.g(x)\strut \right|_{x=3}$$
+
+One of the important techniques of calculus is to take something we often think of as a number and turn it into a function whose output is a number. It will take you time to get used to the calculus notation and to be able to tell at a glance whether something is a function or a number. `r mark(620)`
+
+Here's an illustration that will only make sense to those who have already studied some calculus:
+
+$$\int_0^3\!\! f(t) dt\ \ \text{is a number, but }\int_0^x\!\! f(t) dt \ \ \text{is a function.}\ \ $$
+
+In high-school math notation, it can be hard to tell if an expression is intended to be a function or a number. Careful attention to the *MOSAIC Calculus* conventions will make it easier to figure whether an expression resolves to a function or a number. When you first read a mathematical expression, a good first question to ask is, "What kind of thing is this? A function? A number?"
+
+::: {.takenote  data-latex=""}
+It is essential that you can apply these conventions reflexively. Being able to say what kind of thing a symbol stands for is a key to understanding what a mathematical expression means.
+:::
+
+## Applying functions to inputs
+
+## Words for using functions
+
+Throughout this course, I use the words ***inputs*** and ***output*** to refer to what is handed off to a function and what is received back as the result. But "handed off" is a metaphor and not a clear naming of what we mean when we use a function. This section simply gives some vocabulary to describe various aspects of using functions. The concept of functions is so fundamental in mathematics and computing, that there are many synonyms for each aspect. It helps to be aware of these synonyms since different people will write about functions in different---but equivalent!---ways.  `r mark(540)`
+
+In everyday speech, an "argument" is a discussion between people with differing views. But in computing, ***argument*** means something else entirely: it is a synonym for "input to a function." It's good to have a concrete image in mind, so I'll suggest thinking of a computer printer as an analogy for a function. A computer printer takes several different kinds of input: electricity, paper, ink or toner, instructions transmitted via cable or wireless connection. Each of these inputs arrives at the printer through a particular interface: the electrical supply cord, a tray for holding paper, a tank or cartridge for ink, a radio receiver. These interfaces are the different inputs---or, to use the other word, arguments---of the printer. 
+
+Common sense tells you that you shouldn't put toner in the paper tray, or connect the electrical supply cord to the ink tank. You have to provide the right kind of stuff to each input interface in order to get the anticipated output from the printer. 
+
+Our pattern-book functions all have a single input. With such functions it's appropriate to speak of "the input to" or "the argument of" the function. In general, the functions we will construct for modeling purposes with have multiple inputs or arguments. For instance, the function $g(x, y) \equiv e^x \sin(y)$ has both an "x-input" and a "y-input". You can just as well say "the x-argument of g()" or the "y-argument of g()," or even the "first argument of g()" and the "second argument of g()." Whether you use the preposition "of" or "to" is a matter of personal style; either will do.
+
+The act of employing a function to produce the output that corresponds to a given set of inputs is much like "printing a file." Of course, the word "printing" is not the right choice for mathematical or computational functions. Instead, there are several equivalent phrases in common use:
+
+i. "***Apply*** a function to arguments.
+ii. "Invoke a function." 
+iii. "Evaluate a function." 
+iv. "Run a function."
+
+In (ii) and (iv), there is an implicit "on its arguments." But any application/evaluation/running of a function necessarily involves giving specific values for the inputs. 
+
+The difference between "a function" and "applying a function" is much the same as the difference between a printer and "printing a document," or a screwdriver and "driving (or extracting) a screw, or, for wizard-world fans, the difference between a "spell" and the act of "casting a spell." 
+
+In R/mosaic, the application of a modeling function like `g()` (defined in an earlier paragraph) to its two arguments looks like `g(5, pi)` with the two arguments separated by a comma. It might also look like `g(z, pi)`, or even `g(x=z, y=pi)` or `g(y=pi, x=z)` where the use of the argument names save us the trouble of remembering which argument came first in the definition.  `r mark(550)`
+
+When applying a function of **one** argument, refrain from using the argument name. It's unnecessary since you can hardly get the order of arguments wrong and, depending on who wrote the software for the function, they might not have used `x` as the name of the argument.
+
+It's another matter when you are ***defining*** a function. For instance, $$g(x, y) \equiv e^x \sin(y)$$ does **not** mean "apply $g()$ to the arguments $x$ and $y$." Instead, it means, "I'm setting up $g()$ as a function, a kind of promise in the future that whenever you write $g(3, \pi)$ or something similar, the defined function will be applied to those arguments. But for now, you don't need to do any arithmetic or other calculation, just remember that you've made a promise named $g()$."
+
+In R/mosaic, using a ***tilde-expression*** signals that you are asking for the same kind of promise to do something when the time for it comes. 
 
 
 
@@ -145,13 +209,53 @@ ii. Parentheses:
     b. When an opening parenthesis does not directly follow a name, as in `6 - (2+3)`, the parentheses stand for ***grouping*** in exactly the same way as in traditional notation. For instance, $(6 + 15) / 3$ is translated as `(6 + 15) / 3`.
 iii. Multiplication and exponentiation are often written traditionally in terms of the relative position of quantities. So $(3 + 2)\pi$ means to multiply 5 times $\pi$, even though there is no multiplication sign being written. Similar, $\pi^{3 + 2}$ means to raise $\pi$ to the fifth power. There is no "exponentiation sign" used, just the positioning of $3+2$ as a superscript: $^{3+2}$. In R (and almost every computer language) multiplication and exponentiation **must be written explicitly**. The quantities $(3 + 2)\pi$ and $\pi^{3 + 2}$ would be translated as `(3 + 2) * pi` and `pi^(3+2)`. 
     
-One additional note: All these examples can be written with a single line of code, as is true for many short formulas. Later on, we'll encounter longer formulas that *could* be written on a single line but are more readable when spread over two or more consecutive lines. 
+One additional note: All these examples can be written with a single line of code, as is true for many short formulas. Later on, we'll encounter longer formulas that *could* be written on a single line but are more ## $=$, $\equiv$, $\rightarrow$, `<-` {#foursigns}
 
-## Algorithms
+The $=$ sign carries a lot of weight in high-school notation. Too much weight. It is used for several meanings that ought to be distinguished one from another. Combining them all into one symbol leads to confusion and error.
 
-The word used to describe the internals of a computer function is ***algorithm***, which is a generalization of "formula" that includes many non-arithmetic operations such as looping and branching.
+**Meaning 1**: "Is defined to be ..."  
+
+We use $\equiv$ in mathematical notation and `<-` in R. The notation in R is a bit simpler than the mathematical notation: it is a way of giving something a name. 
+```r
+name <- something
+```
+If the "something" is a function, you will see that on the left side of `<-`, for instance by use of the `makeFun()` operator in `h <- makeFun(x^2 ~ x)`. The left side is simply a name.
+
+In math notation, the equivalent would be written $h(x) \equiv x^2$. The left side isn't exactly a name. It's a name followed by parentheses in which are the names being used in the algorithm.
+
+Keep in mind that in writing about functions, we will generally provide a hint that the name refers to the function, writing $h()$ or `h()`. The parentheses aren't part of the name; the name here is $h$. But the parentheses remind us that $h$ is a function. `r mark(650)`
+
+**Meaning 2**: "Happens to be ..."  
+
+The acceleration due to gravity is often given the name $g$. On Earth's surface, it happens to be $9.8 \text{m}/\text{s}^2$. In our math notation, we will use the equal sign for this narrow meaning, as in $g=9.8\text{m}/\text{s}^2$. In R we will use `=`. 
+
+**Meaning 3**: "Gets closer and closer to ..."
+
+Calculus is about relationships: the connection between two (or more) things. So you will hear phrases like, "As $x$ increases, $f(x)$ decreases." Or, in everyday experience, "As it gets more humid, the weather becomes more uncomfortable." Or, "slower is safer," or "the spicier the better" or "the heavier the blanket, the warmer I'll be." (One of the important uses of ***derivatives*** in calculus is to represent such statements quantitatively. But that's a subject for the next Block.)
+
+In calculus, sometimes you have to distinguish between "$x$ is zero" and "$x$ gets closer and closer to zero." We'll need this when we want to say, "It gets smaller and smaller, but doesn't disappear entirely." The symbol for "gets closer and closer to" is $\rightarrow$, as in $x \rightarrow 0$
+
+::: {.takenote  data-latex=""}
+In reading math, take care to notice which of $=$, $\rightarrow$, or $\equiv$ is being used. The sign has something important to say and is intended to help you make sense of what you read.
+:::
+readable when spread over two or more consecutive lines. 
+
+
+
 
 ## Exercises
+
+`r insert_calcZ_exercise(5.1, "TKWEW", "Exercises/convention-drill.Rmd")`
+
+`r insert_calcZ_exercise(5.2, "LDNE", "Exercises/function-notation.Rmd")`
+
+`r insert_calcZ_exercise("5.3", "kZG5Fj", "Exercises/puppy-build-radio.Rmd")`
+
+`r insert_calcZ_exercise("5.4", "aeOnO5", "Exercises/horse-sing-drawer.Rmd")`
+
+`r insert_calcZ_exercise("5.5", "ooJK5d", "Exercises/pine-light-mug.Rmd")`
+
+
 
 <!-- basic R instructions -->
 `r insert_calcZ_exercise("3.5", "BXCA4", "Exercises/fish-sees-tree.Rmd")`
@@ -160,5 +264,83 @@ The word used to describe the internals of a computer function is ***algorithm**
 <!-- when things go wrong -->
 `r insert_calcZ_exercise("XX.XX", "BaEJkS", "Exercises/seahorse-take-pen.Rmd")`
 
+## More details on R functions {#R-function-details}
+
+::: {.why  data-latex=""}
+Some readers may have encountered R previously in a statistics or data science course. Those readers will be wondering what is the purpose of `makeFun()`. Experienced programmers know that the way you make functions in R is by using the `function` keyword. For instance:
+```{r}
+f <- function(x) { 3 + 2*x }
+```
+
+That's a completely correct and legitimate way to define a function in R and in most settings is the universal practice.
+
+We developed `makeFun()` to handle a situation where computers, in their insistence on avoiding ambiguity, will do something that is not what the person familiar with math notation is likely to suspect. The problem comes up in something as simple as
+```{r}
+g <- function(x) { m*x + b }
+```
+In traditional math notation, $g(x) \equiv m x + b$, we are usually silent on where parameters like $m$ and $b$ are coming from. And, to be honest, you don't have to worry about this **until you try to evaluate the function**. `r mark(630)`
+
+If you evaluate, say, the command $g(3)$, the R system knows how to find the right values for $m$ and $b$. If there are no such objects in the appropriate places in the R system, an error message will be generated. The rules that computer languages follow in tracking down symbols that aren't in the argument list are called ***scoping rules***. Scoping is an advanced programming concept and different languages use different rules. 
+
+For those few whose programming background includes an understanding of scoping here's an explanation. The ordinary scoping rules in R would make undefined parameters like $m$ and $b$ in a function definition have bindings in the environment in which the function was defined. This would typically be the global environment, an unsatisfactory arrangement it would be difficult to customize an individual function or invocation of a function to use a specific value for the parameters. `makeFun()` is arranged to add any parameters in the function algorithm to the argument list. The `makeFun()` command creates a function with 3 arguments.
+```{r}
+makeFun(m*x + b ~ x)
+```
+The point of the `~ x` part of the tilde expression is simply to name which arguments should come first. To evaluate the function, you'll have to provide values for `m` and `b`. But some operations on a function---differentiation and anti-differentiation, in particular---can be done without having to specify parameter values. For those of you who know what differentiation or anti-differentiation are, here is an example:
+```{r}
+D(m*x + b ~ x)
+antiD(m*x + b ~ x)
+```
+
+Sometimes you have particular numerical values in mind for the parameters. For instance, if you are modeling the trajectory of a ball, you will undoubtedly need to make use of gravitational acceleration at the Earth's surface, which is $9.8 \text{m}/\text{s}^2$. You might prefer not to include the specific number 9.8 in your function definitions so that you can use the same functions to model a ball's trajectory on Mars. But since most balls are thrown on Earth, maybe it's not worthwhile to insist that the value 9.8 be specified every time the function is used. You can have it both ways by using `g` as the parameter name and instruct R to set `g` to 9.8 *unless otherwise specified*. The function will look like this: `r mark(640)`
+
+```{r}
+ball_velocity <- makeFun(g*t + t0 ~ t, g = 9.8, t0 = 0)
+# For Earth: falling 3 seconds from a standstill
+ball_velocity(3)
+# For Earth when the ball has an initial upward velocity of 10 m/s
+ball_velocity(3, t0 = -10)
+# For Mars ...
+ball_velocity(3, t0 = -10, g = 3.711)
+```
+:::
+
+Depending on the computer language things can be handled in one way or another. (For experienced computer programmers: This is the issue of ***scope*** and can be complex in its own right.) `r mark(580)`
+
+In the software used in *MOSAIC Calculus* (R/mosaic, which is the R language augmented with the `mosaic` package of extensions), we will take a simple-to-use approach. It works like this: 
+
+> All modeling functions we construct with R/mosaic will list parameters formally as ***arguments*** to the function.
+
+It is as if we wrote in traditional notation $$g(x, m, b) \equiv m x + b$$
+
+There is also a way to give default numerical values to parameters so that you can write $g(3.5)$ and the computer will know where to find the parameter values. In writing about formulas using math notation, we'll extend the traditional notation to write, for instance, $g(x, m=2, b=3) \equiv m x + b$.
+
+In R/`mosaic`, we would construct a mathematical function like $g()$ using the `makeFun()` function:
+
+```r
+g <- makeFun(m*x + b ~ x, m=2, b=3)
+```
+
+You could also write 
+
+```r
+g <- makeFun(m*x + b ~ x)
+```
+but this notation means that you will have to give specific numerical values for the `m` and `b` inputs whenever you evaluate `g()`. There won't be any default values for the "parameters-as-inputs" `m` and `b`.  `r mark(590)`
+
+<!-- Relevant Blog post: CalculusBlog/post-formal-arguments.Rmd -->
+
+
+## *MOSAIC Calculus* naming conventions
+
+
+
+Any name in the R language can refer to any sort of object. We will use the *MOSAIC Calculus* naming conventions in our use of R, so that the ability you develop to read math notation should help reading R **and vice versa**. `r mark(630)`
+
+R/mosaic provides additional clues to distinguish between numbers and functions.
+
+Almost all the time we will create a function using `makeFun()`. So when you see an R expression starting as `name <- makeFun(`tilde expression`)` you know for sure the name refers to a function.
+
+As we get deeper into calculus, you will meet additional R operators that generate functions. We'll introduce these in good time, but for someone reviewing the course, these include `D()`, `antiD()`, `compose()` and `iterate()`.
 
 

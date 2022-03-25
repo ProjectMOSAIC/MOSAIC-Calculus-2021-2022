@@ -1,6 +1,62 @@
-# Function inverses and "solving"
+# Operations {#operations}
 
-<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Block-1/10-inverse.Rmd)</div>
+<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/modeling/07-operations.Rmd)</div>
+
+```{r include=FALSE}
+book_file_name <- "modeling/07-operations.html"
+```
+
+Graphs are relatively modern, coming into mainstream use only in the 1700s. Much of mathematics was developed before graphs were invented. One consequence of this is that function tasks that are easy using a graph might be very hard with the previous ways of implementing functions. This is analogous to the way that arithmetic is pretty easy with Arabic numerals, but really hard with Roman numerals. 
+
+## Outline
+
+### Function as input
+
+These are operations that take a ***function as input***. Depending on the operation, the object returned might be a scalar, a data frame, or another function. We use a data frame when there might be more than one quantity produced as output.
+
+Argmax/min --- returns a data frame
+Solve/Invert/Zeros -- returns a data frame
+Slopefun --- returns a function
+D/antiD --- returns a function
+Integrate --- returns a quantity
+
+### Data frame as input
+
+Returns a function: spliner, fitModel
+
+## Data and functions
+
+In Figure \@ref(fig:penguin-flipper), the data point plot of the penguin flipper length vs body mass, there are generally multiple penguins with the same body mass but different flipper lengths. The overall impression is that of a ***cloud of points***.
+
+When we construct a function to model the pattern observed in that cloud, we need to respect the mathematical definition of function, part of which is that a function has ***only one output*** for any given input. 
+
+```{r penguin-flipper2,echo=FALSE, warning=FALSE,message=FALSE, out.width="50%", fig.show="keep", fig.cap="Connecting the penguin data points with lines (left) doesn't directly describe any sensible mathematical function.  We use modeling to create a smooth function (right) that stays close, but not too close, to the data points."}
+gf_line(flipper_length_mm/10 ~ body_mass_g/1000, 
+         data=penguins) %>%
+  gf_labs(y = "Flipper length (cm)", x = "Body mass (kg)") 
+gf_point(flipper_length_mm/10 ~ body_mass_g/1000, 
+         data=penguins) %>%
+  gf_smooth(color="orange3") %>%
+  gf_labs(y = "Flipper length (cm)", x = "Body mass (kg)") 
+```
+
+::: {.intheworld  data-latex=""}
+To create the model of flipper length as a function of body mass, we used one of a set of techniques called ***machine learning***. That is, we didn't specify that the form should be an exponential or a gaussian or a sigmoid or any other particular shape. We simply asked the computer to figure out a smooth function that stays close to the data. The result, as it happens, was a sigmoid. `r mark(730)`
+:::
+
+
+
+## Inverting a function
+
+A function graph makes it easy to evaluate the ***function inverse***. For all the basic modeling functions we have a way to calculate numerically the output for any given input (in the function's domain). 
+
+You can easily evaluate a function for a given input from its graph. As you know, just put your finger at the horizontal coordinate for the input. Then move your finger upward to reach the point on the curve directly above that horizontal coordinate. You read off the value of the function at that input by reference to the scale on the vertical axis. `r mark(740)`
+
+Often, working with a function goes another way: you know the output and you want to find a corresponding input. It's easy to do this with a graph. Pick the position on the vertical axis that represents the given input. Then trace horizontally to where the ink is. From there, trace vertically to read off the value of an input that would produce the given output.
+
+Mathematicians are careful to distinguish between functions where there is one and only one possible input that generates each given output, and functions where there can be more than one input that generates the same output. (Mathematicians use the word ***unique*** to mean "one and only one.") Functions with a one-to-one relationship between output and input are called "invertible."
+
+Invertible or not, it is a common procedure for working with functions to find *an* input corresponding to a specific, given output. In high-school algebra, this was called "solving for $x$." A special case of solving is finding the ***roots of a polynomial***. The name we give to the procedure is ***zero finding***, which correctly points out that we are trying to **find** an input.
 
 Very much in the spirit of naming common tasks, the process of turning an output from a function into the corresponding input is called ***solving***. In high-school mathematics, you may have heard the phrases "solve for $x$" or "find $x$." Generally what was mean can be expressed using functions this way: Given an output $g(x_0)$  find the input $x_0$ that would produce that output. 
 
@@ -197,7 +253,11 @@ Zeros(money_raised(x) - 9000 ~ x, domain(x=-100:100))
 
 It turns out that there are two zeros for `money_raised(x) - 9000$. Only one of them has any sensible interpretation as the number of investors in the club.
 
+
 ## Exercises
+
+<!-- inverses -->
+`r insert_calcZ_exercise("6.1", "9LB8hK", "Exercises/beech-lead-piano.Rmd")`
 
 `r insert_calcZ_exercise(10.1, "IWLDN1", "Exercises/inverse-flip-1.Rmd")`
 
