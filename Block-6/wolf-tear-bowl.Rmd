@@ -1,0 +1,28 @@
+---
+id: "wolf-tear-bowl"
+created: "Sun Mar 27 11:39:28 2022"
+global_id: "7rxfID"
+skill: "D-BRUPM WP-103-16"
+---
+
+An example in Chapter \@ref(modeling-dynamics) imagined two armies of archers fighting each other. The Blue army is half the size of the Red army at the start of the battle, that is $B_0=0.5$, $R_0=1$.
+
+But the Blue archers are more effective than the Red archers. Each Blue archer can fire 12 arrows per minute compared to the Red archer's 6 arrows per minutes. The Lanchester dynamics are therefore:
+$$\partial_t R = -12 B\\
+\partial_t B = \ -6 R$$
+
+1. Construct the abcd matrix for the dynamics.
+2. Find the eigenvalues of the matrix. <!-- -8.485281  8.485281 -->
+3. Find the eigenvector corresponding to the negative eigenvalue.
+<!-- (0.5773503, 0.8164966) -->
+4. The initial condition $B_0=1$, $R_0=2$ is not on the eigenvector in (3). If it had been, what would be the trajectory and eventual outcome of the battle? <!-- a trajectory that starts on the eigenvalue stays on it. The battle would be a draw, or, rather, complete annihilation of both armies. --> 
+
+You can use a graph of the flow to visualize the eigenvector and the trajectory that starts at $B_0=0.5, R_0=1$.
+
+```{r echo=TRUE}
+streamlines(dR ~ -2*B, dB ~ -R, 
+            domain=domain(R=0:1, B=0:1), npts=20) %>%  
+  gf_lims(x=c(0,1), y=c(0,1))
+```
+
+
