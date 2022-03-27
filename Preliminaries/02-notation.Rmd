@@ -8,57 +8,94 @@ book_file_name <- "preliminaries/02-notation.html"
 
 > *The ideas which are here expressed so laboriously are extremely simple .... The difficulty lies, not in the new ideas, but in escaping from the old ones, which [branch]^[Original word: "ramify"], for those brought up as most of us have been, into every corner of our minds.* --- J. M Keynes, 1936, [*The General Theory of Employment, Interest, and Money*](files.ethz.ch/isn/125515/1366_KeynesTheoryofEmployment.pdf), 1936
 
+In addition to the specialized words we will use to express concepts and uses of calculus, we will also make extensive use of mathematical and computer-language notation. This chapter introduces you to the notation we'll be using. 
 
-**IN DRAFT: There are two similar sections in Version 1 of the book. Reconcile and merge them here.**
+One goal of good notation is to make clear which of these object types it is referring to. Another goal is to build on what you already know about how mathematics is written. For historical reasons these two goals are sometimes in conflict. 
 
-## Section 1
+Yet another goal for notation has to with the central role of computing in the contemporary technical environment. Ideally, the mathematical notation we use should extend directly to computer-language notation. But in practice there is an incompatibility stemming from two sources:
 
-You have grown up with traditional mathematical notation and are likely familiar with the notation for several of the pattern-book functions: $\ln x$, $\sin x$, $e^x$, $x^p$ (as in $x^2$ where $p=2$ or $\sqrt{x}$ where $p=1/2$). `r mark(450)`
+1. Traditional mathematical notation makes extensive use of spatial arrangement, as for instance in $\frac{3}{4}$ or $x^{-3}$ or $\sqrt[4]{\strut y^2 - 6}$. For those familiar with it, this notation can be both concise and beautiful. But it was developed in an era of parchment and pen, without any inkling of keyboards and the strictly linear sequence of characters so widely used in written communication. Most mainstream computer languages are based on keyboard input.
 
-Traditional notation mixes up several things that computer notation sensibly keeps separate. From the computer programmer's point of view, traditional notation is idiosyncratic rather than systematic. 
+2. Traditional mathematical notation was developed for communicating between *people* and, like everyday language, has gaps and ambiguities that get sorted out (not always correctly) by human common sense. Computer languages, on the other hand, need to be precise, unambiguous, and interpreted by machines.
 
-If you are interested in these things, three concepts from computing may help you appreciate the the differences:
+We'll attempt to use mathematical notation in a way that limits the conflict between tradition and computer notation. This conflict is particularly acute when it comes to the idea of an "equation," so widely used in high-school mathematics but not a component of mainstream computer languages.
 
-- ***Functional notation*** In computing, the notation in which a function **name** is followed by parentheses^[Or sometimes square braces or curly braces or another token, depending on the language.] with the inputs **inside** the parentheses is called "functional notation." For instance, `exp(x)` is functional notation, since the input `x` is between parentheses. Traditional mathematical notation sometimes leaves out the parentheses, as in $\sin \frac{\pi}{2}$ or $\ln 10$. But in this course I always include the parentheses, which are abolutely required in the computer notation, in the traditional notation as well, i.e. $\sin\left(\frac{\pi}{2}\right)$.
+## Functions, inputs, and quantities
+
+Our style of notation will be to give functions and their inputs *explicit names*. The basic principle is that a function name is a sequence of letters followed by an empty pair of parentheses, for instance $\sin()$ an $\ln()$.
+
+Traditional mathematical notation writes many functions both without a name and without the parentheses. Examples that you have likely seen are $x^2$, $\sqrt{\strut x}$, and $e^x$. If we were to absolutely impose the name/parentheses principle we would refer to these functions as, say, square() and sqrt() and exp(). Notice that the $x$ is not part of the name.
+
+Sometimes will will use names like square() just to emphasize the point that we are talking about a function. But for the most part we will stick to the traditional form because it is ubiquitous and recognizable by most readers. 
+
+The name/parentheses notation, like exp() or sin() allows us to avoid having to write $x$ as the indicator of where the input to the function goes. That's helpful because, after all, the actual input might be something completely different from $x$.
+
+Still, there are times in which we do need to state the name of the input to functions. One of these is when ***defining a function***. To define a function, we will use an expression like
+$$g(y) \equiv y \cos(y)\ .$$
+On the left of the $\equiv$ goes the name of the function, with the name of the input(s) in parentheses.  On the right of $\equiv$ goes a formula for computing the output from the input. This formula is written in terms of the input name given on the left side of the definition.
+
+In situations where there is just one input to a function, as in $g()$ above, we could use any name for the input. For instance, all of these are exactly equivalent to the definition for $g()$ given above:
+
+$$g(x) \equiv x \cos(x)\\
+g(z) \equiv z \cos(z))\\
+g(zebra) \equiv zebra\ \cos(zebra)$$
+
+We'll tend to avoid hard-to-read input names like $zebra$. Instead, we'll mostly use :
+
+- $\large x$ or $\large y$ or $\large z$. 
+- $\large t$. This name is typically used when the input is meant to be ***time***. So if we were creating a function to represent the relationship between time (of day) and outdoor brightness, we might use this notation: $\text{brightness}(t)$
+
+Other input names we will use often in this book include $u$, $v$, $w$, following the 17th-century convention introduced by Newton that input names come from the end of the alphabet. But we won't shy away from more descriptive names, like $T$ for "temperature" or $V$ for volume, or even $\text{altitude}$ (which describes itself). 
+
+When a function has more than one input, the input names serve to indicate where each input goes in the formula defining the calculation.  For instance:
+$h(x, y) \equiv x^2 e^y\ .$
+$h()$ is a completely different function than, say,
+$f(x, y) \equiv y^2 e^x$. 
+
+You may have noticed that we've used the names $f()$, $g()$, and $h()$ a lot. Consider these names to be the equivalent of pronouns in English like "this", "that", "it", and so on. Function names like $f()$ or $F()$ will be used when we need to refer to a function for a moment: a sentence, a paragraph, a section. 
+
+We will also have many occasions where we need to give a name to a quantity. Of course, a quantity is different from a function; functions are ***relationships*** between quantities.
+
+For example, we will use names for quantities that are ***parameters*** in a function, like:
+$$g(x) \equiv a x^2 + b x + c\. $$ Here, $x$ is the name given to the input to $g()$, while $a$, $b$, and $c$ are names for other quantities involved in the formula.
+
+Again following Newton's convention, names for quantities will come from the beginning of the alphabet. We will often need more names than the alphabet can readily supply. $a$, $b$, $c$, and $d$ are unambiguous. But with $e$ we have a potential ambiguity with the exponential function. And, as we've seen, $f()$, $g()$, and $h()$ are being used as pronouns for functions.
+
+So we will often use subscripts to expand the set of available names, as in 
+$$h(x) \equiv a_0 + a_1 x + a_2 x^2 + a^3 x^3\ .$$ 
+We will also use subscripts and non-numeric superscripts with input names to identify specific, isolated input quantities that are significant in some way. So you'll see $x_0$ or $y^\star$. For instance, such notation will be used for an input value where the function output is zero.
+
+## Function output
+
+We will often ***apply a function to *** specific input quantities in order to produce an output from the function. An equivalent phrase is ***evaluate a function on*** an input. For instance, to apply the function $g()$ to the input quantity 3, any of the following mathematical expressions might be used:
+$$g(3)\ \ \ \text{or}\ \ \ \ g(x=3) \ \ \ \text{or}\ \ \ \ g(x)\left.\Large\strut\right|_{x=3}\ .$$
+Remember that $g(3)$ or its equivalents are not themselves functions. They are the quantity that results from applying a the function to an input quantity.
+
+## Computing notation
+
+- Use the word "argument" to refer to the input to a function.
+
+- Bound parameters listed as arguments to the function with default values
+
+- Unbound parameters need to be specified as inputs when evaluating the function.
 
 
-- ***Infix notation*** For functions with two inputs, computing languages often support a different arrangement of the function name and the inputs where the name comes inbetween the arguments. You've seen this "infix" notation in parts of traditional arithmetic notation, for instance, $3 + 5$ or $8/2$. In R, power-law functions are often written in infix notation, e.g. `3^2` or `x^3`. When you see a traditional notation like $e^x$, you will be tempted at first to write this as `e^x`. But in R, the exponential function is written in functional notation: `exp(x)`.
+::: {.takenote}
+A notation like $g(3)$ is called ***functional notation***. As you've seen, $g()$ is the name of the function, $3$ is the value of the input, and the parentheses are punctuation that keeps the expression organized and readable. 
 
-- ***Markup notation*** You are undoubtedly familar with word processing and, particularly, a style of word processing called What-you-see-is-what-you-get (WYSIWYG). In WYSIWYG, you can enter plain text just using the keyboard, but if you want to make something **boldface** or *italics*, you use the mouse to select the text involved and select a style from a menu. Typically, WYSIWYG mathematical content involves a similar mouse-based process. In contrast, in mainstream computer languages, the mouse is not needed at all. The computer commands are constructed from plain, linear sequences of letters and other characters. 
-
-Traditional mathematical notation includes features such as superscripts and special symbols that are easily written out with pencil in hand. Often this notation is beautiful and aesthetically cherished by mathematicians. But computer commands in most computer languages are straight sequences of characters using function or infix notation.^[Some computer languages use notation where the name of the function is contained inside the parentheses as in `(+ 2 3)`.]
-
-
+You have even more experience with ***infix notation*** for functions that take two inputs. Examples are `3 + 4` or `2^3`. The function names here are `+` and `^` respectively. There are no parentheses; the function names are used to separate the two inputs. 
+:::
 
 
-
-
-## Section 2
-
-You're familiar with certain styles of mathematical notation, for example:
-- The expression $m x + b$ uses a multiplication and an addition. 
-- $\sqrt{\strut 1 - x^2}$ uses squaring ($x^2$), subtraction and square root. 
-- $3\sin\left(\frac{2 \pi}{P} x\right) + 4$ uses multiplications, division, sine function, and an addition.
-
-We'll continue to use this style ..... But none of the above examples will work in a mainstream computing language. And computers are essential to modern technical work. So we need to forge a link between traditional mathematical notation---which you'll encounter in most textbooks---and the notation used in computing. We'll do this in two ways:
-
-1. Explain some principles of computer notation and show you how traditional mathematical notation violates these principles.
-
-2. Use a style of mathematical notation that, whenever possible, makes an explicit connection to computer notation.
-
- 
-
-## Objects
-
-- scalar quantity,
-- functions,
-- defining functions in math notation
-- future objects: paths, surfaces, directions, subspaces, constraints
-
-About defining functions as $f(x) \equiv m x + b$ add this:
-Notice that we're using $\equiv$ (with three parallel bars) rather than $=$. Pronounce $\equiv$ as "***is defined to be***," or "***equiv***" for short. There's no $y$. The $x$ appears in parentheses on the left side of $\equiv$ to say explicitly "$x$ stands for the input." The notation provides a place to state the ***name*** of the function, in this case $g()$, so that we can refer to the function unambiguously when we are doing operations on it. Since often we'll be using many functions at the same time, it's helpful to have a way to distinguish them by name. The functional notation makes it easy to create many different names, e.g.  $g_\star()$, $h_\text{altitude}()$, azimuth(), and so on. The high-school habit of using $y$ doesn't give such flexibility.
 
 ## R/mosaic
+
+Things that are specific to R/mosaic:
+
+Use of tilde expressions to represent formulas.
+
+Listing parameters are arguments to functions.
+
 
 - assignment
 - formulas and tilde-expressions
@@ -66,19 +103,7 @@ Notice that we're using $\equiv$ (with three parallel bars) rather than $=$. Pro
 - examples other ways to make functions
 - functions to scalars: `Zeros`, `ArgM`
 
-## Inputs
 
-Since the inputs to functions are **quantities**, it's convenient to give them names that remind the human reader what they stand for.
-
-The most common name we will use in this book for an input to a function will be:
-
-- $\large x$ a general-purpose name that complies with the practice in high-school algebra. Remember, for us $x$ is not an "unknown" as it so often is in algebra; in calculus $x$ is the name of an input. 
-
-Perhaps next most common as an input name is 
-
-- $\large t$. This name is typically used when the input is meant to be ***time***. So if we were creating a function to represent the relationship between time (of day) and outdoor brightness, we might use this notation: $\text{brightness}(t)$
-
-Other input names we will use in this book are $y$, $z$, $u$, $v$, $w$. But we won't shy away from more descriptive names, like $T$ for "temperature" or $V$ for volume, or even $\text{altitude}$ (which describes itself). 
 
 
 ## Parentheses
@@ -88,41 +113,6 @@ In writing $\line(x) \equiv a [x - x_0]$ I used ***square braces*** $\left[\stru
 :::
 
 
-## Names for functions vs quantities
-
-We're going to be using and creating a lot of functions in CalcZ. Some of these functions already have ***proper names***, usually written using short sequences of letters: for instance the pattern-book functions $\sin()$, $\ln()$, $\exp()$. `r mark(600)`
-
-Other functions will be needed just for a sentence or a paragraph or a section, perhaps being used in an example or to lay out the steps of an algorithm. In ***natural languages*** such as English, we often use ***pronouns*** for such purposes: she, he, it, they, we, I, .... We also will use pronouns for identifying functions. Our policy is this:
-
-> A pronoun for a function will be usually named $f()$ or $g()$ or $h()$ or the corresponding upper-case letters $F()$, $G()$, or $H()$. **The particular choice of letter f, g, or h has no significance whatsoever.** It is just a way to give an unambiguous handle for a function that we are going to be using for a little while. 
-
-On occasion, we will use subscripts or superscripts on these pronoun letters, for instance $f_1()$ or $g^\star()$. This is a way to give us many more possible pronouns when we need them. Perhaps this is analogous to words like "sister," "parent," "husband," "cousin," etc. that allow us to refer, without a proper name, to a specific person.
-
-On other occasions, where a function relates to a specific quantity such as position or velocity, we will use the names $x()$, $y()$, $z()$, $u()$, $v()$, $w()$, and such. These letters are, of course, the same ones we frequently use to name the inputs to functions. How do you know whether the letter is meant to refer to an input rather than a function? The parentheses provide the clue: $x()$ is a function name, $x$ is an input name. `r mark(610)`
-
-It can become tedious to give a name to every function, even if it's not being used again. Consider this sentence as an example: 
-
-> "The functions $g(x) \equiv \sqrt{\strut x}$ and $h(x) \equiv x^3$ are examples of power-law functions." 
-
-Long and awkward. So we'll feel free to write instead, 
-
-> "$\sqrt{\strut x}$ and $x^3$ are examples of power-law functions."
-
-Without the formality provided by "$g(x) \equiv$" it can be hard to know whether $\sqrt{\strut x}$ means "the square-root function" or "take the square root of a specific number $x$. The convention we will use is based on the name used in the expression. When standard argument names from the end of the alphabet are being used with a subscript (e.g. $x_0$) or with a special symbol used in a  superscript (e.g. $t^\star$), we intend the expression to be a function. However, when we want to ***apply a function*** to specific values for inputs we will write in any of the following styles:
-
-$$f(x^\star) \ \ \text{or}\ \ \sqrt{\strut x^\star}\ \ \text{or}\ \ \sqrt{\strut x=3}\ \ \text{or}\ \ \left.\sqrt{\strut x}\right|_{x=3}\ \ \text{or}\ \ \left.g(x)\strut \right|_{x=3}$$
-
-One of the important techniques of calculus is to take something we often think of as a number and turn it into a function whose output is a number. It will take you time to get used to the calculus notation and to be able to tell at a glance whether something is a function or a number. `r mark(620)`
-
-Here's an illustration that will only make sense to those who have already studied some calculus:
-
-$$\int_0^3\!\! f(t) dt\ \ \text{is a number, but }\int_0^x\!\! f(t) dt \ \ \text{is a function.}\ \ $$
-
-In high-school math notation, it can be hard to tell if an expression is intended to be a function or a number. Careful attention to the *MOSAIC Calculus* conventions will make it easier to figure whether an expression resolves to a function or a number. When you first read a mathematical expression, a good first question to ask is, "What kind of thing is this? A function? A number?"
-
-::: {.takenote  data-latex=""}
-It is essential that you can apply these conventions reflexively. Being able to say what kind of thing a symbol stands for is a key to understanding what a mathematical expression means.
-:::
 
 ## Applying functions to inputs
 
@@ -337,7 +327,7 @@ but this notation means that you will have to give specific numerical values for
 
 Any name in the R language can refer to any sort of object. We will use the *MOSAIC Calculus* naming conventions in our use of R, so that the ability you develop to read math notation should help reading R **and vice versa**. `r mark(630)`
 
-R/mosaic provides additional clues to distinguish between numbers and functions.
+R/mosaic provides additional clues to distinguish between quantities and functions.
 
 Almost all the time we will create a function using `makeFun()`. So when you see an R expression starting as `name <- makeFun(`tilde expression`)` you know for sure the name refers to a function.
 
