@@ -1,10 +1,94 @@
-# Graphs and graphics
+# Displaying relationships
 
 <div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Preliminaries/03-graphs-and-graphics.Rmd)</div>
 
 ```{r include=FALSE}
 book_file_name <- "preliminaries/03-graphs-and-graphics.html"
 ```
+
+Before we go much further in exploring the creation and uses of functions, let's remember the general idea of mathematical modeling: the construction of mathematical representations of systems. The word "system" is familiar in everyday speech and is used to describe all manner of things: means of communication, ecology, politics, the workings of the market, etc. A "system" involves a group of related components that operates as a whole. For instance, the digestive system consists of body organs and reflexes that, collectively, transform food into the elementary substances needed for metabolism. In the economic theory of the market, components are prices, demand, and supply. These three components are not independent. Demand is related to price as is supply, both are what economists sometimes call "curves" but which we would call functions.
+
+Key steps in making a mathematical representation---a model---of a system involve identifying the system components and describing quantitatively the relationships among them. In brief, mathematical modeling is about describing the ***relationships*** between things.
+
+::: {.example data-latex=""}
+Let's start with a simple system that is so familiar that you likely do not think of it as a system: a triangle.
+
+A triangle consists of three connected line segments: the sides. It has other properties that are related to the sides and each other, for example, the angles between sides, the perimeter, or the area enclosed by the triangle. 
+
+Here's a description of the relationship between the perimeter $p$ and the lengths of the sides, $a$, $b$, $c$, written in the form of a function:
+$$p(a,b,c) \equiv a + b + c\ .$$
+The mathematical expression of the relationship between area $A$ enclosed by the triangle and the side lengths goes back at least 2000 years to [Heron of Alexandria](https://en.wikipedia.org/wiki/Hero_of_Alexandria) (circa 10–70). As a function, it can be written
+$$A(a,b,c) \equiv \frac{1}{4}\sqrt{\strut 4a^2b^2-(a^2+b^2-c^2)^2}\ .$$
+:::
+
+::: {.example data-latex=""}
+There's considerable interest in ways to remove CO_2 from the atmosphere and store it permanently underground. It's hard to store gasses in the massive quantities needed to mitigate climate change. But CO_2_ storage is part of a system that includes temperature, pressure, and chemical affinity. 
+
+Figure \@ref(fig:CO2-phases) shows the relationship between physical form of pure CO_2_ and the temperature and pressure of the gas. 
+
+```{r CO2-phases, out.width="50%", fig.align="center", echo=FALSE, fig.cap="Phase diagram for CO_2_.[Source](https://commons.wikimedia.org/wiki/File:Carbon_dioxide_pressure-temperature_phase_diagram.svg) Ben Finney, Mark Jacobs, CC0, via Wikimedia Commons"}
+knitr::include_graphics("www/CO2-phases.png")
+
+```
+:::
+
+::: {.intheworld data-latex=""}
+Nerve cells communicate via electrical voltages and currents. For long-distance communications (distances longer than about 1 mm) the signaling takes the form of pulses of voltage occuring repetitively at different rates. The formation of these pulses, called "action potentials," was the subject of an extensive research project in the 1950s involving inserting tiny electrodes into relatively large ("giant") nerve cells that mediate the fleeing reaction of squid. A typical experiment involved regulating artificially the voltage across the cell membrane. By these experiments, the scientists--- John Eccles, Alan Hodgkin and Andrew Huxley---were able to describe mathematically the relationship between membrane voltage and the current across the membrane. A calculus model built from the relationships provided a concise description of the biophysics of action potentials. A 1963 Nobel Prize was awarded for this work.
+
+
+In each individual experimental run, the membrane voltage was fixed at a given level (say, -50 mV) and the current measured. Figure \@ref(fig:FHN-curve) shows what the data might have looked like, each point showing the results of one experimental run.
+
+```{r FHN-curve, echo=FALSE, fig.cap="Data (simulated) from the squid giant axon experiments. A smooth curve is drawn through the data points."}
+set.seed(101)
+n <- 30
+FHN_points <- tibble(
+  v = sample(c(-2, -1.5, -1, -.5, 0, .5, 1, 1.5, 2), n, replace=TRUE),
+  w = v - v^3/3
+) %>% 
+  mutate(v=(1.9+v+rnorm(n, 0, 0.01))/36,
+         w=w+rnorm(n, 0, 0.1))
+gf_point(w ~ I(-v*36*25), data = FHN_points) %>%
+  gf_labs(y="Current (mA)", x = "Voltage (mV)") %>%
+  slice_plot( -(v/25 + 2) + (v/25 + 2)^3/3 ~ v, 
+              domain(v=-105:5)) +
+  coord_flip()
+```
+The data points themselves might be described metaphorically as "clouds" spotting the voltage vs current "sky." Real-world clouds often show patterns such as animal or country shapes. We might say that a given cloud resembles a rabbit. Similarly, the data clouds show a pattern between current and voltage. We might, for instance, describe the current-voltage relationship as S-shaped. Or, rather than using the letter "S" we could draw a curve through the dots to summarize and simplify the relationship.
+:::
+
+The smooth curve in Figure \@ref(fig:FHN-curve) describes the relationship between current and voltage quantitatively. For example, if you know that the current is 0, you can use the curve to figure out what the voltage will be around -90 mV or  -50 mV or -10 mV. But when current is 0, the voltage will *not* be, say, -75 or -150.
+
+Graphs such as Figures \@ref(fig:CO2-phases) and \@ref(fig:FHN-curve) are good ways of showing relationships. We can even do calculations simply using such graphs. Place your finger on a point of the S-shaped graph and you can read from the axes an allowed pair of voltage and current values. Place your finger on a point on the vertical axis. Moving it to the curve will reveal what current is associated with that voltage.
+
+Functions are, like graphs, a ways of representing relationships. For all their advantages as a means of communication, graphs have their limits. With a graph it's feasible only to show the relationship between two quantities or among three quantities. Functions, can involve more quantities. For instance, the triangle-area function $$A(a,b,c) \equiv \frac{1}{4}\sqrt{\strut 4a^2b^2-(a^2+b^2-c^2)^2}$$ gives the relationship between four quantities: the area and the lengths of the triangle's three sides.
+
+On the other hand, functions cannot represent all types of relationships. For instance, the curve in Figure \@ref(fig:FHN-curve) shows a relationship between current and voltage in nerve cells. But there is no mathematical function voltage(current) that does justice to the relationship. The reason is that mathematical functions can have ***one and only one*** output for any given input. There are three reasonable values for membrane voltage that are experimentally consistent with a zero current, not just one.
+
+Care needs to be taken in using functions to represent relationships. For the nerve-cell current-voltage relationship, for instance, we can construct a function current(voltage) to represent the relationship. That's because for any given value of voltage there is just one corresponding current. But there is no voltage(current) function, even though knowing the current tells you a lot about the voltage.
+
+## Function graphs
+
+Given a function, it's easy to draw the corresponding relationship as a graphic. This section describes how to do that for functions that have one or two inputs. The opposite---given a relationship, represent it using functions---is not always so easy and will require modeling techniques that we'll develop in Block 1.
+
+Contemporary practice is to draw graphs of functions using a computer. R/mosaic provides several functions that do this, you need only learn how to use them.
+
+
+
+
+
+
+
+
+
+-----
+
+
+
+Under "domain" talk about the domain of $A(a,b,c)$, since it needs to respect the triangle rule.
+
+Contour plot of Heron's formula for fixed $c$.
+
+
 
 
 ## Graphs, mathematically
