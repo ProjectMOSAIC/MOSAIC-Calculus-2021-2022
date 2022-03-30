@@ -17,6 +17,25 @@ what's a data frame, what's a variable/column, what's a case/row
 
 Returns a function: spliner, fitModel
 
+## Graphics layers
+
+MODIFY THIS TO BE ABOUT OVERLAYING a function on data.
+
+You will often want to compare two functions, or compare a function to data. You can do this using the ordinary graphics functions, e.g. `slice_plot()` or `gf_point()`, arranging things so that both types of graphics are drawn together in the same graphics frame. To create this kind of compound graphic, arrange the individual graphics commands into a ***pipeline***, which is a list of commands connected together by `%>%`.  Your pipeline might include two commands or twenty, depending on how complicated is the graphic you want to draw. As long as you use `%>%` after each command, the next command is taken to build upon the previous command.  The very last command in that pipeline should not be followed by `%>%`.”  `r mark(720)`
+
+::: {.workedexample}
+Here is an just-for-demonstration plot composed from three graphs, each displaying one of the pattern-book functions. At the start of the pipeline, the `domain()` must be given explicitly as an argument to `slice_plot()`. You're welcome to specify other domains in the commands further along the pipeline, but if you don't the original `domain()` will be passed down the pipeline.
+
+```{r echo=TRUE}
+slice_plot(dnorm(x) ~ x, domain(x=c(-4,4))) %>%
+  slice_plot(pnorm(x) ~ x, color="red", size=2) %>%
+  slice_plot(sin(x) ~ x, color="green", size=4, alpha = 0.2)
+```
+Just to show how these things are done, the functions have been drawn in different colors, different widths (e.g., `size=2`) and different levels of transparency (e.g. `alpha=0.2`). You can use such styling arguments in any slice-plot.
+:::
+
+
+
 ## Fitting parameters
 
 Seen very abstractly, a mathematical model is a set of ***functions*** that represent the relationships between inputs and outputs.  `r mark(900)`

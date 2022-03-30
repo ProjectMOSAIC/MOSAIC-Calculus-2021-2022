@@ -72,126 +72,58 @@ Given a function, it's easy to draw the corresponding relationship as a graphic.
 
 Contemporary practice is to draw graphs of functions using a computer. R/mosaic provides several functions that do this, you need only learn how to use them.
 
+There are two essential arguments shared by all of the R/mosaic functions drawing a graph:
 
+1. The function that is to be graphed. This is to be written as a ***tilde expression*** in exactly the same manner as described in Chapter \@ref(notation-and-computing).
+2. The ***domain interval***. The domain of many functions reaches to infinity, but our computer screens are not so big! Making a graph requires choosing a finite interval for each of the input variables. 
 
+The tilde expression for a function with one input will have only one name on the right-hand side of the <span style="font-size:250%'">~</span>. The domain interval specification must use the same name:
 
+Tilde expression     |  Domain interval specification
+---------------------|----------------------------
+`x^2 ~ x`            |  `interval(x = -3:3)`
+`y * exp(y) ~ y`     |  `interval(y = 0:10)`
+`log(y) / exp(y) ~ y`|  `interval(y = -5:5)`
+`sin(z) / z ~ z`     |  `interval(y = -3*pi:3*pi)`
 
+To draw a graph, use `slice_plot()` with the tilde expression as the first argument and the domain interval specification as the second argument. For instance,
 
+```{r first-slice-plot, fig.cap="Graph of the function $f(y) \\equiv y e^y$. The domain of $f()$ is the space of all real numbers. The graph, however, shows only a finite interval $0 \leq y \leq 10$ of that domain."}
+slice_plot(y * exp(y) ~ y, domain(y=0:10))
+```
+Functions with **two inputs** can be displayed with `contour_plot()`. Naturally, the tilde expression defining the function will have **two** names on the right-hand side of <span style="font-size:250%'">~</span>. Similarly, the domain specification will have two arguments, one for each of the names in the tilde expression.
 
-
-
------
-
-
-
-Under "domain" talk about the domain of $A(a,b,c)$, since it needs to respect the triangle rule.
-
-Contour plot of Heron's formula for fixed $c$.
-
-
-
-
-## Graphs, mathematically
-
-What's a graph mathematically?
-
-Operations on graphs:
-- zero-finding
-- argmax and argmin
-
-## Graphics, visually
-
-***Scientific and statistical graphics*** are visual depictions of information and data. For displaying a function with a single input, mathematicians and others favor a particular style of graphics. This favored style is called a ***function graph***, which has a specific technical meaning in mathematics. Notice that we're writing "function graph" rather than "function graphic." A function graph is a particular sort of graphic: there are many other types of graphics some of which we'll use to display data or features of functions. `r mark(700)`
-
-
-## The graphics frame
-
-Technical graphs are usually drawn in a ***graphics frame*** 
-that has several components:
-
-1. The ***frame*** is a region on the piece of paper or computer screen that is marked off by a horizontal and a vertical axis.
-2. The horizontal axis stands for one quantity.
-3. The vertical axis stands for another quantity.
-4. Both the horizontal and vertical axes are drawn with a ***scale*** that enables you to translate between a numerical value and position.
-
-```{r empty-frame, echo=FALSE, fig.cap="An empty graphics frame with scales for both the horizontal and vertical axes."}
-gf_blank(mpg ~ wt, data=mtcars) %>%
-  gf_labs(y = "Vertical", x = "Horizontal") %>%
-  gf_lims(y = c(-20,20), x=c(-5, 5))
+```{r first-contour, fig.cap="Contour plot of a function with two inputs $g(y,z) \\equiv e^{-z}\\sin(y)$"}
+contour_plot(exp(-z)*sin(y) ~ y & z, domain(y=-6:6, z=0:2))
 ```
 
+Contour plots will be a preferred format for displaying functions with two inputs. The main reason to prefer contour plots is the ease with which locations of points in the input space can be identified and the ability to read output values without much difficulty. 
+
+There's another way to think about graphing functions with two inputs. There are in such a situation **three** quantities involved in the relationship. Two of these are the inputs, the third is the output. A three-dimensional space consists of all the possible triples of point; the relationship between the inputs and the output is marked by ruling out almost all of the potential triples and marking those points in the space that are consistent with the function.
+
+This is similar to the situation seen in Figure \@ref(fig:FHN-curve) which shows a two-dimensional space of all possible (voltage, current) pairs for nerve cells. The experimental data identified many possible pairs---marked by the dots in Figure \@ref(fig:FHN-curve)---that we consistent with the relationships of the nerve-cell system.
+
+The same is true of Figure \@ref(fig:first-slice-plot), showing a graph of a function with a single input. The two-dimensional space shown in the figure contains (input, output) pairs, only a small fraction of which are consistent with the relationship described by the function. The points in that small fraction could be marked by individual dots, but instead of dots we draw  the continuous curve connecting the dots. Every point on the curve is consistent with the relationship between input and output represented by the function. 
+
+Returning to functions with two inputs, the space of all possibilities (y, z, output) is three-dimensional, but very few of those possibilities are consistent with the function to be graphed. You can imagine our putting dots at all of those consistent-with-the-function points, or our drawing lots and lots of continuous curves through those dots, but really the cloud of dots forms a ***surface***; a continuous cloud of points floating over the (y, z) input space.
+
+Figure \@ref(fig:first-surface) displays this surface. Since the image is drawn on a two-dimensional screen, we have to use painters' techniques of perspective and shading. In the interactive version of the plot, you can move the viewpoint for the image which gives many people a more solid understanding of the surface being shown.
 
 
-
-Drawing graphs with R/mosaic
-
-Some other types of graphs that we'll be using: vector fields, flow fields, contour plots, surface plots.
-
-The tilde expression and the graphics domain specifier are the two mandatory arguments to `slice_plot()`. All of these are correct commands for drawing a graph:
-
-```{r warning=FALSE}
-slice_plot(sin(t) ~ t, domain(t=c(-5,5)))
-slice_plot(exp(x) ~ x, domain(x=c(-3,2)))
-slice_plot(log(z) ~ z, domain(z=c(-0.5, 10)))
-slice_plot(t^2 ~ t, domain(t=c(-2, 2)))
+```{r first-surface, eval=knitr::is_html_output(), fig.cap="Displaying $g(y,z) \\equiv e^{-z}\\sin(y)$ as a surface plot annotated with contour lines."}
+surface_plot(exp(-z)*sin(y) ~ y & z, interval(y=-6:6, z=0:2))
+```
+```{r echo=FALSE, eval=!knitr::is_html_output()}
+knitr::include_graphics("www/surface-plot1.png")
 ```
 
-
-You can draw graphs of single-input functions using the `slice_plot()` R/mosaic operator. You need to specify two pieces of information to `slice_plot()`:
-
-1. Which function to graph. In R/mosaic, You state this with what's called a ***tilde expression***. A couple of examples will suffice for the moment.
-    a. When the function has a name, like `exp()` or `log()` or `sin()`, the tilde expression looks like `exp(x) ~ x`. On the left side of the tilde you put the name of the function you want to graph with the input name in parentheses. You can choose any input name you like: here we are using `x`, but we are not limited to using `x` or any other letter. Sometimes we even use named inputs (e.g. `exp(time)`). On the right side of the tilde, place the input name again. We'll explain why the name appears in two places later.
-    b. When the function is being written as a formula, for instance `1/z` or `t^2`, put the formula on the left side of the tilde and the input name on the right side, like `1/z ~ z` or `t^2 ~ t`.
-2. The ***graphics domain***. As you know, the ***domain*** of a function is the collection of all possible legitimate inputs. For most of the pattern-book functions, the domain is $-\infty < x < \infty$. As you might expect, it's impractical to have a graphical axis that is infinitely long. So you have to choose some finite interval of the function domain to use. This finite interval is called the "graphics domain." You specify the domain with a statement like `domain(x = -5:5)`, which is setting the graphics domain to $-5 \leq x \leq 5$. Note that the input name used in `domain()` must match the input name you selected in the tilde expression. [[[ Explain to R experts that, inside `domain()`, the expression `-5:5` is interpreted as `c(-5, 5)`. Elsewhere in R `-5:5` refers to a **sequence** of numbers: $-5, -4, -3, -2, -1, 0, 1 2, 3, 4, 5$]]]
+Note that the surface plot is made with the R/mosaic `surface_plot()`, which takes arguments in exactly the same way as `contour_plot()`.
 
 
-## Function graphs
-
-Back in Section \@ref(slice-plot-intro) you saw how to use R to create a graph of a function with a single input. (Review that section now if you've forgotten.) The `slice_plot()` function takes two arguments:
-
-i. A ***tilde expression*** giving the function you want to plot and naming the horizontal axis.
-ii. The ***domain*** to use when making the plot.
-
-For example:
-
-```{r results="hide"}
-slice_plot(sin(z) ~ z, domain(z=c(-10, 10)))
-```
-
-The tilde expression can be more elaborate of course, for instance `sin(z)*z + z^2 ~ z`, but it will always have the name to be used for the horizontal axis on the right-hand side of the tilde character.
-
-::: {.takenote  data-latex=""}
-The ***domain*** to be shown in the graph is specified using a special-purpose function, called `domain()`. The argument to `domain` is named: Use the same name as on the right-hand side of the tilde expression then an equal sign, then a collected pair of numbers specifying the lower and upper ends of the domain. The collected pair must always be given as the arguments to a very basic function named `c()`, which simply collects it's arguments. Later, when we graph functions with two inputs, you'll see why `domain()` is set up this way.
-:::
-
-## Graphs of functions with two inputs {#surface-plot}
-
-We can draw graphs of functions with two inputs. Now the points need to be marked in a 3-dimensional space: one axis for each of the two inputs and another axis for the output. Like this: `r mark(760)`
-
-```{r fun-1b-1-2, echo=FALSE, fig.cap="A graph of a function of two inputs is a surface."}
-f2 <- rfun( ~ input_1 + input_2, seed=932)
-if (knitr::is_html_output()) {
-interactive_plot(f2(input_1, input_2) ~ input_1 + input_2,
-                 domain(input_1=c(-5, 5), input_2 = c(0, 4)))
-} else {
-  knitr::include_graphics(normalizePath("www/fun-1b-1-2.png"))
-}
-```
-
-It is very hard to read a graph of a function with two inputs. Think of the graph as a kind of tent suspended over a domain of ground. The graph itself is a surface. To show the graph on a display, some tricks of the trade are used: color to give an additional scale for the output; computer graphics to let us rotate the surface to look at it from various perspectives, added grid lines and marks on the surface to help us read out the numerical value.
-
-## Contour plots
 
 
-A mathematical graph is just one way to draw a picture of a function with two inputs. There are other ways. One helpful mode of picture is called a ***contour plot***, familiar to many non-mathematicians in the form of topgraphical maps showing landscape elevation as a function of latitude and longitude. Figure \@ref(fig:Fig-1b-2-1) shows a contour plot of the same function shown in Figure \@ref(fig:fun-1b-1-2). `r mark(770)`
+## Interpreting contour plots {#interpreting-contour-plots}
 
-
-```{r Fig-1b-2-1, echo=FALSE, fig.cap=r"(A contour plot displays the surface in the same manner as a topographical map shows the terrain. This contour plot is a topographical map of the mathematical graph in Figure @ref(fig:fun-1b-1-2).)"}
-f2 <- rfun( ~ input_1 + input_2, seed=932)
-contour_plot(f2(input_1, input_2) ~ input_1 + input_2,
-                 domain(input_1=c(-5, 5), input_2 = c(0, 4)),
-             skip=0)
-```
 
 It may take some practice to learn to read contour plots fluently but it is a skill that's worthwhile to have. Note that the graphics frame is the Cartesian space of the two inputs. The output is presented as ***contour lines***. Each contour line has a label giving the numerical value of the function output. Each of the input value pairs on a given contour line corresponds to an output at the level labeling that contour line. To find the output for an input pair that is *not* on a contour line, you ***interpolate*** between the contours on either side of that point.
 
@@ -201,26 +133,33 @@ Often, the specific numerical value at a point is not of primary interest. Inste
 
 Another common task for interpreting contour plots is to locate the input pair that's at a local high point or low point: the top of a hill or the bottom of a hollow. Such points are called ***local argmax*** or ***local argmin*** respectively. The *output* of the function at a local argmax is called the ***local maximum***; similarly for a local argmin, where the output is called a ***local minimum***. (The word "argmax" is a contraction of "argument of the maximum." We will tend to use the word "input" instead of "argument", but it means exactly the same thing to say "the inputs to a function" as to says "the arguments of a function.")
 
-::: {.takenote  data-latex=""}
-Here are some additional tasks which you should learn to perform at a glance when reading a contour plot:
+::: {.example data-latex=""}
+Using the contour graph of the function, 
 
-1. Start at a given input pair and determine two directions:
+i. Find an input coordinate where the function is steepest.
+ii. Find input coordinates for the high and low points in the function .
 
-    a.  the direction to move which is most steeply uphill, 
-    b. the direction to move which will keep the function output the same. 
-    
-2. Translate a small region of a contour plot into the word for a corresponding geographical feature with that topology: hills, valleys, crests, coves, hollows, and so on.
+```{r echo=FALSE}
+g <- rfun(~ x & y, seed=783)
+contour_plot(g(x,y)-2.5 ~ x & y, interval(x=-3:3, y=-3:6), skip=0, label_alpha=.5)
+```
+
+A function is steepest where contour lines are spaced closely together, that is, where the function output changes a lot with a small change in input. This is true near inputs $(x=0, y=1)$. But notice that steepness involves a *direction*. Near $(x=0,y=1)$, changing the $x$ value does not lead to a big change in output, but a small change in the value of $y$ leads to a big change in output.  In other words, the function is steep in the y-direction but not in the x-direction.
+
+The highest output value explicitly marked in the graph is 8. We can imagine from the shapes of the contours surrounding the 8 contour that the function reaches a peak somewhere in the middle of the region enclosed by the 8 contour, near the input coordinate $(x=0, y=-1.5)$.
+
+Similarly, the lowest output value marked is -10. In the middle of the area enclosed by the -10 contour is a local low point. That there are two such regions, one centered near input coordinate $(x=-0.5, y=3.3)$, the other at $(x=1.5, y=3.1)$.
+
 
 :::
 
 
-## Slice plots
+::: {.why data-latex=""}
+Why do you call the graphs of functions of one variables **slice plots** rather than simply graphs?
 
-As mentioned before, ***mathematical modeling*** is the process of constructing mathematical representations of situations or phenomena of interest. In CalcZ, we are primarily interested in using ***functions*** as such representations. `r mark(780)`
+Saying "graph" for a display of $f(x)$ versus $x$ is correct and reasonable. But in *MOSAIC Calculus* we have another point to make.
 
-Almost always, when mathematically modeling a real-world situation or phenomenon, we do not try to capture every nuance of every relationship that might exist in the real world. We leave some things out. Such simplifications make modeling problems easier to deal with^[The word "tractable" is used to describe problems that can be productively handled.] and encourage us to identify the most important features of the most important relationships.
-
-On the other hand, it's easy to go wrong and leave out something that's important. To mitigate this risk, many modeling projects involve a ***modeling cycle*** where we propose a candidate model, examine the consequence of that model to see if it corresponds well to the parts of reality that are important to us in our task, and modify the model as needed to produce a new and better candidate. `r mark(790)`
+Almost always, when mathematically modeling a real-world situation or phenomenon, we do not try to capture every nuance of every relationship that might exist in the real world. We leave some things out. Such simplifications make modeling problems easier to deal with and encourage us to identify the most important features of the most important relationships.
 
 In this spirit, it's useful always to assume that our models are leaving something out and that a more complete model involves a function with more inputs than the present candidate. The present candidate model should be considered as a ***slice*** of a more complete model. Our slice leaves out one or more of the variables in a more complete model.
 
@@ -253,7 +192,7 @@ slice_plot(f2(input_1, input_2=1.5) ~ input_1, domain(input_1=c(-5, 5))) %>%
 
 Each point along the red line corresponds to a specific value of input #1. From the contours, we can read the output corresponding to each of those values of input #1. This relationship, output versus input #1 can be drawn as a mathematical graph (to the right of the contour plot). Study that graph until you can see how the rising and falling parts of the graph correspond to the contours being crossed by the red line.
 
-Slices can be taken in any direction or even along a curved path! The blue line below the slice constructed by letting input #2 vary and holding input #1 and the constant value 0.
+Slices can be taken in any direction or even along a curved path! The blue line below the slice constructed by letting input #2 vary and holding input #1 at the constant value 0.
 
 ```{r Fig-1c3, echo=FALSE, out.width="50%", fig.show="hold", warning=FALSE}
 contour_plot(f2(input_1, input_2) ~ input_1 + input_2,
@@ -264,24 +203,33 @@ contour_plot(f2(input_1, input_2) ~ input_1 + input_2,
 slice_plot(f2(input_1 = 0 , input_2) ~ input_2, domain(input_2=c(0, 5))) %>%
   gf_labs(title="Graph of function output versus input 2")
 ```
-
-
-## Graphics layers
-
-You will often want to compare two functions, or compare a function to data. You can do this using the ordinary graphics functions, e.g. `slice_plot()` or `gf_point()`, arranging things so that both types of graphics are drawn together in the same graphics frame. To create this kind of compound graphic, arrange the individual graphics commands into a ***pipeline***, which is a list of commands connected together by `%>%`.  Your pipeline might include two commands or twenty, depending on how complicated is the graphic you want to draw. As long as you use `%>%` after each command, the next command is taken to build upon the previous command.  The very last command in that pipeline should not be followed by `%>%`.”  `r mark(720)`
-
-::: {.workedexample}
-Here is an just-for-demonstration plot composed from three graphs, each displaying one of the pattern-book functions. At the start of the pipeline, the `domain()` must be given explicitly as an argument to `slice_plot()`. You're welcome to specify other domains in the commands further along the pipeline, but if you don't the original `domain()` will be passed down the pipeline.
-
-```{r echo=TRUE}
-slice_plot(dnorm(x) ~ x, domain(x=c(-4,4))) %>%
-  slice_plot(pnorm(x) ~ x, color="red", size=2) %>%
-  slice_plot(sin(x) ~ x, color="green", size=4, alpha = 0.2)
-```
-Just to show how these things are done, the functions have been drawn in different colors, different widths (e.g., `size=2`) and different levels of transparency (e.g. `alpha=0.2`). You can use such styling arguments in any slice-plot.
 :::
 
 
 
 ## Exercises
 
+Exercise: Use the interactive surface plot to find the numerical value of the output of the function when the input is $(x=1, y=2)$ USE an rfun() for this. Just give the interactive plot. 
+
+EXERCISE: USE a plot like `surface_plot(exp(-z)*sin(y) ~ y & z, interval(y=-6:6, z=0:2), type="contour")` so that students can read off the (x,y,z) value. Ask for the value of the function at several input points. Ask them to trace the output value as the cursor moves along a contour line.
+
+EXERCISE:
+Here are some additional tasks which you should learn to perform at a glance when reading a contour plot:
+
+1. Start at a given input pair and determine two directions:
+
+    a.  the direction to move which is most steeply uphill, 
+    b. the direction to move which will keep the function output the same. 
+    
+2. Translate a small region of a contour plot into the word for a corresponding geographical feature with that topology: hills, valleys, crests, coves, hollows, and so on.
+
+EXERCISE: Match up the slice plots with the paths indicated on the contour plot.
+
+EXERCISE: Ask them to find the actual lowest point in the graph
+```{r echo=FALSE}
+g <- rfun(~ x & y, seed=783)
+contour_plot(g(x,y)-2.5 ~ x & y, interval(x=-3:3, y=-3:6), skip=0, label_alpha=.5)
+```
+
+
+EXERCISE: Contour plot of Heron's formula for fixed $c$. What's going on at the zero contour. Why is nothing shown below the zero contour.
