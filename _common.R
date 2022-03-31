@@ -82,27 +82,28 @@ drill_link <- function() {
 
 
 Chaps <- list(
-  magnitudes = 15,
-  dimension = 16,
-  pattern_book_derivs = 19,
-  fun_notation = 5,
-  slope_function = 9,
-  gradient = 24,
-  local_approx = 25,
-  iteration = 32,
-  taylor = 26,
-  optimization = 23,
-  splines = 33,
-  modeling_cycle = 14,
-  expectation_value = 35,
+  parameters = 8,
+  magnitudes = 15.00,
+  dimension = 16.00,
+  pattern_book_derivs = 19.00,
+  fun_notation = 5.00,
+  slope_function = 9.00,
+  gradient = 24.00,
+  local_approx = 25.00,
+  iteration = 32.00,
+  taylor = 26.00,
+  optimization = 23.00,
+  splines = 33.00,
+  modeling_cycle = 14.00,
+  expectation_value = 35.00,
   foobar = NA
 )
 
 Sections <- list(
-  exp_curve_fitting = "8.3",
-  gradient_vector = "24.3",
-  functions_as_tables = "4.2",
-  likelihood = "35.4"
+  exp_curve_fitting = "8.003",
+  gradient_vector = "24.003",
+  functions_as_tables = "4.002",
+  likelihood = "35.004"
 )
 
 under_construction <- function() {
