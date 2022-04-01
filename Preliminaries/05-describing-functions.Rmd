@@ -1,48 +1,83 @@
 # Describing functions {#describing-functions}
 
-<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Preliminaries/06-describing-functions.Rmd)</div>
+<div style="float:right;">[![](www/icons/edit.png)](https://github.com/ProjectMOSAIC/MOSAIC-Calculus/blob/main/Preliminaries/05-describing-functions.Rmd)</div>
 
 ```{r include=FALSE}
-book_file_name <- "preliminaries/06-describing-functions.html"
+book_file_name <- "preliminaries/05-describing-functions.html"
 ```
 
 
-rate of change at a given input: notice that we need more than just the value of the function at that input: we need at least a segment of the function itself
 
-monotonicity, concavity, continuity, smoothness (but we'll need some additional concepts to express this)
+
 ## Word descriptions {#word-descriptions}
 
-Knowing and correctly using a handful of phrases goes a long way in being able to communicate with other people about functions with a single input. Often, the words make sense in everyday speech ("steep", "growing", "decaying", "goes up", "goes down", "flat"). `r mark(430)`
+Knowing and correctly using a handful of phrases goes a long way in being able to communicate with other people about functions with a single input. Often, the words make sense in everyday speech ("steep", "growing", "decaying", "goes up", "goes down", "flat").
 
 Sometimes the words are used in everyday speech but the casual person isn't sure exactly what they mean. For instance, you will often hear the phrase "growing exponentially." The graph of the exponential function illustrates exactly this sort of growth: flat for small $x$ and growing steadily steeper and steeper as $x$ increases. 
 
 Still other words are best understood by those who learn calculus. "Concave up," "concave down", "approaching 0 asymptotically," "continuous", "discontinuous", "smooth", "having a minimum **at** ...," "having a minimum **of** ...", "approaching $\infty$ asymptotically," "having a vertical asymptote."
 
-The next short sections describe six simple shape concepts: concavity, continuity, monotonicity,  periodicity, asymptotes, and local extrema.
+The next short sections describe seven simple function-shape concepts: slope, concavity, continuity, monotonicity,  periodicity, asymptotes, and local extrema. Each of these concepts has the idea of a function at the core, because each one depends on how the function output changes as the input is changed.
 
-I'll illustrate these concepts using three pattern-book functions graphed in Figure \@ref(fig:for-words). `r mark(431)`
+I'll illustrate these concepts using three pattern-book functions graphed in Figure \@ref(fig:for-words). 
 
-```{r for-words, echo=FALSE, out.width="50%", fig.show="hold", fig.cap="Three of the pattern-book functions: (a) exponential, (b) sinusoid, (c) power-law $x^{-1}$."}
-slice_plot(exp(x) ~ x, domain(x=c(-3,3))) %>%
-  gf_labs(title="(a) exponential")
-slice_plot(sin(x) ~ x, domain(x=c(-5,5))) %>%
-  gf_labs(title="(b) sinusoid")
-slice_plot(1/x ~ x, domain(x=c(.01, 1.25))) %>%
+```{r for-words, echo=FALSE,  fig.cap="Three of the pattern-book functions: (a) exponential, (b) sinusoid, (c) power-law $x^{-1}$."}
+Pa <- slice_plot(exp(x) ~ x, domain(x=c(-3,3))) %>%
+  gf_labs(subtitle="(a) exponential") %>%
+  gf_hline(yintercept=~0, color="magenta", linetype="dashed")
+Pb <- slice_plot(sin(x) ~ x, domain(x=c(-5,5))) %>%
+  gf_labs(subtitle="(b) sinusoid", y="") %>%
+  gf_hline(yintercept=~0, color="magenta", linetype="dashed")
+Pc <- slice_plot(1/x ~ x, domain(x=c(.01, 1.25))) %>%
   slice_plot(1/x ~ x, domain(x=c(-1.25, -.01))) %>%
-  gf_labs(title="(c) power-law with negative exponent")
+  gf_labs(subtitle="(c) power-law with negative exponent", y="")%>%
+  gf_hline(yintercept=~0, color="magenta", linetype="dashed")
+gridExtra::grid.arrange(Pa, Pb, Pc, ncol=3)
 ```
+
+### Slope
+
+The slope describes whether the output goes up or down, and to what extent, as the input changes. Typically, the slope is different for different input values. The only function type that has a slope that is the same for all inputs is the straight-line function.
+
+Figure \@ref(fig:slope-at-point) shows the sinusoid function. Zooming in on the region near each colored dot shows that, locally, the function is approximately a straight-line function. The slope of that straight-line (drawn as a segment near the dot) is the slope of the sinusoid at that point. Like the sinusoid itself, the slope of the sinusoid oscillates periodically from negative to positive.
+
+```{r slope-at-point, echo=FALSE, fig.cap="Zooming in near a specific input value  makes the function look like a straight line. The slope at that input value is the slope of that straight line."}
+Pts <- tibble(
+  x = c(-2, 1),
+  y = sin(x),
+  color = c("magenta", "green")
+)
+Pa <- slice_plot(sin(x) ~ x, domain(x=c(-5,5))) %>%
+  gf_hline(yintercept=~0, color="magenta", linetype="dashed") %>%
+  gf_point(y ~ x, color=~color, size=5, alpha=0.3, data=Pts) %>%
+  gf_segment(.85 + .958 ~ .9 + 1.1, color="green") %>%
+  gf_segment(-0.92 + -0.962 ~ -2.05 + -1.95, color="magenta") %>%
+  gf_theme(scale_color_identity())
+Pb <- slice_plot(sin(x) ~ x, domain(x=-2.25:-1.75)) %>%
+  gf_point(y ~ x, color=~color, size=20, alpha=0.3, data=Pts[1,]) %>%
+  gf_theme(scale_color_identity()) %>%
+  gf_segment(-0.9 + -0.942 ~ -2.1 + -2, color="magenta") %>%
+  gf_labs(y="")
+Pc <- slice_plot(sin(x) ~ x, domain(x=.75:1.25)) %>%
+  gf_point(y ~ x, color=~color, size=20, alpha=0.3, data=Pts[2,]) %>%
+  gf_theme(scale_color_identity()) %>%
+  gf_segment(.825 + .879 ~ .9 + 1, color="green") %>%
+  gf_labs(y="")
+gridExtra::grid.arrange(Pa, Pb, Pc, ncol=3)
+```
+
 
 ### Concavity
 
 The slope of a function at a given input tells how fast the function **output** is increasing or decreasing as the input changes slightly. ***Concavity*** is not directly about how the function output changes, but about how the function's *slope* changes. For instance, a function might be growing slowly in some region of the domain and then gradually shift to larger growth in an adjacent region. Or, a function might be decaying steeply and then gradually shift to a slower decay. Both of these are instances of ***positive concavity***. The opposite pattern of change in slope is called ***negative concavity***. If the slope doesn't change at all---only straight-line functions are this way--- the concavity is zero. 
 
-Concavity has a very clear appearance in a function graph. If a function is positive concave in a region, the graph looks like a smile or cup.  Negative concavity looks like a frown. Zero concavity is a straight line.  `r mark(432)`
+Concavity has a very clear appearance in a function graph. If a function is positive concave in a region, the graph looks like a smile or cup.  Negative concavity looks like a frown. Zero concavity is a straight line.  
 
 Referring to the three function examples in Figure \@ref(fig:for-words), we'll use the traditional terms ***concave up*** and ***concave down*** to refer to positive and negative concavity respectively.
 
 a. The exponential is ***concave up*** everywhere in its domain.
 b. The sinusoid alternates back and forth between ***concave up*** and ***concave down***.
-c. This particular power law $x^{-1}$ is ***concave up*** for $x > 0$ and ***concave down*** for $x < 0$.
+c. This particular power law $x^{-1}$ is ***concave up*** for $0 < x$ and ***concave down*** for $x < 0$.
 
 When a function switches between positive concavity and negative concavity, as does the sinusoid as well as the gaussian and sigmoid functions, there is an input value where the switch occurs and the function has zero concavity. (Continuous functions that pass from negative to positive or *vice versa* must always cross zero.) Such in-between points of zero concavity are called ***inflection points***. A function can have zero, one, or many inflection points. For instance, the sinusoid has inflection points at $x = \ldots, -\pi, 0, \pi, 2\pi, \ldots$, the cubic power function $f(x)\equiv x^3$ has one, and the exponential has none.
 
@@ -59,7 +94,7 @@ One of the benefits of learning calculus is to gain a way to think about the pre
 
 A function is ***continuous*** if you can trace out the graph of the function without lifting pencil from the page. A function is ***continuous on an interval (a,b)*** if you can trace the function over that whole interval. All of the pattern-book functions are continuous over any interval in their domain except for power-law functions with negative exponents. (This includes the reciprocal since it is a power-law with a negative exponent:  $1/x = x^{-1}$.) Those exceptions are not defined at $x=0$. 
 
-To illustrate, consider the power-law function graphed in Figure \@ref(fig:for-words). On any interval (a,b) that does **not include 0**, the function is continuous.  For inputs $x < 0$, the function is negative. For inputs $0 < x$, the function is positive. So, on an interval that includes $x=0$ the function jumps discontinuously from negative to positive.  `r mark(433)`
+To illustrate, consider the power-law function graphed in Figure \@ref(fig:for-words). On any interval (a,b) that does **not include 0**, the function is continuous.  For inputs $x < 0$, the function is negative. For inputs $0 < x$, the function is positive. So, on an interval that includes $x=0$ the function jumps discontinuously from negative to positive. 
 
 ### Monotonicity {#monotonicity}
 
@@ -67,16 +102,15 @@ A function is ***monotonic*** on a domain when the *sign* of the slope never cha
 
 Another way of thinking about monotonicity is to consider the order of inputs and outputs compared to a number line. If a function is monotonically increasing then it will preserve the order of inputs along the number line when it maps inputs to outputs, whereas a monotonically decreasing function will reverse the order. For instance, if the input $x$ comes before an input $y$ (i.e., $x<y$), then $f(x)<f(y)$ for monotonically *increasing* functions (the order is preserved), but $f(y)<f(x)$ for monotonically *decreasing* functions (the order of outputs is reversed).
 
-Of the pattern-book functions in Figure \@ref(fig:for-words): both the exponential and the logarithm function are monotonic: the exponential grows monotonically as does the logarithm. The sinusoid is not monotonic over any domain longer than half a cycle: the function switchs between positive slope and negative slope in different parts of the cycle. `r mark(434)`
+Of the pattern-book functions in Figure \@ref(fig:for-words): both the exponential and the logarithm function are monotonic: the exponential grows monotonically as does the logarithm. The sinusoid is not monotonic over any domain longer than half a cycle: the function switchs between positive slope and negative slope in different parts of the cycle. 
     
 ### Periodicity
 
 A phenomenon is ***periodic*** if it repeats a pattern over and over again. The pattern that is repeated is called a **cycle**; the periodic function as a whole is one cycle placed next to the previous one and so forth. The day-night cycle is an example of a periodic phenomenon, as is the march of the seasons. The ***period*** is the duration of one complete cycle; the period of the day-night cycle is 24 hours, the period of the seasonal progression is 1 year. 
 
-Real-world periodic phenomena often show some slight variation from one cycle to the next. 
-Of the pattern-book functions, only the sinusoid is periodic. And it is exactly periodic, repeating exactly the same cycle over and over again. The period---that is, the length of an input interval that contains exactly one cycle---has a value of $2\pi$ for the pattern-book sinusoid. When used to model a periodic phenomenon, the model function needs to be tailored to match the period of the phenomena.
+Real-world periodic phenomena often show some slight variation from one cycle to the next. Of the pattern-book functions, only the sinusoid is periodic. And it is exactly periodic, repeating exactly the same cycle over and over again. The period---that is, the length of an input interval that contains exactly one cycle---has a value of $2\pi$ for the pattern-book sinusoid. When used to model a periodic phenomenon, the model function needs to be tailored to match the period of the phenomena.
 
-The idea of representing with sinusoids phenomena that are almost but not exactly periodic, for instance a communications signal or a vibration, is fundamental to many areas of physics and engineering. `r mark(435)`
+The idea of representing with sinusoids phenomena that are almost but not exactly periodic, for instance a communications signal or a vibration, is fundamental to many areas of physics and engineering. 
 
 ### Asymptotic behavior
 
@@ -88,7 +122,7 @@ An example in Figure \@ref(fig:for-words) is the exponential function. As $x \ri
 
 2. When the **output** of a function gets bigger and bigger in size, going to $\infty$ or $-\infty$ without the input doing likewise. The visual appearance on a graph is like a sky-rocket: the output changes tremendously fast even though the input changes only a little. The vertical line that the skyrocket approaches is called a ***vertical asymptote***. The power-law function $x^{-1}$ has a ***vertical asymptote*** at $x=0$. If you were to consider inputs closer and closer to $x=0$, the outputs would grow larger and larger is magnitude, tending toward $\infty$ or $-\infty$.
 
-Several of the pattern-book functions have horizontal or vertical asymptotes or both. For instance, the function $x^{-1}$ has a horizontal asymptote of zero for both $x \rightarrow \infty$ and $x \rightarrow -\infty$. `r mark(436)`
+Several of the pattern-book functions have horizontal or vertical asymptotes or both. For instance, the function $x^{-1}$ has a horizontal asymptote of zero for both $x \rightarrow \infty$ and $x \rightarrow -\infty$. 
 
 The sinusoid has neither a vertical nor a horizontal asymptote. As input $x$ increases either to $-\infty$ or $\infty$, the output of the sinusoid continues to oscillate, never settling down to a single value. And, of course, the output of the sinusoid is everywhere $-1 \leq \sin(x) \leq 1$, so there is no possibility for a vertical asymptote.
 
@@ -100,7 +134,7 @@ Likewise, functions can have a ***local minimum***: the bottom of a bowl rather 
 
 Of the three pattern-book functions in Figure \@ref(fig:for-words), only the sinusoid has a local maximum, and, being periodic, it repeats that every cycle. The sinusoid similarly has a local minimum in every cycle..
 
-Many modeling applications involve finding an input where the function output is maximized. Such an input is called an ***argmax***. "Argument" is a synonym for "input" in mathematical and computer functions, so "argmax" refers to the input at which the function reaches a maximum output. For instance, businesses attempt to set prices to maximize profit. At too low a price, sales are good but income is low. At too high a price, sales are too low to bring in much income. There's a sweet spot in the middle. `r mark(437)`
+Many modeling applications involve finding an input where the function output is maximized. Such an input is called an ***argmax***. "Argument" is a synonym for "input" in mathematical and computer functions, so "argmax" refers to the input at which the function reaches a maximum output. For instance, businesses attempt to set prices to maximize profit. At too low a price, sales are good but income is low. At too high a price, sales are too low to bring in much income. There's a sweet spot in the middle. 
 
 Other modeling applications involve finding an ***argmin***, the input for which the output is minimized. For instance, aircraft have a speed at which fuel consumption is at a minimum for the distance travelled. All other things being equal, it's best to operate at this speed.
 
@@ -115,4 +149,4 @@ Any function that has an extremum cannot possibly be monotonic, since the growth
 
 `r insert_calcZ_exercise(4.2, "PYKG5", "Exercises/pattern-book-concave.Rmd")`
 
-    
+EXERCISE: Draw the slope at each of many points of these functions.
