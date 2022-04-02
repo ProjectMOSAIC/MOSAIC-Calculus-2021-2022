@@ -39,32 +39,36 @@ gridExtra::grid.arrange(Pa, Pb, Pc, ncol=3)
 
 The slope describes whether the output goes up or down, and to what extent, as the input changes. Typically, the slope is different for different input values. The only function type that has a slope that is the same for all inputs is the straight-line function.
 
-Figure \@ref(fig:slope-at-point) shows the sinusoid function. Zooming in on the region near each colored dot shows that, locally, the function is approximately a straight-line function. The slope of that straight-line (drawn as a segment near the dot) is the slope of the sinusoid at that point. Like the sinusoid itself, the slope of the sinusoid oscillates periodically from negative to positive.
+Figure \@ref(fig:slope-at-point) graphs the sinusoid function (black curve). At numerous points in the domain, the function has been overlaid with a straight-line segment that has the same slope as does the function itself.  For $x$ near $-3$ the slope is negative; for $x$ near zero the slope is positive, then swings back to negative again for $x$ near $3$.
 
-```{r slope-at-point, echo=FALSE, fig.cap="Zooming in near a specific input value  makes the function look like a straight line. The slope at that input value is the slope of that straight line."}
-Pts <- tibble(
-  x = c(-2, 1),
-  y = sin(x),
-  color = c("magenta", "green")
-)
-Pa <- slice_plot(sin(x) ~ x, domain(x=c(-5,5))) %>%
-  gf_hline(yintercept=~0, color="magenta", linetype="dashed") %>%
-  gf_point(y ~ x, color=~color, size=5, alpha=0.3, data=Pts) %>%
-  gf_segment(.85 + .958 ~ .9 + 1.1, color="green") %>%
-  gf_segment(-0.92 + -0.962 ~ -2.05 + -1.95, color="magenta") %>%
-  gf_theme(scale_color_identity())
-Pb <- slice_plot(sin(x) ~ x, domain(x=-2.25:-1.75)) %>%
-  gf_point(y ~ x, color=~color, size=20, alpha=0.3, data=Pts[1,]) %>%
-  gf_theme(scale_color_identity()) %>%
-  gf_segment(-0.9 + -0.942 ~ -2.1 + -2, color="magenta") %>%
-  gf_labs(y="")
-Pc <- slice_plot(sin(x) ~ x, domain(x=.75:1.25)) %>%
-  gf_point(y ~ x, color=~color, size=20, alpha=0.3, data=Pts[2,]) %>%
-  gf_theme(scale_color_identity()) %>%
-  gf_segment(.825 + .879 ~ .9 + 1, color="green") %>%
-  gf_labs(y="")
-gridExtra::grid.arrange(Pa, Pb, Pc, ncol=3)
+```{r slope-at-point, echo=FALSE, fig.cap="Short straight-line segments laid over a graph of the sinusoid. The slope of each line segment is selected to match the local slope of the sinusoid."}
+Segs <- create_segments(sin(x) ~ x, domain(x=c(-5,5)), nsegs=100) %>%
+  mutate(y2end = 2.15*yend)
+
+gf_segment(yf + yfend ~ x + xend, data = Segs[seq(2,nrow(Segs), by=3),], 
+           color=~slope,alpha=0.65, size=3, lineend="round") %>%
+    slice_plot(sin(x) ~ x, domain(x=c(-5, 5)), inherit=FALSE) %>%
+    gf_labs(subtitle="sin(x)", y="output") %>%
+    gf_refine(scale_color_viridis_c(begin=.3, end=1)) %>%
+  gf_theme(theme(legend.position = "none"))
+
 ```
+When we speak of the slope of the sinusoid, or any other function, we mean the local slope as a function of the input. The value of the function doesn't enter into it, just the slope. Figure \@ref(fig:slope-at-point2) shows only the slope of the sinusoid, without the sinusoid output at all. Each line segment has a horizontal "run" of $0.1$, so you can measure the slope of each segment---rise over run---as the vertical extent $\Delta y$ of the segment divided by $0.1$. 
+
+```{r slope-at-point2, echo=FALSE, fig.cap="Showing just the slope of the sinusoid as a function of input $x$. Top: representing the slope by the steepness of line segments. Bottom: The numerical value of the slope of each segment."}
+Pa <- gf_segment(0 + y2end ~ x + xend, data = Segs[seq(1,nrow(Segs), by=2),], 
+           color=~slope,alpha=0.65, size=1, lineend="round") %>%
+  gf_refine(scale_color_viridis_c(begin=.3, end=1)) %>%
+  gf_theme(theme(legend.position = "none")) %>%
+  gf_labs(y=latex2exp::TeX("$\\Delta y$"), subtitle="Slope as a line segment")
+Pb <-  gf_line(slope ~ x, data = Segs, color=~slope) %>%
+  gf_refine(scale_color_viridis_c(begin=.3, end=1)) %>%
+    gf_labs(subtitle="Numerical slope of each segment.") %>%
+  gf_theme(theme(legend.position = "none")) %>%
+  gf_hline(yintercept=~0, color="magenta", linetype="dashed")
+gridExtra::grid.arrange(Pa, Pb, ncol=1)
+```
+For instance, the $\Delta y$ for the slope segment at $x=0$ is 0.1, so the slope at $x=0$ is $\Delta y/0.1 = 1$. At $x=1$, $\Delta y \approx 0.05$, so the slope is 0.5. The graph colors the segment according to the slope, so large negative slopes are blue, slopes near zero are green, and large positive slopes are yellow.
 
 
 ### Concavity
@@ -150,3 +154,5 @@ Any function that has an extremum cannot possibly be monotonic, since the growth
 `r insert_calcZ_exercise(4.2, "PYKG5", "Exercises/pattern-book-concave.Rmd")`
 
 EXERCISE: Draw the slope at each of many points of these functions.
+
+EXERCISE: Show the slope diagram for a few functions: as the students to match the slope diagram to the function.
