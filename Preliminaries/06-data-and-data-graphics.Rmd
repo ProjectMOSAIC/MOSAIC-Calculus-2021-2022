@@ -37,42 +37,80 @@ knitr::include_graphics("www/Bill_of_Mortality.jpeg")
 
 Although published more than 350 years ago, it's still possible for a literate human to sort out what the table is saying. But the volume of data has exploded beyond any possibility of putting it in print. Instead, today's data are stored and accessed electronically. But the process of accessing such data is very much rooted in the notation of "table," albeit tables that follow a strict set of principles. We'll call such tables ***data frames*** and it's important for you to learn a few of the core principles of data organization.
 
+First, recognize that the data shown in Figure \@ref(fig:bill-of-mortality) consist of several different tables.  The first table, just under the title, starts with
 
+$\ $   | Buried | Plague | $\ $ | Buried | Plague | $\cdots$   
+-----------------------|-----|-----|------------------------|----|----|-----
+S^t^ Albans Woodstreet | 100 | 121 | S^t^ Clemens Eastcheap | 18 | 20 | $\cdots$
+S^t^ Alhallowes Barking| 514 | 330 | S^t^ Diones Back-church| 78 | 27 | $\cdots$
 
-frame, case, variable, row, column
+The modern form of this is not spread out across the width of the page, and has an unique identifier for every column, as in
 
-accessing and basic operations
-- built-in data frames, by name
-- names(), head(), 
-- URLs, might use files, but only occasionally
+parish          | buried | plague
+----------------|--------|------
+S^t^ Albans Woodstreet   | 100 | 121  
+S^t^ Clemens Eastcheap   | 18  | 20 
+S^t^ Alhallowes Barking  | 514 | 330  
+S^t^ Diones Back-church  | 78  | 27 
+$\vdots$              |$\vdots$| $\vdots$
 
-::: {.takenote}
-We use the word ***variable*** to refer to a column of a data frame.
-When refering to a quantity that is an input to a function, we use "input" or "argument" (they're equivalent)
-:::
+Each ***column*** of the modern table is called a ***variable***. So there is a variable "buried" that contains the number buried and another variable "plague" containing the number who died of plague. 
 
-Before modern computing, tables were one of the primary means to describe functions. People working with calculus needed a reference collection of books containing tables for the functions they used. `r mark(420)`
+Each row of the table is called a ***case***, but often simply ***row*** is used. For each table, all the cases are the same kind of thing, for instance, here, a parish.
 
-With computers, we have better and faster ways to get the output of a function from the input. Still, modelers often use recorded data to construct functions. Tables are perhaps the most widely used method for storing and accessing data, although electronic spreadsheets are used today instead of printed tables.
+Another table displayed on the sheet is entitled, "The diseases and casualities this year." In a modern format, this table starts out:
 
-Even today, a table can be a nice way to describe a function when we are interested in the output from only a handful of the possible inputs. 
+condition | deaths     | year
+----------|------------|-----
+Abortive and Stilborne | 617  | 1665
+Aged                   | 1545 | 1665
+Ague and Feaver        | 5257 | 1665
+Appoplex and Suddenly  | 116  | 1665
+Bedrid                 | 10   | 1665
 
-Conceptually, it's helpful to keep in mind that every pattern-book function is just a way of organizing information that could have been stored in a table. 
+In this table, the case is a disease or other cause of death, which we've put under the name "condition." We've added the variable "year" with an eye toward consolidating many years of the Bills into one table.
 
-You will not have to generate tabular descriptions of functions to follow this book. It's much more convient to implement the function in software so that the output can easily be displayed for any given inputs. On the other hand, in this book we'll often use data in tabular form to create a modeling function. There's little point in introducing this until you have some additional calculus concepts, so be patient.
+Toward the bottom of the sheet are entries that in a modern format would be two separate tables: one for people christened and one for people who died of plague. 
 
+***Christened*** 
 
-## Discrete vs continuous
+males | females | year
+------|---------|------
+5114  | 4853    | 1665
 
-This is calculus, so we'll be working with continuous inputs. Tables have discrete inputs.
+***Plague***
 
-- Spliner, smoother, fitting, as examples of turning discrete into continuous.
+males | females | year
+------|---------|------
+48569 | 48737   | 1665
 
-## Tables and functions
+In the Christened and Plague tables, the case is "one year." (We're imagining that the data from other years would go in additional rows.) 
 
-We will be using formulas extensively, but best if you can visualize functions generally as something that's not necessarily a formula. This section gives another perspective on how to describe and think about a function. Remember, functions ***take inputs*** and ***return the corresponding output***. Any arrangement that accomplishes this (and ensures  the same output is always returned for a given input) is a function, even if arithmetic is nowhere in sight. For example, a simple and useful framework for organizing information is the ***table***, generally set up as an array of rows and columns. A table can be thought of as a function, despite it not containing any formulas or arithmetic: it relates one or more columns (the input) to another column (the output).
+In modern data, summaries such as the "In all" for the Christened and Plague tables would not be included. Such summaries are easily computed as needed using appropriate database commands. Indeed, a contemporary organization assembling the dataset might organize the records into just two tables: Deaths and Births.
 
- For instance, here is a table about several internal combustion engines of various sizes:
+The Deaths table might look like:
+
+name | date | parish | sex | age  | cause
+-----|------|--------|-----|------|---------
+Percivell Bullingham | 1665-06-01 | S^t^ Mary le Bow    | M | 29 | plague
+Owin Swancott        | 1665-08-13 | Trinitie            | M | 2  | plague
+Winifred Romford     | 1665-11-09 | S^t^ Swithings      | F | 19 | childbed
+Elsebeth Cook        | 1665-06-29 | S^t^ Ethelborough   | F | 5  | plague
+Humfray Langham      | 1665-06-05 | S^t^ Bennet Fynch   | M | 53 | aged
+Agnes Kirkwood       | 1665-11-22 | S^t^ Mary Hill      | F | 21 | ague
+Katherine Murton     | 1665-12-01 | S^t^ Alholowes Lesse| F | 24 | childbed
+Bainbridge Fletcher  | 1665-03-17 | S^t^ Martins        | M | 2  | plague
+Cicely Ouston        | 1665-03-08 | S^t^ Austins        | F | 35 | plague
+
+In the Deaths table, which would have 97,306 rows for 1665, the each case is "a person who died." Such a table could nowadays be re-tabulated into the "diseases and casualities" table, or the breakdown of burials by sex, or the parish-by-parish breakdown. But there are many other possibilities: looking at cause of death by age and season of year, or broken down by sex, etc. 
+
+## Accessing data tables
+
+In a data science course you will learn several ways of storing and accessing tables of data. One of the most important in professional use is a ***relational database***. ("Relation" is another word for "table," just as functions are about the relationship between inputs and output.)
+
+***Data wrangling*** is a term used to describe working with and summarizing data. This includes merging multiple data frames. In *MOSAIC Calculus* our uses of data will be focused on constructing functions that show the patterns in data and plotting data to reveal those patterns to the eye. 
+
+For our work, you can access the data frames we need directly in R by name. For instance, the `Engines` data frame records the characteristics of several internal combustion engines of various sizes:
 
 ```{r engine-table, echo=FALSE, fig.cap="Various attributes of internal combustion engines, from the very small to the very large."}
 set.seed(104)
@@ -88,25 +126,75 @@ if (knitr::is_latex_output()) {
     kableExtra::kable_styling()
 }
 ```
+## Variable names
 
-Each row of the table reports on one, specific engine. Each column is one attribute of an engine. Using such tables can be easy. For example, if asked to report how fast the engine named "Enya 60-4C" spins, you would go down to the Enya 60-4C row and over to the "RPM" column and read off the answer: 11,800 revolutions per minute (RPM).
+The fundamental questions to ask first about any data frame are:
 
-A table like this describes the general relationships between engine attributes. For instance, we might want to understand the relationship (if any) between RPM and engine mass, or relate the diameter (that is, "bore") and depth (that is, "stroke") of the cylinders to the power generated by the engine. Any single entry in the table doesn't tell us about such general relationships; we need to consider the rows and columns as a whole. `r mark(310)`
+i. What constitutes a row? 
+ii. What are the variables and what do they stand for?
 
-If you examined the relationship between engine power (`BHP`) and bore, stroke, and RPM, you will find that (as a rule) the larger the bore and stroke, the more powerful the engine. That's a ***qualitative*** description of the relationship. Most educated people are able to understand such a qualitative description. Even if they don't know exactly what "power" means, they have some rough conception of it.
+The answers to these questions, for the data frames we will be using, are available via R documentation. To bring up the documentation for `Engines`, for instance, give the command:
+```r
+?Engines
+```
 
-Often, we're interested in having a ***quantitative*** description of a relationship such as the one (bore, stroke) $\rightarrow$ power. Remarkably, many otherwise well-educated people are uncomfortable with the idea of using quantitative descriptions of a relationship: what sort of language the description should be written with; how to perform the calculations to use the description; how to translate between data (such as in the table) and a quantitative description; how to translate the quantitative description to address a particular question or make a decision.
+When working with data, it's common to forget for a moment what are the variables, how they are spelled, and what sort of values each variable takes on. Two useful commands for reminding yourself are (illustrated here with `Engines`):
 
+```{r}
+names(Engines) # the names of the variables
+head(Engines) # the first several rows
+nrow(Engines) # how many rows
+```
 
+In RStudio, the command `View(Engines)` is useful for showing a complete table of data.
 
+## Plotting data
 
+We will use just one graphical format for displaying data: the ***point plot***. In a point plot, also known as a "scatterplot," two variables are displayed, one on each graphical axis. Each case is presented as a dot, whose horizontal and vertical coordinates are the values of the variables for that case. For instance:
 
+```{r}
+gf_point(stroke ~ bore, data = Engines)
+```
 
+The data plotted here show a relationship between the stroke length of a piston and the diameter of the cylinder in which the piston moves. This relationships, however, is not being presented in the form of a function, that is, a single stroke value for each value of the bore diameter. 
 
+For many modeling purposes, it's important to be able to represent a relationship as a function. At one level, this is straightforward: draw a smooth curve through the data and use that curve for the function. 
 
-## A bureaucratic analogy {#bureaucratic}
+Later in *MOSAIC Calculus*, we'll discuss ways to construct functions that are a good match to data using the pattern-book functions. Here, our concern is graphing such functions on top of a point plot. So, without explanation (until later chapters), we'll construct a power-law function, called, stroke(bore), that might be a good match to the data. The we'll add a second layer to the point-plot graphic: a slice-plot of the function we've constructed.
 
-You'll have many opportunities to work with functions defined by formulas. Here, the emphasis is that functions are really just a way of storing a correspondence of inputs to outputs and that formulas need have nothing to do with it except as one way of describing the pattern. Instead of a formula, imagine a long corridor with a sequence of offices, each identified by a room number. The input to the function is the room number. To ***evaluate*** the function for that input, you knock on the appropriate door and, in response, you'll receive a piece of paper with a number to take away with you. That number is the output of the function. `r mark(320)`
+```{r}
+stroke <- fitModel(stroke ~ A*bore^b, data = Engines)
+gf_point(stroke ~ bore, data = Engines) %>%
+  slice_plot(stroke(bore) ~ bore, color="blue")
+```
+
+The second layer is made with an ordinary `slice_plot()` command. To place it on top of the point plot we connect the two commands with a bit of punctuation called a "pipe": `%>%`.
+
+The pipe punctuation can never go at the start of a line. Usually, we'll use the pipe at the very end of a line; think of the pipe as connecting one line to the next.
+
+`slice_plot()` is a bit clever when it is used after a previous graphics command. Usually, you need to specify the interval of the domain over which you want to display the function, as with 
+
+```{r echo=FALSE, results="hide"}
+slice_plot(stroke(bore) ~ bore, interval(bore=0:1000))
+```
+
+You can do that also when `slice_plot()` is the second layer in a graphics command. But `slice_plot()` can also infer the interval of the domain from previous layers.
+
+## Functions as data
+
+In the previous chapters, we've used ***formulas*** to define functions. The link between functions and formulas is important, but not at all essential to the idea of functions. 
+
+Arguably more important in practice to the representation of functions are ***tables*** and ***algorithms***. The computations behind the calculation of the output of functions such as $\sin()$ or $e^x$ or other foundational functions that we'll introduce in Chapter \@ref(pattern-book-functions) relies on computer software that loops and iterates and which is invisible to almost everybody who uses it. Before the advent of modern computing, functions were presented as printed tables. For instance, the logarithm function, invented about 1600, relied almost complete on printed tables, such as the one shown in Figure \@ref(fig:log-table).
+
+```{r log-table, echo=FALSE, fig.cap="Part of the first table of logarithms, published by Henry Briggs in 1624."}
+knitr::include_graphics("www/Briggs-starttable.png")
+```
+
+In Chapter \@ref(pattern-book-functions) we'll introduce a small set of functions which we call the "pattern-book functions." Each of the functions is indeed a pattern that could be written down once and for all in tabular form. Generating such tables originally required the work of human "computers" who undertook extensive and elaborate arithmetical calculations by hand. What's considered the first programmable engine, a mechanical device designed by Charles Babbage (1791-1871) and programmed by Ada Lovelace (1815-1852), was conceived for the specific purpose of generating printed tables of functions. 
+
+It's helpful to think of functions, generally, as a sort of data storage and retrieval device that uses the input value to locate the corresponding output and return that output to the user. Any device capable of this, such as a table or graph with a human interpreter, is a suitable way of implementing a function.
+
+To reinforce this idea, we ask you to imagine a long corridor with a sequence of offices, each identified by a room number. The input to the function is the room number. To ***evaluate*** the function for that input, you knock on the appropriate door and, in response, you'll receive a piece of paper with a number to take away with you. That number is the output of the function. `r mark(320)`
 
 This will sound at first too simple to be true, but ... In a mathematical function each office gives out exactly the same number every time someone knocks on the door. Obviously, being a worker in such an office is highly tedious and requires no special skill. Every time someone knocks on the worker's door, he or she writes down the *same* number on a piece of paper and hands it to the person knocking. What that person will do with the number is of absolutely no concern to the office worker.
 
@@ -128,115 +216,46 @@ How does the calculation work? Think of it as a business. People come to your bu
 
 A calculation might involve just one function evaluation, or involve a chain of them that sends workers buzzing around the city and visiting other businesses that in turn activate their own staff who add to the urban tumult.
 
-The reader familiar with floors and corridors and office doors may note that the addresses are ***discrete***. That is, office 321 has offices 320 and 322 as neighbors. Calculus is about continuous functions, so we need a way to accept, say, 321.487... as an input. There is no such office. `r mark(340)`
+::: {.takenote data-latex=""}
 
-A slight modification to the procedure will produce a continuous function. It works like this: for an input of 321.487... the messenger goes to both office 321 and 322 and collects their respective outputs. Let's imagine that they are -14.3 and 12.5 respectively. All that's needed is a small calculation, which in this case will look like $$-14.3 \times (1 - 0.487...)   + 12.5 \times 0.487...$$ This is called ***linear interpolation*** and lets us construct continuous functions out of discrete data.
+The reader familiar with floors and corridors and office doors may note that the addresses are ***discrete***. That is, office 321 has offices 320 and 322 as neighbors. Calculus is about functions with a ***continuous domain***. But it's easy to create a continuous function out of a discrete table by adding on a small, standard calculation.  
 
-In Blocks 2 and 5 we'll discuss other widely used ways to do this that produce not just continuous functions but ***smooth*** functions. Understanding the difference between continuous and smooth will have to wait until we introduce a couple more calculus concepts: derivatives and limits.
+It works like this: for an input of, say, 321.487... the messenger goes to both office 321 and 322 and collects their respective outputs. Let's imagine that they are -14.3 and 12.5 respectively. All that's needed is a small calculation, which in this case will look like $$-14.3 \times (1 - 0.487...)   + 12.5 \times 0.487...$$ This is called ***linear interpolation*** and lets us construct continuous functions out of discrete data. There are other types of interpolation have have desirable properties, like "smoothness," which we'll learn about later.
 
+It's very common in science to work with continuous domains by breaking them up into discrete pieces. As you'll see, an important strategy in calculus to to make such discrete pieces very close together, so that they resemble a continuum. 
 
-::: {.intheworld  data-latex=""}
-**Weather forecasting by numerical process**
-
-*[Weather forecasting by numerical process](https://archive.org/details/weatherpredictio00richrich/page/184/mode/2up?view=theater)* is a highly influential book, from 1922, by [Lewis Fry Richardson](https://en.wikipedia.org/wiki/Lewis_Fry_Richardson). He envisioned a calculation for a weather forecast as a kind of function. The domain for the forecast is the latitude and longitude of a point on the globe, rather than the rectilinear organization of corridor.
-
-One fantastic illustration of the idea shows a building constructed in the form of an inside-out globe.  [Source](https://www.cabinetmagazine.org/issues/27/foer.php) At each of many points on the globe, there is a business. (You can see this most clearly in the foreground, which shows several boxes of workers.) `r mark(360)`
-
-```{r echo=FALSE, out.width="70%", fig.align="center", fig.cap="An artist's depiction of the organization of calculations for weather forecasting by Richardson's system."}
-knitr::include_graphics(normalizePath("www/Richardson-globe.jpg"))
-```
-
-In each business there is a person who will report the current air pressure at that point on the globe, another person who reports the temperature, another reporting humidity, and so on. To compute the predicted weather for the next day, the business has a staff assigned to visit the neighboring businesses to find out the pressure, temperature, humidity, etc. Still other staffers take the collected output from the neighbors and carry out the arithmetic to translate those outputs into the forecast for tomorrow. For instance, knowing the pressure at neighboring points enables the direction of wind to be calculated, thus the humidity and temperature of air coming in to and out of the region the business handles. In today's numerical weather prediction models, the globe is divided very finely by latitude, longitude, and altitude, and software handles both the storage of present conditions and the calculation from that of the future a few minutes later. Repeating the process using the forecast enables a prediction to be made for a few minutes after that, and so on.
-
-Some of the most important concepts in calculus relate to the process of collecting outputs from neighboring points and combining them: for instance finding the difference or the sum. To illustrate, here is the first set of equations from Richardson's *Weather forecasting ...* written in the notation of calculus: `r mark(370)`
-
-```{r echo=FALSE, out.width="70%", fig.align="center"}
-knitr::include_graphics(normalizePath("www/Richardson-equations.png"))
-```
-
-You can hardly be expected at this point to understand the calculations described by these equations, which involve the physics of air flow, the coriolis force, etc. but it's worth pointing out some of the notation:
-
-- The equations are about the momentum of a column of air at a particular latitude ($\phi$) and longitude.
-- $M_E$ and $M_N$ are east-west and north-south components of that momentum.
-- $\partial M_E /\partial t$ is the rate at which the east-west momentum will change in the next small interval of time ($\partial t$).
-- $p_G$ is the air pressure at ground level from that column of air.
-- $\partial p_G / \partial n$ is about the difference between air pressure in the column of air and the columns to the north and south.
-
-Calculus provides both the notation for describing the physics of climate and the means to translate this physics into arithmetic calculation.
 :::
 
 
-## Data graphics: the point plot
+A table like this describes the general relationships between engine attributes. For instance, we might want to understand the relationship (if any) between RPM and engine mass, or relate the diameter (that is, "bore") and depth (that is, "stroke") of the cylinders to the power generated by the engine. Any single entry in the table doesn't tell us about such general relationships; we need to consider the rows and columns as a whole. `r mark(310)`
 
-One of the most common uses of a graphics frame is to display visually two columns from a table containing data. Data are stored in a spreadsheet-like format called a ***data frame***. There are many ways to access data frames and many different ways to store them. In *MOSAIC Calculus* we supply data frames in the simplest possible way: giving them a name that you can use to refer to the data frame.
+If you examined the relationship between engine power (`BHP`) and bore, stroke, and RPM, you will find that (as a rule) the larger the bore and stroke, the more powerful the engine. That's a ***qualitative*** description of the relationship. Most educated people are able to understand such a qualitative description. Even if they don't know exactly what "power" means, they have some rough conception of it.
 
-For instance, here is a small part of a data frame about the size of penguins in the Palmer Archipelago in Antarctica. `r mark(710)`
+Often, we're interested in having a ***quantitative*** description of a relationship such as the one (bore, stroke) $\rightarrow$ power. Remarkably, many otherwise well-educated people are uncomfortable with the idea of using quantitative descriptions of a relationship: what sort of language the description should be written with; how to perform the calculations to use the description; how to translate between data (such as in the table) and a quantitative description; how to translate the quantitative description to address a particular question or make a decision.
 
-```{r echo=FALSE}
-library(palmerpenguins)
-set.seed(101)
-knitr::kable(
-  penguins %>% sample_n(10) %>%
-    select(species, body_mass_g, flipper_length_mm, 
-           bill_length_mm) %>%
-    rename(body_mass = "body_mass_g", 
-           flipper_length = "flipper_length_mm",
-           bill_length = "bill_length_mm") %>%
-    mutate(body_mass = body_mass/1000,
-           flipper_length=flipper_length/10,
-           bill_length = bill_length/10)
-) %>% 
-    kableExtra::kable_styling()
-```
 
-::: {.scaffolding  data-latex=""}
-The output above shows what a data frame looks like. Now we need to look at how to use a data frame in an R command. The particular data frame shown just above has the name `penguins` in R. To refer to the data frame, just use the name.
+## Exercises
 
-Open a `r sandbox_link()` and give the name itself as a command. This simple command causes the data frame to be displayed on the screen.
-
-```{r eval=FALSE}
-penguins
-```
-
-You should see as a result a table that can be scrolled through interactively with all 344 rows of the `penguins` data frame.
-
-*Looking* at a data frame, or part of one, is sometimes what's required. But in general you will use the name of the data frame of interest as an ***argument*** to an R function. Typically the argument will be named `data = ` as you'll see below.
-
-The name `penguins` is very general and it wouldn't be at all surprising if some other penguin fan or researcher created a different set of data with the same name. R, like many other modern languages, makes room for such multiple uses of a name by a facility called a ***namespace***. R programmers can create their own namespace. This is not something we will do in this course. But it's helpful to know when the namespace mechanism is at work. For instance, the particular `penguins` we've provided with this course comes from a namespace called `palmerpenguins`. Thus, the "full" name of the data fr is `palmerpenguins::penguins`. You may see such name constructions occasionally in exercises in this course. You don't have to understand how namespaces work other than to know that when you are given the full name, you should use it, double colons and all.
+::: {.underconstruction}
+`r insert_calcZ_exercise("XX.XX", "evn4OP", "Exercises/beech-tug-lamp.Rmd", skill="Handling data, plotting data")`
 :::
 
-Before you can use `gf_point()` to plot a pair of columns from a data frame, you have to know the names of the columns. A useful function for this is `names()`. Similarly, to look at the first few rows, use the `head()` function. Try these commands in a sandbox:
+EXERCISE: Multiple graphics layers, more than 2?
 
-```{r results="hide"}
-names(penguins)
-head(penguins)
+
+## Drill
+
+`r Znotes:::MC_counter$reset()`
+
+
+```{r drill-M04-8, echo=FALSE, results='markup'}
+Znotes::askMC(
+  prompt = r"(In the book, what is meant by the word "**variable**"? )",
+r"(It's the same as input.)" = r"(Use **input** rather than variable! Even if you're used to calling quantities like $x$ and $y$ variables, it's a confusing practice since it can mean so many different things. In calculus, in this course, we'll try to be strict about using the words **input** and **output**)",
+  r"(It's the same as output.)" = r"( )",
+  r"(+A column in a data table.+)" = r"(This is the use in statistics and data science. In calculus, we'll try to avoid confusing by using **input** and **output** instead.)",
+  random_answer_order=TRUE
+)
 ```
 
-## Point plots
 
-A ***point plot*** displays two columns from a data frame. Each row in the data frame is represented by one point in the graphic. For instance:
-
-```{r penguin-flipper, warning=FALSE, fig.cap="Data from 344 penguins on flipper length (mm) and body mass (g)."}
-gf_point(flipper_length_mm ~ body_mass_g, 
-         data=penguins) 
-```
-
-Each penguin has a specific mass and flipper length. If you focus your attention on the penguins with a mass of around 4 kg (that is, 4000 gm), you can see that the different penguins have a variety of flipper lengths. That's typical natural variability.
-
-
-
-
-Two quantitative variables
-
-
-
-
-::: {.intheworld}
-Other statistical graphics, e.g. densities
-:::
-
-## Graphics layers
-
-Add a function on top of a data set
-
-Dots on axis, horizontal and vertical lines (e.g. zeros)
