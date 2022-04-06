@@ -6,27 +6,30 @@
 book_file_name <- "modeling/02-assembling-functions.html"
 ```
 
-When we need a new function for some purpose, we practically always build it out of existing functions. For instance, a  parameterized function like $$A \sin\left(\frac{2 \pi}{P}x\right) + C$$ is built by assempling together a straight-line input scaling, a pattern-book $\sin()$ function, and another straight-line function for scaling the output from $\sin()$.  `r mark(1300)`
+When we need a new function for some purpose, we practically always build it out of existing functions. For instance, a  parameterized function like $$f(x) \equiv A \sin\left(\frac{2 \pi}{P}x\right) + B$$ is built by assempling together a straight-line input scaling, a pattern-book $\sin()$ function, and another straight-line function for scaling the output from $\sin()$. This is an example of ***function composition*** where functions are "layered," the output of one function being given as the input to another. For instance,
+$f(x)$ is put together from three composed functions, $\text{output}()$, $\sin()$, $\text{input}()$ where $$f(x) = \text{output}(sin(\text{input}(x))$$ where 
+$$\text{output}(x) \equiv Ax + B \ \ \ \text{and}\ \ \ \text{input}(x) \equiv a x + b$$
 
-In this chapter, we'll introduce three general frameworks for combining functions: linear combination, composition, and multiplication.
+
+In this chapter, we'll review three general frameworks for combining functions: linear combination, composition, and multiplication. You have almost certainly seen all three of these frameworks in your previous mathematical studies, although you might not have known that they have names.
 
 ## Linear combination 
 
 One of the most widely used sorts of combination is called a ***linear combination***. The mathematics of linear combination is, it happens, at the core of the use of math in applications, whether that be constructing a Google-like search engine or analyzing medical data to see if a treatment has a positive effect.
 
-You've worked for many years with one kind of linear combination: polynomials. No doubt you've seen functions^[It's likely that you saw polynomials as things to be factored, rather than as functions taking an input and producing an output. So they were written as *equations*: $e x^2 + 5x - 2 = 0$] like $$f(x) \equiv 3 x^2 + 5 x - 2$$
+You've worked for many years with one kind of linear combination: polynomials. No doubt you've seen functions^[It's likely that you saw polynomials as things to be factored, rather than as functions taking an input and producing an output. So they were written as *equations*: $3 x^2 + 5x - 2 = 0$.] like $$f(x) \equiv 3 x^2 + 5 x - 2$$
 
-There are three pattern-book functions in this polynomial. In this case, as in polynomials generally, they are all power-law functions: $g_0(x) \equiv 1$, $g_1(x) \equiv x$, and $g_2(x) \equiv x^2$. With these functions defined, we can write the polynomial $f(x)$ as $$f(x) \equiv 3 g_2(x) + 5 g_1(x) - 2 g_0(x)$$
+There are three pattern-book functions in this polynomial. In  polynomials the functions being combined are all power-law functions: $g_0(x) \equiv 1$, $g_1(x) \equiv x$, and $g_2(x) \equiv x^2$. With these functions defined, we can write the polynomial $f(x)$ as $$f(x) \equiv 3 g_2(x) + 5 g_1(x) - 2 g_0(x)$$
 Each of the functions is being scaled by a quantity---3, 5, and -2 in this example---and the scaled functions are added up. That's a linear combination; scale and add. (Later, we'll see that the ***scalars*** generally come with units. So we might well have a metric polynomial and an equivalent traditional-unit polynomial. Just wait.)
 
 
 There are other places where you have seen linear combinations: 
 
-- The parameterized ***sinusoid***  $$A \sin\left(\frac{2 \pi}{P}t\right) + C$$ is a linear combination of the functions $h_1(t) \equiv \sin\left(\frac{2 \pi}{P} t\right)$ and $g_0(t) \equiv 1$. The scalars are $A$ and $C$.
-- The parameterized ***exponential*** $$A e^{kt} + C$$ The functions being combined are $e^{kt}$ and $1$. The scalars are, again, $A$ and $C$.
-- The straight line function $a x + b$. The functions being combined are $x$ and $1$, the scalars are $a$ and $b$.  `r mark(1310)`
+- The parameterized ***sinusoid***  $$A \sin\left(\frac{2 \pi}{P}t\right) + B$$ is a linear combination of the functions $h_1(t) \equiv \sin\left(\frac{2 \pi}{P} t\right)$ and $h_2(t) \equiv 1$. The linear combination is $A\,h_1(t) + B\, h_2(t)$.
+- The parameterized ***exponential*** $$A e^{kt} + B$$ The functions being combined are $e^{kt}$ and $1$. The scalars are, again, $A$ and $C$.
+- The straight line function, such as $\mbox{output}(x) \equiv A x + B$ and  $\mbox{input}(x) \equiv a x + b$. The functions being combined are $x$ and $1$, the scalars are $a$ and $b$.  
 
-Note that neither the parameterized exponential or the parameterized sinusoid is a polynomial.
+Note that neither the parameterized exponential or the parameterized sinusoid is a polynomial simply because it is not constructed exclusively from monomials.
 
 There are a few reasons for us to be introducing linear combinations here.
 
@@ -42,48 +45,26 @@ There are a few reasons for us to be introducing linear combinations here.
 To ***compose*** two functions, $f(x)$ and $g(x)$, means to apply one of the functions to the output of the other. "$f()$ composed with $g()$" means $f(g(x))$. This is generally very different from "$g()$ composed with $f()$" which means $g(f(x))$.
 
 For instance, suppose you have recorded the outdoor temperature over the course of a day and packaged this into a function $\text{AirTemp}(t)$: temperature as a function of time $t$. Your digital thermometer uses degrees Celsius, but you want the output units to be degrees Kelvin. The conversion function is $$\text{CtoK}(C) \equiv C + 273.15$$
-Notice that CtoK() takes temperature as input. With this, we can write the "Kelvin as a function of time" as $$\text{CtoK}\left(\text{AirTemp}(t)\right)$$
+Notice that CtoK() takes temperature in $^\circ C$ as input. With this, we can write the "Kelvin as a function of time" as $$\text{CtoK}\left(\text{AirTemp}(t)\right)$$
+
 It's important to distinguish the above time $\rightarrow$ Kelvin function from something that looks very much the same but is utterly different: $\text{AirTemp}\left(\text{CtoK}(C)\right)$. In the first, the input is time. In the second, it is temperature in celsius.
 
 
-Here is a simple, approximate formula for the length of day (in hours) as a function of latitude $L$ and the declination angle $\delta$ of the sun. 
+Here is a model of the length of daylight (in hours) as a function of latitude $L$ and the declination angle $\delta$ of the sun. 
 
-$$\text{day_length}(L, \delta) \equiv \frac{2}{15} \arccos\left(-\tan(L)*\tan(\delta)\right)$$
-The declination angle is the latitude of the point on the earth's surface pierced by an imagined line connecting the centers of the earth and the sun. On the summer solstice, the longest day of the year, it is $23.44^\circ$. 
+$$\text{daylight}(L, \delta) \equiv {\small\frac{2}{15}} \arccos\left(-\tan(L)*\tan(\delta)\right)$$
+The declination angle is the latitude of the point on the earth's surface pierced by an imagined line connecting the centers of the earth and the sun. On the summer solstice, the longest day of the year, it is $23.44^\circ$. On $day$, where midnight before January 1 is $day=0$ and the end of December 31 is $day=365.25$, the declination is
+$$\delta(day) = 23.44 \sin\left({\small\frac{2\pi}{365.25}} (day-9)\right)\ ,$$
+a composition of $\sin()$ with the straight-line function ${\small\frac{2\pi}{365.25}} (day - 9)$.
 
-A computer implementation must look different, since $L$ and $\delta$ are typically provided in degrees while the `tan()` and other trigonometric functions in most computer languages expect units of radians. The conversion is easy: $\text{deg2rad}(d) \equiv \frac{\pi}{180} d$. The conversion the other way is $\text{rad2deg}(r) \equiv \frac{180}{\pi} r$.
-
-In order to get the day-length formula to work in a computer, we can compose the $\tan()$ function with `deg2rad()`. The output of `acos()` is in radians, so we have to convert it back to degrees. Like this:
-
-```{r}
-day_length <- makeFun(
-  (2/15)*rad2deg(
-    acos(
-      -tan(deg2rad(L))*tan(deg2rad(d))
-    )
-  ) ~ L & d)
-```
-
-
-Now to make a plot of day length as a function of day of the year. Of course, `day_length(L, d)` does not take day of the year into account. What's missing is to know the declination of the sun as a function of calendar day.
-
-The input is a number $n$ that runs from 0 at the start of January 1st to 365 at the end of December 31. In terms of this input, the declination of the sun is known to be approximately
-```{r}
-delta_sun <- makeFun(-23.44*cos((2*pi/365)*(n+10) ) ~ n)
-```
-
-Composing `day_length()` with `delta_sun()` (on the `d` argument only), and setting the latitude to be, say, $39^\circ$N,  we get a function of day of year `n`:
-```{r}
-slice_plot(
-  day_length(39, delta_sun(n)) ~ n, 
-  domain(n=c(0,365))
-  )
-```
+Composing day_length$(L, \delta)$ onto $\delta(day)$ gives the length of daylight as a function of day of the year:
+$$\text{light}(L, day) \equiv {\small\frac{2}{15}} \arccos\left(-\tan(L)*\tan(\delta(day))\right)\ .$$
+Function composition enables us to transform a function that takes one kind of thing as input (say, declination) and turn it into a function that takes another kind of thing as input (say, day of the year).
 
 
 
 ::: {.intheworld  data-latex=""}
-Income inequality is a matter of perennial political debate. In the US, most people support Social Security, which is an income re-distribution programming dating back almost a century. But other re-distribution policies are controversial. Some believe they are essential to a healthy society, others that the "cure" is worse than the "disease."  `r mark(1330)`
+Income inequality is a matter of perennial political debate. In the US, most people support Social Security, which is an income re-distribution programming dating back almost a century. But other re-distribution policies are controversial. Some believe they are essential to a healthy society, others that the "cure" is worse than the "disease." 
 
 Whatever one's views, it's helpful to have a way to quantify inequality. There are many ways that this might be done. A mathematically sophisticated one is called the ***Gini coefficient***.
 
@@ -159,25 +140,6 @@ To get started, figure out whether or not $L_1(L_2(0)) = 0$ and $L_1(L_2(1)) = 1
 
 
 
-## The modeling polynomial {#modeling-polynomial-1}
-
-Sometimes, in order to model some simple relationship you need to build a function whose graph has a simple, curving shape.  `r mark(1350)`
-
-A simple but surprisingly powerful approach is to use a ***low-order polynomial***. The ***order of a polynomial*** is the highest exponent on the input. For example:
-
-- A ***straight-line function***, $g_1(x) \equiv a_0 + a_1 x$, is a **first-order** polynomial. 
-- A ***quadratic***, $g_2(x) \equiv b_0 + b_1 x + b_2 x^2$ is a **second-order** polynomial.
-
-Many modelers are tempted to extend the technique to third-, fourth-, fifth-order and even higher. This is only rarely worthwhile since all second-, fourth-, sixth- and higher-even-order ***monomials*** have basically the same U-shape, like a referee signalling a touch-down. Similarly, first-, third-, fifth- and higher odd-order monomial have  similar ![](www/cubic.png) shapes.  
-
-An ofttimes better approach is to compose the polynomial with a curved but monotonic function, such as a logarithm.
-
-::: {.why  data-latex=""}
-Notice that in writing low-order polynomials like $$g_1(x) \equiv a_0 + a_1 x$$ or  $$g_2(x) \equiv b_0 + b_1 x + b_2 x^2$$ we are using a specific naming convention for the scalars in the linear combinations. For each different function, we use a different start-of-the-alphabet name, like $a$ and $b$. That same name is used for all the scalars in the function, and a subscript is used to make the distinction between the different functions being combined. Thus, we have $a_1$ for the $x$ function in $g_1()$ and $b_2$ for the $x^2$ function in $g_2()$.
-
-In high-school mathematics, polynomials are often written without subscript, for instance $a x^2 + b x + c$. This can be fine when working with only one polynomial at a time, but in modeling we often need to compare multiple, related polynomials.
-:::
-
 
 ## Function multiplication
 
@@ -193,10 +155,10 @@ In multiplication, each of the functions is applied to the input individually. T
 
 In function composition, the order of the functions matters: $f(g(x))$ and $g(f(x))$ are in general completely different functions.
 
-In function multiplication, the order doesn't matter because multiplication is ***commutative***, that is, if $a$ and $b$ are each quantities, $a \times b = b \times a$.  `r mark(1360)`
+In function multiplication, the order doesn't matter because multiplication is ***commutative***, that is, if $f()$ and $g()$ are the functions to be multiplied $f(x) \times g(x) = g(x)\times f(x)$. 
 
 
-
+::: {.example data-latex=""}
 ***Transient vibration***
 
 A guitar string is plucked to produce a note. The sound is, of course, vibrations of the air created by vibrations of the string. 
@@ -223,19 +185,19 @@ slice_plot(sinusoid(x) ~ x, domain(x = c(-15, 15)),
            color="orange3", npts=500) %>%
   gf_labs(title="The oscillation in the wave packet. ")
 ```
+:::
+
+
 
 ::: {.intheworld  data-latex=""}
-Each simple function such as a gaussian, a sigmoid, a straight-line function, or a sinusoid can be likened to a character in a story. For instance, a sinusoid with a period of 10 seconds and an amplitude of 5 feet might be sufficient for the purpose of describing the shaking encountered during an earthquake. A sigmoid might be a good description of the uptake of a successful social media platform such as Facebook. 
-
-But not every social media firm succeeds and you may need two or more characters to express the drama: the rising young firm and the rapid fall in popularity when competition provides a better alternative.
-
-For instance, the initial rise in popularity of the social media platform [Yik Yak](https://en.wikipedia.org/wiki/Yik_Yak) was exponential. Then popularity leveled off, promising a steady, if static, business into the future. But, the internet being what it is, popularity collapsed to near zero and the company closed.
+The initial rise in popularity of the social media platform [Yik Yak](https://en.wikipedia.org/wiki/Yik_Yak) was exponential. Then popularity leveled off, promising a steady, if static, business into the future. But, the internet being what it is, popularity collapsed to near zero and the company closed.
 
 On way to model this pattern is by multiplying a sigmoid by an exponential.(See Figure \@ref(fig:yikyak).)
 
 ```{r yikyak, fig.cap="Subscriptions to the web messaging service Yik Yak grew exponentially in 2013 and 2014, then collapsed. The company closed in 2017."}
-yikyak <- makeFun(pnorm(year, mean=2014.5, sd=0.7) * exp(- (year-2014)) ~ year)
-slice_plot(yikyak(year) ~ year, domain(year=c(2010,2018)))
+yikyak <- makeFun(
+  pnorm(year, mean=2014.5, sd=0.7) * exp(-(year-2014)) ~ year)
+slice_plot(yikyak(year) ~ year, domain(year=2010:2018))
 ```
 
 
@@ -243,22 +205,6 @@ slice_plot(yikyak(year) ~ year, domain(year=c(2010,2018)))
 
 
 
-## All together now!
-
-Two or all three of the techniques for combining functions---linear combinations, function composition, and function multiplication---can be used in the same function.  `r mark(1370)`
-
-Consider the function for the length of the day
-$$\text{day_length}(L, \delta) \equiv \frac{2}{15} \arccos\left(-\tan(L)*\tan(\delta)\right)$$
-The 2/15 is scaling the output of $\arccos()$. The $\arccos()$ is being composed with an interior function that is itself a scaled product of two functions. 
-
-
-::: {.takenote  data-latex=""}
-- `g <-` means to give the function the **name** $g.$ (In this book, I usually write function names with a pair of parentheses as a suffix, e.g. $g(x).$ This reminds you that the name refers to a function. But the R name is simply `g`, even though I often write it as `g()` in the text.) The `<-` is called the ***assignment operator***, the instruction in R to give a name to an object. Here, the object will be the R function created by `makeFun()`.
-- `2 + 3*x - 7*x^2` is the **formula** for the function, that is, the expression found on the right-hand side of $\equiv$ in the traditional notation.
-- `~ x` is the part of the R/mosaic notation that says, "The name of the input will be `x`." In traditional notation, the name of the input is in parentheses following the name of the function $g\,{\mathbf{(x)}}$, but in R/mosaic notation, the two are in different places: the function name is to the left of the assignment operator (`<-`) and the name of the name of the input follows the tilde (`~`). 
-- The formula and the name of the input are always related in the R/mosaic notation by what is called a ***tilde expression***. The formula is on the left-hand side of the tilde (<span style="font-size: 24pt; line-height: 0.7;">`~`</span>) and the argument name is on the right-hand side of the tilde. If there is more than one argument, all the names go on the right-hand side of the tilde expression, separated by `&`. (Some people prefer to use `+` as the separator. That's fine, but we use the `&` convention throughout this book.)
-- `makeFun()` is the R/mosaic operator that takes the information contained in the tilde expression and turns it into an R function; it literally "makes an R function", hence the name, `makeFun()`.
-:::
 
 
 Functions constructed as a ***product*** of simple functions can look like this in tradition notation:
@@ -268,12 +214,11 @@ and like this in computer notation:
 h <- makeFun(sin(t)*exp(-t) ~ t)
 ```
 
-In function ***composition***, the output of one function is the input to a second function, as with $$H(t) \equiv \sin\left(e^{-t}\right)$$ or, in computer notation,
-```{r}
-H <- makeFun(sin(exp(-t)) ~ t)
-```
 
-Each of our basic modeling functions, with two exceptions, has a domain that is the entire number line $-\infty < x < \infty$. No matter how big or small is the value of the input, the function has an output. Such functions are particularly nice to work with, since we never have to worry about the input going out of bounds. `r mark(1500)` 
+
+## Watch your domain!
+
+Each of our pattern-book functions, with two exceptions, has a domain that is the entire number line $-\infty < x < \infty$. No matter how big or small is the value of the input, the function has an output. Such functions are particularly nice to work with, since we never have to worry about the input going out of bounds. 
 
 The two exceptions are:
 
@@ -282,6 +227,7 @@ The two exceptions are:
     - When $p$ is negative, the output of the function is undefined when $x=0$. You can see why with a simple example: $g(x) \equiv x^{-2}$. Most students had it drilled into them that "division by zero is illegal," and $g(0) = \frac{1}{0} \frac{1}{0}$, a double law breaker. 
     - When $p$ is not an integer, that is $p \neq 1, 2, 3, \cdots$ the domain of the power-law function does not include negative inputs. To see why, consider the function $h(x) \equiv x^{1/3}$. 
     
+::: {.rmosaic data-latex=""}
 It can be tedious to make sure that you are on the right side of the law when dealing with functions whose domain is not the whole number line. The designers of the hardware that does computer arithmetic, after several decades of work, found a clever system to make it easier. It's a standard part of such hardware that whenever a function is handed an input that is not part of that function's domain, one of two special "numbers" is returned. To illustrate:
 ```{r warning=FALSE}
 sqrt(-3)
@@ -304,10 +250,10 @@ Inf + Inf
 Inf - Inf
 1/Inf
 ```
-::: {.scaffolding  data-latex=""}
+
 To see the benefits of the `NaN` / `Inf` system let's plot out the logarithm function over the graphics domain $-5 \leq x \leq 5$. Of course, part of that graphics domain, $-5 \leq x \leq 0$ is not in the domain of the logarithm function and the computer is entitled to give us a slap on the wrists. The `NaN` provides some room for politeness. 
 
-Open a sandbox and see what happens when you make the plot.
+Open an R console and see what happens when you make the plot.
 ```{r eval=FALSE}
 slice_plot(log(x) ~ x, domain(x=c(-5,5)))
 ```
@@ -315,15 +261,42 @@ slice_plot(log(x) ~ x, domain(x=c(-5,5)))
 
 ## Splitting the domain
 
-In a purely mathematical sense, the problem with functions being undefined over an extended part of a domain has been handled with cunning and imagination, but the solution---the invention of complex numbers---is not our concern here. Instead, we're going to embrace functions that have a domain smaller than the whole number line and see what we can do with them. 
+Let's consider a familiar mathematical function: the absolute-value function:
 
-To illustrate, let's use computer notation to create a function whose domain is $x < 1$. To do this, we need a way to write "if," as in, "If $x$ is 1 or greater, return `NaN`." We'll use a function in R that let's us ask a TRUE/FALSE question and, depending on the answer, do one or another calculation. The question-answering R function is `ifelse()` whose name is remarkably descriptive. The `ifelse()` function takes three arguments. The first is the question to be asked, the second is the value to return if the answer is "yes," and the third is the value to return for a "no" answer.
+$$abs(x) = \left|x\right|$$
+Written this way, the definition of $abs()$ is a tautology. Unless you already know what $\left|x\right|$ means, you will have no clue what's going on.
 
-```{r warning=FALSE}
-g <- makeFun( ifelse(x < 1, x, NaN) ~ x)
-slice_plot(g(x) ~ x, domain(x = c(-2, 2)))
+So, instead, let's define $abs()$ in terms of pattern-book functions and scaling. It will look like this:
+But with the ability to divide the domain into pieces, we gain access to a less mysterious sort of arithmetic operation and can re-write $$abs(x) \equiv \left\{ 
+\begin{array}{rl}  x & \text{for}\ 0 \leq x \\ 
+- x & \text{otherwise}\\\end{array}
+\right.$$ 
+
+This is an example of a ***piecewise function***, that is a function whose domain is split into two or more intervals and defined by different formulas on those intervals. In the conventional mathematical notation, there is a large $\LARGE\left\{\right.$ followed by two or more lines. Each line gives a formula for that part of the function and indicates to which interval the formula applies.
+
+Another piecewise function widely used in technical work, but not as familiar as $abs()$ is the ***Heaviside function***:
+Less familiar is the ***Heaviside function*** which has important uses in physics and engineering:
+
+$$\text{Heaviside}(x) \equiv \left\{ 
+\begin{array}{cl} 1 & \text{for}\ 0 \leq x \\0 & \text{otherwise}\end{array}
+\right.$$
+
+```{r echo=FALSE}
+slice_plot(0 ~ x, domain(x = c(-10, 0)), size=2) %>%
+  slice_plot(1 ~ x, domain(x = c(0,10)), size=2) %>%
+  gf_labs(subtitle="Heaviside function") %>%
+  gf_lims(y = c(-0.5, 1.5))
 ```
-What takes getting used to here is the expression `x < 1` which is a ***question*** not a statement of fact. There's no standard traditional mathematical notation for questions, although some people use a question mark as in $x \stackrel{?}{<} 1$.
+::: {.rmosaic}
+
+The traditional piecewise notation involving $\LARGE\left\{\right.$ is not directly useful as computer notation. In R, a handy way to define a piecewise function uses the R function `ifelse()` whose name is remarkably descriptive. The `ifelse()` function takes three arguments. The first is the question to be asked, the second is the value to return if the answer is "yes," and the third is the value to return for a "no" answer. Here's an example:
+
+```{r}
+H <- makeFun(ifelse(0 <= x, 1, 0) ~ x)
+```
+
+
+What takes getting used to here is the expression `0 <= x`. That expression is a ***question***; it is not a statement of fact. 
 
 The table shows computer notation for some common sorts of questions.  `r mark(1520)` 
 
@@ -337,37 +310,11 @@ R notation              | English
 `abs(x-5) < 2` | "Is $x$ within two units of 5?"
 
 
-## Basic piecewise functions
 
-Having an ability to split up the domain of a function and provide different formula for each of the pieces allows us to
-construct ***piecewise functions***. To illustrate, the function $h(x) \equiv |x|$. You'll recognize this as the "absolute value" function. The intuitive algorithm is to "strip the negative sign, if any" from the input. But with the ability to divide the domain into pieces, we gain access to a less mysterious sort of arithmetic operation and can re-write $$h(x) \equiv \left\{ 
-\begin{array}{ll}  x & \text{for}\ 0 \leq x \\ \text{- x} & \text{otherwise}\\\end{array}
-\right.$$ 
-Or, in computer notation
-```{r}
-h <- makeFun(ifelse(x >= 0, x, -x) ~ x)
-```
-Note that the absolute value function is built-in to R in the form of the `abs()` function.
 
-Less familiar is the ***Heaviside function*** which has important uses in physics and engineering:
+The vertical gap between the two pieces of the Heaviside function is called a ***discontinuity***. Intuitively, you cannot draw a discontinuous function ***without lifting the pencil from the paper***. The Heaviside function has a discontinuity at $x=0$.
 
-$$\text{Heaviside}(x) \equiv \left\{ 
-\begin{array}{cl} 1 & \text{for}\ 0 \leq x \\0 & \text{otherwise}\end{array}
-\right.$$
-In computer notation, this is 
-```{r}
-Heaviside <- makeFun(ifelse(x < 0, 0, 1) ~ x)
-```
-
-```{r echo=FALSE}
-slice_plot(0 ~ x, domain(x = c(-10, 0)), size=2) %>%
-  slice_plot(1 ~ x, domain(x = c(0,10)), size=2) %>%
-  gf_labs(title="The Heaviside function") %>%
-  gf_lims(y = c(-0.5, 1.5))
-```
-The vertical gap between the two pieces is called a ***discontinuity***. Intuitively, you cannot draw a discontinuous function ***without lifting the pencil from the paper***. The Heaviside function has a discontinuity at $x=0$.
-
-Similarly, the ***ramp function*** (aka "ReLU") is a kind of one-sided absolute value:
+Similarly, the ***ramp function*** is a kind of one-sided absolute value:
 $$\text{ramp}(x) \equiv \left\{ 
 \begin{array}{cl} x & \text{for}\ 0 \leq x\\0 & \text{otherwise}\end{array}
 \right.$$
@@ -380,7 +327,7 @@ slice_plot(ramp(x) ~ x, domain(x=c(-3, 3)))
 A linear combination of two input-shifted ramp functions gives a piecewise version of the sigmoid.
 ```{r}
 sig <- makeFun(ramp(x+0.5) - ramp(x-0.5) ~ x)
-slice_plot(sig(x) ~ x, domain(x=c(-3, 3)))
+slice_plot(sig(x) ~ x, domain(x=c(-3, 3)), npts=501)
 ```
 
 
@@ -401,35 +348,15 @@ $$\text{other_ccf}(x) \equiv 15$$.
 :::
 
 
-Our last example concerns a bit of familiar technology: music synthesis. Generating a pure tone electronically is easily done using a sinusoid. Generating a note with rich instrumental timbre can be accomplished by a linear combination of sinusoids. Of course, the note will be localized in time. This could be accomplished by multiplying the sinusoids by a gaussian function envelope.  `r mark(1540)` 
-
-It turns out that the gaussian function, `dnorm()`, does not generate a realistic sound. Instead, a more complicated envelope is used, such as the [ADSR function](https://en.wikipedia.org/wiki/Envelope_(music)) shown in Figure \@ref(fig:ADSR). The function has six (!) parameters: the time the key is pressed, the duration A of the "attack" phase when the sound amplitude is increasing in response to the impulse imposed on the key, a decay of duration D to an output level S that lasts until the key is released, then a decay to zero over duration R. It's reasonable to think of the D and S phases as a piecewise linear approximation to exponential decay.
-
-```{r ADSR, echo=FALSE, out.width="65%", fig.align="center", fig.cap="The ADSR envelope function used in music synthesis consists of 6 pieces including zero output before the key is pressed and after the pulse ends. [Source](https://en.wikipedia.org/wiki/Envelope_(music))"}
-knitr::include_graphics("www/adsr.png")
-```
-
-```{r echo=FALSE}
-adsr <- function(a,d,ts, s,r) {
-  function(t) {
-    ifelse( 
-      t < a, 2*t,
-      ifelse(
-        t < (a+d), 2*a - ((t-a)/d)*(s - 2*a),
-        elseif(
-          t < (a+d+ts), s,
-               elseif(
-                 t > a + d + ts + r, 0,
-                s - s*(t-(a + d + ts))/r
-                )
-        )
-      )
-    )
-  }
-}
-```
 
 ## Exercises
+
+`r insert_calcZ_exercise("XX.XX", "FCXT1L", "Exercises/seahorse-build-pot.Rmd", skill="function composition")`
+
+`r insert_calcZ_exercise("XX.XX", "3N3hCR", "Exercises/dog-dive-kitchen.Rmd",skill="function composition, function multiplication, linear combination")`
+
+`r insert_calcZ_exercise("XX.XX", "HMTG1w", "Exercises/pine-bring-dish.Rmd", skill="function multiplication")`
+
 
 Use `datasets::co2` as an example of a product of functions. Maybe pull out a smoother as the baseline and see if the amplitude changes with time. Or maybe look at successive differences, fit a sine with a time dependent amplitude.
 
@@ -438,3 +365,6 @@ Use `datasets::co2` as an example of a product of functions. Maybe pull out a sm
 `r insert_calcZ_exercise(13.05, "EDKYV", "Exercises/bigger-two.Rmd")`
 
 `r insert_calcZ_exercise("13.07", "E9e7c6", "Exercises/goat-walk-window.Rmd")`
+
+
+`r insert_calcZ_exercise("XX.XX", "mtHyvJ", "Exercises/beech-ride-table.Rmd", skill="asymptotes")`
